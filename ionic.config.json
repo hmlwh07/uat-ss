@@ -1,0 +1,7 @@
+{
+  "name": "KBZ_SALE",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
