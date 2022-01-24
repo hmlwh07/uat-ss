@@ -1,0 +1,60 @@
+@import "../../../assets/sass/pages/wizard/wizard-1";
+@import "../../../assets/sass/pages/wizard/wizard-3";
+@import "../../../assets/sass/pages/wizard/wizard-2";
+
+.active .wizard-title,
+.wizard-label.active,
+.done .wizard-title,
+.done {
+  color: #3699ff !important;
+
+  .wizard-icon {
+    color: #3699ff !important;
+  }
+}
+.wizard-title,.wizard-label{
+  max-width: 145px;
+}
+.wizard-steps{
+  align-items: flex-start !important;
+}
+.wizard-wrapper.active,.wizard-wrapper.done {
+  .wizard-icon,
+  .wizard-label {
+    color: #3699ff !important;
+  }
+}
+.wizard-wrapper {
+  .wizard-icon,
+  .wizard-label {
+    color: #3F4254;
+  }
+}
+
+.wizard-step>.wizard-label {
+  margin-left : 1rem !important;
+  margin-right: 1rem !important;
+}
+
+.wizard-step {
+  align-items: flex-start !important;
+}
+
+.wizard-icon {
+  font-size: 2rem !important;
+}
+
+.active .wizard-bar,
+.done .wizard-bar {
+  background-color: #3699ff !important;
+}
+
+.top-box {
+  color      : #B5B5C3;
+  margin-left: 50px;
+
+  span {
+    color          : #000;
+    //  font-weight: 700;
+  }
+}

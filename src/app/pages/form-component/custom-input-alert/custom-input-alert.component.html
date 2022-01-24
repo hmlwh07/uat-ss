@@ -1,0 +1,51 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4 left-border-image" *ngIf="type=='reason'&& status=='04'">
+            <span class="text-muted font-weight-bold font-size-sm mt-1">Please add Reject Reason</span>
+        </div>
+        <div class="modal-title h4 left-border-image" *ngIf="type=='reason'&& status=='06'">
+            <span class="text-muted font-weight-bold font-size-sm mt-1">Please add Lost Reason</span>
+        </div>
+        <div class="modal-title h4 left-border-image" *ngIf="type=='description'">
+            <span class="text-muted font-weight-bold font-size-sm mt-1">Please add Attachment Description</span>
+        </div>
+    </div>
+
+    <div class="overlay overlay-block cursor-default modal-body">
+        <div class="row">
+            <div class="col-sm-12" *ngIf="type=='reason'">
+                <textarea type="text" class=" form-control form-control-sm" name="lostReason" placeholder="Reason" autocomplete="off" [(ngModel)]="lostReason"></textarea>
+            </div>
+            <div class="col-sm-12" *ngIf="type=='description'">
+                <input type="text" class=" form-control form-control-sm" name="description" placeholder="Description" autocomplete="off" [(ngModel)]="description">
+            </div>
+
+        </div>
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-sm-12" *ngIf="type=='description'">
+                <input style="display: none;" type="file" class="form-control form-control-sm" name="phone" #selectedFile (change)="importDocument($event)" />
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="fileName">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary btn-sm" type="button" (click)="openFile()">Browse</button>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-12" *ngIf="type=='description'">
+                    <input type="file" #selectedFile (change)="importHCPDocument($event)" />
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="modal-footer">
+                <button type="button" *ngIf="type=='description'" class="btn btn-light btn-elevate mr-2" [disabled]="!description" (click)="save()">Save</button>
+                <button type="button" *ngIf="type=='reason'" class="btn btn-light btn-elevate mr-2" [disabled]="!lostReason" (click)="save()">Save</button>
+                <button class="btn btn-primary btn-elevate" (click)="modal.dismiss()">Cancel</button>
+            </div>
+
+        </div>
+
+    </div>

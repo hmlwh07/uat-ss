@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card card-custom ">
+      <div class="card-header">
+        <div class="card-title">
+          <h3 class="card-label left-border-image">List of Products</h3>
+        </div>
+        <div class="card-toolbar" *ngIf="type == 'page'">
+          <button type="button" class="btn btn-primary btn-circle" (click)="createOrEdit()">
+            <span class="flaticon2-plus"></span>
+          </button>
+          <!-- <button type="button" class="btn btn-primary" (click)="createOrEdit()">Create New Product</button> -->
+        </div>
+      </div>
+      <div class="card-body customer-card-body">
+        <!-- begin:Table -->
+        <ng-container *ngIf="show">
+          <app-material-table-view [selectable]="type != 'page'" [data]="products" [colum]="ELEMENT_COL"
+            [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)">
+          </app-material-table-view>
+        </ng-container>
+        <!-- <div class="table-responsive angular-bootstrap-table">
+          <table class="table table-head-custom table-vertical-center">
+            <thead>
+              <th>
+                ID
+              </th>
+              <th>
+                Product Name
+              </th>
+              <th>
+                Product Code
+              </th>
+              <th>
+                Type
+              </th>
+              <th>
+                Stamp Duty
+              </th>
+              <th>
+                Allow Back Date
+              </th>
+              <th>
+                Quotation Auto Lapse Rule
+              </th>
+              <th>
+                Payment Frequency
+              </th>
+              <ng-container *ngIf="type == 'page'">
+                <th>
+                  Actions
+                </th>
+              </ng-container>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let prod of products;let i = index">
+                <tr (click)="selectedProd(i)" class="{{ i == selected ? 'bg-primary text-white' : '' }}"
+                  [ngClass]="{'pointer': type != 'page'}">
+                  <td>{{i+1}}</td>
+                  <td>{{prod.name}}</td>
+                  <td>{{prod.code}}</td>
+                  <td>{{prod.type | titlecase}}</td>
+                  <td>{{prod.stamDuty+ "" | titlecase}}</td>
+                  <td>{{prod.isAllowBackDate == "30days" ? "30 days" : (prod.isAllowBackDate | titlecase) }}</td>
+                  <td> {{prod.quotationDay}} {{(prod.quotationRule+"s") | lowercase}} after creation dates</td>
+                  <td>{{getFreq(prod.paymentFrequencyType)}}</td>
+                  <ng-container *ngIf="type == 'page'">
+
+                    <td style="white-space: nowrap;">
+                      <ng-container *ngIf="prod.application || prod.quotation">
+                        <a title="Edit Form Page" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                          (click)="editLayout(prod)">
+                          <span [inlineSVG]="'./assets/media/svg/icons/General/Visible.svg'" cacheSVG="true"
+                            class="svg-icon svg-icon-md svg-icon-primary">
+                          </span>
+                        </a>
+                      </ng-container>
+                      <a title="View Product Detail" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                        (click)="viewDetail(prod)">
+                        <span [inlineSVG]="
+                        './assets/media/svg/icons/Communication/Write.svg'" aria-label="View Product Detail"
+                          cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                        </span>
+                      </a>
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div> -->
+        <!-- end: Table -->
+      </div>
+      <ng-container *ngIf="type != 'page'">
+        <div class="card-footer">
+          <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">Cancel</button>
+          <button type="button" class="btn btn-primary btn-elevate" (click)="nextProd()"
+            [disabled]="!selected.id">Next</button>
+        </div>
+      </ng-container>
+    </div>
+  </div>

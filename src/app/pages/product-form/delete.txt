@@ -1,0 +1,125 @@
+////
+<table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>
+                      Base Coverage
+                    </th>
+                    <th *ngIf="coverage.isSum">
+                      Sum Insured
+                    </th>
+                    <th *ngIf="coverage.isUnit">
+                      Unit
+                    </th>
+                    <th *ngIf="coverage.isPremium">
+                      Premium
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let coverage of item.coverages;let i = index">
+                    <td>{{coverage.description}}</td>
+                    <td *ngIf="coverage.sumInsured">
+                      <ng-container *ngIf="!coverage.sumInsuredStr">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].sum">
+                      </ng-container>
+                      <ng-container *ngIf="coverage.sumInsuredStr">
+                        {{coverageData[coverage.id].sum}}
+                      </ng-container>
+                    </td>
+                    <td *ngIf="coverage.unit">
+                      <!-- <ng-container *ngIf="coverage.unitStr"></ng-container> -->
+                      <ng-container *ngIf="!coverage.unitStr">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].unit">
+                      </ng-container>
+                      <ng-container *ngIf="coverage.unitStr">
+                        {{coverageData[coverage.id].unit}}
+                      </ng-container>
+                    </td>
+                    <td *ngIf="coverage.premium">
+                      <!-- <ng-container *ngIf="coverage.premiumStr"></ng-container> -->
+                      <ng-container *ngIf="!coverage.premiumStr">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].premium">
+                      </ng-container>
+                      <ng-container *ngIf="coverage.premiumStr">
+                        {{coverageData[coverage.id].premium}}
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3 mx-auto">
+                  <button class="btn btn-block btn-default" (click)="backPage(activePage)"> Back </button>
+                </div>
+                <div class="col-sm-3 mx-auto">
+                  <button class="btn btn-block btn-success" (click)="nextPage(activePage,'coverages')"> {{ activePage +
+                    1
+                    < pageOrder.length ? "Next" : "Save" }} {{ activePage + 1 < pageOrder.length ? "" : (type |
+                      titlecase) }} </button>
+                </div>
+              </div>
+              ///
+
+
+               <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>
+                        Base Coverage
+                      </th>
+                      <th *ngIf="coverage.isSum">
+                        Sum Insured
+                      </th>
+                      <th *ngIf="coverage.isUnit">
+                        Unit
+                      </th>
+                      <th *ngIf="coverage.isPremium">
+                        Premium
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let coverage of item.coverages;let i = index">
+                      <td>{{coverage.description}} {{coverage | json}}</td>
+                      <td *ngIf="coverage.sumInsured">
+                        <ng-container *ngIf="!coverage.sumInsuredStr">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].sum">
+                        </ng-container>
+                        <ng-container *ngIf="coverage.sumInsuredStr">
+                          {{coverageData[coverage.id].sum}}
+                        </ng-container>
+                      </td>
+                      <td *ngIf="coverage.unit">
+                        <!-- <ng-container *ngIf="coverage.unitStr"></ng-container> -->
+                        <ng-container *ngIf="!coverage.unitStr">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].unit">
+                        </ng-container>
+                        <ng-container *ngIf="coverage.unitStr">
+                          {{coverageData[coverage.id].unit}}
+                        </ng-container>
+                      </td>
+                      <td *ngIf="coverage.premium">
+                        <!-- <ng-container *ngIf="coverage.premiumStr"></ng-container> -->
+                        <ng-container *ngIf="!coverage.premiumStr">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].premium">
+                        </ng-container>
+                        <ng-container *ngIf="coverage.premiumStr">
+                          {{coverageData[coverage.id].premium}}
+                        </ng-container>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3 mx-auto">
+                    <button class="btn btn-block btn-default" (click)="backPage(activePage)"> Back </button>
+                  </div>
+                  <div class="col-sm-3 mx-auto">
+                    <button class="btn btn-block btn-success" (click)="nextPage(activePage,'coverages')"> {{ activePage
+                      + 1 < pageOrder.length ? "Next" : "Save" }} {{ activePage + 1 < pageOrder.length ? "" : (type |
+                        titlecase) }}</button>
+                  </div>
+                </div>

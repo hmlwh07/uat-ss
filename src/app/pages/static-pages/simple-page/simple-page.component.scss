@@ -1,0 +1,13 @@
+.input-group {
+  .form-control-sm {
+    background-color: #ffffff;
+    background-clip : padding-box;
+    border          : 1px solid #E4E6EF;
+    padding: 0px 0.75rem;
+  }
+
+  .mat-datepicker-toggle {
+    position: absolute;
+    right   : 5px;
+  }
+}

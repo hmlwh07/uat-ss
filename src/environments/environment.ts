@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  appVersion: 'v717demo1',
+  USERDATA_KEY: 'authf649fc9a5f55',
+  isMockEnabled: false,
+  apiUrl: 'http://104.248.152.205:8082/sale/api/v1',
 };
 
 /*
@@ -14,3 +18,5 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+//cd dist
+//jar -cvf bss-kbzms-sale-portal.war *

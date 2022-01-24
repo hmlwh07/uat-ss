@@ -1,0 +1,328 @@
+<div>
+    <h3 class="card-label left-border-image">Health</h3>
+    <form action="#" class="form" [formGroup]="formGroup">
+        <div class="set" *ngIf="selectedIndex == 2">
+            <div class="col-12">We need health to work, so whatever it costs we need to
+                protect our health</div>
+            <h4 class="col-12 sub-title" style="padding-left: 13px;">Current health protection self</h4>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group"> <label class="form-label">With production</label> </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <mat-radio-group formControlName="protectionSelf">
+                            <mat-radio-button class="example-margin" [value]=true>Yes
+                            </mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false>No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="formGroup.value.protectionSelf">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by insurance</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputSelf($event, 'amountByInsuranceSelf')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountByInsuranceSelf')"
+                                [class.is-valid]="isControlValid('amountByInsuranceSelf')"
+                                formControlName="amountByInsuranceSelf" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by employer</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputSelf($event, 'amountByEmployerSelf')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountByEmployerSelf')"
+                                [class.is-valid]="isControlValid('amountByEmployerSelf')"
+                                formControlName="amountByEmployerSelf" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by social benefit</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputSelf($event, 'amountBySocialBenefitSelf')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountBySocialBenefitSelf')"
+                                [class.is-valid]="isControlValid('amountBySocialBenefitSelf')"
+                                formControlName="amountBySocialBenefitSelf" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- //////////////////////////////// -->
+        <div class="set" *ngIf="selectedIndex == 2">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-12 sub-title">Current health protection Spouse</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Name of Spouse</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="nameSpouse" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" readonly class="form-control form-control-sm"
+                                formControlName="dateOfBirthSpouse" [min]="fromMinDate" [max]="fromMaxDate"
+                                [matDatepicker]="picker" (dateChange)="doValid('dateOfBirthSpouse')">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker disabled="false"></mat-datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button type="button" style="width: auto;
+                    float: right;
+                    margin: 0 !important;" (click)="clearDOB('dateOfBirthSpouse')"
+                        class="btn btn-primary btn-elevate mx-2">Clear</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label"> With production</label>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <mat-radio-group formControlName="protectionSpouse">
+                            <mat-radio-button class="example-margin" [value]=true>Yes</mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false>No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="formGroup.value.protectionSpouse">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by insurance</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputSpouse($event, 'amountByInsuranceSpouse')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountByInsuranceSpouse')"
+                                [class.is-valid]="isControlValid('amountByInsuranceSpouse')"
+                                formControlName="amountByInsuranceSpouse" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by employer</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputSpouse($event, 'amountByEmployerSpouse')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountByEmployerSpouse')"
+                                [class.is-valid]="isControlValid('amountByEmployerSpouse')"
+                                formControlName="amountByEmployerSpouse" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by social benefit</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputSpouse($event, 'amountBySocialBenefitSpouse')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountBySocialBenefitSpouse')"
+                                [class.is-valid]="isControlValid('amountBySocialBenefitSpouse')"
+                                formControlName="amountBySocialBenefitSpouse" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <h4 class="sub-title" style="padding: 0;">Current health protection Child {{ selectedIndex - 1
+                            }}
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="form-group">
+                        <a *ngIf="selectedIndex > 2" class="delete" (click)="deleteHealthById()">Delete</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Name of Child</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="name" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" readonly class="form-control form-control-sm"
+                                formControlName="dateOfBirth" [min]="fromMinDate" [max]="fromMaxDate"
+                                [matDatepicker]="picker" (dateChange)="doValid('dateOfBirth')" autocomplete="off">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker disabled="false"></mat-datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button type="button" style="width: auto;
+                    float: right;
+                    margin: 0 !important;" (click)="clearDOB('dateOfBirth')"
+                        class="btn btn-primary btn-elevate mx-2">Clear</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">With production</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <mat-radio-group formControlName="protection">
+                            <mat-radio-button class="example-margin" [value]=true>Yes</mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false>No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="formGroup.value.protection">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by insurance</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputChild($event, 'amountByInsurance')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountByInsurance')"
+                                [class.is-valid]="isControlValid('amountByInsurance')"
+                                formControlName="amountByInsurance" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by employer</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputChild($event, 'amountByEmployer')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountByEmployer')"
+                                [class.is-valid]="isControlValid('amountByEmployer')"
+                                formControlName="amountByEmployer" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by social benefit</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInputChild($event, 'amountBySocialBenefit')"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('amountBySocialBenefit')"
+                                [class.is-valid]="isControlValid('amountBySocialBenefit')"
+                                formControlName="amountBySocialBenefit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-about col-12">
+            <button type="button" *ngIf="selectedIndex == 2 && tempChildList.length > 0"
+                class="btn btn-primary btn-elevate mx-2" (click)="viewAll()">View All</button>
+            <button type="button" *ngIf="selectedIndex >= 2" class="btn btn-primary btn-elevate mx-2"
+                (click)="backToStartAction()" style="width: 150px;">Back Main Page</button>
+            <button type="button" *ngIf="selectedIndex > 2" class="btn btn-primary btn-elevate mx-2"
+                (click)="backAction()">Back</button>
+            <button type="button" (click)="saveAndNextHealth()" class="btn btn-primary btn-elevate mx-2">Save</button>
+            <button type="button" (click)="addChild('add')" [disabled]="!formGroup.value.id"
+                *ngIf="selectedIndex <= 4 && selectedIndex - 1 >= nextCount"
+                class="btn btn-primary btn-elevate mx-2">Add
+                Child</button>
+
+            <button type="button" (click)="addChild('next')" *ngIf="selectedIndex <= 4 && selectedIndex - 1 < nextCount"
+                class="btn btn-primary btn-elevate mx-2">Next</button>
+
+        </div>
+    </form>
+
+    <!-- selectedIndex - 1 -->
+    <!-- <pre>{{formGroup.value | json}}</pre> -->
+
+
+</div>

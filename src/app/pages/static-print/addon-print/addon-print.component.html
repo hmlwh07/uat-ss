@@ -1,0 +1,35 @@
+<div class="addon-print">
+  <div class="title-style left-border-image mt-5 mb-3">Optional Coverage Detail</div>
+  <table class="tbody-align">
+    <tr>
+      <td class="field-col">
+        Optional Coverage
+      </td>
+      <td class="field-col" *ngIf="addon.sumInsured">
+        Sum Insured
+      </td>
+      <td class="field-col" *ngIf="addon.unit">
+        Unit
+      </td>
+      <td class="field-col" *ngIf="addon.premium">
+        Premium
+      </td>
+    </tr>
+    <tbody class="tbody-align val-col">
+      <ng-container *ngFor="let addon of product.addOns;let i = index">
+        <tr *ngIf="addOnData[addon.id]">
+          <td class="field-value">{{addon.description}}</td>
+          <td class="field-value" *ngIf="addon.sumInsured">
+            {{(addOnData[addon.id] ? addOnData[addon.id].sum : 0) | number}}
+          </td>
+          <td class="field-value" *ngIf="addon.unit">
+            {{(addOnData[addon.id] ? addOnData[addon.id].unit : 0)}}
+          </td>
+          <td class="field-value" *ngIf="addon.premium">
+            {{(addOnData[addon.id] ? addOnData[addon.id].premium : 0) | number}}
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

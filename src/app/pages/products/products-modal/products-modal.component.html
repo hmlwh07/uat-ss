@@ -1,0 +1,195 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      {{prodId ? "Edit" : "Create a new product"}} {{prodName}}
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form form-label-right" [formGroup]="formGroup">
+      <div class="row">
+        <div class="col-12">
+          <!-- Product name -->
+          <div class="form-group">
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-control form-control-sm" name="productName" placeholder="Product name"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('productName')"
+              [class.is-valid]="isControlValid('productName')" formControlName="productName" />
+            <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+          </div>
+          <!-- Product name -->
+          <!-- Product code -->
+          <div class="form-group">
+            <label class="form-label">Product Code</label>
+            <input type="text" class="form-control form-control-sm" name="productCode" placeholder="Product code"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('productCode')"
+              [class.is-valid]="isControlValid('productCode')" formControlName="productCode" />
+            <!-- <div class="feedback">Enter Your <b>Product Code</b></div> -->
+          </div>
+          <!-- Product code -->
+          <!-- Product Type -->
+          <div class="form-group">
+            <label class="form-label">Product Type</label>
+            <select class="form-control form-control-sm" name="type" placeholder="Product code" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('type')" [class.is-valid]="isControlValid('type')"
+              formControlName="type">
+              <option value="GENERAL">General Insurance</option>
+              <option value="LIFE">Life Insurance</option>
+            </select>
+            <!-- <div class="feedback">Select Your <b>Product type</b></div> -->
+          </div>
+          <!-- Product Type -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="example-margin form-label">Allow Back Date</label>
+            <mat-radio-group formControlName="isAllowBackDate">
+              <mat-radio-button class="example-margin" value="no">No</mat-radio-button>
+              <mat-radio-button class="example-margin" value="yes">Yes</mat-radio-button>
+              <mat-radio-button class="example-margin" value="30days">Yes and max 30 days</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group row">
+            <label class="col-md-6 col-form-label text-md-right">Stamp Duty</label>
+            <div class="col-md-6 col-xl-4">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="stamDuty" formControlName="stamDuty" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">Quotation Auto Lapse Rule</label>
+            <input type="number" class="form-control form-control-sm" name="ruleDate" placeholder="Dates"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('ruleDate')"
+              [class.is-valid]="isControlValid('ruleDate')" formControlName="ruleDate" />
+            <div class="feedback">Enter Rule<b> Period</b></div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">Period Type</label>
+            <!-- <input type="text" class="form-control form-control-sm" name="ruleType"
+              placeholder="Date Type" autocomplete="off" [class.is-invalid]="isControlInvalid('ruleType')"
+              [class.is-valid]="isControlValid('ruleType')" formControlName="ruleType" /> -->
+            <select class="form-control form-control-sm" name="ruleType"
+              [class.is-invalid]="isControlInvalid('ruleType')" [class.is-valid]="isControlValid('ruleType')"
+              formControlName="ruleType">
+              <option value="">Please Select</option>
+              <option value="DAY">Days</option>
+              <option value="MONTH">Months</option>
+            </select>
+            <div class="feedback">Select Rule <b>Period Type</b></div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label"> &nbsp;</label>
+            <input type="text" class="form-control form-control-sm" name="ruleDate" autocomplete="off"
+              value="after creation dates" readonly />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">Application Auto Lapse Rule</label>
+            <input type="number" class="form-control form-control-sm" name="policyDay" placeholder="Dates"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('policyDay')"
+              [class.is-valid]="isControlValid('policyDay')" formControlName="policyDay" />
+            <div class="feedback">Enter Rule<b> Period</b></div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label">Period Type</label>
+            <!-- <input type="text" class="form-control form-control-sm" name="ruleType"
+              placeholder="Date Type" autocomplete="off" [class.is-invalid]="isControlInvalid('ruleType')"
+              [class.is-valid]="isControlValid('ruleType')" formControlName="ruleType" /> -->
+            <select class="form-control form-control-sm" name="policyRule"
+              [class.is-invalid]="isControlInvalid('policyRule')" [class.is-valid]="isControlValid('policyRule')"
+              formControlName="policyRule">
+              <option value="">Please Select</option>
+              <option value="DAY">Days</option>
+              <option value="MONTH">Months</option>
+            </select>
+            <div class="feedback">Select Rule <b>Period Type</b></div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="form-label"> &nbsp;</label>
+            <input type="text" class="form-control form-control-sm" name="ruleDate" autocomplete="off"
+              value="after creation dates" readonly />
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="form-label">Product Status</label>
+            <!-- <select class="form-control form-control-sm" name="status" placeholder="Product Status"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('statusCd')"
+              [class.is-valid]="isControlValid('statusCd')" formControlName="statusCd">
+              <option value="01">Draft</option>
+              <option value="02">Active</option>
+            </select> -->
+            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('statusCd')"
+              [class.is-valid]="isControlValid('statusCd')" [items]="statusCdOption" bindLabel="value" bindValue="code"
+              formControlName="statusCd">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label">Upload Product Icon</label>
+            <div class="upload-icon-group">
+              <div class="upload-icon" (click)="openFile()">
+                <img *ngIf="formGroup.value.icon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon" alt="" >
+                <ng-container *ngIf="!formGroup.value.icon">
+                  <i class="flaticon-upload-1 icon-lg"></i>
+                  <label>Icon</label>
+                </ng-container>
+                <input style="display: none;" type="file" #selectedFile (change)="handleUpload($event)" />
+              </div>
+              <div class="upload-icon" (click)="openFile(true)">
+                <img *ngIf="formGroup.value.smallIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon" alt="">
+                <ng-container *ngIf="!formGroup.value.smallIcon">
+                  <i class="flaticon-upload-1 icon-lg"></i>
+                  <label>Small Icon</label>
+                </ng-container>
+                <input style="display: none;" type="file" #selectedFile2 (change)="handleUpload($event,true)" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
+      (click)="modal.dismiss({type:'delete'})">Delete</button> -->
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+      [disabled]="formGroup.invalid">Save</button>
+  </div>
+</div>

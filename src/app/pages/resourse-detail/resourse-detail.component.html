@@ -1,0 +1,164 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card card-custom gutter-b">
+      <div class="card-body">
+        <div style="display:flex">
+          <div class="top-box">
+            PRODUCT <br>
+            <span *ngIf="item">{{item.name}}</span>
+          </div>
+          <!-- <div class="top-box">
+            Customer <br>
+            <span>Jimmy Tao</span>
+          </div> -->
+          <div class="top-box">
+            PREMIUM <br>
+            <span *ngIf="resourceDetail">{{resourceDetail.premiumView || 0 }}</span>
+          </div>
+          <button class="btn btn-outline-primary" style="margin-left: auto;" (click)="viewPrint()">
+            <i class="flaticon2-print"></i> Print
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="resourceDetail">
+  <div class="row">
+    <ng-container *ngFor="let page of pageOrder">
+      <!-- <div class="{{Array.isArray(resultObj[page.tableName+item.id]) ? 'col-sm-12' : 'col-sm-6'}}"> -->
+      <div class="col-md-12 mx-auto">
+        <ng-container *ngIf="page.type === 'static';else dynView ">
+          <ng-container staticPageView [compId]="page.id" [product]="item" [resourcesId]="resourceDetail.id">
+          </ng-container>
+        </ng-container>
+        <ng-template #dynView>
+          <div class="card card-custom gutter-b">
+            <div class="card-header">
+              <div class="card-title">
+                <h3 class="card-label">{{ page.pageTitle | titlecase }} :</h3>
+              </div>
+            </div>
+            <div class="card-body customer-card-body">
+              <ng-container>
+                <ng-container *ngIf="resultObj[page.tableName+page.id]">
+                  <ul class="list-group" *ngIf="!Array.isArray(resultObj[page.tableName+page.id])">
+                    <ng-container *ngFor="let cont of page.controls">
+                      <ng-container *ngIf="cont.show">
+                        <!-- <hr > -->
+                        <li *ngIf="cont.input == 'label'" class="list-group-item"
+                          style="border-top: 0.5px solid #dad9d9 !important;">
+                          <h5 style="margin-bottom: 0px;">{{cont.name}} </h5>
+
+                        </li>
+                        <ng-container
+                          *ngIf="!cont.isHideView && checkDep(cont.dependency,resultObj[page.tableName+page.id]) && cont.input != 'underline' && cont.input != 'label'">
+                          <li class="list-group-item">
+                            <!-- <span class="pull-right"> -->
+                            <!-- <span class="btn btn-xs btn-default"> -->
+                            <!-- {{cont.input}}cont.input != 'label' ?  -->
+                            {{cont.label || cont.name }} :
+                            <!-- </span> -->
+                            <!-- </span> -->
+                            <ng-container
+                              *ngIf="(cont.master == 'false' || cont.master == false) && cont.options.length > 0;else nomalValue">
+                              <span>
+                                {{getOptionValue(resultObj[page.tableName+page.id][cont.name],cont.options,page.tableName+page.id,cont.name)}}</span>
+                            </ng-container>
+                            <ng-template #nomalValue>
+                              <span *ngIf="cont.input == 'input' && cont.type == 'currency'">
+                                {{ (resultObj[page.tableName+page.id][cont.name] || 0 ) | number }}
+                              </span>
+                              <span *ngIf="cont.input == 'date'">
+                                <!-- {{resultObj[page.tableName+page.id][cont.name].length > 0 ? true: false}} D -->
+                                {{ resultObj[page.tableName+page.id][cont.name] &&
+                                resultObj[page.tableName+page.id][cont.name] != "null" ?
+                                (resultObj[page.tableName+page.id][cont.name] | date: 'dd/MM/yyyy') : "" }}
+
+                              </span>
+                              <span *ngIf="cont.type != 'currency' && cont.input != 'date'">
+                                {{resultObj[page.tableName+page.id][cont.name]}}
+                              </span>
+                              <ng-container *ngIf="cont.input == 'date' && cont.type == 'policy'">
+                                <!-- {{cont.endLabel == '-' }}  --> -
+                                {{resultObj[page.tableName+page.id][cont.endName] | date: 'dd/MM/yyyy'}}
+                              </ng-container>
+                            </ng-template>
+                            <div style="clear: both;"></div>
+                          </li>
+
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                  </ul>
+                  <div class="table-responsive angular-bootstrap-table"
+                    *ngIf="Array.isArray(resultObj[page.tableName+page.id])">
+                    <table class="table table-head-custom table-vertical-center">
+                      <thead>
+                        <tr>
+                          <th>NO</th>
+                          <ng-container *ngFor="let cont of getFormatTable(page.controls)">
+                            <th [ngStyle]="{'text-align': cont.subType == 'currency' ? 'right' : 'left'}">{{cont.title}}
+                            </th>
+                            <!-- <td *ngIf="cont.input != 'file'">{{ getOtherData(cont.cols,item) }}</td>
+                            <td *ngIf="cont.input == 'file'"> <a href="javascript:;"
+                                (click)="download(cont.cols,item)">{{ getOtherData(cont.cols,item) }}</a> </td> -->
+                          </ng-container>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngIf="resultObj[page.tableName+page.id]">
+                          <tr *ngFor="let result of resultObj[page.tableName+page.id];let i = index">
+                            <td>{{i+1}}</td>
+                            <ng-container *ngFor="let control of getFormatTable(page.controls)">
+                              <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
+                                {{getOtherData(control.cols,result) }}</td>
+                            </ng-container>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+            </div>
+
+            <!--begin::Footer-->
+            <!-- <div class="card-footer">
+          <div class="row">
+            <div class="col-lg-8">
+              <button type="submit" class="btn btn-primary">
+                Go To {{ type | titlecase }} List
+              </button>
+            </div>
+          </div>
+        </div> -->
+            <!--end::Footer-->
+          </div>
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-custom gutter-b">
+        <div class="card-footer">
+          <div class="row">
+            <div class="{{type == 'quotation' ? 'col-sm-6': 'col-sm-12' }}">
+              <button type="submit" class="btn btn-primary btn-block" (click)="goToList()">
+                Go Back To {{ (type == 'policy' ? "application" : type) | titlecase }} List
+              </button>
+            </div>
+            <div class="col-sm-6" *ngIf="type == 'quotation'">
+              <button type="submit" class="btn btn-primary btn-block" (click)="createPolicy()">
+                Create New Application
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

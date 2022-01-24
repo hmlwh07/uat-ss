@@ -1,0 +1,115 @@
+<div>
+    <form action="#" class="form" [formGroup]="formGroup">
+        <h3 class="card-label left-border-image ">Education Savings</h3>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-12" style="padding-left: 26px; margin: 0 0 10px 0;">Information on children's age and
+                    university years
+                    collected earlier</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h4 class="col-4">Child {{ selectedIndex + 1 }}</h4>
+            <a class="col-1 delete" *ngIf="selectedIndex > 0" (click)="deleteDeleteById()">Delete</a>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="form-label">Child Name</label>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" name="actualDateStr" autocomplete="off"
+                        formControlName="childName">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="form-label">Date of Birth <span>*</span></label>
+                </div>
+            </div>
+            <div class="col-7">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" readonly class="form-control form-control-sm" formControlName="dateOfBirth"
+                            [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker" (dateChange)="doValid()"
+                            autocomplete="off" [class.is-invalid]="isControlInvalid('dateOfBirth')"
+                            [class.is-valid]="isControlValid('dateOfBirth')">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-1">
+                <button type="button" style="width: auto;
+                float: right;
+                margin: 0 !important;" (click)="clearDOB()" class="btn btn-primary btn-elevate mx-2">Clear</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="form-label">Higher Education</label>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-group">
+                    <mat-radio-group formControlName="highEducation">
+                        <mat-radio-button class="example-margin" value="bachelor">Bachelor</mat-radio-button>
+                        <mat-radio-button class="example-margin" value="master">Master</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="form-label">Sum Assured <span>*</span></label>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-group">
+                    <input type="text" (keyup)="updateCommaInput($event, 'sumAssured')"
+                        class="form-control form-control-sm" name="sumAssured" autocomplete="off"
+                        [class.is-invalid]="isControlInvalid('sumAssured')"
+                        [class.is-valid]="isControlValid('sumAssured')" formControlName="sumAssured"
+                        (ngModelChange)="calculateEducationExpense($event)" [readonly]="!formGroup.value.dateOfBirth">
+                </div>
+                <div class="error-message" *ngIf="isSumAssured">Sum Assured must be between 5000000 and 100000000</div>
+                <div class="error-message" *ngIf="isCustomerAge">Customer age must be between 18 and 56 years</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="form-label">Education Expenses</label>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-group">
+                    <input type="text" readonly class="form-control form-control-sm" name="educationExpense"
+                        autocomplete="off" formControlName="educationExpense">
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-about">
+            <button type="button" *ngIf="selectedIndex == 0 && educations.length > 0"
+                class="btn btn-primary btn-elevate mx-2" (click)="viewAll()">View All</button>
+            <button type="button" *ngIf="selectedIndex >= 0" class="btn btn-primary btn-elevate mx-2"
+                style="width: 150px;" (click)="backToStartAction()" style="width: 150px;">Back Main Page</button>
+            <button type="button" *ngIf="selectedIndex > 0" class="btn btn-primary btn-elevate mx-2"
+                (click)="backAction()">Back</button>
+            <button type="button" (click)="saveEducation()" class="btn btn-primary btn-elevate mx-2">Save</button>
+            <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 >= nextCount"
+                (click)="addChild('add')" class="btn btn-primary btn-elevate mx-2">Add Child</button>
+            <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 < nextCount"
+                (click)="addChild('next')" class="btn btn-primary btn-elevate mx-2">Next</button>
+        </div>
+    </form>
+</div>

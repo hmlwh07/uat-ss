@@ -1,0 +1,67 @@
+<div>
+    <h3 class="card-label left-border-image">Income</h3>
+    <form action="#" class="form" [formGroup]="formGroup" (ngSubmit)="saveFNAIncome()">
+        <div class="about">
+            <div style="padding-left: 13px;">We all work for our income - can you provide some details</div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Source of Income</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select formControlName="sourceOfIncome" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option value="employee">Employee</option>
+                            <option value="professional">Professional</option>
+                            <option value="nrm">NRM</option>
+                            <option value="smallbusiness">Small business</option>
+                            <option value="largebusiness">Large business</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Family Monthly Spending (lakhs) <span style="position: absolute;
+                            top: 9px;
+                            right: 10px;">*</span> </label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" (keyup)="updateCommaInput($event)"
+                            class="form-control form-control-sm form-control-md" name="familyMonthlySpendingText"
+                            autocomplete="off" [class.is-invalid]="isControlInvalid('familyMonthlySpendingText')"
+                            [class.is-valid]="isControlValid('familyMonthlySpendingText')"
+                            formControlName="familyMonthlySpendingText"
+                            (ngModelChange)="calculateMonthlyIncome($event)" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Estimated Monthly Income (lakhs) </label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" readonly
+                            name="estimatedMonthlyIncomeText" autocomplete="off"
+                            formControlName="estimatedMonthlyIncomeText" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-about col-12">
+            <button type="button" *ngIf="fnaService.fnaIncome" class="btn btn-primary btn-elevate mx-2"
+                (click)="viewAll()">View All</button>
+            <button type="button" class="btn btn-primary btn-elevate" (click)="backAction()" style="width: 150px;">Back
+                Main Page</button>
+            <button type="submit" class="btn btn-primary btn-elevate mx-2">Save</button>
+        </div>
+    </form>
+</div>

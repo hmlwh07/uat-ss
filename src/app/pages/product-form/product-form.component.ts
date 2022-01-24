@@ -1,0 +1,836 @@
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { of, Subscription } from 'rxjs';
+import { DatePipe, DecimalPipe, Location } from '@angular/common';
+// import { uuid } from 'uuid';
+import { Router } from '@angular/router';
+
+import { v4 } from 'uuid';
+import { DynamicFormComponent } from '../form-component/dynamic-form.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProductDataService } from '../products/services/products-data.service';
+import { FormViewModalComponent } from '../form-component/form-view-modal/form-view-modal.component';
+import { ConfigInput, ConfigPage, FromGroupData } from '../form-component/field.interface';
+import { PageUI, PageUIType, Product, ProductPages } from '../products/models/product.dto';
+import { IsJsonString } from '../../core/is-json';
+import { AuthService } from '../../modules/auth';
+import { PageDataService } from './page-data.service';
+import { QuotationDTO } from '../quotations/quotation.dto';
+import { AddOnQuoService } from '../products/services/add-on-quo.service';
+import { CoverageQuoService } from '../products/services/coverage-quo.service';
+import { AlertService } from '../../modules/loading-toast/alert-model/alert.service';
+import { checkVaidDep } from '../check-parent';
+import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
+import { StaticActionType, StaticPageAction } from '../static-pages/static-field.interface';
+import { StaticPageDirective } from '../static-pages/static-pages.directive';
+import { MasterDataService } from '../../modules/master-data/master-data.service';
+import { map, switchMap } from 'rxjs/operators';
+import { GlobalFunctionService } from '../../core/global-fun.service';
+import { Customer } from '../customer-detail/custmer.dto';
+
+
+@Component({
+  selector: 'app-product-form',
+  templateUrl: './product-form.component.html',
+  styleUrls: ['./product-form.component.scss']
+})
+export class ProductFormComponent implements OnInit, OnDestroy {
+  formData: FromGroupData[] = []
+  pageOrder: PageUI[] = []
+  viewUI: string
+  @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
+  @ViewChild(StaticPageDirective) staticPage: StaticPageDirective
+  item: Product
+  tempData: any = {}
+  activePage: number = 0
+  premiumAmt: string = '0'
+  private unsubscribe: Subscription[] = []
+  coverage = {
+    isSum: false,
+    isUnit: false,
+    isPremium: false,
+  }
+  addon = {
+    isSum: false,
+    isUnit: false,
+    isPremium: false,
+  }
+  coverageData: any = {}
+  addOnData: any = {}
+  viewType: string = 'view'
+  resourceId: string = null
+  type: string = ""
+  referenceID: string = ""
+  referenceStatus: string = ""
+  tableReform: any[] = []
+  detailInput: any = {}
+  editData: any
+  creatingCustomer: Customer = {}
+  constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe) { }
+
+  async ngOnInit() {
+    if ((this.prodService.type == 'policy' && this.prodService.createingProdRef)) {
+      this.prodService.createingProd = this.prodService.createingProdRef
+      this.prodService.createingProdRef = null
+    }
+
+    if (!this.prodService.createingProd) {
+      this.location.back()
+    } else {
+      this.item = this.prodService.createingProd
+      this.viewType = this.prodService.viewType
+      this.referenceID = this.prodService.referenceID
+      this.referenceStatus = this.prodService.referenceStatus
+      this.type = this.prodService.type
+      this.editData = this.prodService.editData || {}
+      this.creatingCustomer = this.prodService.creatingCustomer
+      this.premiumAmt = this.editData.premiumView || this.editData.premium || "0"
+      let unsub = this.globalFun.paPremiumResult.subscribe((res: any) => {
+        this.premiumAmt = res || "0"
+        this.cdRef.detectChanges()
+      })
+      this.unsubscribe.push(unsub)
+      this.initProductConfig()
+
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    // this.prodService.editData = null
+  }
+
+  changePage(i: number) {
+    if (this.activePage > i) {
+      this.activePage = i
+      if (this.formData[this.activePage].type == PageUIType.STATIC) {
+        this.cdRef.detectChanges()
+        this.staticPage.reCreate()
+      }
+      if (this.dynForm && this.formData[this.activePage].controls) {
+        this.dynForm.newFormCreate(this.formData[this.activePage].controls, this.tempData[this.formData[this.activePage].tableName + this.formData[this.activePage].id])
+      }
+    }
+  }
+
+  findPageValue(array: ConfigPage[], value: string) {
+
+    let data: FromGroupData
+    let isRef = this.referenceID ? true : false
+    for (let index = 0; index < array.length; index++) {
+      if (!array[index]) continue
+      data = array[index].fromGroup.find(x => x.id == value);
+      if (data) {
+        data.controls.map(x => {
+          if (this.detailInput[value] && x.input != "underline" && x.input != "label") {
+            x.show = this.detailInput[value][x.name] >= 0 ? (this.detailInput[value][x.name] > 0 ? true : false) : x.show
+            if (this.detailInput[value][x.name] >= 2) {
+              x.disabled = this.detailInput[value][x.name] > 2 ? isRef : true
+            }
+          } else if (this.detailInput[value] && x.input == "label") {
+            x.show = this.detailInput[value][x.placeholder] >= 0 ? (this.detailInput[value][x.placeholder] > 0 ? true : false) : x.show
+          }
+          return x
+        })
+
+        break
+      }
+    }
+    return data
+  }
+
+  initProductConfig() {
+    if (IsJsonString(this.item.config)) {
+      let pageUI: ProductPages = JSON.parse(this.item.config);
+      if (!pageUI) {
+        this.alert.activate("please setup page group in product configuration.", "Creation Error")
+        this.location.back()
+        return false
+      }
+      let tempFormData: ConfigPage[] = []
+      if (this.prodService.type == 'quotation') {
+        if (!this.item.quotation) {
+          this.alert.activate("please setup page group in product configuration.", "Creation Error")
+          this.location.back()
+          return false
+        }
+        this.pageOrder = pageUI.quotation || []
+        this.detailInput = pageUI.quotation_input || {}
+        this.viewUI = pageUI.quotation_view || 'ui1'
+      } else {
+        if (!this.item.application) {
+          this.alert.activate("please setup page group in product configuration.", "Creation Error")
+          this.location.back()
+          return false
+        }
+        this.pageOrder = pageUI.application || []
+        this.detailInput = pageUI.application_input || {}
+        this.viewUI = pageUI.application_view || 'ui1'
+      }
+      if (this.pageOrder.length == 0) {
+        this.alert.activate("Please Create UI Configuration", "Creation Error")
+        this.location.back()
+        return false
+      }
+      let dumType = this.prodService.type == 'policy' ? 'application' : this.prodService.type
+      tempFormData = this.item.productUIs.map(x => {
+        if (x.type == dumType)
+          return JSON.parse(x.dynamicProduct.config)
+      })
+      let counter = 0
+      this.pageOrder.forEach((page, index) => {
+        counter += 1
+        if (page.id == 'addon' && this.item.addOns.length < 1) {
+          this.pageOrder.splice(index, 1)
+        } else if (page.id == 'coverage' && this.item.coverages.length < 1) {
+          this.pageOrder.splice(index, 1)
+        }
+        if ((page.type == PageUIType.STATIC)) {
+          this.formData.push(
+            {
+              pageTitle: "",
+              id: v4(),
+              pageIcon: "",
+              pageType: "form",
+              tableName: "",
+              controls: [],
+              buttons: [],
+              type: page.type
+            }
+          )
+        } else {
+          let pageData = this.findPageValue(tempFormData, page.id)
+          pageData.type = page.type
+          if (pageData) {
+            this.pageOrder[index].pageTitle = pageData.pageTitle
+            this.pageOrder[index].pageType = pageData.pageType
+            this.pageOrder[index].pageIcon = pageData.pageIcon
+            this.pageOrder[index].tableName = pageData.tableName
+            this.formData.push(pageData)
+          }
+        }
+
+        if (counter == this.pageOrder.length) {
+          this.callback(tempFormData)
+        }
+
+      })
+
+    }
+  }
+
+  callback(tempFormData) {
+    if (this.prodService.editData) {
+      this.resourceId = this.prodService.editData.id
+      this.getOldData(this.prodService.editData, tempFormData)
+    } else if (this.referenceID) {
+      this.getOldData({ id: this.referenceID }, tempFormData, true)
+    }
+    if (this.formData[this.activePage].pageType == 'table') {
+      this.reFormatTable(this.formData[this.activePage].controls)
+    }
+  }
+
+  staticEvent(event: StaticPageAction) {
+    if (event.type == StaticActionType.NEXT) {
+      if (event.data) {
+        if (event.data.resourceId)
+          this.resourceId = event.data.resourceId
+      }
+      this.nextPage(this.activePage)
+    } else if (event.type == StaticActionType.PREV) {
+      this.backPage(this.activePage)
+    }
+  }
+
+  clickBtn(event) {
+    this[event]();
+  }
+
+  saveTemp(data: any) {
+    let activeForm = this.formData[this.activePage]
+    if (this.viewType != 'view') {
+      if (activeForm.pageType == "form" && this.tempData[activeForm.tableName + activeForm.id]) {
+        if (this.tempData[activeForm.tableName + activeForm.id].refId)
+          this.updateDataAPI(activeForm, data, this.tempData[activeForm.tableName + activeForm.id].refId)
+        else
+          this.saveDataAPI(activeForm, data)
+      } else
+        this.saveDataAPI(activeForm, data)
+    } else {
+      if (activeForm.pageType == 'table') {
+        if (this.tempData[activeForm.tableName + activeForm.id]) {
+          (this.tempData[activeForm.tableName + activeForm.id] as any[]).push(data);
+        } else {
+          this.tempData[activeForm.tableName + activeForm.id] = [data]
+        }
+        this.cdRef.detectChanges()
+      } else {
+        this.tempData[activeForm.tableName + activeForm.id] = data
+        this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
+        this.activePage += 1
+        if (this.formData[this.activePage].pageType == 'table') {
+          this.reFormatTable(this.formData[this.activePage].controls)
+        }
+        this.cdRef.detectChanges();
+      }
+      this.globalFun.tempFormData = this.tempData
+    }
+  }
+
+  download(cols: string[], data: any) {
+    let value = this.getOtherData(cols, data)
+    if (value) {
+      let valueId = value.split("].")[0].replace("[", "")
+      this.downloadService.getDownload(valueId, value)
+    }
+  }
+
+  reFormatTable(controls: ConfigInput[]) {
+    this.tableReform = []
+    let parentArray: string[] = []
+    let tempControls: ConfigInput[] = JSON.parse(JSON.stringify(controls))
+    for (let x of tempControls) {
+      let skip = false
+      if (!x.isHideView) {
+        if (x.tableTitle) {
+          let index = parentArray.findIndex(data => data == x.tableTitle)
+          if (index < 0) {
+            parentArray.push(x.tableTitle)
+          } else {
+            skip = true
+          }
+          // parentArray.push()
+        }
+        if (!skip) {
+          let tempName = x.master == 'true' ? x.name + "Value" : x.name
+          let otherNameObj = {
+            name: tempName,
+            type: x.input,
+            subType: x.type,
+            options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
+          }
+          let tempObj = {
+            title: x.tableTitle || x.label || x.name,
+            cols: [otherNameObj],
+            type: x.input,
+            subType: x.type,
+            parent: x.dependency ? x.dependency.parentName : "",
+            options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
+          }
+          this.tableReform.push(tempObj)
+        } else {
+          let index = this.tableReform.findIndex(data => data.parent == x.dependency.parentName)
+          if (index >= 0) {
+            let tempName = x.master == 'true' ? x.name + "Value" : x.name
+            let otherNameObj = {
+              name: tempName,
+              type: x.input,
+              subType: x.type,
+              options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
+            }
+            this.tableReform[index].cols.push(otherNameObj)
+          }
+        }
+        // return x
+      }
+    }
+    this.cdRef.detectChanges()
+  }
+
+  getOtherData(cols: any[], data: any) {
+
+    for (let col of cols) {
+      if (data[col.name]) {
+        if ((data[col.name] + "").length > 0) {
+          let value = ""
+          if (col.type == "input" && col.subType == "number") {
+            return this.numberPipe.transform(data[col.name])
+          }
+          if (col.type == "date") {
+            return this.datePipe.transform(data[col.name], "dd/MM/yyyy")
+          }
+          if (col.options.length > 0) {
+            let valueData = col.options.find(x => x.value == data[col.name])
+            if (valueData) {
+              return valueData.text
+            }
+          }
+          return data[col.name]
+        }
+      }
+    }
+  }
+
+  updateDataAPI(page: FromGroupData, formData: any, refId: number, isTable: number = -1) {
+    this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
+    let postData = {
+      productId: this.prodService.createingProd.id,
+      type: this.viewType,
+      tableName: page.tableName,
+      resourceId: this.resourceId,
+      refId: refId,
+      customerId: this.creatingCustomer.customerId,
+      quotationId: this.referenceID,
+      agentId: this.auth.currentUserValue.id || 1,
+      premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+      premiumView: this.premiumAmt,
+      policyNumber: null,
+      pageId: page.id,
+      data: [
+
+      ]
+    }
+    for (const [key, value] of Object.entries(formData)) {
+      let input = page.controls.find(x => x.name == key)
+      let valueData = value
+      if (input) {
+        valueData = input.input == "input" && input.type == 'number' ? Number(value) : value
+        if (Array.isArray(valueData)) {
+          valueData = valueData.join("#-#");
+          if (!(valueData as string).includes("#-#")) {
+            valueData += "#+#"
+          }
+        }
+      }
+      // if (input) {
+      //   postData.data.push({
+      //     "column": key,
+      //     "value": input.input == "input" && input.type == 'number' ? Number(value) : value
+      //   })
+      // } else {
+      postData.data.push({
+        "column": key,
+        "value": valueData,
+        "party": input ? input.party || false : false
+      })
+      // }
+    }
+    this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
+      if (page.pageType == 'table') {
+        return this.checkMasterValue(formData, page.controls, data)
+      }
+      return of(data)
+    })).toPromise().then((res) => {
+
+      if (res) {
+        // this.resourceId = res.resourceId
+        this.updateDataStatus()
+        if (isTable < 0) {
+
+          this.tempData[page.tableName + page.id] = { ...formData, refId: res.refId }
+          if (this.pageOrder.length > this.activePage + 1) {
+            this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
+            this.activePage += 1
+            this.cdRef.detectChanges();
+            this.globalFun.tempFormData = this.tempData
+            if (this.formData[this.activePage].pageType == 'table') {
+              this.reFormatTable(this.formData[this.activePage].controls)
+            }
+
+          } else {
+            this.globalFun.tempFormData = this.tempData
+            this.goReusltPage()
+          }
+        } else {
+          formData = res.formData
+          this.tempData[page.tableName + page.id][isTable] = { ...formData, refId: res.refId }
+          this.cdRef.detectChanges();
+        }
+      }
+    })
+
+  }
+
+
+
+  goReusltPage() {
+    this.prodService.previewType = this.type
+    this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
+
+    this.prodService.editData = { id: this.resourceId, premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "", premiumView: this.premiumAmt, agentFirstName: this.auth.currentUserValue.firstName, agentLastName: this.auth.currentUserValue.lastName }
+    this.router.navigateByUrl("/resourse-detail")
+  }
+
+  saveDataAPI(page: FromGroupData, formData: any) {
+    this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
+
+    let postData = {
+      productId: this.prodService.createingProd.id,
+      type: this.viewType,
+      tableName: page.tableName,
+      resourceId: this.resourceId,
+      agentId: this.auth.currentUserValue.id || 1,
+      quotationId: this.referenceID,
+      pageId: page.id,
+      customerId: this.creatingCustomer.customerId,
+      premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+      premiumView: this.premiumAmt,
+      policyNumber: null,
+      pageData: [
+        {
+          data: []
+        }
+      ]
+    }
+    for (const [key, value] of Object.entries(formData)) {
+      let input = page.controls.find(x => x.name == key)
+      let valueData = value
+      if (input) {
+        valueData = input.input == "input" && input.type == 'number' ? Number(value) : value
+        if (Array.isArray(valueData)) {
+          valueData = valueData.join("#-#")
+          if (!(valueData as string).includes("#-#")) {
+            valueData += "#+#"
+          }
+        }
+      }
+      postData.pageData[0].data.push({
+        "column": key,
+        "value": valueData,
+        "party": input ? input.party || false : false
+      })
+
+    }
+    this.pageDataService.save(postData).pipe(switchMap((data: any) => {
+      if (page.pageType == 'table') {
+        return this.checkMasterValue(formData, page.controls, data)
+      }
+      return of(data)
+    })).toPromise().then((res) => {
+
+      if (res) {
+        this.updateDataStatus()
+        if (!this.resourceId)
+          this.resourceId = res[0].resourceId;
+        if (page.pageType == 'table') {
+          formData = res[0].formData
+          if (this.tempData[page.tableName + page.id]) {
+            (this.tempData[page.tableName + page.id] as any[]).push({ ...formData, refId: res[0].refId, pageId: page.id });
+          } else {
+            this.tempData[page.tableName + page.id] = [{ ...formData, refId: res[0].refId }]
+          }
+          this.cdRef.detectChanges()
+        } else {
+          this.tempData[page.tableName + page.id] = { ...formData, refId: res[0].refId, pageId: page.id }
+          if (this.pageOrder.length > this.activePage + 1) {
+            if (this.formData[this.activePage + 1].controls) {
+              this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
+            }
+            this.activePage += 1
+            this.cdRef.detectChanges();
+            this.globalFun.tempFormData = this.tempData
+            if (this.formData[this.activePage].pageType == 'table') {
+              this.reFormatTable(this.formData[this.activePage].controls)
+            }
+          } else {
+            this.globalFun.tempFormData = this.tempData
+            this.goReusltPage()
+          }
+        }
+
+      }
+
+    })
+
+  }
+
+  newData(editData?: any, index?: number) {
+    const activeForm = this.formData[this.activePage];
+    const modalRef = this.modalService.open(FormViewModalComponent, { size: 'xl' });
+    modalRef.componentInstance.controls = this.formData[this.activePage].controls
+    modalRef.componentInstance.pageName = this.formData[this.activePage].pageTitle
+    modalRef.componentInstance.oldData = index >= 0 ? editData : {}
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        if (res.data && res.type == 'save') {
+          if (index >= 0) {
+            this.updateDataAPI(activeForm, res.data, this.tempData[activeForm.tableName + activeForm.id][index].refId, index)
+          } else {
+            this.saveTemp(res.data)
+          }
+        }
+      }
+    })
+  }
+
+  async create() {
+    let activeForm = this.formData[this.activePage]
+    if (activeForm.function) {
+      let fun = await this.globalFun[activeForm.function]("", this.dynForm.form.getRawValue(), [], true)
+      if (!fun) {
+        return false
+      }
+    }
+    let submited = this.dynForm.handleSubmit()
+    if (!submited) return false
+    this.dynForm.reCreateFrom()
+  }
+
+  backPage(index) {
+    if (this.activePage > 0) {
+      this.activePage -= 1
+      this.cdRef.detectChanges();
+      if (this.formData[this.activePage].type == PageUIType.STATIC && this.formData[this.activePage + 1].type == PageUIType.STATIC) {
+        this.staticPage.reCreate()
+      }
+      else if (this.formData[this.activePage].type == PageUIType.DYN && this.formData[this.activePage].pageType == 'table') {
+        this.reFormatTable(this.formData[this.activePage].controls)
+      }
+    } else {
+      this.location.back()
+    }
+  }
+  async nextPage(index, status?: string) {
+    // if (status == 'addOns' || status == 'coverages') {
+    //   const quoService = status == "addOns" ? this.addonQuo : this.coverageQuo
+    //   const posDataArray = status == "addOns" ? this.addOnData : this.coverageData
+    //   for (let add of this.item[status]) {
+    //     try {
+    //       let postData = {
+    //         addonId: add.id,
+    //         coverageId: add.id,
+    //         quotationNo: this.resourceId,
+    //         sumInsured: (posDataArray[add.id].sum || "").replace(',', '').replace('MMK', '').replace('USD', ''),
+    //         unit: (posDataArray[add.id].unit || "").replace(',', '').replace('MMK', '').replace('USD', ''),
+    //         premium: (posDataArray[add.id].premium || "").replace(',', '').replace('MMK', '').replace('USD', ''),
+    //       }
+    //       let res = await quoService.save(postData).toPromise()
+
+    //     } catch (error) {
+    //       console.log(error);
+
+    //     }
+
+    //   }
+    // }
+    if (this.pageOrder.length > index + 1) {
+      this.updateDataStatus()
+      this.activePage += 1
+      // if(this.pageOrder[this.activePage + 1].id != 'addon' && this.pageOrder[this.activePage + 1].id != 'coverage')
+      // this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls)
+      this.cdRef.detectChanges();
+      if (this.formData[this.activePage].type == PageUIType.STATIC && this.formData[this.activePage - 1].type == PageUIType.STATIC) {
+        this.staticPage.reCreate()
+      }
+      else if (this.formData[this.activePage].type == PageUIType.DYN && this.formData[this.activePage].pageType == 'table') {
+        this.reFormatTable(this.formData[this.activePage].controls)
+      }
+    } else {
+      // this.location.back()
+      this.goReusltPage()
+    }
+  }
+
+  async next() {
+
+    // if (this.pageOrder.length > this.activePage + 1) {
+    let activeForm = this.formData[this.activePage]
+    if (activeForm.function) {
+      let fun = await this.globalFun[activeForm.function]("", this.dynForm.form.getRawValue(), [], true);
+      if (!fun) {
+        return false
+      }
+    }
+    let submited = this.dynForm.handleSubmit()
+    if (!submited) return false
+
+    // } else {
+    //   this.location.back()
+    // }
+  }
+
+  getGlobalFun(funName: string, mainObj: string, mainKey, subKey: string) {
+
+    if (this.globalFun[funName + "Result"]) {
+      let unsub = this.globalFun[funName + "Result"].subscribe((res) => {
+        this[mainObj][mainKey][subKey] = res
+        this.cdRef.detectChanges();
+      })
+      this.unsubscribe.push(unsub)
+    } else {
+      if (funName)
+        this[mainObj][mainKey][subKey] = funName
+    }
+  }
+
+  previous() {
+    if (this.activePage > 0) {
+      this.dynForm.newFormCreate(this.formData[this.activePage - 1].controls, this.tempData[this.formData[this.activePage - 1].tableName + this.formData[this.activePage - 1].id])
+      this.activePage -= 1
+      this.cdRef.detectChanges();
+    } else {
+      this.location.back()
+    }
+  }
+
+  submit() {
+    this.next()
+  }
+
+  reset() {
+    this.dynForm.reCreateFrom()
+    this.cdRef.detectChanges();
+  }
+
+  deleteData(index, data) {
+    let activeForm = this.formData[this.activePage]
+    this.pageDataService.deleteData(activeForm.tableName, data.refId, activeForm.id).toPromise().then((res) => {
+      if (res) {
+        this.tempData[activeForm.tableName + activeForm.id].splice(index, 1)
+        this.cdRef.detectChanges();
+      }
+    })
+  }
+
+
+
+  getOldData(oldData: QuotationDTO, tempFormData, isRef?: boolean) {
+    let counter = 0
+    this.pageOrder.forEach((element) => {
+
+      counter += 1
+      if (element.type == PageUIType.DYN) {
+
+        let page = this.findPageValue(tempFormData, element.id)
+        let view = page.pageType == 'table'
+        this.pageDataService.getDetail(page.tableName, oldData.id, page.id, view, page.controls, true).toPromise().then(async (res: any) => {
+          if (res) {
+            let temp = page.pageType == 'form' ? {} : []
+            let skipId = isRef
+            let trgi = false
+            if (res.length == 0 && this.type == 'policy' && oldData.quotationId) {
+              res = await this.pageDataService.getDetail(page.tableName, oldData.quotationId, page.id, view, page.controls, true).toPromise()
+              skipId = true
+            }
+            for (const data of res) {
+              let tmpObj = {}
+              for (const item of data.data) {
+                if (item.column == 'id' && !skipId) {
+                  tmpObj['refId'] = item.value
+                }
+                if ((item.value + "" as string).includes("#-#")) {
+                  // trgi = true
+                  tmpObj[item.column] = (item.value + "" as string).split("#-#")
+                } else if ((item.value + "" as string).includes("#+#")) {
+                  tmpObj[item.column] = [item.value.replace('#+#', "")]
+                } else {
+                  tmpObj[item.column] = item.value
+                }
+
+              }
+              if (Array.isArray(temp)) {
+                temp.push(tmpObj)
+              } else {
+                temp = tmpObj
+              }
+            };
+
+            this.tempData[page.tableName + page.id] = temp
+            this.globalFun.tempFormData = this.tempData
+            if (page.function && page.pageType == 'form') {
+              this.globalFun[page.function]("", this.tempData[page.tableName + page.id])
+            }
+            if (element.id == this.formData[this.activePage].id) {
+              if (this.formData[this.activePage].pageType == "form" && this.formData[this.activePage].type != PageUIType.STATIC) {
+                this.cdRef.detectChanges();
+                this.dynForm.reCreateFrom()
+                this.cdRef.detectChanges();
+                // if (trgi) {
+                //   this.globalFun.optionResultChange.next(true)
+                // }
+              }
+            }
+
+          } else {
+            if (page.unitCode == "policyholder_1641795142279")
+              this.mapPartyCustomer(page)
+          }
+
+        }).catch(e => {
+          if (page.unitCode == "policyholder_1641795142279")
+            this.mapPartyCustomer(page)
+        })
+      }
+
+
+    });
+  }
+
+  mapPartyCustomer(page: FromGroupData) {
+    let temp = {}
+    let config = page.controls.find(x => x.name == "customer_id")
+    if (config) {
+      for (let afield of config.autoFields) {
+        temp[afield.value] = this.creatingCustomer[afield.field]
+      }
+      this.tempData[page.tableName + page.id] = temp
+      this.globalFun.tempFormData = this.tempData
+    }
+  }
+
+
+
+  checkDep(dependency, checkData) {
+    return checkVaidDep(dependency, { value: checkData })
+  }
+
+  checkMasterValue(res: any, column, otherResponse: any) {
+    // otherResponse =  ? otherResponse[0]['formData'] = res : 
+    if (Array.isArray(otherResponse)) {
+      otherResponse[0]['formData'] = res
+    } else {
+      otherResponse['formData'] = res
+    }
+    let tempMasterObj = Object.keys(res).filter(x => (res[x] + "").includes("T-"))
+    if (tempMasterObj.length > 0) {
+      let masterObj = tempMasterObj.map(x => {
+        let columnName = column.find(col => col.name == x)
+        if (columnName.masterData) {
+          return {
+            "codeId": res[x],
+            "codeType": columnName.masterData,
+            "langCd": "EN"
+          }
+        }
+      })
+      let postData = {
+        "codeBookRequest": masterObj
+      }
+      let returnObj = res
+      return this.masterServer.getMasterValue(postData).pipe(map((masterValues: any) => {
+        tempMasterObj.forEach(x => {
+          let colName = column.find(col => col.name == x)
+          let index = masterValues.findIndex(master => master.codeId == returnObj[x] && colName.masterData == master.codeType)
+          if (index >= 0) {
+            returnObj[x + "Value"] = masterValues[index].codeName
+          }
+        })
+        if (Array.isArray(otherResponse)) {
+          otherResponse[0]['formData'] = returnObj
+        } else {
+          otherResponse['formData'] = returnObj
+        }
+        return otherResponse
+      }))
+    }
+    return of(otherResponse)
+  }
+
+  updateDataStatus() {
+    if (this.referenceID) {
+      if (this.referenceStatus == "in_progress") {
+        let postData = {
+          "resourceId": this.referenceID,
+          "type": this.prodService.viewType,
+          "status": "complete"
+        }
+        this.pageDataService.updatePremimun(postData).toPromise().then((res) => {
+          if (res) {
+            this.referenceStatus = "complete"
+            this.prodService.referenceStatus = "complete"
+          }
+        })
+      }
+    }
+  }
+}

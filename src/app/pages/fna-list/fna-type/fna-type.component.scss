@@ -1,0 +1,10 @@
+.form .col-12 {
+    padding: 10px 40px;
+    cursor: pointer;
+    label {
+        cursor: pointer;
+    }
+    &:first-child {
+        border-bottom: 1px solid #dad9d9;
+    }
+}

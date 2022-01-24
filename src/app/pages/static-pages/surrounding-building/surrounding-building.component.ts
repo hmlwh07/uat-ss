@@ -1,0 +1,58 @@
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { SurroundingBuildingService } from './models&services/surrounding-building.service';
+import { SurroundingDisplayCol, SURROUNDING_COL } from './models&services/surrounding-list.const';
+import { SurroundingDetailComponent } from './surrounding-detail/surrounding-detail.component';
+
+@Component({
+  selector: 'app-surrounding-building',
+  templateUrl: './surrounding-building.component.html',
+  styleUrls: ['./surrounding-building.component.scss']
+})
+export class SurroundingBuildingComponent implements OnInit {
+  @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent;
+  @Input() riskId = ""
+  ELEMENT_COL = JSON.parse(JSON.stringify(SURROUNDING_COL));
+  displayedColumns = JSON.parse(JSON.stringify(SurroundingDisplayCol));
+  isPopup: boolean = false
+  surrounding: any[] = []
+  constructor(private SurroundingBuildingService: SurroundingBuildingService, private modalService: NgbModal, private cdf: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+  }
+  add(type, data?) {
+    let modalRef;
+    modalRef = this.modalService.open(SurroundingDetailComponent, { size: 'xl', backdrop: false });
+    modalRef.componentInstance.type = type
+    modalRef.componentInstance.riskId = this.riskId
+    modalRef.componentInstance.oldData = data
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        console.log("RESSSS", res)
+        if (res.type == "save") {
+          // this.surrounding=res.data
+          this.surrounding.push(res.data)
+          this.cdf.detectChanges()
+        }
+      }
+    })
+  }
+  onActionView(data, type) {
+    console.log("data", data, "type", type)
+    if (type == 'delete') {
+      this.SurroundingBuildingService.delete(data.id).toPromise()
+        .then((res) => {
+          if (res) {
+            let index = this.surrounding.findIndex(x => x.id == data.id)
+            if (index >= 0) {
+              this.surrounding.splice(index, 1)
+              this.cdf.detectChanges()
+            }
+          }
+        });
+    } else {
+      this.add(type, data)
+    }
+  }
+}

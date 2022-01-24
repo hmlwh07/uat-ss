@@ -1,0 +1,31 @@
+<div class="customer">
+    <div>
+        <label>FNA</label>
+        <label>{{ passValueData.customerName }}</label>
+    </div>
+    <div>
+        <label>Date</label>
+        <label>{{ passValueData.createdAt }}</label>
+    </div>
+</div>
+
+
+<div [ngSwitch]="fnaSwitch">
+    <div class="row btn-bram-group">
+        <button type="button" class="btn col-3"
+            [ngStyle]="{'background-color': fnaSwitch === 'aboutBRAM' ? '#005f99' : '#A6A6A6' }">About BRAM</button>
+        <button type="button" class="btn col-3"
+            [ngStyle]="{'background-color': fnaSwitch === 'inputs' ? '#005f99' : '#A6A6A6' }">Inputs</button>
+        <button type="button" class="btn col-3"
+            [ngStyle]="{'background-color': fnaSwitch === 'outputs' ? '#005f99' : '#A6A6A6' }">Outputs</button>
+        <button type="button" class="btn col-3"
+            [ngStyle]="{'background-color': fnaSwitch === 'product' ? '#005f99' : '#A6A6A6' }">Product
+            Recommendation</button>
+    </div>
+    <div class="fna-bram">
+        <app-about-bram [fnaId]="fnaId" *ngSwitchDefault (changeSwitch)="fnaBramEvent($event)"></app-about-bram>
+        <app-inputs [fnaId]="fnaId" *ngSwitchCase="'inputs'" (changeSwitch)="fnaBramEvent($event)"></app-inputs>
+        <app-outputs [fnaId]="fnaId" *ngSwitchCase="'outputs'" (changeSwitch)="fnaBramEvent($event)"></app-outputs>
+        <app-product [fnaId]="fnaId" *ngSwitchCase="'product'" (changeSwitch)="fnaBramEvent($event)"></app-product>
+    </div>
+</div>

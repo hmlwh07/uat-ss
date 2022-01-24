@@ -1,0 +1,10 @@
+<section class="example-section" *ngIf="config" [formGroup]="group">
+  <div class="form-group row">
+    <label *ngIf="config.isLabel" class="col-{{config.inlineStyle ? config.labelSize : '12'}}">{{config.label}}</label>
+    <mat-radio-group [formControlName]="config.name" class="col-{{config.inlineStyle ? config.inputSize : '12'}}" (change)="doFunction()">
+      <mat-radio-button class="mx-1" *ngFor="let item of masterOption" value="{{item.value}}">{{item.text}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div><app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error></div>
+</section>

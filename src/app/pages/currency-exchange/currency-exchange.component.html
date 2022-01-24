@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-sm-6">
+    <app-currency-add-form (formSubmit)="saveData($event)" [isModal]="false"></app-currency-add-form>
+  </div>
+  <div class="col-sm-6">
+    <div class="card card-custom">
+      <div class="card-body">
+        <app-material-table-view [data]="currencyList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
+          (emitter)="actionBtn($event)">
+        </app-material-table-view>
+      </div>
+    </div>
+  </div>
+</div>

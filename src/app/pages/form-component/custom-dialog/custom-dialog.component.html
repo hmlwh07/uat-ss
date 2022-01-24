@@ -1,0 +1,18 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+            {{config.label}}
+            <span class="text-muted font-weight-bold font-size-sm mt-1">Please select in table list</span>
+        </div>
+    </div>
+
+    <div class="overlay overlay-block cursor-default modal-body">
+        <ng-container *ngIf="config.type == 'user'">
+            <app-customer-list (selectedUser)="selectedUser($event)" [isPopup]="true"></app-customer-list>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+    </div>
+</div>

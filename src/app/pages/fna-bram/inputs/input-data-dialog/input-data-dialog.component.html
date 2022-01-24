@@ -1,0 +1,272 @@
+<div class="input-dialog">
+    <form action="#" class="form" [formGroup]="formGroup">
+        <h3 class="card-label left-border-image ">{{ type }}</h3>
+        <div class="data-grid">
+            <div class="row form-group" *ngIf="isShowAssetDescription">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Asset Description</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="description" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf="isShowServiceAssetDescription">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Asset Description</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="description" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option value="it_service">IT service</option>
+                            <option value="call_center">Call center</option>
+                            <option value="after_sale_service">After sale service</option>
+                            <option value="repair_and_maintenance">Repair and maintenance</option>
+                            <option value="delivery">Delivery</option>
+                            <option value="online_chat_support">Online chat support</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf="isShowJobDescription">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Job Description</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="description" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option value="Technicians">Technicians</option>
+                            <option value="Customer service operator">Customer service operator</option>
+                            <option value="Receptionist/ Reservation">Receptionist/ Reservation</option>
+                            <option value="Product/ Service demonstrators">Product/ Service demonstrators</option>
+                            <option value="Delivery staff">Delivery staff</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf="isShowNoofUnits">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">No. of Units</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="unit" />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group" *ngIf="isShowQuestion">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Question</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="question" />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group" *ngIf="isShowVehicleNo">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Vehicle No.</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="description" />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group" *ngIf="isShowEngineCapacity">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Engine Capacity</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="engineCapacity" />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group" *ngIf="isShowEstimatedValue">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Estimated Value (Laks) <span>*</span></label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" (keyup)="updateCommaInput($event)"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('valueLaksText')"
+                            [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf='isShowShipping'>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Shipping</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="shipping" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option value="INLAND">Inland</option>
+                            <option value="COASTAL">Coastal</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf='isShowAnswer'>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Answer</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="answer" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf='isShowNoOfPeople'>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">No of People</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="noOfPeople" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf='isShowAvageAge'>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">AvageAge</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="averageAge" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf='isShowPackage'>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Package</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="packages" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option value="Duwon">Duwon</option>
+                            <option value="Sandar">Sandar</option>
+                            <option value="Thuria">Thuria</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf='isShowNoOfLocations'>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">No Of Locations</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="noOfLocation" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Risk Perception</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="riskCode" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option value="001">Low</option>
+                            <option value="002">Medium</option>
+                            <option value="003">High</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Product</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="productId" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option *ngFor="let product of products;" [value]="product.id">{{
+                                product.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <button type="button" class="btn btn-primary btn-elevate mx-2" (click)="save()">Save</button>
+                <button type="button" class="btn btn-primary btn-elevate mx-2"
+                    (click)="closeInputDialog()">Close</button>
+
+            </div>
+        </div>
+    </form>
+</div>

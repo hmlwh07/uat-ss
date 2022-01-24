@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card mb-2">
+      <div class="card-header">
+        <div class="card-title align-items-start flex-column mb-0">
+          <div style="position: relative;z-index: 9;float: right;">
+            <button class="btn btn-sm btn-primary mx-1" style="float: right;" (click)="reOrder()">Reorder Pages</button>
+            <button class="btn btn-sm btn-primary mx-1" style="float: right;" (click)="saveForm()">Save Config</button>
+          </div>
+          <h3 class="card-label font-weight-bolder text-dark left-border-image">
+            {{item ?
+              item.pageName :
+              "Testing"}} Page Groups
+            <small>(Total Page - {{configPage.totalPage}})</small>
+            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-md svg-icon-secondary" (click)="edit()">
+            </span>
+          </h3>
+          <span class="text-muted font-weight-bold font-size-sm mt-1">Change your form settings for {{item ?
+            item.pageName :
+            "Testing"}}</span>
+          <hr>
+          <div class="my-2">
+            <!-- <a class="btn btn-sm btn-outline-primary btn-icon font-weight-bold"> -->
+            
+            <!-- </a> -->
+            <button class="btn btn-sm btn-primary mx-1" (click)="openModalInput('input')">Input</button>
+            <button class="btn btn-sm btn-primary mx-1" (click)="openModalInput('date')">Date</button>
+            <button class="btn btn-sm btn-primary" (click)="openModalInput('select')">Select</button>
+            <button class="btn btn-sm btn-primary mx-1" (click)="openModalInput('radio')">Radio</button>
+            <button class="btn btn-sm btn-primary" (click)="openModalInput('checkbox')">CheckBox</button>
+            <button class="btn btn-sm btn-primary mx-1" (click)="openModal()">Button</button>
+            <button class="btn btn-sm btn-primary" (click)="openModalInput('file')">File</button>
+            <button class="btn btn-sm btn-primary mx-1" (click)="openModalInput('dialog')">Dialog</button>
+            <button class="btn btn-sm btn-secondary mx-1" (click)="openModalLabel()">Label</button>
+            <button class="btn btn-sm btn-secondary mx-1" (click)="addNewLine()">New Line</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <div style="float: right;z-index: 9;position: relative;">
+
+          <button class="btn btn-sm btn-secondary mx-1" (click)="editPage()">Edit Page</button>
+
+          <button class="btn btn-sm btn-icon btn-secondary " (click)="getNewPage()">
+            <span [inlineSVG]="'./assets/media/svg/icons/Files/File-plus.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-md svg-icon-light"></span>
+          </button>
+
+          <button class="btn btn-sm btn-icon btn-danger mx-1" *ngIf="activePage > 1" (click)="removePage()">
+            <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-md svg-icon-light"></span>
+          </button>
+
+          <button class="btn btn-sm btn-icon btn-warning" *ngIf="activePage > 1" (click)="backPage()">
+            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Angle-double-left.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-md svg-icon-light"></span>
+          </button>
+
+          <button class="btn btn-sm btn-icon btn-danger mx-1" *ngIf="activePage < configPage.totalPage"
+            (click)="nextPage()">
+            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Angle-double-right.svg'" cacheSVG="true"
+              class="svg-icon svg-icon-md svg-icon-light"></span>
+          </button>
+
+        </div>
+        <h4 class="card-label font-weight-bolder text-dark left-border-image">Page {{activePage}} <span
+            *ngIf="configPage.fromGroup[activePage-1].pageTitle">( {{configPage.fromGroup[activePage-1].pageTitle}} )
+          </span>-
+          <span *ngIf="configPage.fromGroup[activePage-1].pageType">{{(configPage.fromGroup[activePage-1].pageType ==
+            'form' ? "page" : configPage.fromGroup[activePage-1].pageType) | titlecase}}</span>
+          <!-- <i class="fa {{configPage.fromGroup[activePage-1].pageIcon}}"></i> -->
+
+          <button class="btn btn-sm  btn-warning mx-1" *ngIf="activePage > 1" (click)="moveBack()">
+            Move To Back
+          </button>
+
+          <button class="btn btn-sm  btn-danger mx-1" *ngIf="activePage < configPage.totalPage" (click)="moveNext()">
+            Move To Next
+          </button>
+        </h4>
+        <span class="text-muted font-weight-bold font-size-sm mt-1 cursor-pointer" style="text-decoration: underline;"
+          (click)="sortConfig()">Click here change your form list sorting</span>
+      </div>
+      <div class="card-body">
+        <ng-container>
+          <dynamic-form #dynForm [config]="configPage.fromGroup[activePage-1].controls" [editStage]="true"
+            (onEdit)="editInput($event)"></dynamic-form>
+        </ng-container>
+        <div class="row">
+          <div app-button-box *ngFor="let contact of configPage.fromGroup[activePage-1].buttons; let i = index"
+            [config]="contact" (eventE)="clickBtn($event)" [index]="i"
+            class="col-xs-{{contact.size}} col-sm-{{contact.size}} {{contact.position}} mt-2"></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="btn-group  d-flex">
+          <button type="button" class="btn btn-secondary" (click)="importPage()">Import In Page</button>
+          <button type="button" class="btn btn-primary" (click)="exportPage()">Export This Page</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

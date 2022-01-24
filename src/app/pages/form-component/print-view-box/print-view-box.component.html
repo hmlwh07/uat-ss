@@ -1,0 +1,146 @@
+<div class="print-grid" id="componentID">
+  <!-- static area -->
+  <div class="print-header">
+    <div class="header-title">
+      <img src="assets/images/kbzms.png" alt="" class="logo">
+      KBZ MS & KBZ LIFE
+    </div>
+    <div class="product-name">{{product.name | titlecase}} Proposal</div>
+    <div class="qr">
+      <qrcode [qrdata]="qrLocation" [width]="50" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+    </div>
+  </div>
+  <div class="product-detail">
+    <table width="50%">
+      <tr>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Branch</td>
+        <td class="value-col"></td>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Date</td>
+        <td class="value-col">{{today | date: "dd/MM/YYYY"}}</td>
+      </tr>
+      <tr>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Agent Name</td>
+        <td class="value-col">{{agentName}}</td>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Proposal No</td>
+        <td class="value-col">{{resourcesId}}</td>
+      </tr>
+    </table>
+  </div>
+  <!-- static area -->
+  <ng-container *ngIf="formatedData">
+    <ng-container *ngFor="let page of temConfig">
+      <ng-container *ngIf="page.type == 'static';else dynPrint">
+        <ng-container staticPirint [compId]="page.id" [resourcesId]="resourcesId"></ng-container>
+      </ng-container>
+      <ng-template #dynPrint>
+        <ng-container *ngIf="page.pageType == 'form'">
+          <ng-container *ngFor="let tableObj of page.tables">
+            <div class="title-style left-border-image mt-5">{{tableObj.title}}</div>
+            <table width="100%">
+              <tr>
+                <td class="field-col" style="border: 0px;"></td>
+                <td class="value-col" style="border: 0px;"></td>
+                <td class="field-col" style="border: 0px;"></td>
+                <td class="value-col" style="border: 0px;"></td>
+                <td class="field-col" style="border: 0px;"></td>
+                <td class="value-col" style="border: 0px;"></td>
+                <td class="field-col" style="border: 0px;"></td>
+                <td class="value-col" style="border: 0px;"></td>
+              </tr>
+              <ng-container *ngFor="let row of tableObj.row">
+                <tr>
+                  <ng-container *ngFor="let col of row.column">
+                    <ng-container *ngIf="!col.data">
+                      <td class="field-col" [class.fix-col]="col.size" [style.background-color]="col.background"
+                        [style.color]="col.color" [style.text-align]="col.align || 'center'"
+                        [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                        [attr.colspan]="col.colspan > 0 ? col.colspan : 1">{{col.title}}
+                      </td>
+                      <td *ngIf="col.static" class="value-col" [style.color]="col.color"
+                        [style.text-align]="col.align || 'center'" [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                        [attr.colspan]="col.colspan > 0 ? col.colspan : 1">
+                        {{ getStatic(col.key)}}
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="col.data">
+                      <td *ngIf="col.data.input == 'label'" class="field-col" [class.fix-col]="col.size"
+                        [style.background-color]="col.background" [style.color]="col.color"
+                        [style.text-align]="col.align || 'center'" [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                        [attr.colspan]="col.colspan > 0 ? col.colspan : 1">
+                        {{col.title}}
+                      </td>
+                      <td *ngIf="col.data.input != 'label'" class="field-col" [class.fix-col]="col.size"
+                        [style.background-color]="col.background" [style.color]="col.color"
+                        [style.text-align]="col.align || 'center'">{{col.title}}
+                      </td>
+                      <td *ngIf="col.data.input != 'label'" class="value-col" [style.color]="col.color"
+                        [style.text-align]="col.align || 'center'" [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                        [attr.colspan]="col.colspan > 0 ? col.colspan : 1">
+                        {{ getValue(col,tempData[page.tableName+page.id])}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </table>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="page.pageType == 'table'">
+          <div class="title-style left-border-image mt-5">{{page.tables[0].title}}</div>
+          <table style="width: 100;" class="print-grid" width="100%">
+            <tr>
+              <td class="field-col" style="border: 0px;"></td>
+              <td class="value-col" style="border: 0px;"></td>
+              <td class="field-col" style="border: 0px;"></td>
+              <td class="value-col" style="border: 0px;"></td>
+              <td class="field-col" style="border: 0px;"></td>
+              <td class="value-col" style="border: 0px;"></td>
+              <td class="field-col" style="border: 0px;"></td>
+              <td class="value-col" style="border: 0px;"></td>
+            </tr>
+            <ng-container *ngFor="let row of page.tables[0].row">
+              <tr>
+                <ng-container *ngFor="let col of row.column">
+                  <ng-container *ngIf="col.data">
+                    <td class="field-col" [class.fix-col]="col.size" [style.background-color]="col.background"
+                      [style.color]="col.color" [style.text-align]="col.align || 'center'"
+                      [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                      [attr.colspan]="col.colspan > 0 ? col.colspan : 1">{{col.title}}
+                    </td>
+                  </ng-container>
+                </ng-container>
+              </tr>
+            </ng-container>
+            <ng-container *ngFor="let item of tempData[page.tableName+page.id]">
+              <ng-container *ngFor="let row of page.tables[0].row">
+                <tr>
+                  <ng-container *ngFor="let col of row.column">
+                    <ng-container *ngIf="col.data">
+                      <td class="field-col" [style.text-align]="col.align || 'center'"
+                        [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                        [attr.colspan]="col.colspan > 0 ? col.colspan : 1"> {{ getValue(col,item)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </table>
+        </ng-container>
+      </ng-template>
+
+    </ng-container>
+  </ng-container>
+  <div class="print-footer mt-5">
+    <div>
+      <img src="assets/images/kbzms.png" alt="" class="logo">
+    </div>
+    <p>
+      <u>Contact Us</u><br>
+      No.53, Strand Square, Merchant Road, Pabedan Township, Yangon.<br>
+      (+951) 2307000, 09 95 007 7000<br>
+      Email: customercare@kbz.com, Sales Channel: IA<br>
+    </p>
+  </div>
+
+</div>

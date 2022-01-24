@@ -1,0 +1,105 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      {{ isTable ? "Change Table Title" : "Config Column Property"}}
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container *ngIf="isTable;else colFormG">
+      <div class="form-group">
+        <label class="form-label">Product Name</label>
+        <input type="text" class="form-control form-control-sm" name="title" placeholder="Product name"
+          autocomplete="off" [class.is-invalid]="!title" [class.is-valid]="!(!title)" [(ngModel)]="title" />
+        <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+      </div>
+    </ng-container>
+    <ng-template #colFormG>
+      <form action="" [formGroup]="colForm">
+        <div class="row">
+          <div class="col-12">
+
+            <label class="form-label">Fix Column Width</label>
+            <select name="" id="" class="form-control form-control-sm" name="size" placeholder="Column Size"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('size')" [class.is-valid]="isControlValid('size')"
+              formControlName="size">
+              <option [ngValue]="true">Yes</option>
+              <option [ngValue]="false">No</option>
+            </select>
+            <!-- <input type="number" class="form-control form-control-sm" name="size"
+              placeholder="Column Size" autocomplete="off" [class.is-invalid]="isControlInvalid('size')"
+              [class.is-valid]="isControlValid('size')" formControlName="size" /> -->
+            <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label">Title</label>
+              <input type="text" class="form-control form-control-sm" name="title" placeholder="Title"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('title')"
+                [class.is-valid]="isControlValid('title')" formControlName="title" />
+              <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label">Background Color</label>
+              <input type="text" class="form-control form-control-sm" name="title" placeholder="Background Color"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('title')"
+                [class.is-valid]="isControlValid('title')" formControlName="background" />
+              <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label">Text Color</label>
+              <input type="text" class="form-control form-control-sm" name="color" placeholder="Text Color"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('color')"
+                [class.is-valid]="isControlValid('color')" formControlName="color" />
+              <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label">Text Align</label>
+              <select type="text" class="form-control form-control-sm" name="color" placeholder="Text Color"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('align')"
+                [class.is-valid]="isControlValid('align')" formControlName="align">
+                <option value="center">Center</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="justify">Justify</option>
+              </select>
+              <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label">Rowspan</label>
+              <input type="number" class="form-control form-control-sm" name="rowspan" placeholder="Rowspan"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('rowspan')"
+                [class.is-valid]="isControlValid('rowspan')" formControlName="rowspan" />
+              <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label">Columnspan</label>
+              <input type="number" class="form-control form-control-sm" name="colspan" placeholder="Columnspan"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('colspan')"
+                [class.is-valid]="isControlValid('colspan')" formControlName="colspan" />
+              <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+  </div>
+</div>

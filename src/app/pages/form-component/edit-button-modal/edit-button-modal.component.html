@@ -1,0 +1,106 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <ng-container *ngIf="config">
+        <ng-container *ngIf="config.label">Edit</ng-container>
+        <ng-container *ngIf="!config.label">Create</ng-container>
+        Button config
+        <ng-container *ngIf="config.label">'{{config.label}}'</ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container *ngIf="config">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <!-- Text -->
+          <div class="col-lg-3">
+            <label class="form-label">Enter Button Text</label>
+            <input type="text" class="form-control form-control-sm form-control-solid" name="label"
+              placeholder="Button Text" autocomplete="off" [class.is-invalid]="isControlInvalid('label')"
+              [class.is-valid]="isControlValid('label')" formControlName="label" />
+
+          </div>
+          <!-- Text -->
+          <div class="col-lg-3">
+            <label class="form-label">Enter Button Text (Myanmar)</label>
+            <input type="text" class="form-control form-control-sm form-control-solid" name="labelMM"
+              placeholder="Button Text" autocomplete="off" [class.is-invalid]="isControlInvalid('labelMM')"
+              [class.is-valid]="isControlValid('labelMM')" formControlName="labelMM" />
+
+          </div>
+          <!-- type -->
+          <!-- type -->
+          <div class="col-lg-3">
+            <label>Select Action Type</label>
+            <select class="form-control form-control-sm form-control-solid" name="type"
+              [class.is-invalid]="isControlInvalid('type')" formControlName="type">
+              <option value="submit">Submit</option>
+              <option value="next">Next</option>
+              <option value="previous">Previous</option>
+              <option value="reset">Reset</option>
+            </select>
+            <div class="feedback">Please select <b>action type</b></div>
+          </div>
+          <!-- type -->
+          <div class="col-lg-3">
+            <label>Select Position</label>
+            <select class="form-control form-control-sm form-control-solid" name="position" formControlName="position">
+              <option value="">None</option>
+              <option value="mx-auto">Center</option>
+              <option value="ml-auto">Right</option>
+              <option value="mr-auto">Left</option>
+            </select>
+            <div class="feedback">Please select <b>position</b></div>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <!-- Size -->
+          <div class="col-lg-4">
+            <label class="form-label">Enter Button Size</label>
+            <input type="number" class="form-control form-control-sm form-control-solid" name="size"
+              placeholder="Button Size" autocomplete="off" [class.is-invalid]="isControlInvalid('size')"
+              [class.is-valid]="isControlValid('size')" formControlName="size" />
+
+          </div>
+
+          <!-- fill -->
+          <div class="col-lg-4">
+            <label>Select Fill Type</label>
+            <select class="form-control form-control-sm form-control-solid" name="fill"
+              [class.is-invalid]="isControlInvalid('fill')" formControlName="fill">
+              <option value="true">Fill</option>
+              <option value="false">Outline</option>
+            </select>
+          </div>
+          <!-- color -->
+          <div class="col-lg-4">
+            <label>Select Color</label>
+            <select class="form-control form-control-sm form-control-solid" name="color" formControlName="color">
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+              <option value="success">Success</option>
+              <option value="warning">Warning</option>
+              <option value="danger">Danger</option>
+              <option value="info">Info</option>
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+            </select>
+          </div>
+
+        </div>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
+      (click)="modal.dismiss({type:'delete'})">Delete</button>
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <ng-container *ngIf="config">
+
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+        [disabled]="formGroup.invalid">Save</button>
+    </ng-container>
+  </div>
+</div>

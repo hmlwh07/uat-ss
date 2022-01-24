@@ -1,0 +1,157 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      Label Setting
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form form-label-right" [formGroup]="formGroup">
+      <div class="form-group row">
+        <!--  -->
+        <div class="col-sm-3">
+          <div class="row" style="align-items: center;">
+            <label class="col-md-6 col-form-label text-md-right">Border Top</label>
+            <div class="col-md-6">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="show" formControlName="multi" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+        <div class="col-sm-3">
+          <div class="row" style="align-items: center;">
+
+            <label class="col-md-6 col-form-label text-md-right">Border Right</label>
+            <div class="col-md-6">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="show" formControlName="inlineStyle" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+        <div class="col-sm-3">
+          <div class="row" style="align-items: center;">
+            <label class="col-md-6 col-form-label text-md-right">Border Bottom</label>
+            <div class="col-md-6">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="show" formControlName="readonly" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+        <div class="col-sm-3">
+          <div class="row" style="align-items: center;">
+            <label class="col-md-6 col-form-label text-md-right">Border Left</label>
+            <div class="col-md-6">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="show" formControlName="disabled" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+
+      </div>
+
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-md-12">
+          <label class="form-label">Label Id</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="placeholder"
+            placeholder="Label Id" autocomplete="off" [class.is-invalid]="isControlInvalid('placeholder')"
+            [class.is-valid]="isControlValid('placeholder')" formControlName="placeholder" />
+          <!-- <div class="feedback">Enter Your <b>Label Text</b></div> -->
+        </div>
+        <!-- type -->
+      </div>
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-md-12">
+          <label class="form-label">Label Text</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="name"
+            placeholder="Label Text" autocomplete="off" [class.is-invalid]="isControlInvalid('name')"
+            [class.is-valid]="isControlValid('name')" formControlName="name" />
+          <!-- <div class="feedback">Enter Your <b>Label Text</b></div> -->
+        </div>
+        <!-- type -->
+      </div>
+      <!--  -->
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-md-6">
+          <label class="form-label">Label Background</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="label"
+            placeholder="#fffff or white" autocomplete="off" [class.is-invalid]="isControlInvalid('label')"
+            [class.is-valid]="isControlValid('label')" formControlName="label" />
+          <!-- <div class="feedback">Enter Your <b>Label Background</b></div> -->
+        </div>
+        <!-- type -->
+        <div class="col-md-6">
+          <label class="form-label">Label Text Color</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="coreName"
+            placeholder="#fffff or white" autocomplete="off" [class.is-invalid]="isControlInvalid('coreName')"
+            [class.is-valid]="isControlValid('coreName')" formControlName="coreName" />
+          <!-- <div class="feedback">Enter Your <b>Text Color</b></div> -->
+        </div>
+      </div>
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-md-6">
+          <label class="form-label">Label Text Size</label>
+          <input type="number" class="form-control form-control-sm form-control-solid" name="labelSize"
+            placeholder="Enter Your Text Size" autocomplete="off" [class.is-invalid]="isControlInvalid('labelSize')"
+            [class.is-valid]="isControlValid('labelSize')" formControlName="labelSize" />
+          <!-- <div class="feedback">Enter Your <b>Text Size</b></div> -->
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Size Unit</label>
+          <select class="form-control form-control-sm form-control-solid" name="endLabel" autocomplete="off"
+            [class.is-invalid]="isControlInvalid('endLabel')" [class.is-valid]="isControlValid('endLabel')"
+            formControlName="endLabel">
+            <option *ngFor="let item of sizeOpt" value="{{item}}">{{item}}</option>
+          </select>
+          <!-- <input type="text" class="form-control form-control-sm form-control-solid" name="endLabel"
+            placeholder="#fffff or white" autocomplete="off" [class.is-invalid]="isControlInvalid('endLabel')"
+            [class.is-valid]="isControlValid('endLabel')" formControlName="endLabel" /> -->
+          <!-- <div class="feedback">Select Your <b>Size Unit</b></div> -->
+        </div>
+        <!-- -->
+        <!-- type -->
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <label class="form-label">Label Text Style</label>
+          <select class="form-control form-control-sm form-control-solid" name="endLabelMM" autocomplete="off"
+            [class.is-invalid]="isControlInvalid('endLabelMM')" [class.is-valid]="isControlValid('endLabelMM')"
+            formControlName="endLabelMM">
+            <option *ngFor="let item of fontOpt" value="{{item}}">{{item}}</option>
+          </select>
+          <!-- <div class="feedback">Select Your <b>Text Style</b></div> -->
+        </div>
+      </div>
+    
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
+      (click)="modal.dismiss({type:'delete'})">Delete</button>
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+      [disabled]="formGroup.invalid">Save</button>
+  </div>
+</div>

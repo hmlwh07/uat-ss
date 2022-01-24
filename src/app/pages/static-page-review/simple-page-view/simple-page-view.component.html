@@ -1,0 +1,40 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Health Product Details :</h3>
+    </div>
+  </div>
+  <div class="card-body customer-card-body">
+    <ul class="list-group">
+      <li class="list-group-item">
+        Period of Insurance (From) :
+        <span> {{showData.insuranceStartDate | date : "dd/MM/yyyy"}}</span>
+      </li>
+      <li class="list-group-item">
+        Period of Insurance (To) :
+        <span> {{showData.insuranceEndDate | date : "dd/MM/yyyy"}}</span>
+      </li>
+      <li class="list-group-item">
+        Basic Cover :
+        <span> {{showData.basicCoverId | titlecase}}</span>
+      </li>
+      <li class="list-group-item">
+        Date of Birth :
+        <span> {{showData.dateOfBirth | date : "dd/MM/yyyy"}}</span>
+      </li>
+      <li class="list-group-item">
+        Payment Frequency :
+        <span> {{showData.paymentFrequency == 'lump' ? "Lump Sum" : "Semi-Annually"}}</span>
+      </li>
+      <li class="list-group-item">
+        Sum Insured of Main Cover :
+        <span> {{showData.sumInsuredMainCover}} Unit{{showData.sumInsuredMainCover > 1 ? "s":""}}</span>
+      </li>
+      <li class="list-group-item">
+        Medical Card No :
+        <span> {{showData.medicalCardNo}}</span>
+      </li>
+      <!--  -->
+    </ul>
+  </div>
+</div>

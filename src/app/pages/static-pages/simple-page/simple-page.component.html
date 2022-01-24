@@ -1,0 +1,163 @@
+<form action="" [formGroup]="staticForm">
+  <!-- Start date -->
+  <div class="row" style="align-items: center;">
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label ">Period of Insurance</label>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input matInput class="form-control-sm" formControlName="insuranceStartDate" [min]="fromMinDate"
+              [max]="fromMaxDate" [matDatepicker]="picker" readonly (dateChange)="doValid()">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+            <app-print-error [control]="controls.insuranceStartDate"></app-print-error>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label ">-</label>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input matInput class="form-control-sm" formControlName="insuranceEndDate" [min]="toMinDate"
+              [max]="toMaxDate" [matDatepicker]="picker2" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 disabled="true"></mat-datepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End date  -->
+
+  <div class="row" style="align-items: center;">
+    <!-- BC -->
+    <div class="col-6">
+      <section class="example-section">
+        <div class="form-group row">
+          <label class="col-4">Basic Cover</label>
+          <mat-radio-group formControlName="basicCoverId" class="col-8" (change)="radioChange($event)">
+            <mat-radio-button class="mx-1" [value]="'Health Insurance'">Health Insurance
+            </mat-radio-button>
+            <mat-radio-button class="mx-1" [value]="'Critical illness'">Critical Illness
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </section>
+    </div>
+    <!-- BC -->
+    <!-- DOB -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Date of Birth</label>
+        <div class="col-6">
+          <div class="input-group">
+            <input matInput class="form-control-sm" formControlName="dateOfBirth" [min]="dobMinDate" [max]="dobMaxDate"
+              [matDatepicker]="picker3" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+            <app-print-error [control]="controls.dateOfBirth"></app-print-error>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- DOB -->
+  </div>
+
+  <div class="row">
+    <!--  Payment Frequency -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Payment Frequency</label>
+        <div class="col-6">
+          <select name="payment_frequency" formControlName="paymentFrequency" class="form-control form-control-sm">
+            <option [value]="null">Please Select Payment Frequency</option>
+            <option value="lump">Lump Sum</option>
+            <option value="semi_annually">Semi-Annually</option>
+          </select>
+          <app-print-error [control]="controls.paymentFrequency"></app-print-error>
+
+        </div>
+      </div>
+    </div>
+    <!--  Payment Frequency -->
+    <!--  Payment Frequency -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Sum Insured of Main Cover</label>
+        <div class="col-6">
+          <select name="sumInsuredMainCover" formControlName="sumInsuredMainCover" class="form-control form-control-sm"
+            (change)="getUnitOption()">
+            <option [value]="null">Please Select Sum Insured</option>
+            <option *ngFor="let item of options3" [value]="item">{{item}} Unit{{item > 1 ? "s": ""}}</option>
+          </select>
+          <app-print-error [control]="controls.sumInsuredMainCover"></app-print-error>
+        </div>
+      </div>
+    </div>
+    <!--  Payment Frequency -->
+  </div>
+
+  <div class="row">
+    <!--  Medical Card No -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Medical Card No</label>
+        <div class="col-6">
+          <input type="text" name="medicalCardNo" formControlName="medicalCardNo" class="form-control form-control-sm">
+        </div>
+      </div>
+    </div>
+    <!--  Payment Frequency -->
+  </div>
+  <!-- <hr> value="{{item.id}}">-->
+  <ng-container *ngIf="controls.basicCoverId.value == 'Health Insurance'">
+    <div class="row mt-5">
+      <div class="col-12">
+        <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding: 20px 0px;">Optional Cover</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group row" *ngFor="let item of options2" style="align-items: center;">
+          <label class="col-4 col-form-label">{{item.description}}</label>
+          <div class="col-2">
+            <span class="switch switch-icon">
+              <label>
+                <input type="checkbox" name="{{item.description}}" [(ngModel)]="addOns[item.id+'opt']"
+                  [ngModelOptions]="{standalone: true}" />
+                <span></span>
+              </label>
+            </span>
+          </div>
+          <div class="col-6" *ngIf="addOns[item.id+'opt']">
+            <div class="row">
+              <label class="col-6 col-form-label">Sum Insured</label>
+              <div class="col-6">
+                <select [(ngModel)]="addOns[item.id+'value']" [ngModelOptions]="{standalone: true}"
+                  class="form-control form-control-sm">
+                  <option *ngFor="let item of options4" [value]="item">{{item}} Unit{{item > 1 ? "s": ""}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</form>
+<div class="row mt-3">
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+  </div>
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+  </div>
+</div>
+
+<!--  "Health Insurance"
+"Critical illness"
+"Surgery & Miscarriage"
+"Mediacal treatments" -->

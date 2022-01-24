@@ -1,0 +1,47 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      Product Validity Period
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+
+    <form action="" [formGroup]="sourceForm">
+      <div class="row">
+        <div class="col-12">
+          <label class="form-label">Lead Source</label>
+          <select name="" id="" class="form-control form-control-sm" name="leadSource" placeholder="Lead Source"
+            autocomplete="off" [class.is-invalid]="isControlInvalid('leadSource')"
+            [class.is-valid]="isControlValid('leadSource')" formControlName="leadSource">
+            <option *ngFor="let item of leadSources" value="{{item.codeId}}">{{item.codeName}}</option>
+          </select>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label">Period</label>
+            <input type="number" class="form-control form-control-sm" name="period" placeholder="period"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('period')"
+              [class.is-valid]="isControlValid('period')" formControlName="period" />
+            <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label">Validity Type</label>
+            <select type="number" class="form-control form-control-sm" name="validityType" placeholder="periodType"
+              [class.is-invalid]="isControlInvalid('periodType')" [class.is-valid]="isControlValid('periodType')"
+              formControlName="periodType">
+              <option value="day">Day</option>
+              <!-- <option value="month">Month</option> -->
+            </select>
+            <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+.fna-bram-tab {
+    width: 100%;
+    overflow: hidden;
+    padding: 36px;
+    margin: 0;
+    table {
+        width: 100%;
+        margin-bottom: 38px;
+        box-shadow: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        border-left: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    th,
+    td {
+        vertical-align: middle;
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
+        padding-left: 16px !important;
+        //padding-top: 14px !important;
+    }
+    th {
+        color: #000;
+        font-weight: bold;
+        font-size: 1.1rem !important;
+        text-align: center;
+    }
+}
+.btn {
+    border-radius: 0 !important;
+    border-color: unset;
+    border: unset;
+}
+
+.table2 {
+    box-shadow: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    td:first-child {
+        color: #000;
+        font-weight: bold;
+        font-size: 1.1rem !important;
+        text-align: center;
+        vertical-align: middle;
+        padding: 0 !important;
+    }
+}
+
+
+// .high {
+//     background: red;
+// }
+// .medium {
+//     background: orange;
+// }
+// .low {
+//     background: green;
+// }
+
+
+
+
+

@@ -1,0 +1,9 @@
+<div class="default" [style.background-color]="config.label" [style.color]="config.coreName"
+  [style.fontSize]="config.labelSize+config.endLabel" [style.fontWeight]="config.endLabelMM"
+  [style.borderTop]="config.multi ? '1px solid rgba(0, 0, 0, 0.1)' : 'none' "
+  [style.borderRight]="config.inlineStyle ? '1px solid rgba(0, 0, 0, 0.1)' : 'none' "
+  [style.borderBottom]="config.readonly ? '1px solid rgba(0, 0, 0, 0.1)' : 'none' "
+  [style.borderLeft]="config.disabled ? '1px solid rgba(0, 0, 0, 0.1)' : 'none' "
+  >
+  {{config.name}}
+</div>

@@ -1,0 +1,65 @@
+<table class="table table-bordered">
+  <thead class="tbody-align">
+    <tr>
+      <th>
+        Basic Coverage
+      </th>
+      <th *ngIf="coverage.isSum">
+        Sum Insured
+      </th>
+      <th *ngIf="coverage.isUnit">
+        Unit
+      </th>
+      <th *ngIf="coverage.isPremium">
+        Premium
+      </th>
+    </tr>
+  </thead>
+  <tbody class="tbody-align">
+    <ng-container *ngFor="let coverage of product.coverages;let i = index">
+      <tr *ngIf="coverage.show">
+        <td>{{coverage.description}}</td>
+        <ng-container *ngIf="coverageData[coverage.id]">
+          <td *ngIf="coverage.sumInsured">
+            <ng-container *ngIf="!coverage.sumInsuredStr">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].sum">
+            </ng-container>
+            <ng-container *ngIf="coverage.sumInsuredStr">
+              {{ coverageData[coverage.id].sum > 0 ? (coverageData[coverage.id].sum | number) :
+                coverageData[coverage.id].sum}}
+            </ng-container>
+          </td>
+          <td *ngIf="coverage.unit">
+            <!-- <ng-container *ngIf="coverage.unitStr"></ng-container> -->
+            <ng-container *ngIf="!coverage.unitStr">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].unit">
+            </ng-container>
+            <ng-container *ngIf="coverage.unitStr">
+              {{coverageData[coverage.id].unit}}
+            </ng-container>
+          </td>
+          <td *ngIf="coverage.premium">
+            <!-- <ng-container *ngIf="coverage.premiumStr"></ng-container> -->
+            <ng-container *ngIf="!coverage.premiumStr">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].premium">
+            </ng-container>
+            <ng-container *ngIf="coverage.premiumStr">
+              <!-- {{coverageData[coverage.id].premium}} -->
+              {{ coverageData[coverage.id].premium > 0 ? (coverageData[coverage.id].premium | number) :
+                coverageData[coverage.id].premium}}
+            </ng-container>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<hr>
+<div class="row">
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+  </div>
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+  </div>
+</div>

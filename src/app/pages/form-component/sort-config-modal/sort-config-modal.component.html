@@ -1,0 +1,30 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      <span *ngIf="type == 'page' || type == 'prod'">Reorder Page</span>
+      <span *ngIf="type == 'from'">Feild Type Sorting Config</span>
+
+      <!-- <span class="text-muted font-weight-bold font-size-sm mt-1">Please select in table list</span> -->
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of showData" cdkDrag>
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+        <ng-container *ngIf="type == 'from'">
+          {{item.label}} : {{item.name}} ( {{item.input}} )
+        </ng-container>
+        <ng-container *ngIf="type == 'prod'">
+          {{item.name}} : Total Page ( {{item.totalPage || 0}} )
+        </ng-container>
+        <ng-container *ngIf="type == 'page'">
+          {{item.pageTitle}} ({{(item.pageType == 'form' ? 'page' : item.pageType) | titlecase}}): Table Name ( {{item.tableName}} )
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+  </div>
+</div>

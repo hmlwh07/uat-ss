@@ -1,0 +1,14 @@
+.active {
+    background-color: #3699FF !important;
+    color: white;
+}
+
+.btn-box {
+    text-align: end;
+    input {
+        position: absolute;
+        width: 127%;
+        height: 100%;
+        opacity: 0;
+    }
+}

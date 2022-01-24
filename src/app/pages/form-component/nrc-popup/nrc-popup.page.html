@@ -1,0 +1,75 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      NRC ID
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form [formGroup]="nrcForm" (ngSubmit)="save()">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label">State No</label>
+            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('stage')" placeholder="State No"
+              formControlName="stage" (change)="changeStage()">
+              <ng-option [value]="'01'">01(Kachin)</ng-option>
+              <ng-option [value]="'02'">02(Kayar)</ng-option>
+              <ng-option [value]="'03'">03(Kayin)</ng-option>
+              <ng-option [value]="'04'">04(Chin)</ng-option>
+              <ng-option [value]="'05'">05(Sagaing)</ng-option>
+              <ng-option [value]="'06'">06(Tanintharyi)</ng-option>
+              <ng-option [value]="'07'">07(Bago)</ng-option>
+              <ng-option [value]="'08'">08(Magwe)</ng-option>
+              <ng-option [value]="'09'">09(Mandalay)</ng-option>
+              <ng-option [value]="'10'">10(Mon)</ng-option>
+              <ng-option [value]="'11'">11(Rakhine)</ng-option>
+              <ng-option [value]="'12'">12(Yangon)</ng-option>
+              <ng-option [value]="'13'">13(Shan)</ng-option>
+              <ng-option [value]="'14'">14(Ayarwaddy)</ng-option>
+            </ng-select>
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'stage')">State No is required</div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label">District</label>
+            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('township')" placeholder="District"
+              formControlName="township">
+              <ng-container *ngFor="let item of townShip">
+                <ng-option [value]="item">{{item}}</ng-option>
+              </ng-container>
+            </ng-select>
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'township')">District is required</div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label">Type</label>
+            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('prefix')" placeholder="Type"
+              formControlName="prefix">
+              <ng-option [value]="'N'">N</ng-option>
+              <ng-option [value]="'P'">P</ng-option>
+              <ng-option [value]="'Y'">Y</ng-option>
+              <ng-option [value]="'E'">E</ng-option>
+              <ng-option [value]="'T'">T</ng-option>
+            </ng-select>
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'prefix')">Type is required</div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label">NRC No</label>
+            <input type="text" class="form-control form-control-sm" name="nrc" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('nrc')" [class.is-valid]="isControlValid('nrc')"
+              formControlName="nrc" minLength="6" maxLength='6' />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'nrc')">NRC No is required</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+  </div>
+</div>

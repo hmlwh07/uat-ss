@@ -1,0 +1,31 @@
+<div *ngIf="config" [formGroup]="group">
+  <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
+    <label *ngIf="config.isLabel"
+      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+    <div *ngIf="!config.inlineStyle;else InlineForm">
+      <input style="display: none;" type="file" class="form-control form-control-sm"
+        accept="{{config.type != 'all' && !config.value ? config.type : config.value }}" name="phone"
+        placeholder="{{config.placeholder}}" #selectedFile (change)="doFunction($event)" />
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm" [formControlName]="config.name">
+        <div class="input-group-append">
+          <button class="btn btn-primary btn-sm" type="button" (click)="openFile()">Browse</button>
+        </div>
+      </div>
+      <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+    </div>
+    <ng-template #InlineForm>
+      <div class="col-{{config.inputSize}}">
+        <input style="display: none;" type="file" class="form-control form-control-sm" name="{{config.name}}"
+          placeholder="{{config.placeholder}}" #selectedFile (change)="doFunction($event)" />
+        <div class="input-group">
+          <input type="text" class="form-control form-control-sm" [formControlName]="config.name">
+          <div class="input-group-append">
+            <button class="btn btn-primary btn-sm" type="button" (click)="openFile()">Browse</button>
+          </div>
+        </div>
+        <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+      </div>
+    </ng-template>
+  </div>
+</div>

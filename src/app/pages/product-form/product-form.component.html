@@ -1,0 +1,406 @@
+<div class="row" *ngIf="item">
+  <div class="col-12">
+    <div class="card card-custom gutter-b">
+      <div class="card-body">
+        <div style="display:flex">
+          <div class="top-box" style="margin-left: 0px">
+            PRODUCT <br>
+            <span>{{item.name}}</span>
+          </div>
+          <!-- <div class="top-box">
+            Customer <br>
+            <span>Jimmy Tao</span>
+          </div> -->
+          <div class="top-box">
+            PREMIUM <br>
+            <span>{{premiumAmt}}</span>
+          </div>
+          <!-- <div class="top-box">
+            STATUS <br>
+            <span>Valid</span>
+          </div> -->
+          <!-- <div class="top-box">
+            Channel <br>
+            <span>Gary Guo</span>
+          </div> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card card-custom gutter-b">
+      <!-- <div class="card-header">
+        <div class="card-title">
+          <h3 class="card-label">{{item.name}}</h3>
+        </div>
+      </div> -->
+      <div class="card-body customer-card-body" *ngIf="formData.length > 0">
+        <ng-container *ngIf="viewUI == 'ui3' ">
+          <div class="wizard wizard-3">
+            <div class="kt-grid__item">
+              <!--begin: Form Wizard Nav -->
+              <div class="wizard-nav border-bottom mb-1 mb-lg-5">
+                <div class="wizard-steps pt-8">
+                  <ng-container *ngFor="let page of pageOrder;let i = index">
+                    <!-- <a class="wizard-step" href="javascript:;"
+                      *ngIf="(page.id == 'coverage' && this.item.coverages.length > 0) || page.id == 'addon' && this.item.addOns.length > 0"
+                      (click)="changePage(i)">
+                      <div class="wizard-label" [ngClass]="{'active': i == activePage, 'done' : i < activePage }">
+                        <div class="wizard-title"><span>{{i+1}}</span> {{page.pageTitle}}</div>
+                        <div class="wizard-bar"></div>
+                      </div>
+                    </a> *ngIf="page.id != 'coverage' && page.id != 'addon' "-->
+                    <a class="wizard-step" href="javascript:;" (click)="changePage(i)">
+                      <div class="wizard-label" [ngClass]="{'active': i == activePage, 'done' : i < activePage }">
+                        <div class="wizard-title"><span>{{i+1}}</span> {{page.pageTitle}}</div>
+                        <div class="wizard-bar"></div>
+                      </div>
+                    </a>
+                  </ng-container>
+                </div>
+              </div>
+              <!--end: Form Wizard Nav -->
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="viewUI == 'ui1' ">
+          <div class="wizard wizard-1" id="kt_wizard_v1">
+            <!--begin: Form Wizard Nav -->
+            <div class="wizard-nav border-bottom">
+              <div class="wizard-steps pt-8">
+                <ng-container *ngFor="let page of pageOrder;let i = index">
+                  <a class="wizard-step" href="javascript:;" (click)="changePage(i)">
+                    <div class="wizard-label" [ngClass]="{'active': i == activePage, 'done' : i < activePage }">
+                      <i class="wizard-icon fa {{page.pageIcon}}"></i>
+                      <h3 class="wizard-title">{{i+1}}) {{page.pageTitle}}</h3>
+                    </div>
+                  </a>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="viewUI == 'ui2'">
+          <div class="wizard wizard-2" id="kt_wizard_v2">
+            <div class="wizard-nav border-right pt-8">
+              <!--begin: Form Wizard Nav -->
+              <div class="wizard-steps">
+                <ng-container *ngFor="let page of pageOrder;let i = index">
+                  <a class="wizard-step" href="javascript:;" (click)="changePage(i)">
+                    <div class="wizard-wrapper" [ngClass]="{'active': i == activePage, 'done' : i < activePage }">
+                      <div class="wizard-icon">
+                        <span class="fa {{page.pageIcon}}"></span>
+                      </div>
+                      <div class="wizard-label">
+                        <div class="wizard-title"> {{page.pageTitle}}</div>
+                      </div>
+                    </div>
+                  </a>
+                </ng-container>
+              </div>
+              <!--end: Form Wizard Nav -->
+            </div>
+            <div class="wizard-body py-8 px-8 py-lg-20 px-lg-10">
+              <!-- <hr> -->
+              <ng-container *ngIf="pageOrder[activePage].type == 'dyn' ">
+                <ng-container *ngIf="formData[activePage].pageType != 'table' ">
+                  <dynamic-form #dynForm [config]="formData[activePage].controls" (submit)="saveTemp($event)"
+                    [editStage]="false"
+                    [tempData]="tempData[formData[activePage].tableName+formData[activePage].id] || {}"></dynamic-form>
+                </ng-container>
+                <ng-container *ngIf="formData[activePage].pageType == 'table' ">
+                  <div class="form-group">
+                    <!-- <button type="button" class="btn btn-default" (click)="reset()">Reset Data</button> -->
+                    <button type="button" class="btn btn-primary mx-2" (click)="newData()">Add New Data</button>
+                  </div>
+                  <hr>
+                  <div class="table-responsive angular-bootstrap-table">
+                    <table class="table table-head-custom table-vertical-center">
+                      <thead>
+                        <tr>
+                          <th>NO</th>
+                          <ng-container *ngFor="let item of tableReform">
+                            <th>{{item.title}}</th>
+                          </ng-container>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngIf="tempData[formData[activePage].tableName+formData[activePage].id]">
+                          <tr
+                            *ngFor="let item of tempData[formData[activePage].tableName+formData[activePage].id];let i = index">
+                            <td>{{i+1}}</td>
+                            <ng-container *ngFor="let control of formData[activePage].controls">
+
+                              <td *ngIf="control.input != 'file'">{{getOtherData(control.cols,item) }}</td>
+                              <td *ngIf="control.input == 'file'">
+                                <a href="javascript:;" (click)="download(control.cols,item)">
+                                  {{getOtherData(control.cols,item) }}
+                                </a>
+                              </td>
+                            </ng-container>
+                            <td style="white-space: nowrap;">
+                              <a title="Edit Data" class="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
+                                (click)="newData(item,i)">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                                  class="svg-icon svg-icon-md svg-icon-primary">
+                                </span>
+                              </a>
+                              <a title="Delete Data" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                                (click)="deleteData(i,item)">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                                  class="svg-icon svg-icon-md svg-icon-danger">
+                                </span>
+                              </a>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="formData[activePage].pageType != 'table'">
+                  <hr>
+                  <div class="row">
+                    <div app-button-box *ngFor="let contact of formData[activePage].buttons; let i = index"
+                      [config]="contact" (eventE)="clickBtn($event)" [index]="i" [editStage]="false"
+                      class="col-xs-{{contact.size}} col-sm-{{contact.size}} {{contact.position}} mt-2"></div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="formData[activePage].pageType == 'table'">
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-6 mx-auto">
+                      <button class="btn btn-block btn-secondary" (click)="backPage(activePage)"> Previous </button>
+                    </div>
+                    <div class="col-sm-6 mx-auto">
+                      <button class="btn btn-block btn-primary" (click)="nextPage(activePage)"> Save & Next </button>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="pageOrder[activePage].type == 'static'">
+                <ng-container staticPage [compId]="pageOrder[activePage].id" [product]="item" [editData]="editData"
+                  [resourcesId]="resourceId" [premiumAmt]="premiumAmt" (eventOut)="staticEvent($event)">
+                </ng-container>
+              </ng-container>
+              <!-- <ng-container *ngIf="pageOrder[activePage].id == 'addon'">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>
+                        AddOn
+                      </th>
+                      <th *ngIf="addon.isSum">
+                        Sum Insured
+                      </th>
+                      <th *ngIf="addon.isUnit">
+                        Unit
+                      </th>
+                      <th *ngIf="addon.isPremium">
+                        Premium
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let addOn of item.addOns;let i = index">
+                      <td>{{addOn.description}}</td>
+                      <td *ngIf="addOn.sumInsured">
+                        <ng-container *ngIf="!addOn.sumInsuredStr">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="addOnData[addOn.id].sum">
+                        </ng-container>
+                        <ng-container *ngIf="addOn.sumInsuredStr">
+                          {{addOnData[addOn.id].sum}}
+                        </ng-container>
+                      </td>
+                      <td *ngIf="addOn.unit">
+                        <ng-container *ngIf="!addOn.unitStr">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="addOnData[addOn.id].unit">
+                        </ng-container>
+                        <ng-container *ngIf="addOn.unitStr">
+                          {{addOnData[addOn.id].unit}}
+                        </ng-container>
+                      </td>
+                      <td *ngIf="addOn.premium">
+                        <ng-container *ngIf="!addOn.premiumStr">
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="addOnData[addOn.id].premium">
+                        </ng-container>
+                        <ng-container *ngIf="addOn.premiumStr">
+                          {{addOnData[addOn.id].premium}}
+                        </ng-container>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3 mx-auto">
+                    <button class="btn btn-block btn-default" (click)="backPage(activePage)"> Back </button>
+                  </div>
+                  <div class="col-sm-3 mx-auto">
+                    <button class="btn btn-block btn-success" (click)="nextPage(activePage,'addOns')"> {{ activePage + 1
+                      < pageOrder.length ? "Next" : "Save" }} {{ activePage + 1 < pageOrder.length ? "" : (type |
+                        titlecase) }} </button>
+                  </div>
+                </div>
+              </ng-container> -->
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="viewUI != 'ui2'">
+          <div class="pb-5">
+            <div class="mt-5"></div>
+            <!-- <hr> -->
+            <ng-container *ngIf="pageOrder[activePage].type == 'dyn' ">
+              <ng-container *ngIf="formData[activePage].pageType != 'table' ">
+                <dynamic-form #dynForm
+                  [tempData]="tempData[formData[activePage].tableName+formData[activePage].id] || {}"
+                  [config]="formData[activePage].controls" (submit)="saveTemp($event)" [editStage]="false">
+                </dynamic-form>
+              </ng-container>
+              <ng-container *ngIf="formData[activePage].pageType == 'table' ">
+                <div class="form-group">
+                  <!-- <button type="button" class="btn btn-default" (click)="reset()">Reset Data</button> -->
+                  <button type="button" class="btn btn-primary mx-2" (click)="newData()">Add New Data</button>
+                </div>
+                <hr>
+                <div class="table-responsive angular-bootstrap-table">
+                  <table class="table table-head-custom table-vertical-center">
+                    <thead>
+                      <tr>
+                        <th>NO</th>
+                        <ng-container *ngFor="let item of tableReform">
+                          <th>{{item.title}}</th>
+                        </ng-container>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngIf="tempData[formData[activePage].tableName+formData[activePage].id]">
+                        <tr
+                          *ngFor="let item of tempData[formData[activePage].tableName+formData[activePage].id];let i = index">
+                          <td>{{i+1}}</td>
+                          <ng-container *ngFor="let control of tableReform">
+
+                            <td *ngIf="control.type != 'file'">{{ getOtherData(control.cols,item) }}</td>
+                            <td *ngIf="control.type == 'file'">
+                              <a href="javascript:;" (click)="download(control.cols,item)">
+                                {{getOtherData(control.cols,item)}}
+                              </a>
+                            </td>
+                          </ng-container>
+                          <td style="white-space: nowrap;">
+                            <a title="Edit Data" class="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
+                              (click)="newData(item,i)">
+                              <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                                class="svg-icon svg-icon-md svg-icon-primary">
+                              </span>
+                            </a>
+                            <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                              (click)="deleteData(i,item)">
+                              <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                                class="svg-icon svg-icon-md svg-icon-danger">
+                              </span>
+                            </a>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="formData[activePage].pageType != 'table'">
+                <hr>
+                <div class="row">
+                  <div app-button-box *ngFor="let contact of formData[activePage].buttons; let i = index"
+                    [config]="contact" (eventE)="clickBtn($event)" [index]="i" [editStage]="false"
+                    class="col-xs-{{contact.size}} col-sm-{{contact.size}} {{contact.position}} mt-2"></div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="formData[activePage].pageType == 'table'">
+                <hr>
+                <div class="row">
+                  <div class="col-sm-6 mx-auto">
+                    <button class="btn btn-block btn-secondary" (click)="backPage(activePage)"> Previous </button>
+                    <!-- <button class="btn btn-block btn-default" (click)="backPage(activePage)">  {{ activePage + 1 <
+                        pageOrder.length ? "Next" : "Save" }} {{ activePage + 1 < pageOrder.length ? "" : (type |
+                        titlecase) }}Back </button> -->
+                  </div>
+                  <div class="col-sm-6 mx-auto">
+                    <button class="btn btn-block btn-primary" (click)="nextPage(activePage)"> Save & Next </button>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="pageOrder[activePage].type == 'static'">
+              <ng-container staticPage [compId]="pageOrder[activePage].id" [product]="item" [editData]="editData"
+                [resourcesId]="resourceId" [premiumAmt]="premiumAmt" (eventOut)="staticEvent($event)">
+              </ng-container>
+            </ng-container>
+            <!-- <ng-container *ngIf="pageOrder[activePage].id == 'addon'">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>
+                      AddOn
+                    </th>
+                    <th *ngIf="addon.isSum">
+                      Sum Insured
+                    </th>
+                    <th *ngIf="addon.isUnit">
+                      Unit
+                    </th>
+                    <th *ngIf="addon.isPremium">
+                      Premium
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let addOn of item.addOns;let i = index">
+                    <td>{{addOn.description}}</td>
+                    <td *ngIf="addOn.sumInsured">
+                      <ng-container *ngIf="!addOn.sumInsuredStr">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="addOnData[addOn.id].sum">
+                      </ng-container>
+                      <ng-container *ngIf="addOn.sumInsuredStr">
+                        {{addOnData[addOn.id].sum}}
+                      </ng-container>
+                    </td>
+                    <td *ngIf="addOn.unit">
+                      <ng-container *ngIf="!addOn.unitStr">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="addOnData[addOn.id].unit">
+                      </ng-container>
+                      <ng-container *ngIf="addOn.unitStr">
+                        {{addOnData[addOn.id].unit}}
+                      </ng-container>
+                    </td>
+                    <td *ngIf="addOn.premium">
+                      <ng-container *ngIf="!addOn.premiumStr">
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="addOnData[addOn.id].premium">
+                      </ng-container>
+                      <ng-container *ngIf="addOn.premiumStr">
+                        {{addOnData[addOn.id].premium}}
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3 mx-auto">
+                  <button class="btn btn-block btn-default" (click)="backPage(activePage)"> Back </button>
+                </div>
+                <div class="col-sm-3 mx-auto">
+                  <button class="btn btn-block btn-success" (click)="nextPage(activePage,'addOns')"> {{ activePage + 1 <
+                      pageOrder.length ? "Next" : "Save" }} {{ activePage + 1 < pageOrder.length ? "" : (type |
+                      titlecase) }} </button>
+                </div>
+              </div>
+            </ng-container> -->
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

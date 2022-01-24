@@ -1,0 +1,37 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">{{ isModal ? 'Edit' : 'Create' }} Currency Exchange</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <form action="#" class="form form-label-right" [formGroup]="formGroup" (ngSubmit)="saveData()">
+      <!-- type -->
+      <div class="form-group ">
+        <label class="form-label">Currency Type</label>
+        <select class="form-control form-control-sm form-control-solid" name="title" placeholder="Currency Type"
+          autocomplete="off" [class.is-invalid]="isControlInvalid('type')" [class.is-valid]="isControlValid('type')"
+          formControlName="type">
+          <option value="usd">USD</option>
+          <!-- <option *ngFor="let item of currencyType" value="{{item}}">{{item | uppercase}}</option> -->
+        </select>
+        <div class="feedback">Select Your <b>Currency Type</b></div>
+      </div>
+      <!-- type -->
+
+      <!-- Amount -->
+      <div class="form-group ">
+        <label class="form-label">Amount</label>
+        <input type="number" class="form-control form-control-sm form-control-solid" name="amount"
+          placeholder="Currency Type" autocomplete="off" [class.is-invalid]="isControlInvalid('amount')"
+          [class.is-valid]="isControlValid('amount')" formControlName="amount">
+        <div class="feedback">Enter Your <b>Currency Amount</b></div>
+      </div>
+      <!-- Amount -->
+      <div class="form-group ">
+        <button type="button" *ngIf="isModal" class="btn btn-default" (click)="modal.dismissAll()">Close</button>
+        <button type="submit" class="btn btn-primary mx-2">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+.fna-bram {
+    width: 100%;
+    overflow: hidden;
+    // padding: 48px;
+    border: 1px solid #ddd;
+}
+.customer {
+    border: 1px solid #dad9d9;
+    div {
+        padding: 0 6px;
+    }
+    div:first-child {
+        background: #dad9d9;
+    }
+    label {
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+    }
+}
+
+.btn-bram-group {
+    margin: 12px 0;
+    button {
+        color: #fff;
+        border-radius: unset;
+    }
+}
+

@@ -1,0 +1,57 @@
+<div [ngSwitch]="menuSwitch" class="row menu-aside" >
+    <div class="inputs-aside col-3">
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'inbound-logistics' ? '#005f99' : '#fff', 
+            'color': menuSwitch === 'inbound-logistics' ? '#fff' : '#000' }"
+            (click)="inputSwitchEvent('inbound-logistics')">INBOUND LOGISTICS</button>
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'operation' ? '#005f99' : '#fff', 
+            'color': menuSwitch === 'operation' ? '#fff' : '#000'  }"
+            (click)="inputSwitchEvent('operation')">OPERATION</button>
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'outbound-logistics' ? '#005f99' : '#fff',
+            'color': menuSwitch === 'outbound-logistics' ? '#fff' : '#000'  }"
+            (click)="inputSwitchEvent('outbound-logistics')">OUTBOUND LOGISTICS</button>
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'marketing-sales' ? '#005f99' : '#fff', 
+            'color': menuSwitch === 'marketing-sales' ? '#fff' : '#000' }"
+            (click)="inputSwitchEvent('marketing-sales')">MARKETING / SALES</button>
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'service' ? '#005f99' : '#fff', 
+            'color': menuSwitch === 'service' ? '#fff' : '#000' }"
+            (click)="inputSwitchEvent('service')">SERVICE</button>
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'technology' ? '#005f99' : '#fff', 
+            'color': menuSwitch === 'technology' ? '#fff' : '#000' }"
+            (click)="inputSwitchEvent('technology')">TECHNOLOGY</button>
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'human-resources' ? '#005f99' : '#fff', 
+            'color': menuSwitch === 'human-resources' ? '#fff' : '#000' }"
+            (click)="inputSwitchEvent('human-resources')">HUMAN RESOURCES</button>
+        <button type="button" class="btn" [ngStyle]="{'background-color': menuSwitch === 'management-infrastructure' ? '#005f99' : '#fff', 
+            'color': menuSwitch === 'management-infrastructure' ? '#fff' : '#000'  }"
+            (click)="inputSwitchEvent('management-infrastructure')">MANAGEMENT INFRASTRUCTURE</button>
+
+    </div>
+    <div class="main col-9">
+        <app-inbound-logistics [fnaId]="fnaId" *ngSwitchDefault (changeSwitch)="inputSwitchEvent($event)">
+        </app-inbound-logistics>
+        <app-operation [fnaId]="fnaId" *ngSwitchCase="'operation'" (changeSwitch)="fnaBramEvent($event)">
+        </app-operation>
+        <app-outbound-logistics [fnaId]="fnaId" *ngSwitchCase="'outbound-logistics'"
+            (changeSwitch)="fnaBramEvent($event)">
+        </app-outbound-logistics>
+        <app-marketing-sales [fnaId]="fnaId" *ngSwitchCase="'marketing-sales'" (changeSwitch)="fnaBramEvent($event)">
+        </app-marketing-sales>
+        <app-service [fnaId]="fnaId" *ngSwitchCase="'service'" (changeSwitch)="fnaBramEvent($event)"></app-service>
+        <app-technology [fnaId]="fnaId" *ngSwitchCase="'technology'" (changeSwitch)="fnaBramEvent($event)">
+        </app-technology>
+        <app-human-resources [fnaId]="fnaId" *ngSwitchCase="'human-resources'" (changeSwitch)="fnaBramEvent($event)">
+        </app-human-resources>
+        <app-management-infrastructure [fnaId]="fnaId" *ngSwitchCase="'management-infrastructure'"
+            (changeSwitch)="fnaBramEvent($event)">
+        </app-management-infrastructure>
+    </div>
+</div>
+
+<div class="col-12" style="padding: 0;">
+    <button type="button" class="btn"
+        [ngStyle]="{'background-color': inputSwitch === 'aboutBRAM' ? '#005f99' : '#A6A6A6' }"
+        (click)="fnaSwitchEvent('aboutBRAM')">Previous</button>
+    <button type="button" class="btn"
+        [ngStyle]="{'background-color': inputSwitch === 'outputs' ? '#005f99' : '#A6A6A6' }"
+        (click)="fnaSwitchEvent('outputs')">Next</button>
+</div>

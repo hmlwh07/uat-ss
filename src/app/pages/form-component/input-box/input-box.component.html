@@ -1,0 +1,47 @@
+<div *ngIf="config" [formGroup]="group">
+  <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
+    <label *ngIf="config.isLabel"
+      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+    <div *ngIf="!config.inlineStyle;else InlineForm">
+      <ng-container *ngIf="config.type === 'textarea'; else inputNoraml">
+        <textarea class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
+          [formControlName]="config.name" (change)="doFunction()"></textarea>
+      </ng-container>
+      <ng-template #inputNoraml>
+        <ng-container *ngIf="config.type == 'currency'; else inputText">
+          <input type="tel" currencyMask
+            [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+            class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
+            [formControlName]="config.name" (focusout)="doFunction()" />
+        </ng-container>
+        <ng-template #inputText>
+          <input type="{{config.type}}" class="form-control form-control-sm" name="{{config.name}}"
+            placeholder="{{config.placeholder}}" [formControlName]="config.name" (change)="doFunction()" />
+        </ng-template>
+      </ng-template>
+
+      <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+    </div>
+    <ng-template #InlineForm>
+      <div class="col-{{config.inputSize}}">
+        <ng-container *ngIf="config.type === 'textarea';else inputNoraml2; ">
+          <textarea class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
+            [formControlName]="config.name" (change)="doFunction()"></textarea>
+        </ng-container>
+        <ng-template #inputNoraml2>
+          <ng-container *ngIf="config.type == 'currency'; else inputText2">
+            <input type="tel" currencyMask
+              [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+              class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
+              [formControlName]="config.name" (focusout)="doFunction()" />
+          </ng-container>
+          <ng-template #inputText2>
+            <input type="{{config.type}}" class="form-control form-control-sm" name="{{config.name}}"
+              placeholder="{{config.placeholder}}" [formControlName]="config.name" (change)="doFunction()" />
+          </ng-template>
+        </ng-template>
+        <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Addons Coverage :</h3>
+    </div>
+  </div>
+  <div class="card-body customer-card-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center">
+        <thead>
+          <tr>
+            <th>
+              Addons Coverage
+            </th>
+            <th *ngIf="addon.sumInsured" style="text-align: right;">
+              Sum Insured
+            </th>
+            <th *ngIf="addon.unit" style="text-align: right;">
+              Unit
+            </th>
+            <th *ngIf="addon.premium" style="text-align: right;">
+              Premium
+            </th>
+          </tr>
+        </thead>
+        <tbody class="tbody-align">
+          <ng-container *ngFor="let addon of product.addOns;let i = index">
+            <tr *ngIf="addOnData[addon.id]">
+              <td>{{addon.description}}</td>
+              <td *ngIf="addon.sumInsured">
+                <!-- <ng-container *ngIf="addOnData[addon.id]"> -->
+                  {{addOnData[addon.id].sum > 0 ? (addOnData[addon.id].sum | number) : addOnData[addon.id].sum}}
+                <!-- </ng-container> -->
+              </td>
+              <td *ngIf="addon.unit">
+                {{addOnData[addon.id] ? addOnData[addon.id].unit : 0}}
+              </td>
+              <td *ngIf="addon.premium">
+                <!-- <ng-container *ngIf="addOnData[addon.id]"> -->
+                  {{addOnData[addon.id].premium > 0 ? (addOnData[addon.id].premium | number) :
+                  addOnData[addon.id].premium}}
+                <!-- </ng-container> -->
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

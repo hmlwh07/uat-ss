@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label left-border-image">Warehouse</h3>
+                </div>
+                <div class="card-toolbar" style="position: relative;">
+                    <button type="button" class="btn btn-primary btn-circle" (click)="displayInputDialog()">
+                        <span class="flaticon2-plus"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body customer-card-body">
+                <app-material-table-view [data]="warehouse" [colum]="WAREHOUSE_ELEMENT_COL"
+                    [displayedColumns]="WAREHOUSE_DISPLAY_COL" (emitter)="actionBtn($event)">
+                </app-material-table-view>
+            </div>
+        </div>
+    </div>
+</div>

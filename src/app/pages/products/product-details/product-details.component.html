@@ -1,0 +1,621 @@
+<div class="row" *ngIf="product">
+  <div class="col-12">
+    <div class="card card-custom gutter-b">
+      <!-- <div class="card-header">
+        <div class="card-title">
+          <h3 class="card-label">{{product.name}} Detail Setting</h3>
+        </div>
+      </div> -->
+      <div class="card-body">
+        <div class="wizard wizard-3">
+          <div class="kt-grid__item">
+            <!--begin: Form Wizard Nav -->
+            <div class="wizard-nav border-bottom mb-1 mb-lg-5">
+              <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                <a class="wizard-step" href="javascript:;" *ngFor="let item of items;let i = index">
+                  <div class="wizard-label"
+                    [ngClass]="{'active': item == activePage || ('application form' == activePage && item == 'application form')  }"
+                    (click)="changePage(item)">
+                    <div class="wizard-title"><span>{{i+1}}</span> {{ item != 'application form' ? (item | titlecase):
+                      "Application Form"}}</div>
+                    <div class="wizard-bar"></div>
+                  </div>
+                </a>
+                <a class="wizard-step" href="javascript:;">
+                  <div class="wizard-label" [ngClass]="{'active': activePage == 'print-config' }"
+                    (click)="changePage('print-config')">
+                    <div class="wizard-title"><span>{{items.length+1}}</span> Print Config </div>
+                    <div class="wizard-bar"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <!--end: Form Wizard Nav -->
+          </div>
+        </div>
+        <div class="mt-5"></div>
+        <!-- Base Info -->
+        <ng-container *ngIf="activePage == 'Product Attributes'">
+          <form action="#" class="form form-label-right" [formGroup]="formGroup">
+            <div class="row" style="align-items: center;justify-content:center;">
+              <!-- <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="form-label">Other Information</label>
+                </div>
+              </div> -->
+              <div class="col-sm-3">
+                <div class="form-group row">
+                  <label class="col-md-6 col-form-label text-md-right">Quotation</label>
+                  <div class="col-md-6 col-xl-4">
+                    <span class="switch switch-icon">
+                      <label>
+                        <input type="checkbox" name="quotation" [(ngModel)]="quotation"
+                          [ngModelOptions]="{standalone: true}" />
+                        <span></span>
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group row">
+                  <label class="col-md-6 col-form-label text-md-right">Application</label>
+                  <div class="col-md-6 col-xl-4">
+                    <span class="switch switch-icon">
+                      <label>
+                        <input type="checkbox" name="application" [(ngModel)]="application"
+                          [ngModelOptions]="{standalone: true}" />
+                        <span></span>
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <!-- Product name -->
+                <div class="form-group">
+                  <label class="form-label">Product Name</label>
+                  <input type="text" class="form-control form-control-sm" name="productName" placeholder="Product name"
+                    autocomplete="off" [class.is-invalid]="isControlInvalid('productName',formGroup)"
+                    [class.is-valid]="isControlValid('productName',formGroup)" formControlName="productName" />
+                  <div class="feedback">Enter Your <b>Product Name</b></div>
+                </div>
+                <!-- Product name -->
+                <!-- Product code -->
+                <div class="form-group">
+                  <label class="form-label">Product Code</label>
+                  <input type="text" class="form-control form-control-sm" name="productCode" placeholder="Product code"
+                    autocomplete="off" [class.is-invalid]="isControlInvalid('productCode',formGroup)"
+                    [class.is-valid]="isControlValid('productCode',formGroup)" formControlName="productCode" />
+                  <div class="feedback">Enter Your <b>Product Code</b></div>
+                </div>
+                <!-- Product code -->
+                <!-- Product Type -->
+                <div class="form-group">
+                  <label class="form-label">Select Product Type</label>
+                  <!-- <input type="text" class="form-control form-control-sm" name="productCode"
+                    placeholder="Product code" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('productCode',formGroup)"
+                    [class.is-valid]="isControlValid('productCode',formGroup)" formControlName="productCode" /> -->
+                  <select class="form-control form-control-sm" name="type" placeholder="Select Product Type"
+                    autocomplete="off" [class.is-invalid]="isControlInvalid('type',formGroup)"
+                    [class.is-valid]="isControlValid('type',formGroup)" formControlName="type">
+                    <option value="GENERAL">General Insurance</option>
+                    <option value="LIFE">Life Insurance</option>
+                  </select>
+                  <div class="feedback">Select <b>Product Type</b></div>
+                </div>
+                <!-- Product Type -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="example-margin form-label">Allow Back Date</label>
+                  <mat-radio-group formControlName="isAllowBackDate">
+                    <mat-radio-button class="example-margin" value="no">No</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="yes">Yes</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="30days">Yes and max 30 days</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group row">
+                  <label class="col-md-6 col-form-label text-md-right">Stamp Duty</label>
+                  <div class="col-md-6 col-xl-4">
+                    <span class="switch switch-icon">
+                      <label>
+                        <input type="checkbox" name="stamDuty" formControlName="stamDuty" />
+                        <span></span>
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="form-label">Quotation Auto Lapse Rule</label>
+                  <input type="number" class="form-control form-control-sm" name="ruleDate" placeholder="Dates"
+                    autocomplete="off" [class.is-invalid]="isControlInvalid('ruleDate',formGroup)"
+                    [class.is-valid]="isControlValid('ruleDate',formGroup)" formControlName="ruleDate" />
+                  <div class="feedback">Enter Rule<b> Period</b></div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="form-label">Period Type</label>
+                  <!-- <input type="text" class="form-control form-control-sm" name="ruleType"
+                    placeholder="Date Type" autocomplete="off" [class.is-invalid]="isControlInvalid('ruleType',formGroup)"
+                    [class.is-valid]="isControlValid('ruleType',formGroup)" formControlName="ruleType" /> -->
+                  <select class="form-control form-control-sm" name="ruleType"
+                    [class.is-invalid]="isControlInvalid('ruleType',formGroup)"
+                    [class.is-valid]="isControlValid('ruleType',formGroup)" formControlName="ruleType">
+                    <option value="">Please Select</option>
+                    <option value="DAY">Days</option>
+                    <option value="MONTH">Months</option>
+                  </select>
+                  <div class="feedback">Select Rule <b>Period Type</b></div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="form-label"> &nbsp;</label>
+                  <input type="text" class="form-control form-control-sm" name="ruleDate" autocomplete="off"
+                    value="after creation dates" readonly />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="form-label">Application Auto Lapse Rule</label>
+                  <input type="number" class="form-control form-control-sm" name="policyDay" placeholder="Dates"
+                    autocomplete="off" [class.is-invalid]="isControlInvalid('policyDay',formGroup)"
+                    [class.is-valid]="isControlValid('policyDay',formGroup)" formControlName="policyDay" />
+                  <div class="feedback">Enter Rule<b> Period</b></div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="form-label">Period Type</label>
+                  <!-- <input type="text" class="form-control form-control-sm" name="ruleType"
+                    placeholder="Date Type" autocomplete="off" [class.is-invalid]="isControlInvalid('ruleType',formGroup)"
+                    [class.is-valid]="isControlValid('ruleType',formGroup)" formControlName="ruleType" /> -->
+                  <select class="form-control form-control-sm" name="policyRule"
+                    [class.is-invalid]="isControlInvalid('policyRule',formGroup)"
+                    [class.is-valid]="isControlValid('policyRule',formGroup)" formControlName="policyRule">
+                    <option value="">Please Select</option>
+                    <option value="DAY">Days</option>
+                    <option value="MONTH">Months</option>
+                  </select>
+                  <div class="feedback">Select Rule <b>Period Type</b></div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="form-label"> &nbsp;</label>
+                  <input type="text" class="form-control form-control-sm" name="ruleDate" autocomplete="off"
+                    value="after creation dates" readonly />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="form-label">Product Status</label>
+                  <select class="form-control form-control-sm" name="status" placeholder="Product Status"
+                    autocomplete="off" [class.is-invalid]="isControlInvalid('statusCd',formGroup)"
+                    [class.is-valid]="isControlValid('statusCd',formGroup)" formControlName="statusCd">
+                    <option value="01">Draft</option>
+                    <option value="02">Active</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="form-label">Upload Product Icon</label>
+                  <div class="upload-icon-group">
+                    <div class="upload-icon" (click)="openFile()">
+                      <img *ngIf="formGroup.value.icon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon" alt="">
+                      <ng-container *ngIf="!formGroup.value.icon">
+                        <i class="flaticon-upload-1 icon-lg"></i>
+                        <label>Icon</label>
+                      </ng-container>
+                      <input style="display: none;" type="file" #selectedFile (change)="handleUpload($event)" />
+                    </div>
+                    <div class="upload-icon" (click)="openFile(true)">
+                      <img *ngIf="formGroup.value.smallIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon"
+                        alt="">
+                      <ng-container *ngIf="!formGroup.value.smallIcon">
+                        <i class="flaticon-upload-1 icon-lg"></i>
+                        <label>Small Icon</label>
+                      </ng-container>
+                      <input style="display: none;" type="file" #selectedFile2 (change)="handleUpload($event,true)" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row" style="align-items: center;">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="form-label">Payment Frequency</label>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group row">
+                  <label class="col-md-6 col-form-label text-md-right">Lump Sum</label>
+                  <div class="col-md-6 col-xl-4">
+                    <span class="switch switch-icon">
+                      <label>
+                        <input type="checkbox" name="lump" [(ngModel)]="lump" [ngModelOptions]="{standalone: true}"
+                          (change)="changePayment('lump')" />
+                        <span></span>
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group row">
+                  <label class="col-md-6 col-form-label text-md-right">Semi-Annually</label>
+                  <div class="col-md-6 col-xl-4">
+                    <span class="switch switch-icon">
+                      <label>
+                        <input type="checkbox" name="Semi" [(ngModel)]="annually" [ngModelOptions]="{standalone: true}"
+                          (change)="changePayment('annually')" />
+                        <span></span>
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+          </form>
+
+          <hr>
+
+          <h5 class="left-border-image">Validity Period</h5>
+          <div class="table-responsive mt-2">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>
+                    Lead Source
+                  </th>
+                  <th>
+                    Period
+                  </th>
+                  <th>
+                    Period Type
+                  </th>
+                  <th>
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let lead of leadSources;let i = index">
+                  <td>{{lead.sourceValue}}</td>
+                  <td>{{lead.period}}</td>
+                  <td>{{lead.periodType}}</td>
+                  <td>
+                    <a title="Edit Lead Sources" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                      (click)="createOrEditLead(i,lead)">
+                      <span [inlineSVG]="
+                        './assets/media/svg/icons/Communication/Write.svg'
+                      " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                      </span>
+                    </a>
+                    <a title="Delete Lead Sources" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                      (click)="deleteLead(lead.id,i)">
+                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                        class="svg-icon svg-icon-md svg-icon-danger">
+                      </span>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <button type="submit" class="btn btn-primary btn-elevate btn-block mt-3" (click)="createOrEditLead()">Add Lead Source</button>
+            </div>
+            <div class="col-6">
+              <button type="submit" class="btn btn-primary btn-elevate btn-block mt-3" (click)="save()"
+              [disabled]="formGroup.invalid">Save & Next</button>
+            </div>
+          </div>
+          <!-- <button type="submit" class="btn btn-primary btn-elevate btn-block mt-3" (click)="save()"
+            [disabled]="formGroup.invalid">Save & Next</button> -->
+        </ng-container>
+        <!-- Coverage -->
+        <ng-container *ngIf="activePage == 'Basic Coverage'">
+          <app-coverage-option [isSum]="coverage.isSum" [isUnit]="coverage.isUnit" [isPremium]="coverage.isPremium"
+            [type]="'coverage'" (changeOpt)="changeOption($event,'coverage')"></app-coverage-option>
+          <button type="button" class="btn btn-primary" (click)="createOrEdit('coverage')">New Coverage</button>
+          <ng-container *ngIf="product.coverages">
+            <div class="table-responsive mt-2">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>
+                      Coverages/Benifit
+                    </th>
+                    <th>
+                      Unique Id
+                    </th>
+                    <th>
+                      Validation
+                    </th>
+                    <th>
+                      Sum Insured
+                    </th>
+                    <th>
+                      Unit
+                    </th>
+                    <th>
+                      Premium
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cover of product.coverages;let i = index">
+                    <td>{{cover.description}}</td>
+                    <td>{{cover.code}}</td>
+                    <td>{{cover.validationFun}}</td>
+                    <td>{{cover.sumInsured}}</td>
+                    <td>{{cover.unit}}</td>
+                    <td>{{cover.premium}}</td>
+                    <td>
+                      <a title="Edit coverages" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                        (click)="createOrEdit('coverage',cover,cover.id)">
+                        <span [inlineSVG]="
+                          './assets/media/svg/icons/Communication/Write.svg'
+                        " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                        </span>
+                      </a>
+                      <a title="Delete coverages" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                        (click)="delete('coverage',cover.id,i)">
+                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                          class="svg-icon svg-icon-md svg-icon-danger">
+                        </span>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+          <button type="button" class="btn btn-primary btn-elevate btn-block"
+            (click)="activePage = 'AddOn'">Next</button>
+        </ng-container>
+
+        <!-- AddOn -->
+        <ng-container *ngIf="activePage == 'AddOn'">
+          <app-coverage-option [isSum]="addOn.isSum" [isUnit]="addOn.isUnit" [isPremium]="addOn.isPremium"
+            [type]="'addOn'" (changeOpt)="changeOption($event,'addOn')"></app-coverage-option>
+          <button type="button" class="btn btn-primary" (click)="createOrEdit('addOn')">New AddOn</button>
+          <ng-container *ngIf="product.coverages">
+            <div class="table-responsive mt-2">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>
+                      AddOn
+                    </th>
+                    <th>
+                      Unique Id
+                    </th>
+                    <th>
+                      Validation
+                    </th>
+                    <th>
+                      Sum Insured
+                    </th>
+                    <th>
+                      Unit
+                    </th>
+                    <th>
+                      Premium
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let addOn of product.addOns;let i = index">
+                    <td>{{addOn.description}}</td>
+                    <td>{{addOn.code}}</td>
+                    <td>{{addOn.validationFun}}</td>
+                    <td>{{addOn.sumInsured}}</td>
+                    <td>{{addOn.unit}}</td>
+                    <td>{{addOn.premium}}</td>
+                    <td>
+                      <a title="Edit addOns" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                        (click)="createOrEdit('addOn',addOn,addOn.id)">
+                        <span [inlineSVG]="
+                          './assets/media/svg/icons/Communication/Write.svg'
+                        " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                        </span>
+                      </a>
+                      <a title="Delete addOns" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                        (click)="delete('addOn',addOn.id,i)">
+                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                          class="svg-icon svg-icon-md svg-icon-danger">
+                        </span>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+          <button type="button" class="btn btn-primary btn-elevate btn-block" (click)="goQuo()">Next</button>
+        </ng-container>
+
+        <!--  -->
+        <ng-container *ngIf="activePage == 'quotation form'">
+          <button type="button" class="btn btn-primary" (click)="importForm('quotation')">Setup Page Group</button>
+          <button type="button" class="btn btn-primary ml-2" (click)="importStatic('quotation')">Setup Static
+            Page</button>
+          <button type="button" class="btn btn-primary mx-2" (click)="sortUi('quotation')">Reorder Page</button>
+          <button type="button" class="btn btn-primary" (click)="selectUI('quotation')">Select UI Type</button>
+          <div class="table-responsive mt-2">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>NO</th>
+                  <th>Page Group</th>
+                  <th>Simple</th>
+                  <!-- <th>Action</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of product.quotation_ui;let i = index">
+                  <td>{{i+1}}</td>
+                  <td>
+                    {{ item.dynamicProduct ? item.dynamicProduct.pageName : ''}}
+                  </td>
+                  <td>
+                    {{item.dynamicProduct ? item.dynamicProduct.simpleTest || "nothing here" : ""}}
+                  </td>
+                  <!-- <td>
+                    <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                      (click)="deleteUi(item.id,i,'quotation')">
+                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                        class="svg-icon svg-icon-md svg-icon-danger">
+                      </span>
+                    </a>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <app-ui-pages [config]="product.quotation_page" (changeOpt)="configInputDetail('quotation',$event)">
+          </app-ui-pages>
+        </ng-container>
+        <!--  -->
+        <ng-container *ngIf="activePage == 'application form'">
+          <button type="button" class="btn btn-primary" (click)="importForm('application')">Setup Page Group</button>
+          <button type="button" class="btn btn-primary ml-2" (click)="importStatic('application')">Setup Static
+            Page</button>
+          <button type="button" class="btn btn-primary mx-2" (click)="sortUi('application')">Reorder Page</button>
+          <button type="button" class="btn btn-primary" (click)="selectUI('application')">Select UI Type</button>
+          <div class="table-responsive mt-2">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>NO</th>
+                  <th>Page Group</th>
+                  <th>Simple</th>
+                  <!-- <th>Action</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of product.application_ui;let i = index">
+                  <td>{{i+1}}</td>
+                  <td>
+                    {{ item.dynamicProduct ? item.dynamicProduct.pageName : ''}}
+                  </td>
+                  <td>
+                    {{item.dynamicProduct ? item.dynamicProduct.simpleTest || "nothing here" : ""}}
+                  </td>
+                  <!-- <td>
+                    <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                      (click)="deleteUi(item.id,i,'application')">
+                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                        class="svg-icon svg-icon-md svg-icon-danger">
+                      </span>
+                    </a>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <app-ui-pages [config]="product.application_page" (changeOpt)="configInputDetail('application',$event)">
+          </app-ui-pages>
+        </ng-container>
+        <!--  -->
+        <ng-container *ngIf="activePage == 'print-config'">
+          <button type="button" class="btn btn-primary" (click)="importPrintForm()">Setup Print
+            Form</button>
+          <button type="button" class="btn btn-primary mx-2" (click)="sortUi('print-config')">Reorder Page</button>
+          <button type="button" class="btn btn-primary" (click)="viewPrint()">Print Preview</button>
+          <div class="table-responsive mt-2">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>
+                    NO
+                  </th>
+                  <th>
+                    Page Name
+                  </th>
+                  <th>
+                    Page Type
+                  </th>
+                  <!-- <th>
+                    UI Type
+                  </th> -->
+                  <th>
+                    Mapping Table
+                  </th>
+                  <th>
+                    Parent Form Group
+                  </th>
+                  <th>
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="printConfig.prinitUI">
+                <tr *ngFor="let item of printConfig.prinitUI;let i = index">
+                  <td>{{ i+1 }}</td>
+                  <td>
+                    {{item.pageTitle}}
+                  </td>
+                  <td>
+                    {{item.pageType == 'form' ? 'Page' : "Table" }}
+                  </td>
+                  <!-- <td>
+                    {{item.type == 'static' ? item.type : item.structure }}
+                  </td> -->
+                  <td>
+                    {{item.tableName}}
+                  </td>
+                  <td>
+                    {{item.parent}}
+                  </td>
+                  <td>
+                    <a title="Edit Form Page" *ngIf="item.type != 'static'"
+                      class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" (click)="configPrint(item)">
+                      <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                        class="svg-icon svg-icon-md svg-icon-primary">
+                      </span>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+.input-group {
+    .form-control-sm {
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #E4E6EF;
+        padding: 0px 0.75rem;
+    }
+    .mat-datepicker-toggle {
+        position: absolute;
+        right: 5px;
+    }
+}
+
+.active {
+    display: block;
+}
+
+.inactive {
+    display: none;
+}
+
+.icon {
+    // top: -8px;
+    position: relative;
+    border: none;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.add {
+    top: -11px;
+    position: relative;
+    border: none;
+    background: #f2f2f2;
+    margin: 0;
+    button {
+        position: absolute;
+        top: -52px;
+        right: 78px;
+        width: 110px;
+    }
+}
+
+.btn-box {
+    text-align: end;
+    input {
+        position: absolute;
+        width: 127%;
+        height: 100%;
+        opacity: 0;
+    }
+}
+
+h2 {
+    font-size: 13px;
+    color: #005ca2;
+    background: #F2F2F2;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    margin-top: 24px;
+    padding: 12px 24px 1px 24px;
+    span {
+        position: absolute;
+        right: 14px;
+        top: 5px;
+    }
+    img {
+        width: 6px;
+        height: 12px;
+        float: left;
+    }
+    p {
+        font-size: 12px;
+        padding-left: 18px;
+    }
+}
+
+.tab-div {
+    position: relative;
+    padding: 20px 0 0 0;
+    background: #d1d7e2;
+    border-bottom: 1px solid #d2d2d2;
+    margin: -10px 0 0 0;
+    button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+    }
+}

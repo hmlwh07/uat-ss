@@ -1,0 +1,47 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      Import Page Configuration
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <div class="table-responsive angular-bootstrap-table" *ngIf="showData.length > 0">
+      <table class="table table-head-custom table-vertical-center">
+        <thead>
+          <th>
+            Config Name
+          </th>
+          <th>
+            Include Component
+          </th>
+          <th>
+            Action
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of showData;let i = index;" (click)="selectRow(i)"
+            class="{{ i == selectedRow ? 'active' : ''}}">
+            <td>
+              {{data.pageName}}
+            </td>
+            <td>
+              {{data.simpleTest}}
+            </td>
+            <td>
+              <a title="Delete sub product" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                (click)="delete(i); $event.stopPropagation()">
+                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-danger">
+                </span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+  </div>
+</div>

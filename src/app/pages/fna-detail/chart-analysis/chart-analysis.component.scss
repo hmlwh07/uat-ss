@@ -1,0 +1,30 @@
+.up {
+    // width: 0px;
+    // height: 0px;
+    // border-style: inset;
+    // border-width: 0 100px 173.2px 100px;
+    // border-color: transparent transparent #007bff transparent;
+    // float: left;
+    // transform:rotate(360deg);
+    // -ms-transform:rotate(360deg);
+    // -moz-transform:rotate(360deg);
+    // -webkit-transform:rotate(360deg);
+    // -o-transform:rotate(360deg);
+    height: 650px;
+    width: 85%;
+    color: #fff;
+    background-image: url("../../../../assets/images/tringle.png");
+    background-size: 100%;
+    background-size: cover;
+}
+
+.up p {
+    text-align: center;
+    top: 80px;
+    left: -47px;
+    position: relative;
+    width: 93px;
+    height: 93px;
+    margin: 0px;
+}
+

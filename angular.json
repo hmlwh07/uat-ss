@@ -19,6 +19,13 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "object-path",
+              "apexcharts",
+              "clipboard.js",
+              "highlight.js",
+              "uuid"
+            ],
             "assets": [
               {
                 "glob": "**/*",
@@ -31,7 +38,7 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": ["src/theme/variables.scss", "src/global.scss","src/styles.scss"],
             "scripts": [],
             "aot": false,
             "vendorChunk": true,
@@ -97,7 +104,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "styles": [],
+            "styles": ["src/styles.scss"],
             "scripts": [],
             "assets": [
               {

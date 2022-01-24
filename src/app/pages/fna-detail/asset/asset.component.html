@@ -1,0 +1,93 @@
+<div>
+    <form action="#" class="form" [formGroup]="formGroup">
+        <h3 class="card-label left-border-image ">Asset</h3>
+        <div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-label">Asset {{ selectedIndex + 1 }}</div>
+                </div>
+                <div class="col-8">
+                    <a class=" delete" *ngIf="selectedIndex > 0" (click)="deleteAsset()">Delete</a>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Asset Type</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" formControlName="assetType" class="form-control form-control-sm"
+                            name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option *ngFor="let assect of assectTypes;" [value]="assect.typeCode">{{ assect.typeValue }}
+                            </option>
+
+                            <!-- <option value="building">Building</option>
+                            <option value="motor">Motor</option>
+                            <option value="others">Others</option> -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group" *ngIf="formGroup.value.assetType == 'others' ">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Please Specify <span>*</span></label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('remark')" [class.is-valid]="isControlValid('remark')"
+                            formControlName="remark" />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">With insurance protection</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <mat-radio-group formControlName="protect">
+                            <mat-radio-button class="example-margin" [value]=true>Yes</mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false>No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Replacement / Purchase Cost <span>*</span></label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" (keyup)="updateCommaInput($event)"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('costText')"
+                            [class.is-valid]="isControlValid('costText')" formControlName="costText" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-about">
+            <button type="button" *ngIf="selectedIndex == 0 && assects.length > 0"
+                class="btn btn-primary btn-elevate mx-2" (click)="viewAll()">View All</button>
+            <button type="button" *ngIf="selectedIndex >= 0" class="btn btn-primary btn-elevate mx-2"
+                (click)="backToStartAction()" style="width: 150px;">Back Main Page</button>
+            <button type="button" *ngIf="selectedIndex > 0" class="btn btn-primary btn-elevate mx-2"
+                (click)="backAction()">Back</button>
+            <button type="button" (click)="saveAsset()" class="btn btn-primary btn-elevate mx-2">Save</button>
+            <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 >= nextCount"
+                (click)="addChild()" class="btn btn-primary btn-elevate mx-2">Add Asset</button>
+            <button type="button" *ngIf="selectedIndex + 1 < nextCount" (click)="addChild()"
+                class="btn btn-primary btn-elevate mx-2">Next</button>
+        </div>
+    </form>
+</div>

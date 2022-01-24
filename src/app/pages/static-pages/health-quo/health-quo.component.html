@@ -1,0 +1,63 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>
+        Coverages/Benefit
+      </th>
+      <th>
+        Sum Insured
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of showData">
+      <td>{{item.keyName}}</td>
+      <td>{{item.value}} Units</td>
+    </tr>
+  </tbody>
+</table>
+<hr>
+<h5 class="">Payment Schedules</h5>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>
+        No. of Installment
+      </th>
+      <th style="text-align: right;">
+        Premium
+      </th>
+      <th style="text-align: right;">
+        Levy
+      </th>
+      <th style="text-align: right;">
+        Total
+      </th>
+    </tr>
+  </thead>
+  <tbody class="tbody-align">
+    <tr *ngFor="let item of tempSchedule;let i =index">
+      <td>{{i+1}}</td>
+      <td>{{item.premium | number}}</td>
+      <td>{{item.levy | number}}</td>
+      <td>{{(item.premium + item.levy) | number}}</td>
+    </tr>
+  </tbody>
+  <tfoot class="tbody-align">
+    <tr>
+      <td><b>Total</b></td>
+      <td>{{totalP | number}}</td>
+      <td>{{totalL | number}}</td>
+      <td>{{(totalP+totalL) | number}}</td>
+    </tr>
+  </tfoot>
+</table>
+
+<div class="row mt-3">
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+  </div>
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+.popover {
+    background-color: #fff;
+   // border: 1px solid #ddd;
+    pointer-events: none;
+    opacity: 0;
+    position: absolute;
+    transition: all 500ms ease 0s;
+    margin: 55px 0 0 -40px;
+    width: 100px;
+    border-radius: 0;
+    padding: 6px;   
+    div{
+        line-height: 24px;
+        cursor: pointer;
+        label{
+            cursor: pointer;
+        }
+    }
+}
+
+.active {
+    opacity: 1;
+    pointer-events: auto;
+}

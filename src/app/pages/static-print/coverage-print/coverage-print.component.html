@@ -1,0 +1,37 @@
+<div class="addon-print">
+  <div class="title-style left-border-image mt-5 mb-3">Basic Coverage Detail</div>
+  <table>
+    <thead class="tbody-align">
+      <tr>
+        <td class="field-col">
+          Basic Coverage
+        </td>
+        <td class="field-col" *ngIf="coverage.sumInsured">
+          Sum Insured
+        </td>
+        <td class="field-col" *ngIf="coverage.unit">
+          Unit
+        </td>
+        <td class="field-col" *ngIf="coverage.premium">
+          Premium
+        </td>
+      </tr>
+    </thead>
+    <tbody class="tbody-align">
+      <ng-container *ngFor="let coverage of product.coverages;let i = index">
+        <tr *ngIf="coverageData[coverage.id]">
+          <td class="field-value" style="text-align: center;">{{coverage.description}}</td>
+          <td class="field-value" *ngIf="coverage.sumInsured">
+            {{(coverageData[coverage.id] ? coverageData[coverage.id].sum : 0) | number}}
+          </td>
+          <td class="field-value" *ngIf="coverage.unit">
+            {{(coverageData[coverage.id] ? coverageData[coverage.id].unit : 0)}}
+          </td>
+          <td class="field-value" *ngIf="coverage.premium">
+            {{(coverageData[coverage.id] ? coverageData[coverage.id].premium : 0) | number}}
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

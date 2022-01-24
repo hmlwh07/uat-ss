@@ -1,0 +1,42 @@
+<div class="table-responsive angular-bootstrap-table">
+  <table class="table table-head-custom table-vertical-center">
+    <thead>
+      <th>
+        No
+      </th>
+      <th>
+        Page Name
+      </th>
+      <th>
+        Page Type
+      </th>
+      <th>
+        Mapping Table
+      </th>
+      <th>
+        Parent Form Group
+      </th>
+      <th>
+        Action
+      </th>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let page of config;let i = index">
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{page.pageTitle}}</td>
+          <td>{{page.pageType == 'form' ? 'Page' : "Table" }}</td>
+          <td>{{page.tableName}}</td>
+          <td>{{page.parent}}</td>
+          <td>
+            <a title="Edit Form Page" *ngIf="page.type == 'dyn'" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" (click)="editLayout(page)">
+              <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                class="svg-icon svg-icon-md svg-icon-primary">
+              </span>
+            </a>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

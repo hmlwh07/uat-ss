@@ -1,0 +1,969 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="card-header-tabs-line">
+      <ul class="nav nav-dark nav-bold nav-tabs nav-tabs-line" role="tablist">
+        <li class="nav-item">
+          <a (click)="setActiveTab(1)" class="nav-link cursor-pointer" [ngClass]="getActiveTabCSSClass(1)" role="tab">
+            <!-- <ng-container *ngIf="id">Edit</ng-container> -->
+            <!-- <ng-container *ngIf="!id">Create</ng-container> -->
+            <!-- {{input}} Configuration
+            <ng-container *ngIf="config.label">'{{config.label}}'</ng-container>
+            (Infomation) -->
+            {{input | titlecase }} Type Configuration
+          </a>
+        </li>
+        <li class="nav-item">
+          <a (click)="setActiveTab(3)" class="nav-link cursor-pointer" [ngClass]="getActiveTabCSSClass(3)" role="tab">
+            Parent Dependency
+          </a>
+        </li>
+        <ng-container *ngIf="formGroup.value.type != 'policy'">
+          <li class="nav-item">
+            <a (click)="setActiveTab(2)" class="nav-link cursor-pointer" [ngClass]="getActiveTabCSSClass(2)" role="tab">
+              Validation
+            </a>
+          </li>
+          <li class="nav-item">
+            <a (click)="setActiveTab(4)" class="nav-link cursor-pointer" [ngClass]="getActiveTabCSSClass(4)" role="tab">
+
+              Function Binding
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <!-- <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-md">
+      <ng-container *ngIf="config">
+        <ng-container *ngIf="id">Edit</ng-container>
+        <ng-container *ngIf="!id">Create</ng-container>
+        {{input}} config
+        <ng-container *ngIf="config.label">'{{config.label}}'</ng-container>
+      </ng-container>
+    </div> -->
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <ng-container *ngIf="config && activePage == 1">
+      <form action="#" class="form form-label-right" [formGroup]="formGroup">
+        <div class="form-group row">
+          <!-- IsShow -->
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group row" style="align-items: center;">
+              <label class="col-md-6 col-form-label text-md-right">Show Input</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="show" formControlName="show" />
+                    <span></span>
+                  </label>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- /IsShow -->
+          <!-- Disabeld -->
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group row" style="align-items: center;">
+              <label class="col-md-6 col-form-label text-md-right">Read Only Input</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="disabled" formControlName="disabled" />
+                    <span></span>
+                  </label>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- /Disabeld -->
+          <!-- IsLabel -->
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group row" style="align-items: center;">
+              <label class="col-md-6 col-form-label text-md-right">Show Label</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="isLabel" formControlName="isLabel" />
+                    <span></span>
+                  </label>
+                </span>
+                <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- /IsLabel -->
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group row" style="align-items: center;">
+              <label class="col-md-6 col-form-label text-md-right">Inline Label</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="inlineStyle" formControlName="inlineStyle"
+                      (change)="changeLabelStyle($event)" />
+                    <span></span>
+                  </label>
+                </span>
+                <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <!-- Name -->
+          <div class="col-md-4">
+            <label class="form-label"><span *ngIf="input == 'date' && formGroup.value.type == 'policy'">From Date</span>
+              Field Name</label>
+            <input type="text" class="form-control form-control-sm" name="name" placeholder="Field Name"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('name')" [class.is-valid]="isControlValid('name')"
+              formControlName="name" />
+          </div>
+
+          <!-- Core Name -->
+          <div class="col-md-4">
+            <label class="form-label"><span *ngIf="input == 'date' && formGroup.value.type == 'policy'">From Date</span>
+              Core Server Field Name</label>
+            <input type="text" class="form-control form-control-sm" name="coreName" placeholder="Field Name"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('coreName')"
+              [class.is-valid]="isControlValid('coreName')" formControlName="coreName" />
+          </div>
+          <!-- Table title -->
+          <div class="col-md-4">
+            <label class="form-label">Table Title</label>
+            <input type="text" class="form-control form-control-sm" name="tableTitle" placeholder="Table Title"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('tableTitle')"
+              [class.is-valid]="isControlValid('tableTitle')" formControlName="tableTitle" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <!-- Text -->
+          <div class="col-md-6">
+            <label class="form-label"><span *ngIf="input == 'date' && formGroup.value.type == 'policy'">From Date</span>
+              Label Text</label>
+            <input type="text" class="form-control form-control-sm" name="label" placeholder="Label Text"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('label')"
+              [class.is-valid]="isControlValid('label')" formControlName="label" />
+          </div>
+          <!-- Text -->
+
+          <!-- Text -->
+          <div class="col-md-6">
+            <label class="form-label"><span *ngIf="input == 'date' && formGroup.value.type == 'policy'">From Date</span>
+              Label Text (Myanmar)</label>
+            <input type="text" class="form-control form-control-sm" name="labelMM" placeholder="Label Text (Myanmar)"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('labelMM')"
+              [class.is-valid]="isControlValid('labelMM')" formControlName="labelMM" />
+          </div>
+          <!-- Text -->
+        </div>
+
+        <ng-container *ngIf="input == 'date' ">
+          <div class="form-group row">
+            <!-- type -->
+            <div class="col-md-12">
+              <label>Select Table</label>
+              <select class="form-control form-control-sm" name="type" [class.is-invalid]="isControlInvalid('type')"
+                formControlName="type" (change)="changeDateType($event.target.value)">
+                <option value="date">Normal Date</option>
+                <option value="policy">Policy Date</option>
+              </select>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="input == 'date' && formGroup.value.type == 'policy' ">
+          <div class="form-group row">
+            <!-- Name -->
+            <div class="col-md-3">
+              <label class="form-label">To Date Field Name</label>
+              <input type="text" class="form-control form-control-sm" name="endName" placeholder="Field Name"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('endName')"
+                [class.is-valid]="isControlValid('endName')" formControlName="endName" />
+            </div>
+
+            <!-- Name -->
+            <div class="col-md-3">
+              <label class="form-label">To Date Core Server Field Name</label>
+              <input type="text" class="form-control form-control-sm" name="endCoreName" placeholder="Field Name"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('endCoreName')"
+                [class.is-valid]="isControlValid('endCoreName')" formControlName="endCoreName" />
+            </div>
+
+
+            <!-- </div> -->
+            <!-- <div class="form-group row"> -->
+            <!-- Text -->
+            <div class="col-md-3">
+              <label class="form-label">To Date Label Text</label>
+              <input type="text" class="form-control form-control-sm" name="endLabel" placeholder="Label Text"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('endLabel')"
+                [class.is-valid]="isControlValid('endLabel')" formControlName="endLabel" />
+            </div>
+            <!-- Text -->
+            <!-- Text -->
+            <div class="col-md-3">
+              <label class="form-label"> To Date Label Text (Myanmar)</label>
+              <input type="text" class="form-control form-control-sm" name="endLabelMM"
+                placeholder="Label Text (Myanmar)" autocomplete="off"
+                [class.is-invalid]="isControlInvalid('endLabelMM')" [class.is-valid]="isControlValid('endLabelMM')"
+                formControlName="endLabelMM" />
+            </div>
+            <!-- Text -->
+
+          </div>
+
+        </ng-container>
+
+        <div class="form-group row" *ngIf="input == 'dialog'">
+          <!-- type -->
+          <div class="col-md-3">
+            <label>Select Table</label>
+            <select class="form-control form-control-sm" name="type" [class.is-invalid]="isControlInvalid('type')"
+              formControlName="type">
+              <option value="">Select Table</option>
+              <option value="user">User Table</option>
+              <option value="employee">Employee Table</option>
+              <option value="product">Product Table</option>
+              <option value="subproduct">Sub Product Table</option>
+            </select>
+          </div>
+          <!-- type -->
+          <!-- Placeholder -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Placeholder</label>
+            <input type="text" class="form-control form-control-sm" name="placeholder" placeholder="Placeholder"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('placeholder')"
+              [class.is-valid]="isControlValid('placeholder')" formControlName="placeholder" />
+          </div>
+          <!-- Placeholder -->
+          <!-- Placeholder -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Placeholder (Myanmar)</label>
+            <input type="text" class="form-control form-control-sm" name="placeholderMM"
+              placeholder="Placeholder (Myanmar)" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('placeholderMM')" [class.is-valid]="isControlValid('placeholderMM')"
+              formControlName="placeholderMM" />
+          </div>
+          <!-- Placeholder -->
+          <!-- Placeholder -->
+          <div class="col-md-3">
+            <label class="form-label">Value Field</label>
+            <input type="text" class="form-control form-control-sm" name="valueField" placeholder="Value Field"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('valueField')"
+              [class.is-valid]="isControlValid('valueField')" formControlName="valueField" />
+          </div>
+          <!-- Placeholder -->
+        </div>
+
+        <div class="form-group row" *ngIf="input == 'file'">
+          <!-- type -->
+          <div class="col-md-3">
+            <label>Select Type</label>
+            <select class="form-control form-control-sm" name="type" [class.is-invalid]="isControlInvalid('type')"
+              formControlName="type">
+              <option value="">Select File Type</option>
+              <option value="all">All Files</option>
+              <option value="image/*">Image</option>
+              <option value="video/*">Video</option>
+              <option value="audio/*">Audio</option>
+              <option value="media_type">All Media</option>
+            </select>
+          </div>
+          <!-- type -->
+          <!-- Placeholder -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Placeholder</label>
+            <input type="text" class="form-control form-control-sm" name="placeholder" placeholder="Placeholder"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('placeholder')"
+              [class.is-valid]="isControlValid('placeholder')" formControlName="placeholder" />
+          </div>
+          <!-- Placeholder -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Placeholder (Myanmar)</label>
+            <input type="text" class="form-control form-control-sm" name="placeholderMM"
+              placeholder="Placeholder (Myanmar)" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('placeholderMM')" [class.is-valid]="isControlValid('placeholderMM')"
+              formControlName="placeholderMM" />
+          </div>
+          <!-- Placeholder -->
+          <!-- Text -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Specific Type</label>
+            <input type="text" class="form-control form-control-sm" name="value" placeholder="Default Value"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('value')"
+              [class.is-valid]="isControlValid('value')" formControlName="value" />
+          </div>
+          <!-- Text -->
+        </div>
+
+        <div class="form-group row" *ngIf="input == 'input'">
+          <!-- type -->
+          <div class="col-md-3">
+            <label>Select Type</label>
+            <select class="form-control form-control-sm" name="type" [class.is-invalid]="isControlInvalid('type')"
+              formControlName="type">
+              <option value="">Select Input Type</option>
+              <option value="text">Text</option>
+              <option value="email">Email</option>
+              <option value="number">Number</option>
+              <option value="currency">Currency</option>
+              <option value="textarea">Multiple Line</option>
+              <option value="tel">Phone</option>
+              <option value="nrc">NRC</option>
+            </select>
+          </div>
+          <!-- type -->
+          <!-- Placeholder -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Placeholder</label>
+            <input type="text" class="form-control form-control-sm" name="placeholder" placeholder="Placeholder"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('placeholder')"
+              [class.is-valid]="isControlValid('placeholder')" formControlName="placeholder" />
+          </div>
+          <!-- Placeholder -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Placeholder (Myanmar)</label>
+            <input type="text" class="form-control form-control-sm" name="placeholderMM"
+              placeholder="Placeholder (Myanmar)" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('placeholderMM')" [class.is-valid]="isControlValid('placeholderMM')"
+              formControlName="placeholderMM" />
+          </div>
+          <!-- Placeholder -->
+          <!-- Text -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Default Value</label>
+            <input type="text" class="form-control form-control-sm" name="value" placeholder="Default Value"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('value')"
+              [class.is-valid]="isControlValid('value')" formControlName="value" />
+          </div>
+          <!-- Text -->
+        </div>
+
+        <div class="form-group row" *ngIf="formGroup.value.show">
+          <!-- Size -->
+          <div class="col-lg-4">
+            <label class="form-label">Enter Mobile Size</label>
+            <input type="number" class="form-control form-control-sm form-control-solid" name="size"
+              placeholder="Mobile Size" autocomplete="off" [class.is-invalid]="isControlInvalid('size')"
+              [class.is-valid]="isControlValid('size')" formControlName="size" />
+          </div>
+          <!-- Size -->
+
+          <!-- SizeMd -->
+          <div class="col-lg-4">
+            <label class="form-label">Enter Tablet Size</label>
+            <input type="number" class="form-control form-control-sm form-control-solid" name="mdSize"
+              placeholder="Tablet Size" autocomplete="off" [class.is-invalid]="isControlInvalid('mdSize')"
+              [class.is-valid]="isControlValid('mdSize')" formControlName="mdSize" />
+          </div>
+          <!-- SizeMd -->
+
+          <!-- SizeLg -->
+          <div class="col-lg-4">
+            <label class="form-label">Enter Desktop Size</label>
+            <input type="number" class="form-control form-control-sm form-control-solid" name="lgSize"
+              placeholder="Desktop Size" autocomplete="off" [class.is-invalid]="isControlInvalid('lgSize')"
+              [class.is-valid]="isControlValid('lgSize')" formControlName="lgSize" />
+          </div>
+          <!-- SizeLg -->
+        </div>
+
+        <div class="form-group row" *ngIf="formGroup.value.inlineStyle ">
+          <!-- Label Size -->
+          <div class="col-lg-4">
+            <label class="form-label">Enter Label Size</label>
+            <input type="number" class="form-control form-control-sm form-control-solid" name="labelSize"
+              placeholder="Label Size" autocomplete="off" [class.is-invalid]="isControlInvalid('labelSize')"
+              [class.is-valid]="isControlValid('labelSize')" formControlName="labelSize" />
+          </div>
+          <!-- Label Size -->
+
+          <!-- Input Size -->
+          <div class="col-lg-4">
+            <label class="form-label">Enter Input Size</label>
+            <input type="number" class="form-control form-control-sm form-control-solid" name="inputSize"
+              placeholder="Input Size" autocomplete="off" [class.is-invalid]="isControlInvalid('inputSize')"
+              [class.is-valid]="isControlValid('inputSize')" formControlName="inputSize" />
+          </div>
+          <!-- Input Size -->
+
+        </div>
+
+        <div class="form-group row" *ngIf="input == 'select' || input == 'checkbox' || input == 'radio'">
+          <!-- type -->
+          <div class="col-md-3" *ngIf="input != 'radio' ">
+            <label>Select Type</label>
+            <select class="form-control form-control-sm" name="multi" [class.is-invalid]="isControlInvalid('multi')"
+              formControlName="multi">
+              <!-- <option value="">Select Input Type</option> -->
+              <option value="true">Multi Select</option>
+              <option value="false">Single Select</option>
+            </select>
+          </div>
+          <!-- type -->
+          <!-- Placeholder -->
+          <div class="col-md-3" *ngIf="input != 'checkbox' && input != 'radio'">
+            <label class="form-label">Enter Placeholder</label>
+            <input type="text" class="form-control form-control-sm" name="placeholder" placeholder="Placeholder"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('placeholder')"
+              [class.is-valid]="isControlValid('placeholder')" formControlName="placeholder" />
+          </div>
+          <!-- Text -->
+          <div class="col-md-3" *ngIf="input != 'checkbox' && input != 'radio'">
+            <label class="form-label">Enter Placeholder (Myanmar)</label>
+            <input type="text" class="form-control form-control-sm" name="placeholderMM"
+              placeholder="Placeholder (Myanmar)" autocomplete="off"
+              [class.is-invalid]="isControlInvalid('placeholderMM')" [class.is-valid]="isControlValid('placeholderMM')"
+              formControlName="placeholderMM" />
+          </div>
+          <!-- Placeholder -->
+          <!-- Text -->
+          <div class="col-md-3">
+            <label class="form-label">Enter Default Value</label>
+            <ng-container *ngIf="formGroup.value.multi == 'true';else multiSelect">
+              <mat-select formControlName="value" class="form-control form-control-sm" multiple
+                placeholder="Select Default Value">
+                <mat-option *ngFor="let item of optionData" [value]="item.value">{{item.text}}</mat-option>
+              </mat-select>
+            </ng-container>
+            <ng-template #multiSelect>
+              <select class="form-control form-control-sm" name="value" [class.is-invalid]="isControlInvalid('value')"
+                formControlName="value">
+                <option value="">Select Default Value</option>
+                <option *ngFor="let item of optionData" value="{{item.value}}">{{item.text}}</option>
+              </select>
+            </ng-template>
+          </div>
+          <!-- Text -->
+        </div>
+        <div class="form-group row" *ngIf="input == 'select' || input == 'checkbox' || input == 'radio'"
+          style="align-items: center;">
+          <ng-container *ngIf="input == 'select'">
+            <!-- Policy Term -->
+            <!-- <div class="col-md-4" style="padding-top: 20px;">
+              <div class="row" style="align-items: center;">
+                <label class="col-md-6">Policy Term</label>
+                <div class="col-md-6 col-xl-4">
+                  <span class="switch switch-icon">
+                    <label>
+                      <input type="checkbox" formControlName="policyterm" (change)="changePolicy()" />
+                      <span></span>
+                    </label>
+                  </span>
+                </div>
+              </div>
+            </div> -->
+            <!-- /Policy Term -->
+            <!-- type -->
+            <div class="col-md-4">
+              <label>Select Type</label>
+              <select class="form-control form-control-sm" name="type" [class.is-invalid]="isControlInvalid('type')"
+                formControlName="type" (change)="changePolicy()">
+                <!-- <option value="">Select Input Type</option> -->
+                <option value="select">Normal</option>
+                <option value="policy">Policy Term</option>
+                <option value="address">Address Data</option>
+              </select>
+            </div>
+            <!-- type -->
+          </ng-container>
+          <!-- type -->
+          <div class="col-md-4" *ngIf="formGroup.value.type == 'select' ">
+            <label>Select Data Type</label>
+            <select class="form-control form-control-sm" name="master" [class.is-invalid]="isControlInvalid('master')"
+              formControlName="master" (change)="changeDataType($event)">
+              <!-- <option value="">Select Input Type</option> -->
+              <option value="false">Custom Option</option>
+              <option value="true">Master Data</option>
+            </select>
+          </div>
+          <!-- type -->
+          <!-- Placeholder -->
+          <div class="col-md-4" *ngIf="formGroup.value.master == 'true'">
+            <label class="form-label">Master Data Name</label>
+            <input id="typeahead-format" type="text" class="form-control form-control-sm" name="masterData"
+              placeholder="Master Data Name" autocomplete="off" [class.is-invalid]="isControlInvalid('masterData')"
+              [class.is-valid]="isControlValid('masterData')" formControlName="masterData" [ngbTypeahead]="search"
+              [resultFormatter]="formatter" />
+          </div>
+          <!-- Text -->
+
+        </div>
+        <div class="form-group row" *ngIf="formGroup.value.master == 'true'">
+          <!-- Placeholder -->
+          <div class="col-md-6">
+            <label class="form-label">Value Field Name</label>
+            <input type="text" class="form-control form-control-sm" name="valueField" placeholder="Value Field Name"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('valueField')"
+              [class.is-valid]="isControlValid('valueField')" formControlName="valueField" />
+          </div>
+          <!-- Text -->
+          <!-- Placeholder -->
+          <div class="col-md-6">
+            <label class="form-label">Showing Field Name</label>
+            <input type="text" class="form-control form-control-sm" name="showField" placeholder="Showing Field Name"
+              autocomplete="off" [class.is-invalid]="isControlInvalid('showField')"
+              [class.is-valid]="isControlValid('showField')" formControlName="showField" />
+          </div>
+          <!-- Text -->
+        </div>
+        <div class="form-group row" *ngIf="isParty">
+          <!-- type -->
+          <div class="col-6">
+            <label>Is Party</label>
+            <select class="form-control form-control-sm" name="party" [class.is-invalid]="isControlInvalid('party')"
+              formControlName="party">
+              <option [ngValue]="true">Yes</option>
+              <option [ngValue]="false">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <!-- type -->
+          <div class="col-6">
+            <label>Select Display Line</label>
+            <select class="form-control form-control-sm" name="break" [class.is-invalid]="isControlInvalid('break')"
+              formControlName="break">
+              <option value="false">None</option>
+              <option value="true">Break Line</option>
+            </select>
+          </div>
+          <!-- type -->
+          <div class="col-6">
+            <label>Show In Preview</label>
+            <select class="form-control form-control-sm" name="isHideView"
+              [class.is-invalid]="isControlInvalid('isHideView')" formControlName="isHideView">
+              <option [ngValue]="false">Yes</option>
+              <option [ngValue]="true">No</option>
+            </select>
+          </div>
+        </div>
+
+      </form>
+      <ng-container
+        *ngIf="(input == 'select' || input == 'checkbox' || input == 'radio' || input == 'dialog') && formGroup.value.master == 'false'">
+        <hr>
+        <form action="#" class="form form-label-right" [formGroup]="optformGroup" (ngSubmit)="submit()">
+          <div class="form-group row">
+            <!-- Name -->
+            <div class="col-md-3">
+              <label class="form-label" *ngIf="input != 'dialog'">Enter Text</label>
+              <label class="form-label" *ngIf="input == 'dialog'">Enter Show Text</label>
+              <input type="text" class="form-control form-control-sm" name="text" placeholder="Show Text"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('text','opt')"
+                [class.is-valid]="isControlValid('text','opt')" formControlName="text" />
+            </div>
+            <!-- Name -->
+            <div class="col-md-3">
+              <label class="form-label" *ngIf="input != 'dialog'">Enter Text (Myanmar)</label>
+              <label class="form-label" *ngIf="input == 'dialog'">Enter Show Text (Myanmar)</label>
+              <input type="text" class="form-control form-control-sm" name="textMM" placeholder="Show Text (Myanmar)"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('textMM','opt')"
+                [class.is-valid]="isControlValid('textMM','opt')" formControlName="textMM" />
+            </div>
+
+            <!-- Text -->
+            <div class="{{input == 'dialog' ? 'col-md-3' : 'col-md-4'}}">
+              <label class="form-label" *ngIf="input != 'dialog'">Enter Value</label>
+              <label class="form-label" *ngIf="input == 'dialog'">Enter Input Field</label>
+              <input type="text" class="form-control form-control-sm" name="value" placeholder="Value"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('value','opt')"
+                [class.is-valid]="isControlValid('value','opt')" formControlName="value" />
+            </div>
+            <!-- Name -->
+            <div class="{{input == 'dialog' ? 'col-md-3' : 'col-md-4'}}" *ngIf="input == 'dialog'">
+              <label class="form-label">Enter Table Field</label>
+              <input type="text" class="form-control form-control-sm" name="field" placeholder="Enter Table Field"
+                autocomplete="off" [class.is-invalid]="isControlInvalid('field','opt')"
+                [class.is-valid]="isControlValid('field','opt')" formControlName="field" />
+            </div>
+            <div class="col-md-2">
+              <label class="form-label"> &nbsp;</label>
+
+              <button type="submit" class="btn btn-primary btn-elevate btn-block"
+                [disabled]="optformGroup.invalid">Save</button>
+            </div>
+            <!-- Text -->
+          </div>
+        </form>
+        <div class="table-responsive angular-bootstrap-table">
+          <table class="table table-head-custom table-vertical-center">
+            <thead>
+              <th>
+                Show Text
+              </th>
+              <th>
+                Show Text (Myanmar)
+              </th>
+              <th *ngIf="input == 'dialog'">
+                Input Field Name
+              </th>
+              <th>
+                <span *ngIf="input == 'dialog'">Table Field Name</span>
+                <span *ngIf="input != 'dialog'">Value</span>
+              </th>
+              <th>ACTIONS</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let opt of optionData;let i = index">
+
+                <td>{{ opt.text }}</td>
+                <td>{{ opt.textMM }}</td>
+                <td>{{ opt.value }}</td>
+                <td *ngIf="input == 'dialog'">{{ opt.field }}</td>
+                <td>
+                  <a title="Delete Product" class="btn btn-icon btn-light btn-hover-danger btn-sm" (click)="delete(i)">
+                    <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                      class="svg-icon svg-icon-md svg-icon-danger">
+                    </span>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="config && activePage == 2">
+      <form action="#" class="form form-label-right" [formGroup]="validFormGroup" (ngSubmit)="submitValid()">
+
+        <div class="form-group row">
+          <!-- requiredInp -->
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group row">
+              <label class="col-md-6 col-form-label text-md-right">Required</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="requiredInp" formControlName="requiredInp" />
+                    <span></span>
+                  </label>
+                </span>
+                <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- /requiredInp -->
+          <!-- minInp -->
+          <!-- isdob -->
+          <div class="col-md-3 col-sm-6" *ngIf="input == 'date'">
+            <div class="form-group row">
+              <label class="col-md-6 col-form-label text-md-right">Is Age Limit</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="isdob" formControlName="isdob" />
+                    <span></span>
+                  </label>
+                </span>
+                <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- /isdob -->
+          <ng-container
+            *ngIf="(validFormGroup.value.isdob || input != 'date') && (input != 'select' && input != 'radio' && input != 'checkbox' && input != 'dialog'  )">
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group row">
+                <label class="col-md-6 col-form-label text-md-right">Minimum</label>
+                <div class="col-md-6 col-xl-4">
+                  <span class="switch switch-icon">
+                    <label>
+                      <input type="checkbox" name="minInp" formControlName="minInp" />
+                      <span></span>
+                    </label>
+                  </span>
+                  <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+                </div>
+              </div>
+            </div>
+            <!-- /minInp -->
+            <!-- Maximum -->
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group row">
+                <label class="col-md-6 col-form-label text-md-right">Maximum</label>
+                <div class="col-md-6 col-xl-4">
+                  <span class="switch switch-icon">
+                    <label>
+                      <input type="checkbox" name="maxInp" formControlName="maxInp" />
+                      <span></span>
+                    </label>
+                  </span>
+                  <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+                </div>
+              </div>
+            </div>
+            <!-- /Maximum -->
+          </ng-container>
+
+
+        </div>
+
+        <div class="form-group row" *ngIf="validFormGroup.value.requiredInp">
+          <div class="col-6">
+            <label class="form-label">Enter Require Error Message</label>
+            <input type="text" class="form-control form-control-sm" name="requireMessage"
+              placeholder="Enter Require Error Message" autocomplete="off" formControlName="requireMessage" />
+          </div>
+          <div class="col-6">
+            <label class="form-label">Enter Require Error Message (Myanmar)</label>
+            <input type="text" class="form-control form-control-sm" name="requireMessageMM"
+              placeholder="Enter Require Error Message (Myanmar)" autocomplete="off"
+              formControlName="requireMessageMM" />
+          </div>
+        </div>
+        <ng-container
+          *ngIf="(validFormGroup.value.isdob || input != 'date') && (input != 'select' && input != 'radio' && input != 'checkbox' && input != 'dialog'  )">
+          <div class="form-group row" *ngIf="validFormGroup.value.minInp">
+            <div class="col-md-4">
+              <label class="form-label">Enter Minimum Error Message</label>
+              <input type="text" class="form-control form-control-sm" name="minMessage"
+                placeholder="Enter Minimum Error Message" autocomplete="off" formControlName="minMessage" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Enter Minimum Error Message (Myanmar)</label>
+              <input type="text" class="form-control form-control-sm" name="minMessageMM"
+                placeholder="Enter Minimum Error Message (Myanmar)" autocomplete="off" formControlName="minMessageMM" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Enter Minimum Value</label>
+              <input type="number" class="form-control form-control-sm" name="minValue"
+                placeholder="Enter Minimum Value" autocomplete="off" formControlName="minValue" />
+            </div>
+          </div>
+
+          <div class="form-group row" *ngIf="validFormGroup.value.maxInp">
+            <div class="col-md-4">
+              <label class="form-label">Enter Maximum Error Message</label>
+              <input type="text" class="form-control form-control-sm" name="maxMessage"
+                placeholder="Enter Maximum Error Message" autocomplete="off" formControlName="maxMessage" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Enter Maximum Error Message (Myanmar)</label>
+              <input type="text" class="form-control form-control-sm" name="maxMessageMM"
+                placeholder="Enter Maximum Error Message (Myanmar)" autocomplete="off" formControlName="maxMessageMM" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Enter Maximum Value</label>
+              <input type="number" class="form-control form-control-sm" name="maxValue"
+                placeholder="Enter Maximum Value" autocomplete="off" formControlName="maxValue" />
+            </div>
+
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!validFormGroup.value.isdob && input == 'date'">
+          <div class="form-group row">
+
+            <div class="col-md-4">
+              <label class="form-label">Error Message</label>
+              <input type="text" class="form-control form-control-sm" name="dateMessage" autocomplete="off"
+                formControlName="dateMessage" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Error Message (Myanmar)</label>
+              <input type="text" class="form-control form-control-sm" name="dateMessageMM" autocomplete="off"
+                formControlName="dateMessageMM" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Type</label>
+              <select class="form-control form-control-sm" name="dateType" formControlName="dateType">
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label class="form-label">From</label>
+              <input type="number" class="form-control form-control-sm" name="from" autocomplete="off"
+                formControlName="from" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To</label>
+              <input type="number" class="form-control form-control-sm" name="to" autocomplete="off"
+                formControlName="to" />
+            </div>
+          </div>
+        </ng-container>
+      </form>
+
+    </ng-container>
+
+    <ng-container *ngIf="config && activePage == 3">
+      <form action="#" class="form form-label-right" [formGroup]="parentFormGroup">
+        <div class="form-group row">
+          <!-- isParent -->
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group row">
+              <label class="col-md-6 col-form-label text-md-right">Is dependency</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="isParent" formControlName="isParent" />
+                    <span></span>
+                  </label>
+                </span>
+                <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <!-- /isParent -->
+          <!-- show -->
+          <ng-container *ngIf="parentFormGroup.value.isParent">
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group row">
+                <label class="col-md-6 col-form-label text-md-right">Show input by parent value</label>
+                <div class="col-md-6 col-xl-4">
+                  <span class="switch switch-icon">
+                    <label>
+                      <input type="checkbox" name="show" formControlName="show" />
+                      <span></span>
+                    </label>
+                  </span>
+                  <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+                </div>
+              </div>
+            </div>
+            <!-- /Disabeld -->
+            <!-- isRelated -->
+            <div class="col-md-3 col-sm-6"
+              *ngIf="input == 'select' || input == 'radio' || input == 'checkbox' || input == 'dialog' ">
+              <div class="form-group row">
+                <label class="col-md-6 col-form-label text-md-right">Related option with parent</label>
+                <div class="col-md-6 col-xl-4">
+                  <span class="switch switch-icon">
+                    <label>
+                      <input type="checkbox" name="isRelated" formControlName="isRelated" />
+                      <span></span>
+                    </label>
+                  </span>
+                  <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+                </div>
+              </div>
+            </div>
+            <!-- /isRelated -->
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group row">
+                <label class="col-md-6 col-form-label text-md-right">Parent value is multiple</label>
+                <div class="col-md-6 col-xl-4">
+                  <span class="switch switch-icon">
+                    <label>
+                      <input type="checkbox" name="isArray" formControlName="isArray" />
+                      <span></span>
+                    </label>
+                  </span>
+                  <!-- <div class="form-text text-muted">
+                  Enable Input Label
+                </div> -->
+                </div>
+              </div>
+            </div>
+
+          </ng-container>
+        </div>
+        <ng-container *ngIf="parentFormGroup.value.isParent">
+          <div class="form-group row">
+            <div class="{{parentFormGroup.value.isRelated ? 'col-md-6' : 'col-md-12'}}">
+              <label class="form-label">Enter parent field name</label>
+              <input type="text" class="form-control form-control-sm" name="parentName" placeholder="Enter parent name"
+                autocomplete="off" formControlName="parentName" />
+            </div>
+            <div class="col-md-6" *ngIf="parentFormGroup.value.isRelated">
+              <label class="form-label">Enter related field name</label>
+              <input type="text" class="form-control form-control-sm" name="relatedField"
+                placeholder="Enter related field name" autocomplete="off" formControlName="relatedField" />
+            </div>
+          </div>
+          <ng-container *ngIf="parentFormGroup.value.show">
+            <div class="form-group row" *ngFor="let item of parentValue;let i = index">
+              <div class="{{parentFormGroup.value.isArray ? 'col-md-8' : 'col-md-12'}}">
+                <label class="form-label">
+                  Enter Value <span *ngIf="parentFormGroup.value.isArray">({{ i + 1 }})</span>
+                </label>
+                <input type="text" class="form-control form-control-sm" name="relatedField" placeholder="Enter value"
+                  autocomplete="off" [ngModelOptions]="{standalone: true}" [(ngModel)]="item['data'+i]" />
+              </div>
+              <div class="col-md-4" *ngIf="parentFormGroup.value.isArray">
+                <label class="form-label"> &nbsp;</label>
+                <button class="btn btn-block btn-sm btn-danger" (click)="removeValue(i)"
+                  *ngIf="i < (parentValue.length - 1)">Remove</button>
+                <button class="btn btn-block btn-sm btn-success" (click)="addValue()"
+                  *ngIf="i == (parentValue.length - 1)">Add New</button>
+
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </form>
+    </ng-container>
+
+    <ng-container *ngIf="config && activePage == 4">
+      <form action="#" class="form form-label-right" [formGroup]="funFormGroup">
+        <div class="form-group row">
+          <!-- isParent -->
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group row">
+              <label class="col-md-6 col-form-label text-md-right">Is Function</label>
+              <div class="col-md-6 col-xl-4">
+                <span class="switch switch-icon">
+                  <label>
+                    <input type="checkbox" name="isFun" formControlName="isFun" />
+                    <span></span>
+                  </label>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- /isParent -->
+        </div>
+        <ng-container *ngIf="funFormGroup.value.isFun">
+          <div class="form-group row">
+            <div class="col-md-6 col-sm-6">
+              <label class="form-label">Function Name</label>
+              <input type="text" class="form-control form-control-sm" name="functionName" placeholder="Function Name"
+                autocomplete="off" formControlName="funName" [ngbTypeahead]="searchFunName"
+                [resultFormatter]="formatter" />
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <label class="form-label">Event Type (Proccess in value change)</label>
+              <select class="form-control form-control-sm" name="type" formControlName="type">
+                <option value="trigger">Trigger Function</option>
+                <option value="getdata">Get Function Out Data</option>
+              </select>
+            </div>
+          </div>
+        </ng-container>
+      </form>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
+      (click)="modal.dismiss({type:'delete'})">Delete</button>
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <ng-container *ngIf="config">
+
+      <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Save</button>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      Select Form UI
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <div class="row">
+      <div class="col-8">
+        <div class="form-group">
+          <label class="example-margin form-label">Choose UI</label>
+          <mat-radio-group [(ngModel)]="selectedUI" (change)="radioChange($event)">
+            <mat-radio-button class="example-margin" value="ui1">Form UI 1</mat-radio-button>
+            <mat-radio-button class="example-margin" value="ui2">Form UI 2</mat-radio-button>
+            <mat-radio-button class="example-margin" value="ui3">Form UI 3</mat-radio-button>
+            <!-- <mat-radio-button class="example-margin" value="ui4">Form UI 4</mat-radio-button> -->
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-info btn-block" (click)="show()">Show</button>
+      </div>
+    </div>
+
+    <ng-template #dynamicTemplate></ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="!selectedUI">Save</button>
+  </div>
+</div>

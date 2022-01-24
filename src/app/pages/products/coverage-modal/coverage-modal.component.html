@@ -1,0 +1,152 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      {{id ? "Edit" : "Create"}} <span style="text-transform: capitalize;">{{type}}</span>
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form form-label-right" [formGroup]="formGroup">
+      <div class="form-group row">
+        <!-- isSun -->
+        <div class="col-sm-4">
+          <div class="form-group row">
+            <label class="col-md-6 col-form-label text-md-right">Sum Insured</label>
+            <div class="col-md-6 col-xl-4">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="isSum" formControlName="isSum"
+                    (change)="changeCheck($event.target.checked,'sum')" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- isSun -->
+        <!-- isUnit -->
+        <div class="col-sm-4">
+          <div class="form-group row">
+            <label class="col-md-6 col-form-label text-md-right">Unit</label>
+            <div class="col-md-6 col-xl-4">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="isUnit" formControlName="isUnit"
+                    (change)="changeCheck($event.target.checked,'unit')" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- isUnit -->
+        <!-- isPremium -->
+        <div class="col-sm-4">
+          <div class="form-group row">
+            <label class="col-md-6 col-form-label text-md-right">Premium</label>
+            <div class="col-md-6 col-xl-4">
+              <span class="switch switch-icon">
+                <label>
+                  <input type="checkbox" name="isPremium" formControlName="isPremium"
+                    (change)="changeCheck($event.target.checked,'premium')" />
+                  <span></span>
+                </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- isPremium -->
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Description -->
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control form-control-sm form-control-solid" name="description"
+              placeholder="Description" autocomplete="off" [class.is-invalid]="isControlInvalid('description')"
+              [class.is-valid]="isControlValid('description')" formControlName="description" />
+            <!-- <div class="feedback">Enter <b>Description</b></div> -->
+          </div>
+          <!-- Description -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- Unit Code -->
+          <div class="form-group">
+            <label class="form-label">Unit Code</label>
+            <input type="text" class="form-control form-control-sm form-control-solid" name="code"
+              placeholder="Unit Code" autocomplete="off" [class.is-invalid]="isControlInvalid('code')"
+              [class.is-valid]="isControlValid('code')" formControlName="code" />
+            <!-- <div class="feedback">Enter <b>Unit Code</b></div> -->
+          </div>
+          <!-- Unit Code -->
+        </div>
+
+        <div class="col-sm-6">
+          <!-- Show/Hide Function -->
+          <div class="form-group">
+            <label class="form-label">Show/Hide Function</label>
+            <input type="text" class="form-control form-control-sm form-control-solid" name="validationFun"
+              placeholder="Show/Hide Function" autocomplete="off" [class.is-invalid]="isControlInvalid('validationFun')"
+              [class.is-valid]="isControlValid('validationFun')" formControlName="validationFun" />
+            <!-- <div class="feedback">Enter <b>Show/Hide Function</b></div> -->
+          </div>
+          <!-- Show/Hide Function -->
+        </div>
+      </div>
+      <ng-container *ngIf="formGroup.getRawValue().isSum">
+        <div class="row">
+          
+          <div class="col-sm-12">
+            <!-- Sum Insured -->
+            <div class="form-group">
+              <label>Sum Insured Choose Function</label>
+              <input type="text"class="form-control form-control-sm" name="sumInsuredFun"
+              [class.is-invalid]="isControlInvalid('sumInsuredFun')" formControlName="sumInsuredFun" [ngbTypeahead]="search" [resultFormatter]="formatter" />
+              <!-- <div class="feedback">Choose <b>Function</b></div> -->
+            </div>
+            <!-- Sum Insured -->
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="formGroup.getRawValue().isUnit">
+        <div class="row">
+          
+          <div class="col-sm-12">
+            <!-- Unit Insured -->
+            <div class="form-group">
+              <label>Unit Choose Function</label>
+              <input type="text"class="form-control form-control-sm" name="unitFun"
+              [class.is-invalid]="isControlInvalid('unitFun')" formControlName="unitFun" [ngbTypeahead]="search" [resultFormatter]="formatter" />
+              <!-- <div class="feedback">Choose <b>Function</b></div> -->
+            </div>
+            <!-- Unit Insured -->
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="formGroup.getRawValue().isPremium">
+        <div class="row">
+          
+          <div class="col-sm-12">
+            <!-- premiumFun Insured -->
+            <div class="form-group">
+              <label>Premium Choose Function</label>
+              <input type="text"class="form-control form-control-sm" name="premiumFun"
+              [class.is-invalid]="isControlInvalid('premiumFun')" formControlName="premiumFun" [ngbTypeahead]="search" [resultFormatter]="formatter" />
+              <!-- <div class="feedback">Choose <b>Function</b></div> -->
+            </div>
+            <!-- premiumFun Insured -->
+          </div>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
+      (click)="modal.dismiss({type:'delete'})">Delete</button> -->
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+      [disabled]="formGroup.invalid">Save</button>
+  </div>
+</div>

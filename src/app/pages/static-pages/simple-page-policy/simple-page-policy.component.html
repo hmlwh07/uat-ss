@@ -1,0 +1,221 @@
+<form action="" [formGroup]="staticForm">
+  <!-- Start date -->
+  <div class="row" style="align-items: center;">
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label ">Period of Insurance</label>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <input matInput class="form-control-sm" formControlName="insuranceStartDate" [min]="fromMinDate"
+              [max]="fromMaxDate" [matDatepicker]="picker" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+            <app-print-error [control]="controls.insuranceStartDate"></app-print-error>
+          </div>
+          <!-- <div class="input-group">
+            <input type="text" name="policy_date" class="form-control form-control-sm " autocomplete="off"
+              placeholder="dd/mm/yyyy" ngbDatepicker #d="ngbDatepicker" [minDate]="fromMinDate" [maxDate]="fromMaxDate"
+              formControlName="insuranceStartDate" (click)="d.toggle()" readonly="true" />
+            <div class="input-group-append" (click)="d.toggle()">
+              <span class="input-group-text">
+                <i class="text-dark-50 flaticon-calendar"></i>
+              </span>
+            </div>
+          </div>
+          <app-print-error [control]="controls.insuranceStartDate"></app-print-error> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label ">-</label>
+        <div class="col-sm-6">
+          <!-- <div class="input-group">
+            <input type="text" name="policy_end_date" class="form-control form-control-sm " autocomplete="off"
+              placeholder="dd/mm/yyyy" ngbDatepicker #de="ngbDatepicker" [minDate]="toMinDate" [maxDate]="toMaxDate"
+              formControlName="insuranceEndDate" readonly="true" />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="text-dark-50 flaticon-calendar"></i>
+              </span>
+            </div>
+          </div> -->
+          <!-- <app-print-error [control]="controls.insuranceStartDate"></app-print-error> -->
+          <div class="input-group">
+            <input matInput class="form-control-sm" formControlName="insuranceEndDate" [min]="toMinDate"
+              [max]="toMaxDate" [matDatepicker]="picker2" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 disabled="true"></mat-datepicker>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="input-group">
+        <input type="text" name="policy_end_date" class="form-control form-control-sm " autocomplete="off" placeholder="dd/mm/yyyy"
+          ngbDatepicker #de="ngbDatepicker" (click)="de.toggle()" [minDate]="toMinDate" [maxDate]="toMaxDate"
+          formControlName="insuranceEndDate" readonly="true" />
+        <div class="input-group-append" (click)="de.toggle()">
+          <span class="input-group-text">
+            <i class="text-dark-50 flaticon-calendar"></i>
+          </span>
+        </div>
+      </div>
+      <app-print-error [control]="controls.insuranceEndDate"></app-print-error> -->
+    </div>
+  </div>
+  <!-- End date  -->
+
+  <div class="row" style="align-items: center;">
+    <!-- BC -->
+    <div class="col-6">
+      <section class="example-section">
+        <div class="form-group row">
+          <label class="col-4">Basic Cover</label>
+          <mat-radio-group formControlName="basicCoverId" class="col-8">
+            <!-- *ngFor="let item of options" {{item.premiumStr}} -->
+            <!-- <mat-radio-button class="mx-1" *ngFor="let item of options" [value]="item.id"> {{item.premiumStr}}
+            </mat-radio-button> -->
+            <mat-radio-button class="mx-1" [value]="'Health Insurance'">Health Insurance
+            </mat-radio-button>
+            <mat-radio-button class="mx-1" [value]="'Critical illness'">Critical illness
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </section>
+    </div>
+    <!-- BC -->
+    <!-- DOB -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Date of Birth</label>
+        <div class="col-6">
+          <!-- <div class="input-group">
+            <input type="text" name="dateOfBirth" class="form-control form-control-sm " autocomplete="off"
+              placeholder="dd/mm/yyyy" ngbDatepicker #db="ngbDatepicker" (click)="db.toggle()" [minDate]="dobMinDate"
+              [maxDate]="dobMaxDate" formControlName="dateOfBirth" readonly="true" />
+            <div class="input-group-append" (click)="db.toggle()">
+              <span class="input-group-text">
+                <i class="text-dark-50 flaticon-calendar"></i>
+              </span>
+            </div>
+          </div> -->
+          <!-- <app-print-error [control]="controls.dateOfBirth"></app-print-error> -->
+          <div class="input-group">
+            <input matInput class="form-control-sm" formControlName="dateOfBirth" [min]="dobMinDate" [max]="dobMaxDate"
+              [matDatepicker]="picker3" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+            <app-print-error [control]="controls.dateOfBirth"></app-print-error>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- DOB -->
+  </div>
+
+  <div class="row">
+    <!--  Payment Frequency -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Payment Frequency</label>
+        <div class="col-6">
+          <select name="payment_frequency" formControlName="paymentFrequency" class="form-control form-control-sm">
+            <option [value]="null">Please Select Payment Frequency</option>
+            <option value="lump">Lump Sum</option>
+            <option value="semi_annually">Semi-Annually</option>
+          </select>
+          <app-print-error [control]="controls.paymentFrequency"></app-print-error>
+
+        </div>
+      </div>
+    </div>
+    <!--  Payment Frequency -->
+    <!--  Payment Frequency -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Sum Insured of Main Cover</label>
+        <div class="col-6">
+          <select name="sumInsuredMainCover" formControlName="sumInsuredMainCover" class="form-control form-control-sm">
+            <option [value]="null">Please Select Sum Insured</option>
+            <option *ngFor="let item of options3" [value]="item">{{item}} Unit{{item > 1 ? "s" : ""}}</option>
+          </select>
+          <app-print-error [control]="controls.sumInsuredMainCover"></app-print-error>
+        </div>
+      </div>
+    </div>
+    <!--  Payment Frequency -->
+  </div>
+
+  <div class="row">
+    <!--  Medical Card No -->
+    <div class="col-6">
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Medical Card No</label>
+        <div class="col-6">
+          <input type="text" name="medicalCardNo" formControlName="medicalCardNo" class="form-control form-control-sm">
+        </div>
+      </div>
+    </div>
+    <!--  Payment Frequency -->
+  </div>
+  <!-- <hr> value="{{item.id}}">-->
+
+</form>
+<div class="row mt-3">
+  <div class="col-12">
+    <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding: 20px 0px;">Product And Riders</h5>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>
+            Plan
+          </th>
+          <th>
+            Sum Assured
+          </th>
+          <th>
+            Coverage Term
+          </th>
+          <th>
+            Payment Term
+          </th>
+          <th>
+            Premium
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tempArray">
+          <td>{{item.plan}}</td>
+          <td>{{item.sumInsured}} Unit{{item.sumInsured > 1 ? "s":""}}</td>
+          <td>{{item.coverage}}</td>
+          <td>{{policyTerm[item.paymentTerm] || item.paymentTerm}}</td>
+          <td>{{item.premium | number}} </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td><b>Total</b></td>
+          <td>{{totalResult.unit}} Unit{{totalResult.unit > 1 ? "s":""}}</td>
+          <td></td>
+          <td></td>
+          <td>{{totalResult.premium | number}}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+  </div>
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+  </div>
+</div>
+
+<!--  "Health Insurance"
+"Critical illness"
+"Surgery & Miscarriage"
+"Mediacal treatments" -->

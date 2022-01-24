@@ -1,0 +1,82 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+            Surrounding Detail
+        </div>
+    </div>
+
+    <form action="#" class="form" [formGroup]="surroundingdetailform" (ngSubmit)="createSurrounding()">
+        <div class="overlay overlay-block cursor-default modal-body">
+
+            <div class="row" style="align-items: center">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Building Description</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-control-sm " name="buildingDescription" autocomplete="off" [class.is-invalid]="isControlInvalid('buildingDescription')" [class.is-valid]="isControlValid('buildingDescription')" formControlName="buildingDescription"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Type of Building</label>
+                        <div class="col-sm-8">
+                            <ng-select class="ng-custom-select" (change)="changeType()" [class.is-invalid]="isControlInvalid('typeOfBuilding')" [class.is-valid]="isControlValid('typeOfBuilding')" [items]="typeOfBuildingOption" bindLabel="value" bindValue="code" formControlName="typeOfBuilding">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="align-items: center">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Occupition of Building</label>
+                        <div class="col-sm-8">
+                            <ng-select class="ng-custom-select" (change)="changeOccuption()" [class.is-invalid]="isControlInvalid('occupationOfBuilding')" [class.is-valid]="isControlValid('occupationOfBuilding')" [items]="occupationOfBuildingOption" bindLabel="value" bindValue="code"
+                                formControlName="occupationOfBuilding">
+                            </ng-select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Building Class</label>
+                        <div class="col-sm-8">
+                            <ng-select class="ng-custom-select" (change)="changeClass()" [class.is-invalid]="isControlInvalid('buildingClass')" [class.is-valid]="isControlValid('buildingClass')" [items]="buildingClassOption" bindLabel="value" bindValue="code" formControlName="buildingClass">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="align-items: center">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Distance to Building (feet)</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control form-control-sm " name="distanceToBuilding" autocomplete="off" [class.is-invalid]="isControlInvalid('distanceToBuilding')" [class.is-valid]="isControlValid('distanceToBuilding')" formControlName="distanceToBuilding"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Rate</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control form-control-sm " name="premiumRate" autocomplete="off" [class.is-invalid]="isControlInvalid('premiumRate')" [class.is-valid]="isControlValid('premiumRate')" formControlName="premiumRate" />
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="dismissModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-elevate">Save</button>
+        </div>
+    </form>
+
+</div>

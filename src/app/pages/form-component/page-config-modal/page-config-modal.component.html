@@ -1,0 +1,108 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      Page Setting
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body">
+    <form action="#" class="form form-label-right" [formGroup]="formGroup">
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-lg-12">
+          <label class="form-label">Page Title</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="title"
+            placeholder="Page Title" autocomplete="off" [class.is-invalid]="isControlInvalid('title')"
+            [class.is-valid]="isControlValid('title')" formControlName="title" />
+          <div class="feedback">Enter Your <b>Page Title</b></div>
+        </div>
+        <!-- type -->
+      </div>
+      <!--  -->
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-lg-12">
+          <label class="form-label">Table Name</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="tableName"
+            placeholder="Table Name" autocomplete="off" [class.is-invalid]="isControlInvalid('tableName')"
+            [class.is-valid]="isControlValid('tableName')" formControlName="tableName" />
+          <div class="feedback">Enter Your <b>Table Name</b></div>
+        </div>
+        <!-- type -->
+      </div>
+      <!--  -->
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-lg-12">
+          <label class="form-label">Unit ID</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="unitCode"
+            placeholder="Table Name" autocomplete="off" [class.is-invalid]="isControlInvalid('unitCode')"
+            [class.is-valid]="isControlValid('unitCode')" formControlName="unitCode" />
+          <div class="feedback">Enter Your <b>Unit ID</b></div>
+        </div>
+        <!-- type -->
+      </div>
+      <!--  -->
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-lg-12">
+          <label class="form-label">Page Type</label>
+          <select class="form-control form-control-sm form-control-solid" name="type" placeholder="Page Type"
+            autocomplete="off" [class.is-invalid]="isControlInvalid('type')" [class.is-valid]="isControlValid('type')"
+            formControlName="type">
+            <option value="form">Page</option>
+            <option value="table">Table</option>
+          </select>
+          <div class="feedback">Select Your <b>Page Type</b></div>
+        </div>
+        <!-- type -->
+      </div>
+      <!--  -->
+      <div class="form-group row">
+        <div class="col-lg-12">
+          <label>Page Icon</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="icon" placeholder="Page Icon"
+            autocomplete="off" [class.is-invalid]="isControlInvalid('icon')" [class.is-valid]="isControlValid('icon')"
+            formControlName="icon" />
+          <div class="feedback">Enter Your FontAwesome Icon <b>(fa-users)</b></div>
+          <div class="feedback">example: <a href="https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free"
+              target="_blank">https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free</a></div>
+
+        </div>
+      </div>
+      <!--  -->
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-lg-12">
+          <label class="form-label">Function Name</label>
+          <input type="text" class="form-control form-control-sm form-control-solid" name="function"
+            placeholder="Function Name" autocomplete="off" [class.is-invalid]="isControlInvalid('function')"
+            [class.is-valid]="isControlValid('function')" formControlName="function" />
+          <div class="feedback">Enter Trigger <b>Function Name</b> after form submitted</div>
+        </div>
+        <!-- type -->
+      </div>
+      <!--  -->
+      <div class="form-group row">
+        <!-- Text -->
+        <div class="col-lg-12">
+          <label class="form-label">Is Party</label>
+          <select class="form-control form-control-sm form-control-solid" name="party" placeholder="Function Name"
+            autocomplete="off" [class.is-invalid]="isControlInvalid('party')" [class.is-valid]="isControlValid('party')"
+            formControlName="party">
+            <option [ngValue]="false">No</option>
+            <option [ngValue]="true">Yes</option>
+          </select>
+        </div>
+        <!-- type -->
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
+      (click)="modal.dismiss({type:'delete'})">Delete</button> -->
+    <button type="button" class="btn btn-light btn-elevate mr-2" [disabled]="!title"
+      (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+      [disabled]="formGroup.invalid">Save</button>
+  </div>
+</div>

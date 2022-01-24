@@ -1,0 +1,544 @@
+import { Location } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+import { map } from 'rxjs/operators';
+import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
+import { AttachmentDownloadService, AttachmentServiceRef, AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { MY_FORMATS } from '../../core/is-json';
+import { ActivityCol, ActivityDisplayCol } from '../activity-management-list/activity-manage.const';
+import { FNAListCol } from '../fna-list/fna.list.const';
+import { CustomInputAlertComponent } from '../form-component/custom-input-alert/custom-input-alert.component';
+import { NrcPopupPage } from '../form-component/nrc-popup/nrc-popup.page';
+import { AttachmentCol, AttachmentDisplayCol, FNACol, FNADisplayCol } from '../lead-detail/FNA-list.const';
+import { PolicyCol, PolicyDisplayCol } from '../policy/list/policy.const';
+import { ProductsComponent } from '../products/products.component';
+import { ProductDataService } from '../products/services/products-data.service';
+import { QuoDisplayCol, QuotationCol } from '../quotations/list/quotation.const';
+import { District, Nationality, Occupation, State, Status, Township } from './custmer.dto';
+import { GenderOption, TitleOption } from './customer.const';
+import { CustomerService } from './customer.service';
+
+@Component({
+  selector: 'app-customer-detail',
+  templateUrl: './customer-detail.component.html',
+  styleUrls: ['./customer-detail.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ]
+})
+
+export class CustomerDetailComponent implements OnInit, AfterViewInit {
+  @ViewChild('fna') fnamatTable: MaterialTableViewComponent;
+  @ViewChild('activity') activitymatTable: MaterialTableViewComponent;
+  @ViewChild('application') applicationmatTable: MaterialTableViewComponent;
+  @ViewChild('attachment') attachmentmatTable: MaterialTableViewComponent;
+  @ViewChild('quotation') quotationmatTable: MaterialTableViewComponent;
+  FNAELEMENT_COL = JSON.parse(JSON.stringify(FNAListCol));
+  FNAdisplayedColumns = JSON.parse(JSON.stringify(FNADisplayCol));
+  ACTIVITY_ELEMENT_COL = JSON.parse(JSON.stringify(ActivityCol));
+  ACTIVITYdisplayedColumns = JSON.parse(JSON.stringify(ActivityDisplayCol));
+  QUOTATION_ELEMENT_COL = JSON.parse(JSON.stringify(QuotationCol));
+  QuotationdisplayedColumns = JSON.parse(JSON.stringify(QuoDisplayCol));
+  APPLICATION_ELEMENT_COL = JSON.parse(JSON.stringify(PolicyCol));
+  ApplicationdisplayedColumns = JSON.parse(JSON.stringify(PolicyDisplayCol));
+  ATTACHMENT_ELEMENT_COL = JSON.parse(JSON.stringify(AttachmentCol))
+  AttachmentdisplayedColumns = JSON.parse(JSON.stringify(AttachmentDisplayCol))
+  // ATTACHMENT_ELEMENT_COL = JSON.parse(JSON.stringify(FNAListCol));
+  // AttachmentdisplayedColumns = JSON.parse(JSON.stringify(FNADisplayCol));
+
+  fnaList: any[] = [];
+  activityList: any[] = [];
+  quatationList: any[] = [];
+  applicationList: any[] = [];
+  attachmentList: any[] = [];
+  config: any = {
+    name: "identityNumber"
+  }
+  group: FormGroup;
+  toMinDate = null
+  fromMinDate = null
+  toMaxDate = null
+  fromMaxDate = null
+  @Input() isPopup: boolean = false
+  @Input() pageStatus: any;
+  customerForm: FormGroup;
+
+  nationalityOption: Nationality[] = [];
+  occupationOption: Occupation[] = [];
+  statusOption: Status[] = [];
+  stateOption: State[] = [];
+  districtOption: District[] = [];
+  townshipOption: Township[] = [];
+
+
+  genderOption = [];
+  titleOption = [];
+
+  oldId: any;
+  oldSecondaryId: any;
+  oldData: any;
+  public tabs: Array<
+    {
+      name: string,
+      active: boolean
+    }> = [
+      {
+        name: 'FNA',
+        active: false
+      },
+      {
+        name: 'Activity',
+        active: false
+      },
+      {
+        name: 'Quotation',
+        active: false
+      },
+      {
+        name: 'Application',
+        active: false
+      },
+      {
+        name: 'Attachment',
+        active: false
+      }
+    ]
+  isFNA: boolean = false
+  isApplication: boolean = false
+  isAttachment: boolean = false
+  isQuotation: boolean = false
+  isActivity: boolean = false
+  isMenuOpen: boolean = false
+  isMore: boolean = false
+  isDetail: boolean = true
+  description: string = ""
+  constructor(private fb: FormBuilder,
+    private location: Location,
+    private masterDataService: MasterDataService,
+    private route: ActivatedRoute,
+    private customerService: CustomerService,
+    private modalService: NgbModal,
+    private cdf: ChangeDetectorRef,
+    private prodctService: ProductDataService,
+    private router: Router,
+    private AttachmentUploadService: AttachmentUploadService,
+    private CustomerAttachmentService: AttachmentServiceRef,
+    private AttachmentDownloadService: AttachmentDownloadService,
+  ) {
+
+  }
+
+  ngOnInit(): void {
+    this.loadForm();
+    this.route.queryParams
+      .subscribe(params => {
+        this.pageStatus = params.pageStatus;
+        if (this.pageStatus != 'create' && !this.isPopup) {
+          this.oldId = params.pageId;
+          this.oldSecondaryId = params.pageSecondaryId;
+          this.getOld()
+
+
+        } else {
+          this.loadForm(this.oldData);
+        }
+      }
+      );
+    this.getTitle();
+    this.getGender();
+    this.getOccupation();
+    this.getNationality();
+    this.getStatus();
+    this.getState();
+
+  }
+
+
+
+  ngAfterViewInit() {
+    //  this.getNationality();
+
+  }
+
+  getNationality() {
+    this.masterDataService.getDataByType("NATIONALITY").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.nationalityOption = res
+        this.cdf.detectChanges()
+      }
+    });
+  }
+
+  getTitle() {
+    this.masterDataService.getDataByType("TITLE").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.titleOption = res
+        this.cdf.detectChanges()
+      }
+    })
+  }
+
+  getGender() {
+    this.masterDataService.getDataByType("TB_GENDER").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.genderOption = res
+        this.cdf.detectChanges()
+      }
+    })
+  }
+
+  getOccupation() {
+    this.masterDataService.getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.occupationOption = res
+        this.cdf.detectChanges()
+      }
+    })
+  }
+
+  getStatus() {
+    this.masterDataService.getDataByType("CUST_STATUS").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.statusOption = res
+        this.cdf.detectChanges()
+      }
+    })
+  }
+
+  getFormatOpt(res) {
+    return res.map(x => {
+      return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
+    })
+  }
+
+  getState() {
+    this.masterDataService.getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.stateOption = res
+        this.cdf.detectChanges()
+      }
+    });
+  }
+
+
+
+  getDistrict(parentId: string) {
+    this.masterDataService.getAddressDataByType("DISTRICT", parentId).pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.districtOption = res
+        this.cdf.detectChanges()
+      }
+    });
+  }
+  getTownship(parentId: string) {
+    this.masterDataService.getAddressDataByType("TOWNSHIP", parentId).pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+      if (res) {
+        this.townshipOption = res
+        this.cdf.detectChanges()
+      }
+    });
+  }
+
+  getOld() {
+    this.customerService.findOne(this.oldId).toPromise().then((res) => {
+      if (res) {
+        console.log("RESSSS", res)
+        this.oldData = res
+        // this.fnaList= this.oldData.fna
+        this.activityList = this.oldData.activities != null ? this.oldData.activities : []
+        this.quatationList = this.oldData.resourceQuotations != null ? this.oldData.resourceQuotations : []
+        this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
+        this.attachmentList = this.oldData.attachments != null ? this.oldData.attachments : []
+        this.loadForm(res)
+        this.onInitAddress(this.oldData)
+        this.cdf.detectChanges()
+        this.activitymatTable.reChangeData()
+        this.fnamatTable.reChangeData()
+        this.attachmentmatTable.reChangeData()
+        this.quotationmatTable.reChangeData()
+        this.applicationmatTable.reChangeData()
+      }
+    })
+  }
+
+  loadForm(oldData?) {
+    let disabledForm = oldData ? oldData.partyCode ? true : false : false
+    this.customerForm = new FormGroup({
+      "titleCode": new FormControl({ value: oldData ? oldData.titleCode : '', disabled: disabledForm }),
+      "firstName": new FormControl({ value: oldData ? oldData.firstName : '', disabled: disabledForm }, Validators.required),
+      "lastName": new FormControl({ value: oldData ? oldData.lastName : '', disabled: disabledForm }),
+      "middleName": new FormControl({ value: oldData ? oldData.middleName : '', disabled: disabledForm }),
+      "genderCode": new FormControl({ value: oldData ? oldData.genderCode : '', disabled: disabledForm }, Validators.required),
+      "nationalityCode": new FormControl({ value: oldData ? oldData.nationalityCode : '', disabled: disabledForm }, Validators.required),
+      "identityType": new FormControl({ value: oldData ? oldData.identityType : '', disabled: disabledForm }, Validators.required),
+      "identityNumber": new FormControl({ value: oldData ? oldData.identityNumber : '', disabled: disabledForm }, Validators.required),
+      "statusCode": new FormControl({ value: oldData ? oldData.statusCode : 'A', disabled: disabledForm }, Validators.required),
+      "partyCode": new FormControl({ value: oldData ? oldData.partyCode : '', disabled: disabledForm }),
+      "fatherName": new FormControl({ value: oldData ? oldData.fatherName : '', disabled: disabledForm }),
+      "phone": new FormControl({ value: oldData ? oldData.phone : '', disabled: disabledForm }, Validators.required),
+      "email": new FormControl({ value: oldData ? oldData.email : '', disabled: disabledForm }, [Validators.email, Validators.required]),
+      "dateOfBirth": new FormControl({ value: !oldData ? null : oldData.dateOfBirth ? moment(oldData.dateOfBirth) : null, disabled: disabledForm, }, Validators.required),
+      "occupationCode": new FormControl({ value: oldData ? oldData.occupationCode : '', disabled: disabledForm }),
+      "houseNumber": new FormControl({ value: oldData ? oldData.houseNumber : '', disabled: disabledForm }, Validators.required),
+      "road": new FormControl({ value: oldData ? oldData.road : '', disabled: disabledForm }, Validators.required),
+      "blockArea": new FormControl({ value: oldData ? oldData.blockArea : '', disabled: disabledForm }, Validators.required),
+      "townshipCode": new FormControl({ value: oldData ? oldData.townshipCode : '', disabled: disabledForm }, Validators.required),
+      "districtCode": new FormControl({ value: oldData ? oldData.districtCode : '', disabled: disabledForm }, Validators.required),
+      "stateCode": new FormControl({ value: oldData ? oldData.stateCode : '', disabled: disabledForm }, Validators.required),
+      "companyName": new FormControl({ value: 'IKBZG', disabled: true })
+    });
+
+  }
+
+  onInitAddress(oldData) {
+    this.getState();
+    this.getDistrict(oldData.stateCode);
+    this.getTownship(oldData.districtCode)
+    this.cdf.detectChanges();
+  }
+
+  onChangeState() {
+    this.districtOption = [];
+    this.townshipOption = [];
+
+    this.customerForm.controls['districtCode'].setValue('');
+    this.customerForm.controls['townshipCode'].setValue('');
+    this.getDistrict(this.customerForm.controls['stateCode'].value);
+    this.cdf.detectChanges();
+
+  }
+
+  onChangeDistrict() {
+    this.customerForm.controls['townshipCode'].setValue('');
+    if (this.customerForm.controls['stateCode'].value == '') {
+      this.townshipOption = [];
+    } else {
+      this.getTownship(this.customerForm.controls['districtCode'].value);
+    }
+    this.cdf.detectChanges()
+  }
+
+  isIdentitiyType() {
+    this.customerForm.controls["identityNumber"].setValue('');
+  }
+  backLocation() {
+    if (this.isPopup) {
+      this.modalService.dismissAll()
+    }
+    else {
+      this.loadForm(this.oldData)
+      this.onInitAddress(this.oldData);
+    }
+  }
+
+  doCustomer() {
+    if (this.customerForm.invalid) {
+      validateAllFields(this.customerForm)
+      return true
+    } else {
+      let postData = this.customerForm.getRawValue()
+      if (this.isPopup) {
+        this.create(postData)
+      }
+      else {
+        if (this.pageStatus == 'create') {
+          this.create(postData)
+        } else {
+          this.edit(postData)
+        }
+      }
+
+
+    }
+  }
+
+  create(postData) {
+    let data = { ...postData, customerId: null, individualId: null };
+    this.customerService.save(data).toPromise().then((res) => {
+      console.log("RESSS", res)
+      if (res) {
+        if (this.isPopup) {
+          this.modalService.dismissAll({ data: { name: data.firstName, customerId: res }, type: "save" })
+        } else {
+          this.location.back()
+        }
+      }
+    })
+  }
+
+  edit(postData) {
+    let data = { ...postData, customerId: this.oldId, individualId: this.oldSecondaryId };
+    this.customerService.updateNoID(data).toPromise().then((res) => {
+      if (res) {
+        this.location.back()
+      }
+    })
+  }
+
+  toggleAccordion(type) {
+
+    if (type == 'FNA') {
+      this.isFNA = !this.isFNA
+    }
+    if (type == 'Application') {
+      this.isApplication = !this.isApplication
+    }
+    if (type == 'Quotation') {
+      this.isQuotation = !this.isQuotation
+    }
+    if (type == 'Attachment') {
+      this.isAttachment = !this.isAttachment
+      if (this.isAttachment) {
+        this.getCustomerAttachment()
+      }
+    }
+    if (type == 'Activity') {
+      this.isActivity = !this.isActivity
+    }
+    if (type == 'More') {
+      this.isMore = !this.isMore
+    }
+    if (type == 'Detail') {
+      this.isDetail = !this.isDetail
+    }
+  }
+
+
+  add(type) {
+    if (type == 'Application') {
+      const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
+      modalRef.componentInstance.type = 'modal'
+      modalRef.result.then(() => { }, (res) => {
+        if (res) {
+          if (res.type == 'save') {
+            this.prodctService.creatingCustomer = this.oldData
+            this.prodctService.createingProd = res.data
+            this.prodctService.editData = null
+            this.prodctService.referenceID = null
+            this.prodctService.viewType = 'policy'
+            this.prodctService.type = 'policy'
+            this.router.navigateByUrl("/product-form")
+          }
+        }
+      })
+    }
+    if (type == 'Quotation') {
+      const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
+      modalRef.componentInstance.type = 'modal'
+      modalRef.result.then(() => { }, (res) => {
+        if (res) {
+          if (res.type == 'save') {
+            this.prodctService.createingProd = res.data
+            this.prodctService.creatingCustomer = this.oldData
+            this.prodctService.viewType = 'quotation'
+            this.prodctService.editData = null
+            this.prodctService.referenceID = null
+            this.prodctService.type = 'quotation'
+            this.router.navigateByUrl("/product-form")
+          }
+        }
+      })
+    }
+    if (type == 'Activity') {
+      this.router.navigate(["/activity/activity-management-detail"], { queryParams: { customerId: this.oldData.customerId, name: this.oldData.firstName, pageStatus: 'create' } })
+
+    }
+  }
+
+
+  openModal() {
+    let modalRef;
+    modalRef = this.modalService.open(NrcPopupPage, { size: 'xl', backdrop: false });
+
+    modalRef.componentInstance.config = this.config
+    modalRef.componentInstance.group = this.customerForm
+  }
+
+  actionBtn(event) {
+    if (event.cmd == 'download') {
+      this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
+    }
+  }
+
+  async addAttachment() {
+    let modalRef;
+    modalRef = this.modalService.open(CustomInputAlertComponent, { size: 'lg', backdrop: false });
+    modalRef.componentInstance.type = 'description'
+    modalRef.componentInstance.oldId = this.oldId
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        console.log("RESSS", res)
+        this.description = res.description
+
+        this.AttachmentUploadService.save(res.data).toPromise().then((res) => {
+          if (res) {
+            console.log("RESFILE", res)
+            let postData = {
+              attachmentId: res,
+              description: this.description,
+              refDocNo: this.oldId,
+              refDocType: 'CUST'
+            }
+            this.CustomerAttachmentService.save(postData).toPromise().then((res) => {
+              if (res) {
+                console.log("RESFILE", res)
+                this.getCustomerAttachment()
+              }
+
+            })
+          }
+        }).catch(e => {
+        })
+
+      }
+
+    })
+
+    //   }
+    // })
+
+
+  }
+
+
+  async getCustomerAttachment() {
+    this.CustomerAttachmentService.getAttachmentListRef(this.oldId, 'CUST').toPromise().then((res: any) => {
+      if (res) {
+        console.log("RESFILE", res)
+        this.attachmentList = res
+        this.attachmentmatTable.reChangeData()
+        this.cdf.detectChanges()
+      }
+
+    })
+  }
+
+  //for View
+  isControlValid(controlName: string): boolean {
+    const control = this.customerForm.controls[controlName];
+    return control.valid && (control.dirty || control.touched);
+  }
+
+  isControlInvalid(controlName: string): boolean {
+    const control = this.customerForm.controls[controlName];
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  controlHasError(validation, controlName): boolean {
+    const control = this.customerForm.controls[controlName];
+    return control.hasError(validation) && (control.dirty || control.touched);
+  }
+
+  isControlTouched(controlName): boolean {
+    const control = this.customerForm.controls[controlName];
+    return control.dirty || control.touched;
+  }
+}

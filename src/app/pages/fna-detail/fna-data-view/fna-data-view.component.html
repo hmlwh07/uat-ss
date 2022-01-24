@@ -1,0 +1,589 @@
+<div class="fna-view">
+    <h3 class="card-label left-border-image" *ngIf="!title">{{ type }}</h3>
+    <h3 class="card-label left-border-image" *ngIf="title">{{ title }}</h3>
+    <div *ngIf="type == 'Health' " action="#" class="health form">
+        <div class="set">
+            <div class="col-12">We need health to work, so whatever it costs we need to
+                protect our health</div>
+            <h4 class="col-12 sub-title" style="padding-left: 13px;">Current health protection self</h4>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group"> <label class="form-label">With production</label> </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <mat-radio-group [disabled]="true">
+                            <mat-radio-button class="example-margin" [value]=true
+                                [checked]="fnaViews[0].protection == true ">Yes
+                            </mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false
+                                [checked]="fnaViews[0].protection == false ">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="fnaViews[0].protection">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by insurance</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ fnaViews[0].amountByInsurance.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by employer</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ fnaViews[0].amountByEmployer.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by social benefit</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ fnaViews[0].amountBySocialBenefit.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- //////////////////////////////// -->
+        <div class="set">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-12 sub-title">Current health protection Spouse</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Name of Spouse</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" readonly value="{{ fnaViews[1].name }}"
+                            class="form-control form-control-sm form-control-md" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <div class="input-group ">
+                            <input type="text" readonly="true" value="{{ fnaViews[1].dateOfBirth }}"
+                                class="form-control form-control-sm" name="actualDateStr" autocomplete="off" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label"> With production</label>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <mat-radio-group [disabled]="true">
+                            <mat-radio-button class="example-margin" [value]=true
+                                [checked]="fnaViews[1].protection == true ">Yes
+                            </mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false
+                                [checked]="fnaViews[1].protection == false ">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="fnaViews[1].protection">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by insurance</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ fnaViews[1].amountByInsurance.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by employer</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ fnaViews[1].amountByEmployer.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by social benefit</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ fnaViews[1].amountBySocialBenefit.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ///////////////////////////// -->
+        <div *ngFor="let view of fnaHealths; let i = index">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <h4 class="sub-title" style="padding: 0;">Current health protection Child {{ i + 1 }}
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Name of Child</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" readonly value="{{ view.name }}"
+                            class="form-control form-control-sm form-control-md" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <div class="input-group ">
+                            <input type="text" readonly="true" value="{{ view.dateOfBirth }}"
+                                class="form-control form-control-sm" name="actualDateStr" autocomplete="off" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">With production</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <mat-radio-group [disabled]="true">
+                            <mat-radio-button class="example-margin" [value]=true [checked]="view.protection == true ">
+                                Yes
+                            </mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false
+                                [checked]="view.protection == false ">No
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf=view.protection>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by insurance</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ view.amountByInsurance.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by employer</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ view.amountByEmployer.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Amount protected by social benefit</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly value="{{ view.amountBySocialBenefit.toLocaleString() }}"
+                                class="form-control form-control-sm form-control-md" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////////////   Asset   ////////////////////////// -->
+    <div *ngIf="type == 'Asset' ">
+        <div action="#" class="form asset" *ngFor="let view of fnaViews; let i = index">
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-label">Asset {{ i + 1 }}</div>
+                </div>
+                <div class="col-8"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Asset Type</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <select autocomplete="off" [disabled]="true" value="{{ view.assetType }}"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option [value]="">Please Select</option>
+                            <option value="building">Building</option>
+                            <option value="motor">Motor</option>
+                            <option value="others">Others</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group" *ngIf="view.assetType == 'others' ">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Please Specify</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            readonly value="{{ view.remark }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">With insurance protection</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <mat-radio-group [disabled]="true">
+                            <mat-radio-button class="example-margin" [value]=true [checked]="view.protect == true ">Yes
+                            </mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false [checked]="view.protect == false ">No
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Replacement/ Purchase Cost <span>*</span></label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" readonly value="{{ view.cost.toLocaleString() }}"
+                            class="form-control form-control-sm form-control-md" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////////////   Education   ////////////////////////// -->
+    <div *ngIf="type == 'Education' ">
+        <div action="#" class="form education" *ngFor="let view of fnaViews; let i = index">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-12" style="padding-left: 26px; margin: 0 0 10px 0;">Information on children's age
+                        and
+                        university years
+                        collected earlier</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <h4 class="col-4">Child {{ i + 1 }}</h4>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Child Name</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="actualDateStr" autocomplete="off"
+                            readonly value="{{ view.childName }}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <div class="input-group ">
+                            <input type="text" readonly="true" class="form-control form-control-sm" name="actualDateStr"
+                                autocomplete="off" readonly value="{{ formatDateMMDDYYYY (view.dateOfBirth) }}" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Higher Education</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <mat-radio-group [disabled]="true">
+                            <mat-radio-button class="example-margin" value="bachelor"
+                                [checked]="view.highEducation == 'bachelor' ">Bachelor</mat-radio-button>
+                            <mat-radio-button class="example-margin" value="master"
+                                [checked]="view.highEducation == 'master' ">Master</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Sum Assured <span>*</span></label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="sumAssured" autocomplete="off"
+                            readonly value="{{ view.sumAssured.toLocaleString() }}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Education Expense</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="educationExpense"
+                            autocomplete="off" readonly value="{{ view.educationExpense.toLocaleString() }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////////////   Income   ////////////////////////// -->
+    <div *ngIf="type == 'Income' ">
+        <div action="#" class="form">
+            <div class="about">
+                <div style="padding-left: 13px;">We all work for our income - can you provide some details</div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Source of Income</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select [disabled]="true" value="{{ fnaData.sourceOfIncome }}"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="employee">Employee</option>
+                                <option value="professional">Professional</option>
+                                <option value="nrm">NRM</option>
+                                <option value="smallbusiness">Small business</option>
+                                <option value="largebusiness">Large business</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Family Monthly Spending (lakhs) <span>*</span> </label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly class="form-control form-control-sm form-control-md"
+                                name="familyMonthlySpending" autocomplete="off"
+                                value="{{ fnaData.familyMonthlySpending.toLocaleString() }}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Monthly Income (lakhs) </label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" readonly
+                                name="estimatedMonthlyIncomeText" autocomplete="off"
+                                value="{{ fnaData.estimatedMonthlyIncome.toLocaleString() }}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////////////   saveRetirement   ////////////////////////// -->
+    <div *ngIf="type == 'RetirementSaving' ">
+        <div action="#" class="form retirement-saving">
+            <div class="row">
+                <div class="col-12" style="padding-left: 26px; margin: 5px 0;">Information on children's age and
+                    university
+                    years collected earlier</div>
+            </div>
+            <div class="set">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group"> <label class="form-label">Date of Birth</label> </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <div class="input-group ">
+                                <input type="text" readonly="true" class="form-control form-control-sm"
+                                    name="actualDateStr" autocomplete="off" value="{{ fnaData.dateOfBirth }}" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="text-dark-50 flaticon-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Retirement Age</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" readonly class="form-control form-control-sm form-control-md"
+                                autocomplete="off" value="{{ fnaData.retirementAge }}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Pre-retirement Income</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly="true" class="form-control form-control-sm"
+                                name="retirementIncome" autocomplete="off"
+                                value="{{ mathRoundTo(fnaData.retirementIncome, 2) }}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Retirement Savings Required</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" readonly="true" class="form-control form-control-sm"
+                                name="retirementSaving" autocomplete="off"
+                                value="{{ mathRoundTo(fnaData.retirementSaving, 2) }}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Retirement Savings Incl. Spouse</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" readonly="true" class="form-control form-control-sm"
+                            name="retirementSavingSpouse" autocomplete="off"
+                            value="{{ mathRoundTo(fnaData.retirementSavingSpouse, 2) }}" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-about col-12" style="overflow: hidden; padding: 0;">
+        <button type="button" class="btn btn-primary btn-elevate mx-2"
+            style="width: 120px; float: right; margin-right: 0 !important;" (click)="close()">Close</button>
+    </div>
+</div>

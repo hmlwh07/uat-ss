@@ -1,0 +1,43 @@
+.rowStyle {
+    margin-top: 10px;
+    color     : #000;
+}
+
+.columnStyle {
+    text-align: center;
+    font-size : var(--label-size);
+}
+
+.input {
+    border-bottom   : 1px #A1AAAD solid;
+    width           : 100%;
+    display         : inline-block;
+    // padding      : 15px 0px;
+    text-align      : center;
+    font-size: 8pt !important;
+    color:gray;
+}
+.input-box{
+    border-bottom: 1px #A1AAAD solid;
+   width: 100%;
+    display: inline-block;
+    margin: 15px 0px;
+   text-align: center;
+}
+
+.textColor {
+    color: #2C66FF;
+}
+
+.header-style {
+    box-shadow   : 0px 4px 5px #ccc;
+    padding      : 15px 20px;
+    margin-bottom: 20px;
+}
+
+.input-border {
+    border       : 0.5px solid #333;
+    border-radius: 2px;
+    width        : 100%;
+    margin       : 10px 0px;
+}

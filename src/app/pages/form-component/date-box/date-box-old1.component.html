@@ -1,0 +1,114 @@
+<div *ngIf="config" [formGroup]="group">
+  <ng-container *ngIf="config.type == 'date';else policyDate ">
+    <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
+      <label *ngIf="config.isLabel"
+        class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+      <div *ngIf="!config.inlineStyle;else InlineForm">
+        <!-- <input type="{{config.type}}" class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
+        [formControlName]="config.name" /> -->
+        <div class="input-group ">
+          <input type="text" name="{{config.name}}" class="form-control form-control-sm " autocomplete="off"
+            placeholder="dd/mm/yyyy" ngbDatepicker #d="ngbDatepicker" [minDate]="fromMinDate" [maxDate]="fromMaxDate"
+            [formControlName]="config.name" readonly="true" />
+          <div class="input-group-append" (click)="d.toggle()">
+            <span class="input-group-text">
+              <i class="text-dark-50 flaticon-calendar"></i>
+            </span>
+          </div>
+        </div>
+        <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+      </div>
+      <ng-template #InlineForm>
+        <div class="col-{{config.inputSize}}">
+          <!-- <input type="{{config.type}}" class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
+          [formControlName]="config.name" /> -->
+          <div class="input-group ">
+            <input type="text" name="{{config.name}}" class="form-control form-control-sm " autocomplete="off"
+              placeholder="dd/mm/yyyy" ngbDatepicker #d="ngbDatepicker" [minDate]="fromMinDate" [maxDate]="fromMaxDate"
+              [formControlName]="config.name" readonly="true" />
+            <div class="input-group-append" (click)="d.toggle()">
+              <span class="input-group-text">
+                <i class="text-dark-50 flaticon-calendar"></i>
+              </span>
+            </div>
+          </div>
+          <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+        </div>
+      </ng-template>
+    </div>
+  </ng-container>
+  <ng-template #policyDate>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
+          <label *ngIf="config.isLabel"
+            class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+          <div *ngIf="!config.inlineStyle;else InlineForm">
+            <div class="input-group ">
+              <input type="text" name="{{config.name}}" class="form-control form-control-sm " autocomplete="off"
+                placeholder="dd/mm/yyyy" ngbDatepicker #d="ngbDatepicker" [minDate]="fromMinDate"
+                [maxDate]="fromMaxDate" [formControlName]="config.name" (ngModelChange)="doValid()" readonly="true" />
+              <div class="input-group-append" (click)="d.toggle()">
+                <span class="input-group-text">
+                  <i class="text-dark-50 flaticon-calendar"></i>
+                </span>
+              </div>
+            </div>
+            <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+          </div>
+          <ng-template #InlineForm>
+            <div class="col-{{config.inputSize}}">
+              <!-- <input type="{{config.type}}" class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
+              [formControlName]="config.name" /> -->
+              <div class="input-group ">
+                <input type="text" name="{{config.name}}" class="form-control form-control-sm " autocomplete="off"
+                  placeholder="dd/mm/yyyy" ngbDatepicker #d="ngbDatepicker" [minDate]="fromMinDate"
+                  [maxDate]="fromMaxDate" [formControlName]="config.name" (ngModelChange)="doValid()" readonly="true" />
+                <div class="input-group-append" (click)="d.toggle()">
+                  <span class="input-group-text">
+                    <i class="text-dark-50 flaticon-calendar"></i>
+                  </span>
+                </div>
+              </div>
+              <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
+          <label *ngIf="config.isLabel"
+            class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.endLabel}}</label>
+          <div *ngIf="!config.inlineStyle;else InlineForm2">
+            <div class="input-group ">
+              <input type="text" name="{{config.endName}}" id="{{config.endName}}" class="form-control form-control-sm "
+                autocomplete="off" placeholder="dd/mm/yyyy" ngbDatepicker #da="ngbDatepicker" [minDate]="toMinDate"
+                [maxDate]="toMaxDate" [formControlName]="config.endName" readonly="true" />
+              <div class="input-group-append" (click)="da.toggle()">
+                <span class="input-group-text">
+                  <i class="text-dark-50 flaticon-calendar"></i>
+                </span>
+              </div>
+            </div>
+            <!-- <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error> -->
+          </div>
+          <ng-template #InlineForm2>
+            <div class="col-{{config.inputSize}}">
+              <div class="input-group ">
+                <input type="text" name="{{config.endName}}" class="form-control form-control-sm " autocomplete="off"
+                  placeholder="dd/mm/yyyy" id="{{config.endName}}" ngbDatepicker #da="ngbDatepicker"
+                  [minDate]="toMinDate" [maxDate]="toMaxDate" [formControlName]="config.endName" readonly="true" />
+                <div class="input-group-append" (click)="da.toggle()">
+                  <span class="input-group-text">
+                    <i class="text-dark-50 flaticon-calendar"></i>
+                  </span>
+                </div>
+              </div>
+              <!-- <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error> -->
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

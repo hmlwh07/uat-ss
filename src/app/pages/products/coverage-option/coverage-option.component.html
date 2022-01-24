@@ -1,0 +1,52 @@
+<div class="form-group row">
+  <!-- isSun -->
+  <div class="col-sm-3">
+    <div class="form-group row">
+      <label class="col-md-6 col-form-label text-md-right">Sum Insured</label>
+      <div class="col-md-6 col-xl-4">
+        <span class="switch switch-icon">
+          <label>
+            <input type="checkbox" name="isSum" [(ngModel)]="isSum" />
+            <span></span>
+          </label>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- isSun -->
+  <!-- isUnit -->
+  <div class="col-sm-3">
+    <div class="form-group row">
+      <label class="col-md-6 col-form-label text-md-right">Unit</label>
+      <div class="col-md-6 col-xl-4">
+        <span class="switch switch-icon">
+          <label>
+            <input type="checkbox" name="isUnit" [(ngModel)]="isUnit" />
+            <span></span>
+          </label>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- isUnit -->
+  <!-- isPremium -->
+  <div class="col-sm-3">
+    <div class="form-group row">
+      <label class="col-md-6 col-form-label text-md-right">Premium</label>
+      <div class="col-md-6 col-xl-4">
+        <span class="switch switch-icon">
+          <label>
+            <input type="checkbox" name="isPremium" [(ngModel)]="isPremium" />
+            <span></span>
+          </label>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- isPremium -->
+  <div class="col-sm-3">
+    <div class="form-group">
+      <button class="btn btn-primary" (click)="updateOption()">Save Change</button>
+    </div>
+  </div>
+</div>

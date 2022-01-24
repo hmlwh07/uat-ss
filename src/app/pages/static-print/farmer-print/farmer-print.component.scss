@@ -1,0 +1,25 @@
+.sign-row {
+  display        : flex;
+  justify-content: space-between;
+  font-size: 13px;
+
+  .sign-box {
+    display        : flex;
+    justify-content: space-between;
+    width          : 300px;
+
+    .border-line {
+      width        : 150px;
+      border-bottom: 1px dashed #000;
+    }
+  }
+}
+.farmer-print> p{
+  background-color: rgb(221, 235, 247);
+  border         : 1px solid #9BC2E6;
+  padding: 2px;
+  margin-top: 10px;
+}
+.title-style{
+  font-size: 15px;
+}

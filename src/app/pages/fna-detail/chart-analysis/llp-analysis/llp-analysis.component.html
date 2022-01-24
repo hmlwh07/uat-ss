@@ -1,0 +1,111 @@
+<div style="margin: 50px 0 0 0;position: relative; ">
+    <div style="width: 450px; position: relative; margin: 0 auto;">
+        <div class="inner investment" (click)="actionChart('Freedom')">
+            <div class="sub-inner ">
+                <div class="freedom-left-inner">
+                    <div class="progress">
+                        <span style="width:100%; height: 100%;">
+                            <span class="sub-progress"
+                                [ngStyle]="{'background-color':freedom.length? '#22aae1' : '#BFBFBF' }">
+                                <div class="text-rotate" *ngIf="freedom.length > 0">100%</div>
+                                <div class="text-rotate" *ngIf="freedom.length == 0">0%</div>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="freedom-right-inner"></div>
+                <a [ngStyle]="{'color':freedom.length? '#22aae1' : '#7F7F7F' }">Freedom</a>
+            </div>
+        </div>
+        <div class="inner saving">
+            <div class="sub-inner">
+                <div class="education-left-inner" (click)="fnaSwitchEvent('Education')">
+                    <div class="progress">
+                        <span style="width:100%; height: 100%;">
+                            <span class="sub-progress"
+                                [ngStyle]="{'background-color':fnaEducations.length? '#22aae1' : '#BFBFBF' }">
+                                <div class="text-rotate" *ngIf="fnaEducations.length > 0">100%</div>
+                                <div class="text-rotate" *ngIf="fnaEducations.length == 0 ">0%</div>
+                            </span>
+                        </span>
+                    </div>
+                    <a [ngStyle]="{'color':fnaEducations.length? '#22aae1' : '#7F7F7F' }">Education</a>
+                    <div class="saving-border"></div>
+                </div>
+                <div class="retirement-right-inner" (click)="fnaSwitchEvent('Retirement')">
+                    <div class="progress">
+                        <span style="width:100%; height: 100%;">
+                            <span class="sub-progress"
+                                [ngStyle]="{'background-color':fnaRetirementSaving? '#22aae1' : '#BFBFBF' }">
+                                <div class="text-rotate" *ngIf="fnaRetirementSaving">100%</div>
+                                <div class="text-rotate" *ngIf="!fnaRetirementSaving">0%</div>
+                            </span>
+                        </span>
+                    </div>
+                    <a [ngStyle]="{'color':fnaRetirementSaving? '#22aae1' : '#7F7F7F' }">Retirement</a>
+                </div>
+            </div>
+        </div>
+        <div class="protection" style="border-bottom: 2px solid #d9d9d9;">
+            <div class="sub-inner row">
+                <div class="income-left-inner col-4" (click)="fnaSwitchEvent('Income')">
+                    <div class="progress">
+                        <span style="width:100%; height: 100%;">
+                            <span class="sub-progress"
+                                [ngStyle]="{'background-color':fnaIncome? '#22aae1' : '#BFBFBF' }">
+                                <div class="text-rotate" *ngIf="fnaIncome">100%</div>
+                                <div class="text-rotate" *ngIf="!fnaIncome">0%</div>
+                            </span>
+                        </span>
+                    </div>
+                    <a [ngStyle]="{'color':fnaIncome? '#22aae1' : '#7F7F7F' }">Income</a>
+                </div>
+                <div class="health-middle-inner col-4" (click)="fnaSwitchEvent('Health')">
+                    <div class="progress">
+                        <span style="width:100%; height: 100%;">
+                            <span class="sub-progress"
+                                [ngStyle]="{'background-color':fnaHealths.length? '#22aae1' : '#BFBFBF' }">
+                                <div class="text-rotate" *ngIf="fnaHealths.length > 0">100%</div>
+                                <div class="text-rotate" *ngIf="fnaHealths.length == 0">0%</div>
+                            </span>
+                        </span>
+                    </div>
+                    <a [ngStyle]="{'color':fnaHealths.length? '#22aae1' : '#7F7F7F' }">Health</a>
+                    <div class="saving-border" style="left: 0;"></div>
+                    <div class="saving-border"></div>
+                </div>
+                <div class="asset-right-inner col-4" (click)="fnaSwitchEvent('Asset')">
+                    <div class="progress">
+                        <span style="width:100%; height: 100%;">
+                            <span class="sub-progress"
+                                [ngStyle]="{'background-color':fnaAssets.length? '#22aae1' : '#BFBFBF' }">
+                                <div class="text-rotate" *ngIf="fnaAssets.length > 0">100%</div>
+                                <div class="text-rotate" *ngIf="fnaAssets.length == 0">0%</div>
+                            </span>
+                        </span>
+                    </div>
+                    <a [ngStyle]="{'color':fnaAssets.length? '#22aae1' : '#7F7F7F' }">Assets</a>
+                </div>
+            </div>
+        </div>
+        <div class="left-border"></div>
+        <div class="right-border"></div>
+        <!-- <div class="left-transparent"></div>
+        <div class="right-transparent"></div> -->
+    </div>
+    <div class="investment-dot">
+        <span>Investment</span>
+    </div>
+    <div class="saving-dot">
+        <span>Saving</span>
+    </div>
+
+    <div class="protection-dot">
+        <span>Protection</span>
+    </div>
+</div>
+
+<div class="btn-next">
+    <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
+        (click)="fnaSwitchEvent('product')">Save & Next</button>
+</div>

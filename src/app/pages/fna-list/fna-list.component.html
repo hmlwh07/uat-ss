@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label left-border-image">FNA List</h3>
+                </div>
+                <div class="card-toolbar" style="position: relative;">
+                    <button type="button" class="btn btn-primary btn-circle" (click)="displayFNAType()">
+                        <span class="flaticon2-plus"></span>
+                    </button>
+                    <!-- <div class="popover" [class.active]="isActive">
+                        <div (click)="displayFNA('LPP')"><label>Create LPP</label></div>
+                        <div (click)="displayFNA('BRAM')"><label>Create BRAM</label></div>
+                    </div> -->
+                </div>
+                <!-- (click)="createOrEdit('')" -->
+            </div>
+            <div class="card-body customer-card-body">
+                <app-material-table-view [data]="fnaList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
+                    (emitter)="actionBtn($event)">
+                </app-material-table-view>
+            </div>
+        </div>
+    </div>
+</div>

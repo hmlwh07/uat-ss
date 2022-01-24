@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-custom ">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label left-border-image">FNA Type</h3>
+                </div>
+            </div>
+            <div class="form">
+                <div class="col-12" (click)="chooseFNA('LPP')">
+                    <label>Create LPP</label>
+                </div>
+                <div class="col-12" (click)="chooseFNA('BRAM')">
+                    <label>Create BRAM</label>
+                </div>
+            </div>
+            <div class="btn-group" style="width: 100%;
+        display: block;
+        margin: 24px 0;">
+                <button type="button" class="btn" style="max-width: 120px; background: #005f99;color: #fff; 
+            float: right; margin-right: 24px; " (click)="close()">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,101 @@
+<div>
+    <h3 class="card-label left-border-image">Retirement Savings</h3>
+    <form action="#" class="form" [formGroup]="formGroup" (ngSubmit)="saveRetirement()">
+        <div class="row">
+            <div class="col-12" style="padding-left: 26px; margin: 5px 0;">Information on children's age and university
+                years collected earlier</div>
+        </div>
+        <div class="set">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group"> <label class="form-label">Date of Birth</label> </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <div class="input-group ">
+                            <input type="text" readonly class="form-control form-control-sm form-control-md"
+                                autocomplete="off" formControlName="dateOfBirth" />
+                            <!-- <input type="text" ngbDatepicker #ad="ngbDatepicker" readonly="true"
+                                class="form-control form-control-sm" name="actualDateStr" autocomplete="off"
+                                formControlName="dateOfBirth" />
+                            <div class="input-group-append" (click)="ad.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Retirement Age</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="col-8" style="padding: 0; float: left;">
+                        <div class="form-group">
+                            <input type="number" readonly class="form-control form-control-sm form-control-md"
+                                autocomplete="off" [class.is-invalid]="isControlInvalid('retirementAge')"
+                                [class.is-valid]="isControlValid('retirementAge')" formControlName="retirementAge" />
+                        </div>
+                    </div>
+                    <div class="col-4" style="float: right;">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-elevate" [disabled]="!currentIncome"
+                                (click)="calculate()">Calculate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Pre-retirement Income</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" readonly="true" class="form-control form-control-sm"
+                            name="retirementIncomeText" autocomplete="off" formControlName="retirementIncomeText" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Retirement Savings Required</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="text" readonly="true" class="form-control form-control-sm"
+                            name="retirementSavingText" autocomplete="off" formControlName="retirementSavingText" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Retirement Savings Incl. Spouse</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <input type="text" readonly="true" class="form-control form-control-sm"
+                        name="retirementSavingSpouseText" autocomplete="off"
+                        formControlName="retirementSavingSpouseText" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="btn-about col-12">
+            <button type="button" *ngIf="fnaService.fnaRetirementSaving" class="btn btn-primary btn-elevate mx-2"
+                (click)="viewAll()">View All</button>
+            <button type="button" class="btn btn-primary btn-elevate" (click)="backAction()" style="width: 150px;">Back
+                Main Page</button>
+            <button type="submit" class="btn btn-primary btn-elevate mx-2" [disabled]="!isCalculate">Save</button>
+        </div>
+    </form>
+</div>

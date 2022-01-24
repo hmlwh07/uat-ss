@@ -1,0 +1,84 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+      Config Print From <small>(Notice: Table maximun column counts is 8)</small>
+    </div>
+
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body" style="padding:0px">
+    <div class="row" cdkDropListGroup>
+      <div class="col-3">
+        <div class="scroll-div">
+          <div class="example-list" cdkDropList [id]="'mainlist'" [cdkDropListData]="listData">
+            <div class="example-box" *ngFor="let item of listData" cdkDrag>
+              <div class="example-custom-placeholder" *cdkDragPlaceholder>
+              </div>
+              <!-- {{item | json}} -->
+              {{item.static ? item.title : (item.tableTitle || item.label || item.name) }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <!-- <div></div> -->
+        <div class="print-config">
+          <ng-container *ngFor="let table of printedFormatTable;let tableIndex= index">
+            <div class="table-block">
+              <div class="title-style left-border-image mt-5">{{table.title}}
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-secondary" (click)="editTitle(tableIndex)">
+                </span>
+              </div>
+              <ng-container *ngFor="let row of table.row;let rowIndex = index">
+                <div cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="row.column"
+                  (cdkDropListDropped)="drop($event)" class="table-drop-row">
+                  <div class="example-box-2" *ngFor="let col of row.column;let colIndex = index" cdkDrag
+                    [style.flex]="col.size" [style.background-color]="col.background" [style.color]="col.color"
+                    (click)="editCol(tableIndex,rowIndex,colIndex)">
+                    ({{getColSize(col)}}) {{ col.title }}
+                    <span class="close-icon"
+                      (click)="removeCol(tableIndex,rowIndex,colIndex);$event.preventDefault();">&times;</span>
+                  </div>
+                  <span *ngIf="rowIndex > 0" class="close-icon" (click)="removeRow(tableIndex,rowIndex)">&times;</span>
+                </div>
+                <button class="btn btn-primary btn-block btn-sm mt-3" *ngIf="defaultObj.pageType != 'table'"
+                  (click)="addNewCol(tableIndex,rowIndex)">Add New Column</button>
+              </ng-container>
+
+              <button class="btn btn-primary btn-block btn-sm mt-3" *ngIf="defaultObj.pageType != 'table'"
+                (click)="addNewRow(tableIndex)">Add New Row</button>
+
+              <span *ngIf="tableIndex > 0" class="close-icon" (click)="removeTable(tableIndex)">&times;</span>
+            </div>
+          </ng-container>
+          <button class="btn btn-primary btn-block btn-sm mt-3" (click)="addNewTable()"
+            *ngIf="defaultObj.pageType != 'table'">Add New Table</button>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- <div class="example-container">
+      <h2>To do</h2>
+    
+      <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]"
+        class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+      </div>
+    </div>
+    
+    <div class="example-container">
+      <h2>Done</h2>
+    
+      <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]"
+        class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+      </div>
+    </div> -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="saveConfig()">Save</button>
+  </div>
+</div>

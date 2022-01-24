@@ -1,0 +1,33 @@
+// @import "../../../assets/sass/pages/wizard/wizard-1";
+@import "../../../../assets/sass/pages/wizard/wizard-3";
+
+.active .wizard-title,.done .wizard-title{
+  color: #3699ff !important;
+}
+.active .wizard-bar,.done .wizard-bar{
+  background-color: #3699ff !important;
+}
+.upload-icon-group{
+  display: flex;
+  gap: 10px;
+}
+.upload-icon{
+  display: flex;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed #333;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 10px;
+  overflow: hidden;
+  img{
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.table-bordered th, .table-bordered td{
+  border: 1px solid #ccc;
+}

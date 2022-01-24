@@ -1,0 +1,66 @@
+    <ng-template #tableView>
+              <table class="table table-bordered" *ngIf="page.id == 'coverage'">
+                <thead>
+                  <tr>
+                    <th>
+                      Base Coverage
+                    </th>
+                    <th *ngIf="coverage.sumInsured">
+                      Sum Insured
+                    </th>
+                    <th *ngIf="coverage.unit">
+                      Unit
+                    </th>
+                    <th *ngIf="coverage.premium">
+                      Premium
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let coverage of item.coverages;let i = index">
+                    <td>{{coverage.description}}</td>
+                    <td *ngIf="coverage.sumInsured">
+                      {{coverageData[coverage.id] ? coverageData[coverage.id].sum : 0}}
+                    </td>
+                    <td *ngIf="coverage.unit">
+                      {{coverageData[coverage.id] ? coverageData[coverage.id].unit : 0}}
+                    </td>
+                    <td *ngIf="coverage.premium">
+                      {{coverageData[coverage.id] ? coverageData[coverage.id].premium : 0}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table table-bordered" *ngIf="page.id == 'addon'">
+                <thead>
+                  <tr>
+                    <th>
+                      Base Coverage
+                    </th>
+                    <th *ngIf="addon.sumInsured">
+                      Sum Insured
+                    </th>
+                    <th *ngIf="addon.unit">
+                      Unit
+                    </th>
+                    <th *ngIf="addon.premium">
+                      Premium
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let addon of item.addOns;let i = index">
+                    <td>{{addon.description}}</td>
+                    <td *ngIf="addon.sumInsured">
+                      {{addOnData[addon.id] ? addOnData[addon.id].sum : 0}}
+                    </td>
+                    <td *ngIf="addon.unit">
+                      {{addOnData[addon.id] ? addOnData[addon.id].unit : 0}}
+                    </td>
+                    <td *ngIf="addon.premium">
+                      {{addOnData[addon.id] ? addOnData[addon.id].premium : 0}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-template>
