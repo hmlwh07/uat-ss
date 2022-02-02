@@ -22,6 +22,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { IonicModule } from '@ionic/angular';
+import { CalendarModule } from 'angular-calendar';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { DateAdapter } from '@angular/material/core';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
@@ -53,7 +57,13 @@ function appInitializer(authService: AuthService) {
     OverlayModule,
     MatTooltipModule,
     MatSelectModule,
-    NgSelectModule
+    NgSelectModule,
+    CalendarModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     {

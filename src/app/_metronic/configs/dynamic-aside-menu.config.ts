@@ -15,7 +15,7 @@ export const DynamicAsideMenuConfig = {
       root: true,
       icon: 'flaticon-calendar-1',
       svg: './assets/media/svg/icons/Design/Layers.svg',
-      page: '/calendar',
+      page: '/mycalendar',
       bullet: 'dot',
       show: true
     },

@@ -31,6 +31,7 @@
 @import '~@angular/material/theming';
 // @import "~@ng-select/ng-select/themes/material.theme.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~angular-calendar/css/angular-calendar.css';
 $custom-typography: mat-typography-config($font-family: "Calibri");
 @include mat-core($custom-typography);
 @font-face {
@@ -659,15 +660,17 @@ kbz-loading {
 .btn-group-sm>.btn {
     padding: 0.35rem 0.75rem;
 }
-.ng-select.ng-custom-select-sm .ng-select-container{
+
+.ng-select.ng-custom-select-sm .ng-select-container {
     height: calc(1.35em + 1.1rem + 2px);
     min-height: calc(1.35em + 1.1rem + 2px);
-
 }
-.input-group-sm .mat-icon-button.mat-button-base{
+
+.input-group-sm .mat-icon-button.mat-button-base {
     height: calc(1.35em + 1.1rem + 2px);
     line-height: 11px;
 }
+
 .form-control:disabled,
 .form-control-sm:disabled {
     background-color: #F3F6F9 !important;
@@ -681,11 +684,13 @@ kbz-loading {
 .ng-select .ng-select-container {
     border: 1px solid #E4E6EF;
 }
-.mat-paginator-range-label{
+
+.mat-paginator-range-label {
     margin: 0px;
     white-space: nowrap;
 }
-.mat-icon-button.mat-custom-page{
+
+.mat-icon-button.mat-custom-page {
     width: 2.5rem;
     line-height: 2.5rem !important;
     height: 2.5rem;

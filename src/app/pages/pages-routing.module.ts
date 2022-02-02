@@ -270,6 +270,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'mycalendar',
+        loadChildren: () =>
+          import('./mycalendar/mycalendar.module').then(
+            (m) => m.MyCalendarModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/product/page-group',
         pathMatch: 'full',
