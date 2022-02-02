@@ -23,3 +23,42 @@ export const ReportIdentityType: any[] = [
     value: "Others"
   }
 ]
+
+export const CONSTANT_AGENT_REPORT_DATA: any[] = [
+  {
+    branchName: 'HO (Yangon)',
+    channelName: 'IA',
+    agentName: 'U AA',
+    agentNo: 'IA(O)-008',
+    products: [
+      { productName: 'Fire', productCode: 'CHOO1' },
+      { productName: 'Motor', productCode: 'CHOO2' },
+      { productName: 'Health', productCode: 'CHOO3' },
+    ],
+    policies: [
+      { productCode: 'CHOO1', noOfPolicies: 100, premium: 25000 },
+      { productCode: 'CHOO2', noOfPolicies: 5, premium: 3000 },
+      { productCode: null, noOfPolicies: null, premium: null },
+      { productCode: null, noOfPolicies: null, premium: null },
+      { productCode: null, noOfPolicies: null, premium: null }
+    ]
+  },
+  {
+    branchName: 'HO (Yangon)',
+    channelName: 'IA',
+    agentName: 'U AA',
+    agentNo: 'IA(O)-008',
+    products: [
+      { productName: 'Cash', productCode: 'CHOO4' },
+      { productName: 'Motor', productCode: 'CHOO2' },
+      { productName: 'Personal', productCode: 'CHOO5' },
+    ],
+    policies: [
+      { productCode: 'CHOO4', noOfPolicies: 1, premium: 2 },
+      { productCode: 'CHOO5', noOfPolicies: 3, premium: 4 },
+      { productCode: null, noOfPolicies: null, premium: null },
+      { productCode: null, noOfPolicies: null, premium: null },
+      { productCode: null, noOfPolicies: null, premium: null }
+    ]
+  }
+]

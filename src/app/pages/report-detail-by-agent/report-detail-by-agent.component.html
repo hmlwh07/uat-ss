@@ -130,3 +130,52 @@
         </div>
     </div>
 </div>
+
+<table>
+    <tr style="border-top: 1px solid #000;">
+        <th colspan="5"></th>
+        <th *ngFor="let product of products; let i = index">{{ product.productName }}</th>
+    </tr>
+    <tr>
+        <th>Company</th>
+        <th>Company</th>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+        <th *ngFor="let product of products; let i = index">
+            <span>No of Policies</span>
+            <span>Premium</span>
+        </th>
+    </tr>
+    <tr *ngFor="let report of reports; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ report.branchName }}</td>
+        <td>{{ report.channelName }}</td>
+        <td>{{ report.agentName }}</td>
+        <td>{{ report.agentNo }}</td>
+        <td *ngFor="let policy of reports[i].policies; let j = index; ">
+            <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}</span>
+            <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
+            <span *ngIf="!policy.noOfPolicies" style="padding: 20px 0;">{{ policy.noOfPolicies }}</span>
+            <span *ngIf="!policy.noOfPolicies" style="padding: 20px 0;">{{ policy.premium }}</span>
+        </td>
+    </tr>
+</table>
+
+
+<!-- <td
+            *ngFor="let products of reports[i].products; let j = index; let policy of reports[i].policies; let k = index">
+            <span *ngIf="reports[i].products[j].productCode == reports[i].policies[j].productCode">{{
+                policy.noOfPolicies }}</span>
+            <span *ngIf="reports[i].products[j].productCode == reports[i].policies[j].productCode">{{
+                policy.premium }}</span>
+
+            <span *ngIf="reports[i].products[j].productCode != reports[i].policies[j].productCode">null</span>
+            <span *ngIf="reports[i].products[j].productCode != reports[i].policies[j].productCode">null</span>
+
+
+           <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}</span>
+            <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
+            <span *ngIf="!policy.noOfPolicies" style="padding: 20px 0;">{{ policy.noOfPolicies }}</span>
+            <span *ngIf="!policy.noOfPolicies" style="padding: 20px 0;">{{ policy.premium }}</span> 
+        </td> -->

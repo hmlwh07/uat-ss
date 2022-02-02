@@ -9,3 +9,28 @@
     top: 0px;
     right: 8px;
 }
+
+table {
+    border-left: 1px solid #000;
+    border-left: 1px solid #000;
+    overflow: hidden;
+    width: 100%;
+    tr {
+        border-bottom: 1px solid #000;
+        th,
+        td {
+            text-align: center;
+            border-right: 1px solid #000;
+            span {
+                width: 50%;
+                display: block;
+                float: left;
+                text-align: center;
+                padding: 10px 0;
+            }
+            span:first-child {
+                border-right: 1px solid #000;
+            }
+        }
+    }
+}

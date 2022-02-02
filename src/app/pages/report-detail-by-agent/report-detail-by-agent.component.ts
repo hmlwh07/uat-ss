@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
-import { ReportIdentityType, ReportStatus } from './report-detail-by-agent.const';
+import { CONSTANT_AGENT_REPORT_DATA, ReportIdentityType, ReportStatus } from './report-detail-by-agent.const';
 
 @Component({
   selector: 'app-report-detail-by-agent',
@@ -22,13 +22,61 @@ export class ReportDetailByAgentComponent implements OnInit {
     branches: []
   }
 
-  constructor(private cdf: ChangeDetectorRef) { }  
+  reports = [];
+  products = [];
+  policies = [];
+
+  constructor(private cdf: ChangeDetectorRef) { }
 
 
   ngOnInit(): void {
     this.loadForm();
-  
-  }     
+    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
+    this.reports = CONSTANT_AGENT_REPORT_DATA
+    for (var i = 0; i < this.reports.length; i++) {
+      this.reports[i].productPolicies = [];
+      for (var j = 0; j < this.reports[i].products.length; j++) {
+        this.products.push(this.reports[i].products[j]);
+      }
+
+      for (var k = 0; k < this.reports[i].policies.length; k++) {
+        this.policies.push(this.reports[i].policies[k]);
+      }
+
+    }
+
+    console.log('before duplicate remove products', this.products);
+    console.log('before duplicate remove policies', this.policies);
+
+    let list = [];
+
+
+
+
+
+    const uniqueObjects = [...new Map(this.products.map(item => [item.productCode, item])).values()];
+    console.log('uniqueObjects', uniqueObjects);
+    this.products = uniqueObjects;
+    //this.products = CONSTANT_AGENT_REPORT_DATA[0].products;
+    //this.policies = CONSTANT_AGENT_REPORT_DATA[0].policies;
+    console.log('products', this.products);
+
+    for (var j = 0; j < this.reports.length; j++) {
+      this.reports[j].productPolicies = uniqueObjects
+    }
+
+    for (var i = 0; i < this.reports.length; i++) {
+      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
+        for (var k = 0; k < this.reports[i].policies.length; k++) {
+
+        }
+      }
+      this.reports[j].productPolicies = uniqueObjects
+    }
+
+    console.log('reports ', this.reports);
+
+  }
 
   async changeOptions(ev: null, type) {
     console.log('ev =====> ', ev);
@@ -136,7 +184,7 @@ export class ReportDetailByAgentComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.valid && (control.dirty || control.touched);
   }
- 
+
   isControlInvalid(controlName: string): boolean {
     const control = this.createFormGroup.controls[controlName];
     return control.invalid && (control.dirty || control.touched);
