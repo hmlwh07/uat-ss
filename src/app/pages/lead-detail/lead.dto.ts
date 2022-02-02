@@ -59,6 +59,7 @@ export interface Lead {
     prospectCustomerId?: any,
     prospectCustomerName?: any,
     prospectCustomerDateOfBirth?: any,
+    fnas: any[]
 }
 
 export class stateOption {
