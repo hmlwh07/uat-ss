@@ -103,9 +103,14 @@ export const TableColData = {
         field: "title",
       },
       {
-        title: "Name",
+        title: "First Name",
         type: COLTYPE.FEILD,
-        field: "name",
+        field: "firstName",
+      },
+      {
+        title: "Last Name",
+        type: COLTYPE.FEILD,
+        field: "lastName",
       },
       {
         title: "Identity Type",
@@ -126,7 +131,8 @@ export const TableColData = {
     displayedColumns:[
       "id",
       "title",
-      "name",
+      "firstName",
+      "lastName",
       "identityType",
       "identityNumber",
       "gender",
@@ -145,9 +151,14 @@ export const TableColData = {
         field: "email",
       },
       {
-        title: "Name",
+        title: "First Name",
         type: COLTYPE.FEILD,
         field: "firstName",
+      },
+      {
+        title: "Last Name",
+        type: COLTYPE.FEILD,
+        field: "lastName",
       },
       {
         title: "Mobile No",
@@ -159,6 +170,7 @@ export const TableColData = {
       "empNo",
       "email",
       "firstName",
+      "lastName",
       "mobileNo",
     ]
   },

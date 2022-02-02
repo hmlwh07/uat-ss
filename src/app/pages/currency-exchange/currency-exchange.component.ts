@@ -1,5 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MY_FORMATS } from 'src/app/core/is-json';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CurrencyAddFormComponent } from './add-form/currency-add-form.component';
 import { CurrencyExchange, CurrencyExchangeService } from './currency-exchange.service';
@@ -7,28 +11,47 @@ import { CurrencyCol, CurrencyDisplayCol } from './currency.const';
 @Component({
   selector: 'app-currency-exchange',
   templateUrl: './currency-exchange.component.html',
-  styleUrls: ['./currency-exchange.component.scss']
+  styleUrls: ['./currency-exchange.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
 })
 export class CurrencyExChangeComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   currencyList: CurrencyExchange[] = []
   ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyCol))
   displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
+  exchangeForm:FormGroup
   constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef, private modalCrl: NgbModal) {
 
   }
 
   ngOnInit() {
+    this.loadForm()
     this.getData()
   }
   // ngAfterViewInit(){
   //   this.getData()
   // }
+  loadForm(){
+    this.exchangeForm = new FormGroup({
+      date: new FormControl(null),
+      currency: new FormControl(null),
+    })
+  }
 
   getData() {
     // console.log(this.matTable);
 
-    this.currencyService.findAll().toPromise().then((res: any) => {
+    // this.currencyService.findAll().toPromise().then((res: any) => {
+    //   if (res) {
+    //     this.currencyList = res
+    //     this.cdf.detectChanges()
+    //     this.matTable.reChangeData()
+    //   }
+    // })
+    this.currencyService.getList(this.exchangeForm.value).toPromise().then((res: any) => {
       if (res) {
         this.currencyList = res
         this.cdf.detectChanges()
@@ -36,6 +59,17 @@ export class CurrencyExChangeComponent implements OnInit {
       }
     })
 
+  }
+  addData(){
+    const modalRef = this.modalCrl.open(CurrencyAddFormComponent, { size: 'md', backdrop: false });
+    modalRef.componentInstance.isModal = true
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        if (res.cmd == 'save') {
+          this.saveData(res.data)
+        }
+      }
+    })
   }
 
   saveData(event: any) {
@@ -61,6 +95,7 @@ export class CurrencyExChangeComponent implements OnInit {
     modalRef.componentInstance.oldData = data
     modalRef.componentInstance.id = data.id
     modalRef.componentInstance.isModal = true
+    modalRef.componentInstance.isEdit = true
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (res.cmd == 'save') {

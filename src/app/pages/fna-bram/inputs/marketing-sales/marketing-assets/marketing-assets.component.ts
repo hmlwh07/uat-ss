@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
-import { FANService } from 'src/app/pages/fna-detail/fna-manage.service';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AlertService } from '../../../../../../app/modules/loading-toast/alert-model/alert.service';
+import { FANService } from '../../../../../../app/pages/fna-detail/fna-manage.service';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FNABRAMInputService } from '../../../inputs.manage.service';
 import { MARKETING_SALES } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
@@ -58,10 +58,13 @@ export class MarketingAssetsComponent implements OnInit {
       this.dataList = this.inputsService.getAllInputByType(res, MARKETING_SALES.MARKETING_ASSETS.toString());
       if (this.dataList.length > 0) {
         for (var i = 0; i < this.dataList.length; i++) {
+          if (this.dataList[i].unit == 0) {
+            this.dataList[i].unit = '';
+          }
           this.dataList[i].valueLaks = this.fnaService.mathRoundTo(this.dataList[i].valueLaks, 2);
         }
         this.cdf.detectChanges();
-        this.matTable.reChangeData();
+        this.matTable.reChangeData(); 
       } else {
         this.dataList = [];
         this.cdf.detectChanges();
@@ -70,7 +73,6 @@ export class MarketingAssetsComponent implements OnInit {
   }
 
   actionBtn(ev) {
-    console.log('actionBtn', ev);
     if (ev.cmd == 'edit') {
       this.displayInputDialog(ev.data);
     }

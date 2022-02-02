@@ -5,6 +5,8 @@ import { QuotationDTO } from "../quotations/quotation.dto";
 import { AddonPageComponent } from "./addon-page/addon-page.component";
 import { CoveragePageComponent } from "./coverage-page/coverage-page.component";
 import { EducationLifeComponent } from "./education-life/education-life.component";
+import { FireRiskComponent } from "./fire-risk/fire-risk.component";
+import { FirePageComponent } from "./fire-simple-page/fire-simple-page.component";
 import { HealthQuoComponent } from "./health-quo/health-quo.component";
 import { SimplePagePolicyComponent } from "./simple-page-policy/simple-page-policy.component";
 import { SimplePageComponent } from "./simple-page/simple-page.component";
@@ -18,7 +20,8 @@ const STATIC_COMPONENT = {
   'static_1635309151504': EducationLifeComponent,
   // 'static_1635392848894' : EducationLifeGripComponent,
   'static_1635747288508': SimplePagePolicyComponent,
-  'static_1641364737069': SimplePageComponent
+  'static_1641364737069': FirePageComponent,
+  'static_1643116155828': FireRiskComponent
 }
 @Directive({
   selector: '[staticPage]'

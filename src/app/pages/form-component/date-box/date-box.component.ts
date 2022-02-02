@@ -40,8 +40,9 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
     private globalFun: GlobalFunctionService,
     private prodService: ProductDataService
   ) { }
-
+  isDisabled: boolean = false
   ngOnInit() {
+    this.isDisabled = this.config.disabled
     this.listenFunData();
     let valid: InputValidation[] = this.config.validation
     if (this.config.type != 'policy') {

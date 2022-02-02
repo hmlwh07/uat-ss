@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
-import { FANService } from 'src/app/pages/fna-detail/fna-manage.service';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AlertService } from '../../../../../../app/modules/loading-toast/alert-model/alert.service';
+import { FANService } from '../../../../../../app/pages/fna-detail/fna-manage.service';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FNABRAMInputService } from '../../../inputs.manage.service';
 import { INBOUND_LOGISTICS } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
@@ -58,11 +58,14 @@ export class RawMaterialStorageComponent implements OnInit {
       this.rawMaterialStorage = this.inputsService.getAllInputByType(res, INBOUND_LOGISTICS.RAW_MATERIAL.toString());
       if (this.rawMaterialStorage.length > 0) {
         for (var i = 0; i < this.rawMaterialStorage.length; i++) {
+          if (this.rawMaterialStorage[i].unit == 0) {
+            this.rawMaterialStorage[i].unit = '';
+          }
           this.rawMaterialStorage[i].valueLaks = this.fnaService.mathRoundTo(this.rawMaterialStorage[i].valueLaks, 2);
         }
         this.cdf.detectChanges();
         this.matTable.reChangeData();
-      }else {
+      } else {
         this.rawMaterialStorage = [];
         this.cdf.detectChanges();
       }
@@ -70,7 +73,6 @@ export class RawMaterialStorageComponent implements OnInit {
   }
 
   actionBtn(ev) {
-    console.log('actionBtn', ev);
     if (ev.cmd == 'edit') {
       this.displayInputDialog(ev.data);
     }

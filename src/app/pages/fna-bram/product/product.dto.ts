@@ -11,3 +11,8 @@ export class Tabel2{
     title?: string;
     name?: string;
 }
+
+export class FNABRAMDiscount {
+    public static GRAND_DISCOUNT: number = 0;
+    public static HIGH_DISCOUNT: number = 0;
+  }

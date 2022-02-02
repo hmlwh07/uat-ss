@@ -11,7 +11,7 @@ export class HumanResourcesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('fnaId', this.fnaId);
+   
   }
 
   

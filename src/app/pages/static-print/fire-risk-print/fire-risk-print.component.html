@@ -1,0 +1,61 @@
+<div class="addon-print">
+  <div class="title-style left-border-image mt-5 mb-3">Optional Coverage Detail</div>
+  <table class="tbody-align">
+    <tr>
+      <td class="field-col">
+        Building Desc
+      </td>
+      <td class="field-col">
+        Type of Building
+      </td>
+      <td class="field-col">
+        Occupation of Building
+      </td>
+      <td class="field-col">
+        Building Class
+      </td>
+      <td class="field-col">
+        Construction of Roof
+      </td>
+      <td class="field-col">
+        Construction of Walls
+      </td>
+      <td class="field-col">
+        Construction of Floors
+      </td>
+      <td class="field-col">
+        Story of Building
+      </td>
+      <td class="field-col">
+        Total Square Feet
+      </td>
+      <td class="field-col">
+        Year of Construction
+      </td>
+      <td class="field-col">
+        Special Decoration
+      </td>
+      <td class="field-col">
+        Proposed SI
+      </td>
+    </tr>
+    <tbody class="tbody-align val-col">
+      <ng-container *ngFor="let data of listData;">
+        <tr>
+          <td class="field-value">{{data.buildingDescription}}</td>
+          <td class="field-value">{{data.typeOfBuildingValue}}</td>
+          <td class="field-value">{{data.occupationOfBuildingValue}}</td>
+          <td class="field-value">{{data.buildingClassValue}}</td>
+          <td class="field-value">{{data.constructionOfRoofValue}}</td>
+          <td class="field-value">{{data.constructionOfWallValue}}</td>
+          <td class="field-value">{{data.constructionOfFloorValue}}</td>
+          <td class="field-value">{{data.storyOfBuilding}}</td>
+          <td class="field-value">{{data.totalSquareFoot}}</td>
+          <td class="field-value">{{data.yearOfConstruction}}</td>
+          <td class="field-value">{{data.specialDecoration ? "Yes":"No"}}</td>
+          <td class="field-value">{{data.sumInsure | number}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -459,7 +459,7 @@
                                         <div class="col-sm-5" (click)="viewExistingCustomer('prosp')">
                                             <input type="text" readonly class="form-control form-control-sm " name="prospectCustomer" autocomplete="off" formControlName="prospectCustomer" />
                                         </div>
-                                        <div class="col-sm-2" *ngIf="!isExisting">
+                                        <div class="col-sm-2" *ngIf="!isAddProspect">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="viewProspectCustomer()">
                                                 <span class="flaticon2-plus"></span>
                                             </a>
@@ -506,7 +506,7 @@
                                     <span class="">Reject</span>
                                 </button>
                             </div>
-                            <!-- <div class="col-sm-8" *ngIf="leadForm.value.statusCode=='03'">
+                            <!-- <div class="col-sm-8" *ngIf="leadForm.value.statusCode=='03'">isValidWin
                             </div> -->
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03'">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('05')">
@@ -544,7 +544,7 @@
                         <h3 class="card-label left-border-image">FNA</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3" class="btn btn-primary btn-circle" (click)="add('FNA')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('FNA')">
                             <span class="flaticon2-plus"></span>
                         </button>
                         <button type="button" *ngIf="isFNA" class="icon" (click)="toggleAccordion('FNA')">
@@ -575,7 +575,7 @@
                         <h3 class="card-label left-border-image">Activity</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3" class="btn btn-primary btn-circle" (click)="add('Activity')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('Activity')">
                             <span class="flaticon2-plus"></span>
                         </button>
                         <button type="button" *ngIf="isActivity" class="icon" (click)="toggleAccordion('Activity')">
@@ -590,7 +590,7 @@
 
                     <section>
 
-                        <app-material-table-view #activity [data]="activityList" [colum]="ACTIVITY_ELEMENT_COL" [displayedColumns]="ACTIVITYdisplayedColumns" [selectable]="isPopup">
+                        <app-material-table-view #activity [data]="activityList" [colum]="ACTIVITY_ELEMENT_COL" [displayedColumns]="ACTIVITYdisplayedColumns" [selectable]="isPopup" (emitter)="actActionBtn($event)">
                         </app-material-table-view>
 
                     </section>
@@ -604,7 +604,7 @@
                         <h3 class="card-label left-border-image">Quotation</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3" class="btn btn-primary btn-circle" (click)="add('Quotation')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('Quotation')">
                             <span class="flaticon2-plus"></span>
                         </button>
                         <button type="button" *ngIf="isQuotation" class="icon" (click)="toggleAccordion('Quotation')">
@@ -620,7 +620,7 @@
 
                     <section>
 
-                        <app-material-table-view #quotation [data]="quatationList" [colum]="QUOTATION_ELEMENT_COL" [displayedColumns]="QuotationdisplayedColumns" [selectable]="isPopup">
+                        <app-material-table-view #quotation [data]="quatationList" [colum]="QUOTATION_ELEMENT_COL" [displayedColumns]="QuotationdisplayedColumns" (emitter)="actionBtn($event, 'QUO')" [selectable]="isPopup">
                         </app-material-table-view>
 
                     </section>
@@ -635,7 +635,7 @@
                         <h3 class="card-label left-border-image">Application</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3" class="btn btn-primary btn-circle" (click)="add('Application')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('Application')">
                             <span class="flaticon2-plus"></span>
                         </button>
                         <button type="button" *ngIf="isApplication" class="icon" (click)="toggleAccordion('Application')">
@@ -650,7 +650,7 @@
 
                     <section [ngClass]="isApplication ? 'active' : 'inactive'">
 
-                        <app-material-table-view #application [data]="applicationList" [colum]="APPLICATION_ELEMENT_COL" [displayedColumns]="ApplicationdisplayedColumns" [selectable]="isPopup">
+                        <app-material-table-view #application [data]="applicationList" [colum]="APPLICATION_ELEMENT_COL" [displayedColumns]="ApplicationdisplayedColumns" (emitter)="actionBtn($event, 'APP')" [selectable]="isPopup">
                         </app-material-table-view>
 
                     </section>
@@ -670,7 +670,7 @@
                             <input #fileInput type="file" id="file1" (click)="fileInput.value = null" value=""
                                 (change)="importHCPDocument($event)"><span class="flaticon2-plus"></span>
                             </button> -->
-                            <button type="button" *ngIf="statusCode==3" class="btn btn-primary btn-circle" (click)="addAttachment()">
+                            <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="addAttachment()">
                                 <span class="flaticon2-plus"></span>
                             </button>
                         </div>
@@ -689,7 +689,7 @@
 
                     <section [ngClass]="isAttachment ? 'active' : 'inactive'">
 
-                        <app-material-table-view #attachment [data]="attachmentList" [colum]="ATTACHMENT_ELEMENT_COL" [displayedColumns]="AttachmentdisplayedColumns" (emitter)="actionBtn($event)" [selectable]="isPopup">
+                        <app-material-table-view #attachment [data]="attachmentList" [colum]="ATTACHMENT_ELEMENT_COL" [displayedColumns]="AttachmentdisplayedColumns" (emitter)="actionBtn($event,'ATT')" [selectable]="isPopup">
                         </app-material-table-view>
 
                     </section>

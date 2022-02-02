@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-freedom',
@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./freedom.component.scss']
 })
 export class FreedomComponent implements OnInit {
-
+  @Input() customerId: any = null;
+  
   constructor() { }
 
   ngOnInit(): void {

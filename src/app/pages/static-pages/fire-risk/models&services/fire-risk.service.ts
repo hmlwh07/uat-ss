@@ -24,4 +24,16 @@ export class FireRiskService extends BizOperationService<FireRiskDTO, number>{
     return this.httpClient.get(API_FIRE_RISK_URL + "/resource/" + redId)
   }
 
+  getStock(riskId:number){
+    return this.httpClient.get(API_FIRE_RISK_URL + "/" + riskId + "/stock")
+  }
+
+  getPlant(riskId:number){
+    return this.httpClient.get(API_FIRE_RISK_URL + "/" + riskId + "/plant-machinery")
+  }
+
+  getContent(riskId:number){
+    return this.httpClient.get(API_FIRE_RISK_URL + "/" + riskId + "/content")
+  }
+
 }

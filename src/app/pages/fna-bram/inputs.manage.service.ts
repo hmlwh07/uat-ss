@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { BizOperationService } from "src/app/core/biz.operation.service";
-import { environment } from "src/environments/environment";
+import { BizOperationService } from "../../../app/core/biz.operation.service";
+import { environment } from "../../../environments/environment";
 import { InputDataDialogComponent } from "./inputs/input-data-dialog/input-data-dialog.component";
 
 const API_ADDON_URL = `${environment.apiUrl}/fna`;

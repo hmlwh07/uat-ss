@@ -9,6 +9,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 })
 export class LlpAnalysisComponent implements OnInit {
   @Input() aboutLLP: any = null;
+  @Input() customerId: any = null;
+
   @Output() change: EventEmitter<string> = new EventEmitter<string>();
   fnaSwitch: any;
   oldId: any;
@@ -46,8 +48,13 @@ export class LlpAnalysisComponent implements OnInit {
     this.fnaService.fnaEducations = [];
     this.fnaService.fnaHealths = [];
     await this.fnaService.findOne(this.oldId).toPromise().then(res => {
-      console.log('getFNAById', res);
       if (res) {
+        if (res.fnaAssets.length > 0 && res.fnaEducations.length &&
+          res.fnaHealths.length > 0 && res.fnaIncome != null &&
+          res.fnaRetirementSaving != null) {
+          this.freedom.push({ hasData: true })
+        }
+
         this.fnaIncome = res.fnaIncome;
         this.fnaService.fnaIncome = this.fnaIncome;
 
@@ -133,15 +140,20 @@ export class LlpAnalysisComponent implements OnInit {
   }
 
   actionChart(type) {
-    console.log('actionChart =====> ', type);
+   
   }
 
 
   async update() {
     this.products = this.removeDuplicates(this.products);
     this.fnaService.fnaUpdateProducts.concat(this.products);
+
+
     let reqBody = {
-      customerId: "string",
+      customerId: this.customerId,
+      fnaType: "LPP",
+      grandDiscount: 0,
+      highDiscount: 0,
       id: this.oldId,
       products: this.products
     }

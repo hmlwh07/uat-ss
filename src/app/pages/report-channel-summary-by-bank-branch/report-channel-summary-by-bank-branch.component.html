@@ -1,0 +1,132 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label left-border-image">Channel Summary Report</h3>
+                </div>
+                <div class="card-toolbar">
+                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
+                        <span class="">Generate</span>
+                    </button>
+                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
+                        <span class="">Cancel</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body px-10 py-3">
+                <form action="#" class="form" [formGroup]="createFormGroup">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">From Date</label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly class="form-control form-control-sm"
+                                        formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
+                                        [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;">
+                                    <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')"
+                                        class="btn btn-primary btn-elevate mx-2">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">To Date</label>
+                                <div class="col-sm-6">
+                                    <input type="text" readonly class="form-control form-control-sm"
+                                        formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
+                                        [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;">
+                                    <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')"
+                                        class="btn btn-primary btn-elevate mx-2">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Agent Name</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select" placeholder="Please Select"
+                                        (change)="changeOptions($event, 'agent')" [items]="selectOptions.agents"
+                                        bindLabel="agentName" bindValue="id" formControlName="agentId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="align-items: center;">
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Company</label>
+                                <div class="col-sm-8">
+                                    <ng-select [readonly]="selectOptions.companies.length == 0 "
+                                        class="ng-custom-select" placeholder="Please Select"
+                                        (change)="changeOptions($event, 'company')" [items]="selectOptions.companies"
+                                        bindLabel="companyName" bindValue="id" formControlName="companyId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Channel</label>
+                                <div class="col-sm-8">
+                                    <ng-select [readonly]="selectOptions.channels.length == 0 " class="ng-custom-select"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'channel')"
+                                        [items]="selectOptions.channels" bindLabel="channelName" bindValue="id"
+                                        formControlName="channelId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Region</label>
+                                <div class="col-sm-8">
+                                    <ng-select [readonly]="selectOptions.regions.length == 0 " class="ng-custom-select"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'region')"
+                                        [items]="selectOptions.regions" bindLabel="regionsName" bindValue="id"
+                                        formControlName="regionId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="align-items: center;">
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Cluster</label>
+                                <div class="col-sm-8">
+                                    <ng-select [readonly]="selectOptions.cluster.length == 0 " class="ng-custom-select"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'cluster')"
+                                        [items]="selectOptions.cluster" bindLabel="clusterName" bindValue="id"
+                                        formControlName="clusterId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Branch</label>
+                                <div class="col-sm-8">
+                                    <ng-select [readonly]="selectOptions.branches.length == 0 " class="ng-custom-select"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'branch')"
+                                        [items]="selectOptions.branches" bindLabel="brancheName" bindValue="id"
+                                        formControlName="branchId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

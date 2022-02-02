@@ -38,8 +38,9 @@ export class FANService extends BizOperationService<any, number>{
     return this.httpClient.post(API_ADDON_URL, data);
   }
 
-  
+
   updateFNAProduct(data) {
+    console.log('updateFNAProduct', data);
     return this.httpClient.put(API_ADDON_URL, data);
   }
 

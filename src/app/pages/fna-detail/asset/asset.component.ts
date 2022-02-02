@@ -17,6 +17,8 @@ export class AssetComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent;
   @Input() fnaAssets: any = null;
   @Input() fnaId: any = null;
+  @Input() customerId: any = null;
+
   @Output() changeAnalysis: EventEmitter<string> = new EventEmitter<string>();
   formGroup: FormGroup;
   selectedIndex: number = 0;
@@ -89,12 +91,16 @@ export class AssetComponent implements OnInit {
         }
         this.products = this.removeDuplicates(this.products);
         this.fnaService.fnaUpdateProducts.concat(this.products);
+
         let reqBody = {
-          customerId: "string",
-          id: Number(this.fnaId),
+          customerId: this.customerId,
+          fnaType: "LPP",
+          grandDiscount: 0,
+          highDiscount: 0,
+          id: this.fnaId,
           products: this.products
         }
-
+        
         await this.fnaService.updateFNAProduct(reqBody).toPromise().then((res: any) => {
           if (res) {
 
@@ -198,11 +204,17 @@ export class AssetComponent implements OnInit {
             if (deleteIndex.length == 1) {
               this.products = this.removeDuplicates(this.products);
               this.fnaService.fnaUpdateProducts.concat(this.products);
+
               let reqBody = {
-                customerId: "string",
-                id: Number(this.fnaId),
+                customerId: this.customerId,
+                fnaType: "LPP",
+                grandDiscount: 0,
+                highDiscount: 0,
+                id: this.fnaId,
                 products: this.products
               }
+
+
               await this.fnaService.updateFNAProduct(reqBody).toPromise().then((res: any) => {
                 if (res) {
 

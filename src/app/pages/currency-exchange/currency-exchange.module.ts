@@ -7,6 +7,7 @@ import { FormComponentModule } from '../form-component/form-component.module';
 import { RouterModule } from '@angular/router';
 import { CurrencyAddFormComponent } from './add-form/currency-add-form.component';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [CurrencyExChangeComponent, CurrencyAddFormComponent],
@@ -16,6 +17,7 @@ import { CRUDTableModule } from '../../_metronic/shared/crud-table';
     ReactiveFormsModule,
     NgbModalModule,
     NgbModule,
+    MatDatepickerModule,
     FormComponentModule,
     CRUDTableModule,
     RouterModule.forChild([

@@ -17,6 +17,8 @@ import { FANEducationService } from './education-manage.service';
 export class EducationComponent implements OnInit {
   @Input() education: any = null;
   @Input() fnaId: any = null;
+  @Input() customerId: any = null;
+
   @Output() changeAnalysis: EventEmitter<string> = new EventEmitter<string>();
   formGroup: FormGroup;
   selectedIndex: number = 0;
@@ -124,7 +126,10 @@ export class EducationComponent implements OnInit {
               this.products = this.removeDuplicates(this.products);
               this.fnaService.fnaUpdateProducts.concat(this.products);
               let reqBody = {
-                customerId: "string",
+                customerId: this.customerId,
+                fnaType: "LPP",
+                grandDiscount: 0,
+                highDiscount: 0,
                 id: this.fnaId,
                 products: this.products
               }
@@ -302,7 +307,6 @@ export class EducationComponent implements OnInit {
       });
     }
     this.checkNextChild();
-    console.log('this.educations =====> ', this.educations);
     FNAConstant.FNA_DETAIL_LIST = this.educations;
   }
 
@@ -354,9 +358,6 @@ export class EducationComponent implements OnInit {
         this.formGroup.controls['dateOfBirth'].setValue(null);
       }
     }
-
-    console.log('type ', type);
-
 
     if (type == 'add') {
       this.selectedIndexId = 0

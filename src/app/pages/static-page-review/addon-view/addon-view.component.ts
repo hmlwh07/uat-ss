@@ -18,6 +18,21 @@ export class AddonViewComponent implements OnInit {
     unit: false,
     premium: false,
   }
+  fireOptionData = {
+    "FRAD008": [
+      { "code": "T-001", "value": "Building" },
+      { "code": "T-002", "value": "Furniture" },
+      { "code": "T-003", "value": "Machine" },
+      { "code": "T-004", "value": "Goods/Stocks" },
+      { "code": "T-005", "value": "Water Damage for Goods/Stocks" },
+    ],
+    "FRAD010": [
+      { "code": "T-001", "value": "First Class Building" },
+      { "code": "T-002", "value": "Second Class Building" },
+      { "code": "T-003", "value": "Third Class Building" },
+      { "code": "T-004", "value": "Fourth Class Building" },
+    ]
+  }
   constructor(
     private addonQuo: AddOnQuoService,
     private globalFun: GlobalFunctionService,
@@ -39,7 +54,8 @@ export class AddonViewComponent implements OnInit {
                 this.addOnData[item.id] = {
                   sum: response ? response.sumInsured || 0 : 0,
                   unit: response ? response.unit || 0 : 0,
-                  premium: response ? response.premium || 0 : 0
+                  premium: response ? response.premium || 0 : 0,
+                  option: response ? response.option || 'T-001' : 'T-001'
                 }
               }
             })

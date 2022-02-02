@@ -1,111 +1,95 @@
 <div style="margin: 50px 0 0 0;position: relative; ">
-    <div style="width: 450px; position: relative; margin: 0 auto;">
+    <div style="width: 500px; position: relative; margin: 0 auto;">
         <div class="inner investment" (click)="actionChart('Freedom')">
             <div class="sub-inner ">
-                <div class="freedom-left-inner">
-                    <div class="progress">
-                        <span style="width:100%; height: 100%;">
-                            <span class="sub-progress"
-                                [ngStyle]="{'background-color':freedom.length? '#22aae1' : '#BFBFBF' }">
-                                <div class="text-rotate" *ngIf="freedom.length > 0">100%</div>
-                                <div class="text-rotate" *ngIf="freedom.length == 0">0%</div>
-                            </span>
-                        </span>
+                <div>
+                    <div class="freedom-left-inner" [ngClass]="freedom.length? 'bg-freedom' : 'inactive-freedon-left' ">
                     </div>
                 </div>
-                <div class="freedom-right-inner"></div>
-                <a [ngStyle]="{'color':freedom.length? '#22aae1' : '#7F7F7F' }">Freedom</a>
+                <div>
+                    <div class="freedom-right-inner"
+                        [ngClass]="freedom.length? 'bg-freedom' : 'inactive-freedon-left' ">
+                    </div>
+                </div>
+                <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' }">Freedom</a>
+                <img *ngIf="freedom.length > 0" class="lpp-icon" src="./assets/images/success/freedom-01.svg"
+                    alt="freedom" style="left: 55.5px; top: 40px;" />
+                <img *ngIf="freedom.length == 0" class="lpp-icon" src="./assets/images/default/freedom-01.svg"
+                    alt="freedom" style="left: 55.5px; top: 40px;" />
+            </div>
+        </div>
+        <div>
+            <div class="investment-1" [ngStyle]="{'background':freedom.length? '#16384d' : '#aaaaaa' }">
+                <label>INVESTMENT</label>
             </div>
         </div>
         <div class="inner saving">
             <div class="sub-inner">
                 <div class="education-left-inner" (click)="fnaSwitchEvent('Education')">
-                    <div class="progress">
-                        <span style="width:100%; height: 100%;">
-                            <span class="sub-progress"
-                                [ngStyle]="{'background-color':fnaEducations.length? '#22aae1' : '#BFBFBF' }">
-                                <div class="text-rotate" *ngIf="fnaEducations.length > 0">100%</div>
-                                <div class="text-rotate" *ngIf="fnaEducations.length == 0 ">0%</div>
-                            </span>
-                        </span>
-                    </div>
-                    <a [ngStyle]="{'color':fnaEducations.length? '#22aae1' : '#7F7F7F' }">Education</a>
-                    <div class="saving-border"></div>
+                    <div [ngClass]="fnaEducations.length? 'bg-saving' : 'inactive-freedon-right' "></div>
+                    <a [ngStyle]="{'color':fnaEducations.length? '#16384d' : '#275f96' }">Education</a>
+                    <img *ngIf="fnaEducations.length > 0" class="lpp-icon"
+                        src="./assets/images/success/Education-01.svg" alt="education" style="left: 75px; top: 30px;" />
+                    <img *ngIf="fnaEducations.length == 0" class="lpp-icon"
+                        src="./assets/images/default/education-01.svg" alt="education" style="left: 75px; top: 30px;" />
                 </div>
                 <div class="retirement-right-inner" (click)="fnaSwitchEvent('Retirement')">
-                    <div class="progress">
-                        <span style="width:100%; height: 100%;">
-                            <span class="sub-progress"
-                                [ngStyle]="{'background-color':fnaRetirementSaving? '#22aae1' : '#BFBFBF' }">
-                                <div class="text-rotate" *ngIf="fnaRetirementSaving">100%</div>
-                                <div class="text-rotate" *ngIf="!fnaRetirementSaving">0%</div>
-                            </span>
-                        </span>
-                    </div>
-                    <a [ngStyle]="{'color':fnaRetirementSaving? '#22aae1' : '#7F7F7F' }">Retirement</a>
+                    <div [ngClass]="fnaRetirementSaving? 'bg-saving' : 'inactive-freedon-left' "></div>
+                    <a [ngStyle]="{'color':fnaRetirementSaving? '#16384d' : '#275f96' }">Retirement</a>
+                    <img *ngIf="fnaRetirementSaving" class="lpp-icon" src="./assets/images/success/retirement-01.svg"
+                        alt="retirement" style="left: 49px; top: 30px;" />
+                    <img *ngIf="!fnaRetirementSaving" class="lpp-icon" src="./assets/images/default/retirement-01.svg"
+                        alt="retirement" style="left: 49px; top: 30px;" />
                 </div>
             </div>
         </div>
-        <div class="protection" style="border-bottom: 2px solid #d9d9d9;">
+        <div>
+            <div class="investment-1"
+                [ngStyle]="{'background':fnaEducations.length && fnaRetirementSaving? '#16384d' : '#aaaaaa' }"
+                style="width: 290px;"><label style="position: relative;
+                right: 7px;">SAVING</label></div>
+        </div>
+        <div class="protection">
             <div class="sub-inner row">
                 <div class="income-left-inner col-4" (click)="fnaSwitchEvent('Income')">
-                    <div class="progress">
-                        <span style="width:100%; height: 100%;">
-                            <span class="sub-progress"
-                                [ngStyle]="{'background-color':fnaIncome? '#22aae1' : '#BFBFBF' }">
-                                <div class="text-rotate" *ngIf="fnaIncome">100%</div>
-                                <div class="text-rotate" *ngIf="!fnaIncome">0%</div>
-                            </span>
-                        </span>
-                    </div>
-                    <a [ngStyle]="{'color':fnaIncome? '#22aae1' : '#7F7F7F' }">Income</a>
+                    <div [ngClass]="fnaIncome? 'bg-protection' : 'inactive-freedon-left' "></div>
+                    <a [ngStyle]="{'color':fnaIncome? '#ffffff' : '#275f96' }">Income</a>
+                    <img *ngIf="fnaIncome" class="lpp-icon" src="./assets/images/success/income-01.svg" alt="income"
+                        style="left: 82px; top: 35px;" />
+                    <img *ngIf="!fnaIncome" class="lpp-icon" src="./assets/images/default/income-01.svg" alt="income"
+                        style="left: 82px; top: 35px;" />
                 </div>
                 <div class="health-middle-inner col-4" (click)="fnaSwitchEvent('Health')">
-                    <div class="progress">
-                        <span style="width:100%; height: 100%;">
-                            <span class="sub-progress"
-                                [ngStyle]="{'background-color':fnaHealths.length? '#22aae1' : '#BFBFBF' }">
-                                <div class="text-rotate" *ngIf="fnaHealths.length > 0">100%</div>
-                                <div class="text-rotate" *ngIf="fnaHealths.length == 0">0%</div>
-                            </span>
-                        </span>
-                    </div>
-                    <a [ngStyle]="{'color':fnaHealths.length? '#22aae1' : '#7F7F7F' }">Health</a>
-                    <div class="saving-border" style="left: 0;"></div>
-                    <div class="saving-border"></div>
+                    <div [ngClass]="fnaHealths.length? 'bg-protection' : 'inactive-freedon-right' "> </div>
+                    <a [ngStyle]="{'color':fnaHealths.length? '#ffffff' : '#275f96' }"
+                        style="margin: 0 0 0 2px;">Health</a>
+                    <img *ngIf="fnaHealths.length > 0" class="lpp-icon" src="./assets/images/success/health-01.svg"
+                        alt="healths" style="left: 66px; top: 35px;" />
+                    <img *ngIf="fnaHealths.length == 0" class="lpp-icon" src="./assets/images/default/health-01.svg"
+                        alt="healths" style="left: 66px; top: 35px;" />
                 </div>
                 <div class="asset-right-inner col-4" (click)="fnaSwitchEvent('Asset')">
-                    <div class="progress">
-                        <span style="width:100%; height: 100%;">
-                            <span class="sub-progress"
-                                [ngStyle]="{'background-color':fnaAssets.length? '#22aae1' : '#BFBFBF' }">
-                                <div class="text-rotate" *ngIf="fnaAssets.length > 0">100%</div>
-                                <div class="text-rotate" *ngIf="fnaAssets.length == 0">0%</div>
-                            </span>
-                        </span>
-                    </div>
-                    <a [ngStyle]="{'color':fnaAssets.length? '#22aae1' : '#7F7F7F' }">Assets</a>
+                    <div [ngClass]="fnaAssets.length? 'bg-protection' : 'inactive-freedon-left' "></div>
+                    <img *ngIf="fnaAssets.length > 0" class="lpp-icon" src="./assets/images/success/assets-01.svg"
+                        alt="assets" style="left: 43px; top: 35px;" />
+                    <img *ngIf="fnaAssets.length == 0" class="lpp-icon" src="./assets/images/default/assets-01.svg"
+                        alt="assets" style="left: 43px; top: 35px;" />
+                    <a [ngStyle]="{'color':fnaAssets.length? '#ffffff' : '#275f96' }">Assets</a>
                 </div>
+            </div>
+        </div>
+        <div>
+            <div [ngStyle]="{'background':fnaIncome && fnaHealths.length && fnaAssets.length? '#16384d' : '#aaaaaa' }"
+                class="investment-1" style="width: 480px; transform: skewX(40deg); left: 0;"><label
+                    style="transform: skewX(-40deg)">PROTECTION</label>
             </div>
         </div>
         <div class="left-border"></div>
         <div class="right-border"></div>
-        <!-- <div class="left-transparent"></div>
-        <div class="right-transparent"></div> -->
-    </div>
-    <div class="investment-dot">
-        <span>Investment</span>
-    </div>
-    <div class="saving-dot">
-        <span>Saving</span>
-    </div>
-
-    <div class="protection-dot">
-        <span>Protection</span>
     </div>
 </div>
 
 <div class="btn-next">
-    <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
-        (click)="fnaSwitchEvent('product')">Save & Next</button>
+    <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 " (click)="fnaSwitchEvent('product')">Save &
+        Next</button>
 </div>

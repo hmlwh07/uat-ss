@@ -8,7 +8,7 @@
 
     <div class="overlay overlay-block cursor-default modal-body">
         <ng-container *ngIf="config.type == 'user'">
-            <app-customer-list (selectedUser)="selectedUser($event)" [isPopup]="true"></app-customer-list>
+            <app-customer-list (selectedUser)="selectedUser($event)" [isPopup]="true" [isDynamic]="true"></app-customer-list>
         </ng-container>
     </div>
     <div class="modal-footer">

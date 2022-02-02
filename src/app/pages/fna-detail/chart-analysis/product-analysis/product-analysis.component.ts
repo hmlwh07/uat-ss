@@ -12,6 +12,7 @@ import { FANProductService } from './product-manage.service';
 export class ProductAnalysisComponent implements OnInit {
   @Input() product: any = null;
   @Input() fnaId: any = null;
+  @Input() customerId: any = null;
   @Output() changeProduct: EventEmitter<string> = new EventEmitter<string>();
   productSwitch: string = 'product';
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
@@ -42,8 +43,12 @@ export class ProductAnalysisComponent implements OnInit {
     this.productSwitch = type;
     this.products = this.removeDuplicates(this.products);
     this.fnaService.fnaUpdateProducts.concat(this.products);
+  
     let reqBody = {
-      customerId: "string",
+      customerId: this.customerId,
+      fnaType: "LPP",
+      grandDiscount: 0,
+      highDiscount: 0,
       id: this.fnaId,
       products: this.products
     }

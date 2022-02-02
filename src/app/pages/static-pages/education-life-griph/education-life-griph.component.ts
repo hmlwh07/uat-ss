@@ -66,7 +66,7 @@ export class EducationLifeGripComponent implements OnInit {
         floating: false,
         style: {
           fontSize: "1.1rem",
-          fontFamily: "Calibri"
+          fontFamily: "Roboto"
         }
 
       },
@@ -76,7 +76,7 @@ export class EducationLifeGripComponent implements OnInit {
         labels: {
           style: {
             fontSize: "1rem",
-            fontFamily: "Calibri"
+            fontFamily: "Roboto"
           }
         }
       },
@@ -87,7 +87,7 @@ export class EducationLifeGripComponent implements OnInit {
         labels: {
           style: {
             fontSize: "1rem",
-            fontFamily: "Calibri"
+            fontFamily: "Roboto"
           }
         }
       },

@@ -20,12 +20,13 @@
             [ngStyle]="{'background-color': fnaSwitch === 'outputs' ? '#005f99' : '#A6A6A6' }">Outputs</button>
         <button type="button" class="btn col-3"
             [ngStyle]="{'background-color': fnaSwitch === 'product' ? '#005f99' : '#A6A6A6' }">Product
-            Recommendation</button>
+            Recommendations</button>
     </div>
     <div class="fna-bram">
         <app-about-bram [fnaId]="fnaId" *ngSwitchDefault (changeSwitch)="fnaBramEvent($event)"></app-about-bram>
         <app-inputs [fnaId]="fnaId" *ngSwitchCase="'inputs'" (changeSwitch)="fnaBramEvent($event)"></app-inputs>
         <app-outputs [fnaId]="fnaId" *ngSwitchCase="'outputs'" (changeSwitch)="fnaBramEvent($event)"></app-outputs>
-        <app-product [fnaId]="fnaId" *ngSwitchCase="'product'" (changeSwitch)="fnaBramEvent($event)"></app-product>
+        <app-product [fnaId]="fnaId" [passValueData]="passValueData" *ngSwitchCase="'product'"
+            (changeSwitch)="fnaBramEvent($event)"></app-product>
     </div>
 </div>

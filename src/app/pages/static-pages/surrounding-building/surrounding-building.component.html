@@ -1,47 +1,53 @@
-<div class="form-group">
+<div>
+    <div class="row" style="align-items: center; margin: 10px 0px;">
 
-    <button type="button" class="btn btn-primary mx-2" (click)="add('create')">Add New Data</button>
-</div>
-<div class="table-responsive angular-bootstrap-table">
-    <table class="table table-head-custom table-vertical-center">
-        <thead>
-            <tr>
-                <th>Building Description</th>
-                <th>Type of Building</th>
-                <th>Occuption</th>
-                <th>Class</th>
-                <th>Premium Rate</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="surrounding.length>0">
-            <tr *ngFor="let data of surrounding">
-                <th>
-                    {{data.buildingDescription}}
-                </th>
-                <th>
-                    {{data.typeOfBuilding}}
-                </th>
-                <th>
-                    {{data.occupationOfBuilding}}
-                </th>
-                <th>
-                    {{data.buildingClass}}
-                </th>
-                <th>
-                    {{data.premiumRate}}
-                </th>
-                <th>
-                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit')">
-                        <span class="flaticon-edit"></span>
-                    </a>
-                    <a title="Delete Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'delete')">
-                        <span class="flaticon-delete"></span>
-                    </a>
-                </th>
-            </tr>
-        </tbody>
+        <div class="col-sm-8">
+            <label class="col-sm-6  left-border-image">Surrounding Building </label>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-primary btn-sm mx-2 ft-right" (click)="add('create')">Add New Data</button>
+        </div>
+    </div>
+    <div class="table-responsive angular-bootstrap-table">
+        <table class="table table-head-custom table-vertical-center">
+            <thead>
+                <tr>
+                    <th>Building Description</th>
+                    <th>Type of Building</th>
+                    <th>Occupation</th>
+                    <th>Class</th>
+                    <th>Premium Rate</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="surrounding.length>0">
+                <tr *ngFor="let data of surrounding">
+                    <th>
+                        {{data.buildingDescription}}
+                    </th>
+                    <th>
+                        {{data.typeOfBuildingValue}}
+                    </th>
+                    <th>
+                        {{data.occupationOfBuildingValue}}
+                    </th>
+                    <th>
+                        {{data.buildingClassValue}}
+                    </th>
+                    <th>
+                        {{data.premiumRate}}
+                    </th>
+                    <th>
+                        <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit')">
+                            <span class="flaticon-edit"></span>
+                        </a>
+                        <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1" (click)="onActionView(data,'delete')">
+                            <span class="flaticon-delete"></span>
+                        </a>
+                    </th>
+                </tr>
+            </tbody>
 
 
-    </table>
-</div>
+        </table>
+    </div>

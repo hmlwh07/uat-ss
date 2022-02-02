@@ -22,7 +22,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Type of Building</label>
                         <div class="col-sm-8">
-                            <ng-select class="ng-custom-select" (change)="changeType()" [class.is-invalid]="isControlInvalid('typeOfBuilding')" [class.is-valid]="isControlValid('typeOfBuilding')" [items]="typeOfBuildingOption" bindLabel="value" bindValue="code" formControlName="typeOfBuilding">
+                            <ng-select class="ng-custom-select" (change)="changeType('child')" [class.is-invalid]="isControlInvalid('typeOfBuilding')" [class.is-valid]="isControlValid('typeOfBuilding')" [items]="typeOfBuildingOption" bindLabel="value" bindValue="code" formControlName="typeOfBuilding">
                             </ng-select>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
             <div class="row" style="align-items: center">
                 <div class="col-sm-6">
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Occupition of Building</label>
+                        <label class="col-sm-4 col-form-label">Occupation of Building</label>
                         <div class="col-sm-8">
                             <ng-select class="ng-custom-select" (change)="changeOccuption()" [class.is-invalid]="isControlInvalid('occupationOfBuilding')" [class.is-valid]="isControlValid('occupationOfBuilding')" [items]="occupationOfBuildingOption" bindLabel="value" bindValue="code"
                                 formControlName="occupationOfBuilding">
@@ -74,8 +74,8 @@
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="dismissModal()">Cancel</button>
-            <button type="submit" class="btn btn-primary btn-elevate">Save</button>
+            <button type="button" class="btn btn-light btn-sm btn-elevate mr-2" (click)="dismissModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm btn-elevate">Save</button>
         </div>
     </form>
 

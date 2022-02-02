@@ -85,6 +85,7 @@ export class LeadListComponent implements OnInit {
         pageSecondaryId: secondaryId,
         leadId: id,
       },
+      // skipLocationChange: true, replaceUrl: true
     });
   }
   getStatus() {
@@ -125,7 +126,7 @@ export class LeadListComponent implements OnInit {
         console.log(res);
         if (res) {
           this.productOption = res.map((x) => {
-            return { code: x.code, value: x.name };
+            return { code: x.id, value: x.name };
           });
           console.log(this.productOption);
           this.cdf.detectChanges();

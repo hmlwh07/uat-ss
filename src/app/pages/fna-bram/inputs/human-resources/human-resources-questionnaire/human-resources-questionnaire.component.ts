@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/modules/auth';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AuthService } from '../../../../../../app/modules/auth';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { HumanResourcesService } from '../human-resources.manage.service';
 
 
@@ -94,7 +94,6 @@ export class HumanResourcesQuestionnaireComponent implements OnInit {
   }
 
   update(event, question, id) {
-    console.log('update', event.value, question);
     this.postRequest = {
       benefitScheme: "",
       createdAt: new Date(),
@@ -131,7 +130,7 @@ export class HumanResourcesQuestionnaireComponent implements OnInit {
     if (question == 'Employee absenteeism') {
       this.postRequest.empAbsenteism = event.value;
     }
-    console.log('postRequest', this.postRequest);
+   
     if (this.postRequest.id == 0) {
       this.humanResourcesService.saveHumanResourcesQuestionnaire(this.postRequest).toPromise().then(async (res: any) => {
         if (res) {
@@ -191,8 +190,7 @@ export class HumanResourcesQuestionnaireComponent implements OnInit {
 
   async getAllHumanResourcesQuestionnaireByfnaId() {
     await this.humanResourcesService.getAllHumanResourcesQuestionnaireByfnaId(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('getAllHumanResourcesQuestionnaireByfnaId =====> ', res);
-      if (res) {
+       if (res) {
         this.postRequest = res;
         for (var j = 0; j < res.length; j++) {
           if (res[j].benefitScheme) {

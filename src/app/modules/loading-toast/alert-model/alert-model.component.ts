@@ -1,5 +1,6 @@
-import {  Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
 
 @Component({
     // moduleId: module.id,

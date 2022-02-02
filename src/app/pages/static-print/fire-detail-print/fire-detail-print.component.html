@@ -1,0 +1,22 @@
+<div class="addon-print">
+  <div class="title-style left-border-image mt-5 mb-3">Policy Information Detail</div>
+  <table width="100%">
+    <tr>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Effective Date
+      </td>
+      <td class="value-col">{{detail.startDate | date: 'dd-MM-YYYY'}}</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Expiry Date
+      </td>
+      <td class="value-col">{{detail.endDate | date: 'dd-MM-YYYY'}}</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Duration Days
+      </td>
+      <td class="value-col">{{detail.policyDuration}} Days</td>
+    </tr>
+    <tr>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Type</td>
+      <td class="value-col" colspan="2">{{detail.policyType == "T-001" ? "Normal" : "Declaration"}}</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Currency</td>
+      <td class="value-col" colspan="2">{{detail.currency}}</td>
+    </tr>
+  </table>
+</div>

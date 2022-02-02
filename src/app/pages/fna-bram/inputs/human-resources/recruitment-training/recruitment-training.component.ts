@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AlertService } from '../../../../../../app/modules/loading-toast/alert-model/alert.service';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FNABRAMInputService } from '../../../inputs.manage.service';
 import { HUMAN_RESOURCES } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
@@ -53,19 +53,10 @@ export class RecruitmentTrainingComponent implements OnInit {
 
   async getAll() {
     await this.humanResourcesService.getAllHumanResourcesByfnaId(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('getAllHumanResourcesByfnaId', res);
-
       this.dataList = this.inputsService.getAllInputByType(res, HUMAN_RESOURCES.RECRUITMENT_AND_TRAINING.toString());
       if (this.dataList.length > 0) {
         for (var i = 0; i < this.dataList.length; i++) {
-          this.dataList[i].riskCode = this.dataList[i].risk;
-          if (this.dataList[i].risk == '001') {
-            this.dataList[i].riskValue = 'Low';
-          } else if (this.dataList[i].risk == '002') {
-            this.dataList[i].riskValue = 'Medium';
-          } else {
-            this.dataList[i].riskValue = 'High';
-          }
+          this.dataList[i].riskCode = this.dataList[i].risk;          
         }
         this.cdf.detectChanges();
         this.matTable.reChangeData();
@@ -77,7 +68,6 @@ export class RecruitmentTrainingComponent implements OnInit {
   }
 
   actionBtn(ev) {
-    console.log('actionBtn', ev);
     if (ev.cmd == 'edit') {
       this.displayInputDialog(ev.data);
     }

@@ -91,8 +91,14 @@
 
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+                        <!-- <div class="col-1">
+                            <button type="button" style="width: auto;
+                            float: right;
+                            margin: 0 !important;" (click)="clearDOB('dateOfBirth')" class="btn btn-primary btn-elevate mx-2">Clear</button>
+                        </div> -->
                     </div>
                     <div class="row" style="align-items: center;">
                         <div class="col-sm-6">
@@ -358,9 +364,9 @@
                 <h3 class="card-label left-border-image">Attachment</h3>
             </div>
             <div class="card-toolbar">
-                <button type="button" class="btn btn-primary btn-circle" (click)="addAttachment()">
+                <!-- <button type="button" class="btn btn-primary btn-circle" (click)="addAttachment()">
                     <span class="flaticon2-plus"></span>
-                </button>
+                </button> -->
                 <button type="button" *ngIf="isAttachment" class="icon" (click)="toggleAccordion('Attachment')">
                     <span class="flaticon2-back icon"></span>
 

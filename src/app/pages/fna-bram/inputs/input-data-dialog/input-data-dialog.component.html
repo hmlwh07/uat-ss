@@ -2,7 +2,891 @@
     <form action="#" class="form" [formGroup]="formGroup">
         <h3 class="card-label left-border-image ">{{ type }}</h3>
         <div class="data-grid">
-            <div class="row form-group" *ngIf="isShowAssetDescription">
+            <div *ngIf="menuType == 'InboundLogistics' ">
+                <div class="row form-group" *ngIf="type != 'Transportation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Transportation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Vehicle No.</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Transportation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Engine Capacity</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'Engine Capacity')"
+                                formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type != 'Transportation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Units</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'unit')" formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInput($event)" min="1"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valueLaksText')"
+                                [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="menuType == 'Operation' ">
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Units</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'unit')" formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInput($event)" min="1"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valueLaksText')"
+                                [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div *ngIf="menuType == 'OutboundLogistics' ">
+                <div class="row form-group" *ngIf="type != 'Goods In Transporation' && type != 'Transporation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group"
+                    *ngIf="type != 'Goods In Transporation' && type != 'Goods In Warehouses' && type != 'Transporation' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Units</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'unit')" formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Goods In Transporation' || type == 'Transporation' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Vehicle No.</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Transporation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Engine Capacity</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'Engine Capacity')"
+                                formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInput($event)" min="1"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valueLaksText')"
+                                [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Goods In Transporation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Shipping <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('shipping')"
+                                [class.is-valid]="isControlValid('shipping')" formControlName="shipping"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="INLAND">Inland</option>
+                                <option value="COASTAL">Coastal</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div *ngIf="menuType == 'MarketingSales' ">
+                <div class="row form-group" *ngIf="type != 'Sales Team' && type != 'Transporation' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type != 'Sales Team' && type != 'Transporation' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Units</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'unit')" formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Transporation' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Vehicle No.</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Transporation'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Engine Capacity</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'Engine Capacity')"
+                                formControlName="engineCapacity" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type != 'Sales Team' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInput($event)" min="1"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valueLaksText')"
+                                [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Sales Team' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Question</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <textarea rows="3" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Sales Team' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Answer <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('answer')"
+                                [class.is-valid]="isControlValid('answer')" formControlName="answer"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="menuType == 'Service' ">
+                <div class="row form-group" *ngIf="type == 'Service Infrastructure' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('description')"
+                                [class.is-valid]="isControlValid('description')" formControlName="description"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="IT service">IT service</option>
+                                <option value="Call center">Call center</option>
+                                <option value="After sales service">After sales service</option>
+                                <option value="Repair and maintenance">Repair and maintenance</option>
+                                <option value="Delivery">Delivery</option>
+                                <option value="Online chat support">Online chat support</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group" *ngIf="type != 'Service Infrastructure' && type != 'Servicing employees' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group" *ngIf="type == 'Servicing employees'">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Job Description <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('description')"
+                                [class.is-valid]="isControlValid('description')" formControlName="description"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="Technicians">Technicians</option>
+                                <option value="Customer service operators">Customer service operators</option>
+                                <option value="Receptionist/ Reservation">Receptionist/ Reservation</option>
+                                <option value="Product/ Service demonstrators">Product/ Service demonstrators</option>
+                                <option value="Delivery staff">Delivery staff</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Units</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'unit')" formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInput($event)" min="1"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valueLaksText')"
+                                [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="menuType == 'Technology' ">
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Units</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'unit')" formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInput($event)" min="1"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valueLaksText')"
+                                [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="menuType == 'HumanResources' ">
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of People <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input *ngIf="isHumanResources" type="number"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('noOfPeople')"
+                                [class.is-valid]="isControlValid('noOfPeople')"
+                                (keyup)="validateCommaInput($event, 'No. of People')" formControlName="noOfPeople" />
+                            <input *ngIf="!isHumanResources" type="number"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                (keyup)="validateCommaInput($event, 'No. of People')" formControlName="noOfPeople" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Average Age <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input *ngIf="isHumanResources" type="number"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('averageAge')"
+                                [class.is-valid]="isControlValid('averageAge')"
+                                (keyup)="validateCommaInput($event, 'Average Age')" formControlName="averageAge" />
+                            <input *ngIf="!isHumanResources" type="number"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                (keyup)="validateCommaInput($event, 'Average Age')" formControlName="averageAge" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Package <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('packages')"
+                                [class.is-valid]="isControlValid('packages')" formControlName="packages"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="Duwon">Duwon</option>
+                                <option value="Sandar">Sandar</option>
+                                <option value="Thuria">Thuria</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="menuType == 'ManagementInfrastructure' ">
+                <div class="row form-group" *ngIf="type == 'Management team' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of People</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                (keyup)="validateCommaInput($event, 'No. of People')" formControlName="noOfPeople" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type == 'Location of Business' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Locations</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                (keyup)="validateCommaInput($event, 'No. of Locations')"
+                                formControlName="noOfLocation" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group" *ngIf="type != 'Management team' && type != 'Location of Business' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Asset Description</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                formControlName="description" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type != 'Management team' && type != 'Location of Business' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">No. of Units</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                min="1" (keyup)="validateCommaInput($event, 'unit')" formControlName="unit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group" *ngIf="type != 'Management team' && type != 'Location of Business' ">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <input type="text" (keyup)="updateCommaInput($event)" min="1"
+                                class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valueLaksText')"
+                                [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Risk Perception <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                                [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-label">Product <span>*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                                [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                                class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                                <option value="" disabled selected hidden>Please Select</option>
+                                <option *ngFor="let product of products;" [value]="product.id">{{
+                                    product.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- <div class="row form-group" *ngIf="isShowAssetDescription">
                 <div class="col-4">
                     <div class="form-group">
                         <label class="form-label">Asset Description</label>
@@ -19,14 +903,15 @@
             <div class="row form-group" *ngIf="isShowServiceAssetDescription">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Asset Description</label>
+                        <label class="form-label">Asset Description <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <select autocomplete="off" formControlName="description" class="form-control form-control-sm"
-                            name="builder[layout][subheader][layoutVersion]">
-                            <option [value]="">Please Select</option>
+                        <select autocomplete="off" [class.is-invalid]="isControlInvalid('description')"
+                            [class.is-valid]="isControlValid('description')" formControlName="description"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option value="" disabled selected hidden>Please Select</option>
                             <option value="it_service">IT service</option>
                             <option value="call_center">Call center</option>
                             <option value="after_sale_service">After sale service</option>
@@ -41,14 +926,15 @@
             <div class="row form-group" *ngIf="isShowJobDescription">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Job Description</label>
+                        <label class="form-label">Job Description <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <select autocomplete="off" formControlName="description" class="form-control form-control-sm"
-                            name="builder[layout][subheader][layoutVersion]">
-                            <option [value]="">Please Select</option>
+                        <select autocomplete="off" [class.is-invalid]="isControlInvalid('description')"
+                            [class.is-valid]="isControlValid('description')" formControlName="description"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option value="" disabled selected hidden>Please Select</option>
                             <option value="Technicians">Technicians</option>
                             <option value="Customer service operator">Customer service operator</option>
                             <option value="Receptionist/ Reservation">Receptionist/ Reservation</option>
@@ -59,7 +945,7 @@
                 </div>
             </div>
 
-            <div class="row form-group" *ngIf="isShowNoofUnits">
+            <div class="row form-group" *ngIf="(menuType == 'OutboundLogistics' && type == 'Goods In Warehouses' ) ">
                 <div class="col-4">
                     <div class="form-group">
                         <label class="form-label">No. of Units</label>
@@ -68,7 +954,7 @@
                 <div class="col-8">
                     <div class="form-group">
                         <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
-                            formControlName="unit" />
+                           min="1" (keyup)="validateCommaInput($event, 'unit')"  formControlName="unit" />
                     </div>
                 </div>
             </div>
@@ -81,11 +967,11 @@
                 <div class="col-8">
                     <div class="form-group">
                         <input type="text" class="form-control form-control-sm form-control-md" autocomplete="off"
-                            formControlName="question" />
+                            formControlName="description" />
                     </div>
                 </div>
             </div>
-            <div class="row form-group" *ngIf="isShowVehicleNo">
+            <div class="row form-group" *ngIf="menuType == 'OutboundLogistics'  && type == 'Goods In Transporation'">
                 <div class="col-4">
                     <div class="form-group">
                         <label class="form-label">Vehicle No.</label>
@@ -98,7 +984,20 @@
                     </div>
                 </div>
             </div>
-            <div class="row form-group" *ngIf="isShowEngineCapacity">
+            <div class="row form-group" *ngIf="(menuType == 'InboundLogistics' && type == 'Transportation') ">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">Engine Capacity</label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="unit" />
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group" *ngIf="menuType == 'MarketingSales' && type == 'Transporation' ">
                 <div class="col-4">
                     <div class="form-group">
                         <label class="form-label">Engine Capacity</label>
@@ -111,15 +1010,16 @@
                     </div>
                 </div>
             </div>
-            <div class="row form-group" *ngIf="isShowEstimatedValue">
+            <div class="row form-group" *ngIf="(menuType == 'OutboundLogistics' && type == 'Goods In Transporation') || 
+            (menuType == 'MarketingSales' && type == 'Marketing Assets') ">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Estimated Value (Laks) <span>*</span></label>
+                        <label class="form-label">Estimated Value (Lakhs) <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <input type="text" (keyup)="updateCommaInput($event)"
+                        <input type="text" (keyup)="updateCommaInput($event)" min="1"
                             class="form-control form-control-sm form-control-md" autocomplete="off"
                             [class.is-invalid]="isControlInvalid('valueLaksText')"
                             [class.is-valid]="isControlValid('valueLaksText')" formControlName="valueLaksText" />
@@ -127,17 +1027,18 @@
                 </div>
             </div>
 
-            <div class="row form-group" *ngIf='isShowShipping'>
+            <div class="row form-group" *ngIf="menuType == 'OutboundLogistics' && type == 'Goods In Transporation'">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Shipping</label>
+                        <label class="form-label">Shipping <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <select autocomplete="off" formControlName="shipping" class="form-control form-control-sm"
-                            name="builder[layout][subheader][layoutVersion]">
-                            <option [value]="">Please Select</option>
+                        <select autocomplete="off" [class.is-invalid]="isControlInvalid('shipping')"
+                            [class.is-valid]="isControlValid('shipping')" formControlName="shipping"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option value="" disabled selected hidden>Please Select</option>
                             <option value="INLAND">Inland</option>
                             <option value="COASTAL">Coastal</option>
                         </select>
@@ -148,14 +1049,15 @@
             <div class="row form-group" *ngIf='isShowAnswer'>
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Answer</label>
+                        <label class="form-label">Answer <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <select autocomplete="off" formControlName="answer" class="form-control form-control-sm"
-                            name="builder[layout][subheader][layoutVersion]">
-                            <option [value]="">Please Select</option>
+                        <select autocomplete="off" [class.is-invalid]="isControlInvalid('answer')"
+                            [class.is-valid]="isControlValid('answer')" formControlName="answer"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option value="" disabled selected hidden>Please Select</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
@@ -163,15 +1065,38 @@
                 </div>
             </div>
 
-            <div class="row form-group" *ngIf='isShowNoOfPeople'>
+            <div class="row form-group" *ngIf="(menuType == 'ManagementInfrastructure' && type == 'Management team' )">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">No of People</label>
+                        <label class="form-label">No. of People</label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                        <input *ngIf="isHumanResources" type="number"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="noOfPeople" />
+                        <input *ngIf="!isHumanResources" type="number"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
+                            formControlName="noOfPeople" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" *ngIf="(menuType == 'ManagementInfrastructure' && type == 'Management team' )">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="form-label">No. of People <span>*</span></label>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input *ngIf="isHumanResources" type="number"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('noOfPeople')"
+                            [class.is-valid]="isControlValid('noOfPeople')" formControlName="noOfPeople" />
+                        <input *ngIf="!isHumanResources" type="number"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
                             formControlName="noOfPeople" />
                     </div>
                 </div>
@@ -180,12 +1105,17 @@
             <div class="row form-group" *ngIf='isShowAvageAge'>
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">AvageAge</label>
+                        <label class="form-label">Avage Age <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                        <input *ngIf="isHumanResources" type="number"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('averageAge')"
+                            [class.is-valid]="isControlValid('averageAge')" formControlName="averageAge" />
+                        <input *ngIf="!isHumanResources" type="number"
+                            class="form-control form-control-sm form-control-md" autocomplete="off"
                             formControlName="averageAge" />
                     </div>
                 </div>
@@ -194,14 +1124,15 @@
             <div class="row form-group" *ngIf='isShowPackage'>
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Package</label>
+                        <label class="form-label">Package <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <select autocomplete="off" formControlName="packages" class="form-control form-control-sm"
-                            name="builder[layout][subheader][layoutVersion]">
-                            <option [value]="">Please Select</option>
+                        <select autocomplete="off" [class.is-invalid]="isControlInvalid('packages')"
+                            [class.is-valid]="isControlValid('packages')" formControlName="packages"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option value="" disabled selected hidden>Please Select</option>
                             <option value="Duwon">Duwon</option>
                             <option value="Sandar">Sandar</option>
                             <option value="Thuria">Thuria</option>
@@ -210,10 +1141,11 @@
                 </div>
             </div>
 
-            <div class="row form-group" *ngIf='isShowNoOfLocations'>
+            <div class="row form-group"
+                *ngIf="(menuType == 'ManagementInfrastructure' && type == 'Location of Business')">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">No Of Locations</label>
+                        <label class="form-label">No. of Locations</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -224,20 +1156,22 @@
                 </div>
             </div>
 
-            <div class="row form-group">
+            <div class="row form-group"
+                *ngIf="(menuType == 'ManagementInfrastructure' && (type == 'Management team' || type == 'Location of Business')) ">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Risk Perception</label>
+                        <label class="form-label">Risk Perception <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <select autocomplete="off" formControlName="riskCode" class="form-control form-control-sm"
-                            name="builder[layout][subheader][layoutVersion]">
-                            <option [value]="">Please Select</option>
-                            <option value="001">Low</option>
-                            <option value="002">Medium</option>
-                            <option value="003">High</option>
+                        <select autocomplete="off" [class.is-invalid]="isControlInvalid('riskCode')"
+                            [class.is-valid]="isControlValid('riskCode')" formControlName="riskCode"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option value="" disabled selected hidden>Please Select</option>
+                             <option value="001">High</option>
+                                <option value="002">Medium</option>
+                                <option value="003">Low</option>
                         </select>
                     </div>
                 </div>
@@ -245,14 +1179,15 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Product</label>
+                        <label class="form-label">Product <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
-                        <select autocomplete="off" formControlName="productId" class="form-control form-control-sm"
-                            name="builder[layout][subheader][layoutVersion]">
-                            <option [value]="">Please Select</option>
+                        <select autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
+                            [class.is-valid]="isControlValid('productId')" formControlName="productId"
+                            class="form-control form-control-sm" name="builder[layout][subheader][layoutVersion]">
+                            <option value="" disabled selected hidden>Please Select</option>
                             <option *ngFor="let product of products;" [value]="product.id">{{
                                 product.name }}
                             </option>
@@ -260,7 +1195,7 @@
                     </div>
                 </div>
             </div>
-
+ -->
             <div style="text-align: right;">
                 <button type="button" class="btn btn-primary btn-elevate mx-2" (click)="save()">Save</button>
                 <button type="button" class="btn btn-primary btn-elevate mx-2"

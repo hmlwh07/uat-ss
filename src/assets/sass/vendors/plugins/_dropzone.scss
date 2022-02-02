@@ -83,14 +83,14 @@
             flex-grow: 1;
 
             .dropzone-filename {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
                 font-weight: 500;
                 color: $gray-600;
                 text-overflow: ellipsis;
                 margin-right: 0.5rem;
 
                 b {
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
                     font-weight: 500;
                     color: $text-muted;
                 }
@@ -98,7 +98,7 @@
 
             .dropzone-error {
                 margin-top: 0.25rem;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
                 font-weight: 400;
                 color: $danger;
                 text-overflow: ellipsis;
@@ -132,7 +132,7 @@
 
                 i {
                     transition: $transition-link;
-                    font-size: 0.8rem;
+                    font-size: 0.85rem;
                     color: $gray-600;
                 }
 

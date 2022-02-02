@@ -12,6 +12,7 @@ import { StaticActionType, StaticPageAction } from '../static-field.interface';
 import { PageDataService } from "../../product-form/page-data.service"
 import { IsJsonString } from '../../../core/is-json';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
+import { FirePageID, FireRiskID } from '../static-pages.data';
 @Component({
   selector: 'app-addon-page',
   templateUrl: './addon-page.component.html',
@@ -34,6 +35,41 @@ export class AddonPageComponent implements OnInit {
   premiun
   parentData: any = {}
   isLoading = true
+  fireAddonRate = {
+    "FRAD009": 0.1,
+    "FRAD004": 0.1,
+    "FRAD010-T-001": 0.25,
+    "FRAD010-T-002": 0.5,
+    "FRAD010-T-003": 0.75,
+    "FRAD010-T-004": 1,
+    "FRAD008-T-001": 0.2,
+    "FRAD008-T-002": 0.2,
+    "FRAD008-T-003": 0.2,
+    "FRAD008-T-004": 0.2,
+    "FRAD008-T-005": 0.25,
+    "FRAD011": 0.1,
+    "FRAD002": 0.1,
+    "FRAD006": 0.1,
+    "FRAD003": 0.1,
+    "FRAD001": 0.06,
+    "FRAD007": 0.08,
+    "FRAD005": 0.1,
+  }
+  fireOptionData = {
+    "FRAD008": [
+      { "code": "T-001", "value": "Building" },
+      { "code": "T-002", "value": "Furniture" },
+      { "code": "T-003", "value": "Machine" },
+      { "code": "T-004", "value": "Goods/Stocks" },
+      { "code": "T-005", "value": "Water Damage for Goods/Stocks" },
+    ],
+    "FRAD010": [
+      { "code": "T-001", "value": "First Class Building" },
+      { "code": "T-002", "value": "Second Class Building" },
+      { "code": "T-003", "value": "Third Class Building" },
+      { "code": "T-004", "value": "Fourth Class Building" },
+    ]
+  }
   constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe, private pageDataService: PageDataService, private loadingService: LoadingService) { }
 
   async ngOnInit() {
@@ -63,13 +99,19 @@ export class AddonPageComponent implements OnInit {
         if (item.validationFun) {
           item['show'] = this.globalFun[item.validationFun] ? this.globalFun[item.validationFun](this.parentData) : true
         }
+        if (this.product.code == "CLFR01") {
+          item["sumInsuredStr"] = "0"
+          item["unitStr"] = "0"
+          item["premiumStr"] = "0"
+        }
         let response = results.find(x => x.addonId == item.id)
         // if (item['show']) {
         this.addOnsData[item.id] = {
           checked: response && item['show'] ? true : false,
           sum: response ? response.sumInsured || 0 : 0,
           unit: response ? response.unit || 0 : 0,
-          premium: response ? response.premium || 0 : 0
+          premium: response ? response.premium || 0 : 0,
+          option: response ? response.option || "T-001" : "T-001",
         }
 
         if (item.sumInsured) {
@@ -131,7 +173,10 @@ export class AddonPageComponent implements OnInit {
           // }
         }
       }
-    } else {
+    } else if (this.product.code == "CLFR01" && subKey == "premium") {
+      this[mainObj][mainKey][subKey] = this.rateByValue(addon)
+    }
+    else {
       if (this.globalFun[funName + "Result"]) {
         let unsub = this.globalFun[funName + "Result"].subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
@@ -154,10 +199,12 @@ export class AddonPageComponent implements OnInit {
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
         let premium = posDataArray[addon.id].premium ? posDataArray[addon.id].premium + "" : ""
+        let option = posDataArray[addon.id].option ? posDataArray[addon.id].option + "" : ""
         try {
           let postData = {
             addonId: addon.id,
             quotationNo: this.resourcesId,
+            option: option,
             sumInsured: (sum).replace(',', '').replace('MMK', '').replace('USD', ''),
             unit: (unit).replace(',', '').replace('MMK', '').replace('USD', ''),
             premium: (premium).replace(',', '').replace('MMK', '').replace('USD', ''),
@@ -172,6 +219,9 @@ export class AddonPageComponent implements OnInit {
     }
     if (this.product.code == "PLMO02") {
       await this.savePremimun().toPromise()
+    }
+    if (this.product.code == "CLFR01") {
+      await this.savePremimunFire().toPromise()
     }
     console.log("end");
 
@@ -200,6 +250,10 @@ export class AddonPageComponent implements OnInit {
     else if (!this.addOnsData[addon.id].checked && addon.code == "cross_addon") {
       this.addOnsData[addon.id]['premium'] = 0
     }
+  }
+
+  rechangeOption(addOn) {
+    this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
   }
 
   calcuCross() {
@@ -265,8 +319,44 @@ export class AddonPageComponent implements OnInit {
     return preAMT
   }
 
+  caluFirePremimun() {
+    let parentData1 = this.globalFun.tempFormData[FireRiskID]
+    let parentData2 = this.globalFun.tempFormData[FirePageID]
+    let precent = parentData2.policyType == "T-001" ? 1 : 0.75
+    let premiumTotal = 0
+    for (let element of parentData1) {
+      premiumTotal += this.globalFun.calculateDecimal(element.premium)
+
+    }
+    // parentData2.forEach(element => {
+    //   premiumTotal += parseFloat(element.premium)
+    // });
+    const posDataArray = this.addOnsData
+    let addOnPre = 0
+    for (let addon of this.product.addOns) {
+      if (posDataArray[addon.id].checked) {
+        addOnPre += this.globalFun.calculateDecimal(posDataArray[addon.id]['premium'])
+      }
+    }
+    let finalPre = (premiumTotal + addOnPre) * precent
+    this.premiumAmt = this.numberPipe.transform(finalPre) + " MMK"
+    this.globalFun.paPremiumResult.next(this.premiumAmt)
+    return finalPre
+  }
+
   savePremimun() {
     let premiumAmt = this.caluMotorPremimun()
+    let postData = {
+      "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+      "premiumView": this.premiumAmt,
+      "resourceId": this.resourcesId,
+      "type": this.prodService.viewType
+    }
+    return this.pageDataService.updatePremimun(postData)
+  }
+
+  savePremimunFire() {
+    let premiumAmt = this.caluFirePremimun()
     let postData = {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,
@@ -287,6 +377,34 @@ export class AddonPageComponent implements OnInit {
       return null
     }
     return null
+  }
+
+  rateByValue(addon: any) {
+    let rate = 0
+    if (addon.code == "FRAD010" || addon.code == "FRAD008") {
+      let keyId = addon.code + "-" + this.addOnsData[addon.id].option
+      rate = this.fireAddonRate[keyId] || 0
+    } else {
+      rate = this.fireAddonRate[addon.code] || 0
+    }
+    let parentData = this.globalFun.tempFormData[FireRiskID]
+    console.log(parentData);
+
+    let totalRisk = 0
+    if (parentData) {
+      parentData.forEach(element => {
+        totalRisk += parseFloat(element.riskSi)
+      });
+    }
+    if (rate > 0 && totalRisk > 0) {
+      let amt = totalRisk * (rate / 100)
+      if (addon.code == "FRAD010") {
+        let dis = amt * 0.1
+        amt = amt - dis
+      }
+      return amt
+    }
+    return 0
   }
 
 }

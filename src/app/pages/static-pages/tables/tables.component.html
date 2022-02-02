@@ -4,9 +4,9 @@
             <tr>
                 <th>Item Name</th>
                 <th>Item Description</th>
-                <th>Value per Quantity</th>
+                <th style="text-align: right;">Value per Quantity</th>
                 <th>Quantity</th>
-                <th>Total Value</th>
+                <th style="text-align: right;">Total Value</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -18,20 +18,20 @@
                 <th>
                     {{data.itemDescription}}
                 </th>
-                <th>
-                    {{data.valuePerquantity}}
+                <th style="text-align: right;">
+                    {{data.valuePerQuantity | number}}
                 </th>
                 <th>
-                    {{data.Quantity}}
+                    {{data.quantity}}
+                </th>
+                <th style="text-align: right;">
+                    {{data.totalValue | number}}
                 </th>
                 <th>
-                    {{data.totalValue}}
-                </th>
-                <th>
-                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit')">
+                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit','content')">
                         <span class="flaticon-edit"></span>
                     </a>
-                    <a title="Delete Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'delete')">
+                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1" (click)="onActionView(data,'delete','content')">
                         <span class="flaticon-delete"></span>
                     </a>
                 </th>
@@ -42,9 +42,9 @@
             <tr>
                 <th>Item Name</th>
                 <th>Item Description</th>
-                <th>Value per Quantity</th>
-                <th>Quantity</th>
-                <th>Total Value</th>
+                <th style="text-align: right;">Value per Quantity</th>
+                <th style="text-align: right;">Quantity</th>
+                <th style="text-align: right;">Total Value</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -56,20 +56,20 @@
                 <th>
                     {{data.itemDescription}}
                 </th>
-                <th>
-                    {{data.valuePerquantity}}
+                <th style="text-align: right;">
+                    {{data.valuePerQuantity | number}}
+                </th>
+                <th style="text-align: right;">
+                    {{data.quantity}}
+                </th>
+                <th style="text-align: right;">
+                    {{data.totalValue | number}}
                 </th>
                 <th>
-                    {{data.Quantity}}
-                </th>
-                <th>
-                    {{data.totalValue}}
-                </th>
-                <th>
-                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit')">
+                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit','plant')">
                         <span class="flaticon-edit"></span>
                     </a>
-                    <a title="Delete Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'delete')">
+                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1" (click)="onActionView(data,'delete','plant')">
                         <span class="flaticon-delete"></span>
                     </a>
                 </th>
@@ -79,8 +79,8 @@
             <tr>
                 <th>Month</th>
                 <th>Description</th>
-                <th>Stock Value</th>
-                <th>Agreed Sl</th>
+                <th style="text-align: right;">Stock Value</th>
+                <th style="text-align: right;">Agreed SI</th>
                 <th>Remarks</th>
                 <th>Action</th>
             </tr>
@@ -88,25 +88,25 @@
         <tbody *ngIf="tableData.length>0 && stock">
             <tr *ngFor="let data of tableData">
                 <th>
-                    {{data.itemName}}
+                    {{data.month}}
                 </th>
                 <th>
-                    {{data.itemDescription}}
+                    {{data.description}}
+                </th>
+                <th style="text-align: right;">
+                    {{data.stockValue | number}}
+                </th>
+                <th style="text-align: right;">
+                    {{data.agreedSi | number}}
                 </th>
                 <th>
-                    {{data.valuePerquantity}}
+                    {{data.remark}}
                 </th>
                 <th>
-                    {{data.Quantity}}
-                </th>
-                <th>
-                    {{data.totalValue}}
-                </th>
-                <th>
-                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit')">
+                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit','stock')">
                         <span class="flaticon-edit"></span>
                     </a>
-                    <a title="Delete Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'delete')">
+                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1" (click)="onActionView(data,'delete','stock')">
                         <span class="flaticon-delete"></span>
                     </a>
                 </th>

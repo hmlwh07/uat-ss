@@ -1,11 +1,11 @@
 export interface Lead {
-    activationDate?: string,
+    activationDate?:string,
     assets?: string,
     assignTo?: 0,
     campaignName?: string,
     campaignNo?: string,
     channelCode?: string,
-    closedDate?: string,
+    closedDate?:string,
     contact?: string,
     contactName?: string,
     customerPlan?: string,
@@ -32,7 +32,7 @@ export interface Lead {
     nrcTownshipCode?: string,
     nrcTypeCode?: string,
     occupationCode?: string,
-    openedDate?: string,
+    openedDate?:string,
     operationDate?: string,
     others?: string,
     ownerId?: 0,
@@ -42,68 +42,67 @@ export interface Lead {
     productName?: string,
     reason?: string,
     referralCustomerId?: 0,
-    referralCustomerName?: string
-    referralCustomerDob?: string
-    referralCustomerType?: string
-    prospectCustomerId?: string
-    prospectCustomerName?: string
-    prospectCustomerDob?: string
-    prospectCustomerType?: string
     remark?: string,
     score?: 0,
     sourceCode?: string,
-    startDate?: string,
+    startDate?:string,
     stateCode?: string,
     statusCode?: string,
     subTypeCode?: string,
     subject?: string,
     townshipCode?: string,
     typeCode?: string,
-    validityPeriod?: 0
+    validityPeriod?: 0,
+    existingCustomerId?: any,
+    existingCustomerName?: any,
+    existingCustomerDateOfBirth?: any,
+    prospectCustomerId?: any,
+    prospectCustomerName?: any,
+    prospectCustomerDateOfBirth?: any,
 }
 
 export class stateOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
 
 export class statusOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
 
 export class distinctOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
 
 export class townshipOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
 
 export class assignToOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
 
 export class productOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
 export class campaignNameOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
 export class sourceOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }
-export class existingOption {
-    code?: string
-    value?: string
+export class existingOption{
+    code?:string
+    value?:string
 }
 export class martialOption {
-    code?: string
-    value?: string
+    code?:string
+    value?:string
 }

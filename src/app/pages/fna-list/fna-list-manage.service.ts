@@ -12,7 +12,11 @@ export class FANListService extends BizOperationService<any, number>{
     super(httpClient, API_ADDON_URL);
   }
 
-  getAll(){
+  getAll() {
     return this.httpClient.get(API_ADDON_URL);
-   }
+  }
+
+  getFNAAllByLeaId(leadId) {
+    return this.httpClient.get(API_ADDON_URL + '/' + leadId);
+  }
 }

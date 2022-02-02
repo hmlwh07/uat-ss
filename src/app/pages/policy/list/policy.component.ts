@@ -54,7 +54,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (res.type == 'save') {
-          this.prodctService.creatingCustomer = res
+          this.prodctService.creatingCustomer = res.data
           this.prodctService.createingProd = prod.data
           this.prodctService.editData = null
           this.prodctService.referenceID = null
@@ -87,6 +87,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.prodctService.viewType = 'policy'
         this.prodctService.editData = item
         this.prodctService.referenceID = item.quotationId
+        this.prodctService.creatingLeadId = item.leadId
         this.router.navigateByUrl("/product-form")
       }
     })

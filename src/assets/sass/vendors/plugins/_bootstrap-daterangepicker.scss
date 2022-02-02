@@ -65,7 +65,7 @@
         border-top: 1px solid $gray-200;
 
        .btn {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             padding: 0.5rem 1rem;
             @include border-radius($border-radius);
@@ -73,7 +73,7 @@
     }
 
     .drp-selected {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .drp-calendar {

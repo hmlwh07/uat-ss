@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
-import { AuthService } from 'src/app/modules/auth';
-import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
-import { FANService } from 'src/app/pages/fna-detail/fna-manage.service';
+import { validateAllFields } from '../../../../../app/core/valid-all-feild';
+import { AuthService } from '../../../../../app/modules/auth';
+import { AlertService } from '../../../../../app/modules/loading-toast/alert-model/alert.service';
+import { FANService } from '../../../../../app/pages/fna-detail/fna-manage.service';
 import { FNABRAMInputService } from '../../inputs.manage.service';
 import { HumanResourcesService } from '../human-resources/human-resources.manage.service';
 import { InboundlogisticsService } from '../inbound-logistics/inbound-logistics.manage.service';
@@ -47,6 +47,7 @@ export class InputDataDialogComponent implements OnInit {
   isShowJobDescription: boolean;
   products = [];
   user: any;
+  isHumanResources: boolean;
 
   constructor(private cdf: ChangeDetectorRef, private fnaBRAMInputService: FNABRAMInputService,
     public modal: NgbActiveModal, private inboundlogisticsService: InboundlogisticsService,
@@ -59,31 +60,54 @@ export class InputDataDialogComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('menuType', this.menuType);
-    console.log('type', this.type);
-    console.log('fnaId', this.fnaId);
+    this.loadForm();
+    // console.log('menuType', this.menuType);
+    // console.log('type', this.type);
+    // console.log('fnaId', this.fnaId);
     this.user = this.authService.currentUserValue;
-    console.log('dataDto', this.data);
     if (this.data) {
       this.dataDto = this.data;
-      this.dataDto.valueLaksText = this.data.valueLaks;
-      this.dataDto.valueLaks = Number(this.data.valueLaks.replace(/,/g, ''));
+      if (this.data.valueLaks) {
+        this.data.valueLaksText = this.data.valueLaks;
+        //this.data.valueLaksText = Number(this.data.valueLaks.replace(/,/g, ''));
+      }
+      this.loadForm(this.data);
     }
-    await this.loadForm();
-    await this.showHide();
+    // this.showHide();
   }
 
-  setData() {
-
+  setData(data) {
+    this.formGroup.controls['id'].setValue(data.id);
+    this.formGroup.controls['description'].setValue(data.description);
+    this.formGroup.controls['fnaId'].setValue(data.fnaId);
+    this.formGroup.controls['productId'].setValue(data.productId);
+    this.formGroup.controls['riskCode'].setValue(data.riskCode);
+    this.formGroup.controls['type'].setValue(data.type);
+    this.formGroup.controls['unit'].setValue(data.unit);
+    this.formGroup.controls['shipping'].setValue(data.shipping);
+    this.formGroup.controls['engineCapacity'].setValue(data.engineCapacity);
+    this.formGroup.controls['answer'].setValue(data.answer);
+    this.formGroup.controls['question'].setValue(data.question);
+    this.formGroup.controls['averageAge'].setValue(data.averageAge);
+    this.formGroup.controls['noOfPeople'].setValue(data.noOfPeople);
+    this.formGroup.controls['packages'].setValue(data.packages);
+    this.formGroup.controls['noOfLocation'].setValue(data.noOfLocation);
+    this.formGroup.controls['valueLaksText'].setValue(data.valueLaksText);
+    this.formGroup.controls['valueLaks'].setValue(data.valueLaks);
+    this.formGroup.controls['createdAt'].setValue(data.createdAt);
+    this.formGroup.controls['updatedAt'].setValue(data.updatedAt);
   }
 
-  loadForm() {
+  loadForm(data?) {
+    if (data) {
+      this.dataDto = data;
+    }
     this.formGroup = new FormGroup({
       id: new FormControl(this.dataDto.id || null || 0),
-      description: new FormControl(this.dataDto.description || null),
+      description: new FormControl(this.dataDto.description || ''),
       fnaId: new FormControl(this.dataDto.fnaId || null),
-      productId: new FormControl(this.dataDto.productId || null),
-      riskCode: new FormControl(this.dataDto.riskCode || null),
+      productId: new FormControl(this.dataDto.productId || null, [Validators.required, Validators.nullValidator]),
+      riskCode: new FormControl(this.dataDto.riskCode || null, [Validators.required, Validators.nullValidator]),
       type: new FormControl(this.dataDto.type || null),
       unit: new FormControl(this.dataDto.unit || null),
       shipping: new FormControl(this.dataDto.shipping || null),
@@ -104,11 +128,19 @@ export class InputDataDialogComponent implements OnInit {
 
   isControlValid(controlName: string): boolean {
     const control = this.formGroup.controls[controlName];
+    if (!control.value) {
+      this.formGroup.controls[controlName].setValue('');
+      //control.markAsUntouched();
+    }
     return control.valid && (control.dirty || control.touched);
   }
 
   isControlInvalid(controlName: string): boolean {
     const control = this.formGroup.controls[controlName];
+    if (!control.value) {
+      this.formGroup.controls[controlName].setValue('');
+      //control.markAsUntouched();
+    }
     return control.invalid && (control.dirty || control.touched);
   }
 
@@ -122,18 +154,84 @@ export class InputDataDialogComponent implements OnInit {
     }
   }
 
+  validateCommaInput(ev, fieldType) {
+    var num = this.fnaService.getNumber(ev.target.value);
+    if (num == 0) {
+      if (fieldType == 'unit') {
+        this.formGroup.controls['unit'].setValue('');
+      }
+      if (fieldType == 'Engine Capacity') {
+        this.formGroup.controls['unit'].setValue('');
+        this.formGroup.controls['engineCapacity'].setValue('');
+      }
+      if (fieldType == 'No. of Locations') {
+        this.formGroup.controls['noOfLocation'].setValue('');
+      }
+      if (fieldType == 'No. of People') {
+        this.formGroup.controls['noOfPeople'].setValue('');
+      }
+
+      if (fieldType == 'Average Age') {
+        this.formGroup.controls['averageAge'].setValue('');
+      }
+
+    }
+  }
+
   closeInputDialog() {
-    this.modal.close();
+    this.modal.close()
   }
 
   save() {
-    if ((this.menuType == 'MarketingSales' && this.type == 'Sales Team') ||
-      (this.menuType == 'HumanResources' && this.type == 'Recruitment and Training') ||
+    if (
       (this.menuType == 'ManagementInfrastructure' && (this.type == 'Management team' || this.type == 'Location of Business'))) {
       this.removeValidate('valueLaksText');
     } else {
       this.addValidate('valueLaksText');
+      this.addValidate('riskCode');
+      this.addValidate('productId');
       this.formGroup.value.valueLaks = Number(this.formGroup.value.valueLaksText.replace(/,/g, ''));
+    }
+
+    if (this.menuType == 'HumanResources' && this.type == 'Recruitment and Training') {
+      this.removeValidate('valueLaksText');
+      this.addValidate('packages');
+    }
+
+    if (this.menuType == 'OutboundLogistics' && this.type == 'Goods In Transporation') {
+      this.addValidate('shipping');
+    }
+
+    if ((this.menuType == 'MarketingSales' && this.type == 'Sales Team')) {
+      this.addValidate('answer');
+      this.removeValidate('valueLaksText');
+    }
+
+    if ((this.menuType == 'Service' && this.type == 'Service Infrastructure')) {
+      this.addValidate('description');
+    }
+
+    if ((this.menuType == 'Service' && this.type == 'Servicing employees')) {
+      this.addValidate('description');
+    }
+
+    if (this.menuType == 'HumanResources' && this.type == 'Recruitment and Training') {
+      this.addValidate('noOfPeople');
+      this.addValidate('averageAge');
+      this.isHumanResources = true;
+    } else {
+      this.isHumanResources = false;
+    }
+
+    if (this.menuType == 'ManagementInfrastructure' && (this.type == 'Management team' || this.type == 'Location of Business')) {
+      this.addValidate('riskCode');
+      this.addValidate('productId');
+    }
+
+    if (this.menuType == 'ManagementInfrastructure' && this.type == 'Fixed assets and their management') {
+      this.addValidate('valueLaksText');
+      this.addValidate('riskCode');
+      this.addValidate('productId');
     }
 
 
@@ -142,6 +240,24 @@ export class InputDataDialogComponent implements OnInit {
     } else {
       this.formGroup.value.fnaId = this.fnaId;
       this.formGroup.value.productId = Number(this.formGroup.value.productId);
+
+      this.formGroup.value.description = this.formGroup.value.description ? this.formGroup.value.description : '';
+      this.formGroup.value.productId = this.formGroup.value.productId ? this.formGroup.value.productId : 0;
+      this.formGroup.value.riskCode = this.formGroup.value.riskCode ? this.formGroup.value.riskCode : '';
+      this.formGroup.value.type = this.formGroup.value.type ? this.formGroup.value.type : '';
+      this.formGroup.value.unit = this.formGroup.value.unit ? this.formGroup.value.unit : 0;
+      this.formGroup.value.engineCapacity = this.formGroup.value.engineCapacity ? this.formGroup.value.engineCapacity : 0;
+      this.formGroup.value.averageAge = this.formGroup.value.averageAge ? this.formGroup.value.averageAge : 0;
+      this.formGroup.value.noOfPeople = this.formGroup.value.noOfPeople ? this.formGroup.value.noOfPeople : 0;
+      this.formGroup.value.packages = this.formGroup.value.packages ? this.formGroup.value.packages : '';
+      this.formGroup.value.noOfLocation = this.formGroup.value.noOfLocation ? this.formGroup.value.noOfLocation : 0;
+      this.formGroup.value.risk = this.formGroup.value.risk ? this.formGroup.value.risk : '';
+      this.formGroup.value.question = this.formGroup.value.question ? this.formGroup.value.question : '';
+
+      if (this.formGroup.value.valueLaksText) {
+        this.formGroup.value.valueLaks = Number(this.formGroup.value.valueLaksText.replace(/,/g, ''));
+      }
+
       if (this.menuType == 'InboundLogistics') {
         this.createInboundlogistics(this.formGroup.value.id);
       }
@@ -200,14 +316,14 @@ export class InputDataDialogComponent implements OnInit {
     }
 
 
-    if (this.menuType == 'OutboundLogistics' && (this.type == 'Warehousing' || this.type == 'Good In Warehouses'
+    if (this.menuType == 'OutboundLogistics' && (this.type == 'Warehousing' || this.type == 'Goods In Warehouses'
       || this.type == 'Others')) {
       this.isShowAssetDescription = true;
       this.isShowNoofUnits = true;
       this.isShowEstimatedValue = true;
     }
 
-    if (this.menuType == 'OutboundLogistics' && this.type == 'Good In Transporation') {
+    if (this.menuType == 'OutboundLogistics' && this.type == 'Goods In Transporation') {
       this.isShowVehicleNo = true;
       this.isShowEstimatedValue = true;
       this.isShowShipping = true;
@@ -219,7 +335,7 @@ export class InputDataDialogComponent implements OnInit {
       this.isShowEstimatedValue = true;
     }
 
-    if (this.menuType == 'MarketingSales' && (this.type == 'Marketing Assets' || this.type == 'Other')) {
+    if (this.menuType == 'MarketingSales' && (this.type == 'Marketing Assets' || this.type == 'Others')) {
       this.isShowAssetDescription = true;
       this.isShowNoofUnits = true;
       this.isShowEstimatedValue = true;
@@ -276,7 +392,7 @@ export class InputDataDialogComponent implements OnInit {
       this.isShowNoOfLocations = true;
     }
 
-    if (this.menuType == 'ManagementInfrastructure' && this.type == 'Fix assets and their management') {
+    if (this.menuType == 'ManagementInfrastructure' && this.type == 'Fixed assets and their management') {
       this.isShowAssetDescription = true;
       this.isShowNoofUnits = true;
       this.isShowEstimatedValue = true;
@@ -284,7 +400,6 @@ export class InputDataDialogComponent implements OnInit {
   }
 
   createInboundlogistics(id) {
-    console.log('createInboundlogistics', this.formGroup.value);
     if (this.type == 'Warehouse') {
       this.formGroup.value.type = INBOUND_LOGISTICS.WAREHOUSE.toString();
     } else if (this.type == 'Raw Material Storage') {
@@ -343,8 +458,6 @@ export class InputDataDialogComponent implements OnInit {
       "updatedBy": this.user.id
     }
 
-    console.log('createHumanResources', reqBody)
-
     if (id) {
       this.humanResourcesService.updateHumanResources(reqBody).toPromise().then(async (res: any) => {
         if (res) {
@@ -369,7 +482,7 @@ export class InputDataDialogComponent implements OnInit {
       this.formGroup.value.type = MANAGEMENT_INFRASTRUCTURE.MANAGEMENT_TEAM.toString();
     } else if (this.type == 'Location of Business') {
       this.formGroup.value.type = MANAGEMENT_INFRASTRUCTURE.LOCATION_BUSINESS.toString();
-    } else if (this.type == 'Fix assets and their management') {
+    } else if (this.type == 'Fixed assets and their management') {
       this.formGroup.value.type = MANAGEMENT_INFRASTRUCTURE.FIX_ASSET_MANAGEMENT.toString();
     }
 
@@ -420,9 +533,6 @@ export class InputDataDialogComponent implements OnInit {
       this.formGroup.value.type = MARKETING_SALES.OTHERS.toString();
     }
 
-
-
-    console.log('createOperation', this.formGroup.value);
     if (this.type == 'Sales Team') {
       if (this.formGroup.value.answer == 'Yes') {
         this.formGroup.value.answer = true;
@@ -503,16 +613,15 @@ export class InputDataDialogComponent implements OnInit {
   createOutboundLogistics(id) {
     if (this.type == 'Warehousing') {
       this.formGroup.value.type = OUTBOUND_LOGISTICS.WAREHOUSING.toString();
-    } else if (this.type == 'Good In Warehouses') {
+    } else if (this.type == 'Goods In Warehouses') {
       this.formGroup.value.type = OUTBOUND_LOGISTICS.GOODS_WAREHOUSE.toString();
-    } else if (this.type == 'Good In Transporation') {
+    } else if (this.type == 'Goods In Transporation') {
       this.formGroup.value.type = OUTBOUND_LOGISTICS.GOODS_TRANSPORTATION.toString();
     } else if (this.type == 'Transporation') {
       this.formGroup.value.type = OUTBOUND_LOGISTICS.TRANSPORATION.toString();
     } else {
       this.formGroup.value.type = OUTBOUND_LOGISTICS.OTHERS.toString();
     }
-    console.log('createOutboundLogistics', this.formGroup.value);
 
     if (id) {
       this.outboundLogisticsService.saveOutboundLogistics(this.formGroup.value).toPromise().then(async (res: any) => {
@@ -543,6 +652,7 @@ export class InputDataDialogComponent implements OnInit {
     } else {
       this.formGroup.value.type = SERVICE.OTHERS.toString();
     }
+
     if (id) {
       this.bramServiceService.saveBRAMService(this.formGroup.value).toPromise().then(async (res: any) => {
         if (res) {
@@ -593,19 +703,15 @@ export class InputDataDialogComponent implements OnInit {
 
   async getAllProducts() {
     await this.inputsService.getAllProducts().toPromise().then(async (res: any) => {
-      console.log('getAllProducts', res);
-
-      if (this.menuType == "OutboundLogistics" && this.type == "Good In Transporation") {
+      if (this.menuType == "OutboundLogistics" && this.type == "Goods In Transporation") {
         this.products = res.filter(x => x.code === 'CLMA01');
       } else if (this.menuType == "HumanResources" && this.type == "Recruitment and Training") {
         this.products = res.filter(x => x.code === 'PCHL01');
       } else {
-        this.products = res.filter(x => x.code === 'PCPA01' || x.code === 'SAES01' ||
-         x.code === 'PLPA01' && x.code === 'CLCS01' || x.code === 'CLCS02' || x.code === 'CLFD01');
+        this.products = res.filter(x => x.code === 'CLFR01' || x.code === 'PLMO02' ||
+          x.code === 'PCPA01' || x.code === 'PLPA01' || x.code === 'CLCS01' || x.code === 'CLCT01' || x.code === 'CLFD01');
       }
     });
-
-    console.log('products', this.products);
   }
 
   removeValidate(formControlName) {

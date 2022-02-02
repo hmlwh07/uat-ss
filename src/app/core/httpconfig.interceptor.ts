@@ -65,7 +65,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                         }
                     }
                     else
-                        this.alertService.activate(error.error.message || "Sorry!, Try again later", 'error');
+                        this.alertService.activate("Sorry!, Try again later", 'error');
 
                     return throwError(error)
                 }

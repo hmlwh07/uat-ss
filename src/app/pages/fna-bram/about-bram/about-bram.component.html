@@ -2,35 +2,35 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="inbound">
             <th class="col-3" mat-header-cell *matHeaderCellDef> Inbound Logistics </th>
-            <td class="col-3" mat-cell *matCellDef="let element" [ngClass]="{'low': element.inboundRisk == '001' , 
+            <td class="col-3" mat-cell *matCellDef="let element" [ngClass]="{'high': element.inboundRisk == '001' , 
                 'medium': element.inboundRisk == '002', 
-                'high': element.inboundRisk == '003' }"> {{
+                'low': element.inboundRisk == '003' }"> {{
                 element.inbound }} </td>
 
         </ng-container>
         <ng-container matColumnDef="operation">
             <th mat-header-cell *matHeaderCellDef> Operations </th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{'low': element.operationRisk == '001' , 
+            <td mat-cell *matCellDef="let element" [ngClass]="{'high': element.operationRisk == '001' , 
             'medium': element.operationRisk == '002', 
-            'high': element.operationRisk == '003'}"> {{element.operation }} </td>
+            'low': element.operationRisk == '003'}"> {{element.operation }} </td>
         </ng-container>
         <ng-container matColumnDef="outbound">
             <th mat-header-cell *matHeaderCellDef> Outbound Logistics </th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{'low': element.outboundRisk == '001' , 
+            <td mat-cell *matCellDef="let element" [ngClass]="{'high': element.outboundRisk == '001' , 
             'medium': element.outboundRisk == '002', 
-            'high': element.operationRisk == '003' }"> {{ element.outbound }}
+            'low': element.outboundRisk == '003' }"> {{ element.outbound }}
             </td>
         </ng-container>
         <ng-container matColumnDef="marketing">
             <th mat-header-cell *matHeaderCellDef> Marketing/Sales </th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{'low': element.marketingRisk == '001' , 
+            <td mat-cell *matCellDef="let element" [ngClass]="{'high': element.marketingRisk == '001' , 
             'medium': element.marketingRisk == '002', 
-            'high': element.marketingRisk == '003'}"> {{ element.marketing }} </td>
+            'low': element.marketingRisk == '003'}"> {{ element.marketing }} </td>
         </ng-container>
         <ng-container matColumnDef="service">
             <th mat-header-cell *matHeaderCellDef> Service </th>
             <td mat-cell *matCellDef="let element"
-                [ngClass]="{'low': element.serviceRisk == '001' , 'medium': element.serviceRisk == '002', 'high': element.serviceRisk == '003'}">
+                [ngClass]="{'high': element.serviceRisk == '001' , 'medium': element.serviceRisk == '002', 'low': element.serviceRisk == '003'}">
                 {{element.service}} </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -47,7 +47,7 @@
 
         <ng-container matColumnDef="dataList">
             <td mat-cell *matCellDef="let data"
-                [ngClass]="{'low': data.risk == '001' , 'medium': data.risk == '002', 'high': data.risk == '003'}"> {{
+                [ngClass]="{'high': data.risk == '001' , 'medium': data.risk == '002', 'low': data.risk == '003'}"> {{
                 data.productName }} </td>
         </ng-container>
         <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>

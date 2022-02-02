@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FnaBramComponent } from './fna-bram.component';
 import { RouterModule } from '@angular/router';
 import { AboutBramComponent } from './about-bram/about-bram.component';
@@ -41,7 +41,7 @@ import { LocationBusinessComponent } from './inputs/management-infrastructure/lo
 import { FixAssetManagementComponent } from './inputs/management-infrastructure/fix-asset-management/fix-asset-management.component';
 import { RecruitmentTrainingComponent } from './inputs/human-resources/recruitment-training/recruitment-training.component';
 import { InputDataDialogComponent } from './inputs/input-data-dialog/input-data-dialog.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionnaireComponent } from './inputs/technology/questionnaire/questionnaire.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { HumanResourcesQuestionnaireComponent } from './inputs/human-resources/human-resources-questionnaire/human-resources-questionnaire.component';
@@ -88,6 +88,7 @@ import { MarketTransporationComponent } from './inputs/marketing-sales/market-tr
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA
   ],
+  providers: [NgbActiveModal, DatePipe],
   exports: [AboutBramComponent, InputsComponent, OutputsComponent,
     ProductComponent, WarehouseComponent, FactoryBuildingComponent]
 })

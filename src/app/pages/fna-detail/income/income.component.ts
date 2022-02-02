@@ -14,6 +14,8 @@ import { FANIncomeManageService } from './income-manage.service';
 export class IncomeComponent implements OnInit {
   @Input() fnaIncome: any = {};
   @Input() fnaId: any = {};
+  @Input() customerId: any = null;
+
   @Output() changeAnalysis: EventEmitter<string> = new EventEmitter<string>();
   formGroup: FormGroup;
   income = {
@@ -114,8 +116,7 @@ export class IncomeComponent implements OnInit {
             });
           }
         })
-      }
-      await this.backAction();
+      }    
     }
   }
 

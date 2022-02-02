@@ -24,7 +24,7 @@
       <ng-container *ngFor="let page of config;let i = index">
         <tr>
           <td>{{i+1}}</td>
-          <td>{{page.pageTitle}}</td>
+          <td>{{page.showLabel || page.pageTitle}}</td>
           <td>{{page.pageType == 'form' ? 'Page' : "Table" }}</td>
           <td>{{page.tableName}}</td>
           <td>{{page.parent}}</td>

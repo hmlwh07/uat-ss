@@ -28,6 +28,7 @@ export class FnaDetailComponent implements OnInit {
   income = {}
   retirement = {}
   asset = {}
+  freedom = [];
   oldId: any;
   fnaIncome = null;
   fnaAssets = [];
@@ -39,11 +40,12 @@ export class FnaDetailComponent implements OnInit {
   fnaHealths = [];
   fnaRetirementSaving = null;
   fnaProduct = [];
-  passValue = { customerName: '', customerDob: '', conductedBy: '', createdAt: '' };
+  passValue = { customerName: '', customerDob: '', conductedBy: '', createdAt: '', createdByName: '' };
   percentageText: number = 0;
   totalPercentageText: string = '';
   fnaTextColor: number;
   isValue: boolean;
+  customerId: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -53,16 +55,18 @@ export class FnaDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(async params => {
       let data = JSON.parse(params.passValue);
-      console.log('data =====> ', data);
+      console.log('data', data);
+
       this.passValue = data;
       this.oldId = data.fnaId;
+      this.customerId = data.customerId;
       this.aboutLLP = this.oldId;
       if (data.pageStatus != 'create') {
         if (this.oldId) {
           await this.getFNAById();
         }
       }
-      this.passValue.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValue.createdAt)), 'MM/dd/yyyy');
+      this.passValue.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValue.createdAt)), 'dd/MM/yyyy');
     }
     );
 
@@ -89,6 +93,12 @@ export class FnaDetailComponent implements OnInit {
     this.fnaService.fnaHealths = [];
     await this.fnaService.findOne(this.oldId).toPromise().then(res => {
       if (res) {
+        if (res.fnaAssets.length > 0 && res.fnaEducations.length &&
+          res.fnaHealths.length > 0 && res.fnaIncome != null &&
+          res.fnaRetirementSaving != null) {
+          this.freedom.push({ hasData: true })
+        }
+
         this.fnaIncome = res.fnaIncome;
         this.fnaService.fnaIncome = res.fnaIncome;
 

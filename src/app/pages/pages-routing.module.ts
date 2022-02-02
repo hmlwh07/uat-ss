@@ -8,6 +8,13 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
+        path: 'dashboard/senior-lp-dashboard',
+        loadChildren: () =>
+          import('./senior-lp-dashboard/senior-lp-dashboard.module').then(
+            (m) => m.SeniorLpDashboardModule
+          ),
+      },
+      {
         path: 'product/page-group',
         loadChildren: () =>
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
@@ -133,7 +140,135 @@ const routes: Routes = [
             (m) => m.FnaBramModule
           ),
       },
-     
+      {
+        path: 'report/report-detail-by-agent',
+        loadChildren: () =>
+          import('./report-detail-by-agent/report-detail-by-agent.module').then(
+            (m) => m.ReportDetailByAgentModule
+          ),
+      },
+      {
+        path: 'report/report-detail-by-bank-branch',
+        loadChildren: () =>
+          import('./report-detail-by-bank-branch/report-detail-by-bank-branch.module').then(
+            (m) => m.ReportDetailByBankBranchModule
+          ),
+      },
+      {
+        path: 'report/report-channel-summary-by-bank-branch',
+        loadChildren: () =>
+          import('./report-channel-summary-by-bank-branch/report-channel-summary-by-bank-branch.module').then(
+            (m) => m.ReportChannelSummaryByBankBranchModule
+          ),
+      },
+      {
+        path: 'report/report-by-branch-summary-ai',
+        loadChildren: () =>
+          import('./report-by-branch-summary-ai/report-by-branch-summary-ai.module').then(
+            (m) => m.ReportByBranchSummaryAiModule
+          ),
+      },
+      {
+        path: 'report/report-by-product-sales-channel-policies',
+        loadChildren: () =>
+          import('./report-by-product-sales-channel-policies/report-by-product-sales-channel-policies.module').then(
+            (m) => m.ReportByProductSalesChannelPoliciesModule
+          ),
+      },
+      {
+        path: 'report/report-by-product-sales-channel-premium',
+        loadChildren: () =>
+          import('./report-by-product-sales-channel-premium/report-by-product-sales-channel-premium.module').then(
+            (m) => m.ReportByProductSalesChannelPremiumModule
+          ),
+      },
+      {
+        path: 'report/report-by-product-branch-policies',
+        loadChildren: () =>
+          import('./report-by-product-branch-policies/report-by-product-branch-policies.module').then(
+            (m) => m.ReportByProductBranchPoliciesModule
+          ),
+      },
+      {
+        path: 'report/report-by-product-branch-premium',
+        loadChildren: () =>
+          import('./report-by-product-branch-premium/report-by-product-branch-premium.module').then(
+            (m) => m.ReportByProductBranchPremiumModule
+          ),
+      },
+      {
+        path: 'report/report-by-agent-yearly',
+        loadChildren: () =>
+          import('./report-by-agent-yearly/report-by-agent-yearly.module').then(
+            (m) => m.ReportByAgentYearlyModule
+          ),
+      },
+      {
+        path: 'report/report-by-agent-daily',
+        loadChildren: () =>
+          import('./report-by-agent-daily/report-by-agent-daily.module').then(
+            (m) => m.ReportByAgentDailyModule
+          ),
+      },
+      {
+        path: 'report/report-by-agent-weekly',
+        loadChildren: () =>
+          import('./report-by-agent-weekly/report-by-agent-weekly.module').then(
+            (m) => m.ReportByAgentWeeklyModule
+          ),
+      },
+      {
+        path: 'report/report-by-agent-monthly',
+        loadChildren: () =>
+          import('./report-by-agent-monthly/report-by-agent-monthly.module').then(
+            (m) => m.ReportByAgentMonthlyModule
+          ),
+      },
+      {
+        path: 'report/report-monthly-sales-analysis-by-branch',
+        loadChildren: () =>
+          import('./report-monthly-sales-analysis-by-branch/report-monthly-sales-analysis-by-branch.module').then(
+            (m) => m.ReportMonthlySalesAnalysisByBranchModule
+          ),
+      },
+      {
+        path: 'report/report-weekly-sales-analysis-by-branch',
+        loadChildren: () =>
+          import('./report-weekly-sales-analysis-by-branch/report-weekly-sales-analysis-by-branch.module').then(
+            (m) => m.ReportWeeklySalesAnalysisByBranchModule
+          ),
+      },
+      {
+        path: 'report/report-daily-sales-analysis-by-branch',
+        loadChildren: () =>
+          import('./report-daily-sales-analysis-by-branch/report-daily-sales-analysis-by-branch.module').then(
+            (m) => m.ReportDailySalesAnalysisByBranchModule
+          ),
+      },
+      {
+        path: 'report/report-key-driver',
+        loadChildren: () =>
+          import('./report-key-driver/report-key-driver.module').then(
+            (m) => m.ReportKeyDriverModule
+          ),
+      },
+
+
+
+      {
+        path: 'currency/currency-exchange',
+        loadChildren: () =>
+          import('./currency-exchange/currency-exchange.module').then(
+            (m) => m.CurrencyExChangeModule
+          ),
+      },
+      {
+        path: 'reset-password',
+        loadChildren: () =>
+          import('./reset-password/reset-password.module').then(
+            (m) => m.ResetPasswordModule
+          ),
+      },
       {
         path: '',
         redirectTo: '/product/page-group',

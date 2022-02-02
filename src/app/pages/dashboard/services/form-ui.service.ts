@@ -9,19 +9,18 @@ const API_FORMUI_URL = `${environment.apiUrl}/dynamicproduct`;
 @Injectable({
   providedIn: 'root'
 })
-export class FormUIService extends BizOperationService<FormUI, number>{
+export class FormUIService extends BizOperationService<any, number>{
   selectedForm: FormUI = {}
   constructor(protected httpClient: HttpClient) {
     super(httpClient, API_FORMUI_URL);
   }
 
   getByType() {
-    return this.findAll().pipe(map(res => {
-      if (!res) return res
+    return this.findAll().pipe(map((res:any) => {
+      if(!res) return res
       let forms = []
       let pages = []
       //console.log(res);
-      let tempRes: any = {}
       res.map(x => {
         if (x.type == 'Form') {
           forms.push(x)
@@ -29,7 +28,7 @@ export class FormUIService extends BizOperationService<FormUI, number>{
           pages.push(x)
         }
       })
-      tempRes = { forms, pages }
+      res = { forms, pages }
       return res
     }))
   }

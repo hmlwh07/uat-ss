@@ -12,6 +12,12 @@ import { EducationLifeGripViewComponent } from './education-life-griph-view/educ
 import { EducationLifeViewComponent } from './education-life-view/education-life-view.component';
 import { HealthQuoViewComponent } from './health-quo-view/health-quo-view.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { FireBuildingComponent } from './fire-building/fire-building.component';
+import { CalculatedBuildingComponent } from './calculated-building/calculated-building.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FireRiskViewComponent } from './fire-risk-view/fire-risk-view.component';
+import { FirePageViewComponent } from './fire-page-view/fire-page-view.component';
+import { NgxCurrencyModule } from 'ngx-currency';
 @NgModule({
   declarations: [
     StaticPageViewDirective,
@@ -20,7 +26,11 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CoverageViewComponent,
     HealthQuoViewComponent,
     EducationLifeViewComponent,
-    EducationLifeGripViewComponent
+    EducationLifeGripViewComponent,
+    FireBuildingComponent,
+    CalculatedBuildingComponent,
+    FireRiskViewComponent,
+    FirePageViewComponent
   ],
   exports: [
     StaticPageViewDirective,
@@ -29,7 +39,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     CoverageViewComponent,
     HealthQuoViewComponent,
     EducationLifeViewComponent,
-    EducationLifeGripViewComponent
+    EducationLifeGripViewComponent,
+    FirePageViewComponent,
+    FireRiskViewComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +51,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     NgbModalModule,
     MatRadioModule,
     NgbDatepickerModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    NgSelectModule,
+    NgxCurrencyModule
   ]
 })
 export class StaticPagesViewModule { }

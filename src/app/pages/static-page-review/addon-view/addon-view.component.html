@@ -9,8 +9,11 @@
       <table class="table table-head-custom table-vertical-center">
         <thead>
           <tr>
-            <th>
+            <th style="text-align: left;">
               Addons Coverage
+            </th>
+            <th *ngIf="product.code == 'CLFR01'">
+              Option
             </th>
             <th *ngIf="addon.sumInsured" style="text-align: right;">
               Sum Insured
@@ -26,10 +29,16 @@
         <tbody class="tbody-align">
           <ng-container *ngFor="let addon of product.addOns;let i = index">
             <tr *ngIf="addOnData[addon.id]">
-              <td>{{addon.description}}</td>
+              <td style="text-align: left;">{{addon.description}}</td>
+              <td *ngIf="product.code == 'CLFR01'">
+                <ng-container *ngIf="addon.code == 'FRAD010' || addon.code == 'FRAD008' ">
+                  <ng-select class="ng-custom-select" [items]="fireOptionData[addon.code]" bindLabel="value"
+                    bindValue="code" disabled [(ngModel)]="addOnData[addon.id].option" [clearable]="false"></ng-select>
+                </ng-container>
+              </td>
               <td *ngIf="addon.sumInsured">
                 <!-- <ng-container *ngIf="addOnData[addon.id]"> -->
-                  {{addOnData[addon.id].sum > 0 ? (addOnData[addon.id].sum | number) : addOnData[addon.id].sum}}
+                {{addOnData[addon.id].sum > 0 ? (addOnData[addon.id].sum | number) : addOnData[addon.id].sum}}
                 <!-- </ng-container> -->
               </td>
               <td *ngIf="addon.unit">
@@ -37,8 +46,8 @@
               </td>
               <td *ngIf="addon.premium">
                 <!-- <ng-container *ngIf="addOnData[addon.id]"> -->
-                  {{addOnData[addon.id].premium > 0 ? (addOnData[addon.id].premium | number) :
-                  addOnData[addon.id].premium}}
+                {{addOnData[addon.id].premium > 0 ? (addOnData[addon.id].premium | number) :
+                addOnData[addon.id].premium}}
                 <!-- </ng-container> -->
               </td>
             </tr>

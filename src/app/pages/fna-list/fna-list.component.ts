@@ -29,8 +29,7 @@ export class FnaListComponent implements OnInit {
     this.getAllFNA();
   }
 
-  async actionBtn(event) {
-    // console.log('actionBtn', event)
+  async actionBtn(event) {   
     this.fnaService.fnaUpdateProducts = [];
     if (event.cmd == 'edit') {
       this.indexObj = event.data;
@@ -46,19 +45,18 @@ export class FnaListComponent implements OnInit {
     modalRef.componentInstance.type = 'modal'
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        if (res.type == "BRAM") {
+        if (res.fnaType == "BRAM") {
           this.router.navigate(["/fna/fna-bram"], { queryParams: { passValue: JSON.stringify({ res }) } })
         }
 
-        if (res.type == "LPP") {         
+        if (res.fnaType == "LPP") {         
           this.router.navigate(["/fna/fna-detail"], { queryParams: { passValue: JSON.stringify(res) } })
         }
       }
     });
   }
 
-  async createOrEdit(data, id?: string) {
-    console.log('createOrEdit', this.indexObj);
+  async createOrEdit(data, id?: string) {   
     let passValue: any;
     if (this.indexObj) {
       passValue = {
@@ -72,13 +70,16 @@ export class FnaListComponent implements OnInit {
         pageStatus: data
       }
     }
-    this.router.navigate(["/fna/fna-detail"], { queryParams: { passValue: JSON.stringify(passValue) } })
+    if(this.indexObj.fnaType == "BRAM"){
+      this.router.navigate(["/fna/fna-bram"], { queryParams: { passValue: JSON.stringify(passValue) } })
+    }else{
+      this.router.navigate(["/fna/fna-detail"], { queryParams: { passValue: JSON.stringify(passValue) } })
+    }
+  
   }
 
   async getAllFNA() {
     await this.fnaListService.findAll().toPromise().then((res: any) => {
-      console.log('getAllFNA', res);
-
       this.fnaList = [];
       if (res) {
         this.fnaList = res

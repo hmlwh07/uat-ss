@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
-import { FANService } from 'src/app/pages/fna-detail/fna-manage.service';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AlertService } from '../../../../../../app/modules/loading-toast/alert-model/alert.service';
+import { FANService } from '../../../../../../app/pages/fna-detail/fna-manage.service';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FNABRAMInputService } from '../../../inputs.manage.service';
 import { INBOUND_LOGISTICS, OPERATION } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
@@ -38,7 +38,6 @@ export class OperationOthersComponent implements OnInit {
       this.data = null;
     }
     this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Others').then(result => {
-      console.log('OthersComponent =====> ', result);
       if (result) {
         this.getAll();
       }
@@ -56,10 +55,12 @@ export class OperationOthersComponent implements OnInit {
 
   async getAll() {
     await this.operationService.getAllOperationByFnaId(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('operationService list', res);
       this.dataList = this.inputsService.getAllInputByType(res, OPERATION.OTHERS.toString());
       if (this.dataList.length > 0) {
         for (var i = 0; i < this.dataList.length; i++) {
+          if (this.dataList[i].unit == 0) {
+            this.dataList[i].unit = '';
+          }
           this.dataList[i].valueLaks = this.fnaService.mathRoundTo(this.dataList[i].valueLaks, 2);
         }
         this.cdf.detectChanges();
@@ -72,7 +73,6 @@ export class OperationOthersComponent implements OnInit {
   }
 
   actionBtn(ev) {
-    console.log('actionBtn', ev);
     if (ev.cmd == 'edit') {
       this.displayInputDialog(ev.data);
     }

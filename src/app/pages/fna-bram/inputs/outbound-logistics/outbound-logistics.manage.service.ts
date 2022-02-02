@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BizOperationService } from "src/app/core/biz.operation.service";
-import { environment } from "src/environments/environment";
+import { BizOperationService } from "../../../../../app/core/biz.operation.service";
+import { environment } from "../../../../../environments/environment";
 
 const API_ADDON_URL = `${environment.apiUrl}/fna`;
 @Injectable({

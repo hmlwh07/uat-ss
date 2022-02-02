@@ -55,7 +55,7 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
   openModal() {
     //console.log(this.editStage);
 
-    if (this.editStage) return false
+    if (this.editStage || this.config.disabled) return false
     let modalRef;
     if (this.isNrc) {
       modalRef = this.modalService.open(NrcPopupPage, { size: 'xl', backdrop: false });

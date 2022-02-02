@@ -56,7 +56,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
       if (res) {
         if (res.type == 'save') {
           this.prodctService.createingProd = prod.data
-          this.prodctService.creatingCustomer = res
+          this.prodctService.creatingCustomer = res.data
           this.prodctService.viewType = 'quotation'
           this.prodctService.editData = null
           this.prodctService.referenceID = null
@@ -88,6 +88,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.prodctService.viewType = 'quotation'
         this.prodctService.editData = item
         this.prodctService.referenceID = null
+        this.prodctService.creatingLeadId = item.leadId
         this.router.navigateByUrl("/product-form")
       }
     })

@@ -77,6 +77,8 @@ export class PrintViewBoxComponent implements OnInit {
         this.temConfig.push(formObj as PrintFormat)
         // return formObj as PrintFormat
       }
+      console.log(this.temConfig,this.tempData);
+      
     }
     if (this.productService.editData) {
       this.premimunAmt = this.productService.editData.premiumView

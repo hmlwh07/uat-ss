@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
-import { FANService } from 'src/app/pages/fna-detail/fna-manage.service';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AlertService } from '../../../../../../app/modules/loading-toast/alert-model/alert.service';
+import { FANService } from '../../../../../../app/pages/fna-detail/fna-manage.service';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FNABRAMInputService } from '../../../inputs.manage.service';
 import { INBOUND_LOGISTICS } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
@@ -18,7 +18,7 @@ export class WarehouseComponent implements OnInit {
   @Input() fnaId: any = null;
   @Input() id: any = null;
   @Input() menuType: any = null;
-  @Input() warehouse: any = null;
+  @Input() warehouse = [];
 
   WAREHOUSE_ELEMENT_COL = WAREHOUSE_ELEMENT_COL;
   WAREHOUSE_DISPLAY_COL = WAREHOUSE_DISPLAY_COL;
@@ -32,7 +32,6 @@ export class WarehouseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('WarehouseComponent fnaBRAMList =====> ', this.inputsService.fnaBRAMList);
     this.getAll();
     // this.warehouse = [{ assetDescription: 'Asset Description', noOfUnits: 10, estimatedValue: "100,000", riskPerception: 'Height', product: "Fire" },
     // { assetDescription: 'Asset Description', noOfUnits: 11, estimatedValue: "200,000", riskPerception: 'Low', product: "Motor" },
@@ -42,7 +41,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log('ngAfterViewInit ', this.warehouse);
+   
   }
 
   async displayInputDialog(data?) {
@@ -51,9 +50,9 @@ export class WarehouseComponent implements OnInit {
     } else {
       this.data = null;
     }
-    await this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Warehouse').then(result => {
+    await this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Warehouse').then(async result => {
       if (result) {
-        this.getAll();
+        await this.getAll();
       }
     })
   }
@@ -71,9 +70,11 @@ export class WarehouseComponent implements OnInit {
   async getAll() {
     await this.inboundlogisticsService.getAllInboundlogisticsByfnaId(this.fnaId).toPromise().then(async (res: any) => {
       this.warehouse = this.inputsService.getAllInputByType(res, INBOUND_LOGISTICS.WAREHOUSE.toString());
-      console.log('this.warehouse =====> ', this.warehouse);
       if (this.warehouse.length > 0) {
         for (var i = 0; i < this.warehouse.length; i++) {
+          if (this.warehouse[i].unit == 0) {
+            this.warehouse[i].unit = '';
+          }
           this.warehouse[i].valueLaks = this.fnaService.mathRoundTo(this.warehouse[i].valueLaks, 2);
         }
         this.cdf.detectChanges();
@@ -87,7 +88,6 @@ export class WarehouseComponent implements OnInit {
 
 
   actionBtn(ev) {
-    console.log('actionBtn', ev);
     if (ev.cmd == 'edit') {
       this.displayInputDialog(ev.data);
     }

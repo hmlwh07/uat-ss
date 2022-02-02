@@ -31,11 +31,12 @@ export class KBZLoadingComponent implements OnInit {
     }
 
     deactivate() {
-        console.log("show", this.showLoading);
         this.requestCount--
-        if (this.requestCount == 0) {
+        if (this.requestCount <= 0) {
             this.showLoading = false
             this.hideLoading()
+            this.cdf.detectChanges()
+        }else{
             this.cdf.detectChanges()
         }
         // clearInterval(this.inter)
@@ -43,9 +44,11 @@ export class KBZLoadingComponent implements OnInit {
 
 
     activate() {
+        if(this.requestCount < 0){
+            this.requestCount = 0
+        }
         this.requestCount++
         this.showLoading = true
-        console.log("show", this.showLoading);
         if (!this.loadingContainer.nativeElement.innerHTML)
             this.appendLoading()
 

@@ -3,7 +3,7 @@
 //
 
 // Root Font Sizes
-$root-font-size:                                    1rem; // Root font size for desktop mode
+$root-font-size:                                    0.9rem; // Root font size for desktop mode
 $root-font-size-lg:                             	1rem; // Root font size for tablet mode
 $root-font-size-md:                             	12px; // Root font size for mobile mode
 
@@ -720,7 +720,7 @@ $header-menu-config: (
 								),
 
 								text: (
-									font-size: 0.8rem,
+									font-size: 0.85rem,
 									font-weight: 300,
 									font-transform: uppercase,
 									letter-spacing: 0.3px
@@ -1384,7 +1384,7 @@ $aside-menu-config: (
 							),
 
 							text: (
-								font-size: 0.8rem,
+								font-size: 0.85rem,
 								font-weight: 300,
 								font-transform: uppercase,
 								letter-spacing: 0.3px
@@ -1411,7 +1411,7 @@ $aside-menu-config: (
 					),
 
 					text: (
-						font-size: 0.9rem,
+						font-size: 0.85rem,
 						font-weight: 500,
 						font-transform: uppercase,
 						letter-spacing: 0.3px
@@ -1605,7 +1605,7 @@ $aside-menu-config: (
 							),
 
 							text: (
-								font-size: 0.8rem,
+								font-size: 0.85rem,
 								font-weight: 300,
 								font-transform: uppercase,
 							),

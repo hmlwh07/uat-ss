@@ -19,13 +19,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SurroundingBuildingComponent } from './surrounding-building/surrounding-building.component';
 import { SurroundingDetailComponent } from './surrounding-building/surrounding-detail/surrounding-detail.component';
-import {  NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { CalculatedBuildingComponent } from './calculated-building/calculated-building.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TablesComponent } from './tables/tables.component';
+import { AddCalculatedBuildingComponent } from './calculated-building/add-calculated-building/add-calculated-building.component';
+import { FirePageComponent } from './fire-simple-page/fire-simple-page.component';
+import { FireRiskComponent } from './fire-risk/fire-risk.component';
+import { RiskDetailComponent } from './fire-risk/risk-detail/risk-detail.component';
+import { NgxCurrencyModule } from 'ngx-currency';
 @NgModule({
-  declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent,EducationLifeGripComponent,SimplePagePolicyComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent],
-  exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent,EducationLifeComponent,EducationLifeGripComponent,SimplePagePolicyComponent,SurroundingBuildingComponent,SurroundingDetailComponent,CalculatedBuildingComponent],
+  declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent],
+  exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -41,6 +46,7 @@ import { TablesComponent } from './tables/tables.component';
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
+    NgxCurrencyModule
   ]
 })
 export class StaticPagesModule { }

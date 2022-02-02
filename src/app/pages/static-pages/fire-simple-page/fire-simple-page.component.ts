@@ -19,8 +19,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { FirePageID } from '../static-pages.data';
 import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MatRadioChange } from '@angular/material/radio';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../../core/is-json';
 @Component({
   selector: 'app-fire-simple-page',
@@ -33,7 +32,7 @@ import { MY_FORMATS } from '../../../core/is-json';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class SimplePageComponent implements OnInit {
+export class FirePageComponent implements OnInit {
 
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
@@ -115,7 +114,7 @@ export class SimplePageComponent implements OnInit {
     if (value && duration) {
       let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'days')
       this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-      this.staticForm.controls['endDate'].setValue(toDate.format('YYYY-MM-DD'))
+      this.staticForm.controls['endDate'].setValue(toDate)
     }
   }
 
@@ -171,11 +170,11 @@ export class SimplePageComponent implements OnInit {
     const formValue = this.staticForm.value
     let postData = {
       id: id || null,
-      endDate: formValue.endDate,
-      startDate: formValue.startDate,
-      policyType: formValue.medicalCardNo,
-      policyDuration: formValue.paymentFrequency,
-      currency: formValue.dateOfBirth,
+      endDate: moment(formValue.endDate).format("YYYY-MM-DD"),
+      startDate: moment(formValue.startDate).format("YYYY-MM-DD"),
+      policyType: formValue.policyType,
+      policyDuration: formValue.policyDuration,
+      currency: formValue.currency,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,
@@ -184,6 +183,7 @@ export class SimplePageComponent implements OnInit {
         premiumView: this.premiumAmt,
         productId: this.prodService.createingProd.id,
         quotationId: this.prodService.referenceID,
+        leadId: this.prodService.creatingLeadId || null,
         // status: ,
         type: this.prodService.type
       },
@@ -240,10 +240,11 @@ export class SimplePageComponent implements OnInit {
     this.staticForm.patchValue({
       startDate: moment(this.oldData.startDate),
       endDate: moment(this.oldData.endDate),
-      policyType: moment(this.oldData.policyType),
+      policyType: this.oldData.policyType,
       policyDuration: this.oldData.policyDuration,
       currency: this.oldData.currency,
     })
+    this.cdf.detectChanges()
   }
 
 }

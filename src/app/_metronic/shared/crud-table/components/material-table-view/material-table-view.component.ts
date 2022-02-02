@@ -30,13 +30,16 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @Output('rowselect') rowSelected = new EventEmitter()
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  totalAmount: any = {}
+  @Input() calTotal: boolean = false
+  @Input() calField: string[] = []
   activityStatusColor = {
     // "success": "success"
     "01": "secondary",
     "02": "primary",
     "03": "danger",
   }
- 
+
   prodStatus = PRODUCT_STATUS
   prodStatusColor = {
     "01": "secondary",
@@ -88,9 +91,11 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     let totalPage = Math.floor(this.data.length / 5) + 1
-    console.log("TOTALPAGE",this.data)
-    if(this.customPaginator)
-    this.customPaginator.viewInit(totalPage)
+    console.log("TOTALPAGE", this.data)
+    if (this.calTotal)
+      this.calTotalData()
+    if (this.customPaginator)
+      this.customPaginator.viewInit(totalPage)
   }
 
   ngOnDestroy() {
@@ -136,4 +141,16 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
       this.rowSelected.emit(null)
     }
   }
+
+  calTotalData() {
+    this.totalAmount = [];
+    this.data.forEach((data) => {
+      this.calField.map(field => {
+        if (data[field])
+          this.totalAmount[field] = this.totalAmount[field] ? this.totalAmount[field] + parseFloat(data[field].toString().split(',').join('')) : parseFloat(data[field].toString().split(',').join(''))
+      })
+    })
+    // this.calField.includes()
+  }
+
 }

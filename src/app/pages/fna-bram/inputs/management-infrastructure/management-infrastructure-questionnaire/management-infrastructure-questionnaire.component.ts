@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/modules/auth';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AuthService } from '../../../../../../app/modules/auth';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { ManagementInfrastructureService } from '../management-infrastructure.manage.service';
 
 export class AboutBramDTO {
@@ -39,7 +39,7 @@ const ELEMENT_DATA: AboutBramDTO[] = [
   },
   {
     id: 0,
-    question: "Damage business image/good will", defaultValue: '', riskLevel: [
+    question: "Damaged business image/good will", defaultValue: '', riskLevel: [
       { noRisk: 'No Risk', lowRisk: 'Low Risk', somewhatRisky: ' Somewhat Risky', risky: 'Risky', highRisk: 'High Risk' }
     ]
   },
@@ -122,7 +122,7 @@ export class ManagementInfrastructureQuestionnaireComponent implements OnInit {
     if (question == 'Loss of business licenses and permits') {
       this.postRequest.lossOfBusiness = event.value;
     }
-    if (question == 'Damage business image/good will') {
+    if (question == 'Damaged business image/good will') {
       this.postRequest.damageBusiness = event.value;
     }
     if (question == 'Loss of cash') {

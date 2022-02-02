@@ -83,13 +83,9 @@ export class GlobalFunctionService {
 
     if (activeForm.sum_insured) {
       sumIn = activeForm.sum_insured
-    } else if (this.tempFormData['pa_product_detail']) {
-      sumIn = this.tempFormData['pa_product_detail']['sum_insured'] || 0
     }
     if (activeForm.currency) {
       currency = activeForm.currency
-    } else if (this.tempFormData['pa_product_detail']) {
-      currency = this.tempFormData['pa_product_detail']['currency'] || 0
     }
 
     let fector = 1
@@ -116,13 +112,9 @@ export class GlobalFunctionService {
     let sumIn = 0
     if (activeForm.currency) {
       currency = activeForm.currency
-    } else if (this.tempFormData['pa_product_detail']) {
-      currency = this.tempFormData['pa_product_detail']['currency'] || ""
     }
     if (activeForm.sum_insured) {
       sumIn = activeForm.sum_insured
-    } else if (this.tempFormData['pa_product_detail']) {
-      sumIn = this.tempFormData['pa_product_detail']['sum_insured'] || 0
     }
     if (currency == 'MMK') {
       if (500000 <= sumIn && sumIn <= 20000000) {
@@ -571,8 +563,6 @@ export class GlobalFunctionService {
 
     if (activeForm.sm_policy_type) {
       type = activeForm.sm_policy_type
-    } else if (this.tempFormData['sm_policy_type']) {
-      type = this.tempFormData['sm_detail']['sm_policy_type'] || 0
     }
 
     if (type == "T-002") {
@@ -630,20 +620,13 @@ export class GlobalFunctionService {
     let sumInsured = ""
     if (activeForm.sm_policy_type) {
       type = activeForm.sm_policy_type
-    } else if (this.tempFormData['sm_policy_type']) {
-      type = this.tempFormData['sm_detail']['sm_policy_type'] || 0
     }
-
     if (activeForm.sm_policy_term) {
       policy = activeForm.sm_policy_term
-    } else if (this.tempFormData['sm_policy_term']) {
-      policy = this.tempFormData['sm_detail']['sm_policy_term'] || 0
-    }
+    } 
     if (activeForm.sm_sum_insured) {
       sumInsured = activeForm.sm_sum_insured
-    } else if (this.tempFormData['sm_sum_insured']) {
-      sumInsured = this.tempFormData['sm_detail']['sm_sum_insured'] || 0
-    }
+    } 
     let rate = 0
     if (type == 'T-001') {
       rate = 0.5 / 100
@@ -667,20 +650,14 @@ export class GlobalFunctionService {
     let unit = ''
     if (activeForm.travel_plan) {
       plan = activeForm.travel_plan
-    } else if (this.tempFormData['travel_basic']) {
-      plan = this.tempFormData['travel_basic']['travel_plan'] || 0
     }
 
     if (activeForm.travel_duration) {
       duration = activeForm.travel_duration
-    } else if (this.tempFormData['travel_basic']) {
-      duration = this.tempFormData['travel_basic']['travel_duration'] || 0
     }
 
     if (activeForm.insured_unit) {
       unit = activeForm.insured_unit
-    } else if (this.tempFormData['travel_basic']) {
-      unit = this.tempFormData['travel_basic']['insured_unit'] || 0
     }
 
     if (plan && duration && unit) {

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/modules/auth';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { PremiumRateService } from '../models&services/premium-rate-service';
@@ -14,13 +14,14 @@ import { SurroundingBuildingService } from '../models&services/surrounding-build
 export class SurroundingDetailComponent implements OnInit {
   surroundingdetailform: FormGroup;
   typeOfBuildingOption: any = []
-  occupationOfBuildingOption: any = []
-  buildingClassOption: any = []
-  premiumRateOption: any = []
+  occupationOfBuildingOption: any[] = []
+  occupationOfBuildingOptions: any[] = []
+  buildingClassOption: any[] = []
+  premiumRateOption: any[] = []
   type: string = 'create'
   riskId: string = '1'
   oldData: any
-  constructor(private modalService: NgbModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private SurroundingBuildingService: SurroundingBuildingService, private auth: AuthService, private PremiumRateService: PremiumRateService) { }
+  constructor(public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private SurroundingBuildingService: SurroundingBuildingService, private auth: AuthService, private PremiumRateService: PremiumRateService) { }
 
   ngOnInit(): void {
     this.loadForm()
@@ -70,12 +71,10 @@ export class SurroundingDetailComponent implements OnInit {
       .getDataByType("BUILDING_OCCUPATION")
       .toPromise()
       .then((res: any) => {
-        console.log(res);
         if (res) {
-          this.occupationOfBuildingOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
+          this.occupationOfBuildingOptions = res.map((x) => {
+            return { code: x.codeId, value: x.codeName, parent: x.parentId };
           });
-          console.log(this.occupationOfBuildingOption);
           this.cdf.detectChanges();
         }
       });
@@ -88,7 +87,6 @@ export class SurroundingDetailComponent implements OnInit {
       if (res) {
         this.surroundingdetailform.controls.premiumRate.setValue(res.premiumRate)
       }
-      console.log("RESSS", res)
     })
   }
 
@@ -116,18 +114,29 @@ export class SurroundingDetailComponent implements OnInit {
           if (res) {
             // postData.id = res
             let data = { ...postData }
-            this.modalService.dismissAll({ data: data, type: "save" })
+            let buildingClass = this.surroundingdetailform.value.buildingClass
+            let occupationOfBuilding = this.surroundingdetailform.value.occupationOfBuilding
+            let typeOfBuilding = this.surroundingdetailform.value.typeOfBuilding
+            let buildingClassValue = this.buildingClassOption.find(x => x.code == buildingClass).value
+            let occupationOfBuildingValue = this.occupationOfBuildingOption.find(x => x.code == occupationOfBuilding).value
+            let typeOfBuildingValue = this.typeOfBuildingOption.find(x => x.code == typeOfBuilding).value
+            this.modal.dismiss({ data: { ...data, buildingClassValue: buildingClassValue, occupationOfBuildingValue: occupationOfBuildingValue, typeOfBuildingValue: typeOfBuildingValue }, type: "save" })
           }
         });
     } else {
       this.SurroundingBuildingService.save(postData)
         .toPromise()
         .then((res) => {
-          console.log('CREATERES', res)
           if (res) {
-            // postData.id = res
+            postData.id = res
             let data = { ...postData }
-            this.modalService.dismissAll({ data: data, type: "save" })
+            let buildingClass = this.surroundingdetailform.value.buildingClass
+            let occupationOfBuilding = this.surroundingdetailform.value.occupationOfBuilding
+            let typeOfBuilding = this.surroundingdetailform.value.typeOfBuilding
+            let buildingClassValue = this.buildingClassOption.find(x => x.code == buildingClass).value
+            let occupationOfBuildingValue = this.occupationOfBuildingOption.find(x => x.code == occupationOfBuilding).value
+            let typeOfBuildingValue = this.typeOfBuildingOption.find(x => x.code == typeOfBuilding).value
+            this.modal.dismiss({ data: { ...data, buildingClassValue: buildingClassValue, occupationOfBuildingValue: occupationOfBuildingValue, typeOfBuildingValue: typeOfBuildingValue }, type: "save" })
           }
         });
     }
@@ -145,31 +154,38 @@ export class SurroundingDetailComponent implements OnInit {
       this.surroundingdetailform.controls['distanceToBuilding'].updateValueAndValidity()
     }
     let buildingClass = this.surroundingdetailform.value.buildingClass
-    let occupationOfBuilding = this.surroundingdetailform.value.buildingClass
-    let typeOfBuilding = this.surroundingdetailform.value.buildingClass
+    let occupationOfBuilding = this.surroundingdetailform.value.occupationOfBuilding
+    let typeOfBuilding = this.surroundingdetailform.value.typeOfBuilding
     if (buildingClass && occupationOfBuilding && typeOfBuilding) {
       this.getPremiumRate()
     }
   }
 
-  changeType() {
+  changeType(type?: string) {
     let buildingClass = this.surroundingdetailform.value.buildingClass
-    let occupationOfBuilding = this.surroundingdetailform.value.buildingClass
-    let typeOfBuilding = this.surroundingdetailform.value.buildingClass
+    let occupationOfBuilding = this.surroundingdetailform.value.occupationOfBuilding
+    let typeOfBuilding = this.surroundingdetailform.value.typeOfBuilding
+    if (type == 'child') {
+      this.occupationOfBuildingOption = this.occupationOfBuildingOptions.filter(x => x.parent == typeOfBuilding)
+      let index = this.occupationOfBuildingOption.findIndex(x => x.code == occupationOfBuilding)
+      if (index < 0) {
+        this.surroundingdetailform.controls.occupationOfBuilding.setValue(null)
+      }
+    }
     if (buildingClass && occupationOfBuilding && typeOfBuilding) {
       this.getPremiumRate()
     }
   }
   changeOccuption() {
     let buildingClass = this.surroundingdetailform.value.buildingClass
-    let occupationOfBuilding = this.surroundingdetailform.value.buildingClass
-    let typeOfBuilding = this.surroundingdetailform.value.buildingClass
+    let occupationOfBuilding = this.surroundingdetailform.value.occupationOfBuilding
+    let typeOfBuilding = this.surroundingdetailform.value.typeOfBuilding
     if (buildingClass && occupationOfBuilding && typeOfBuilding) {
       this.getPremiumRate()
     }
   }
   dismissModal() {
-    this.modalService.dismissAll()
+    this.modal.dismiss()
   }
   isControlValid(controlName: string): boolean {
     const control = this.surroundingdetailform.controls[controlName];

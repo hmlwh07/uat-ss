@@ -34,7 +34,7 @@ const ELEMENT_DATA: AboutBramDTO[] = [
   },
   {
     id: 0, defaultValue: '',
-    question: "Business disruption caused by technology issue", riskLevel: [
+    question: "Business disruption caused by technology issues", riskLevel: [
       { noRisk: 'No Risk', lowRisk: 'Low Risk', somewhatRisky: 'Somewhat Risky', risky: 'Risky', highRisk: 'High Risk' }
     ]
   }
@@ -75,7 +75,6 @@ export class QuestionnaireComponent implements OnInit {
   }
 
   async update(event, question, id) {
-    console.log('update', event.value, question);
     this.postRequest = {
       createdAt: new Date(),
       createdBy: this.user.id,
@@ -97,13 +96,12 @@ export class QuestionnaireComponent implements OnInit {
     if (question == 'Employee capability') {
       this.postRequest.employeeCapability = event.value;
     }
-    if (question == 'Business disruption caused by technology issue') {
+    if (question == 'Business disruption caused by technology issues') {
       this.postRequest.techIssue = event.value;
     }
-    console.log('postRequest', this.postRequest);
+ 
     if (this.postRequest.id == 0) {
       await this.technologyService.saveTechnologyQuestionnaire(this.postRequest).toPromise().then(async (res: any) => {
-        console.log('response', res);
         if (res) {
           this.postRequest.id = res;
           for (var j = 0; j < res.length; j++) {
@@ -155,7 +153,6 @@ export class QuestionnaireComponent implements OnInit {
 
   async getAllTechnologyQuestionnaireByfnaId() {
     await this.technologyService.getAllTechnologyQuestionnaireByfnaId(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('getAllTechnologyQuestionnaireByfnaId', res);
       if (res) {
         this.postRequest = res;
         for (var j = 0; j < res.length; j++) {

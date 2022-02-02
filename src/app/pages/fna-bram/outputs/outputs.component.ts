@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
-import { Tabel2 } from './outputs.dto';
+import { MaterialTableViewComponent } from '../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { OutputsService } from './outputs.manage.service';
 
 export class AboutBramDTO {
@@ -122,7 +121,6 @@ export class OutputsComponent implements OnInit {
     let removeCount: number = 0;
     // 472
     await this.outputsService.getAllOutputsByfnaId(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('Res getAllOutputsByfnaId =====> ', res);
       if (res) {
         if (res.length) {
           this.isData = true;
@@ -137,10 +135,10 @@ export class OutputsComponent implements OnInit {
           }
           if (res[i].humanResource) {
             removeCount++;
-            this.humanResource.push({ productName: res[i].humanResource, risk: res[i].inboundRisk });
+            this.humanResource.push({ productName: res[i].humanResource, risk: res[i].hrRisk });
           }
           if (res[i].inbound) {
-            this.inbound.push({ productName: res[i].inbound, risk: res[i].operationRisk });
+            this.inbound.push({ productName: res[i].inbound, risk: res[i].inboundRisk });
           }
           if (res[i].technology) {
             removeCount++;
@@ -162,12 +160,10 @@ export class OutputsComponent implements OnInit {
       }
       this.dataSource = res;
 
-      //console.log('removeCount =====> ', removeCount);
+      
       // remove Technoloty, Human Resources and Management Infrastructure from dataSource
       if (removeCount > 0) {
-        //console.log('removeCount =====> ', removeCount);
         let index = res.length - removeCount;
-        //console.log('index =====> ', index);
         if (index > 0) {
           for (var i = 0; i < this.dataSource.length; i++) {
             if (index > i) {
@@ -183,7 +179,7 @@ export class OutputsComponent implements OnInit {
 
       // const result1 = [...this.operation, ...this.outbound, ...this.inbound, ...this.marketing, ...this.service];
 
-      //console.log('dataList =====> ', result1);
+    
 
       //this.dataSource = this.dataSource.filter(item => !item.technology && !item.humanResource && !item.mgmtInfra)
 

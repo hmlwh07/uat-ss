@@ -1,4 +1,4 @@
-import { COLTYPE, TableCol } from "src/app/_metronic/shared/crud-table/components/material-table-view/table-dto"
+import { COLTYPE, TableCol } from "../../../../../../app/_metronic/shared/crud-table/components/material-table-view/table-dto"
 
 export const ELEMENT_COL: TableCol[] = [
   {
@@ -12,7 +12,7 @@ export const ELEMENT_COL: TableCol[] = [
     field: "engineCapacity"
   },
   {
-    title: "Estimated Value (Laks)",
+    title: "Estimated Value (Lakhs)",
     type: COLTYPE.FEILD,
     field: "valueLaks"
   },
@@ -27,7 +27,7 @@ export const ELEMENT_COL: TableCol[] = [
     field: "productName"
   },
   {
-    title: "Actions",
+    title: "Action",
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {

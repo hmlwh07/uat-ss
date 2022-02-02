@@ -57,7 +57,7 @@ export const DefaultLayoutConfig = {
         'gray-900': '#181C32',
       },
     },
-    fontFamily: 'Calibri',
+    fontFamily: 'Roboto',
   },
 
   // Base Settins

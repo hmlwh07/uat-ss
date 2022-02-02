@@ -10,6 +10,7 @@ export const STATIC_PAGES = [
     id: 'addon_1634010770155',
     type: PageUIType.STATIC,
     pageTitle: "AddOn",
+    showLabel: "AddOn",
     pageType: 'form',
     tableName: 'addon',
     pageIcon: "fa-briefcase"
@@ -18,6 +19,7 @@ export const STATIC_PAGES = [
     id: 'coverage_1634010995936',
     type: PageUIType.STATIC,
     pageTitle: "Coverage",
+    showLabel: "Coverage",
     pageType: 'form',
     tableName: 'coverage',
     pageIcon: "fa-clipboard-check",
@@ -26,6 +28,7 @@ export const STATIC_PAGES = [
     id: 'static_1634018514043',
     type: PageUIType.STATIC,
     pageTitle: "Product Detail",
+    showLabel: "Motor Product Detail",
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"
@@ -33,7 +36,8 @@ export const STATIC_PAGES = [
   {
     id: 'static_1635747288508',
     type: PageUIType.STATIC,
-    pageTitle: "Product Detail (Application)",
+    pageTitle: "Product Detail",
+    showLabel: "Motor Product Detail (Application)",
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"
@@ -42,6 +46,7 @@ export const STATIC_PAGES = [
     id: 'static_1635218894755',
     type: PageUIType.STATIC,
     pageTitle: "Payment Schedules",
+    showLabel: "Payment Schedules",
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"
@@ -50,26 +55,29 @@ export const STATIC_PAGES = [
     id: 'static_1635309151504',
     type: PageUIType.STATIC,
     pageTitle: "Education Life Benefit",
+    showLabel: "Education Life Benefit",
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"
   },
   {
-    id: 'static_1635309151504',
+    id: 'static_1641364737069',
     type: PageUIType.STATIC,
-    pageTitle: "Fire Product Detail",
+    pageTitle: "Product Detail",
+    showLabel: "Fire Product Detail",
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"
   },
-  // {
-  //   id: 'static_1635392848894',
-  //   type: PageUIType.STATIC,
-  //   pageTitle: "Education Life Benefit Illustration",
-  //   pageType: 'form',
-  //   tableName: 'static',
-  //   pageIcon: "fa-briefcase"
-  // }
+  {
+    id: 'static_1643116155828',
+    type: PageUIType.STATIC,
+    pageTitle: "Risk Detail",
+    showLabel: "Fire Risk Detail",
+    pageType: 'form',
+    tableName: 'static',
+    pageIcon: "fa-briefcase"
+  }
 ]
 
 export const STATIC_PRINTS = [
@@ -86,7 +94,7 @@ export const STATIC_PRINTS = [
 
 export const HealthPageID = "static_1634018514043"
 export const FirePageID = "static_1641364737069"
-export const FireRiskID = "static_1641368315426"
+export const FireRiskID = "static_1643116155828"
 export const HealthPagePolicyID = "static_1635747288508"
 export const HealthQuoPageID = "static_1635218894755"
 export const CoveragePageID = "coverage_1634010995936"
@@ -95,8 +103,8 @@ export const EducationLifeID = "static_1635309151504"
 export const EducationLifeGRAPID = "static_1635392848894"
 
 
-export enum PaymentFrequency{
-  Monthly	= 'monthly',
+export enum PaymentFrequency {
+  Monthly = 'monthly',
   Quatarly = 'quatarly',
   SemiAnnually = 'semi_annually',
   Annually = 'annually'

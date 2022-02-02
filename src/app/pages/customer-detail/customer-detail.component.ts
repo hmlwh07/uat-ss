@@ -69,6 +69,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   fromMaxDate = null
   @Input() isPopup: boolean = false
   @Input() pageStatus: any;
+  @Input() isLead: boolean = false
   customerForm: FormGroup;
 
   nationalityOption: Nationality[] = [];
@@ -137,6 +138,12 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.getTitle();
+    this.getGender();
+    this.getOccupation();
+    this.getNationality();
+    this.getStatus();
+    this.getState();
     this.loadForm();
     this.route.queryParams
       .subscribe(params => {
@@ -148,17 +155,16 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
 
         } else {
+         
           this.loadForm(this.oldData);
+          if (this.isLead) {
+            this.customerForm.controls['statusCode'].setValue('A')
+          }
         }
       }
       );
-    this.getTitle();
-    this.getGender();
-    this.getOccupation();
-    this.getNationality();
-    this.getStatus();
-    this.getState();
-
+   
+    
   }
 
 
@@ -208,6 +214,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     this.masterDataService.getDataByType("CUST_STATUS").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
       if (res) {
         this.statusOption = res
+        console.log("  this.statusOption ",  this.statusOption )
         this.cdf.detectChanges()
       }
     })
@@ -271,16 +278,18 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
   loadForm(oldData?) {
     let disabledForm = oldData ? oldData.partyCode ? true : false : false
+    this.customerForm = null
+    this.cdf.detectChanges()
     this.customerForm = new FormGroup({
-      "titleCode": new FormControl({ value: oldData ? oldData.titleCode : '', disabled: disabledForm }),
+      "titleCode": new FormControl({ value: oldData ? oldData.titleCode : '', disabled: disabledForm }, Validators.required),
       "firstName": new FormControl({ value: oldData ? oldData.firstName : '', disabled: disabledForm }, Validators.required),
-      "lastName": new FormControl({ value: oldData ? oldData.lastName : '', disabled: disabledForm }),
-      "middleName": new FormControl({ value: oldData ? oldData.middleName : '', disabled: disabledForm }),
+      "lastName": new FormControl({ value: oldData ? oldData.lastName : '', disabled: disabledForm }, Validators.required),
+      "middleName": new FormControl({ value: oldData ? oldData.middleName : '', disabled: disabledForm },),
       "genderCode": new FormControl({ value: oldData ? oldData.genderCode : '', disabled: disabledForm }, Validators.required),
       "nationalityCode": new FormControl({ value: oldData ? oldData.nationalityCode : '', disabled: disabledForm }, Validators.required),
       "identityType": new FormControl({ value: oldData ? oldData.identityType : '', disabled: disabledForm }, Validators.required),
       "identityNumber": new FormControl({ value: oldData ? oldData.identityNumber : '', disabled: disabledForm }, Validators.required),
-      "statusCode": new FormControl({ value: oldData ? oldData.statusCode : 'A', disabled: disabledForm }, Validators.required),
+      "statusCode": new FormControl({ value: oldData ? oldData.statusCode : 'A', disabled: disabledForm || this.isLead }, Validators.required),
       "partyCode": new FormControl({ value: oldData ? oldData.partyCode : '', disabled: disabledForm }),
       "fatherName": new FormControl({ value: oldData ? oldData.fatherName : '', disabled: disabledForm }),
       "phone": new FormControl({ value: oldData ? oldData.phone : '', disabled: disabledForm }, Validators.required),
@@ -297,6 +306,12 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     });
 
   }
+  clearDOB(type) {
+    if (type == 'dateOfBirth') {
+      this.customerForm.controls['dateOfBirth'].setValue(null);
+    }
+  }
+
 
   onInitAddress(oldData) {
     this.getState();
@@ -340,6 +355,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   doCustomer() {
+    console.log(this.customerForm.invalid);
     if (this.customerForm.invalid) {
       validateAllFields(this.customerForm)
       return true

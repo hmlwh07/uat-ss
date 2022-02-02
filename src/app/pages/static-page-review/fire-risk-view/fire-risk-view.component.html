@@ -6,25 +6,25 @@
   </div>
   <div class="card-body customer-card-body">
     <div class="table-responsive angular-bootstrap-table">
-      <table class="table table-head-custom table-vertical-center">
+      <table class="table table-head-custom table-vertical-center fire-table">
         <thead>
           <tr>
             <th>Building Description</th>
-            <th>Sum Insured</th>
-            <th>Premium </th>
-            <th>Other Building </th>
+            <th style="text-align: right;">Sum Insured</th>
+            <th style="text-align: right;">Premium </th>
+            <!-- <th>Other Building </th> -->
           </tr>
         </thead>
         <tbody>
           <ng-container *ngFor="let item of listData">
             <tr>
               <td>{{item.buildingDescription}}</td>
-              <td>{{item.sumInsure}}</td>
-              <td>{{item.premium}}</td>
-              <td>
+              <td style="text-align: right;">{{item.riskSi | number}}</td>
+              <td style="text-align: right;">{{item.premium | number}}</td>
+              <!-- <td>
                 <span class="text-primary" style="text-decoration: underline;white-space: nowrap;cursor: pointer;"
                   (click)="createPolicyBtn(item)">Other Info</span>
-              </td>
+              </td> -->
             </tr>
           </ng-container>
         </tbody>

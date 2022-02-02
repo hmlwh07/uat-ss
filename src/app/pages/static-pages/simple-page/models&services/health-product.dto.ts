@@ -9,6 +9,10 @@ export interface HealthProductDetailDTO {
   resourceId?: string
   dateOfBirth?: string
   sumInsuredMainCover?: number
+  startDate?: string
+  endDate?: string
+  policyDuration?: string
+  policyType?: string
 }
 
 export interface ResourceDataDTO {

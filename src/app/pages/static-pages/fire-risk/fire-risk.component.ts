@@ -2,14 +2,11 @@ import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
-import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';
 import { PolicyDTO } from '../../policy/policy.dto';
-import { Product, ProductPages } from '../../products/models/product.dto';
-import { ProductDataService } from '../../products/services/products-data.service';
+import { Product } from '../../products/models/product.dto';
 import { QuotationDTO } from '../../quotations/quotation.dto';
 import { StaticActionType, StaticPageAction } from '../static-field.interface';
-import { EducationLifeID } from '../static-pages.data';
-import { FireRiskRateService, EduSurrRateService } from './models&services/fire-risk-rate.service';
+import { FireRiskID } from '../static-pages.data';
 import { FireRiskService } from './models&services/fire-risk.service';
 import { RiskDetailComponent } from './risk-detail/risk-detail.component';
 
@@ -27,8 +24,6 @@ export class FireRiskComponent implements OnInit {
   listData: any[] = []
   constructor(
     private globalFun: GlobalFunctionService,
-    private alertService: AlertService,
-    private prodService: ProductDataService,
     private fireRiskService: FireRiskService,
     private modalService: NgbModal,
     private cdf: ChangeDetectorRef
@@ -38,7 +33,7 @@ export class FireRiskComponent implements OnInit {
     this.getRiskList()
   }
   nextPage() {
-    this.globalFun.tempFormData[EducationLifeID] = this.listData
+    this.globalFun.tempFormData[FireRiskID] = this.listData
     this.actionEvent.emit({ type: StaticActionType.NEXT })
   }
   backPage() {
@@ -48,7 +43,9 @@ export class FireRiskComponent implements OnInit {
   getRiskList() {
     this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
-        this.listData = res
+        this.globalFun.tempFormData[FireRiskID] = res
+        this.listData = res || []
+        this.cdf.detectChanges()
       }
     })
   }
@@ -66,7 +63,12 @@ export class FireRiskComponent implements OnInit {
         console.log("RESSSS", res)
         if (res.type == "save") {
           // this.surrounding=res.data
-          this.listData.push(res.data)
+          if (detail) {
+            let index = this.listData.findIndex(x=> x.id == detail.id)
+            this.listData[index] = res.data
+          } else {
+            this.listData.push(res.data)
+          }
           this.cdf.detectChanges()
         }
       }

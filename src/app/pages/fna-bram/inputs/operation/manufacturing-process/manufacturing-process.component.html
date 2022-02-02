@@ -12,8 +12,8 @@
                 </div>
             </div>
             <div class="card-body customer-card-body">
-                <app-material-table-view [data]="dataList" [colum]="ELEMENT_COL"
-                    [displayedColumns]="DISPLAY_COL" (emitter)="actionBtn($event)">
+                <app-material-table-view [data]="dataList" [calTotal]="true" [calField]="['unit', 'valueLaks']"
+                    [colum]="ELEMENT_COL" [displayedColumns]="DISPLAY_COL" (emitter)="actionBtn($event)">
                 </app-material-table-view>
             </div>
         </div>

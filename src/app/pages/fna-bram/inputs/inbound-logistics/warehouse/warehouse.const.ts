@@ -12,7 +12,7 @@ export const WAREHOUSE_ELEMENT_COL: TableCol[] = [
     field: "unit"
   },
   {
-    title: "Estimated Value (Laks)",
+    title: "Estimated Value (Lakhs)",
     type: COLTYPE.FEILD,
     field: "valueLaks"
   },
@@ -27,7 +27,7 @@ export const WAREHOUSE_ELEMENT_COL: TableCol[] = [
     field: "productName"
   },
   {
-    title: "Actions",
+    title: "Action",
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {

@@ -9,7 +9,7 @@ export function getMasterValue(masterServer: MasterDataService, response: any, c
     return of(response).pipe(map((result: any[]) => {
       let masterPost = []
       let resource = result.map((res) => {
-        let masterObj = (res.data as any[]).filter(x => (x.value + "" as string).startsWith("T-"))
+        let masterObj = (res.data as any[]).filter(x => (x.value + "" as string).startsWith("T-") || (x.value + "" as string).startsWith("TA-"))
         if (masterObj.length > 0) {
           let postData = masterObj.map(x => {
             let columnName = column.find(col => col.name == x.column)
@@ -35,7 +35,7 @@ export function getMasterValue(masterServer: MasterDataService, response: any, c
         return masterServer.getMasterValue(postData).pipe(map((masterValues: any) => {
           return result.result.map(resp => {
             resp.data = resp.data.flatMap(x => {
-              if ((x.value + "").startsWith("T-")) {
+              if ((x.value + "").startsWith("T-") || (x.value + "").startsWith("TA-")) {
                 let columnName = column.find(col => col.name == x.column)
                 let index = masterValues.findIndex(master => master.codeId == x.value && columnName.masterData == master.codeType)
                 if (index >= 0) {

@@ -15,6 +15,8 @@ export class FireProductService extends BizOperationService<FireProductDTO, numb
   }
 
   getOne(quo: string){
-    return this.httpClient.get(API_FIRE_URL+"/resource/"+quo)
+    console.log(quo,"data");
+    
+    return this.httpClient.get(API_FIRE_URL+"/resource?resourceId="+quo)
   }
 }

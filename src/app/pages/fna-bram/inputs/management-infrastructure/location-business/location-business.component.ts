@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AlertService } from '../../../../../../app/modules/loading-toast/alert-model/alert.service';
+import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FNABRAMInputService } from '../../../inputs.manage.service';
 import { MANAGEMENT_INFRASTRUCTURE } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
@@ -53,9 +53,13 @@ export class LocationBusinessComponent implements OnInit {
 
   async getAll() {
     await this.managementInfrastructureService.getAllManagementInfrastructureByfnaId(this.fnaId).toPromise().then(async (res: any) => {
-     console.log('getAllManagementInfrastructureByfnaId', res);
       this.dataList = this.inputsService.getAllInputByType(res, MANAGEMENT_INFRASTRUCTURE.LOCATION_BUSINESS.toString());
       if (this.dataList.length > 0) {
+        for (var i = 0; i < this.dataList.length; i++) {
+          if (this.dataList[i].noOfLocation == 0) {
+            this.dataList[i].noOfLocation = '';
+          }
+        }
         this.cdf.detectChanges();
         this.matTable.reChangeData();
       } else {
@@ -66,7 +70,6 @@ export class LocationBusinessComponent implements OnInit {
   }
 
   actionBtn(ev) {
-    console.log('actionBtn', ev);
     if (ev.cmd == 'edit') {
       this.displayInputDialog(ev.data);
     }

@@ -2,14 +2,14 @@ import { COLTYPE, TableCol } from "src/app/_metronic/shared/crud-table/component
 
 export const ELEMENT_COL: TableCol[] = [
   {
-    title: "No of People",
-    type: COLTYPE.FEILD,
-    field: "noOfPeople"
-  },
-  {
     title: "Average Age",
     type: COLTYPE.FEILD,
     field: "averageAge"
+  },
+  {
+    title: "No of People",
+    type: COLTYPE.FEILD,
+    field: "noOfPeople"
   },
   {
     title: "Package",
@@ -27,7 +27,7 @@ export const ELEMENT_COL: TableCol[] = [
     field: "productName"
   },
   {
-    title: "Actions",
+    title: "Action",
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {
@@ -38,8 +38,8 @@ export const ELEMENT_COL: TableCol[] = [
 ]
 
 export const DISPLAY_COL: string[] = [
-  "noOfPeople",
   "averageAge",
+  "noOfPeople",
   "packages",
   "riskValue",
   "productName",

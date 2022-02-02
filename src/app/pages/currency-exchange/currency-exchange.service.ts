@@ -19,6 +19,16 @@ export class CurrencyExchangeService extends BizOperationService<CurrencyExchang
   constructor(protected httpClient: HttpClient) {
     super(httpClient, API_CURRENCY_URL);
   }
+  getList(search: any = {}) {
+    let url = API_CURRENCY_URL + "?"
+    if (search.date) {
+      url = url + "date=" + search.date + "&"
+    } if (search.currency) {
+      url = url + "currency=" + search.currency + "&"
+    }
+    console.log(url);
+    return this.httpClient.get(url)
+  }
 }
 
 @Injectable({

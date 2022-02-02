@@ -10,11 +10,11 @@ import { QuotationDTO } from '../../quotations/quotation.dto';
 import { FireRiskService } from '../../static-pages/fire-risk/models&services/fire-risk.service';
 
 @Component({
-  selector: 'app-fire-risk',
-  templateUrl: './fire-risk.component.html',
-  styleUrls: ['./fire-risk.component.scss']
+  selector: 'app-fire-risk-view',
+  templateUrl: './fire-risk-view.component.html',
+  styleUrls: ['./fire-risk-view.component.scss']
 })
-export class FireRiskComponent implements OnInit {
+export class FireRiskViewComponent implements OnInit {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string
@@ -31,6 +31,8 @@ export class FireRiskComponent implements OnInit {
 
   getRiskList() {
     this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
+      console.log(res);
+      
       if (res) {
         this.listData = res
       }

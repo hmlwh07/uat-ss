@@ -16,6 +16,7 @@ export class RetirementComponent implements OnInit {
   @Input() retirement: any = null;
   @Input() fnaId: any = null;
   @Input() customerDob: any = null;
+  @Input() customerId: any = null;
 
   @Output() changeAnalysis: EventEmitter<string> = new EventEmitter<string>();
   formGroup: FormGroup;
@@ -27,8 +28,6 @@ export class RetirementComponent implements OnInit {
     private fnaRetirementService: FANRetirementService, public fnaService: FANService) { }
 
   ngOnInit(): void {
-    console.log('customerDob', this.customerDob);
-    console.log('formatDateDDMMYYY customerDob', this.formatDateDDMMYYY(new Date(this.customerDob)));
     this.loadForm();
     if (this.fnaService.fnaIncome) {
       this.currentIncome = this.fnaService.fnaIncome.estimatedMonthlyIncome;
@@ -150,11 +149,8 @@ export class RetirementComponent implements OnInit {
   calculate() {
     this.isCalculate = true;
     let diffAge = (this.formGroup.value.retirementAge - this.calculate_age(new Date(this.formGroup.value.dateOfBirth.split("/").reverse().join("/"))));
-    console.log('diffAge', diffAge);
-    //console.log('currentIncome', this.currentIncome);
     let percent = 1 + (5 / 100);
     let double: any = Number(this.fnaService.mathRoundTo(this.currentIncome, 2).replace(/,/g, ''))
-    console.log('double', double);
     let retirementIncome = double * percent ^ diffAge;
     let retirementSaving = (80 / 100) * retirementIncome;
     let retirementSavingSpouse = retirementSaving * 1.35;
@@ -200,7 +196,7 @@ export class RetirementComponent implements OnInit {
       month = '0' + month;
     if (day.length < 2)
       day = '0' + day;
-    return [month, day, year].join('/');
+    return [day, month, year].join('/');
   }
 
   viewAll() {

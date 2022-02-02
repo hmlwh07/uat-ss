@@ -24,7 +24,7 @@ import { MY_FORMATS } from '../../core/is-json';
 export class ActivityManagementDetailComponent implements OnInit {
   actForm: FormGroup;
   pageStatus: any;
-  isLead:boolean=false
+  isLead: boolean = false
   oldId: any
   activityStatus = {
     "01": "Open",
@@ -38,6 +38,7 @@ export class ActivityManagementDetailComponent implements OnInit {
   ]
   relatedType: string
   oldData: any
+  leadId: any
   constructor(
     private route: ActivatedRoute,
     private modalService: NgbModal,
@@ -58,13 +59,16 @@ export class ActivityManagementDetailComponent implements OnInit {
           this.getOld()
         } else {
           this.loadForm();
-          console.log("PARMA",params)
-          this.actForm.controls.customerId.setValue( params.customerId)
-          this.actForm.controls.customerName.setValue( params.name)
-          if(params.leadId){
-             this.actForm.controls.relatedTo.setValue(params.leadId)
-             this.relatedType ='lead'
-             this.isLead=params.isLead
+          console.log("PARMA", params)
+          this.actForm.controls.assignTo.setValue(params.assignTo)
+          this.actForm.controls.assignName.setValue(params.assignToName)
+          this.actForm.controls.customerId.setValue(params.customerId)
+          this.actForm.controls.customerName.setValue(params.name)
+          if (params.leadId) {
+            //  this.actForm.controls.relatedTo.setValue(params.leadId)
+            //  this.relatedType ='lead'
+            this.leadId = params.leadId
+            this.isLead = params.isLead
           }
         }
       }
@@ -75,6 +79,8 @@ export class ActivityManagementDetailComponent implements OnInit {
     this.activityManageService.findOne(this.oldId).toPromise().then((res) => {
       if (res) {
         this.oldData = res
+        this.leadId = res.leadId
+        this.isLead = res.leadId ? true : false
         this.loadForm(res)
         this.cdf.detectChanges()
       }
@@ -90,9 +96,9 @@ export class ActivityManagementDetailComponent implements OnInit {
       "activityType": new FormControl(oldData ? oldData.activityType : '', Validators.required),
       "activityTitle": new FormControl(oldData ? oldData.activityTitle : null, Validators.required),
       "activityDescription": new FormControl(oldData ? oldData.activityDescription : null, Validators.required),
-      "planDateStr": new FormControl(oldData ? moment(oldData.planDate).format('DD/MM/YYYY') : null, Validators.required),
-      "actualDateStr": new FormControl(oldData ? moment(oldData.actualDate).format('DD/MM/YYYY') : null, Validators.required),
-      "dueDateStr": new FormControl(oldData ? moment(oldData.dueDate).format('DD/MM/YYYY') : null, Validators.required),
+      "planDateStr": new FormControl(oldData && oldData.planDate ? moment(oldData.planDate) : null),
+      "actualDateStr": new FormControl(oldData && oldData.actualDate ? moment(oldData.actualDate) : null),
+      "dueDateStr": new FormControl(oldData && oldData.dueDate ? moment(oldData.dueDate) : null),
       "relatedTo": new FormControl({ value: oldData ? oldData.relatedTo : null, disabled: true }),
       "customerId": new FormControl(oldData ? oldData.customerId : null, Validators.required),
       "customerName": new FormControl({ value: oldData ? oldData.customerName : null, disabled: true }),
@@ -109,61 +115,62 @@ export class ActivityManagementDetailComponent implements OnInit {
   openModal(type) {
     let controlInp;
     if (type == "quotation") controlInp = this.actForm.controls['relatedTo']
-    if(!this.isLead){
+    // if(!this.isLead){
     const modalRef = this.modalService.open(RelatedModalCompoent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type
     modalRef.componentInstance.selecteditem = controlInp.value
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (res.type == 'save') {
-          if (type == 'quotation') {
-           
-            this.relatedType = (res.data + "").includes("QUO") ? 'quotation' : 'policy'
-            console.log(' this.relatedType', this.relatedType)
-          }
+          this.relatedType = (res.data + "").includes("QUO") ? 'quotation' : 'policy'
+          console.log(' this.relatedType', this.relatedType)
           controlInp.setValue(res.data)
-         
+
         }
       }
     })
-  }
+    // }
   }
   viewAgent(type) {
-    let controlInp;
-    if (type == "agent") controlInp = this.actForm.controls['assignTo']
-    console.log(type,this.isLead)
-   
-    const modalRef = this.modalService.open(RelatedModalCompoent, { size: 'xl', backdrop: false });
-    modalRef.componentInstance.type = type
-    modalRef.componentInstance.selecteditem = controlInp.value
-    modalRef.result.then(() => { }, (res) => {
-      if (res) {
-        if (res.type == 'save') {
-         if (type == "agent") {
-            this.actForm.controls['assignName'].setValue(res.dataName)
+    if (!this.isLead) {
+      let controlInp;
+      if (type == "agent") controlInp = this.actForm.controls['assignTo']
+      console.log(type, this.isLead)
+
+      const modalRef = this.modalService.open(RelatedModalCompoent, { size: 'xl', backdrop: false });
+      modalRef.componentInstance.type = type
+      modalRef.componentInstance.selecteditem = controlInp.value
+      modalRef.result.then(() => { }, (res) => {
+        if (res) {
+          if (res.type == 'save') {
+            if (type == "agent") {
+              console.log('onDidDismiss =====> ', res);
+              this.actForm.controls['assignTo'].setValue(res.data)
+              this.actForm.controls['assignName'].setValue(res.dataName)
+            }
           }
         }
-      }
-    })
-
+      })
+    }
   }
 
   viewCustomer() {
-    let modalRef;
-    modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
-    modalRef.componentInstance.isPopup = true
-    modalRef.result.then(() => { }, (res) => {
-      if (res) {
-        if (res.type == "save") {
-          let customer = res.data
-          console.log('onDidDismiss =====> ', customer);
-          let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
-          this.actForm.controls.customerId.setValue(customer.customerId)
-          this.actForm.controls.customerName.setValue(name)
+    if (!this.isLead) {
+      let modalRef;
+      modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
+      modalRef.componentInstance.isPopup = true
+      modalRef.result.then(() => { }, (res) => {
+        if (res) {
+          if (res.type == "save") {
+            let customer = res.data
+            console.log('onDidDismiss =====> ', customer);
+            let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+            this.actForm.controls.customerId.setValue(customer.customerId)
+            this.actForm.controls.customerName.setValue(name)
+          }
         }
-      }
-    })
-
+      })
+    }
 
   }
 
@@ -194,6 +201,12 @@ export class ActivityManagementDetailComponent implements OnInit {
       return true
     } else {
       let postData = this.actForm.getRawValue()
+      postData['dueDate'] = postData['dueDateStr']
+      postData['actualDate'] = postData['actualDateStr']
+      postData['planDate'] = postData['planDateStr']
+      postData['dueDateStr'] = moment(postData['dueDate']).format("YYYY-MM-DD")
+      postData['actualDateStr'] = moment(postData['actualDate']).format("YYYY-MM-DD")
+      postData['planDateStr'] = moment(postData['planDate']).format("YYYY-MM-DD")
       if (this.pageStatus == 'create') {
         this.create(postData)
       } else {
@@ -204,6 +217,9 @@ export class ActivityManagementDetailComponent implements OnInit {
 
   create(postData) {
     let data = { ...postData, relatedType: this.relatedType || null, status: '01' }
+    if (this.isLead) {
+      data = { ...postData, relatedType: this.relatedType || null, status: '01', leadId: this.leadId }
+    }
     this.activityManageService.save(data).toPromise().then((res) => {
       if (res) {
         this.location.back()
@@ -213,6 +229,9 @@ export class ActivityManagementDetailComponent implements OnInit {
 
   edit(postData) {
     let data = { ...postData, activityNo: this.oldId, relatedType: this.relatedType || null }
+    if (this.isLead) {
+      data = { ...postData, relatedType: this.relatedType || null, status: '01', leadId: this.leadId }
+    }
     this.activityManageService.updateNoID(data).toPromise().then((res) => {
       if (res) {
         this.location.back()
@@ -221,6 +240,10 @@ export class ActivityManagementDetailComponent implements OnInit {
   }
 
   backLocation() {
-    this.loadForm(this.oldData)
+    if (this.isLead) {
+      this.location.back()
+    } else {
+      this.loadForm(this.oldData)
+    }
   }
 }

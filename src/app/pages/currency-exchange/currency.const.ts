@@ -2,13 +2,19 @@ import { COLTYPE, TableCol } from '../../_metronic/shared/crud-table/components/
 export const CurrencyCol: TableCol[] = [
 
   {
+    title: "Date",
+    type: COLTYPE.FEILD,
+    field: "date",
+    isDate: true
+  },
+  {
     title: "Currency Type",
     type: COLTYPE.FEILD,
     field: "type",
     isUpper: true
   },
   {
-    title: "Amount",
+    title: "Rate",
     type: COLTYPE.FEILD,
     field: "amount",
   },
@@ -26,6 +32,7 @@ export const CurrencyCol: TableCol[] = [
 
 export const CurrencyDisplayCol: string[] = [
   // "id",
+  "date",
   "type",
   "amount",
   "actions",

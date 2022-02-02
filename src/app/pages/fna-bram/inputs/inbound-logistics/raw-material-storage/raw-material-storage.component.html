@@ -12,7 +12,8 @@
                 </div>
             </div>
             <div class="card-body customer-card-body">
-                <app-material-table-view [data]="rawMaterialStorage" [colum]="RAW_MATERIAL_ELEMENT_COL"
+                <app-material-table-view [data]="rawMaterialStorage" [calTotal]="true"
+                    [calField]="['unit', 'valueLaks']" [colum]="RAW_MATERIAL_ELEMENT_COL"
                     [displayedColumns]="RAW_MATERIAL_DISPLAY_COL" (emitter)="actionBtn($event)">
                 </app-material-table-view>
             </div>

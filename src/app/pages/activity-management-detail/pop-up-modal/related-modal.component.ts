@@ -75,6 +75,7 @@ export class RelatedModalCompoent implements OnInit {
     })).toPromise().then((res: any) => {
       if (res)
         this.dataList = res
+        console.log("customer",  this.dataList)
         this.cdf.detectChanges()
         this.matTable.reChangeData()
       })
@@ -88,6 +89,9 @@ export class RelatedModalCompoent implements OnInit {
   }
   save() {
     this.selectedName = this.type == "customer" ? this.selected.name : this.selected.firstName || ""
+    let name = (this.selected.firstName || "") + " " + (this.selected.middleName || "") + " " + (this.selected.lastName || "")
+    this.selectedName = this.type == "agent" ? name :  ""
+   
     this.modal.dismiss({ data: this.selected.id || this.selected.empId, type: 'save', dataName: this.selectedName })
   }
 

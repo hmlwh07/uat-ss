@@ -681,3 +681,12 @@ kbz-loading {
 .ng-select .ng-select-container {
     border: 1px solid #E4E6EF;
 }
+.mat-paginator-range-label{
+    margin: 0px;
+    white-space: nowrap;
+}
+.mat-icon-button.mat-custom-page{
+    width: 2.5rem;
+    line-height: 2.5rem !important;
+    height: 2.5rem;
+}

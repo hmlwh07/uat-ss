@@ -45,7 +45,15 @@ export const DynamicAsideMenuConfig = {
               page: '/fna/fna-bram',
             }
           ]
-        }
+        },
+        // {
+        //   title: 'FNA LPP',
+        //   page: '/fna/fna-detail',
+        // },
+        // {
+        //   title: 'FNA BRAM',
+        //   page: '/fna/fna-bram',
+        // }
       ]
     },
     // {
@@ -174,14 +182,117 @@ export const DynamicAsideMenuConfig = {
       ]
     },
     {
+      title: 'Exchange  Rate',
+      root: true,
+      icon: 'flaticon-price-tag',
+      svg: './assets/media/svg/icons/Design/Layers.svg',
+      page: 'currency/currency-exchange',
+      bullet: 'dot',
+      show: true,
+    },
+    {
+      title: 'Reset Password',
+      root: true,
+      icon: 'flaticon-lock',
+      svg: './assets/media/svg/icons/Design/Layers.svg',
+      page: 'reset-password',
+      bullet: 'dot',
+      show: true,
+    },
+    {
       title: 'Report',
       root: true,
       icon: 'flaticon-line-graph',
       svg: './assets/media/svg/icons/Design/Layers.svg',
-      page: '/report',
+      page: 'report/report-detail-by-agent',
       bullet: 'dot',
-      show: true
+      show: true,
+      submenu_show: true,
+      submenu: [
+        {
+          title: 'Detail Report By Agent​',
+          page: 'report/report-detail-by-agent',
+          show: true
+        },
+        {
+          title: 'Detail Report by Bank Branch​',
+          page: 'report/report-detail-by-bank-branch',
+          show: true
+        },
+        {
+          title: 'Channel Summary Report',
+          page: 'report/report-channel-summary-by-bank-branch',
+          show: true
+        },
+        {
+          title: 'By Branch Summary IA',
+          page: 'report/report-by-branch-summary-ai',
+          show: true
+        },
+        {
+          title: 'By Product Sales Channel Policies',
+          page: 'report/report-by-product-sales-channel-policies',
+          show: true
+        },
+        {
+          title: 'By Product Sales Channel Premium',
+          page: 'report/report-by-product-sales-channel-premium',
+          show: true
+        },
+        {
+          title: 'By Product Branch Policies',
+          page: 'report/report-by-product-branch-policies',
+          show: true
+        },
+        {
+          title: 'By Product Branch Premium',
+          page: 'report/report-by-product-branch-premium',
+          show: true
+        },
+        {
+          title: 'By Agent Yearly',
+          page: 'report/report-by-agent-yearly',
+          show: true
+        },
+        {
+          title: 'By Agent Daily',
+          page: 'report/report-by-agent-daily',
+          show: true
+        },
+        {
+          title: 'By Agent Weekly',
+          page: 'report/report-by-agent-weekly',
+          show: true
+        },
+        {
+          title: 'By Agent Monthly',
+          page: 'report/report-by-agent-monthly',
+          show: true
+        },
+        {
+          title: 'Monthly Sales Analysis by Branch',
+          page: 'report/report-monthly-sales-analysis-by-branch',
+          show: true
+        },
+        {
+          title: 'Weekly Sales Analysis by Branch',
+          page: 'report/report-weekly-sales-analysis-by-branch',
+          show: true
+        },
+        {
+          title: 'Daily Sales Analysis by Branch',
+          page: 'report/report-daily-sales-analysis-by-branch',
+          show: true
+        },
+        {
+          title: 'Key Driver Report',
+          page: 'report/report-key-driver',
+          show: true
+        },
+        
+      ]
     },
+
     {
       title: 'Setting',
       root: true,

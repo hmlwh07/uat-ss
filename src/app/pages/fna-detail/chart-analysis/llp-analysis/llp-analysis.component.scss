@@ -5,14 +5,13 @@
 }
 
 .left-border {
-    transform: skewX(-31deg);
+    transform: skewX(-30deg);
     width: 85px;
     background: #fff;
-    height: 382px;
+    height: 457px;
     position: absolute;
     bottom: 0;
-    left: 29px;
-    border-right: 2px solid #d9d9d9;
+    left: 34px;
     z-index: 1;
 }
 
@@ -20,11 +19,10 @@
     transform: skewX(30deg);
     width: 85px;
     background: #fff;
-    height: 382px;
+    height: 457px;
     position: absolute;
     bottom: 0;
-    right: 29px;
-    border-left: 2px solid #d9d9d9;
+    right: 34px;
     z-index: 1;
 }
 
@@ -58,18 +56,20 @@
     }
     a {
         position: absolute;
-        top: 94px;
+        top: 88px;
         text-decoration: underline;
         color: #f5821f;
         width: 97%;
         text-align: center;
         display: block;
         left: 5px;
+        font-size: 14px;
+        font-weight: bold;
     }
 }
 
 .saving {
-    width: 290px;
+    width: 320px;
     margin: 0 auto;
     position: relative;
     // left: -7px;
@@ -82,13 +82,15 @@
         position: relative;
         a {
             position: absolute;
-            bottom: 2px;
+            bottom: 21px;
             text-decoration: underline;
             color: #7f7f7f;
             width: 100%;
             text-align: center;
             display: block;
             margin-left: 15px;
+            font-size: 14px;
+            font-weight: bold;
         }
         .progress {
             left: 77px;
@@ -103,13 +105,15 @@
         position: relative;
         a {
             position: absolute;
-            bottom: 1px;
+            bottom: 21px;
             text-decoration: underline;
             color: #7f7f7f;
             width: 100%;
             text-align: center;
             display: block;
             margin-left: -10px;
+            font-size: 14px;
+            font-weight: bold;
         }
         .progress {
             left: 50px;
@@ -131,13 +135,15 @@
         background: #f2f2f2;
         a {
             position: absolute;
-            bottom: 23px;
+            bottom: 30px;
             text-decoration: underline;
             color: #22aae1;
             width: 100%;
             text-align: center;
             display: block;
             margin-left: 17px;
+            font-size: 14px;
+            font-weight: bold;
         }
         .progress {
             top: 18px;
@@ -150,12 +156,14 @@
         background: #f2f2f2;
         a {
             position: absolute;
-            bottom: 23px;
+            bottom: 30px;
             text-decoration: underline;
             color: #f5821f;
             width: 100%;
             text-align: center;
             display: block;
+            font-size: 14px;
+            font-weight: bold;
         }
         .progress {
             top: 18px;
@@ -168,13 +176,15 @@
         background: #f2f2f2;
         a {
             position: absolute;
-            bottom: 23px;
+            bottom: 30px;
             text-decoration: underline;
             color: #f5821f;
             width: 100%;
             text-align: center;
             display: block;
             margin-left: -20px;
+            font-size: 14px;
+            font-weight: bold;
         }
         .progress {
             left: 43px;
@@ -214,7 +224,7 @@
     span {
         position: absolute;
         top: -100px;
-        color: #7F7F7F;
+        color: #7f7f7f;
         text-decoration: underline;
     }
 }
@@ -228,7 +238,7 @@
     span {
         position: absolute;
         top: -100px;
-        color: #7F7F7F;
+        color: #7f7f7f;
         text-decoration: underline;
     }
 }
@@ -242,7 +252,7 @@
     span {
         position: absolute;
         top: -100px;
-        color: #7F7F7F;
+        color: #7f7f7f;
         text-decoration: underline;
     }
 }
@@ -303,4 +313,62 @@
     width: 100%;
     overflow: hidden;
     margin: 47px 0 0 0;
+}
+
+.inactive-freedon-left {
+    // background-image: url(../../../../../assets/images/inactive.png);
+    background-color: #cac9ca !important;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+}
+
+.inactive-freedon-right {
+    background-color: #cac9ca !important;
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+}
+.red {
+    background: red;
+}
+
+.investment-1 {
+    text-align: center;
+    width: 120px;
+    margin: 0 auto;
+    height: 25px;
+    //background: #aaaaaa;
+    transform: skewX(60deg);
+    left: 6px;
+    position: relative;
+    label {
+        transform: skewX(-60deg);
+        color: #fff;
+        font-size: 13px;
+        margin: 0;        
+    }
+}
+
+.bg-protection {
+    background: #ff8100 !important;
+    height: 100%;
+    width: 100%;
+}
+
+.bg-saving {
+    background: #ffd300 !important;
+    height: 100%;
+    width: 100%;
+}
+
+.bg-freedom {
+    background: #00acea !important;
+    height: 100%;
+    width: 100%;
+}
+
+.lpp-icon {
+    width: 35px;
+    position: absolute;
 }

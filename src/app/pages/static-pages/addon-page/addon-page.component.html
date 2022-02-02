@@ -5,6 +5,9 @@
       <th style="text-align: left;">
         Base Coverage
       </th>
+      <th *ngIf="product.code == 'CLFR01'">
+        Option
+      </th>
       <th *ngIf="addOns.isSum">
         Sum Insured
       </th>
@@ -28,6 +31,12 @@
         <td style="text-align: left;">{{addon.description}}</td>
         <!-- <ng-container *ngIf="addOnsData[addon.id].checked"> -->
         <ng-container *ngIf="addOnsData[addon.id]">
+          <td *ngIf="product.code == 'CLFR01'">
+            <ng-container *ngIf="addon.code == 'FRAD010' || addon.code == 'FRAD008' ">
+              <ng-select class="ng-custom-select" [items]="fireOptionData[addon.code]" bindLabel="value"
+                bindValue="code" (change)="rechangeOption(addon)" [(ngModel)]="addOnsData[addon.id].option" [clearable]="false"></ng-select>
+            </ng-container>
+          </td>
           <td *ngIf="addon.sumInsured">
             <ng-container *ngIf="!addon.sumInsuredStr">
               <input type="text" class="form-control form-control-sm" [disabled]="!addOnsData[addon.id].checked"
@@ -55,7 +64,6 @@
                 [(ngModel)]="addOnsData[addon.id].premium">
             </ng-container>
             <ng-container *ngIf="addon.premiumStr">
-              <!-- {{addOnsData[addon.id].premium}} -->
               {{addOnsData[addon.id].premium > 0 ? (addOnsData[addon.id].premium | number) :
               addOnsData[addon.id].premium}}
             </ng-container>

@@ -2,6 +2,8 @@ import { ComponentFactoryResolver, ComponentRef, Directive, Input, OnInit, ViewC
 import { AddonPrintComponent } from "./addon-print/addon-print.component";
 import { CoveragePrintComponent } from "./coverage-print/coverage-print.component";
 import { FarmerPrintComponent } from "./farmer-print/farmer-print.component";
+import { FireDetailPrintComponent } from "./fire-detail-print/fire-detail-print.component";
+import { FireRiskPrintComponent } from "./fire-risk-print/fire-risk-print.component";
 import { MoterPrintComponent } from "./moter-print/moter-print.component";
 
 const STATIC_PRINT_COMPONENT = {
@@ -9,6 +11,8 @@ const STATIC_PRINT_COMPONENT = {
   'print_1638594176913': FarmerPrintComponent,
   'addon_1634010770155': AddonPrintComponent,
   'coverage_1634010995936': CoveragePrintComponent,
+  'static_1641364737069': FireDetailPrintComponent,
+  'static_1643116155828': FireRiskPrintComponent
 }
 @Directive({
   selector: '[staticPirint]'

@@ -1,0 +1,25 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+            Reset Password Verification
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body">
+        <div class="row" style="text-align: center;">
+            <div class="col-sm">
+                <label class="col-sm-12 col-form-label text-bold">Key in the One-Time Password generated on your phone.</label>
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <div class="col-sm" style="    justify-content: center; display: flex;">
+                <ngx-otp-input [config]="otpInputConfig" (otpChange)="handeOtpChange($event)" (fill)="handleFillEvent($event)">
+                </ngx-otp-input>
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <div class="col-sm">
+                <p>Don't get your OTP? <span *ngIf="requestStatus">Request a new OTP in {{counter}} seconds.</span><span *ngIf="!requestStatus" (click)="doRequest()" style="color: #2C66FF;">Request a new OTP.</span></p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,13 +12,12 @@ export class FnaTypeComponent implements OnInit {
   user: UserModel = new UserModel();
   leadId: string = '';
   customer: any = null;
+  conductedBy: any = null;
 
   constructor(public modal: NgbActiveModal, private fnaService: FANService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    console.log('leadId =====> ', this.leadId);
-    console.log('customer =====> ', this.customer);
   }
 
   close() {
@@ -26,25 +25,53 @@ export class FnaTypeComponent implements OnInit {
   }
 
   async chooseFNA(type) {
-    let reqBody = {
-      customerId: this.customer.customerId,
-      customerName: this.customer.customerName,
-      fnaType: type,
-      grandDiscount: 0,
-      highDiscount: 0,
-      id: 0,
-      conductedBy: this.user.username,
-      createdAt: new Date(),
-      createdBy: this.user.username,
-      updatedAt: new Date(),
-      fnaId: null,
-      type: this.customer.customerType,
-      pageStatus: 'create',
-      products: [
-        ""
-      ]
+    let reqBody: any;
+    if (this.customer) {
+      reqBody = {
+        leadId: this.leadId,
+        customerId: this.customer.customerId,
+        customerName: this.customer.customerName,
+        fnaType: type,
+        grandDiscount: 0,
+        highDiscount: 0,
+        id: 0,
+        conductedBy: this.conductedBy,
+        createdAt: new Date(),
+        createdBy: this.user.id,
+        createdByName: this.user.username,
+        updatedAt: new Date(),
+        fnaId: null,
+        type: this.customer.customerType,
+        pageStatus: 'create',
+        products: [
+          ""
+        ]
+      }
     }
-    console.log('saveFNA reqBody ', reqBody);
+
+    console.log('reqBody', reqBody);
+
+    // else {
+    //   reqBody = {
+    //     leadId: this.leadId,
+    //     customerId: '24',
+    //     customerName: '',
+    //     fnaType: type,
+    //     grandDiscount: 0,
+    //     highDiscount: 0,
+    //     id: 0,
+    //     conductedBy: this.user.username,
+    //     createdAt: new Date(),
+    //     createdBy: this.user.username,
+    //     updatedAt: new Date(),
+    //     fnaId: null,
+    //     type: type,
+    //     pageStatus: 'create',
+    //     products: [
+    //       ""
+    //     ]
+    //   }
+    // }
 
     await this.fnaService.saveFNA(reqBody).toPromise().then(res => {
       if (res) {

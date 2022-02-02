@@ -12,14 +12,23 @@ import { SurroundingDetailComponent } from './surrounding-detail/surrounding-det
 })
 export class SurroundingBuildingComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent;
-  @Input() riskId = ""
+  @Input() riskId: number = 1
   ELEMENT_COL = JSON.parse(JSON.stringify(SURROUNDING_COL));
   displayedColumns = JSON.parse(JSON.stringify(SurroundingDisplayCol));
   isPopup: boolean = false
   surrounding: any[] = []
-  constructor(private SurroundingBuildingService: SurroundingBuildingService, private modalService: NgbModal, private cdf: ChangeDetectorRef) { }
+  constructor(private surroundingBuildingService: SurroundingBuildingService, private modalService: NgbModal, private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.getList()
+  }
+  getList() {
+    this.surroundingBuildingService.getByRiskId(this.riskId).toPromise().then((res: any) => {
+      if (res) {
+        this.surrounding = res
+        this.cdf.detectChanges()
+      }
+    })
   }
   add(type, data?) {
     let modalRef;
@@ -41,7 +50,7 @@ export class SurroundingBuildingComponent implements OnInit {
   onActionView(data, type) {
     console.log("data", data, "type", type)
     if (type == 'delete') {
-      this.SurroundingBuildingService.delete(data.id).toPromise()
+      this.surroundingBuildingService.delete(data.id).toPromise()
         .then((res) => {
           if (res) {
             let index = this.surrounding.findIndex(x => x.id == data.id)

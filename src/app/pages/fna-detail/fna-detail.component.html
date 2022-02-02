@@ -9,7 +9,7 @@
         </div>
         <div>
           <label>Created By : </label>
-          <label>{{ passValue.conductedBy }}</label>
+          <label>{{ passValue.createdByName }}</label>
         </div>
         <div>
           <label>Created : </label>
@@ -23,18 +23,9 @@
               <div class="text-rotate" [ngStyle]="{'bottom': totalPercentageText }">{{ percentage }}</div>
             </span></span>
         </div>
-
-        <!-- <div class="progress">
-        <span style="width:100%; height: 100%;">
-            <span class="sub-progress"
-               [ngClass]="bgColor"> 
-                <div class="text-rotate">{{ percentage }}</div>
-            </span>
-        </span>
-    </div> -->
       </div>
     </div>
-    <div [ngStyle]="{'color':fnaTextColor? '#22aae1' : '#f5821f' }"><label>FNA Progress
+    <div [ngStyle]="{'color':fnaTextColor? '#00acea' : '#ff8100' }"><label>FNA Progress
       </label></div>
   </div>
   <div class="chart-grid" [ngSwitch]="fnaSwitch">
@@ -47,21 +38,24 @@
           Recommendation</button>
       </div>
     </div>
-    <app-llp-analysis *ngSwitchDefault [aboutLLP]="aboutLLP" (change)="fnaEvent($event)"></app-llp-analysis>
-    <app-product-analysis [fnaId]="oldId" [product]="product" *ngSwitchCase="'product'"
+    <app-llp-analysis *ngSwitchDefault [aboutLLP]="aboutLLP" [customerId]="customerId" (change)="fnaEvent($event)"></app-llp-analysis>
+    <app-product-analysis [fnaId]="oldId" [customerId]="customerId" [product]="product" *ngSwitchCase="'product'"
       (changeProduct)="changeProduct($event)">
     </app-product-analysis>
-    <app-education [fnaId]="oldId" [education]="education" *ngSwitchCase="'Education'"
+    <app-education [fnaId]="oldId" [customerId]="customerId" [education]="education" *ngSwitchCase="'Education'"
       (changeAnalysis)="fnaEvent($event)">
     </app-education>
-    <app-health [fnaId]="oldId" [health]="health" *ngSwitchCase="'Health'" (changeAnalysis)="fnaEvent($event)">
+    <app-health [fnaId]="oldId" [customerId]="customerId" [health]="health" *ngSwitchCase="'Health'"
+      (changeAnalysis)="fnaEvent($event)">
     </app-health>
-    <app-income [fnaId]="oldId" [fnaIncome]="fnaIncome" *ngSwitchCase="'Income'" (changeAnalysis)="fnaEvent($event)">
+    <app-income [fnaId]="oldId" [customerId]="customerId" [fnaIncome]="fnaIncome" *ngSwitchCase="'Income'"
+      (changeAnalysis)="fnaEvent($event)">
     </app-income>
-    <app-retirement [fnaId]="oldId" [retirement]="retirement" [customerDob]="passValue.customerDob"
-      *ngSwitchCase="'Retirement'" (changeAnalysis)="fnaEvent($event)">
+    <app-retirement [fnaId]="oldId" [customerId]="customerId" [retirement]="retirement"
+      [customerDob]="passValue.customerDob" *ngSwitchCase="'Retirement'" (changeAnalysis)="fnaEvent($event)">
     </app-retirement>
-    <app-asset [fnaId]="oldId" [fnaAssets]="fnaAssets" *ngSwitchCase="'Asset'" (changeAnalysis)="fnaEvent($event)">
+    <app-asset [fnaId]="oldId" [customerId]="customerId" [fnaAssets]="fnaAssets" *ngSwitchCase="'Asset'"
+      (changeAnalysis)="fnaEvent($event)">
     </app-asset>
   </div>
 </div>

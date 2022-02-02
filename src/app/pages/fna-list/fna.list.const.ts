@@ -9,6 +9,14 @@ export const FNAListCol: TableCol[] = [
     // isDate?: boolen
   },
   {
+    title: "FNA Type",
+    type: COLTYPE.FEILD,
+    field: "fnaType",
+    // amtFormat?: boolean,
+    // isTitle?: boolean
+    // isDate?: boolen
+  },
+  {
     title: "Conducted By",
     type: COLTYPE.FEILD,
     field: "conductedBy",
@@ -32,6 +40,8 @@ export const FNAListCol: TableCol[] = [
 
 export const FNAListDisplayCol: string[] = [
   "createdAt",
+  "fnaType",
   "conductedBy",
   "actions",
 ]
+

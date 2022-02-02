@@ -1,14 +1,21 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
+import { MY_FORMATS } from 'src/app/core/is-json';
 import { validateAllFields } from '../../../core/valid-all-feild';
 import { MasterDataService } from '../../../modules/master-data/master-data.service';
 
 @Component({
   selector: 'app-currency-add-form',
   templateUrl: './currency-add-form.component.html',
-  styleUrls: ['./currency-add-form.component.scss']
+  styleUrls: ['./currency-add-form.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
 })
 export class CurrencyAddFormComponent implements OnInit,AfterViewInit {
 
@@ -16,6 +23,7 @@ export class CurrencyAddFormComponent implements OnInit,AfterViewInit {
   currencyType: string[] = []
   id: number
   @Input() isModal: boolean = false
+  @Input() isEdit:boolean=false
   oldData: any = {}
   @Output() formSubmit = new EventEmitter();
   constructor(private masterDataService: MasterDataService, public modal: NgbModal,private cdf: ChangeDetectorRef) { }
@@ -24,6 +32,7 @@ export class CurrencyAddFormComponent implements OnInit,AfterViewInit {
     this.formGroup = new FormGroup({
       type: new FormControl(this.oldData.type || "usd", [Validators.required]),
       amount: new FormControl(this.oldData.amount || null, [Validators.required]),
+      date:new FormControl(this.oldData.date || null, [Validators.required]),
     })
   }
 

@@ -212,6 +212,7 @@ export class SimplePagePolicyComponent implements OnInit {
         premiumView: this.premiumAmt,
         productId: this.prodService.createingProd.id,
         quotationId: this.prodService.referenceID,
+        leadId: this.prodService.creatingLeadId || null,
         // status: ,
         type: this.prodService.type
       },

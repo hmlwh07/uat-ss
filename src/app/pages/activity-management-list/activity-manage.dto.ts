@@ -9,6 +9,7 @@ export interface ActivityManage {
   customerId?: number
   assignTo?: number
   status?: string
+  leadId?: string
 }
 
 export enum ActiviyStatus{

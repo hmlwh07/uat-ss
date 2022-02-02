@@ -1,33 +1,33 @@
 <div class="card card-custom gutter-b">
-  <div class="card-header">
-    <div class="card-title">
-      <h3 class="card-label">Health Product Details :</h3>
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Health Product Details :</h3>
+        </div>
     </div>
-  </div>
-  <div class="card-body customer-card-body">
-    <ul class="list-group">
-      <li class="list-group-item">
-        Policy Effective Date (From) :
-        <span> {{showData.startDate | date : "dd/MM/yyyy"}}</span>
-      </li>
-      <li class="list-group-item">
-        Policy Effective Date (To) :
-        <span> {{showData.endDate | date : "dd/MM/yyyy"}}</span>
-      </li>
-      <li class="list-group-item">
-        Policy Duration :
-        <span> {{showData.policyDuration }} Days</span>
-      </li>
-      <li class="list-group-item">
-        Policy Type :
-        <span> {{showData.policyType == "T-001" ? "Normal" : "Declaration" }}</span>
-      </li>
-      <li class="list-group-item">
-        Currency :
-        <span> {{showData.policyDuration  == "T-001" ? "MMK" : "USD" }}</span>
-      </li>
-     
-      <!--  -->
-    </ul>
-  </div>
+    <div class="card-body customer-card-body">
+        <ul class="list-group">
+            <li class="list-group-item">
+                Policy Effective Date (From) :
+                <!-- <span> {{showData.startDate | date : "dd/MM/yyyy"}}</span> -->
+            </li>
+            <li class="list-group-item">
+                Policy Effective Date (To) :
+                <!-- <span> {{showData.endDate | date : "dd/MM/yyyy"}}</span> -->
+            </li>
+            <li class="list-group-item">
+                Policy Duration :
+                <span> {{showData.policyDuration }} Days</span>
+            </li>
+            <li class="list-group-item">
+                Policy Type :
+                <span> {{showData.policyType == "T-001" ? "Normal" : "Declaration" }}</span>
+            </li>
+            <li class="list-group-item">
+                Currency :
+                <span> {{showData.policyDuration  == "T-001" ? "MMK" : "USD" }}</span>
+            </li>
+
+            <!--  -->
+        </ul>
+    </div>
 </div>

@@ -1,19 +1,25 @@
 import { COLTYPE, TableCol } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto'
-export const  FNACol: TableCol[] = [
+export const FNACol: TableCol[] = [
   {
     title: "Date",
     type: COLTYPE.FEILD,
-    field: "createdAt"
+    field: "createdAt",
+    isFromatDate:true
+  },
+  {
+    title: "Type",
+    type: COLTYPE.FEILD,
+    field: "fnaType"
   },
   {
     title: "Conducted By",
     type: COLTYPE.FEILD,
-    field: "conductedBy"
+    field: "createdByName"  
   },
   {
     title: "Actions",
     type: COLTYPE.ACTION,
-    field: "actions",
+    field: "actions",  
     btn: {
       edit: true,
       delete: true
@@ -24,7 +30,8 @@ export const  FNACol: TableCol[] = [
 
 export const FNADisplayCol: string[] = [
   "createdAt",
-  "conductedBy",
+  "fnaType",
+  "createdByName",
   "actions"
 ]
 
@@ -90,6 +97,12 @@ export const CampaignDisplayCol: string[] = [
   "cpmStatus",
   "cpmOwnerName",
 ]
+
+export class FNAConstant {
+  public static LEAD_ID: string = '';
+}
+
+
 
 
 

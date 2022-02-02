@@ -1,45 +1,40 @@
 <div class="form-group">
-  <button type="button" class="btn btn-primary mx-2" (click)="newData('add')">Add New Data</button>
+    <button type="button" class="btn btn-primary mx-2" (click)="newData('add')">Add New Data</button>
 </div>
 <div class="table-responsive angular-bootstrap-table">
-  <table class="table table-head-custom table-vertical-center">
-    <thead>
-      <tr>
-        <th>Building Description</th>
-        <th>Sum Insured</th>
-        <th>Premium </th>
-        <th>Other Building </th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let item of listData">
-        <tr>
-          <td>{{item.buildingDescription}}</td>
-          <td>{{item.sumInsure}}</td>
-          <td>{{item.premium}}</td>
-          <td>
-            <span class="text-primary" style="text-decoration: underline;white-space: nowrap;cursor: pointer;"
-              (click)="createPolicyBtn(item)">Other Info</span>
-          </td>
-          <td>
-            <a title="Edit" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView('edit',data)">
-              <span class="flaticon-edit"></span>
-            </a>
-            <a title="Delete" class="btn btn-primary btn-cus btn-sm mx-1" (click)="delete(data)">
-              <span class="flaticon-delete"></span>
-            </a>
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
+    <table class="table table-head-custom table-vertical-center">
+        <thead>
+            <tr>
+                <th>Building Description</th>
+                <th>Sum Insured</th>
+                <th>Premium </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of listData">
+                <tr>
+                    <td>{{item.buildingDescription}}</td>
+                    <td>{{item.riskSi | number}}</td>
+                    <td>{{item.premium | number}}</td>
+                    <td>
+                        <a title="Edit" class="btn btn-primary btn-cus btn-sm mx-1" (click)="newData('edit',item)">
+                            <span class="flaticon-edit"></span>
+                        </a>
+                        <a title="Delete" class="btn btn-danger btn-cus btn-sm mx-1" (click)="delete(item)">
+                            <span class="flaticon-delete"></span>
+                        </a>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
 </div>
 <div class="row mt-3">
-  <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
-  </div>
-  <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
-  </div>
+    <div class="col-sm-6 mx-auto">
+        <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+    </div>
+    <div class="col-sm-6 mx-auto">
+        <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+    </div>
 </div>

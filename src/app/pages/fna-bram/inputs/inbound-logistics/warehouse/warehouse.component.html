@@ -12,8 +12,9 @@
                 </div>
             </div>
             <div class="card-body customer-card-body">
-                <app-material-table-view [data]="warehouse" [colum]="WAREHOUSE_ELEMENT_COL"
-                    [displayedColumns]="WAREHOUSE_DISPLAY_COL" (emitter)="actionBtn($event)">
+                <app-material-table-view [data]="warehouse" [calTotal]="true" [calField]="['unit', 'valueLaks']"
+                    [colum]="WAREHOUSE_ELEMENT_COL" [displayedColumns]="WAREHOUSE_DISPLAY_COL"
+                    (emitter)="actionBtn($event)">
                 </app-material-table-view>
             </div>
         </div>

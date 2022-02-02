@@ -1,28 +1,27 @@
 <div class="row">
-  <div class="col-12 text-right pb-5">
-    <button class="btn btn-warning mr-2 btn-round">My View</button>
-    <button class="btn btn-light-dark btn-round">Team View</button>
-  </div>
-  <div class="col-12">
-    <div class="card card-custom gutter-b">
-      <div class="card-header">
-        <div class="card-title">
-          <h3 class="card-label left-border-image">Application List</h3>
-        </div>
-        <div class="card-toolbar">
-          <button type="button" class="btn btn-primary btn-circle" (click)="createOrEdit()">
-            <span class="flaticon2-plus"></span>
-          </button>
-          <!-- <button type="button" class="btn btn-primary" (click)="createOrEdit()">Create New Policy</button> -->
-        </div>
-      </div>
-      <div class="card-body customer-card-body">
-        <!-- begin:Table -->
-        <app-material-table-view [data]="quoList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
-          (emitter)="actionBtn($event)">
-        </app-material-table-view>
-        <!-- end: Table -->
-      </div>
+    <div class="col-12 text-right pb-5">
+        <button class="btn btn-warning mr-2 btn-round">My View</button>
+        <button class="btn btn-light-dark btn-round">Team View</button>
     </div>
-  </div>
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label left-border-image">Application List</h3>
+                </div>
+                <div class="card-toolbar">
+                    <!-- <button type="button" class="btn btn-primary btn-circle" (click)="createOrEdit()">
+            <span class="flaticon2-plus"></span>
+          </button> -->
+                    <!-- <button type="button" class="btn btn-primary" (click)="createOrEdit()">Create New Policy</button> -->
+                </div>
+            </div>
+            <div class="card-body customer-card-body">
+                <!-- begin:Table -->
+                <app-material-table-view [data]="quoList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)">
+                </app-material-table-view>
+                <!-- end: Table -->
+            </div>
+        </div>
+    </div>
 </div>

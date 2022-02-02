@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Tabel2 } from '../about-bram/about.bram.dto';
-import { AboutBramDTO } from './product.dto';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ProductService } from './product.manage.service';
 import { FANService } from '../../fna-detail/fna-manage.service';
 import 'jspdf-autotable';
+import { AlertService } from '../../../../app/modules/loading-toast/alert-model/alert.service';
+import { FNABRAMDiscount } from './product.dto';
 
 
 
@@ -25,17 +25,19 @@ const header = [
 })
 export class ProductComponent implements OnInit {
   @Input() fnaId: number = null;
+  @Input() passValueData: any = null;
+
   @Output() changeSwitch: EventEmitter<string> = new EventEmitter<string>();
   inputSwitch: string = 'outputs';
   originalData = [
     {
-      packageOffer: "High Pirority", input: null, product: []
+      packageOffer: "High Priority", input: null, product: []
     },
     { packageOffer: 'highTotal', input: null, product: [{ product: 'Total', policies: null, sa: 20, annualRate: 30, monthlyRate: 40, action: '' }] },
     { packageOffer: 'highDiscount', input: 'percent', product: [{ product: 'Discount (%):', policies: '', sa: 'Premium after discount:', annualRate: '', monthlyRate: '', action: '' }] },
     { packageOffer: 'highBlank', input: null, product: [{ product: '', policies: null, sa: '', annualRate: '', monthlyRate: '', action: '' }] },
     {
-      packageOffer: "Medium Pirority", product: []
+      packageOffer: "Less Priority", product: []
     },
     { packageOffer: 'mediumTotal', product: [{ product: 'Total', policies: 10, sa: 20, annualRate: 30, monthlyRate: 40, action: '' }] },
     //{ packageOffer: 'two', product: [{ product: 'Discount (%):', policies: null, sa: 'Premium after discount:', annualRate: 221, monthlyRate: 18, action: '' }] },
@@ -49,7 +51,7 @@ export class ProductComponent implements OnInit {
   tableHeight = [];
   totalHeight: number = 0;
   grantTotalList = [];
-  productList: any;
+  productList: any = null;
   totalHighAnnualRate: number = 0;
   totalHighMonthlyRate: number = 0;
   highAnnualPercentageRate: number;
@@ -61,9 +63,10 @@ export class ProductComponent implements OnInit {
   highPercent: number = null;
   grantPercent: number = null;
   isData: boolean;
+  updateProducts = [];
 
   constructor(private productService: ProductService, private cdf: ChangeDetectorRef,
-    private fnaService: FANService) {
+    private fnaService: FANService, private alertService: AlertService) {
 
   }
 
@@ -72,14 +75,15 @@ export class ProductComponent implements OnInit {
     await this.cacheSpan('packageOffer', d => d.packageOffer);
     await this.cacheSpan('product', d => d.product);
     //this.cacheSpan('policies', d => d.policies);
-
-
   }
 
   fnaSwitchEvent(type) {
-    this.inputSwitch = type;
-    this.changeSwitch.emit(type);
-
+    if (type == 'aboutBRAM' && (this.productList.highRisk.length > 0 || this.productList.lessRisk.length > 0)) {
+      this.updatePercentage(type);
+    } else {
+      this.inputSwitch = type;
+      this.changeSwitch.emit(type);
+    }
   }
 
   cacheSpan(key, accessor) {
@@ -110,12 +114,11 @@ export class ProductComponent implements OnInit {
   }
 
   buyProduct(status) {
-    console.log('buyProduct', status);
+
 
   }
 
   async getAllProductRec() {
-
     let totalHighPolicies: number = 0;
     let totalHighSa: number = 0;
     let totalHighAnnualRate: number = 0;
@@ -129,13 +132,13 @@ export class ProductComponent implements OnInit {
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
-        console.log('has', res)
         this.isData = true;
       }
-      console.log('getAllProductRec', res)
-      console.log('originalData', this.originalData)
       if (res.highRisk.length > 0) {
         for (var i = 0; i < res.highRisk.length; i++) {
+          if (res.highRisk[i].productCode) {
+            this.updateProducts.push(res.highRisk[i].productCode);
+          }
           nameList.push(res.highRisk[i].product)
           if (res.highRisk[i].policies) {
             res.highRisk[i].policies = Number(res.highRisk[i].policies);
@@ -170,6 +173,9 @@ export class ProductComponent implements OnInit {
 
       if (res.lessRisk.length > 0) {
         for (var i = 0; i < res.lessRisk.length; i++) {
+          if (res.lessRisk[i].productCode) {
+            this.updateProducts.push(res.lessRisk[i].productCode);
+          }
           nameList.push(res.lessRisk[i].product)
           if (res.lessRisk[i].policies) {
             res.lessRisk[i].policies = Number(res.lessRisk[i].policies);
@@ -263,8 +269,6 @@ export class ProductComponent implements OnInit {
         }
       }
 
-
-
       for (var i = 0; i < this.grantTotalList.length; i++) {
         let packageOffer: string = 'one'
         if (i % 2 == 0) {
@@ -273,7 +277,7 @@ export class ProductComponent implements OnInit {
           packageOffer = 'three'
         }
         if (i == 0) {
-          packageOffer = 'Grant Total'
+          packageOffer = 'Grand Total'
         }
 
         totalGrantPolicies += this.grantTotalList[i].grantPolicies;
@@ -296,11 +300,11 @@ export class ProductComponent implements OnInit {
             {
               product: this.grantTotalList[i].product, policies: this.grantTotalList[i].grantPolicies || null,
               sa: this.grantTotalList[i].grantSa || '', annualRate: this.grantTotalList[i].grantAnnualRate || '',
-              monthlyRate: this.grantTotalList[i].rantMonthlyRate || '', action: this.grantTotalList[i].action
+              monthlyRate: this.grantTotalList[i].grantMonthlyRate || '', action: this.grantTotalList[i].action
             }]
         }
 
-        this.originalData.push(data)   
+        this.originalData.push(data)
       }
       this.originalData.push({
         packageOffer: 'total', product: [
@@ -317,19 +321,9 @@ export class ProductComponent implements OnInit {
           }]
       })
 
-      // originalData[8].product = grantTotal
-
-      // originalData[9].product[0].policies = totalGrantPolicies;
-      // originalData[9].product[0].sa = totalGrantSa;
-      // originalData[9].product[0].annualRate = totalGrantAnnualRate;
-      // originalData[9].product[0].monthlyRate = totalGrantMonthlyRate;
-
-      // this.originalData.filter(x => x.packageOffer != 'High Pirority' && x.packageOffer != 'high');
-      // delete this.originalData[0];
-      console.log('highRisk dataList ', res.highRisk.length);
       if (res.highRisk.length == 0) {
         for (var i = 0; i < this.originalData.length; i++) {
-          if (this.originalData[i].packageOffer == 'High Pirority') {
+          if (this.originalData[i].packageOffer == 'High Priority') {
             this.originalData.splice(i, 1);
           }
           if (this.originalData[i].packageOffer == 'highTotal') {
@@ -344,10 +338,10 @@ export class ProductComponent implements OnInit {
         }
       }
 
-      console.log('lessRisk dataList ', res.lessRisk.length);
+
       if (res.lessRisk.length == 0) {
         for (var i = 0; i < this.originalData.length; i++) {
-          if (this.originalData[i].packageOffer == 'Medium Pirority') {
+          if (this.originalData[i].packageOffer == 'Less Priority') {
             this.originalData.splice(i, 1);
           }
           if (this.originalData[i].packageOffer == 'mediumTotal') {
@@ -360,6 +354,24 @@ export class ProductComponent implements OnInit {
       }
 
 
+      if (this.passValueData.highDiscount) {
+        let highDiscount: number = 0;
+        if (FNABRAMDiscount.HIGH_DISCOUNT != 0) {
+          highDiscount = FNABRAMDiscount.HIGH_DISCOUNT
+        } else {
+          highDiscount = this.passValueData.highDiscount
+        }
+        this.updateCommaInput(highDiscount, 'highDiscount');
+      }
+      if (this.passValueData.grandDiscount) {
+        let grandDiscount: number = 0;
+        if (FNABRAMDiscount.GRAND_DISCOUNT != 0) {
+          grandDiscount = FNABRAMDiscount.GRAND_DISCOUNT
+        } else {
+          grandDiscount = this.passValueData.grandDiscount
+        }
+        this.updateCommaInput(grandDiscount, 'discount');
+      }
       this.dataSource = this.originalData.reduce((current, next) => {
         next.product.forEach(b => {
           current.push({
@@ -396,7 +408,7 @@ export class ProductComponent implements OnInit {
         PDF.setFontSize(10);
         PDF.text("Quotation Form", 120, 7);
         PDF.setFontSize(9);
-        PDF.text("Child Name", 0, 15);
+        PDF.text("Client Name", 0, 15);
         PDF.setFontSize(9);
         PDF.text("Si Thu Win", 30, 15);
         PDF.setFontSize(9);
@@ -404,9 +416,9 @@ export class ProductComponent implements OnInit {
         PDF.setFontSize(9);
         PDF.text("12/29/2021", 150, 15);
         PDF.setFontSize(10);
-        PDF.text("Summary of Quatition", 0, 25).setFontSize(9).setFont(undefined, undefined, 'bold');
-        PDF.text("Detail", 0, fileHeight + 5).setFontSize(10).setFont(undefined, undefined, 'bold');
-        PDF.text("Detail", 70, fileHeight + 15).setFontSize(10).setFont(undefined, undefined, 'bold');
+        PDF.text("Summary of Quotation", 0, 25).setFontSize(9).setFont(undefined, undefined, 'bold');
+        PDF.text("Details", 0, fileHeight + 5).setFontSize(10).setFont(undefined, undefined, 'bold');
+        PDF.text("Details", 70, fileHeight + 15).setFontSize(10).setFont(undefined, undefined, 'bold');
 
 
         PDF.save('angular-demo.pdf');
@@ -418,18 +430,16 @@ export class ProductComponent implements OnInit {
   }
 
 
-  updateCommaInput(value, type) {
-    console.log('updateCommaInput type', type);
-    console.log('type', type);
+  updateCommaInput(percent, type) {
     if (type == 'highDiscount') {
-      // High Pirority Discount
-      this.highPercent = value;
-      this.highAnnualPercentageRate = this.calculatePercentage(Number(value), Number(this.totalHighAnnualRate));
-      this.highMonthlyPercentageRate = this.calculatePercentage(Number(value), Number(this.totalHighMonthlyRate));
+      // High Priority Discount
+      this.highPercent = percent;
+      this.highAnnualPercentageRate = this.calculatePercentage(Number(percent), Number(this.totalHighAnnualRate));
+      this.highMonthlyPercentageRate = this.calculatePercentage(Number(percent), Number(this.totalHighMonthlyRate));
 
-      console.log(' ev.target.value ', value);
+
       this.originalData[2].input = 'percent';
-      this.originalData[2].product[0].policies = Number(value);
+      this.originalData[2].product[0].policies = Number(percent);
       if (this.highAnnualPercentageRate == 0) {
         this.originalData[2].product[0].annualRate = null;
       } else {
@@ -443,12 +453,12 @@ export class ProductComponent implements OnInit {
       }
 
     } else {
-      // Grant Total Discount
-      this.grantPercent = value;
-      this.grantAnnualPercentageRate = this.calculatePercentage(Number(value), Number(this.totalGrantAnnualRate));
-      this.grantMonthlyPercentageRate = this.calculatePercentage(Number(value), Number(this.totalGrantMonthlyRate));
+      // Grand Total Discount    
+      this.grantPercent = percent;
+      this.grantAnnualPercentageRate = this.calculatePercentage(Number(percent), Number(this.totalGrantAnnualRate));
+      this.grantMonthlyPercentageRate = this.calculatePercentage(Number(percent), Number(this.totalGrantMonthlyRate));
 
-      this.originalData[this.originalData.length - 1].product[0].policies = Number(value);
+      this.originalData[this.originalData.length - 1].product[0].policies = Number(percent);
       if (this.grantAnnualPercentageRate == 0) {
         this.originalData[this.originalData.length - 1].product[0].annualRate = null;
       } else {
@@ -462,7 +472,6 @@ export class ProductComponent implements OnInit {
       }
     }
 
-    console.log(' originalData ', this.originalData);
 
     this.dataSource = this.originalData.reduce((current, next) => {
       next.product.forEach(b => {
@@ -485,6 +494,7 @@ export class ProductComponent implements OnInit {
     this.totalHeight = 0;
     let quotationDate: string = '';
     quotationDate = this.formatDateDDMMYYY(new Date());
+    this.updatePercentage('PDF');
     let blank = [
       { content: '', styles: { halign: 'center', valign: 'middle' } },
       { content: '', styles: { halign: 'center', valign: 'middle' } },
@@ -501,13 +511,23 @@ export class ProductComponent implements OnInit {
     let highMonthlyRate: number = 0;
     for (var i = 0; i < this.productList.highRisk.length; i++) {
       let obj = []
-      highPolicies += this.productList.highRisk[i].policies;
-      highSa += this.productList.highRisk[i].sa;
-      highAnnualRate += this.productList.highRisk[i].annualRate;
-      highMonthlyRate += this.productList.highRisk[i].monthlyRate;
+      if (this.productList.highRisk[i].policies) {
+        highPolicies += this.productList.highRisk[i].policies;
+      }
+      if (this.productList.highRisk[i].sa) {
+        highSa += this.productList.highRisk[i].sa;
+      }
+
+      if (this.productList.highRisk[i].annualRate) {
+        highAnnualRate += this.productList.highRisk[i].annualRate;
+      }
+
+      if (this.productList.highRisk[i].monthlyRate) {
+        highMonthlyRate += this.productList.highRisk[i].monthlyRate;
+      }
 
       obj = [
-        { content: 'High Pirority', rowSpan: this.productList.highRisk.length, styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
+        { content: 'High Priority', rowSpan: this.productList.highRisk.length, styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
         { content: this.productList.highRisk[i].product || '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
         { content: this.productList.highRisk[i].policies || '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
         { content: this.productList.highRisk[i].sa ? this.fnaService.mathRoundTo(this.productList.highRisk[i].sa, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
@@ -519,6 +539,7 @@ export class ProductComponent implements OnInit {
       }
       list.push(obj);
     }
+
 
     let highRiskTotal = [
       { content: '', styles: { halign: 'center', valign: 'middle' } },
@@ -575,13 +596,24 @@ export class ProductComponent implements OnInit {
 
     for (var i = 0; i < this.productList.lessRisk.length; i++) {
       let obj = []
-      lessPolicies += this.productList.lessRisk[i].policies;
-      lessSa += this.productList.lessRisk[i].sa;
-      lessAnnualRate += this.productList.lessRisk[i].annualRate;
-      lessMonthlyRate += this.productList.lessRisk[i].monthlyRate;
+      if (this.productList.lessRisk[i].policies) {
+        lessPolicies += this.productList.lessRisk[i].policies;
+      }
+
+      if (this.productList.lessRisk[i].sa) {
+        lessSa += this.productList.lessRisk[i].sa;
+      }
+
+      if (this.productList.lessRisk[i].annualRate) {
+        lessAnnualRate += this.productList.lessRisk[i].annualRate;
+      }
+
+      if (this.productList.lessRisk[i].monthlyRate) {
+        lessMonthlyRate += this.productList.lessRisk[i].monthlyRate;
+      }
 
       obj = [
-        { content: 'Medium Pirority', rowSpan: this.productList.lessRisk.length, styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
+        { content: 'Less Priority', rowSpan: this.productList.lessRisk.length, styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
         { content: this.productList.lessRisk[i].product || '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
         { content: this.productList.lessRisk[i].policies || '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
         { content: this.productList.lessRisk[i].sa ? this.fnaService.mathRoundTo(this.productList.lessRisk[i].sa, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
@@ -615,14 +647,25 @@ export class ProductComponent implements OnInit {
     let grantMonthlyRate: number = 0;
     if (this.grantTotalList.length > 0) {
       for (var i = 0; i < this.grantTotalList.length; i++) {
-        grantPolicies += this.grantTotalList[i].grantPolicies;
-        grantSa += this.grantTotalList[i].grantSa;
-        grantAnnualRate += this.grantTotalList[i].grantAnnualRate;
-        grantMonthlyRate += this.grantTotalList[i].grantMonthlyRate;
+        if (this.grantTotalList[i].grantPolicies) {
+          grantPolicies += this.grantTotalList[i].grantPolicies;
+        }
+
+        if (this.grantTotalList[i].grantSa) {
+          grantSa += this.grantTotalList[i].grantSa;
+        }
+
+        if (this.grantTotalList[i].grantAnnualRate) {
+          grantAnnualRate += this.grantTotalList[i].grantAnnualRate;
+        }
+
+        if (this.grantTotalList[i].grantMonthlyRate) {
+          grantMonthlyRate += this.grantTotalList[i].grantMonthlyRate;
+        }
 
         let packageName: string = '';
         if (i == 0) {
-          packageName = 'Grant Total'
+          packageName = 'Grand Total'
         }
 
         let grantTotal = [
@@ -679,19 +722,19 @@ export class ProductComponent implements OnInit {
 
 
     var doc = new jsPDF('p', 'pt', 'a4');
-    doc.setFontSize(11).setFont('Calibri', 'normal', 'bold');
+    doc.setFontSize(11).setFont('Roboto', 'normal', 'bold');
     doc.text("Quotation Form", 270, 15);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'normal');
-    doc.text("Child Name", 10, 35);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'normal');
-    doc.text("Si Thu Win", 90, 35);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'normal');
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
+    doc.text("Client Name", 10, 35);
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
+    doc.text(this.passValueData.customerName || '', 90, 35);
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
     doc.text("Quotation Date", 420, 35);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'normal');
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
     doc.text(quotationDate, 500, 35);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'bold');
-    doc.text("Summary of Quatition", 10, 55);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'normal');
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'bold');
+    doc.text("Summary of Quotation", 10, 55);
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
     (doc as any).autoTable({
       head: header,
       body: list,
@@ -699,8 +742,9 @@ export class ProductComponent implements OnInit {
       margin: { top: 65, left: 10, right: 10, bottom: 0 },
       tableLineColor: '#44C8D7',
       tableLineWidth: 0.5,
-      pageBreak: 'avoid',
-      rowPageBreak: 'avoid',
+      pageBreak: 'auto',
+      rowPageBreak: 'auto',
+      showHead: 'firstPage', //everyPage , firstPage, never
       styles: {
         lineColor: [200, 199, 199],
         lineWidth: 0.5,
@@ -709,7 +753,7 @@ export class ProductComponent implements OnInit {
         fillColor: '#fff',
         textColor: '#000',
         fontStyle: 'normal',
-        font: "Calibri",
+        font: "Roboto",
         fontSize: 10,
         cellWidth: 96
       },
@@ -721,7 +765,7 @@ export class ProductComponent implements OnInit {
         //fillColor: [52, 73, 94],
         textColor: "#000",
         minCellHeight: 5,
-        font: "Calibri",
+        font: "Roboto",
         fontSize: 10,
       },
       // alternateRowStyles: {
@@ -740,7 +784,7 @@ export class ProductComponent implements OnInit {
       // },
       // allSectionHooks: true,
       // drawHeaderCell: function (cell, data) {
-      //   console.log('drawHeaderCell =====> ', data);
+
       //   if (cell.raw === 'ID') {//paint.Name header red
       //     cell.styles.fontSize = 5;
       //     //cell.styles.textColor = [255, 0, 0];
@@ -751,7 +795,7 @@ export class ProductComponent implements OnInit {
       //   }
       // },
       // createdCell: function (cell, data) {
-      //   console.log('createdCell', cell);
+
 
       //   if (cell.raw === 'Minsk') {
       //     cell.styles.textColor = "#20a8d8";
@@ -783,18 +827,18 @@ export class ProductComponent implements OnInit {
       }
     }
 
-    console.log('this.totalHeight =====> ', this.totalHeight);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'bold');
-    doc.text("Detail", 10, this.totalHeight + 135);
-    doc.setFontSize(10).setFont('Calibri', 'normal', 'normal');
-    doc.text("This section reflect the BRAM questionnaire, the same format as",
+
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'bold');
+    doc.text("Details", 10, this.totalHeight + 135);
+    doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
+    doc.text("This section reflect the BRAM questionnaire, in same format as",
       170, this.totalHeight + 155);
     doc.text("previous, Questions not answered shall be filtered out automatically",
       170, this.totalHeight + 165);
     // Open PDF document in new tab
-    doc.output('dataurlnewwindow')
+    doc.output('dataurlnewwindow', { filename: this.passValueData.customerName + '_' + this.passValueData.fnaId + '_' + quotationDate + '.pdf' })
     // Download PDF document  
-    doc.save('table.pdf');
+    doc.save(this.passValueData.customerName + '_' + this.passValueData.fnaId + '_' + quotationDate + '.pdf');
   }
 
   formatDateDDMMYYY(date) {
@@ -814,26 +858,31 @@ export class ProductComponent implements OnInit {
   }
 
 
-  async updatePercentage() {
+  async updatePercentage(type?) {
     let reqBody = {
-      customerId: "string",
-      fnaType: "string",
-      grandDiscount: 4,
-      highDiscount: 8,
-      id: 472,
-      products: [
-        ""
-      ]
+      customerId: this.passValueData.customerId,
+      fnaType: "BRAM",
+      grandDiscount: this.grantPercent,
+      highDiscount: this.highPercent,
+      id: this.passValueData.fnaId,
+      products: this.updateProducts
     }
 
     await this.fnaService.updateFNAProduct(reqBody).toPromise().then(async (res: any) => {
-
+      if (res) {
+        FNABRAMDiscount.GRAND_DISCOUNT = this.grantPercent;
+        FNABRAMDiscount.HIGH_DISCOUNT = this.highPercent;
+        this.passValueData.grandDiscount = this.grantPercent;
+        this.passValueData.highDiscount = this.highPercent;
+        if (type == 'aboutBRAM') {
+          this.alertService.activate('This record was updated', 'Success Message').then(result => {
+            this.inputSwitch = type;
+            this.changeSwitch.emit(type);
+          });
+        }
+      }
     });
   }
-
-
-
-
 }
 
 

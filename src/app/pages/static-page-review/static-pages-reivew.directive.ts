@@ -7,6 +7,7 @@ import { AddonViewComponent } from "./addon-view/addon-view.component";
 import { CoverageViewComponent } from "./coverage-view/coverage-view.component";
 import { EducationLifeViewComponent } from "./education-life-view/education-life-view.component";
 import { FirePageViewComponent } from "./fire-page-view/fire-page-view.component";
+import { FireRiskViewComponent } from "./fire-risk-view/fire-risk-view.component";
 import { HealthQuoViewComponent } from "./health-quo-view/health-quo-view.component";
 import { SimplePageViewComponent } from "./simple-page-view/simple-page-view.component";
 // import { STATIC_VIEW_COMPONENT } from "./static-pages-reivew.data";
@@ -19,6 +20,7 @@ const STATIC_VIEW_COMPONENT = {
   // 'static_1635392848894': EducationLifeGripViewComponent,
   'static_1635747288508': SimplePageViewComponent,
   'static_1642920843499': FirePageViewComponent,
+  'static_1643116155828': FireRiskViewComponent
   // ''
 }
 @Directive({

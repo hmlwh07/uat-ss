@@ -16,6 +16,8 @@ import { FANHealthManageService } from './health-manage.service';
 export class HealthComponent implements OnInit {
   @Input() health: any = null;
   @Input() fnaId: any = null;
+  @Input() customerId: any = null;
+
   @Output() changeAnalysis: EventEmitter<string> = new EventEmitter<string>();
   formGroup: FormGroup;
   childForm: FormGroup;
@@ -321,8 +323,6 @@ export class HealthComponent implements OnInit {
       if (this.formGroup.invalid) {
         await validateAllFields(this.formGroup);
       } else {
-        console.log('selectedIndex', this.selectedIndex);
-
         if (this.selectedIndex == 2) {
           if (this.formGroup.value.selfId) {
             await this.fnaHealthManageService.updateHealth(this.getSelfInsurance()).toPromise().then((res: any) => {
@@ -360,7 +360,10 @@ export class HealthComponent implements OnInit {
           this.products = this.removeDuplicates(this.products);
           this.fnaService.fnaUpdateProducts.concat(this.products);
           let reqBody = {
-            customerId: "string",
+            customerId: this.customerId,
+            fnaType: "LPP",
+            grandDiscount: 0,
+            highDiscount: 0,
             id: this.fnaId,
             products: this.products
           }

@@ -9,6 +9,7 @@
         box-shadow: none;
         border-top: 1px solid rgba(0, 0, 0, 0.12);
         border-left: 1px solid rgba(0, 0, 0, 0.12);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
 
     th,
@@ -16,6 +17,8 @@
         vertical-align: middle;
         border-right: 1px solid rgba(0, 0, 0, 0.12);
         padding-left: 16px !important;
+        text-align: center;
+        overflow: hidden;
         //padding-top: 14px !important;
     }
     th {

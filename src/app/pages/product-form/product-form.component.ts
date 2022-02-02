@@ -65,6 +65,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   detailInput: any = {}
   editData: any
   creatingCustomer: Customer = {}
+  creatingLeadId: number = 0
   constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe) { }
 
   async ngOnInit() {
@@ -80,6 +81,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.viewType = this.prodService.viewType
       this.referenceID = this.prodService.referenceID
       this.referenceStatus = this.prodService.referenceStatus
+      this.creatingLeadId = this.prodService.creatingLeadId
       this.type = this.prodService.type
       this.editData = this.prodService.editData || {}
       this.creatingCustomer = this.prodService.creatingCustomer
@@ -95,6 +97,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.prodService.creatingLeadId = 0
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
     // this.prodService.editData = null
   }
@@ -205,8 +208,18 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             this.pageOrder[index].pageType = pageData.pageType
             this.pageOrder[index].pageIcon = pageData.pageIcon
             this.pageOrder[index].tableName = pageData.tableName
+            if (!this.prodService.editData && !this.referenceID && pageData.unitCode == "policyholder_1641795142279") {
+              this.mapPartyCustomer(pageData)
+            }
+            if (pageData.unitCode == "policyholder_1641795142279") {
+              pageData.controls = pageData.controls.map(cont => {
+                cont.disabled = true
+                return cont
+              })
+            }
             this.formData.push(pageData)
           }
+
         }
 
         if (counter == this.pageOrder.length) {
@@ -376,6 +389,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       premiumView: this.premiumAmt,
       policyNumber: null,
       pageId: page.id,
+      leadId: this.creatingLeadId || null,
+      party: page.party || false,
       data: [
 
       ]
@@ -463,9 +478,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       quotationId: this.referenceID,
       pageId: page.id,
       customerId: this.creatingCustomer.customerId,
+      leadId: this.creatingLeadId || null,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
       policyNumber: null,
+      party: page.party || false,
       pageData: [
         {
           data: []
@@ -694,7 +711,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         let page = this.findPageValue(tempFormData, element.id)
         let view = page.pageType == 'table'
         this.pageDataService.getDetail(page.tableName, oldData.id, page.id, view, page.controls, true).toPromise().then(async (res: any) => {
-          if (res) {
+          console.log(res, page, "res");
+
+          if (res && res.length > 0) {
             let temp = page.pageType == 'form' ? {} : []
             let skipId = isRef
             let trgi = false
@@ -724,7 +743,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
                 temp = tmpObj
               }
             };
-
+            if ((page.unitCode == "policyholder_1641795142279")) {
+              temp["customer_id"] = this.creatingCustomer['customerId']
+            }
             this.tempData[page.tableName + page.id] = temp
             this.globalFun.tempFormData = this.tempData
             if (page.function && page.pageType == 'form') {
@@ -742,6 +763,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             }
 
           } else {
+
             if (page.unitCode == "policyholder_1641795142279")
               this.mapPartyCustomer(page)
           }
@@ -759,12 +781,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   mapPartyCustomer(page: FromGroupData) {
     let temp = {}
     let config = page.controls.find(x => x.name == "customer_id")
+
     if (config) {
       for (let afield of config.autoFields) {
         temp[afield.value] = this.creatingCustomer[afield.field]
       }
       this.tempData[page.tableName + page.id] = temp
+      this.tempData[page.tableName + page.id]['customer_id'] = this.creatingCustomer["customerId"]
       this.globalFun.tempFormData = this.tempData
+      this.cdRef.detectChanges();
+      if (page.type == PageUIType.DYN && this.dynForm) {
+        this.dynForm.reCreateFrom()
+        this.cdRef.detectChanges();
+      }
     }
   }
 
