@@ -11,26 +11,45 @@
 }
 
 table {
-    border-left: 1px solid #000;
-    border-left: 1px solid #000;
     overflow: hidden;
     width: 100%;
+    border-collapse: unset;
     tr {
-        border-bottom: 1px solid #000;
+        width: 100%;
+        overflow: hidden;
         th,
         td {
             text-align: center;
-            border-right: 1px solid #000;
+            position: relative;
+            border-collapse: unset;
             span {
                 width: 50%;
                 display: block;
                 float: left;
                 text-align: center;
-                padding: 10px 0;
             }
-            span:first-child {
-                border-right: 1px solid #000;
-            }
+           
         }
     }
+}
+
+.search-display {
+    width: 30%;
+    float: left;
+    margin: 0 0 5px 0;
+    padding-left: 24px;
+    span {
+        width: 100%;
+        display: block;
+    }
+}
+
+.right-border-transform {
+    width: 1px;
+    height: 100%;
+    background-color: #000;
+    transform: rotate(0deg);
+    position: absolute;
+    top: 0;
+    left: 49%;
 }

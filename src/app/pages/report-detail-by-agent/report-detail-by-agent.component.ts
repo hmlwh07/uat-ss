@@ -25,6 +25,14 @@ export class ReportDetailByAgentComponent implements OnInit {
   reports = [];
   products = [];
   policies = [];
+  productList = [];
+
+  agentName: string = null;
+  companyName: string = null;
+  channelName: string = null;
+  regionName: string = null;
+  clusterName: string = null;
+  branchName: string = null;
 
   constructor(private cdf: ChangeDetectorRef) { }
 
@@ -35,56 +43,50 @@ export class ReportDetailByAgentComponent implements OnInit {
     this.reports = CONSTANT_AGENT_REPORT_DATA
     for (var i = 0; i < this.reports.length; i++) {
       this.reports[i].productPolicies = [];
+      this.reports[i].id = i
       for (var j = 0; j < this.reports[i].products.length; j++) {
+        this.reports[i].products[j].id = i
+        this.reports[i].products[j].noOfPolicies = null;
+        this.reports[i].products[j].premium = null;
         this.products.push(this.reports[i].products[j]);
       }
 
       for (var k = 0; k < this.reports[i].policies.length; k++) {
+        this.reports[i].policies[k].id = i
         this.policies.push(this.reports[i].policies[k]);
       }
-
     }
 
-    console.log('before duplicate remove products', this.products);
-    console.log('before duplicate remove policies', this.policies);
+    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
+    console.log('productList ', this.productList);
 
-    let list = [];
-
-
-
-
-
-    const uniqueObjects = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('uniqueObjects', uniqueObjects);
-    this.products = uniqueObjects;
-    //this.products = CONSTANT_AGENT_REPORT_DATA[0].products;
-    //this.policies = CONSTANT_AGENT_REPORT_DATA[0].policies;
-    console.log('products', this.products);
-
-    for (var j = 0; j < this.reports.length; j++) {
-      this.reports[j].productPolicies = uniqueObjects
+    for (var i = 0; i < this.reports.length; i++) {
+      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
     }
 
     for (var i = 0; i < this.reports.length; i++) {
       for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
         for (var k = 0; k < this.reports[i].policies.length; k++) {
-
+          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
+            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
+            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+          }
         }
       }
-      this.reports[j].productPolicies = uniqueObjects
     }
 
-    console.log('reports ', this.reports);
-
+    console.log('report ', this.reports);
   }
 
-  async changeOptions(ev: null, type) {
+  async changeOptions(ev, type) {
     console.log('ev =====> ', ev);
     console.log('type =====> ', type);
     if (type == 'agent') {
       if (ev) {
+        this.agentName = ev.agentName
         this.selectOptions.companies.push({ id: 1, companyName: 'companyName 1', agentId: 1 });
       } else {
+        this.companyName = null;
         this.selectOptions.companies = [];
         this.selectOptions.channels = [];
         this.selectOptions.regions = [];
@@ -105,8 +107,10 @@ export class ReportDetailByAgentComponent implements OnInit {
 
     if (type == 'company') {
       if (ev) {
+        this.companyName = ev.companyName
         this.selectOptions.channels.push({ id: 1, channelName: 'channelName 1', companiesId: 1 });
       } else {
+        this.companyName = null;
         this.selectOptions.channels = [];
         this.selectOptions.regions = [];
         this.selectOptions.cluster = [];
@@ -124,8 +128,10 @@ export class ReportDetailByAgentComponent implements OnInit {
 
     if (type == 'channel') {
       if (ev) {
+        this.channelName = ev.channelName
         this.selectOptions.regions.push({ id: 1, regionsName: 'regions 1', channelId: 1 });
       } else {
+        this.channelName = null;
         this.selectOptions.regions = [];
         this.selectOptions.cluster = [];
         this.selectOptions.branches = [];
@@ -140,8 +146,10 @@ export class ReportDetailByAgentComponent implements OnInit {
 
     if (type == 'region') {
       if (ev) {
+        this.regionName = ev.regionsName
         this.selectOptions.cluster.push({ id: 1, clusterName: 'clusterName 1', regionId: 1 });
       } else {
+        this.regionName = null
         this.selectOptions.cluster = [];
         this.selectOptions.branches = [];
         this.createFormGroup.controls['clusterId'].setValue(null);
@@ -153,13 +161,24 @@ export class ReportDetailByAgentComponent implements OnInit {
 
     if (type == 'cluster') {
       if (ev) {
+        this.clusterName = ev.clusterName
         this.selectOptions.branches.push({ id: 1, brancheName: 'brancheName 1', clusterId: 1 });
       } else {
+        this.clusterName = null
         this.selectOptions.branches = [];
         this.createFormGroup.controls['branchId'].setValue(null);
       }
       this.selectOptions.branches = [...this.selectOptions.branches];
     }
+    if (type == 'branch') {
+      if (ev) {
+        this.branchName = ev.brancheName
+      } else {
+        this.branchName = null;
+      }
+
+    }
+
 
     this.cdf.detectChanges()
 
@@ -220,6 +239,22 @@ export class ReportDetailByAgentComponent implements OnInit {
     }
   }
 
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
+  }
+
+  mathRoundTo(num: number, places: number) {
+    const factor = 10 ** places;
+    return (Math.round(num * factor) / factor).toLocaleString();
+  };
 
 
 }
