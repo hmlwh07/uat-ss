@@ -121,7 +121,7 @@ export class PageConfigComponent implements OnInit, OnDestroy {
     }
   }
 
-  clickBtn(index: number) {
+  clickBtn(index: any) {
     this.openModal(index)
   }
 

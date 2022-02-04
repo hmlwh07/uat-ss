@@ -27,4 +27,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
   }
+
+  goToLPDashboard(){
+    this.router.navigate(['/dashboard/lp-dashboard']);
+  }
 }

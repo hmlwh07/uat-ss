@@ -5,7 +5,7 @@ export const DynamicAsideMenuConfig = {
       root: true,
       icon: 'flaticon-pie-chart-1',
       svg: './assets/media/svg/icons/Design/Layers.svg',
-      page: '/dashboard',
+      page: '/dashboard/senior-lp-dashboard',
       bullet: 'dot',
       show: true,
 
@@ -302,7 +302,6 @@ export const DynamicAsideMenuConfig = {
       bullet: 'dot',
       show: true
     },
-
 
     // {
     //   title: 'Page Group',

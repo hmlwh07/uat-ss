@@ -1,28 +1,28 @@
 <!-- <div class="topbar-item"> -->
 <!-- <div class="btn btn-icon btn-clean btn-lg mr-1" id="kt_quick_panel_toggle">
-    <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-4-blocks.svg'" cacheSVG="true"
+    <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-4-blocks.svg'" [cacheSVG]="true"
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
   </div> -->
 <!-- </div> -->
-<div class="topbar-item">
+<!-- <div class="topbar-item">
   <div class="btn btn-icon btn-clean btn-lg mr-1 pulse pulse-primary">
-    <span [inlineSVG]="'./assets/media/svg/icons/Code/Compiling.svg'" cacheSVG="true"
+    <span [inlineSVG]="'./assets/media/svg/icons/Code/Compiling.svg'" [cacheSVG]="true"
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
     <span class="pulse-ring"></span>
   </div>
 </div>
 <div class="topbar-item">
   <div class="btn btn-icon btn-clean btn-lg mr-1">
-    <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" cacheSVG="true"
+    <span [inlineSVG]="'./assets/media/svg/icons/Media/Equalizer.svg'" [cacheSVG]="true"
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
   </div>
 </div>
 <div class="topbar-item">
   <div class="btn btn-icon btn-clean btn-lg mr-1" id="kt_quick_cart_toggle">
-    <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart3.svg'" cacheSVG="true"
+    <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Cart3.svg'" [cacheSVG]="true"
       class="svg-icon svg-icon-xl svg-icon-primary"></span>
   </div>
-</div>
+</div> -->
 <ng-container *ngIf="user$ | async as _user">
   <div ngbDropdown class="dropdown" placement="bottom-right">
     <div class="topbar-item" ngbDropdownToggle data-offset="0px,0px">

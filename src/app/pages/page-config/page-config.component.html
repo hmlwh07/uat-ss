@@ -12,7 +12,7 @@
               item.pageName :
               "Testing"}} Page Groups
             <small>(Total Page - {{configPage.totalPage}})</small>
-            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" [cacheSVG]="true"
               class="svg-icon svg-icon-md svg-icon-secondary" (click)="edit()">
             </span>
           </h3>
@@ -51,23 +51,23 @@
           <button class="btn btn-sm btn-secondary mx-1" (click)="editPage()">Edit Page</button>
 
           <button class="btn btn-sm btn-icon btn-secondary " (click)="getNewPage()">
-            <span [inlineSVG]="'./assets/media/svg/icons/Files/File-plus.svg'" cacheSVG="true"
+            <span [inlineSVG]="'./assets/media/svg/icons/Files/File-plus.svg'" [cacheSVG]="true"
               class="svg-icon svg-icon-md svg-icon-light"></span>
           </button>
 
           <button class="btn btn-sm btn-icon btn-danger mx-1" *ngIf="activePage > 1" (click)="removePage()">
-            <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+            <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
               class="svg-icon svg-icon-md svg-icon-light"></span>
           </button>
 
           <button class="btn btn-sm btn-icon btn-warning" *ngIf="activePage > 1" (click)="backPage()">
-            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Angle-double-left.svg'" cacheSVG="true"
+            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Angle-double-left.svg'" [cacheSVG]="true"
               class="svg-icon svg-icon-md svg-icon-light"></span>
           </button>
 
           <button class="btn btn-sm btn-icon btn-danger mx-1" *ngIf="activePage < configPage.totalPage"
             (click)="nextPage()">
-            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Angle-double-right.svg'" cacheSVG="true"
+            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Angle-double-right.svg'" [cacheSVG]="true"
               class="svg-icon svg-icon-md svg-icon-light"></span>
           </button>
 

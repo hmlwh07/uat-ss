@@ -52,10 +52,6 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   @ViewChild('chart') chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal) { 
-  }
-
-  
-  async ngOnInit() {
     this.chartOptions = {
       series: [{
       name: 'Net Profit',
@@ -107,6 +103,15 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     };
   }
 
+  
+  async ngOnInit() {
+    
+  }
+
   ngOnDestroy() {
+  }
+
+  goToLPManager(){
+    this.router.navigate(['/dashboard/lp-manager-dashboard']);
   }
 }

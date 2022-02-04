@@ -5,6 +5,7 @@ import { ActivityManagementListComponent } from './activity-management-list.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -16,6 +17,7 @@ import { CRUDTableModule } from '../../_metronic/shared/crud-table';
     ReactiveFormsModule,
     InlineSVGModule,
     CRUDTableModule,
+    NgSelectModule,
     RouterModule.forChild([
       {
         path: '',

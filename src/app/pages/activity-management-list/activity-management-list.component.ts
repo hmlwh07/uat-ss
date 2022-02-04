@@ -23,6 +23,42 @@ export class ActivityManagementListComponent implements OnInit {
     "Online",
     "Phone Call"
   ]
+  activityTypeOption = [
+    {
+      code: "",
+      value: "All"
+    },
+    {
+      code: "Face to Face",
+      value: "Face to Face"
+    },
+    {
+      code: "Online",
+      value: "Online"
+    },
+    {
+      code: "Phone Call",
+      value: "Phone Call"
+    }
+  ]
+  statusOption = [
+    {
+      code: "",
+      value: "All"
+    },
+    {
+      code: "Open",
+      value: "Open"
+    },
+    {
+      code: "Complete",
+      value: "Complete"
+    },
+    {
+      code: "Cancel",
+      value: "Cancel"
+    }
+  ]
   constructor(private fb: FormBuilder, private router: Router, private activityService: ActivityManageService, private cdf: ChangeDetectorRef) {
     this.loadForm();
   }

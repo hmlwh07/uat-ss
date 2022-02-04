@@ -13,7 +13,8 @@
 }
 
 .user-image{
-  width: 80px;
+  width: 100px;
+  margin-bottom: 15px;
 }
 
 .user-icon{
@@ -100,5 +101,25 @@
 
 .container{
   width: 100%;
-  height : 33%;
+  min-height: 200px;
+}
+
+.my-card{
+  max-height : calc(100vh - 215px);
+  min-height: 530px;
+  overflow-y: auto;
+}
+
+.card-50{
+  height: 230px;
+}
+
+.my-profile-card {
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  background-color: #FFF;
+  width: calc(100% - 16px);
+  height: 55px;
+  padding: 10px;
+  margin: 8px;
+  cursor:pointer;
 }

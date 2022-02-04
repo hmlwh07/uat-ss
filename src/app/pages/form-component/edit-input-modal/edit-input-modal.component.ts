@@ -389,7 +389,7 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
     this.activePage = active
   }
 
-  changeDataType(event) {
+  changeDataType(event:any) {
     if (this.formGroup.value.master == 'true') {
       this.formGroup.controls.valueField.setValidators([Validators.required, Validators.nullValidator]);
       this.formGroup.controls.showField.setValidators([Validators.required, Validators.nullValidator]);

@@ -13,7 +13,8 @@
 }
 
 .user-image{
-  width: 80px;
+  width: 100px;
+  margin-bottom: 15px;
 }
 
 .user-icon{
@@ -81,10 +82,40 @@
   padding :15px;
 }
 
+.my-p-5{
+  padding :5px;
+}
+
 .lp-dashboard-box-header{
   padding : 5px;
 }
 
 .lp-dashboard-box-body{
   padding-left : 30px;
+}
+
+.f-14{
+  font-size: 14px;
+}
+.f-11{
+  font-size: 11px;
+}
+
+.my-pl-10{
+  padding-left: 10px;
+}
+
+.campaign-box{
+  height: 145px;
+  overflow-y: auto;
+}
+
+.my-card{
+  max-height : calc(100vh - 215px);
+  min-height: 530px;
+  overflow-y: auto;
+}
+
+.card-50{
+  height: 230px;
 }

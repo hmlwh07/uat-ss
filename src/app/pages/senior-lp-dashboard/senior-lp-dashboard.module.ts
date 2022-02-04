@@ -6,6 +6,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponentModule } from '../form-component/form-component.module';
 import { RouterModule } from '@angular/router';
 import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew.module';
+import { ColumnChartModule } from './../_column-chart/column-chart.component.module';
 
 @NgModule({
   declarations: [SeniorLpDashboardComponent],
@@ -16,6 +17,8 @@ import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew
     NgbModalModule,
     FormComponentModule,
     StaticPagesViewModule,
+    ColumnChartModule,
+
     RouterModule.forChild([
       {
         path: '',

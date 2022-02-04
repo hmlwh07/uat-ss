@@ -255,7 +255,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  clickBtn(event) {
+  clickBtn(event:any) {
     this[event]();
   }
 
