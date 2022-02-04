@@ -166,7 +166,7 @@
             <div class="col-md-12">
               <label>Select Table</label>
               <select class="form-control form-control-sm" name="type" [class.is-invalid]="isControlInvalid('type')"
-                formControlName="type" (change)="changeDateType($event.target.value)">
+                formControlName="type" (change)="changeDateType($event)">
                 <option value="date">Normal Date</option>
                 <option value="policy">Policy Date</option>
               </select>
@@ -615,7 +615,7 @@
                 <td *ngIf="input == 'dialog'">{{ opt.field }}</td>
                 <td>
                   <a title="Delete Product" class="btn btn-icon btn-light btn-hover-danger btn-sm" (click)="delete(i)">
-                    <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                    <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
                       class="svg-icon svg-icon-md svg-icon-danger">
                     </span>
                   </a>

@@ -314,12 +314,12 @@
                       (click)="createOrEditLead(i,lead)">
                       <span [inlineSVG]="
                         './assets/media/svg/icons/Communication/Write.svg'
-                      " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                      " [cacheSVG]="true" class="svg-icon svg-icon-md svg-icon-primary">
                       </span>
                     </a>
                     <a title="Delete Lead Sources" class="btn btn-icon btn-light btn-hover-danger btn-sm"
                       (click)="deleteLead(lead.id,i)">
-                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
                         class="svg-icon svg-icon-md svg-icon-danger">
                       </span>
                     </a>
@@ -386,12 +386,12 @@
                         (click)="createOrEdit('coverage',cover,cover.id)">
                         <span [inlineSVG]="
                           './assets/media/svg/icons/Communication/Write.svg'
-                        " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                        " [cacheSVG]="true" class="svg-icon svg-icon-md svg-icon-primary">
                         </span>
                       </a>
                       <a title="Delete coverages" class="btn btn-icon btn-light btn-hover-danger btn-sm"
                         (click)="delete('coverage',cover.id,i)">
-                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
                           class="svg-icon svg-icon-md svg-icon-danger">
                         </span>
                       </a>
@@ -451,12 +451,12 @@
                         (click)="createOrEdit('addOn',addOn,addOn.id)">
                         <span [inlineSVG]="
                           './assets/media/svg/icons/Communication/Write.svg'
-                        " cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                        " [cacheSVG]="true" class="svg-icon svg-icon-md svg-icon-primary">
                         </span>
                       </a>
                       <a title="Delete addOns" class="btn btn-icon btn-light btn-hover-danger btn-sm"
                         (click)="delete('addOn',addOn.id,i)">
-                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
                           class="svg-icon svg-icon-md svg-icon-danger">
                         </span>
                       </a>
@@ -498,7 +498,7 @@
                   <!-- <td>
                     <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
                       (click)="deleteUi(item.id,i,'quotation')">
-                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
                         class="svg-icon svg-icon-md svg-icon-danger">
                       </span>
                     </a>
@@ -539,7 +539,7 @@
                   <!-- <td>
                     <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
                       (click)="deleteUi(item.id,i,'application')">
-                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                      <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
                         class="svg-icon svg-icon-md svg-icon-danger">
                       </span>
                     </a>
@@ -605,7 +605,7 @@
                   <td>
                     <a title="Edit Form Page" *ngIf="item.type != 'static'"
                       class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" (click)="configPrint(item)">
-                      <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                      <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" [cacheSVG]="true"
                         class="svg-icon svg-icon-md svg-icon-primary">
                       </span>
                     </a>

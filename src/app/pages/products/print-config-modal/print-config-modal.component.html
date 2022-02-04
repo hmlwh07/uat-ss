@@ -25,7 +25,7 @@
           <ng-container *ngFor="let table of printedFormatTable;let tableIndex= index">
             <div class="table-block">
               <div class="title-style left-border-image mt-5">{{table.title}}
-                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" [cacheSVG]="true"
                   class="svg-icon svg-icon-md svg-icon-secondary" (click)="editTitle(tableIndex)">
                 </span>
               </div>

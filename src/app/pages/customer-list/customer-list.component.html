@@ -45,7 +45,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Status</label>
                                 <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select"
+                                    <ng-select class="ng-custom-select ng-custom-select-sm"
                                         [class.is-invalid]="isControlInvalid('statusCode')"
                                         [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
                                         bindLabel="value" bindValue="code" formControlName="statusCode">
@@ -59,7 +59,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">ID Type</label>
                                 <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select"
+                                    <ng-select class="ng-custom-select ng-custom-select-sm"
                                         [class.is-invalid]="isControlInvalid('identityType')"
                                         [class.is-valid]="isControlValid('identityType')" [items]="identityTypeOption"
                                         bindLabel="value" bindValue="code" formControlName="identityType">

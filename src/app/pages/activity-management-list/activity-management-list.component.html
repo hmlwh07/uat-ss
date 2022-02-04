@@ -16,17 +16,21 @@
       </div>
       <div class="card-body px-10 py-3">
         <form action="#" class="form" [formGroup]="actForm">
-          <div class="row" >
+          <div class="row">
             <div class="col-md-4">
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label ">Activity Type</label>
                 <div class="col-sm-8">
-                  <select class="form-control form-control-sm " name="type" autocomplete="off"
+                  <!-- <select class="form-control form-control-sm " name="type" autocomplete="off"
                     [class.is-invalid]="isControlInvalid('type')" [class.is-valid]="isControlValid('type')"
                     formControlName="type">
                     <option value="">All</option>
                     <option value="{{item}}" *ngFor="let item of activityType">{{item}}</option>
-                  </select>
+                  </select> -->
+                  <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('type')"
+                    [class.is-valid]="isControlValid('type')" [items]="activityTypeOption" bindLabel="value"
+                    bindValue="code" formControlName="type">
+                  </ng-select>
                 </div>
               </div>
             </div>
@@ -45,17 +49,19 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Status</label>
                 <div class="col-sm-8">
-                  <select class="form-control form-control-sm" name="status" autocomplete="off"
+
+                  <ng-select class="ng-custom-select ng-custom-select-sm"
+                    [class.is-invalid]="isControlInvalid('status')" [class.is-valid]="isControlValid('status')"
+                    [items]="statusOption" bindLabel="value" bindValue="code" formControlName="status">
+                  </ng-select>
+                  <!-- <select class="form-control form-control-sm" name="status" autocomplete="off"
                     [class.is-invalid]="isControlInvalid('status')" [class.is-valid]="isControlValid('status')"
                     formControlName="status">
                     <option value="">All</option>
                     <option value="Open">Open</option>
                     <option value="Complete">Complete</option>
                     <option value="Cancel">Cancel</option>
-                  </select>
-                  <!-- <input type="text" class="form-control form-control-sm" name="status" autocomplete="off"
-                    [class.is-invalid]="isControlInvalid('status')"
-                    [class.is-valid]="isControlValid('status')" formControlName="status" /> -->
+                  </select> -->
                 </div>
               </div>
             </div>
@@ -139,7 +145,7 @@
                 <td>
                   <a title="Edit" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
                     (click)="navigateToDetail('edit',item.activityNo)">
-                    <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                    <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" [cacheSVG]="true"
                       class="svg-icon svg-icon-md svg-icon-primary">
                     </span>
                   </a>

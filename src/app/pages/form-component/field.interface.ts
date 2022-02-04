@@ -51,6 +51,9 @@ export interface ConfigInput {
   policyterm?: boolean
   tableTitle?: string
   party?: boolean
+  cols?: any
+  static?:any
+  title?: any
 }
 
 export interface InputDependency {

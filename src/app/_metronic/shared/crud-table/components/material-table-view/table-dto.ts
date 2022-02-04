@@ -18,7 +18,8 @@ export interface TableCol {
   isUpper?: boolean
   btn?: ViewButton,
   isStatus?: boolean
-  isImg?: boolean
+  isImg?: boolean,
+  prefix?: string 
 }
 
 export enum COLTYPE {
