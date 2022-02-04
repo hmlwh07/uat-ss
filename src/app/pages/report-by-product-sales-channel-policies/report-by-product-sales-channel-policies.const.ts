@@ -20,6 +20,6 @@ export const ReportAgentDailyIdentityType: any[] = [
     value: "Passport"
   }, {
     code: "OTHER",
-    value: "Others"
+    value: "Other"
   }
 ]

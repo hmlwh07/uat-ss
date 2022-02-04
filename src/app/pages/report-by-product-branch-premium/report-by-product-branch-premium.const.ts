@@ -20,6 +20,6 @@ export const ReportIdentityType: any[] = [
     value: "Passport"
   }, {
     code: "OTHER",
-    value: "Others"
+    value: "Other"
   }
 ]

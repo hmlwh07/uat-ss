@@ -93,6 +93,6 @@ export const IdentityType: any[] = [
     value : "Passport"
   },{
     code : "OTHER",
-    value : "Others"
+    value : "Other"
   }
 ]
