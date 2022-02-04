@@ -774,8 +774,8 @@ export class LeadDetailComponent implements OnInit {
             console.log('onDidDismiss =====> ', customer);
             this.leadForm.controls.existingCustomerName.setValue("")
             this.leadForm.controls.existingCustomerId.setValue("")
-            let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
-            this.leadForm.controls.prospectCustomer.setValue(name)
+            // let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+            this.leadForm.controls.prospectCustomer.setValue(customer.name)
             this.leadForm.controls.prospectCustomerId.setValue(customer.customerId)
             this.isProspectCustomer = true
           }

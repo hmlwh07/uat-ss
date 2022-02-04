@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxOtpInputConfig } from 'ngx-otp-input';
+import { OTPService, resetPasswordService, VerifyOTPService, verifyPasswordService } from '../reset-password.service';
 
 @Component({
   selector: 'app-otp-modal',
@@ -7,6 +9,7 @@ import { NgxOtpInputConfig } from 'ngx-otp-input';
   styleUrls: ['./otp-modal.component.scss']
 })
 export class OtpModalComponent implements OnInit {
+  @Input() data: any
   otpInputConfig: NgxOtpInputConfig = {
     otpLength: 6,
     autofocus: true,
@@ -19,12 +22,15 @@ export class OtpModalComponent implements OnInit {
       inputError: 'my-super-error-class',
     },
   };
-  optCode:any;
-  requestStatus:boolean=false
-  counter:number=60
+  optCode: any;
+  verifyToken: string = ""
+  verifyOTPToken: string = ""
+  requestStatus: boolean = false
+  counter: number = 60
   otpInput: boolean = false;
+  isSubmitted:boolean=false
   private interval: any;
-  constructor() { }
+  constructor(private OTPService: OTPService, private modal: NgbActiveModal, private resetPasswordService: resetPasswordService,private VerifyOTPService:VerifyOTPService,private verifyPasswordService:verifyPasswordService) { }
 
   ngOnInit(): void {
     this.doRequest()
@@ -46,11 +52,53 @@ export class OtpModalComponent implements OnInit {
     }
 
   }
-  requestOtp(){
-
+  requestOtp() {
+    this.OTPService.findAll().toPromise()
+      .then((res: any) => {
+        if (res.status) {
+          console.log("requestOtp", res)
+          this.verifyToken = res.token
+        }
+      }
+      )
+  }
+  verifyOTP() {
+    this.isSubmitted=true
+    let otp = this.optCode.join("")
+    let token = this.verifyToken
+    let postData={otp,token}
+    this.VerifyOTPService.save(postData).toPromise()
+      .then((res: any) => {
+        console.log("verifyOTP", res)
+        if (res.status) {
+          this.isSubmitted=false
+          this.verifyOTPToken = res.token
+          console.log("verifyOTP", res)
+          this.resetPassword()
+        }
+      }
+      )
+  }
+  resetPassword() {
+    let postData={
+      passwordRequest:this.data,
+      token:this.verifyOTPToken
+    }
+    this.resetPasswordService.save(postData).toPromise()
+      .then((res: any) => {
+        console.log("resetPassword", res)
+        if (res.status) {
+          this.modal.dismiss(res.status)
+        }
+      }
+      )
+  }
+  cancel(){
+    this.modal.dismiss()
   }
   handeOtpChange(event) {
     this.optCode = event
+     console.log("optCode",  this.optCode)
   }
   handleFillEvent(event) {
 
