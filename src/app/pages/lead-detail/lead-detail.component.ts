@@ -1040,9 +1040,14 @@ export class LeadDetailComponent implements OnInit {
       if (event.cmd == 'edit') {
         this.editApp(event.data);
       }
-    } else if (event.cmd == 'download') {
+    } else if (type == 'ATT') {
+     if (event.cmd == 'download') {
       this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
     }
+    if (event.cmd == 'delete') {
+      this.LeadAttachmentService.delete(event.data.id)
+    }
+  }
   }
   editQuo(item) {
     forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
