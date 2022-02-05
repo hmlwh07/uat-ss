@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
+import { ReportAgentYearlyExportService } from './report-by-agent-yearly-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-agent-yearly.const';
 
 @Component({
@@ -34,7 +35,12 @@ export class ReportByAgentYearlyComponent implements OnInit {
   clusterName: string = null;
   branchName: string = null;
 
-  constructor(private cdf: ChangeDetectorRef) { }  
+  productValues = [];
+  subHeader = [];
+  dataExcel = [];
+
+  constructor(private cdf: ChangeDetectorRef,
+    public exportService: ReportAgentYearlyExportService) { }
 
 
   ngOnInit(): void {
@@ -76,8 +82,76 @@ export class ReportByAgentYearlyComponent implements OnInit {
     }
 
     console.log('report ', this.reports);
-  
-  }     
+
+  }
+
+  generateReportExcel() {
+    console.log('generateReportExcel ', this.reports);
+    this.productValues = []
+    for (var i = 0; i < this.productList.length; i++) {
+      this.productValues.push(this.productList[i].productName)
+    }
+
+    // Sub Header
+    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
+    for (var i = 0; i < this.productList.length; i++) {
+      this.subHeader.push("No of Policies");
+      this.subHeader.push("Premium");
+    }
+
+    // Data
+    for (var i = 0; i < this.reports.length; i++) {
+      let list = [];
+      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
+      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
+        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
+      }
+      this.dataExcel.push(list)
+    }
+
+    let fromDate = null;
+    let toDate = null;
+    if (this.createFormGroup.value.fromDate) {
+      fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
+    }
+    if (this.createFormGroup.value.fromDate) {
+      toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
+    }
+
+    let reportData = {
+      title: 'Employee Sales Report - Jan 2020',
+      searchValue: [
+        { fromDate: fromDate },
+        { toDate: toDate },
+        { agentName: this.agentName },
+        { companyName: this.companyName },
+        { channelName: this.channelName },
+        { regionName: this.regionName },
+        { clusterName: this.clusterName },
+        { branchName: this.branchName }
+      ],
+      products: this.productValues,
+      subHeader: this.subHeader,
+      data: this.dataExcel
+    }
+    this.exportService.exportExcel(reportData);
+  }
+
+  cancelReport() {
+    this.createFormGroup.reset();
+    this.selectOptions.companies = [];
+    this.selectOptions.channels = [];
+    this.selectOptions.regions = [];
+    this.selectOptions.cluster = [];
+    this.selectOptions.branches = [];
+    this.agentName = null;
+    this.companyName = null;
+    this.channelName = null;
+    this.regionName = null;
+    this.clusterName = null;
+    this.branchName = null;
+  }
+
 
   async changeOptions(ev, type) {
     console.log('ev =====> ', ev);
@@ -204,7 +278,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.valid && (control.dirty || control.touched);
   }
- 
+
   isControlInvalid(controlName: string): boolean {
     const control = this.createFormGroup.controls[controlName];
     return control.invalid && (control.dirty || control.touched);

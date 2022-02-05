@@ -27,9 +27,9 @@ export const ReportIdentityType: any[] = [
 export const CONSTANT_AGENT_REPORT_DATA: any[] = [
   {
     branchName: 'HO (Yangon)1111111',
-    channelName: 'IA',
-    agentName: 'U AA',
-    agentNo: 'IA(O)-008',
+    channelName: 'IA1212',
+    agentName: 'U AA1212',
+    agentNo: 'IA(O)-0081212',
     products: [
       { productName: 'Fire', productCode: 'CHOO1' },
       { productName: 'Motor', productCode: 'CHOO2' },
@@ -45,9 +45,9 @@ export const CONSTANT_AGENT_REPORT_DATA: any[] = [
   },
   {
     branchName: 'HO (Yangon)',
-    channelName: 'IA',
-    agentName: 'U AA',
-    agentNo: 'IA(O)-008',
+    channelName: 'IAaaa',
+    agentName: 'U AAaaa',
+    agentNo: 'IA(O)-008aaa',
     products: [
       { productName: 'Cash', productCode: 'CHOO4' },
       { productName: 'Motor', productCode: 'CHOO2' },
@@ -62,10 +62,10 @@ export const CONSTANT_AGENT_REPORT_DATA: any[] = [
     ]
   },
   {
-    branchName: 'HO (Yangon)1233',
-    channelName: 'IA',
-    agentName: 'U AA',
-    agentNo: 'IA(O)-008',
+    branchName: 'HO (Yangon)1233', 
+    channelName: 'IAeee',
+    agentName: 'U AAeee',
+    agentNo: 'IA(O)-008eee',
     products: [
       { productName: 'Cash in transit', productCode: 'CHOO6' },
       { productName: 'Motor', productCode: 'CHOO2' },
@@ -81,9 +81,9 @@ export const CONSTANT_AGENT_REPORT_DATA: any[] = [
   },
   {
     branchName: 'HO (Yangon)1233',
-    channelName: 'IA',
-    agentName: 'U AA',
-    agentNo: 'IA(O)-008',
+    channelName: 'IAttt',
+    agentName: 'U AAtt',
+    agentNo: 'IA(O)-008ttt',
     products: [
       { productName: 'Cash in transit123', productCode: 'CHOO7' },
       { productName: 'Cash in transit', productCode: 'CHOO6' },

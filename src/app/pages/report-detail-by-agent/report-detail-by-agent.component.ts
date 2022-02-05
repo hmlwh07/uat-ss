@@ -1,7 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { CONSTANT_AGENT_REPORT_DATA, ReportIdentityType, ReportStatus } from './report-detail-by-agent.const';
+import * as XLSX from 'xlsx';
+import { ReportDetailAgentExportService } from './report-detail-by-agent-export.service';
 
 @Component({
   selector: 'app-report-detail-by-agent',
@@ -9,6 +11,8 @@ import { CONSTANT_AGENT_REPORT_DATA, ReportIdentityType, ReportStatus } from './
   styleUrls: ['./report-detail-by-agent.component.scss']
 })
 export class ReportDetailByAgentComponent implements OnInit {
+  @ViewChild('TABLE', { static: false }) TABLE: ElementRef;
+  title = 'Excel';
   createFormGroup: FormGroup;
   fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
@@ -34,7 +38,16 @@ export class ReportDetailByAgentComponent implements OnInit {
   clusterName: string = null;
   branchName: string = null;
 
-  constructor(private cdf: ChangeDetectorRef) { }
+
+  productValues = [];
+  subHeader = [];
+  dataExcel = [];
+
+  constructor(private cdf: ChangeDetectorRef,
+    public exportService: ReportDetailAgentExportService) { }
+
+
+
 
 
   ngOnInit(): void {
@@ -43,6 +56,7 @@ export class ReportDetailByAgentComponent implements OnInit {
     this.reports = CONSTANT_AGENT_REPORT_DATA
     for (var i = 0; i < this.reports.length; i++) {
       this.reports[i].productPolicies = [];
+      this.reports[i].exportExcel = [];
       this.reports[i].id = i
       for (var j = 0; j < this.reports[i].products.length; j++) {
         this.reports[i].products[j].id = i
@@ -76,6 +90,73 @@ export class ReportDetailByAgentComponent implements OnInit {
     }
 
     console.log('report ', this.reports);
+  }
+
+  generateReportExcel() {
+    console.log('generateReportExcel ', this.reports);
+    this.productValues = []
+    for (var i = 0; i < this.productList.length; i++) {
+      this.productValues.push(this.productList[i].productName)
+    }
+
+    // Sub Header
+    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
+    for (var i = 0; i < this.productList.length; i++) {
+      this.subHeader.push("No of Policies");
+      this.subHeader.push("Premium");
+    }
+
+    // Data
+    for (var i = 0; i < this.reports.length; i++) {
+      let list = [];
+      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
+      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
+        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
+      }
+      this.dataExcel.push(list)
+    }
+
+    let fromDate = null;
+    let toDate = null;
+    if (this.createFormGroup.value.fromDate) {
+      fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
+    }
+    if (this.createFormGroup.value.fromDate) {
+      toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
+    }
+
+    let reportData = {
+      title: 'Employee Sales Report - Jan 2020',
+      searchValue: [
+        { fromDate: fromDate },
+        { toDate: toDate },
+        { agentName: this.agentName },
+        { companyName: this.companyName },
+        { channelName: this.channelName },
+        { regionName: this.regionName },
+        { clusterName: this.clusterName },
+        { branchName: this.branchName }
+      ],
+      products: this.productValues,
+      subHeader: this.subHeader,
+      data: this.dataExcel
+    }
+    this.exportService.exportExcel(reportData);
+  }
+
+  cancelReport() {
+    this.createFormGroup.reset();
+    this.selectOptions.companies = [];
+    this.selectOptions.channels = [];
+    this.selectOptions.regions = [];
+    this.selectOptions.cluster = [];
+    this.selectOptions.branches = [];
+    this.agentName = null;
+    this.companyName = null;
+    this.channelName = null;
+    this.regionName = null;
+    this.clusterName = null;
+    this.branchName = null;
   }
 
   async changeOptions(ev, type) {
@@ -255,6 +336,10 @@ export class ReportDetailByAgentComponent implements OnInit {
     const factor = 10 ** places;
     return (Math.round(num * factor) / factor).toLocaleString();
   };
+
+  generateExcelFile() {
+
+  }
 
 
 }
