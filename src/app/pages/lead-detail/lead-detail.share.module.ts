@@ -12,6 +12,7 @@ import { LeadDetailComponent } from './lead-detail.component';
 import { CampaignListComponent } from './campaign-list/campaign-list.component';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { ProductShareModule } from '../products/products-share.module';
+import { CustomerDetailShareModule } from '../customer-detail/customer-detail.share.module';
 
 
 
@@ -29,6 +30,7 @@ import { ProductShareModule } from '../products/products-share.module';
     MatDatepickerModule,
     CustomerListShareModule,
     ProductShareModule,
+    CustomerDetailShareModule,
     MatRadioModule,
     MatInputModule,
   ]

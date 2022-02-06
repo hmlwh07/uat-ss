@@ -382,7 +382,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       console.log("RESSS", res)
       if (res) {
         if (this.isPopup) {
-          this.modalService.dismissAll({ data: { name: data.firstName, customerId: res }, type: "save" })
+          let  name=data.firstName + ' ' + data.middleName + ' ' + data.lastName
+          this.modalService.dismissAll({ data: { name: name, customerId: res }, type: "save" })
         } else {
           this.location.back()
         }
@@ -482,6 +483,10 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     if (event.cmd == 'download') {
       this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
     }
+    if (event.cmd == 'delete') {
+      this.CustomerAttachmentService.delete(event.data.id)
+    }
+    
   }
 
   async addAttachment() {

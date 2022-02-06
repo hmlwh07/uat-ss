@@ -13,7 +13,7 @@ import {
   ApexLegend,
   ApexDataLabels,
   ApexMarkers
-} from "ng-apexcharts";
+} from 'ng-apexcharts';
 import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { EducationLifeID } from '../static-pages.data';

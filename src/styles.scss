@@ -34,6 +34,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 $custom-typography: mat-typography-config($font-family: "Roboto");
+@import '~angular-calendar/css/angular-calendar.css';
+// $custom-typography: mat-typography-config($font-family: "Calibri");
 @include mat-core($custom-typography);
 // @font-face {
 //     font-family: "Calibri";
