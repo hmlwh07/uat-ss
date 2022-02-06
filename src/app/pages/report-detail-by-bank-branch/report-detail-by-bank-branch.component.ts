@@ -28,6 +28,12 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   policies = [];
   productList = [];
 
+  displayList = [{
+    particular: [],
+    policies: [],
+    premium: []
+  }]
+
   agentName: string = null;
   companyName: string = null;
   channelName: string = null;
@@ -35,86 +41,70 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   clusterName: string = null;
   branchName: string = null;
 
-  productValues = [];
-  subHeader = [];
-  dataExcel = [];
+ 
+  particularForExcel = [];
+  policiesForExcel = [];
+  premiumForExcel = [];
+  isData: boolean = false;
 
   constructor(private cdf: ChangeDetectorRef,
-     public exportService: ReportDetailBankBranchExportService) { }  
+    public exportService: ReportDetailBankBranchExportService) { }
 
 
   ngOnInit(): void {
     this.loadForm();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      this.reports[i].id = i
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
+  }
 
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
-
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-          }
+  async getAllReports() {
+    this.displayList[0].particular = [];
+    this.displayList[0].policies = [];
+    this.displayList[0].premium = [];
+    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+      if (res.length > 0) {
+        this.reports = res;
+        this.isData = true;
+        let noOfPolicy: number = 0;
+        let totalPreminum: number = 0;
+        this.displayList[0].particular.push({ branch: 'Particular' });
+        this.displayList[0].policies.push({ noOfPolicy: "No. of Policies" });
+        this.displayList[0].premium.push({ totalPreminum: "Premuim" });
+        for (var i = 0; i < this.reports.length; i++) {
+          noOfPolicy += this.reports[i].noOfPolicy;
+          totalPreminum += this.reports[i].totalPreminum;
+          this.displayList[0].particular.push({ branch: this.reports[i].branch });
+          this.displayList[0].policies.push({ noOfPolicy: this.reports[i].noOfPolicy });
+          this.displayList[0].premium.push({ totalPreminum: this.reports[i].totalPreminum });
         }
+        this.displayList[0].particular.push({ branch: 'Total' });
+        this.displayList[0].policies.push({ noOfPolicy: noOfPolicy });
+        this.displayList[0].premium.push({ totalPreminum: totalPreminum });
       }
-    }
+    });
+    this.cdf.detectChanges();
+  }
 
-    console.log('report ', this.reports);
-  
-  }    
-  
   generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
-    this.productValues = []
-    for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+    this.particularForExcel = [];
+    this.policiesForExcel = [];
+    this.premiumForExcel = [];
+    for (var i = 0; i < this.displayList[0].particular.length; i++) {
+      this.particularForExcel.push(this.displayList[0].particular[i].branch)
     }
 
-    // Sub Header
-    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
-    for (var i = 0; i < this.productList.length; i++) {
-      this.subHeader.push("No of Policies");
-      this.subHeader.push("Premium");
+    for (var i = 0; i < this.displayList[0].policies.length; i++) {
+      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy)
     }
 
-    // Data
-    for (var i = 0; i < this.reports.length; i++) {
-      let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
-      }
-      this.dataExcel.push(list)
+    for (var i = 0; i < this.displayList[0].premium.length; i++) {
+      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum)
     }
 
-    let fromDate = null;
-    let toDate = null;
+    let fromDate = '';
+    let toDate = '';
     if (this.createFormGroup.value.fromDate) {
       fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
     }
-    if (this.createFormGroup.value.fromDate) {
+    if (this.createFormGroup.value.toDate) {
       toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
     }
 
@@ -130,9 +120,9 @@ export class ReportDetailByBankBranchComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      products: this.productValues,
-      subHeader: this.subHeader,
-      data: this.dataExcel
+      particularForExcel: this.particularForExcel,
+      policiesForExcel: this.policiesForExcel,
+      premiumForExcel: this.premiumForExcel
     }
     this.exportService.exportExcel(reportData);
   }
@@ -151,6 +141,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     this.clusterName = null;
     this.branchName = null;
   }
+
 
   async changeOptions(ev, type) {
     console.log('ev =====> ', ev);
@@ -250,26 +241,23 @@ export class ReportDetailByBankBranchComponent implements OnInit {
       } else {
         this.branchName = null;
       }
-
     }
-
-
     this.cdf.detectChanges()
-
     console.log('selectOptions', this.selectOptions)
+    this.getAllReports();
   }
+
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "id": new FormControl(null),
-      "fromDate": new FormControl(null),
-      "toDate": new FormControl(null),
-      "agentId": new FormControl(null),
-      "companyId": new FormControl(null),
-      "channelId": new FormControl(null),
-      "regionId": new FormControl(null),
-      "clusterId": new FormControl(null),
-      "branchId": new FormControl(null)
+      "fromDate": new FormControl(''),
+      "toDate": new FormControl(''),
+      "agentId": new FormControl(0),
+      "companyId": new FormControl(0),
+      "channelId": new FormControl(0),
+      "regionId": new FormControl(0),
+      "clusterId": new FormControl(0),
+      "branchId": new FormControl(0)
     });
   }
 
@@ -277,7 +265,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.valid && (control.dirty || control.touched);
   }
- 
+
   isControlInvalid(controlName: string): boolean {
     const control = this.createFormGroup.controls[controlName];
     return control.invalid && (control.dirty || control.touched);
@@ -294,22 +282,15 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    if (type == 'FromDate') {
-      let value = this.createFormGroup.controls['fromDate'].value;
-    }
-
-    if (type == 'ToDate') {
-      let value = this.createFormGroup.controls['toDate'].value;
-    }
-    console.log('doValid', this.createFormGroup.value.name);
+    this.getAllReports();
   }
 
   clearDate(type) {
     if (type == 'FromDate') {
-      this.createFormGroup.controls['fromDate'].setValue(null);
+      this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
-      this.createFormGroup.controls['toDate'].setValue(null);
+      this.createFormGroup.controls['toDate'].setValue('');
     }
   }
 
@@ -329,6 +310,5 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     const factor = 10 ** places;
     return (Math.round(num * factor) / factor).toLocaleString();
   };
-
 
 }

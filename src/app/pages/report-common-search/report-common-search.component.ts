@@ -121,15 +121,14 @@ export class ReportCommonSearchComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "id": new FormControl(null),
-      "fromDate": new FormControl(null),
-      "toDate": new FormControl(null),
-      "agentId": new FormControl(null),
-      "companyId": new FormControl(null),
-      "channelId": new FormControl(null),
-      "regionId": new FormControl(null),
-      "clusterId": new FormControl(null),
-      "branchId": new FormControl(null)
+      "fromDate": new FormControl(''),
+      "toDate": new FormControl(''),
+      "agentId": new FormControl(0),
+      "companyId": new FormControl(0),
+      "channelId": new FormControl(0),
+      "regionId": new FormControl(0),
+      "clusterId": new FormControl(0),
+      "branchId": new FormControl(0)
     });
   }
 
@@ -154,22 +153,15 @@ export class ReportCommonSearchComponent implements OnInit {
   }
 
   doValid(type) {
-    if (type == 'FromDate') {
-      let value = this.createFormGroup.controls['fromDate'].value;
-    }
-
-    if (type == 'ToDate') {
-      let value = this.createFormGroup.controls['toDate'].value;
-    }
-    console.log('doValid', this.createFormGroup.value.name);
+    
   }
 
   clearDate(type) {
     if (type == 'FromDate') {
-      this.createFormGroup.controls['fromDate'].setValue(null);
+      this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
-      this.createFormGroup.controls['toDate'].setValue(null);
+      this.createFormGroup.controls['toDate'].setValue('');
     }
   }
 

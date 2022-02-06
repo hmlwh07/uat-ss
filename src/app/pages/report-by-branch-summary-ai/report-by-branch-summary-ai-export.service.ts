@@ -1,23 +1,58 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { BizOperationService } from 'src/app/core/biz.operation.service';
+import { environment } from 'src/environments/environment';
 
+const API_ADDON_URL = `${environment.apiUrl}/branchSummaryIA`;
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ"];
 
 @Injectable({
   providedIn: 'root'
 })
-export class ReportBranchSummaryAIExportService {
+export class ReportBranchSummaryAIExportService extends BizOperationService<any, number>{
+  constructor(protected httpClient: HttpClient) {
+    super(httpClient, API_ADDON_URL);
+  }
 
-  constructor() { }
+
+  getAllReportData(searchValue) {
+    if (searchValue.fromDate) {
+      searchValue.fromDate = this.formatDateYYYY_MM_DD(searchValue.fromDate);
+    }
+    if (searchValue.toDate) {
+      searchValue.toDate = this.formatDateYYYY_MM_DD(searchValue.toDate);
+    }
+    const params = new HttpParams({
+      fromObject: searchValue
+    });
+    return this.httpClient.get(API_ADDON_URL, { params: params });
+  }
+
+  getAllAboutBRAM(fnaId) {
+    return this.httpClient.get(API_ADDON_URL + '/' + fnaId + '/asset');
+  }
+
+
+  formatDateYYYY_MM_DD(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [year, month, day].join('-');
+  }
 
   exportExcel(excelData) {
     //Title, Header & Data
     const title = excelData.title;
-    const products = excelData.products
-    const subHeader = excelData.subHeader
     const searchValue = excelData.searchValue
-    const data = excelData.data;
+    const reportsForExcelHeader = excelData.reportsForExcelHeader
+    const reportsForExcel = excelData.reportsForExcel
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -25,11 +60,11 @@ export class ReportBranchSummaryAIExportService {
 
     // Freeze
     worksheet.views = [
-      { state: 'frozen', xSplit: 5, ySplit: 5, activeCell: 'A1' }
+      { state: 'frozen', xSplit: 0, ySplit: 5, activeCell: 'A1' }
     ];
 
     //Add Row and formatting
-    worksheet.mergeCells('A1', 'E2');
+    worksheet.mergeCells('A1', 'B2');
     let titleRow = worksheet.getCell('A1');
     titleRow.value = title
     titleRow.font = {
@@ -40,6 +75,7 @@ export class ReportBranchSummaryAIExportService {
       color: { argb: '0085A3' }
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
+
 
     // Display search name   
     if (searchValue.length > 0) {
@@ -93,20 +129,13 @@ export class ReportBranchSummaryAIExportService {
     }
 
     worksheet.addRow([]);
-
-    //Adding Sub Header Row
-    worksheet.mergeCells('A4:E4');
-    let startIndex: number = 5;
-    let endIndex: number = 6;
-    for (var i = 0; i < products.length; i++) {
+    // Adding Data with Conditional Formatting
+    let startIndex: number = 0;
+    for (var i = 0; i < reportsForExcelHeader.length; i++) {
       let start = this.calculateStartPoint(startIndex);
-      startIndex += 2;
-      let end = this.calculateEndPoint(endIndex);
-      endIndex += 2;
-
-      worksheet.mergeCells(start + ':' + end);
+      startIndex += 1;
       let fireCell = worksheet.getCell(start);
-      fireCell.value = products[i];
+      fireCell.value = reportsForExcelHeader[i];
       fireCell.font = {
         name: 'Calibri',
         size: 12,
@@ -116,23 +145,7 @@ export class ReportBranchSummaryAIExportService {
     }
 
 
-    for (var i = 0; i < subHeader.length; i++) {
-      let start = this.calculateDataPoint(i);
-      worksheet.mergeCells(start + ':' + start);
-      let dataCell = worksheet.getCell(start);
-      dataCell.value = subHeader[i];
-      dataCell.font = {
-        name: 'Calibri',
-        size: 12,
-        bold: true
-      }
-      dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
-    }
-
-
-
-    // Adding Data with Conditional Formatting
-    data.forEach(d => {
+    reportsForExcel.forEach(d => {
       let row = worksheet.addRow(d);
       let no = row.getCell(1);
       if (no) {
@@ -157,7 +170,6 @@ export class ReportBranchSummaryAIExportService {
     }
     );
 
-
     worksheet.columns.forEach(function (column, i) {
       var maxLength = 0;
       column["eachCell"]({ includeEmpty: true }, function (cell) {
@@ -169,11 +181,7 @@ export class ReportBranchSummaryAIExportService {
       column.width = maxLength < 10 ? 10 : maxLength;
     });
 
-    worksheet.getColumn(1).width = 5;
-    worksheet.getColumn(2).width = 20;
-    worksheet.getColumn(3).width = 15;
-    worksheet.getColumn(4).width = 15;
-    worksheet.getColumn(5).width = 20;
+    worksheet.getColumn(1).width = 10;
 
     const autoHeight = (worksheet) => {
       const lineHeight = 12 // height per line is roughly 12
@@ -189,39 +197,41 @@ export class ReportBranchSummaryAIExportService {
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
-      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');       
+      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
     });
-  
-}
 
+  }
 
+  calculateStartPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateStartPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateEndPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateEndPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateDataPoint(index) {
+    return alphabet[index] + '6'
+  }
 
-calculateDataPoint(index) {
-  return alphabet[index] + '5'
-}
+  calculatePremiumDataPoint(index) {
+    return alphabet[index] + '7'
+  }
 
-formatDateDDMMYYY(date) {
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-  if (month.length < 2)
-    month = '0' + month;
-  if (day.length < 2)
-    day = '0' + day;
-  return [day, month, year].join('_');
-}
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('_');
+  }
 
-mathRoundTo(num: number, places: number) {
-  const factor = 10 ** places;
-  return (Math.round(num * factor) / factor).toLocaleString();
-};
+  mathRoundTo(num: number, places: number) {
+    const factor = 10 ** places;
+    return (Math.round(num * factor) / factor).toLocaleString();
+  };
 }

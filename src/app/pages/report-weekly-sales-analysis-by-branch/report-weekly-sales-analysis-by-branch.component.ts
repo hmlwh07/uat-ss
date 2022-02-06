@@ -38,6 +38,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   productValues = [];
   subHeader = [];
   dataExcel = [];
+  isData: boolean = false;
 
   constructor(private cdf: ChangeDetectorRef, 
     public exportService: ReportWeeklySalesAnalysisBranchExportService) { }  
@@ -84,6 +85,47 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     console.log('report ', this.reports);
   
   }  
+
+  async getAllReports() {
+    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+      if (res.length > 0) {
+        this.isData = true;
+        this.reports = res;
+        for (var i = 0; i < this.reports.length; i++) {
+          this.reports[i].productPolicies = [];
+          for (var j = 0; j < this.reports[i].products.length; j++) {
+            this.reports[i].products[j].id = i
+            this.reports[i].products[j].noOfPolicies = null;
+            this.reports[i].products[j].premium = null;
+            this.products.push(this.reports[i].products[j]);
+          }
+
+          for (var k = 0; k < this.reports[i].policies.length; k++) {
+            this.reports[i].policies[k].id = i
+            this.policies.push(this.reports[i].policies[k]);
+          }
+        }
+
+        this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
+        for (var i = 0; i < this.reports.length; i++) {
+          this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
+        }
+
+        for (var i = 0; i < this.reports.length; i++) {
+          for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
+            for (var k = 0; k < this.reports[i].policies.length; k++) {
+              if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
+                this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
+                this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+              }
+            }
+          }
+        }
+        console.log('report ', this.reports);
+      }
+    });
+    this.cdf.detectChanges();
+  }
   
   generateReportExcel() {
     console.log('generateReportExcel ', this.reports);
@@ -261,15 +303,14 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "id": new FormControl(null),
-      "fromDate": new FormControl(null),
-      "toDate": new FormControl(null),
-      "agentId": new FormControl(null),
-      "companyId": new FormControl(null),
-      "channelId": new FormControl(null),
-      "regionId": new FormControl(null),
-      "clusterId": new FormControl(null),
-      "branchId": new FormControl(null)
+      "fromDate": new FormControl(''),
+      "toDate": new FormControl(''),
+      "agentId": new FormControl(0),
+      "companyId": new FormControl(0),
+      "channelId": new FormControl(0),
+      "regionId": new FormControl(0),
+      "clusterId": new FormControl(0),
+      "branchId": new FormControl(0)
     });
   }
 
@@ -294,22 +335,15 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    if (type == 'FromDate') {
-      let value = this.createFormGroup.controls['fromDate'].value;
-    }
-
-    if (type == 'ToDate') {
-      let value = this.createFormGroup.controls['toDate'].value;
-    }
-    console.log('doValid', this.createFormGroup.value.name);
+    this.getAllReports();
   }
 
   clearDate(type) {
     if (type == 'FromDate') {
-      this.createFormGroup.controls['fromDate'].setValue(null);
+      this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
-      this.createFormGroup.controls['toDate'].setValue(null);
+      this.createFormGroup.controls['toDate'].setValue('');
     }
   }
 

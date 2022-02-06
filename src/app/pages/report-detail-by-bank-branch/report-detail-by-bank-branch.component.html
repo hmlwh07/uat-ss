@@ -3,11 +3,12 @@
         <div class="card card-custom gutter-b">
             <div class="card-header">
                 <div class="card-title">
-                    <h3 class="card-label left-border-image">Detail Report by Bank Branch​</h3>
+                    <h3 class="card-label left-border-image">By Branch Summary IA</h3>
                 </div>
                 <div class="card-toolbar">
-                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
-                        <span class="" (click)="generateReportExcel()">Generate</span>
+                    <button type="button" [disabled]="!isData" (click)="generateReportExcel()"
+                        class="btn btn-primary ml-2" style="min-width: 50px;">
+                        <span class="">Generate</span>
                     </button>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
                         <span class="" (click)="cancelReport()">Cancel</span>
@@ -131,7 +132,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="isData">
     <div class="col-12">
         <div style="width: 100%;
         overflow: hidden; position: relative;">
@@ -142,7 +143,7 @@
                 <br *ngIf="createFormGroup.value.regionId">
                 <br *ngIf="createFormGroup.value.clusterId">
                 <br *ngIf="createFormGroup.value.branchId">
-                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">KBZ BY BANK BRANCH SALES REPORT</h3>
+                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">BY BRANCH SUMMARY AI</h3>
             </div>
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.agentId">
@@ -171,24 +172,16 @@
             </div>
         </div>
         <table border="1">
-            <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
-                <th colspan="5"></th>
-                <th *ngFor="let product of productList; let i = index">{{ product.productName }}</th>
+            <tr>
+                <th *ngFor="let particular of displayList[0].particular; let i = index">{{ particular.branch }}</th>
             </tr>
             <tr>
-                <th>No</th>
-                <th>Branch</th>
-                <th>Channel</th>
-                <th>Agent Name</th>
-                <th>Agent No.</th>
-                <th *ngFor="let product of productList; let i = index">
-                    <span>No of Policies
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span>Premium</span>
-                </th>
+                <th *ngFor="let policies of displayList[0].policies; let i = index">{{ policies.noOfPolicy }}</th>
             </tr>
-            <tr *ngFor="let report of reports; let i = index">
+            <tr>
+                <th *ngFor="let premium of displayList[0].premium; let i = index">{{ premium.totalPreminum }}</th>
+            </tr>
+            <!-- <tr *ngFor="let report of reports; let i = index">
                 <td>{{ i + 1}}</td>
                 <td>{{ report.branchName }}</td>
                 <td>{{ report.channelName }}</td>
@@ -204,7 +197,7 @@
                     </span>
                     <span *ngIf="!policy.noOfPolicies"></span>
                 </td>
-            </tr>
+            </tr> -->
         </table>
     </div>
 </div>

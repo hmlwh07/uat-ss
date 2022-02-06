@@ -11,12 +11,12 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-by-branch-summary-ai.const'
 })
 export class ReportByBranchSummaryAiComponent implements OnInit {
   createFormGroup: FormGroup;
+  title = 'By Branch Summary IA'
   fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
-    agents: [{ id: 1, agentName: 'Agent 1' }, { id: 2, agentName: 'Agent 2' }],
-    companies: [],
+    companies: [{ id: 1, companyName: 'Company 1' }, { id: 2, companyName: 'Company 2' }],
     channels: [],
     regions: [],
     cluster: [],
@@ -28,6 +28,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   policies = [];
   productList = [];
 
+
   agentName: string = null;
   companyName: string = null;
   channelName: string = null;
@@ -35,9 +36,9 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   clusterName: string = null;
   branchName: string = null;
 
-  productValues = [];
-  subHeader = [];
-  dataExcel = [];
+
+  reportsForExcel = [];
+  isData: boolean = false;
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportBranchSummaryAIExportService) { }
@@ -45,81 +46,46 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadForm();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      this.reports[i].id = i
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
+  }
 
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
-
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-          }
+  async getAllReports() {
+    this.reports = [];
+    let srNo: number = 1;
+    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+      console.log('getAllReportData', res)
+      if (res.length > 0) {
+        this.isData = true;
+        this.reports = res;
+        for (var i = 0; i < this.reports.length; i++) {
+          this.reports[i].srNo = srNo + i;
         }
+        this.reports = res;
       }
-    }
-
-    console.log('report ', this.reports);
-
+    });
+    this.cdf.detectChanges();
   }
 
   generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
-    this.productValues = []
-    for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
-    }
-
-    // Sub Header
-    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
-    for (var i = 0; i < this.productList.length; i++) {
-      this.subHeader.push("No of Policies");
-      this.subHeader.push("Premium");
-    }
-
-    // Data
+    this.reportsForExcel = [];
+    console.log('generateReportExcel', this.reports);
+    let countSrNo: number = 0;
     for (var i = 0; i < this.reports.length; i++) {
-      let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
-      }
-      this.dataExcel.push(list)
-    }
+      countSrNo += 1;
+      this.reportsForExcel.push([countSrNo, this.reports[i].branch,
+        this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
+    }  
 
-    let fromDate = null;
-    let toDate = null;
+    let fromDate = '';
+    let toDate = '';
     if (this.createFormGroup.value.fromDate) {
       fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
     }
-    if (this.createFormGroup.value.fromDate) {
+    if (this.createFormGroup.value.toDate) {
       toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title + ' ' + 'Report',
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -130,9 +96,8 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      products: this.productValues,
-      subHeader: this.subHeader,
-      data: this.dataExcel
+      reportsForExcelHeader: ["Sr. No.", "Branch", "#Active Agents", "#No of Ploicies", "#Premium"],
+      reportsForExcel: this.reportsForExcel,
     }
     this.exportService.exportExcel(reportData);
   }
@@ -156,30 +121,6 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   async changeOptions(ev, type) {
     console.log('ev =====> ', ev);
     console.log('type =====> ', type);
-    if (type == 'agent') {
-      if (ev) {
-        this.agentName = ev.agentName
-        this.selectOptions.companies.push({ id: 1, companyName: 'companyName 1', agentId: 1 });
-      } else {
-        this.companyName = null;
-        this.selectOptions.companies = [];
-        this.selectOptions.channels = [];
-        this.selectOptions.regions = [];
-        this.selectOptions.cluster = [];
-        this.selectOptions.branches = [];
-        this.createFormGroup.controls['companyId'].setValue(null);
-        this.createFormGroup.controls['channelId'].setValue(null);
-        this.createFormGroup.controls['regionId'].setValue(null);
-        this.createFormGroup.controls['clusterId'].setValue(null);
-        this.createFormGroup.controls['branchId'].setValue(null);
-      }
-      this.selectOptions.companies = [...this.selectOptions.companies];
-      this.selectOptions.channels = [...this.selectOptions.channels];
-      this.selectOptions.regions = [...this.selectOptions.regions];
-      this.selectOptions.cluster = [...this.selectOptions.cluster];
-      this.selectOptions.branches = [...this.selectOptions.branches];
-    }
-
     if (type == 'company') {
       if (ev) {
         this.companyName = ev.companyName
@@ -251,26 +192,23 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       } else {
         this.branchName = null;
       }
-
     }
-
-
     this.cdf.detectChanges()
-
     console.log('selectOptions', this.selectOptions)
+    this.getAllReports();
   }
+
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "id": new FormControl(null),
-      "fromDate": new FormControl(null),
-      "toDate": new FormControl(null),
-      "agentId": new FormControl(null),
-      "companyId": new FormControl(null),
-      "channelId": new FormControl(null),
-      "regionId": new FormControl(null),
-      "clusterId": new FormControl(null),
-      "branchId": new FormControl(null)
+      "fromDate": new FormControl(''),
+      "toDate": new FormControl(''),
+      "agentId": new FormControl(0),
+      "companyId": new FormControl(0),
+      "channelId": new FormControl(0),
+      "regionId": new FormControl(0),
+      "clusterId": new FormControl(0),
+      "branchId": new FormControl(0)
     });
   }
 
@@ -295,22 +233,15 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   }
 
   doValid(type) {
-    if (type == 'FromDate') {
-      let value = this.createFormGroup.controls['fromDate'].value;
-    }
-
-    if (type == 'ToDate') {
-      let value = this.createFormGroup.controls['toDate'].value;
-    }
-    console.log('doValid', this.createFormGroup.value.name);
+    this.getAllReports();
   }
 
   clearDate(type) {
     if (type == 'FromDate') {
-      this.createFormGroup.controls['fromDate'].setValue(null);
+      this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
-      this.createFormGroup.controls['toDate'].setValue(null);
+      this.createFormGroup.controls['toDate'].setValue('');
     }
   }
 

@@ -6,8 +6,9 @@
                     <h3 class="card-label left-border-image">Detail Report By Agent​</h3>
                 </div>
                 <div class="card-toolbar">
-                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
-                        <span class="" (click)="generateReportExcel()">Generate</span>
+                    <button type="button" [disabled]="!isData" (click)="generateReportExcel()"
+                        class="btn btn-primary ml-2" style="min-width: 50px;">
+                        <span class="">Generate</span>
                     </button>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
                         <span class="" (click)="cancelReport()">Cancel</span>
@@ -131,7 +132,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="isData">
     <div class="col-12">
         <div style="width: 100%;
         overflow: hidden; position: relative;">
@@ -170,7 +171,7 @@
                 <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
             </div>
         </div>
-        <table border="1" >
+        <table border="1">
             <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
                 <th colspan="5"></th>
                 <th *ngFor="let product of productList; let i = index">{{ product.productName }}</th>
@@ -208,37 +209,3 @@
         </table>
     </div>
 </div>
-
-
-<div class="col-lg-12 table-responsive" #TABLE #table>  
-    <div style="padding-bottom: 10px;padding-top: 10px;">  
-      <div class="row">  
-        <div class="col-sm-12">  
-          <button (click)="ExportTOExcel()" class="btn btn-success">ExportTOExcel</button> </div>  
-      </div>  
-    </div>  
-    <table class="table table-bordered">  
-      <thead class="thead-dark">  
-        <tr>  
-          <th>S.No</th>  
-          <th>Team</th>  
-          <th>Match</th>  
-          <th>Win</th>  
-          <th>Loss</th>  
-          <th>Cancel</th>  
-          <th>Point</th>  
-        </tr>  
-      </thead>  
-      <tbody>  
-        <tr *ngFor="let tm of team">  
-          <td>{{tm.Sno}}</td>  
-          <td>{{tm.Team}}</td>  
-          <td>{{tm.Match}}</td>  
-          <td>{{tm.Win}}</td>  
-          <td>{{tm.Loss}}</td>  
-          <td>{{tm.Cancel}}</td>  
-          <td>{{tm.Point}}</td>  
-        </tr>  
-      </tbody>  
-    </table>  
-  </div> 

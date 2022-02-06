@@ -38,75 +38,73 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   productValues = [];
   subHeader = [];
   dataExcel = [];
+  productsHeader: any[];
+  branchDataList: any[];
+  isData: boolean = false;
+  branchDataForExcel: any[];
+  title: string;
 
-  constructor(private cdf: ChangeDetectorRef, 
-    public exportService: ReportProductBranchPremiumExportService) { }  
+  constructor(private cdf: ChangeDetectorRef,
+    public exportService: ReportProductBranchPremiumExportService) { }
 
 
   ngOnInit(): void {
     this.loadForm();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      this.reports[i].id = i
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
+  }
 
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
+  async getAllReports() {
+    this.productsHeader = [];
+    this.branchDataList = [];
+    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+      console.log('policyProductBranch', res);
+      if (res) {
+        if (res.products.length > 0) {
+          this.isData = true;
+          this.productsHeader.push({ name: 'No.' });
+          this.productsHeader.push({ name: 'Branch' });
+          for (var i = 0; i < res.products.length; i++) {
+            this.productsHeader.push({ name: res.products[i].name })
+          }
+        }
 
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+        if (res.dataList.length > 0) {
+          let countNo: number = 0;
+          for (var i = 0; i < res.dataList.length; i++) {
+            countNo += 1;
+            this.branchDataList.push({ no: countNo, month: res.dataList[i].month, products: res.dataList[i].products });
+            if (res.dataList[i].products.length == 0) {
+              for (var j = 0; j < this.productsHeader.length; j++) {
+                res.dataList[i].products.push({ value: null });
+              }
+            }
+            if (countNo == res.dataList.length) {
+              this.branchDataList.push({ no: null, branch: 'Total', products: res.dataList[i].products })
+            }
           }
         }
       }
-    }
+    });
 
-    console.log('report ', this.reports);
-  
-  } 
-  
+    console.log('this.branchDataList =====> ', this.branchDataList);
+
+    this.cdf.detectChanges();
+  }
+
   generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
     this.productValues = []
-    for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+    this.branchDataForExcel = [];
+    for (var i = 0; i < this.productsHeader.length; i++) {
+      this.productValues.push(this.productsHeader[i].name)
     }
 
-    // Sub Header
-    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
-    for (var i = 0; i < this.productList.length; i++) {
-      this.subHeader.push("No of Policies");
-      this.subHeader.push("Premium");
-    }
-
-    // Data
-    for (var i = 0; i < this.reports.length; i++) {
-      let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
+    // Data For Excel
+    let countSrNo: number = 0;
+    for (var i = 0; i < this.branchDataList.length; i++) {
+      countSrNo += 1;
+      if (this.branchDataList.length == countSrNo) {
+        countSrNo = null;
       }
-      this.dataExcel.push(list)
+      this.branchDataForExcel.push([countSrNo, this.branchDataList[i].month])
     }
 
     let fromDate = null;
@@ -114,12 +112,12 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
     if (this.createFormGroup.value.fromDate) {
       fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
     }
-    if (this.createFormGroup.value.fromDate) {
+    if (this.createFormGroup.value.toDate) {
       toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title + ' ' + 'Report',
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -130,9 +128,8 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      products: this.productValues,
-      subHeader: this.subHeader,
-      data: this.dataExcel
+      productsHeader: this.productValues,
+      branchDataForExcel: this.branchDataForExcel,
     }
     this.exportService.exportExcel(reportData);
   }
@@ -262,15 +259,14 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "id": new FormControl(null),
-      "fromDate": new FormControl(null),
-      "toDate": new FormControl(null),
-      "agentId": new FormControl(null),
-      "companyId": new FormControl(null),
-      "channelId": new FormControl(null),
-      "regionId": new FormControl(null),
-      "clusterId": new FormControl(null),
-      "branchId": new FormControl(null)
+      "fromDate": new FormControl(''),
+      "toDate": new FormControl(''),
+      "agentId": new FormControl(0),
+      "companyId": new FormControl(0),
+      "channelId": new FormControl(0),
+      "regionId": new FormControl(0),
+      "clusterId": new FormControl(0),
+      "branchId": new FormControl(0)
     });
   }
 
@@ -278,7 +274,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.valid && (control.dirty || control.touched);
   }
- 
+
   isControlInvalid(controlName: string): boolean {
     const control = this.createFormGroup.controls[controlName];
     return control.invalid && (control.dirty || control.touched);
@@ -295,22 +291,15 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   }
 
   doValid(type) {
-    if (type == 'FromDate') {
-      let value = this.createFormGroup.controls['fromDate'].value;
-    }
-
-    if (type == 'ToDate') {
-      let value = this.createFormGroup.controls['toDate'].value;
-    }
-    console.log('doValid', this.createFormGroup.value.name);
+    this.getAllReports();
   }
 
   clearDate(type) {
     if (type == 'FromDate') {
-      this.createFormGroup.controls['fromDate'].setValue(null);
+      this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
-      this.createFormGroup.controls['toDate'].setValue(null);
+      this.createFormGroup.controls['toDate'].setValue('');
     }
   }
 
