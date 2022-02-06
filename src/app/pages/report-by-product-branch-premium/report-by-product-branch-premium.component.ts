@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportProductBranchPremiumExportService } from './report-by-product-branch-premium-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-branch-premium.const';
@@ -53,40 +54,43 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   }
 
   async getAllReports() {
-    this.productsHeader = [];
-    this.branchDataList = [];
-    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-      console.log('policyProductBranch', res);
-      if (res) {
-        if (res.products.length > 0) {
-          this.isData = true;
-          this.productsHeader.push({ name: 'No.' });
-          this.productsHeader.push({ name: 'Branch' });
-          for (var i = 0; i < res.products.length; i++) {
-            this.productsHeader.push({ name: res.products[i].name })
+    if (this.createFormGroup.invalid) {
+      validateAllFields(this.createFormGroup);
+    } else {
+      this.productsHeader = [];
+      this.branchDataList = [];
+      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+        console.log('policyProductBranch', res);
+        if (res) {
+          if (res.products.length > 0) {
+            this.isData = true;
+            this.productsHeader.push({ name: 'No.' });
+            this.productsHeader.push({ name: 'Branch' });
+            for (var i = 0; i < res.products.length; i++) {
+              this.productsHeader.push({ name: res.products[i].name })
+            }
           }
-        }
 
-        if (res.dataList.length > 0) {
-          let countNo: number = 0;
-          for (var i = 0; i < res.dataList.length; i++) {
-            countNo += 1;
-            this.branchDataList.push({ no: countNo, month: res.dataList[i].month, products: res.dataList[i].products });
-            if (res.dataList[i].products.length == 0) {
-              for (var j = 0; j < this.productsHeader.length; j++) {
-                res.dataList[i].products.push({ value: null });
+          if (res.dataList.length > 0) {
+            let countNo: number = 0;
+            for (var i = 0; i < res.dataList.length; i++) {
+              countNo += 1;
+              this.branchDataList.push({ no: countNo, month: res.dataList[i].month, products: res.dataList[i].products });
+              if (res.dataList[i].products.length == 0) {
+                for (var j = 0; j < this.productsHeader.length; j++) {
+                  res.dataList[i].products.push({ value: null });
+                }
+              }
+              if (countNo == res.dataList.length) {
+                this.branchDataList.push({ no: null, branch: 'Total', products: res.dataList[i].products })
               }
             }
-            if (countNo == res.dataList.length) {
-              this.branchDataList.push({ no: null, branch: 'Total', products: res.dataList[i].products })
-            }
           }
         }
-      }
-    });
+      });
 
-    console.log('this.branchDataList =====> ', this.branchDataList);
-
+      console.log('this.branchDataList =====> ', this.branchDataList);
+    }
     this.cdf.detectChanges();
   }
 
@@ -259,8 +263,8 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "fromDate": new FormControl(''),
-      "toDate": new FormControl(''),
+      "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "agentId": new FormControl(0),
       "companyId": new FormControl(0),
       "channelId": new FormControl(0),

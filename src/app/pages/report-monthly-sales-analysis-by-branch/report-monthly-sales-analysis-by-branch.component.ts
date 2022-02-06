@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportMonthlySalesAnalysisBranchExportService } from './report-monthly-sales-analysis-by-branch-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-monthly-sales-analysis-by-branch.const';
@@ -87,43 +88,47 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
   }
 
   async getAllReports() {
-    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-      if (res.length > 0) {
-        this.reports = res;
-        this.isData = true;
-        for (var i = 0; i < this.reports.length; i++) {
-          this.reports[i].productPolicies = [];
-          for (var j = 0; j < this.reports[i].products.length; j++) {
-            this.reports[i].products[j].id = i
-            this.reports[i].products[j].noOfPolicies = null;
-            this.reports[i].products[j].premium = null;
-            this.products.push(this.reports[i].products[j]);
-          }
+    if (this.createFormGroup.invalid) {
+      validateAllFields(this.createFormGroup);
+    } else {
+      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+        if (res.length > 0) {
+          this.reports = res;
+          this.isData = true;
+          for (var i = 0; i < this.reports.length; i++) {
+            this.reports[i].productPolicies = [];
+            for (var j = 0; j < this.reports[i].products.length; j++) {
+              this.reports[i].products[j].id = i
+              this.reports[i].products[j].noOfPolicies = null;
+              this.reports[i].products[j].premium = null;
+              this.products.push(this.reports[i].products[j]);
+            }
 
-          for (var k = 0; k < this.reports[i].policies.length; k++) {
-            this.reports[i].policies[k].id = i
-            this.policies.push(this.reports[i].policies[k]);
-          }
-        }
-
-        this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-        for (var i = 0; i < this.reports.length; i++) {
-          this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-        }
-
-        for (var i = 0; i < this.reports.length; i++) {
-          for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
             for (var k = 0; k < this.reports[i].policies.length; k++) {
-              if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+              this.reports[i].policies[k].id = i
+              this.policies.push(this.reports[i].policies[k]);
+            }
+          }
+
+          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
+          for (var i = 0; i < this.reports.length; i++) {
+            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
+          }
+
+          for (var i = 0; i < this.reports.length; i++) {
+            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
+              for (var k = 0; k < this.reports[i].policies.length; k++) {
+                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
+                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
+                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+                }
               }
             }
           }
+          console.log('report ', this.reports);
         }
-        console.log('report ', this.reports);
-      }
-    });
+      });
+    }
     this.cdf.detectChanges();
   }
 
@@ -303,8 +308,8 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "fromDate": new FormControl(''),
-      "toDate": new FormControl(''),
+      "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "agentId": new FormControl(0),
       "companyId": new FormControl(0),
       "channelId": new FormControl(0),

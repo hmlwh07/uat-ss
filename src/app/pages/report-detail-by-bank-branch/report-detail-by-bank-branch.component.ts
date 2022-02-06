@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportDetailBankBranchExportService } from './report-detail-by-bank-branch-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-detail-by-bank-branch.const';
@@ -41,7 +42,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   clusterName: string = null;
   branchName: string = null;
 
- 
+
   particularForExcel = [];
   policiesForExcel = [];
   premiumForExcel = [];
@@ -56,30 +57,34 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   }
 
   async getAllReports() {
-    this.displayList[0].particular = [];
-    this.displayList[0].policies = [];
-    this.displayList[0].premium = [];
-    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-      if (res.length > 0) {
-        this.reports = res;
-        this.isData = true;
-        let noOfPolicy: number = 0;
-        let totalPreminum: number = 0;
-        this.displayList[0].particular.push({ branch: 'Particular' });
-        this.displayList[0].policies.push({ noOfPolicy: "No. of Policies" });
-        this.displayList[0].premium.push({ totalPreminum: "Premuim" });
-        for (var i = 0; i < this.reports.length; i++) {
-          noOfPolicy += this.reports[i].noOfPolicy;
-          totalPreminum += this.reports[i].totalPreminum;
-          this.displayList[0].particular.push({ branch: this.reports[i].branch });
-          this.displayList[0].policies.push({ noOfPolicy: this.reports[i].noOfPolicy });
-          this.displayList[0].premium.push({ totalPreminum: this.reports[i].totalPreminum });
+    if (this.createFormGroup.invalid) {
+      validateAllFields(this.createFormGroup);
+    } else {
+      this.displayList[0].particular = [];
+      this.displayList[0].policies = [];
+      this.displayList[0].premium = [];
+      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+        if (res.length > 0) {
+          this.reports = res;
+          this.isData = true;
+          let noOfPolicy: number = 0;
+          let totalPreminum: number = 0;
+          this.displayList[0].particular.push({ branch: 'Particular' });
+          this.displayList[0].policies.push({ noOfPolicy: "No. of Policies" });
+          this.displayList[0].premium.push({ totalPreminum: "Premuim" });
+          for (var i = 0; i < this.reports.length; i++) {
+            noOfPolicy += this.reports[i].noOfPolicy;
+            totalPreminum += this.reports[i].totalPreminum;
+            this.displayList[0].particular.push({ branch: this.reports[i].branch });
+            this.displayList[0].policies.push({ noOfPolicy: this.reports[i].noOfPolicy });
+            this.displayList[0].premium.push({ totalPreminum: this.reports[i].totalPreminum });
+          }
+          this.displayList[0].particular.push({ branch: 'Total' });
+          this.displayList[0].policies.push({ noOfPolicy: noOfPolicy });
+          this.displayList[0].premium.push({ totalPreminum: totalPreminum });
         }
-        this.displayList[0].particular.push({ branch: 'Total' });
-        this.displayList[0].policies.push({ noOfPolicy: noOfPolicy });
-        this.displayList[0].premium.push({ totalPreminum: totalPreminum });
-      }
-    });
+      });
+    }
     this.cdf.detectChanges();
   }
 
@@ -250,8 +255,8 @@ export class ReportDetailByBankBranchComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "fromDate": new FormControl(''),
-      "toDate": new FormControl(''),
+      "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "agentId": new FormControl(0),
       "companyId": new FormControl(0),
       "channelId": new FormControl(0),

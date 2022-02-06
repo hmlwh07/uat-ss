@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-report-common-search',
@@ -121,8 +121,8 @@ export class ReportCommonSearchComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "fromDate": new FormControl(''),
-      "toDate": new FormControl(''),
+      "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "agentId": new FormControl(0),
       "companyId": new FormControl(0),
       "channelId": new FormControl(0),

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportChannelSummaryBankBranchExportService } from './report-channel-summary-by-bank-branch-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-channel-summary-by-bank-branch.const';
@@ -57,53 +58,56 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
   }
 
   async getAllReports() {
-    this.displayList[0].particular = [];
-    this.displayList[0].policies = [];
-    this.displayList[0].premium = [];
-    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-      console.log('channelSummaryReport', res);
+    if (this.createFormGroup.invalid) {
+      validateAllFields(this.createFormGroup);
+    } else {
+      this.displayList[0].particular = [];
+      this.displayList[0].policies = [];
+      this.displayList[0].premium = [];
+      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+        console.log('channelSummaryReport', res);
 
-      if (res) {
-        this.reports = res;
-        this.isHasData = true;
-        let noOfPolicy: number = 0;
-        let totalPreminum: number = 0;
-        this.displayList[0].particular.push({ channel: 'Particular' });
-        this.displayList[0].policies.push({ noOfPolicy: "No. of Policies" });
-        this.displayList[0].premium.push({ totalPreminum: "Premuim" });
-        console.log('res.channels =====> ', res.channels);
+        if (res) {
+          this.reports = res;
+          this.isHasData = true;
+          let noOfPolicy: number = 0;
+          let totalPreminum: number = 0;
+          this.displayList[0].particular.push({ channel: 'Particular' });
+          this.displayList[0].policies.push({ noOfPolicy: "No. of Policies" });
+          this.displayList[0].premium.push({ totalPreminum: "Premuim" });
+          console.log('res.channels =====> ', res.channels);
 
-        if (res.channels) {
-          for (var i = 0; i < res.channels.length; i++) {
-            this.displayList[0].particular.push({ channel: res.channels[i].channel });
+          if (res.channels) {
+            for (var i = 0; i < res.channels.length; i++) {
+              this.displayList[0].particular.push({ channel: res.channels[i].channel });
+            }
           }
-        }
 
-        // for (var i = 0; i < this.reports.length; i++) {
-        //   noOfPolicy += this.reports[i].noOfPolicy;
-        //   totalPreminum += this.reports[i].totalPreminum;
-        //   this.displayList[0].particular.push({ branch: this.reports[i].branch });
-        //   this.displayList[0].policies.push({ noOfPolicy: this.reports[i].noOfPolicy });
-        //   this.displayList[0].premium.push({ totalPreminum: this.reports[i].totalPreminum });
-        // }
-        this.displayList[0].particular.push({ channel: 'Total' });
+          // for (var i = 0; i < this.reports.length; i++) {
+          //   noOfPolicy += this.reports[i].noOfPolicy;
+          //   totalPreminum += this.reports[i].totalPreminum;
+          //   this.displayList[0].particular.push({ branch: this.reports[i].branch });
+          //   this.displayList[0].policies.push({ noOfPolicy: this.reports[i].noOfPolicy });
+          //   this.displayList[0].premium.push({ totalPreminum: this.reports[i].totalPreminum });
+          // }
+          this.displayList[0].particular.push({ channel: 'Total' });
 
-        if (res.dataList.length > 0) {
-          this.displayList[0].policies.push({ noOfPolicy: noOfPolicy });
-          this.displayList[0].premium.push({ totalPreminum: totalPreminum });
-        } else {
-          for (var i = 0; i < res.channels.length; i++) {
+          if (res.dataList.length > 0) {
+            this.displayList[0].policies.push({ noOfPolicy: noOfPolicy });
+            this.displayList[0].premium.push({ totalPreminum: totalPreminum });
+          } else {
+            for (var i = 0; i < res.channels.length; i++) {
+              this.displayList[0].policies.push({ noOfPolicy: null });
+              this.displayList[0].premium.push({ totalPreminum: null });
+            }
             this.displayList[0].policies.push({ noOfPolicy: null });
             this.displayList[0].premium.push({ totalPreminum: null });
           }
-          this.displayList[0].policies.push({ noOfPolicy: null });
-          this.displayList[0].premium.push({ totalPreminum: null });
+
         }
-
-      }
-    });
-    console.log('displayList =====> ', this.displayList);
-
+      });
+      console.log('displayList =====> ', this.displayList);
+    }
     this.cdf.detectChanges();
   }
 
@@ -274,8 +278,8 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "fromDate": new FormControl(''),
-      "toDate": new FormControl(''),
+      "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "agentId": new FormControl(0),
       "companyId": new FormControl(0),
       "channelId": new FormControl(0),

@@ -60,7 +60,7 @@ export class ReportBranchSummaryAIExportService extends BizOperationService<any,
 
     // Freeze
     worksheet.views = [
-      { state: 'frozen', xSplit: 0, ySplit: 5, activeCell: 'A1' }
+      { state: 'frozen', xSplit: 0, ySplit: 4, activeCell: 'A1' }
     ];
 
     //Add Row and formatting

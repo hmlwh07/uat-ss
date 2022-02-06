@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportBranchSummaryAIExportService } from './report-by-branch-summary-ai-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-branch-summary-ai.const';
@@ -49,19 +50,23 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   }
 
   async getAllReports() {
-    this.reports = [];
-    let srNo: number = 1;
-    await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-      console.log('getAllReportData', res)
-      if (res.length > 0) {
-        this.isData = true;
-        this.reports = res;
-        for (var i = 0; i < this.reports.length; i++) {
-          this.reports[i].srNo = srNo + i;
+    if (this.createFormGroup.invalid) {
+      validateAllFields(this.createFormGroup);
+    } else {
+      this.reports = [];
+      let srNo: number = 1;
+      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+        console.log('getAllReportData', res)
+        if (res.length > 0) {
+          this.isData = true;
+          this.reports = res;
+          for (var i = 0; i < this.reports.length; i++) {
+            this.reports[i].srNo = srNo + i;
+          }
+          this.reports = res;
         }
-        this.reports = res;
-      }
-    });
+      });
+    }
     this.cdf.detectChanges();
   }
 
@@ -73,7 +78,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       countSrNo += 1;
       this.reportsForExcel.push([countSrNo, this.reports[i].branch,
         this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
-    }  
+    }
 
     let fromDate = '';
     let toDate = '';
@@ -201,8 +206,8 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "fromDate": new FormControl(''),
-      "toDate": new FormControl(''),
+      "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "agentId": new FormControl(0),
       "companyId": new FormControl(0),
       "channelId": new FormControl(0),
