@@ -142,7 +142,7 @@
                     <div class="row">
                         <div class="col-sm-6">
 
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">ID No.</label>
                                 <div class="col-sm-8">
                                     <input type="text" *ngIf="customerForm.get('identityType').value == 'NRC'" class="form-control form-control-sm " name="identityNumber" autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')" (click)="openModal()" [class.is-valid]="isControlValid('identityNumber')"
@@ -151,28 +151,28 @@
                                         formControlName="identityNumber" />
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Gender</label>
                                 <div class="col-sm-8">
                                     <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('genderCode')" [class.is-valid]="isControlValid('genderCode')" [items]="genderOption" bindLabel="value" bindValue="code" formControlName="genderCode">
                                     </ng-select>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Status</label>
                                 <div class="col-sm-8">
                                     <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('statusCode')" [class.is-valid]="isControlValid('statusCode')" [items]="statusOption" bindLabel="value" bindValue="code" formControlName="statusCode">
                                     </ng-select>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">State</label>
                                 <div class="col-sm-8">
                                     <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('stateCode')" (change)="onChangeState()" [class.is-valid]="isControlValid('stateCode')" [items]="stateOption" bindLabel="value" bindValue="code" formControlName="stateCode">
                                     </ng-select>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">District</label>
                                 <div class="col-sm-8">
                                     <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('districtCode')" (change)="onChangeDistrict()" [class.is-valid]="isControlValid('districtCode')" [items]="districtOption" bindLabel="value" bindValue="code" formControlName="districtCode">
@@ -181,32 +181,32 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Party Code</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control form-control-sm " readonly="true" name="partyCode" autocomplete="off" [class.is-invalid]="isControlInvalid('partyCode')" [class.is-valid]="isControlValid('partyCode')" formControlName="partyCode" />
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">House</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control form-control-sm " name="houseNumber" autocomplete="off" [class.is-invalid]="isControlInvalid('houseNumber')" [class.is-valid]="isControlValid('houseNumber')" formControlName="houseNumber" />
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Road</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control form-control-sm " name="road" autocomplete="off" [class.is-invalid]="isControlInvalid('road')" [class.is-valid]="isControlValid('road')" formControlName="road" />
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Block Area</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control form-control-sm " name="blockArea" autocomplete="off" [class.is-invalid]="isControlInvalid('blockArea')" [class.is-valid]="isControlValid('blockArea')" formControlName="blockArea" />
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Township </label>
                                 <div class="col-sm-8">
                                     <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('townshipCode')" [class.is-valid]="isControlValid('townshipCode')" [items]="townshipOption" bindLabel="value" bindValue="code" formControlName="townshipCode">

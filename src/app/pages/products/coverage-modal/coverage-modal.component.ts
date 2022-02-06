@@ -43,7 +43,7 @@ export class CoverageModalComponent implements OnInit, OnDestroy {
       return res.map(x => x.codeName)
     })).toPromise().then((res: any) => {
       // console.log(res);
-      
+
       this.functionName = res
     })
   }
@@ -88,7 +88,7 @@ export class CoverageModalComponent implements OnInit, OnDestroy {
       const optionService = this.type == 'coverage' ? this.coverageService : this.addOnService
 
       if (this.oldData.id) {
-        optionService.updateNoID({...postData,id: this.id}).toPromise().then((res: any) => {
+        optionService.updateNoID({ ...postData, id: this.id }).toPromise().then((res: any) => {
           if (res) {
             this.modal.dismiss({ data: postData, type: 'save' })
           }
@@ -130,7 +130,8 @@ export class CoverageModalComponent implements OnInit, OnDestroy {
     return control.dirty || control.touched;
   }
 
-  changeCheck(value, type) {
+  changeCheck(event: any, type) {
+    let value = event.target.checked
     if (type == 'sum') {
       if (value) {
         this.formGroup.controls.sumInsuredFun.setValidators([Validators.required, Validators.nullValidator]);

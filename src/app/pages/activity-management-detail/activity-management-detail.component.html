@@ -7,34 +7,25 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm">
-                                Related to
-                            </div>
-                            <div class="col-sm">
-                                Owner
-                            </div>
-                            <div class="col-sm">
-                                Status
-                            </div>
-                            <div class="col-sm">
-                                Date
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm">
+                                Related to <br>
                                 {{actForm.controls.relatedTo.value}}
                             </div>
                             <div class="col-sm">
+                                Owner <br>
                                 {{actForm.controls.assignName.value}}
                             </div>
                             <div class="col-sm">
+                                Status <br>
                                 {{activityStatus[actForm.controls.status.value]}}
                             </div>
                             <div class="col-sm">
+                                Date <br>
                                 <ng-container *ngIf="actForm.controls.planDateStr.value">
                                     {{actForm.controls.planDateStr.value | date: "dd-MM-YYYY"}}
                                 </ng-container>
                             </div>
                         </div>
+                       
                     </div>
                 </div>
                 <!-- end: Table -->

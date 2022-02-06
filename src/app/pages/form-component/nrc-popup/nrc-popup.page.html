@@ -59,7 +59,7 @@
         <div class="col-sm-3">
           <div class="form-group">
             <label class="form-label">NRC No</label>
-            <input type="text" class="form-control form-control-sm" name="nrc" autocomplete="off"
+            <input type="tel" class="form-control form-control-sm" name="nrc" autocomplete="off"
               [class.is-invalid]="isControlInvalid('nrc')" [class.is-valid]="isControlValid('nrc')"
               formControlName="nrc" minLength="6" maxLength='6' />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'nrc')">NRC No is required</div>

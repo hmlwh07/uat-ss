@@ -32,9 +32,10 @@ import { EditPrintUIModalComponent } from './edit-print-ui-modal/edit-print-ui-m
 import { PrintPreviewModalComponent } from './print-preview-modal/print-preview-modal.component';
 import { EditSourceModalComponent } from './edit-source-modal/edit-source-modal.component';
 import { ValidityPeriodService } from './services/validity-period.service';
-import { ProductShareModule } from './products-share.module';
 @NgModule({
-  declarations: [ProductsPageComponent],
+  declarations: [ProductsComponent, ProductsModalComponent, CoverageModalComponent, ProductDetailsComponent, PageUIModalComponent, CoverageOption, UIPagesComponent, ViewUIModalComponent, StaticUIModalComponent, InputConfigModalComponent, PrintConfigModalComponent, PrintFormsModalComponent, EditPrintUIModalComponent, PrintPreviewModalComponent, EditSourceModalComponent],
+
+  exports: [ProductsComponent, ProductsModalComponent, CoverageModalComponent, ProductDetailsComponent, PageUIModalComponent, CoverageOption, UIPagesComponent, ViewUIModalComponent, StaticUIModalComponent, InputConfigModalComponent, PrintConfigModalComponent, PrintFormsModalComponent, EditPrintUIModalComponent, PrintPreviewModalComponent, EditSourceModalComponent],
   imports: [
     CommonModule,
     InlineSVGModule,
@@ -50,25 +51,7 @@ import { ProductShareModule } from './products-share.module';
     DragDropModule,
     MatSortModule,
     OverlayModule,
-    ProductShareModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: ProductsPageComponent,
-        children: [
-          {
-            path: 'list',
-            component: ProductsComponent,
-          },
-          {
-            path: 'detail',
-            component: ProductDetailsComponent,
-          },
-        ]
-      }
-
-    ]),
   ],
   providers: [CoverageDataService, AddOnDataService, ProductUIService, ProductUIDeleteService, ValidityPeriodService]
 })
-export class ProductsModule { }
+export class ProductShareModule { }

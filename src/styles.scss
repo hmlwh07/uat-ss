@@ -690,8 +690,11 @@ kbz-loading {
 }
 
 .ng-select.ng-custom-select-sm .ng-select-container {
-    height    : calc(1.35em + 1.1rem + 2px);
-    min-height: calc(1.35em + 1.1rem + 2px);
+    height       : calc(1.35em + 1.1rem + 2px);
+    min-height   : calc(1.35em + 1.1rem + 2px);
+    font-size    : 0.925rem;
+    line-height  : 1.35;
+    border-radius: 0.28rem;
 }
 
 .input-group-sm .mat-icon-button.mat-button-base {
@@ -751,6 +754,15 @@ kbz-loading {
     }
 }
 
-.avatar-btn.btn:hover .svg-icon svg g [fill],.avatar-btn.btn.active .svg-icon svg g [fill] {
+.avatar-btn.btn:hover .svg-icon svg g [fill],
+.avatar-btn.btn.active .svg-icon svg g [fill] {
     fill: #ff8100 !important;
+}
+
+.col-form-label {
+    padding-top   : 0px;
+    padding-bottom: 0px;
+}
+.form-group.row{
+    align-items: center;
 }
