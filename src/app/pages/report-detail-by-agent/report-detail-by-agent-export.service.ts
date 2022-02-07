@@ -7,7 +7,7 @@ import { BizOperationService } from 'src/app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
 const API_ADDON_URL = `${environment.apiUrl}/reportByAgentAll`;
-const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ"];
+const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ"];
 
 @Injectable({
   providedIn: 'root'
@@ -123,7 +123,6 @@ export class ReportDetailAgentExportService extends BizOperationService<any, num
       startIndex += 2;
       let end = this.calculateEndPoint(endIndex);
       endIndex += 2;
-
       worksheet.mergeCells(start + ':' + end);
       let fireCell = worksheet.getCell(start);
       fireCell.value = products[i];

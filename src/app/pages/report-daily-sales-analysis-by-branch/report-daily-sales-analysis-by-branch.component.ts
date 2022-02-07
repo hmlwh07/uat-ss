@@ -311,12 +311,12 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     this.createFormGroup = new FormGroup({
       "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
-      "agentId": new FormControl(0),
-      "companyId": new FormControl(0),
-      "channelId": new FormControl(0),
-      "regionId": new FormControl(0),
-      "clusterId": new FormControl(0),
-      "branchId": new FormControl(0)
+      "agentId": new FormControl(''),
+      "companyId": new FormControl(''),
+      "channelId": new FormControl(''),
+      "regionId": new FormControl(''),
+      "clusterId": new FormControl(''),
+      "branchId": new FormControl('')
     });
   }
 

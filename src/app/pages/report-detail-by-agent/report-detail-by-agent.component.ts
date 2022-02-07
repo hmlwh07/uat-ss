@@ -13,7 +13,7 @@ import { validateAllFields } from 'src/app/core/valid-all-feild';
 })
 export class ReportDetailByAgentComponent implements OnInit {
   @ViewChild('TABLE', { static: false }) TABLE: ElementRef;
-  title = 'Excel';
+  title = 'Agent Sale Report';
   createFormGroup: FormGroup;
   fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
@@ -44,48 +44,13 @@ export class ReportDetailByAgentComponent implements OnInit {
   subHeader = [];
   dataExcel = [];
   isData: boolean = false;
+  dataList = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportDetailAgentExportService) { }
 
   ngOnInit(): void {
     this.loadForm();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
-
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
-
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-          }
-        }
-      }
-    }
-
-    console.log('report ', this.reports);
   }
 
   async getAllReports() {
@@ -94,40 +59,41 @@ export class ReportDetailByAgentComponent implements OnInit {
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('reportByAgentAll', res);
-        if (res.length > 0) {
-          this.isData = true;
-          this.reports = res;
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = [];
-            for (var j = 0; j < this.reports[i].products.length; j++) {
-              this.reports[i].products[j].id = i
-              this.reports[i].products[j].noOfPolicies = null;
-              this.reports[i].products[j].premium = null;
-              this.products.push(this.reports[i].products[j]);
-            }
-
-            for (var k = 0; k < this.reports[i].policies.length; k++) {
-              this.reports[i].policies[k].id = i
-              this.policies.push(this.reports[i].policies[k]);
+        if (res) {
+          if (res.products.length > 0) {
+            for (var i = 0; i < res.products.length; i++) {
+              this.productList.push(res.products[i]);
             }
           }
 
-          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-          }
+          if (res.dataList.length > 0) {
+            this.isData = true;
+            this.dataList = res.dataList;
+            let countNo: number = 0;
+            for (var i = 0; i < this.dataList.length; i++) {
+              this.dataList[i].productDataList = []
+              countNo++;
+              this.dataList[i].no = countNo;
+              for (var j = 0; j < this.productList.length; j++) {
+                this.dataList[i].productDataList.push({
+                  id: this.productList[j].id,
+                  noOfPolicy: null, totalPreminum: null
+                });
+              }
 
-          for (var i = 0; i < this.reports.length; i++) {
-            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-              for (var k = 0; k < this.reports[i].policies.length; k++) {
-                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+              if (this.dataList[i].products.length > 0) { 
+                for (var j = 0; j < this.dataList[i].products.length; j++) {
+                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+                    if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
+                      this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
+                      this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                    }
+                  }
                 }
               }
             }
+            console.log('dataList', this.dataList);
           }
-          console.log('report ', this.reports);
         }
       });
     }
@@ -138,7 +104,7 @@ export class ReportDetailByAgentComponent implements OnInit {
     console.log('generateReportExcel ', this.reports);
     this.productValues = []
     for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+      this.productValues.push(this.productList[i].name)
     }
 
     // Sub Header
@@ -149,11 +115,11 @@ export class ReportDetailByAgentComponent implements OnInit {
     }
 
     // Data
-    for (var i = 0; i < this.reports.length; i++) {
+    for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
+      list.push(i + 1, this.dataList[i].branch, this.dataList[i].channel, this.dataList[i].agentName, this.dataList[i].agentNo)
+      for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
+        list.push(this.dataList[i].productDataList[j].noOfPolicy, this.dataList[i].productDataList[j].totalPreminum)
       }
       this.dataExcel.push(list)
     }
@@ -168,7 +134,7 @@ export class ReportDetailByAgentComponent implements OnInit {
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title,
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -183,6 +149,9 @@ export class ReportDetailByAgentComponent implements OnInit {
       subHeader: this.subHeader,
       data: this.dataExcel
     }
+
+    console.log('this.productValues =====> ', this.productValues);
+
     this.exportService.exportExcel(reportData);
   }
 
@@ -312,12 +281,12 @@ export class ReportDetailByAgentComponent implements OnInit {
     this.createFormGroup = new FormGroup({
       "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
-      "agentId": new FormControl(0),
-      "companyId": new FormControl(0),
-      "channelId": new FormControl(0),
-      "regionId": new FormControl(0),
-      "clusterId": new FormControl(0),
-      "branchId": new FormControl(0)
+      "agentId": new FormControl(''),
+      "companyId": new FormControl(''),
+      "channelId": new FormControl(''),
+      "regionId": new FormControl(''),
+      "clusterId": new FormControl(''),
+      "branchId": new FormControl('')
     });
   }
 

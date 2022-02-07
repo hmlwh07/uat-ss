@@ -59,6 +59,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           if (res.products.length > 0) {
             this.isData = true;
             this.productsHeader.push({ name: 'No.' });
+            this.productsHeader.push({ name: 'Branch' });
             for (var i = 0; i < res.products.length; i++) {
               this.productsHeader.push({ name: res.products[i].name })
             }
@@ -70,7 +71,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
               countNo += 1;
               this.branchDataList.push({ no: countNo, branch: res.dataList[i].branch, products: res.dataList[i].products });
               if (res.dataList[i].products.length == 0) {
-                for (var j = 0; j < this.productsHeader.length; j++) {
+                for (var j = 0; j < this.productsHeader.length - 2; j++) {
                   res.dataList[i].products.push({ value: null });
                 }
               }
@@ -79,6 +80,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
               }
             }
           }
+          
         }
       });
 
@@ -258,12 +260,12 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
     this.createFormGroup = new FormGroup({
       "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
-      "agentId": new FormControl(0),
-      "companyId": new FormControl(0),
-      "channelId": new FormControl(0),
-      "regionId": new FormControl(0),
-      "clusterId": new FormControl(0),
-      "branchId": new FormControl(0)
+      "agentId": new FormControl(''),
+      "companyId": new FormControl(''),
+      "channelId": new FormControl(''),
+      "regionId": new FormControl(''),
+      "clusterId": new FormControl(''),
+      "branchId": new FormControl('')
     });
   }
 

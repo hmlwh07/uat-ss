@@ -5,8 +5,8 @@ import * as fs from 'file-saver';
 import { BizOperationService } from 'src/app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
-const API_ADDON_URL = `${environment.apiUrl}/premiumProductBranch`;
-const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ"];
+const API_ADDON_URL = `${environment.apiUrl}/reportByBankBranch`;
+const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ"];
 
 @Injectable({
   providedIn: 'root'
@@ -27,33 +27,16 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
     const params = new HttpParams({
       fromObject: searchValue
     });
-    return this.httpClient.get(API_ADDON_URL, { params: params });
-  }
-
-  getAllAboutBRAM(fnaId) {
-    return this.httpClient.get(API_ADDON_URL + '/' + fnaId + '/asset');
-  }
-
-
-  formatDateYYYY_MM_DD(date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-    return [year, month, day].join('-');
+    return this.httpClient.get<any>(API_ADDON_URL, { params: params });
   }
 
   exportExcel(excelData) {
     //Title, Header & Data
     const title = excelData.title;
+    const products = excelData.products
+    const subHeader = excelData.subHeader
     const searchValue = excelData.searchValue
-    const particularForExcel = excelData.particularForExcel
-    const policiesForExcel = excelData.policiesForExcel
-    const premiumForExcel = excelData.premiumForExcel;
+    const data = excelData.data;
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -61,11 +44,11 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
 
     // Freeze
     worksheet.views = [
-      { state: 'frozen', xSplit: 0, ySplit: 5, activeCell: 'A1' }
+      { state: 'frozen', xSplit: 6, ySplit: 5, activeCell: 'A1' }
     ];
 
     //Add Row and formatting
-    worksheet.mergeCells('A1', 'E2');
+    worksheet.mergeCells('A1', 'C2');
     let titleRow = worksheet.getCell('A1');
     titleRow.value = title
     titleRow.font = {
@@ -78,7 +61,6 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
     console.log('searchValue', searchValue);
-
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -131,13 +113,19 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
     }
 
     worksheet.addRow([]);
-    // Adding Data with Conditional Formatting
-    let startIndex: number = 0;
-    for (var i = 0; i < particularForExcel.length; i++) {
+
+    //Adding Sub Header Row
+    worksheet.mergeCells('A4:F4');
+    let startIndex: number = 6;
+    let endIndex: number = 7;
+    for (var i = 0; i < products.length; i++) {
       let start = this.calculateStartPoint(startIndex);
-      startIndex += 1;
+      startIndex += 2;
+      let end = this.calculateEndPoint(endIndex);
+      endIndex += 2;
+      worksheet.mergeCells(start + ':' + end);
       let fireCell = worksheet.getCell(start);
-      fireCell.value = particularForExcel[i];
+      fireCell.value = products[i];
       fireCell.font = {
         name: 'Calibri',
         size: 12,
@@ -146,29 +134,48 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
       fireCell.alignment = { vertical: 'middle', horizontal: 'center' }
     }
 
-    for (var i = 0; i < policiesForExcel.length; i++) {
+
+    for (var i = 0; i < subHeader.length; i++) {
       let start = this.calculateDataPoint(i);
+      worksheet.mergeCells(start + ':' + start);
       let dataCell = worksheet.getCell(start);
-      dataCell.value = policiesForExcel[i];
+      dataCell.value = subHeader[i];
       dataCell.font = {
         name: 'Calibri',
         size: 12,
-        bold: false
+        bold: true
       }
       dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
     }
 
-    for (var i = 0; i < premiumForExcel.length; i++) {
-      let start = this.calculatePremiumDataPoint(i);
-      let dataCell = worksheet.getCell(start);
-      dataCell.value = premiumForExcel[i];
-      dataCell.font = {
-        name: 'Calibri',
-        size: 12,
-        bold: false
+
+
+    //Adding Data with Conditional Formatting
+    data.forEach(d => {
+      let row = worksheet.addRow(d);
+      let no = row.getCell(1);
+      if (no) {
+        no.alignment = { vertical: 'middle', horizontal: 'center' }
       }
-      dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
+      let index = 0;
+      d.forEach(a => {
+        index++;
+        if (index != 2 && index != 3 && index != 4 && index != 5) {
+          let center = row.getCell(index);
+          if (center) {
+            center.alignment = { vertical: 'middle', horizontal: 'right' }
+          }
+        }
+        if (index == 1) {
+          let center = row.getCell(index);
+          if (center) {
+            center.alignment = { vertical: 'middle', horizontal: 'center' }
+          }
+        }
+      });
     }
+    );
+
 
     worksheet.columns.forEach(function (column, i) {
       var maxLength = 0;
@@ -181,7 +188,11 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
       column.width = maxLength < 10 ? 10 : maxLength;
     });
 
-    worksheet.getColumn(1).width = 25;
+    worksheet.getColumn(1).width = 5;
+    worksheet.getColumn(2).width = 20;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 20;
 
     const autoHeight = (worksheet) => {
       const lineHeight = 12 // height per line is roughly 12
@@ -202,8 +213,10 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
 
   }
 
+
+
   calculateStartPoint(index) {
-    return alphabet[index] + '5'
+    return alphabet[index] + '4'
   }
 
   calculateEndPoint(index) {
@@ -211,11 +224,7 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
   }
 
   calculateDataPoint(index) {
-    return alphabet[index] + '6'
-  }
-
-  calculatePremiumDataPoint(index) {
-    return alphabet[index] + '7'
+    return alphabet[index] + '5'
   }
 
   formatDateDDMMYYY(date) {
@@ -235,4 +244,15 @@ export class ReportDetailBankBranchExportService extends BizOperationService<any
     return (Math.round(num * factor) / factor).toLocaleString();
   };
 
+  formatDateYYYY_MM_DD(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [year, month, day].join('-');
+  }
 }

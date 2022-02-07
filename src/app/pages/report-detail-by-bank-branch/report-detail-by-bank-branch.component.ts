@@ -12,6 +12,7 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-detail-by-bank-branch.const
 })
 export class ReportDetailByBankBranchComponent implements OnInit {
   createFormGroup: FormGroup;
+  title= "Bank Branch Sale Report"
   fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
   toMaxDate: { year: number; month: number; day: number; };
@@ -47,6 +48,10 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   policiesForExcel = [];
   premiumForExcel = [];
   isData: boolean = false;
+  productValues = [];
+  subHeader = [];
+  dataList = [];
+  dataExcel = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportDetailBankBranchExportService) { }
@@ -60,28 +65,43 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
-      this.displayList[0].particular = [];
-      this.displayList[0].policies = [];
-      this.displayList[0].premium = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        if (res.length > 0) {
-          this.reports = res;
-          this.isData = true;
-          let noOfPolicy: number = 0;
-          let totalPreminum: number = 0;
-          this.displayList[0].particular.push({ branch: 'Particular' });
-          this.displayList[0].policies.push({ noOfPolicy: "No. of Policies" });
-          this.displayList[0].premium.push({ totalPreminum: "Premuim" });
-          for (var i = 0; i < this.reports.length; i++) {
-            noOfPolicy += this.reports[i].noOfPolicy;
-            totalPreminum += this.reports[i].totalPreminum;
-            this.displayList[0].particular.push({ branch: this.reports[i].branch });
-            this.displayList[0].policies.push({ noOfPolicy: this.reports[i].noOfPolicy });
-            this.displayList[0].premium.push({ totalPreminum: this.reports[i].totalPreminum });
+        console.log('reportByAgentAll', res);
+        if (res) {
+          if (res.products.length > 0) {
+            for (var i = 0; i < res.products.length; i++) {
+              this.productList.push(res.products[i]);
+            }
           }
-          this.displayList[0].particular.push({ branch: 'Total' });
-          this.displayList[0].policies.push({ noOfPolicy: noOfPolicy });
-          this.displayList[0].premium.push({ totalPreminum: totalPreminum });
+
+          if (res.dataList.length > 0) {
+            this.isData = true;
+            this.dataList = res.dataList;
+            let countNo: number = 0;
+            for (var i = 0; i < this.dataList.length; i++) {
+              this.dataList[i].productDataList = []
+              countNo++;
+              this.dataList[i].no = countNo;
+              for (var j = 0; j < this.productList.length; j++) {
+                this.dataList[i].productDataList.push({
+                  id: this.productList[j].id,
+                  noOfPolicy: null, totalPreminum: null
+                });
+              }
+
+              if (this.dataList[i].products.length > 0) {
+                for (var j = 0; j < this.dataList[i].products.length; j++) {
+                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+                    if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
+                      this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
+                      this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                    }
+                  }
+                }
+              }
+            }
+            console.log('dataList', this.dataList);
+          }
         }
       });
     }
@@ -89,32 +109,40 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   }
 
   generateReportExcel() {
-    this.particularForExcel = [];
-    this.policiesForExcel = [];
-    this.premiumForExcel = [];
-    for (var i = 0; i < this.displayList[0].particular.length; i++) {
-      this.particularForExcel.push(this.displayList[0].particular[i].branch)
+    console.log('generateReportExcel ', this.reports);
+    this.productValues = []
+    for (var i = 0; i < this.productList.length; i++) {
+      this.productValues.push(this.productList[i].name)
     }
 
-    for (var i = 0; i < this.displayList[0].policies.length; i++) {
-      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy)
+    // Sub Header
+    this.subHeader = ["No.", "Branch", "Channel", "Bank Branch", "Agent Name", "Agent No."];
+    for (var i = 0; i < this.productList.length; i++) {
+      this.subHeader.push("No of Policies");
+      this.subHeader.push("Premium");
     }
 
-    for (var i = 0; i < this.displayList[0].premium.length; i++) {
-      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum)
+    // Data
+    for (var i = 0; i < this.dataList.length; i++) {
+      let list = [];
+      list.push(i + 1, this.dataList[i].branch, this.dataList[i].channel, this.dataList[i].bankBranch, this.dataList[i].agentName, this.dataList[i].agentNo)
+      for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
+        list.push(this.dataList[i].productDataList[j].noOfPolicy, this.dataList[i].productDataList[j].totalPreminum)
+      }
+      this.dataExcel.push(list)
     }
 
-    let fromDate = '';
-    let toDate = '';
+    let fromDate = null;
+    let toDate = null;
     if (this.createFormGroup.value.fromDate) {
       fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
     }
-    if (this.createFormGroup.value.toDate) {
+    if (this.createFormGroup.value.fromDate) {
       toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title,
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -125,10 +153,13 @@ export class ReportDetailByBankBranchComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      particularForExcel: this.particularForExcel,
-      policiesForExcel: this.policiesForExcel,
-      premiumForExcel: this.premiumForExcel
+      products: this.productValues,
+      subHeader: this.subHeader,
+      data: this.dataExcel
     }
+
+    console.log('this.productValues =====> ', this.productValues);
+
     this.exportService.exportExcel(reportData);
   }
 
@@ -257,12 +288,12 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     this.createFormGroup = new FormGroup({
       "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
-      "agentId": new FormControl(0),
-      "companyId": new FormControl(0),
-      "channelId": new FormControl(0),
-      "regionId": new FormControl(0),
-      "clusterId": new FormControl(0),
-      "branchId": new FormControl(0)
+      "agentId": new FormControl(''),
+      "companyId": new FormControl(''),
+      "channelId": new FormControl(''),
+      "regionId": new FormControl(''),
+      "clusterId": new FormControl(''),
+      "branchId": new FormControl('')
     });
   }
 

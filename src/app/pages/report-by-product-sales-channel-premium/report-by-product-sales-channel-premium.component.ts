@@ -44,6 +44,7 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
   branchDataList = [];
   title: string = "Product Sales Channel Premium";
   isData: boolean = false;
+  dataList: any;
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportProductSalesChannelPremiumExportService) { }
@@ -69,18 +70,31 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
             for (var i = 0; i < res.products.length; i++) {
               this.productsHeader.push({ name: res.products[i].name })
             }
-          }
 
-          if (res.dataList.length > 0) {
-            let countNo: number = 0;
-            for (var i = 0; i < res.dataList.length; i++) {
-              countNo += 1;
-              this.branchDataList.push({ no: countNo, month: res.dataList[i].month, products: res.dataList[i].products });
-              if (res.dataList[i].products.length == 0) {
-                for (var j = 0; j < this.productsHeader.length; j++) {
-                  res.dataList[i].products.push({ value: null });
+            if (res.dataList.length > 0) {
+              this.isData = true;
+              this.dataList = res.dataList;
+              let countNo: number = 0;
+              for (var i = 0; i < this.dataList.length; i++) {
+                this.dataList[i].productDataList = []
+                countNo++;
+                this.dataList[i].no = countNo;
+                for (var j = 0; j < this.productsHeader.length - 2; j++) {
+                  this.dataList[i].productDataList.push({ value: null });
+                }
+
+                if (this.dataList[i].products) {
+                  for (var j = 0; j < this.dataList[i].products.length; j++) {
+                    for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+                      if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
+                        this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
+                        this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                      }
+                    }
+                  }
                 }
               }
+              console.log('dataList', this.dataList);
             }
           }
         }
@@ -100,9 +114,9 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
 
     // Data For Excel
     let countSrNo: number = 0;
-    for (var i = 0; i < this.branchDataList.length; i++) {
+    for (var i = 0; i < this.dataList.length; i++) {
       countSrNo += 1;
-      this.branchDataForExcel.push([countSrNo, this.branchDataList[i].month])
+      this.branchDataForExcel.push([countSrNo, this.dataList[i].month])
     }
 
     let fromDate = null;
@@ -259,12 +273,12 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
     this.createFormGroup = new FormGroup({
       "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
       "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
-      "agentId": new FormControl(0),
-      "companyId": new FormControl(0),
-      "channelId": new FormControl(0),
-      "regionId": new FormControl(0),
-      "clusterId": new FormControl(0),
-      "branchId": new FormControl(0)
+      "agentId": new FormControl(''),
+      "companyId": new FormControl(''),
+      "channelId": new FormControl(''),
+      "regionId": new FormControl(''),
+      "clusterId": new FormControl(''),
+      "branchId": new FormControl('')
     });
   }
 

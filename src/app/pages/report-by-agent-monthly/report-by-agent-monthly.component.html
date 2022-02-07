@@ -132,7 +132,7 @@
     </div>
 </div>
 
-<div class="row"  *ngIf="isData">
+<div class="row" *ngIf="isData">
     <div class="col-12">
         <div style="width: 100%;
         overflow: hidden; position: relative;">
@@ -171,41 +171,45 @@
                 <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
             </div>
         </div>
-        <table border="1">
-            <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
-                <th colspan="5"></th>
-                <th *ngFor="let product of productList; let i = index">{{ product.productName }}</th>
-            </tr>
-            <tr>
-                <th>No</th>
-                <th>Branch</th>
-                <th>Channel</th>
-                <th>Agent Name</th>
-                <th>Agent No.</th>
-                <th *ngFor="let product of productList; let i = index">
-                    <span>No of Policies
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span>Premium</span>
-                </th>
-            </tr>
-            <tr *ngFor="let report of reports; let i = index">
-                <td>{{ i + 1}}</td>
-                <td>{{ report.branchName }}</td>
-                <td>{{ report.channelName }}</td>
-                <td>{{ report.agentName }}</td>
-                <td>{{ report.agentNo }}</td>
-                <td *ngFor="let policy of reports[i].productPolicies; let j = index; ">
-                    <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
-                    <span *ngIf="!policy.noOfPolicies">
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span *ngIf="!policy.noOfPolicies"></span>
-                </td>
-            </tr>
-        </table>
+        <div style="width: 100%;
+        overflow-y: hidden;
+        overflow-x: scroll;">
+            <table border="1">
+                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
+                    <th colspan="5"></th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.productName }}</th>
+                </tr>
+                <tr>
+                    <th>No</th>
+                    <th>Branch</th>
+                    <th>Channel</th>
+                    <th>Agent Name</th>
+                    <th>Agent No.</th>
+                    <th *ngFor="let product of productList; let i = index">
+                        <span>No of Policies
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span>Premium</span>
+                    </th>
+                </tr>
+                <tr *ngFor="let report of reports; let i = index">
+                    <td>{{ i + 1}}</td>
+                    <td>{{ report.branchName }}</td>
+                    <td>{{ report.channelName }}</td>
+                    <td>{{ report.agentName }}</td>
+                    <td>{{ report.agentNo }}</td>
+                    <td *ngFor="let policy of reports[i].productPolicies; let j = index; ">
+                        <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
+                        <span *ngIf="!policy.noOfPolicies">
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span *ngIf="!policy.noOfPolicies"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

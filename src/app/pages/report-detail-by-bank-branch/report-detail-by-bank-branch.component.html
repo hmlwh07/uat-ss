@@ -3,7 +3,7 @@
         <div class="card card-custom gutter-b">
             <div class="card-header">
                 <div class="card-title">
-                    <h3 class="card-label left-border-image">By Branch Summary IA</h3>
+                    <h3 class="card-label left-border-image">#Detail Report by bank branch​</h3>
                 </div>
                 <div class="card-toolbar">
                     <button type="button" [disabled]="!isData" (click)="generateReportExcel()"
@@ -143,7 +143,7 @@
                 <br *ngIf="createFormGroup.value.regionId">
                 <br *ngIf="createFormGroup.value.clusterId">
                 <br *ngIf="createFormGroup.value.branchId">
-                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">BY BRANCH SUMMARY AI</h3>
+                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">{{ title }}</h3>
             </div>
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.agentId">
@@ -171,33 +171,47 @@
                 <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
             </div>
         </div>
-        <table border="1">
-            <tr>
-                <th *ngFor="let particular of displayList[0].particular; let i = index">{{ particular.branch }}</th>
-            </tr>
-            <tr>
-                <th *ngFor="let policies of displayList[0].policies; let i = index">{{ policies.noOfPolicy }}</th>
-            </tr>
-            <tr>
-                <th *ngFor="let premium of displayList[0].premium; let i = index">{{ premium.totalPreminum }}</th>
-            </tr>
-            <!-- <tr *ngFor="let report of reports; let i = index">
-                <td>{{ i + 1}}</td>
-                <td>{{ report.branchName }}</td>
-                <td>{{ report.channelName }}</td>
-                <td>{{ report.agentName }}</td>
-                <td>{{ report.agentNo }}</td>
-                <td *ngFor="let policy of reports[i].productPolicies; let j = index; ">
-                    <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
-                    <span *ngIf="!policy.noOfPolicies">
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span *ngIf="!policy.noOfPolicies"></span>
-                </td>
-            </tr> -->
-        </table>
+        <div style="width: 100%;
+        overflow-y: hidden;
+        overflow-x: scroll;">
+            <table border="1">
+                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
+                    <th colspan="6"></th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.name }}</th>
+                </tr>
+                <tr>
+                    <th>No</th>
+                    <th>Branch</th>
+                    <th>Channel</th>
+                    <th>Bank Branch</th>
+                    <th>Agent Name</th>
+                    <th>Agent No.</th>
+                    <th *ngFor="let product of productList; let i = index">
+                        <span>No of Policies
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span>Premium</span>
+                    </th>
+                </tr>
+                <tr *ngFor="let data of dataList; let i = index">
+                    <td>{{ data.no }}</td>
+                    <td>{{ data.branch }}</td>
+                    <td>{{ data.channel }}</td>
+                    <td>{{ data.bankBranch }}</td>
+                    <td>{{ data.agentName }}</td>
+                    <td>{{ data.agentNo }}</td>
+                    <td *ngFor="let policy of dataList[i].productDataList; let j = index; ">
+                        <span *ngIf="policy.noOfPolicy">{{ policy.noOfPolicy }}
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span *ngIf="policy.totalPreminum">{{ policy.totalPreminum }}</span>
+                        <span *ngIf="!policy.noOfPolicy">
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span *ngIf="!policy.totalPreminum"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>

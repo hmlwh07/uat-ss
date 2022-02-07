@@ -171,17 +171,21 @@
                 <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
             </div>
         </div>
-        <table border="1">
-            <tr>
-                <th *ngFor="let particular of displayList[0].particular; let i = index">{{ particular.channel }}</th>
-            </tr>
-            <tr>
-                <th *ngFor="let policies of displayList[0].policies; let i = index">{{ policies.noOfPolicy }}</th>
-            </tr>
-            <tr>
-                <th *ngFor="let premium of displayList[0].premium; let i = index">{{ premium.totalPreminum }}</th>
-            </tr>
-            <!-- <tr *ngFor="let report of reports; let i = index">
+        <div style="width: 100%;
+        overflow-y: hidden;
+        overflow-x: scroll;">
+            <table border="1">
+                <tr>
+                    <th *ngFor="let particular of displayList[0].particular; let i = index">{{ particular.channel }}
+                    </th>
+                </tr>
+                <tr>
+                    <th *ngFor="let policies of displayList[0].policies; let i = index">{{ policies.noOfPolicy }}</th>
+                </tr>
+                <tr>
+                    <th *ngFor="let premium of displayList[0].premium; let i = index">{{ premium.totalPreminum }}</th>
+                </tr>
+                <!-- <tr *ngFor="let report of reports; let i = index">
                 <td>{{ i + 1}}</td>
                 <td>{{ report.branchName }}</td>
                 <td>{{ report.channelName }}</td>
@@ -198,6 +202,7 @@
                     <span *ngIf="!policy.noOfPolicies"></span>
                 </td>
             </tr> -->
-        </table>
+            </table>
+        </div>
     </div>
 </div>

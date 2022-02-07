@@ -159,21 +159,25 @@
                 <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
             </div>
         </div>
-        <table border="1">
-            <tr>
-                <th>Sr. No.</th>
-                <th>Branch</th>
-                <th>#Active Agents</th>
-                <th>#No of Ploicies</th>
-                <th>#Premium</th>
-            </tr>
-            <tr *ngFor="let report of reports; let i = index">
-                <td>{{ report.srNo }}</td>
-                <td>{{ report.branch }}</td>
-                <td>{{ report.activeAgents }}</td>
-                <td>{{ report.noOfPolicy }}</td>
-                <td>{{ report.totalPreminum }}</td>
-            </tr>
-        </table>
+        <div style="width: 100%;
+        overflow-y: hidden;
+        overflow-x: scroll;">
+            <table border="1">
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Branch</th>
+                    <th>#Active Agents</th>
+                    <th>#No of Ploicies</th>
+                    <th>#Premium</th>
+                </tr>
+                <tr *ngFor="let report of reports; let i = index">
+                    <td>{{ report.srNo }}</td>
+                    <td>{{ report.branch }}</td>
+                    <td>{{ report.activeAgents }}</td>
+                    <td>{{ report.noOfPolicy }}</td>
+                    <td>{{ report.totalPreminum }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
