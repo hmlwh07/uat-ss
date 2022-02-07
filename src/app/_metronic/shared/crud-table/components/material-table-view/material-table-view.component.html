@@ -123,10 +123,11 @@
             </ng-container>
 
         </table>
-        <mat-paginator [pageSizeOptions]="pageSizeOptions" style-paginator showFirstLastButtons
-            aria-label="Select page of periodic elements">
-        </mat-paginator>
+
     </div>
+    <mat-paginator [pageSizeOptions]="pageSizeOptions" style-paginator showFirstLastButtons
+        aria-label="Select page of periodic elements">
+    </mat-paginator>
 </div>
 <div class="text-center" *ngIf="data.length == 0">
     <span style="color: gray;">There is no data</span>
