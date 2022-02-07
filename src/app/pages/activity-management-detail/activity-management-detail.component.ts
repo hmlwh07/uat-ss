@@ -230,7 +230,7 @@ export class ActivityManagementDetailComponent implements OnInit {
   edit(postData) {
     let data = { ...postData, activityNo: this.oldId, relatedType: this.relatedType || null }
     if (this.isLead) {
-      data = { ...postData, relatedType: this.relatedType || null, status: '01', leadId: this.leadId }
+      data = { ...postData, relatedType: this.relatedType || null, leadId: this.leadId }
     }
     this.activityManageService.updateNoID(data).toPromise().then((res) => {
       if (res) {

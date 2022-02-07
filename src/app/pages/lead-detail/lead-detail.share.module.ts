@@ -18,7 +18,7 @@ import { CustomerDetailShareModule } from '../customer-detail/customer-detail.sh
 
 @NgModule({
   declarations: [LeadDetailComponent,CampaignListComponent],
-  exports: [],
+  exports: [LeadDetailComponent,CampaignListComponent],
   imports: [
     CommonModule,
     FormsModule,

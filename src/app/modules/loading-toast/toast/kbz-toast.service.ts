@@ -7,7 +7,9 @@ export interface ToastMessage {
   type?: string
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class KBZToastService {
   private toastSubject = new Subject<ToastMessage>();
 

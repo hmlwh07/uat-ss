@@ -35,17 +35,25 @@ export const DynamicAsideMenuConfig = {
         {
           title: 'Lead Detail',
           page: '/lead/lead-detail',
-          submenu: [
-            {
-              title: 'FNA LPP',
-              page: '/fna/fna-detail',
-            },
-            {
-              title: 'FNA BRAM',
-              page: '/fna/fna-bram',
-            }
-          ]
+          // submenu: [
+          //   {
+          //     title: 'FNA LPP',
+          //     page: '/fna/fna-detail',
+          //   },
+          //   {
+          //     title: 'FNA BRAM',
+          //     page: '/fna/fna-bram',
+          //   }
+          // ]
         },
+        {
+          title: 'FNA LPP',
+          page: '/fna/fna-detail',
+        },
+        {
+          title: 'FNA BRAM',
+          page: '/fna/fna-bram',
+        }
         // {
         //   title: 'FNA LPP',
         //   page: '/fna/fna-detail',

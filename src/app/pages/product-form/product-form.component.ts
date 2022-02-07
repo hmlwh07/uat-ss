@@ -320,7 +320,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             name: tempName,
             type: x.input,
             subType: x.type,
-            options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
+            options: (x.master == "false" || x.master == false) && x.options ? x.options : []
           }
           let tempObj = {
             title: x.tableTitle || x.label || x.name,
@@ -328,7 +328,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             type: x.input,
             subType: x.type,
             parent: x.dependency ? x.dependency.parentName : "",
-            options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
+            options: (x.master == "false" || x.master == false) && x.options ? x.options : []
           }
           this.tableReform.push(tempObj)
         } else {
@@ -339,7 +339,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
               name: tempName,
               type: x.input,
               subType: x.type,
-              options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
+              options: (x.master == "false" || x.master == false) && x.options ? x.options : []
             }
             this.tableReform[index].cols.push(otherNameObj)
           }
