@@ -6,7 +6,7 @@
                     <h3 class="card-label left-border-image">My Calendar</h3>
                 </div>
                 <div class="card-toolbar">
-                    <button type="button" class="btn btn-primary btn-circle" (click)="addEvent()">
+                    <button type="button" class="btn btn-primary btn-circle" (click)="addEvent(eventNumber)">
                         <span class="flaticon2-plus"></span>
                     </button>
                 </div>
@@ -49,14 +49,31 @@
                 <br />
 
                 <div [ngSwitch]="view">
-                    <mwl-calendar-month-view *ngSwitchCase="calendarView.Month" [events]="events" [viewDate]="viewDate" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+                    <mwl-calendar-month-view *ngSwitchCase="calendarView.Month" [cellTemplate]="customCellTemplate" [events]="events" [viewDate]="viewDate" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+                        (eventTimesChanged)="eventTimesChanged($event)">
                     </mwl-calendar-month-view>
                     <!-- <mwl-calendar-week-view *ngSwitchCase="calendarView.Week" [events]="events" [viewDate]="viewDate" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
                     </mwl-calendar-week-view>
                     <mwl-calendar-day-view *ngSwitchCase="calendarView.Day" [events]="events" [viewDate]="viewDate" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
                     </mwl-calendar-day-view> -->
                 </div>
-
+                <ng-template #customCellTemplate let-day="day" let-openDay="openDay" let-locale="locale" let-tooltipPlacement="tooltipPlacement" let-highlightDay="highlightDay" let-unhighlightDay="unhighlightDay" let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate"
+                    let-tooltipAppendToBody="tooltipAppendToBody" let-tooltipDelay="tooltipDelay" let-trackByEventId="trackByEventId" let-validateDrag="validateDrag">
+                    <div class="cal-cell-top">
+                        <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{
+                day.badgeTotal
+              }}</span>
+                        <span class="cal-day-number">{{
+                day.date | calendarDate: 'monthViewDayNumber':locale
+              }}</span>
+                    </div>
+                    <div class="cal-events" *ngIf="day.events.length > 0">
+                        <div class="cal-event" *ngFor="let event of day.events | slice:0:showAll ? undefined :3; trackBy: trackByEventId" (mwlClick)="eventClicked.emit({ event: event })"></div>
+                        <span (click)="showAll = !showAll" class="cal-day-badge" *ngIf="day.events.length > 3">
+                + {{ day.events.length - 3 }} 
+              </span>
+                    </div>
+                </ng-template>
                 <!-- <br /><br /><br />
 
                 <h3>
@@ -107,6 +124,8 @@
                     </table>
                 </div>
  -->
+
+
                 <ng-template #modalContent let-close="close">
                     <div class="modal-header">
                         <h5 class="modal-title">Detail</h5>
@@ -127,6 +146,7 @@
                         </button>
                     </div>
                 </ng-template>
+
 
             </div>
         </div>

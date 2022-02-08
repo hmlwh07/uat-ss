@@ -63,7 +63,7 @@ export class MycalendarComponent implements OnInit {
   calendarView = CalendarView;
 
   viewDate: Date = new Date();
-
+  showAll = false;
   modalData: {
     action: string;
     event: CalendarEvent;
@@ -88,53 +88,62 @@ export class MycalendarComponent implements OnInit {
   ];
 
   refresh = new Subject<void>();
+  eventNumber:number=0
   EventData = [
 
     {
       start: (new Date()),
-      end: (new Date()),
-      title: 'Testing',
+      // end: (new Date()),
+      title: 'Testing Events 1',
       color: colors.blue,
       actions: this.actions,
     },
+    {
+      start: subDays(endOfDay(new Date()),7),
+      // end: subDays(startOfDay(new Date()),3),
+      title: 'Testing Events 2',
+      color: colors.blue,
+      actions: this.actions,
+    },
+    
     // {
     //   start: subDays(startOfDay(new Date()), 1),
     //   end: addDays(new Date(), 1),
     //   title: 'Test Event1 ',
     //   color: colors.blue,
-    //   // actions: this.actions,
-    //   // allDay: true,
-    //   // resizable: {
-    //   //   beforeStart: true,
-    //   //   afterEnd: true,
-    //   // },
-    //   // draggable: true,
+    //   actions: this.actions,
+    //   allDay: true,
+    //   resizable: {
+    //     beforeStart: true,
+    //     afterEnd: true,
+    //   },
+    //   draggable: true,
     // },
     // {
     //   start: startOfDay(new Date()),
     //   end: addDays(new Date(), 1),
     //   title: 'Test Event 2 ',
     //   color: colors.yellow,
-    //   // actions: this.actions,
+    //   actions: this.actions,
     // },
     // {
     //   start: subDays(startOfDay(new Date()), 1),
     //   end: addDays(startOfDay(new Date()), 1),
     //   title: 'Test Event 3 ',
     //   color: colors.orange,
-    //   // allDay: true,
+    //   allDay: true,
     // },
     // {
     //   start: addHours(startOfDay(new Date()), 1),
     //   end: addHours(new Date(), 1),
     //   title: 'Test Event 4',
     //   color: colors.red,
-    //   // actions: this.actions,
-    //   // resizable: {
-    //   //   beforeStart: true,
-    //   //   afterEnd: true,
-    //   // },
-    //   // draggable: true,
+    //   actions: this.actions,
+    //   resizable: {
+    //     beforeStart: true,
+    //     afterEnd: true,
+    //   },
+    //   draggable: true,
     // },
   ];
   events: CalendarEvent[] = []
@@ -148,7 +157,12 @@ export class MycalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   this.getActivity()
+  }
+
+  getActivity(){
     this.events = this.EventData
+    this.eventNumber=this.events.length
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -188,13 +202,14 @@ export class MycalendarComponent implements OnInit {
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
+  addEvent(i): void {
+    this.eventNumber +=1
     this.events = [
       ...this.events,
       {
-        title: 'Testing',
-        start: new Date(),
-        end: new Date(),
+        title:`Testing Events ${   this.eventNumber }`,
+        start: subDays(startOfDay(new Date()),3),
+        // end: addDays(new Date(), 1),
         color: colors.blue,
         actions: this.actions,
         // draggable: true,
