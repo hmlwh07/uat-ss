@@ -1045,7 +1045,9 @@ export class LeadDetailComponent implements OnInit {
         this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
       }
       if (event.cmd == 'delete') {
-        this.LeadAttachmentService.delete(event.data.id)
+        this.LeadAttachmentService.delete(event.data.id).toPromise().then((res)=>{
+          
+        })
       }
     }
   }
