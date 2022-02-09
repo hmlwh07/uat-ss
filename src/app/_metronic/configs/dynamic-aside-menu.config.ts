@@ -210,7 +210,7 @@ export const DynamicAsideMenuConfig = {
       submenu_show: true,
       submenu: [
         {
-          title: 'Detail Report By Agent​',
+          title: '#Detail Report by agent all​',
           page: 'report/report-detail-by-agent',
           show: true
         },
