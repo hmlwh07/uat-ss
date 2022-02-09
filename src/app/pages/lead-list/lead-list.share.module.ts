@@ -10,6 +10,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StaticPagesModule } from '../static-pages/static-pages.module';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 
 
 
@@ -25,8 +27,10 @@ import { StaticPagesModule } from '../static-pages/static-pages.module';
     MatRadioModule, 
     MatDatepickerModule,
     MatInputModule,
+    NgbModalModule,
     StaticPagesModule,
-    NgSelectModule
+    NgSelectModule,
+    CustomerListShareModule
   ]
 })
 export class LeadListShareModule { }

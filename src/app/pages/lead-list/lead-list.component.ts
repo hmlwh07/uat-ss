@@ -26,7 +26,7 @@ import { CustomerListComponent } from "../customer-list/customer-list.component"
   styleUrls: ["./lead-list.component.scss"],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
 
@@ -51,7 +51,7 @@ export class LeadListComponent implements OnInit {
     private LeadListService: LeadListService,
     private masterDataService: MasterDataService,
     private productService: ProductDataService,
-    private modalService:NgbModal
+    private modalService: NgbModal
   ) {
     this.loadForm();
   }
@@ -67,7 +67,7 @@ export class LeadListComponent implements OnInit {
     this.LeadForm = new FormGroup({
       campaignName: new FormControl(null),
       existingCustomerId: new FormControl(null),
-      existingCustomerName: new FormControl(null),
+      existingCustomerName: new FormControl({ value: null, disabled: true }),
       contactName: new FormControl(null),
       leadId: new FormControl(null),
       openDateStr: new FormControl(null),
@@ -135,7 +135,7 @@ export class LeadListComponent implements OnInit {
   }
 
   getList() {
-    this.LeadListService.getLeadList(this.LeadForm.value)
+    this.LeadListService.getLeadList(this.LeadForm.getRawValue())
       .toPromise()
       .then((res: any) => {
         if (res) {

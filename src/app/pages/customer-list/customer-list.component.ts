@@ -69,11 +69,12 @@ export class CustomerListComponent implements OnInit {
 
   getList() {
     let check = this.isPopup && !this.isDynamic ? true : false
-    this.customerListService.getCustomerList(this.customerForm.value,this.party,check).toPromise().then((res: any) => {
+    this.customerListService.getCustomerList(this.customerForm.value, this.party, check).toPromise().then((res: any) => {
       if (res) {
         this.customerList = res
         this.cdf.detectChanges()
-        this.matTable.reChangeData()
+        if (this.matTable)
+          this.matTable.reChangeData()
       }
     })
   }

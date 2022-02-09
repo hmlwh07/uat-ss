@@ -1036,21 +1036,66 @@ export class LeadDetailComponent implements OnInit {
       if (event.cmd == 'edit') {
         this.editQuo(event.data);
       }
+      else if (event.cmd == 'view') {
+        this.goQuoViewDetail(event.data);
+      }
+      else if (event.cmd == 'view') {
+        this.goQuoViewDetail(event.data);
+      }
     } else if (type == 'APP') {
       if (event.cmd == 'edit') {
         this.editApp(event.data);
+      } else if (event.cmd == 'create') {
+        this.createPolicy(event.data);
       }
     } else if (type == 'ATT') {
       if (event.cmd == 'download') {
         this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
       }
       if (event.cmd == 'delete') {
-        this.LeadAttachmentService.delete(event.data.id).toPromise().then((res)=>{
-          
+        this.LeadAttachmentService.delete(event.data.id).toPromise().then((res) => {
+
         })
       }
     }
   }
+  
+  createPolicy(item) {
+    this.prodctService.findOne(item.productId).toPromise().then((res) => {
+      if (res) {
+        this.prodctService.createingProdRef = res
+        this.prodctService.viewType = 'policy'
+        this.prodctService.type = 'policy'
+        this.prodctService.referenceID = item.id
+        this.prodctService.editData = null
+        this.prodctService.creatingLeadId = item.leadId
+        this.router.navigateByUrl("/product-form")
+      }
+    })
+  }
+
+  goAppViewDetail(item) {
+    this.prodctService.findOne(item.productId).toPromise().then((res) => {
+      if (res) {
+        this.prodctService.createingProd = res
+        this.prodctService.previewType = 'policy'
+        this.prodctService.editData = item
+        this.router.navigateByUrl("/resourse-detail")
+      }
+    })
+  }
+
+  goQuoViewDetail(item) {
+    this.prodctService.findOne(item.productId).toPromise().then((res) => {
+      if (res) {
+        this.prodctService.createingProd = res
+        this.prodctService.editData = item
+        this.prodctService.previewType = 'quotation'
+        this.router.navigateByUrl("/resourse-detail")
+      }
+    })
+  }
+
   editQuo(item) {
     forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {

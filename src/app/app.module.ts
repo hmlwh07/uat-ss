@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ClipboardModule } from 'ngx-clipboard';
 import { InlineSVGModule } from 'ng-inline-svg';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './modules/auth/_services/auth.service';
@@ -15,7 +15,7 @@ import { SplashScreenModule } from './_metronic/partials/layout/splash-screen/sp
 import { KBZToastModule } from './modules/loading-toast/toast/kbz-toast.module';
 import { KBZLoadingModule } from './modules/loading-toast/loading/loading.module';
 import { HttpConfigInterceptor } from './core/httpconfig.interceptor';
-import { DecimalPipe } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { AlertModelModule } from './modules/loading-toast/alert-model/alert-model.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -41,6 +41,7 @@ function appInitializer(authService: AuthService) {
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     IonicModule.forRoot(),
     BrowserAnimationsModule,
@@ -52,6 +53,7 @@ function appInitializer(authService: AuthService) {
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
+    NgbModalModule,
     KBZToastModule,
     KBZLoadingModule,
     AlertModelModule,
