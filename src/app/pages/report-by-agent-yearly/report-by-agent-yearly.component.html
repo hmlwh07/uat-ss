@@ -147,7 +147,7 @@
                 <br *ngIf="createFormGroup.value.regionId">
                 <br *ngIf="createFormGroup.value.clusterId">
                 <br *ngIf="createFormGroup.value.branchId">
-                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">AGENT SALES REPORT</h3>
+                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">{{ title }}</h3>
             </div>
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.agentId">
@@ -181,7 +181,7 @@
             <table border="1">
                 <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
                     <th colspan="5"></th>
-                    <th *ngFor="let product of productList; let i = index">{{ product.productName }}</th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.reportMonth }}</th>
                 </tr>
                 <tr>
                     <th>No</th>
@@ -196,21 +196,22 @@
                         <span>Premium</span>
                     </th>
                 </tr>
-                <tr *ngFor="let report of reports; let i = index">
-                    <td>{{ i + 1}}</td>
-                    <td>{{ report.branchName }}</td>
-                    <td>{{ report.channelName }}</td>
-                    <td>{{ report.agentName }}</td>
-                    <td>{{ report.agentNo }}</td>
-                    <td *ngFor="let policy of reports[i].productPolicies; let j = index; ">
+                <tr *ngFor="let data of dataList; let i = index">
+                    <td>{{ data.no }}</td>
+                    <td>{{ data.branchName }}</td>
+                    <td>{{ data.channelName }}</td>
+                    <td>{{ data.agentName }}</td>
+                    <td>{{ data.agentNo }}</td>
+                    <td *ngFor="let policy of dataList[i].productDataList; let j = index; ">
                         <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
                             <div class="right-border-transform"></div>
                         </span>
-                        <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
+                        <span *ngIf="policy.totalPremium">{{ policy.totalPremium }}</span>
                         <span *ngIf="!policy.noOfPolicies">
+                            0
                             <div class="right-border-transform"></div>
                         </span>
-                        <span *ngIf="!policy.noOfPolicies"></span>
+                        <span *ngIf="!policy.totalPremium">0</span>
                     </td>
                 </tr>
             </table>

@@ -5,11 +5,16 @@ import * as fs from 'file-saver';
 import { BizOperationService } from 'src/app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
-const API_ADDON_URL = `${environment.apiUrl}/SummaryReportByBranchForDaily`;
+const API_ADDON_URL = `${environment.apiUrl}/summaryReportByBranchForDaily`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
 
-const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ"];
+const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+  "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+  "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+  "CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "CI", "CJ", "CK", "CL", "CM", "CN", "CO", "CP", "CQ", "CR", "CS", "CT", "CU", "CV", "CW", "CX", "CY", "CZ",
+  "DA", "DB", "DC", "DD", "DE", "DF", "DG", "DH", "DI", "DJ", "DK", "DL", "DM", "DN", "DO", "DP", "DQ", "DR", "DS", "DT", "DU", "DV", "DW", "DX", "DY", "DZ",
+  "EA", "EB", "EC", "ED", "EE", "EF", "EG", "EH", "EI", "EJ", "EK", "EL", "EM", "EN", "EO", "EP", "EQ", "ER", "ES", "ET", "EU", "EV", "EW", "EX", "EY", "Z"];
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +44,7 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
     });
     return this.httpClient.get<any>(API_AGENT_OFFICE_URL, { params: params });
   }
- 
+
   getAllReportData(searchValue) {
     if (searchValue.fromDate) {
       searchValue.fromDate = this.formatDateYYYY_MM_DD(searchValue.fromDate);
@@ -50,32 +55,16 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
     const params = new HttpParams({
       fromObject: searchValue
     });
-    return this.httpClient.get(API_ADDON_URL, { params: params });
-  }
-
-  getAllAboutBRAM(fnaId) {
-    return this.httpClient.get(API_ADDON_URL + '/' + fnaId + '/asset');
-  }
-
-
-  formatDateYYYY_MM_DD(date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-    return [year, month, day].join('-');
+    return this.httpClient.get<any>(API_ADDON_URL, { params: params });
   }
 
   exportExcel(excelData) {
     //Title, Header & Data
     const title = excelData.title;
+    const products = excelData.products
+    const subHeader = excelData.subHeader
     const searchValue = excelData.searchValue
-    const productsHeader = excelData.productsHeader
-    const branchDataForExcel = excelData.branchDataForExcel
+    const data = excelData.data;
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -83,7 +72,7 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
 
     // Freeze
     worksheet.views = [
-      { state: 'frozen', xSplit: 2, ySplit: 4, activeCell: 'A1' }
+      { state: 'frozen', xSplit: 4, ySplit: 5, activeCell: 'A1' }
     ];
 
     //Add Row and formatting
@@ -99,6 +88,7 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
+    console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -151,13 +141,16 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
     }
 
     worksheet.addRow([]);
-    // Adding Data with Conditional Formatting
-    let startIndex: number = 0;
-    for (var i = 0; i < productsHeader.length; i++) {
+
+    //Adding Sub Header Row
+    worksheet.mergeCells('A4:D4');
+    let startIndex: number = 4;
+    for (var i = 0; i < products.length; i++) {
       let start = this.calculateStartPoint(startIndex);
       startIndex += 1;
+      worksheet.mergeCells(start + ':' + start);
       let fireCell = worksheet.getCell(start);
-      fireCell.value = productsHeader[i];
+      fireCell.value = products[i];
       fireCell.font = {
         name: 'Calibri',
         size: 12,
@@ -166,11 +159,28 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
       fireCell.alignment = { vertical: 'middle', horizontal: 'center' }
     }
 
-    branchDataForExcel.forEach(d => {
+
+    for (var i = 0; i < subHeader.length; i++) {
+      let start = this.calculateDataPoint(i);
+      worksheet.mergeCells(start + ':' + start);
+      let dataCell = worksheet.getCell(start);
+      dataCell.value = subHeader[i];
+      dataCell.font = {
+        name: 'Calibri',
+        size: 12,
+        bold: true
+      }
+      dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
+    }
+
+
+
+    // Adding Data with Conditional Formatting
+    data.forEach(d => {
       let row = worksheet.addRow(d);
       let no = row.getCell(1);
-      if (no) {
-        no.alignment = { vertical: 'middle', horizontal: 'center' }
+      if (no) { 
+        no.alignment = { vertical: 'middle', horizontal: 'left' }
       }
       let index = 0;
       d.forEach(a => {
@@ -181,15 +191,16 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
             center.alignment = { vertical: 'middle', horizontal: 'right' }
           }
         }
-        if (index == 1) {
+        if (index == 1 || index == 2 || index == 3) {
           let center = row.getCell(index);
           if (center) {
-            center.alignment = { vertical: 'middle', horizontal: 'center' }
+            center.alignment = { vertical: 'middle', horizontal: 'left' }
           }
         }
       });
     }
     );
+
 
     worksheet.columns.forEach(function (column, i) {
       var maxLength = 0;
@@ -202,7 +213,11 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
       column.width = maxLength < 10 ? 10 : maxLength;
     });
 
-    worksheet.getColumn(1).width = 25;
+    // worksheet.getColumn(1).width = 5;
+    // worksheet.getColumn(2).width = 20;
+    // worksheet.getColumn(3).width = 15;
+    // worksheet.getColumn(4).width = 15;
+    // worksheet.getColumn(5).width = 20;
 
     const autoHeight = (worksheet) => {
       const lineHeight = 12 // height per line is roughly 12
@@ -223,6 +238,8 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
 
   }
 
+
+
   calculateStartPoint(index) {
     return alphabet[index] + '4'
   }
@@ -233,10 +250,6 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
 
   calculateDataPoint(index) {
     return alphabet[index] + '5'
-  }
-
-  calculatePremiumDataPoint(index) {
-    return alphabet[index] + '6'
   }
 
   formatDateDDMMYYY(date) {
@@ -256,4 +269,15 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
     return (Math.round(num * factor) / factor).toLocaleString();
   };
 
+  formatDateYYYY_MM_DD(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [year, month, day].join('-');
+  }
 }

@@ -344,6 +344,9 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
     }
+    this.isData = false;
+    this.reports = [];
+    this.totalDataList = []
   }
 
   formatDateDDMMYYY(date) {

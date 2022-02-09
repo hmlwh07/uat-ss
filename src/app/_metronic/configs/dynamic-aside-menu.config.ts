@@ -250,7 +250,7 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'By Agent Yearly',
+          title: '#By Agent Yearly',
           page: 'report/report-by-agent-yearly',
           show: true
         },

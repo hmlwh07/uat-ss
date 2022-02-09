@@ -147,7 +147,7 @@
                 <br *ngIf="createFormGroup.value.regionId">
                 <br *ngIf="createFormGroup.value.clusterId">
                 <br *ngIf="createFormGroup.value.branchId">
-                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">AGENT SALES REPORT</h3>
+                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">{{ title }}</h3>
             </div>
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.agentId">
@@ -179,21 +179,23 @@
         overflow-y: hidden;
         overflow-x: scroll;">
             <table border="1">
-                <tr style="border-top: 1px solid #000;" *ngIf="productsHeader.length > 0">
+                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
                     <th colspan="4"></th>
-                    <th *ngFor="let product of productsHeader; let i = index">{{ product.name }}</th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.headerDateName }}</th>
                 </tr>
-                <tr>
-                    <th *ngFor="let subHeader of productsSubHeader; let i = index">{{ subHeader.name }}</th>
+                <tr>                  
+                    <th>Agent Name</th>
+                    <th>Branch Name</th>
+                    <th>Activities Name</th>  
+                    <th>Target</th> 
+                    <th *ngFor="let product of productList; let i = index">{{ product.headerDate }}</th>
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">
                     <td>{{ data.agentName }}</td>
                     <td>{{ data.branchName }}</td>
                     <td>{{ data.activitiesName }}</td>
-                    <td>{{ data.target }}</td>
-                    <td *ngFor="let policy of dataList[i].productDataList; let j = index; ">
-                        {{ data.value }}
-                    </td>
+                    <td>{{ data.totalTargetValue }}</td>
+                    <td *ngFor="let daily of dataList[i].productDataList; let j = index; ">{{ daily.dailyValue }}</td>
                 </tr>
             </table>
         </div>

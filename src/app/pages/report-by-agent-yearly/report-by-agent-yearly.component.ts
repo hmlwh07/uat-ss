@@ -16,12 +16,12 @@ export class ReportByAgentYearlyComponent implements OnInit {
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
-    agents: [{ id: 1, agentName: 'Agent 1' }, { id: 2, agentName: 'Agent 2' }],
     companies: [],
     channels: [],
     regions: [],
     cluster: [],
-    branches: []
+    branches: [],
+    agents: [],
   }
 
   reports = [];
@@ -40,6 +40,9 @@ export class ReportByAgentYearlyComponent implements OnInit {
   subHeader = [];
   dataExcel = [];
   isData: boolean = false;
+  dataList = [];
+  totalDataList = [];
+  title = 'Agent Sale Report';
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportAgentYearlyExportService) { }
@@ -48,44 +51,6 @@ export class ReportByAgentYearlyComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      this.reports[i].id = i
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
-
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
-
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-          }
-        }
-      }
-    }
-
-    console.log('report ', this.reports);
-
   }
 
   async getOfficeHirearchy() {
@@ -101,40 +66,39 @@ export class ReportByAgentYearlyComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        if (res.length > 0) {
-          this.isData = true;
-          this.reports = res;
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = [];
-            for (var j = 0; j < this.reports[i].products.length; j++) {
-              this.reports[i].products[j].id = i
-              this.reports[i].products[j].noOfPolicies = null;
-              this.reports[i].products[j].premium = null;
-              this.products.push(this.reports[i].products[j]);
-            }
+        console.log('ReportByAgentYearly', res);
 
-            for (var k = 0; k < this.reports[i].policies.length; k++) {
-              this.reports[i].policies[k].id = i
-              this.policies.push(this.reports[i].policies[k]);
+        if (res) {
+          if (res.headerColumnList.length > 0) {
+            for (var i = 0; i < res.headerColumnList.length; i++) {
+              this.productList.push(res.headerColumnList[i]);
             }
           }
 
-          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-          }
-
-          for (var i = 0; i < this.reports.length; i++) {
-            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-              for (var k = 0; k < this.reports[i].policies.length; k++) {
-                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+          if (res.dataList.length > 0) {
+            this.isData = true;
+            this.dataList = res.dataList;
+            let countNo: number = 0;
+            for (var i = 0; i < this.dataList.length; i++) {
+              let list = [];
+              for (var j = 0; j < this.productList.length; j++) {
+                list.push({ reportMonth: this.productList[j].reportMonth, noOfPolicies: 0, totalPremium: 0 });
+              }
+              countNo++;
+              this.dataList[i].no = countNo;
+              this.dataList[i].productDataList = list;
+              if (this.dataList[i].dynamicList) {
+                for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
+                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+                    if (this.dataList[i].productDataList[k].reportMonth == this.dataList[i].dynamicList[j].reportMonth) {
+                      this.dataList[i].productDataList[k].noOfPolicies = this.dataList[i].dynamicList[j].noOfPolicies
+                      this.dataList[i].productDataList[k].totalPremium = this.dataList[i].dynamicList[j].totalPremium
+                    }
+                  }
                 }
               }
             }
           }
-          console.log('report ', this.reports);
         }
       });
     }
@@ -145,7 +109,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     console.log('generateReportExcel ', this.reports);
     this.productValues = []
     for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+      this.productValues.push(this.productList[i].reportMonth)
     }
 
     // Sub Header
@@ -156,11 +120,13 @@ export class ReportByAgentYearlyComponent implements OnInit {
     }
 
     // Data
-    for (var i = 0; i < this.reports.length; i++) {
+    let countNo: number = 0;
+    for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
+      countNo++
+      list.push(countNo, this.dataList[i].branch, this.dataList[i].channel, this.dataList[i].agentName, this.dataList[i].agentNo)
+      for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
+        list.push(this.dataList[i].productDataList[j].noOfPolicies, this.dataList[i].productDataList[j].totalPremium)
       }
       this.dataExcel.push(list)
     }
@@ -175,7 +141,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title,
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -190,6 +156,9 @@ export class ReportByAgentYearlyComponent implements OnInit {
       subHeader: this.subHeader,
       data: this.dataExcel
     }
+
+    console.log('this.productValues =====> ', this.productValues);
+
     this.exportService.exportExcel(reportData);
   }
 
@@ -392,6 +361,9 @@ export class ReportByAgentYearlyComponent implements OnInit {
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
     }
+    this.isData = false;
+    this.productList = [];
+    this.dataList = []
   }
 
   formatDateDDMMYYY(date) {

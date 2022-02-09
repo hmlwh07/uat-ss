@@ -16,12 +16,12 @@ export class ReportByAgentMonthlyComponent implements OnInit {
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
-    agents: [{ id: 1, agentName: 'Agent 1' }, { id: 2, agentName: 'Agent 2' }],
     companies: [],
     channels: [],
     regions: [],
     cluster: [],
-    branches: []
+    branches: [],
+    agents: [],
   }
 
   reports = [];
@@ -433,6 +433,9 @@ export class ReportByAgentMonthlyComponent implements OnInit {
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
     }
+    this.isData = false;
+    this.productList = [];
+    this.dataList = []
   }
 
   formatDateDDMMYYY(date) {

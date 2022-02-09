@@ -5,7 +5,7 @@ import * as fs from 'file-saver';
 import { BizOperationService } from 'src/app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
-const API_ADDON_URL = `${environment.apiUrl}/premiumProductBranch`;
+const API_ADDON_URL = `${environment.apiUrl}/reportByAgentYearly`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
 
@@ -40,9 +40,17 @@ export class ReportAgentYearlyExportService extends BizOperationService<any, num
     return this.httpClient.get<any>(API_AGENT_OFFICE_URL, { params: params });
   }
 
-
   getAllReportData(searchValue) {
-    return this.httpClient.post(API_ADDON_URL, searchValue);
+    if (searchValue.fromDate) {
+      searchValue.fromDate = this.formatDateYYYY_MM_DD(searchValue.fromDate);
+    }
+    if (searchValue.toDate) {
+      searchValue.toDate = this.formatDateYYYY_MM_DD(searchValue.toDate);
+    }
+    const params = new HttpParams({
+      fromObject: searchValue
+    });
+    return this.httpClient.get<any>(API_ADDON_URL, { params: params });
   }
 
   exportExcel(excelData) {
@@ -63,7 +71,7 @@ export class ReportAgentYearlyExportService extends BizOperationService<any, num
     ];
 
     //Add Row and formatting
-    worksheet.mergeCells('A1', 'E2');
+    worksheet.mergeCells('A1', 'C2');
     let titleRow = worksheet.getCell('A1');
     titleRow.value = title
     titleRow.font = {
@@ -75,6 +83,7 @@ export class ReportAgentYearlyExportService extends BizOperationService<any, num
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
+    console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -137,7 +146,6 @@ export class ReportAgentYearlyExportService extends BizOperationService<any, num
       startIndex += 2;
       let end = this.calculateEndPoint(endIndex);
       endIndex += 2;
-
       worksheet.mergeCells(start + ':' + end);
       let fireCell = worksheet.getCell(start);
       fireCell.value = products[i];
@@ -223,39 +231,51 @@ export class ReportAgentYearlyExportService extends BizOperationService<any, num
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
-      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');       
+      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
     });
-  
-}
+
+  }
 
 
 
-calculateStartPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateStartPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateEndPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateEndPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateDataPoint(index) {
-  return alphabet[index] + '5'
-}
+  calculateDataPoint(index) {
+    return alphabet[index] + '5'
+  }
 
-formatDateDDMMYYY(date) {
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-  if (month.length < 2)
-    month = '0' + month;
-  if (day.length < 2)
-    day = '0' + day;
-  return [day, month, year].join('_');
-}
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('_');
+  }
 
-mathRoundTo(num: number, places: number) {
-  const factor = 10 ** places;
-  return (Math.round(num * factor) / factor).toLocaleString();
-};
+  mathRoundTo(num: number, places: number) {
+    const factor = 10 ** places;
+    return (Math.round(num * factor) / factor).toLocaleString();
+  };
+
+  formatDateYYYY_MM_DD(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [year, month, day].join('-');
+  }
 }
