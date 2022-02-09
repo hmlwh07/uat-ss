@@ -204,9 +204,9 @@
                         </span>
                         <span *ngIf="policy.totalPreminum">{{ policy.totalPreminum }}</span>
                         <span *ngIf="!policy.noOfPolicy">
-                            <div class="right-border-transform"></div>
+                            <div class="right-border-transform">0</div>
                         </span>
-                        <span *ngIf="!policy.totalPreminum"></span>
+                        <span *ngIf="!policy.totalPreminum">0</span>
                     </td>
                 </tr>
             </table>

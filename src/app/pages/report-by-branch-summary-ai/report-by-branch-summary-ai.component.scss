@@ -53,3 +53,9 @@ table {
     top: 0;
     left: 49%;
 }
+
+.data{
+    td:nth-child(2){
+        text-align: left;
+    }
+}

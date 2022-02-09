@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { BizOperationService } from 'src/app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
-const API_ADDON_URL = `${environment.apiUrl}/premiumProductBranch`;
+const API_ADDON_URL = `${environment.apiUrl}/SummaryReportByBranchForDaily`;
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ"];
 
 @Injectable({
@@ -16,9 +16,17 @@ export class ReportDailyDalesAnalysisBranchExportService extends BizOperationSer
     super(httpClient, API_ADDON_URL);
   }
 
-
   getAllReportData(searchValue) {
-    return this.httpClient.post(API_ADDON_URL, searchValue);
+    if (searchValue.fromDate) {
+      searchValue.fromDate = this.formatDateYYYY_MM_DD(searchValue.fromDate);
+    }
+    if (searchValue.toDate) {
+      searchValue.toDate = this.formatDateYYYY_MM_DD(searchValue.toDate);
+    }
+    const params = new HttpParams({
+      fromObject: searchValue
+    });
+    return this.httpClient.get<any>(API_ADDON_URL, { params: params });
   }
 
   exportExcel(excelData) {
@@ -51,6 +59,7 @@ export class ReportDailyDalesAnalysisBranchExportService extends BizOperationSer
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
+    console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -113,7 +122,6 @@ export class ReportDailyDalesAnalysisBranchExportService extends BizOperationSer
       startIndex += 2;
       let end = this.calculateEndPoint(endIndex);
       endIndex += 2;
-
       worksheet.mergeCells(start + ':' + end);
       let fireCell = worksheet.getCell(start);
       fireCell.value = products[i];
@@ -199,39 +207,51 @@ export class ReportDailyDalesAnalysisBranchExportService extends BizOperationSer
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
-      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');       
+      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
     });
-  
-}
+
+  }
 
 
 
-calculateStartPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateStartPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateEndPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateEndPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateDataPoint(index) {
-  return alphabet[index] + '5'
-}
+  calculateDataPoint(index) {
+    return alphabet[index] + '5'
+  }
 
-formatDateDDMMYYY(date) {
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-  if (month.length < 2)
-    month = '0' + month;
-  if (day.length < 2)
-    day = '0' + day;
-  return [day, month, year].join('_');
-}
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('_');
+  }
 
-mathRoundTo(num: number, places: number) {
-  const factor = 10 ** places;
-  return (Math.round(num * factor) / factor).toLocaleString();
-};
+  mathRoundTo(num: number, places: number) {
+    const factor = 10 ** places;
+    return (Math.round(num * factor) / factor).toLocaleString();
+  };
+
+  formatDateYYYY_MM_DD(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [year, month, day].join('-');
+  }
 }

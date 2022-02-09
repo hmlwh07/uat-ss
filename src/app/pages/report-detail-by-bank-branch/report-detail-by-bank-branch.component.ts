@@ -85,7 +85,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
               for (var j = 0; j < this.productList.length; j++) {
                 this.dataList[i].productDataList.push({
                   id: this.productList[j].id,
-                  noOfPolicy: null, totalPreminum: null
+                  noOfPolicy: 0, totalPreminum: 0
                 });
               }
 

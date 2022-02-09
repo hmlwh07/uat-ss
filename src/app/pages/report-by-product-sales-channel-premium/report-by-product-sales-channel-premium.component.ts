@@ -65,22 +65,32 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
         if (res) {
           if (res.products.length > 0) {
             this.isData = true;
-            this.productsHeader.push({ name: 'No.' });
-            this.productsHeader.push({ name: 'Month' });
             for (var i = 0; i < res.products.length; i++) {
-              this.productsHeader.push({ name: res.products[i].name })
+              this.productsHeader.push({ id: res.products[i].id, name: res.products[i].name })
             }
 
             if (res.dataList.length > 0) {
               this.isData = true;
+              res.dataList[0].products = [
+                {
+                  "id": 50,
+                  "name": "string",
+                  "totalPreminum": 4000
+                },
+                {
+                  "id": 25,
+                  "name": "string",
+                  "totalPreminum": 5000
+                }
+              ]
               this.dataList = res.dataList;
               let countNo: number = 0;
               for (var i = 0; i < this.dataList.length; i++) {
                 this.dataList[i].productDataList = []
                 countNo++;
                 this.dataList[i].no = countNo;
-                for (var j = 0; j < this.productsHeader.length - 2; j++) {
-                  this.dataList[i].productDataList.push({ value: null });
+                for (var j = 0; j < this.productsHeader.length; j++) {
+                  this.dataList[i].productDataList.push({ id: this.productsHeader[j].id, totalPreminum: 0 });
                 }
 
                 if (this.dataList[i].products) {
@@ -108,15 +118,20 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+    this.productValues.push('No.');
+    this.productValues.push('Month');
     for (var i = 0; i < this.productsHeader.length; i++) {
       this.productValues.push(this.productsHeader[i].name)
     }
 
     // Data For Excel
-    let countSrNo: number = 0;
     for (var i = 0; i < this.dataList.length; i++) {
-      countSrNo += 1;
-      this.branchDataForExcel.push([countSrNo, this.dataList[i].month])
+      let list = [];
+      list.push(i + 1, this.dataList[i].month)
+      for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
+        list.push(this.dataList[i].productDataList[j].totalPreminum)
+      }
+      this.branchDataForExcel.push(list)
     }
 
     let fromDate = null;

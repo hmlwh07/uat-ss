@@ -53,6 +53,7 @@ export class ReportBranchSummaryAIExportService extends BizOperationService<any,
     const searchValue = excelData.searchValue
     const reportsForExcelHeader = excelData.reportsForExcelHeader
     const reportsForExcel = excelData.reportsForExcel
+    const totalValue = excelData.totalValue
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -170,6 +171,23 @@ export class ReportBranchSummaryAIExportService extends BizOperationService<any,
     }
     );
 
+    // Adding Data with Conditional Formatting
+    let startTotalIndex: number = 0;
+    for (var i = 0; i < totalValue.length; i++) {
+      let start = this.calculateTotalPoint(startTotalIndex, reportsForExcel.length);
+      console.log('startTotalIndex =====> ', start);
+      startTotalIndex += 1;
+      let totalCell = worksheet.getCell(start);
+      totalCell.value = totalValue[i];
+      totalCell.font = {
+        name: 'Calibri',
+        size: 12,
+        bold: true
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+
     worksheet.columns.forEach(function (column, i) {
       var maxLength = 0;
       column["eachCell"]({ includeEmpty: true }, function (cell) {
@@ -201,6 +219,12 @@ export class ReportBranchSummaryAIExportService extends BizOperationService<any,
     });
 
   }
+
+  calculateTotalPoint(index, position) {
+    let currentIndex: number = Number(position) + 5;
+    return alphabet[index] + currentIndex.toString();
+  }
+
 
   calculateStartPoint(index) {
     return alphabet[index] + '4'

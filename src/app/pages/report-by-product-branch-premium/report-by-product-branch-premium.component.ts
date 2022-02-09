@@ -43,7 +43,9 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   branchDataList: any[];
   isData: boolean = false;
   branchDataForExcel: any[];
-  title: string;
+  title: string = '#By Product Branch - Premium';
+  dataList = [];
+  totalDataList = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportProductBranchPremiumExportService) { }
@@ -64,32 +66,81 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
         if (res) {
           if (res.products.length > 0) {
             this.isData = true;
-            this.productsHeader.push({ name: 'No.' });
-            this.productsHeader.push({ name: 'Branch' });
             for (var i = 0; i < res.products.length; i++) {
-              this.productsHeader.push({ name: res.products[i].name })
+              this.productsHeader.push({ id: res.products[i].id, name: res.products[i].name })
             }
           }
 
           if (res.dataList.length > 0) {
+            res.dataList[0].products = [
+              {
+                "id": 50,
+                "name": "string",
+                "noOfPolicy": 4000
+              },
+              {
+                "id": 25,
+                "name": "string",
+                "noOfPolicy": 5000
+              }
+            ]
+
+            res.dataList[1].products = [
+              {
+                "id": 50,
+                "name": "string",
+                "noOfPolicy": 4000
+              }
+            ]
+
+            this.dataList = res.dataList;
             let countNo: number = 0;
-            for (var i = 0; i < res.dataList.length; i++) {
+            for (var i = 0; i < this.dataList.length; i++) {
+              let list = [];
+              for (var j = 0; j < this.productsHeader.length; j++) {
+                list.push({ id: this.productsHeader[j].id, noOfPolicy: 0 });
+              }
               countNo += 1;
-              this.branchDataList.push({ no: countNo, month: res.dataList[i].month, products: res.dataList[i].products });
-              if (res.dataList[i].products.length == 0) {
-                for (var j = 0; j < this.productsHeader.length; j++) {
-                  res.dataList[i].products.push({ value: null });
+              this.dataList[i].no = countNo;
+              this.dataList[i].productDataList = list
+              this.dataList[i].totalDataList = list
+              if (this.dataList[i].products) {
+                for (var j = 0; j < this.dataList[i].products.length; j++) {
+                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+                    if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
+                      this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
+                      this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                    }
+                  }
                 }
               }
-              if (countNo == res.dataList.length) {
-                this.branchDataList.push({ no: null, branch: 'Total', products: res.dataList[i].products })
+              if (countNo == this.dataList.length) {
+                this.totalDataList = JSON.parse(JSON.stringify(list))
+                for (var i = 0; i < this.dataList.length; i++) {
+                  for (var j = 0; j < this.dataList[i].products.length; j++) {
+                    let total: number = 0;
+                    for (var k = 0; k < this.totalDataList.length; k++) {
+                      if (this.totalDataList[k].id == this.dataList[i].products[j].id) {
+                        console.log('noOfPolicy =====> ', this.dataList[i].products[j].noOfPolicy);
+                        this.totalDataList[k].noOfPolicy += this.dataList[i].products[j].noOfPolicy;
+                        //total += this.dataList[i].products[j].noOfPolicy;
+                      }
+                    }
+                    console.log('total =====> ', total);
+
+                    //this.totalDataList[i].noOfPolicy += total
+
+                  }
+                }
               }
             }
+
           }
         }
       });
 
-      console.log('this.branchDataList =====> ', this.branchDataList);
+      console.log('this.totalDataList =====> ', this.totalDataList);
+      console.log('this.dataList =====> ', this.dataList);
     }
     this.cdf.detectChanges();
   }
@@ -97,19 +148,29 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+    this.productValues.push('No.');
+    this.productValues.push('Branch');
     for (var i = 0; i < this.productsHeader.length; i++) {
       this.productValues.push(this.productsHeader[i].name)
     }
 
     // Data For Excel
-    let countSrNo: number = 0;
-    for (var i = 0; i < this.branchDataList.length; i++) {
-      countSrNo += 1;
-      if (this.branchDataList.length == countSrNo) {
-        countSrNo = null;
+    for (var i = 0; i < this.dataList.length; i++) {
+      let list = [];
+      list.push(i + 1, this.dataList[i].branch)
+      for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
+        list.push(this.dataList[i].productDataList[j].noOfPolicy)
       }
-      this.branchDataForExcel.push([countSrNo, this.branchDataList[i].month])
+      this.branchDataForExcel.push(list)
     }
+
+    let totalValue = [];
+    totalValue.push('');
+    totalValue.push('Total');
+    for (var i = 0; i < this.totalDataList.length; i++) {
+      totalValue.push(this.totalDataList[i].noOfPolicy)
+    }
+
 
     let fromDate = null;
     let toDate = null;
@@ -134,6 +195,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
       ],
       productsHeader: this.productValues,
       branchDataForExcel: this.branchDataForExcel,
+      totalValue: totalValue,
     }
     this.exportService.exportExcel(reportData);
   }

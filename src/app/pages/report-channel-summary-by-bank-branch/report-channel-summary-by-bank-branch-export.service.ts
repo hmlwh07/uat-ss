@@ -61,7 +61,7 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
 
     // Freeze
     worksheet.views = [
-      { state: 'frozen', xSplit: 1, ySplit: 4, activeCell: 'A1' }
+      { state: 'frozen', xSplit: 1, ySplit: 0, activeCell: 'A1' }
     ];
 
     //Add Row and formatting
@@ -156,6 +156,9 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
         bold: false
       }
       dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
+      if (i == 0) {
+        dataCell.alignment = { vertical: 'middle', horizontal: 'left' }
+      }
     }
 
     for (var i = 0; i < premiumForExcel.length; i++) {
@@ -168,6 +171,10 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
         bold: false
       }
       dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
+      if (i == 0) {
+        dataCell.alignment = { vertical: 'middle', horizontal: 'left' }
+      }
+
     }
 
     worksheet.columns.forEach(function (column, i) {

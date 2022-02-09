@@ -170,12 +170,19 @@
                     <th>#No of Ploicies</th>
                     <th>#Premium</th>
                 </tr>
-                <tr *ngFor="let report of reports; let i = index">
+                <tr class="data" *ngFor="let report of reports; let i = index">
                     <td>{{ report.srNo }}</td>
                     <td>{{ report.branch }}</td>
                     <td>{{ report.activeAgents }}</td>
                     <td>{{ report.noOfPolicy }}</td>
                     <td>{{ report.totalPreminum }}</td>
+                </tr>
+                <tr class="data" *ngFor="let total of totalDataList; let i = index">
+                    <td></td>
+                    <td>Total</td>
+                    <td>{{ total.totalActiveAgents }}</td>
+                    <td>{{ total.totalNoOfPolicy }}</td>
+                    <td>{{ total.totalPreminum }}</td>
                 </tr>
             </table>
         </div>

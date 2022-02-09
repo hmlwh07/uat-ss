@@ -48,6 +48,8 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
   policiesForExcel = [];
   premiumForExcel = [];
   isHasData: boolean = false;
+  isData: boolean;
+  dataList: any;
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportChannelSummaryBankBranchExportService) { }
@@ -69,44 +71,84 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
 
         if (res) {
           this.reports = res;
-          this.isHasData = true;
-          let noOfPolicy: number = 0;
-          let totalPreminum: number = 0;
-          this.displayList[0].particular.push({ channel: 'Particular' });
-          this.displayList[0].policies.push({ noOfPolicy: "No. of Policies" });
-          this.displayList[0].premium.push({ totalPreminum: "Premuim" });
+          this.displayList[0].particular.push({ id: null, channel: 'Particular' });
           console.log('res.channels =====> ', res.channels);
 
+          // add header
           if (res.channels) {
+            res.channels = [...new Map(res.channels.map(item => [item.id, item])).values()];
             for (var i = 0; i < res.channels.length; i++) {
-              this.displayList[0].particular.push({ channel: res.channels[i].channel });
+              if (res.channels[i].channel != null) {
+                this.displayList[0].particular.push({
+                  id: res.channels[i].id,
+                  channel: res.channels[i].channel
+                });
+              }
             }
+            this.displayList[0].particular.push({ id: 'total', channel: "Total" });
           }
 
-          // for (var i = 0; i < this.reports.length; i++) {
-          //   noOfPolicy += this.reports[i].noOfPolicy;
-          //   totalPreminum += this.reports[i].totalPreminum;
-          //   this.displayList[0].particular.push({ branch: this.reports[i].branch });
-          //   this.displayList[0].policies.push({ noOfPolicy: this.reports[i].noOfPolicy });
-          //   this.displayList[0].premium.push({ totalPreminum: this.reports[i].totalPreminum });
-          // }
-          this.displayList[0].particular.push({ channel: 'Total' });
+          res.dataList = [
+            {
+              "channel": "string",
+              "id": 3,
+              "noOfPolicy": 300,
+              "totalPreminum": 2500
+            },
+            {
+              "channel": "string",
+              "id": 26,
+              "noOfPolicy": 500,
+              "totalPreminum": 200
+            }
+          ]
 
+          // make a table
           if (res.dataList.length > 0) {
-            this.displayList[0].policies.push({ noOfPolicy: noOfPolicy });
-            this.displayList[0].premium.push({ totalPreminum: totalPreminum });
-          } else {
-            for (var i = 0; i < res.channels.length; i++) {
-              this.displayList[0].policies.push({ noOfPolicy: null });
-              this.displayList[0].premium.push({ totalPreminum: null });
+            this.isHasData = true;
+            for (var j = 0; j < this.displayList[0].particular.length; j++) {
+              this.displayList[0].policies.push(
+                {
+                  id: this.displayList[0].particular[j].id,
+                  noOfPolicy: 0
+                });
+              if (j == 1) {
+                this.displayList[0].policies[0].id = null;
+                this.displayList[0].policies[0].noOfPolicy = 'No. of Policies';
+              }
             }
-            this.displayList[0].policies.push({ noOfPolicy: null });
-            this.displayList[0].premium.push({ totalPreminum: null });
-          }
 
+            for (var j = 0; j < this.displayList[0].particular.length; j++) {
+              this.displayList[0].premium.push({
+                id: this.displayList[0].particular[j].id,
+                totalPreminum: null
+              });
+              if (j == 1) {
+                this.displayList[0].premium[0].id = null;
+                this.displayList[0].premium[0].totalPreminum = 'Premuim';
+              }
+            }
+            // add data value
+            for (var i = 0; i < res.dataList.length; i++) {
+              for (var j = 0; j < this.displayList[0].policies.length - 1; j++) {
+                if (res.dataList[i].id == this.displayList[0].policies[j].id) {
+                  this.displayList[0].policies[j].noOfPolicy += res.dataList[i].noOfPolicy
+                  // add total noOfPolicy
+                  this.displayList[0].policies[this.displayList[0].policies.length - 1].noOfPolicy += res.dataList[i].noOfPolicy
+                }
+              }
+
+              for (var j = 0; j < this.displayList[0].premium.length - 1; j++) {
+                if (res.dataList[i].id == this.displayList[0].premium[j].id) {
+                  this.displayList[0].premium[j].totalPreminum += res.dataList[i].totalPreminum
+                  // add total totalPreminum
+                  this.displayList[0].premium[this.displayList[0].premium.length - 1].totalPreminum += res.dataList[i].totalPreminum
+                }
+              }
+            }
+          }
         }
       });
-      console.log('displayList =====> ', this.displayList);
     }
     this.cdf.detectChanges();
   }
@@ -120,11 +162,11 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     }
 
     for (var i = 0; i < this.displayList[0].policies.length; i++) {
-      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy)
+      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy || 0)
     }
 
     for (var i = 0; i < this.displayList[0].premium.length; i++) {
-      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum)
+      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum || 0)
     }
 
     let fromDate = '';

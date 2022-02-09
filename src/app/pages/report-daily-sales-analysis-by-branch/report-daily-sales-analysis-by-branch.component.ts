@@ -92,41 +92,43 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        if (res.length > 0) {
-          this.reports = res;
-          this.isData = true;
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = [];
-            for (var j = 0; j < this.reports[i].products.length; j++) {
-              this.reports[i].products[j].id = i
-              this.reports[i].products[j].noOfPolicies = null;
-              this.reports[i].products[j].premium = null;
-              this.products.push(this.reports[i].products[j]);
-            }
+        console.log('dailySalesAnalysis', res);
 
-            for (var k = 0; k < this.reports[i].policies.length; k++) {
-              this.reports[i].policies[k].id = i
-              this.policies.push(this.reports[i].policies[k]);
-            }
-          }
+        // if (res.length > 0) {
+        //   this.reports = res;
+        //   this.isData = true;
+        //   for (var i = 0; i < this.reports.length; i++) {
+        //     this.reports[i].productPolicies = [];
+        //     for (var j = 0; j < this.reports[i].products.length; j++) {
+        //       this.reports[i].products[j].id = i
+        //       this.reports[i].products[j].noOfPolicies = null;
+        //       this.reports[i].products[j].premium = null;
+        //       this.products.push(this.reports[i].products[j]);
+        //     }
 
-          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-          }
+        //     for (var k = 0; k < this.reports[i].policies.length; k++) {
+        //       this.reports[i].policies[k].id = i
+        //       this.policies.push(this.reports[i].policies[k]);
+        //     }
+        //   }
 
-          for (var i = 0; i < this.reports.length; i++) {
-            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-              for (var k = 0; k < this.reports[i].policies.length; k++) {
-                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-                }
-              }
-            }
-          }
-          console.log('report ', this.reports);
-        }
+        //   this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
+        //   for (var i = 0; i < this.reports.length; i++) {
+        //     this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
+        //   }
+
+        //   for (var i = 0; i < this.reports.length; i++) {
+        //     for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
+        //       for (var k = 0; k < this.reports[i].policies.length; k++) {
+        //         if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
+        //           this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
+        //           this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
+        //         }
+        //       }
+        //     }
+        //   }
+        //   console.log('report ', this.reports);
+        // }
       });
     }
     this.cdf.detectChanges();

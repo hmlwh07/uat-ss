@@ -225,7 +225,7 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'By Branch Summary IA',
+          title: '#By Branch Summary IA',
           page: 'report/report-by-branch-summary-ai',
           show: true
         },
@@ -240,7 +240,7 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'By Product Branch Policies',
+          title: '#By Product Branch - #of Policies',
           page: 'report/report-by-product-branch-policies',
           show: true
         },
@@ -255,17 +255,17 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'By Agent Daily',
+          title: 'Activity Summary Report by Branch for Daily',
           page: 'report/report-by-agent-daily',
           show: true
         },
         {
-          title: 'By Agent Weekly',
+          title: 'Activity Summary Report by Branch for Weekly',
           page: 'report/report-by-agent-weekly',
           show: true
         },
         {
-          title: 'By Agent Monthly',
+          title: 'Activity Summary Report by Branch for Monthly',
           page: 'report/report-by-agent-monthly',
           show: true
         },

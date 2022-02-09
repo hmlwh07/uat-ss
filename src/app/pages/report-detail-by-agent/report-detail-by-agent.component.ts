@@ -45,6 +45,7 @@ export class ReportDetailByAgentComponent implements OnInit {
   dataExcel = [];
   isData: boolean = false;
   dataList = [];
+  totalDataList = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportDetailAgentExportService) { }
@@ -68,26 +69,70 @@ export class ReportDetailByAgentComponent implements OnInit {
 
           if (res.dataList.length > 0) {
             this.isData = true;
+            res.dataList[0].products = [
+              {
+                "id": 50,
+                "name": "string",
+                "noOfPolicy": 4000
+              },
+              {
+                "id": 25,
+                "name": "string",
+                "noOfPolicy": 5000
+              }
+            ]
+
+            res.dataList[1].products = [
+              {
+                "id": 50,
+                "name": "string",
+                "noOfPolicy": 4000
+              }
+            ]
             this.dataList = res.dataList;
             let countNo: number = 0;
             for (var i = 0; i < this.dataList.length; i++) {
-              this.dataList[i].productDataList = []
+              let list = [];
+              for (var j = 0; j < this.productList.length; j++) {
+                list.push({ id: this.productList[j].id, noOfPolicy: 0, totalPreminum: 0 });
+              }
               countNo++;
               this.dataList[i].no = countNo;
-              for (var j = 0; j < this.productList.length; j++) {
-                this.dataList[i].productDataList.push({
-                  id: this.productList[j].id,
-                  noOfPolicy: null, totalPreminum: null
-                });
-              }
+              this.dataList[i].productDataList = list;
+              // for (var j = 0; j < this.productList.length; j++) {
+              //   this.dataList[i].productDataList.push({
+              //     id: this.productList[j].id,
+              //     noOfPolicy: 0, totalPreminum: 0
+              //   });
+              // }
 
-              if (this.dataList[i].products.length > 0) { 
+              if (this.dataList[i].products.length > 0) {
                 for (var j = 0; j < this.dataList[i].products.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
                       this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
                       this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
                     }
+                  }
+                }
+              }
+
+              if (countNo == this.dataList.length) {
+                this.totalDataList = JSON.parse(JSON.stringify(list))
+                for (var i = 0; i < this.dataList.length; i++) {
+                  for (var j = 0; j < this.dataList[i].products.length; j++) {
+                    let total: number = 0;
+                    for (var k = 0; k < this.totalDataList.length; k++) {
+                      if (this.totalDataList[k].id == this.dataList[i].products[j].id) {
+                        console.log('noOfPolicy =====> ', this.dataList[i].products[j].noOfPolicy);
+                        this.totalDataList[k].noOfPolicy += this.dataList[i].products[j].noOfPolicy;
+                        //total += this.dataList[i].products[j].noOfPolicy;
+                      }
+                    }
+                    console.log('total =====> ', total);
+
+                    //this.totalDataList[i].noOfPolicy += total
+
                   }
                 }
               }

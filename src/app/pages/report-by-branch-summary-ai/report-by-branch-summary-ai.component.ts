@@ -40,6 +40,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
 
   reportsForExcel = [];
   isData: boolean = false;
+  totalDataList = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportBranchSummaryAIExportService) { }
@@ -50,23 +51,39 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   }
 
   async getAllReports() {
+    let totalActiveAgents: number = 0;
+    let totalNoOfPolicy: number = 0;
+    let totalPreminum: number = 0;
+    this.totalDataList = [];
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
       this.reports = [];
-      let srNo: number = 1;
+      let srNo: number = 0;
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('getAllReportData', res)
         if (res.length > 0) {
           this.isData = true;
+          res[0].activeAgents = 10;
+          res[1].activeAgents = 50;
           this.reports = res;
           for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].srNo = srNo + i;
+            srNo++
+            this.reports[i].srNo = srNo;
+            totalActiveAgents += this.reports[i].activeAgents
+            totalNoOfPolicy += this.reports[i].noOfPolicy
+            totalPreminum += this.reports[i].totalPreminum
+            if (srNo == this.reports.length) {
+              this.totalDataList.push({
+                totalActiveAgents: totalActiveAgents,
+                totalNoOfPolicy: totalNoOfPolicy,
+                totalPreminum: totalPreminum
+              });
+            }
           }
-          this.reports = res;
         }
       });
     }
+    console.log('reports', this.reports)
     this.cdf.detectChanges();
   }
 
@@ -78,6 +95,17 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       countSrNo += 1;
       this.reportsForExcel.push([countSrNo, this.reports[i].branch,
         this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
+    }
+
+    let totalValue = [];
+
+
+    for (var i = 0; i < this.totalDataList.length; i++) {
+      totalValue.push(null);
+      totalValue.push('Total');
+      totalValue.push(this.totalDataList[i].totalActiveAgents);
+      totalValue.push(this.totalDataList[i].totalNoOfPolicy);
+      totalValue.push(this.totalDataList[i].totalPreminum);
     }
 
     let fromDate = '';
@@ -103,6 +131,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       ],
       reportsForExcelHeader: ["Sr. No.", "Branch", "#Active Agents", "#No of Ploicies", "#Premium"],
       reportsForExcel: this.reportsForExcel,
+      totalValue: totalValue,
     }
     this.exportService.exportExcel(reportData);
   }

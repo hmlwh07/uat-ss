@@ -40,6 +40,12 @@ export class ReportByAgentWeeklyComponent implements OnInit {
   subHeader = [];
   dataExcel = [];
   isData: boolean = false;
+  productsHeader = [];
+  branchDataList = [];
+  dataList = [];
+  branchDataForExcel = [];
+  title: string = 'Weekly Activity Report';
+  productsSubHeader = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportAgentWeeklyExportService) { }
@@ -91,69 +97,75 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
+      this.productsHeader = [];
+      this.branchDataList = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        if (res.length > 0) {
-          this.isData = true;
-          this.reports = res;
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = [];
-            for (var j = 0; j < this.reports[i].products.length; j++) {
-              this.reports[i].products[j].id = i
-              this.reports[i].products[j].noOfPolicies = null;
-              this.reports[i].products[j].premium = null;
-              this.products.push(this.reports[i].products[j]);
-            }
-
-            for (var k = 0; k < this.reports[i].policies.length; k++) {
-              this.reports[i].policies[k].id = i
-              this.policies.push(this.reports[i].policies[k]);
+        console.log('policyProductBranch', res);
+        if (res) {
+          if (res.headerColumnList.length > 0) {
+            this.isData = true;
+            for (var i = 0; i < res.headerColumnList.length; i++) {
+              let date: string = i + '/12/2022';
+              this.productsHeader.push({ name: date })
             }
           }
 
-          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
+          if (res.headerColumnList.length > 0) {
+            this.isData = true;
+            this.productsSubHeader.push({ name: 'Agent Name' });
+            this.productsSubHeader.push({ name: 'Agent Branch' });
+            this.productsSubHeader.push({ name: 'Actvities' });
+            this.productsSubHeader.push({ name: 'Target' });
+            let count: number = 0;
+            for (var i = 0; i < res.headerColumnList.length; i++) {
+              count++;
+              let week: string = 'W' + count;
+              this.productsSubHeader.push({ name: week })
+            }
           }
 
-          for (var i = 0; i < this.reports.length; i++) {
-            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-              for (var k = 0; k < this.reports[i].policies.length; k++) {
-                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-                }
+          if (res.dataList.length > 0) {
+            this.isData = true;
+            this.dataList = res.dataList;
+            for (var i = 0; i < this.dataList.length; i++) {
+              this.dataList[i].productDataList = [];
+              for (var j = 0; j < this.productsHeader.length; j++) {
+                this.dataList[i].productDataList.push({ value: null });
               }
+              // if (this.dataList[i].dynamicList) {
+              //   for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
+              //     for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+              //       if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
+              //         this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
+              //         this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+              //       }
+              //     }
+              //   }
+              // }
             }
+            console.log('dataList', this.dataList);
           }
-          console.log('report ', this.reports);
         }
       });
+
+      console.log('productsHeader', this.productsHeader);
+      console.log('productsSubHeader', this.productsSubHeader);
     }
     this.cdf.detectChanges();
   }
 
   generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
     this.productValues = []
-    for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+    this.branchDataForExcel = [];
+    for (var i = 0; i < this.productsHeader.length; i++) {
+      this.productValues.push(this.productsHeader[i].name)
     }
 
-    // Sub Header
-    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
-    for (var i = 0; i < this.productList.length; i++) {
-      this.subHeader.push("No of Policies");
-      this.subHeader.push("Premium");
-    }
-
-    // Data
-    for (var i = 0; i < this.reports.length; i++) {
-      let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
-      }
-      this.dataExcel.push(list)
+    // Data For Excel
+    let countSrNo: number = 0;
+    for (var i = 0; i < this.dataList.length; i++) {
+      countSrNo += 1;
+      this.branchDataForExcel.push([countSrNo, this.dataList[i].month])
     }
 
     let fromDate = null;
@@ -161,12 +173,12 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     if (this.createFormGroup.value.fromDate) {
       fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
     }
-    if (this.createFormGroup.value.fromDate) {
+    if (this.createFormGroup.value.toDate) {
       toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title + ' ' + 'Report',
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -177,9 +189,8 @@ export class ReportByAgentWeeklyComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      products: this.productValues,
-      subHeader: this.subHeader,
-      data: this.dataExcel
+      productsHeader: this.productValues,
+      branchDataForExcel: this.branchDataForExcel,
     }
     this.exportService.exportExcel(reportData);
   }

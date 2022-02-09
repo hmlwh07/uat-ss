@@ -179,29 +179,14 @@
                     <th *ngFor="let particular of displayList[0].particular; let i = index">{{ particular.channel }}
                     </th>
                 </tr>
-                <tr>
-                    <th *ngFor="let policies of displayList[0].policies; let i = index">{{ policies.noOfPolicy }}</th>
+                <tr class="data">
+                    <td *ngFor="let policies of displayList[0].policies; let i = index">{{ policies.noOfPolicy || 0 }}
+                    </td>
                 </tr>
-                <tr>
-                    <th *ngFor="let premium of displayList[0].premium; let i = index">{{ premium.totalPreminum }}</th>
+                <tr class="data">
+                    <td *ngFor="let premium of displayList[0].premium; let i = index">{{ premium.totalPreminum || 0 }}
+                    </td>
                 </tr>
-                <!-- <tr *ngFor="let report of reports; let i = index">
-                <td>{{ i + 1}}</td>
-                <td>{{ report.branchName }}</td>
-                <td>{{ report.channelName }}</td>
-                <td>{{ report.agentName }}</td>
-                <td>{{ report.agentNo }}</td>
-                <td *ngFor="let policy of reports[i].productPolicies; let j = index; ">
-                    <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
-                    <span *ngIf="!policy.noOfPolicies">
-                        <div class="right-border-transform"></div>
-                    </span>
-                    <span *ngIf="!policy.noOfPolicies"></span>
-                </td>
-            </tr> -->
             </table>
         </div>
     </div>

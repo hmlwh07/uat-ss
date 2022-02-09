@@ -40,6 +40,10 @@ export class ReportByAgentDailyComponent implements OnInit {
   subHeader = [];
   dataExcel = [];
   isData: boolean = false;
+  productsHeader: any[];
+  branchDataList: any[];
+  productsSubHeader: any;
+  dataList: any;
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportAgentDailyExportService) { }
@@ -92,43 +96,59 @@ export class ReportByAgentDailyComponent implements OnInit {
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
+      this.productsHeader = [];
+      this.branchDataList = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        if (res.length > 0) {
-          this.isData = true;
-          this.reports = res;
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = [];
-            for (var j = 0; j < this.reports[i].products.length; j++) {
-              this.reports[i].products[j].id = i
-              this.reports[i].products[j].noOfPolicies = null;
-              this.reports[i].products[j].premium = null;
-              this.products.push(this.reports[i].products[j]);
-            }
+        console.log('policyProductBranch', res);
+        // if (res) {
+        //   if (res.headerColumnList.length > 0) {
+        //     this.isData = true;
+        //     for (var i = 0; i < res.headerColumnList.length; i++) {
+        //       let date: string = i + '/12/2022';
+        //       this.productsHeader.push({ name: date })
+        //     }
+        //   }
 
-            for (var k = 0; k < this.reports[i].policies.length; k++) {
-              this.reports[i].policies[k].id = i
-              this.policies.push(this.reports[i].policies[k]);
-            }
-          }
+        //   if (res.headerColumnList.length > 0) {
+        //     this.isData = true;
+        //     this.productsSubHeader.push({ name: 'Agent Name' });
+        //     this.productsSubHeader.push({ name: 'Agent Branch' });
+        //     this.productsSubHeader.push({ name: 'Actvities' });
+        //     this.productsSubHeader.push({ name: 'Target' });
+        //     let count: number = 0;
+        //     for (var i = 0; i < res.headerColumnList.length; i++) {
+        //       count++;
+        //       let week: string = 'W' + count;
+        //       this.productsSubHeader.push({ name: week })
+        //     }
+        //   }
 
-          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-          }
-
-          for (var i = 0; i < this.reports.length; i++) {
-            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-              for (var k = 0; k < this.reports[i].policies.length; k++) {
-                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-                }
-              }
-            }
-          }
-          console.log('report ', this.reports);
-        }
+        //   if (res.dataList.length > 0) {
+        //     this.isData = true;
+        //     this.dataList = res.dataList;
+        //     for (var i = 0; i < this.dataList.length; i++) {
+        //       this.dataList[i].productDataList = [];
+        //       for (var j = 0; j < this.productsHeader.length; j++) {
+        //         this.dataList[i].productDataList.push({ value: null });
+        //       }
+        //       // if (this.dataList[i].dynamicList) {
+        //       //   for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
+        //       //     for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+        //       //       if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
+        //       //         this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
+        //       //         this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+        //       //       }
+        //       //     }
+        //       //   }
+        //       // }
+        //     }
+        //     console.log('dataList', this.dataList);
+        //   }
+        // }
       });
+
+      console.log('productsHeader', this.productsHeader);
+      console.log('productsSubHeader', this.productsSubHeader);
     }
     this.cdf.detectChanges();
   }
