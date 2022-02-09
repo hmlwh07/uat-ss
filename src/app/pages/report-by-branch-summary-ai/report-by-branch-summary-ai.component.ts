@@ -21,7 +21,8 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     channels: [],
     regions: [],
     cluster: [],
-    branches: []
+    branches: [],
+    agents: []
   }
 
   reports = [];
@@ -48,6 +49,15 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadForm();
+    this.getOfficeHirearchy();
+  }
+
+  async getOfficeHirearchy() {
+    await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
+      if (res) {
+        this.selectOptions.companies = res
+      }
+    });
   }
 
   async getAllReports() {
@@ -63,8 +73,6 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         if (res.length > 0) {
           this.isData = true;
-          res[0].activeAgents = 10;
-          res[1].activeAgents = 50;
           this.reports = res;
           for (var i = 0; i < this.reports.length; i++) {
             srNo++
@@ -153,22 +161,27 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
 
 
   async changeOptions(ev, type) {
-    console.log('ev =====> ', ev);
-    console.log('type =====> ', type);
     if (type == 'company') {
       if (ev) {
-        this.companyName = ev.companyName
-        this.selectOptions.channels.push({ id: 1, channelName: 'channelName 1', companiesId: 1 });
+        this.companyName = ev.name
+        await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
+          console.log('officeHirearchy', res);
+          if (res) {
+            this.selectOptions.channels = res
+          }
+        });
       } else {
         this.companyName = null;
         this.selectOptions.channels = [];
         this.selectOptions.regions = [];
         this.selectOptions.cluster = [];
         this.selectOptions.branches = [];
-        this.createFormGroup.controls['channelId'].setValue(null);
-        this.createFormGroup.controls['regionId'].setValue(null);
-        this.createFormGroup.controls['clusterId'].setValue(null);
-        this.createFormGroup.controls['branchId'].setValue(null);
+        this.selectOptions.agents = [];
+        this.createFormGroup.controls['channelId'].setValue('');
+        this.createFormGroup.controls['regionId'].setValue('');
+        this.createFormGroup.controls['clusterId'].setValue('');
+        this.createFormGroup.controls['branchId'].setValue('');
+        this.createFormGroup.controls['agentId'].setValue('');
       }
       this.selectOptions.channels = [...this.selectOptions.channels];
       this.selectOptions.regions = [...this.selectOptions.regions];
@@ -177,59 +190,113 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     }
 
     if (type == 'channel') {
+      this.selectOptions.channels = [];
+      this.selectOptions.regions = [];
+      this.selectOptions.cluster = [];
+      this.selectOptions.branches = [];
+      this.selectOptions.agents = [];
+      this.createFormGroup.controls['channelId'].setValue('');
+      this.createFormGroup.controls['regionId'].setValue('');
+      this.createFormGroup.controls['clusterId'].setValue('');
+      this.createFormGroup.controls['branchId'].setValue('');
+      this.createFormGroup.controls['agentId'].setValue('');
       if (ev) {
-        this.channelName = ev.channelName
-        this.selectOptions.regions.push({ id: 1, regionsName: 'regions 1', channelId: 1 });
+        this.companyName = ev.name;
+        await this.exportService.getOfficeHirearchy(ev.id, '02').toPromise().then(async (res: any) => {
+          if (res) {
+            this.selectOptions.channels = res
+          }
+        });
       } else {
         this.channelName = null;
-        this.selectOptions.regions = [];
-        this.selectOptions.cluster = [];
-        this.selectOptions.branches = [];
-        this.createFormGroup.controls['regionId'].setValue(null);
-        this.createFormGroup.controls['clusterId'].setValue(null);
-        this.createFormGroup.controls['branchId'].setValue(null);
       }
-      this.selectOptions.regions = [...this.selectOptions.regions];
-      this.selectOptions.cluster = [...this.selectOptions.cluster];
-      this.selectOptions.branches = [...this.selectOptions.branches];
     }
 
     if (type == 'region') {
+      this.selectOptions.regions = [];
+      this.selectOptions.cluster = [];
+      this.selectOptions.branches = [];
+      this.selectOptions.agents = [];
+      this.createFormGroup.controls['regionId'].setValue('');
+      this.createFormGroup.controls['clusterId'].setValue('');
+      this.createFormGroup.controls['branchId'].setValue('');
+      this.createFormGroup.controls['agentId'].setValue('');
       if (ev) {
-        this.regionName = ev.regionsName
-        this.selectOptions.cluster.push({ id: 1, clusterName: 'clusterName 1', regionId: 1 });
+        this.channelName = ev.name;
+        await this.exportService.getOfficeHirearchy(ev.id, '03').toPromise().then(async (res: any) => {
+          if (res) {
+            this.selectOptions.regions = res
+          }
+        });
       } else {
         this.regionName = null
-        this.selectOptions.cluster = [];
-        this.selectOptions.branches = [];
-        this.createFormGroup.controls['clusterId'].setValue(null);
-        this.createFormGroup.controls['branchId'].setValue(null);
       }
-      this.selectOptions.cluster = [...this.selectOptions.cluster];
-      this.selectOptions.branches = [...this.selectOptions.branches];
+
     }
 
     if (type == 'cluster') {
+      this.selectOptions.cluster = [];
+      this.selectOptions.branches = [];
+      this.selectOptions.agents = [];
+      this.createFormGroup.controls['clusterId'].setValue('');
+      this.createFormGroup.controls['branchId'].setValue('');
+      this.createFormGroup.controls['agentId'].setValue('');
       if (ev) {
-        this.clusterName = ev.clusterName
-        this.selectOptions.branches.push({ id: 1, brancheName: 'brancheName 1', clusterId: 1 });
+        this.regionName = ev.name
+        await this.exportService.getOfficeHirearchy(ev.id, '04').toPromise().then(async (res: any) => {
+          if (res) {
+            this.selectOptions.cluster = res
+          }
+        });
       } else {
         this.clusterName = null
-        this.selectOptions.branches = [];
-        this.createFormGroup.controls['branchId'].setValue(null);
       }
-      this.selectOptions.branches = [...this.selectOptions.branches];
     }
     if (type == 'branch') {
+      this.selectOptions.branches = [];
+      this.selectOptions.agents = [];
+      this.createFormGroup.controls['branchId'].setValue('');
+      this.createFormGroup.controls['agentId'].setValue('');
       if (ev) {
-        this.branchName = ev.brancheName
+        this.clusterName = ev.name;
+        await this.exportService.getOfficeHirearchy(ev.id, '05').toPromise().then(async (res: any) => {
+          if (res) {
+            this.selectOptions.branches = res
+          }
+        });
       } else {
         this.branchName = null;
       }
     }
+
+    if (type == 'agent') {
+      if (ev) {
+        this.branchName = ev.name
+        await this.exportService.getAgentOffice(11).toPromise().then(async (res: any) => {
+          if (res) {
+            this.selectOptions.agents = res
+          }
+        });
+      } else {
+        this.agentName = null;
+        this.selectOptions.agents = [];
+        this.createFormGroup.controls['agentId'].setValue('');
+      }
+    }
+
+    console.log('type', type);
+    console.log('ev', ev);
+
+    if (type == 'office') {
+      if (ev) {
+        this.agentName = ev.agentName
+      }
+    }
+
+
     this.cdf.detectChanges()
-    console.log('selectOptions', this.selectOptions)
-    this.getAllReports();
+
+
   }
 
 

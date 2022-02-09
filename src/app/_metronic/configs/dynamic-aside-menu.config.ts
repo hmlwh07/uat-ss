@@ -215,7 +215,7 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'Detail Report by Bank Branch​',
+          title: '#Detail Report by bank branch​',
           page: 'report/report-detail-by-bank-branch',
           show: true
         },
@@ -230,12 +230,12 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'By Product Sales Channel Policies',
+          title: '#By Product Sales Channel - #of policies',
           page: 'report/report-by-product-sales-channel-policies',
           show: true
         },
         {
-          title: 'By Product Sales Channel Premium',
+          title: '#By Product Sales Channel - Premium',
           page: 'report/report-by-product-sales-channel-premium',
           show: true
         },
@@ -245,7 +245,7 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'By Product Branch Premium',
+          title: '#By Product Branch - #of Premium',
           page: 'report/report-by-product-branch-premium',
           show: true
         },
@@ -289,7 +289,7 @@ export const DynamicAsideMenuConfig = {
           page: 'report/report-key-driver',
           show: true
         },
-        
+
       ]
     },
 

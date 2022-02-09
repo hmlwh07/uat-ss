@@ -6,6 +6,9 @@ import { BizOperationService } from 'src/app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
 const API_ADDON_URL = `${environment.apiUrl}/reportByBankBranch`;
+const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
+const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
+
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ"];
 
 @Injectable({
@@ -14,6 +17,27 @@ const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
 export class ReportDetailBankBranchExportService extends BizOperationService<any, number>{
   constructor(protected httpClient: HttpClient) {
     super(httpClient, API_ADDON_URL);
+  }
+
+  getOfficeHirearchy(parentId, typeCode) {
+    let reqObj = {
+      parentId: parentId,
+      typeCode: typeCode,
+    }
+    const params = new HttpParams({
+      fromObject: reqObj
+    });
+    return this.httpClient.get<any>(API_HIREARCHY_URL, { params: params });
+  }
+
+  getAgentOffice(officeId) {
+    let reqObj = {
+      officeId: officeId,
+    }
+    const params = new HttpParams({
+      fromObject: reqObj
+    });
+    return this.httpClient.get<any>(API_AGENT_OFFICE_URL, { params: params });
   }
 
 

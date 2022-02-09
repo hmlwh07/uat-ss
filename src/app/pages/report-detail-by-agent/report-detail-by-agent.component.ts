@@ -57,7 +57,6 @@ export class ReportDetailByAgentComponent implements OnInit {
 
   async getOfficeHirearchy() {
     await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-      console.log('officeHirearchy', res);
       if (res) {
         this.selectOptions.companies = res
       }
@@ -109,11 +108,10 @@ export class ReportDetailByAgentComponent implements OnInit {
                         this.totalDataList[k].noOfPolicy += this.dataList[i].products[j].noOfPolicy;
                       }
                     }
-                    console.log('total =====> ', total);
                   }
                 }
               }
-            }            
+            }
           }
         }
       });
@@ -220,7 +218,7 @@ export class ReportDetailByAgentComponent implements OnInit {
       this.selectOptions.branches = [...this.selectOptions.branches];
     }
 
-    if (type == 'channel') {      
+    if (type == 'channel') {
       this.selectOptions.channels = [];
       this.selectOptions.regions = [];
       this.selectOptions.cluster = [];
