@@ -1054,12 +1054,14 @@ export class LeadDetailComponent implements OnInit {
       }
       if (event.cmd == 'delete') {
         this.LeadAttachmentService.delete(event.data.id).toPromise().then((res) => {
-
+          if (res) {
+            this.getLeadAttachment()
+          }
         })
       }
     }
   }
-  
+
   createPolicy(item) {
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
       if (res) {
@@ -1159,8 +1161,8 @@ export class LeadDetailComponent implements OnInit {
             this.LeadAttachmentService.save(postData).toPromise().then((res) => {
               if (res) {
                 console.log("RESFILE", res)
-                // this.getLeadAttachment()
-                this.getOld()
+                this.getLeadAttachment()
+                // this.getOld()
               }
 
             })
