@@ -62,7 +62,7 @@ export class ProductComponent implements OnInit {
   totalGrantMonthlyRate: any;
   highPercent: number = null;
   grantPercent: number = null;
-  isData: boolean;
+  isData: boolean = false;
   updateProducts = [];
 
   constructor(private productService: ProductService, private cdf: ChangeDetectorRef,

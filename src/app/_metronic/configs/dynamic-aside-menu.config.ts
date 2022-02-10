@@ -218,12 +218,12 @@ export const DynamicAsideMenuConfig = {
       submenu_show: true,
       submenu: [
         {
-          title: 'Detail Report By Agent​',
+          title: '#Detail Report by agent all​',
           page: 'report/report-detail-by-agent',
           show: true
         },
         {
-          title: 'Detail Report by Bank Branch​',
+          title: '#Detail Report by bank branch​',
           page: 'report/report-detail-by-bank-branch',
           show: true
         },
@@ -233,47 +233,47 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'By Branch Summary IA',
+          title: '#By Branch Summary IA',
           page: 'report/report-by-branch-summary-ai',
           show: true
         },
         {
-          title: 'By Product Sales Channel Policies',
+          title: '#By Product Sales Channel - #of policies',
           page: 'report/report-by-product-sales-channel-policies',
           show: true
         },
         {
-          title: 'By Product Sales Channel Premium',
+          title: '#By Product Sales Channel - Premium',
           page: 'report/report-by-product-sales-channel-premium',
           show: true
         },
         {
-          title: 'By Product Branch Policies',
+          title: '#By Product Branch - #of Policies',
           page: 'report/report-by-product-branch-policies',
           show: true
         },
         {
-          title: 'By Product Branch Premium',
+          title: '#By Product Branch - #of Premium',
           page: 'report/report-by-product-branch-premium',
           show: true
         },
         {
-          title: 'By Agent Yearly',
+          title: '#By Agent Yearly',
           page: 'report/report-by-agent-yearly',
           show: true
         },
         {
-          title: 'By Agent Daily',
+          title: 'Activity Summary Report by Branch for Daily',
           page: 'report/report-by-agent-daily',
           show: true
         },
         {
-          title: 'By Agent Weekly',
+          title: 'Activity Summary Report by Branch for Weekly',
           page: 'report/report-by-agent-weekly',
           show: true
         },
         {
-          title: 'By Agent Monthly',
+          title: 'Activity Summary Report by Branch for Monthly',
           page: 'report/report-by-agent-monthly',
           show: true
         },
@@ -297,7 +297,7 @@ export const DynamicAsideMenuConfig = {
           page: 'report/report-key-driver',
           show: true
         },
-        
+
       ]
     },
 

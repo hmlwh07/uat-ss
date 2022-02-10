@@ -58,7 +58,7 @@ export class AboutBramComponent implements OnInit {
   operation = [];
   management = [];
   mgmtInfra = [];
-  isData: boolean;
+  isData: boolean = false;
 
 
   fnaSwitchEvent(type) {
