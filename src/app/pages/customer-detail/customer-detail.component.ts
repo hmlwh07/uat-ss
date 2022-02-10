@@ -134,9 +134,9 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     private CustomerAttachmentService: AttachmentServiceRef,
     private AttachmentDownloadService: AttachmentDownloadService,
   ) {
-    this.ACTIVITYdisplayedColumns = this.ACTIVITYdisplayedColumns.splice(8,1)
-    this.QuotationdisplayedColumns = this.QuotationdisplayedColumns.splice(7,2)
-    this.ApplicationdisplayedColumns = this.ApplicationdisplayedColumns.splice(7,1)
+    this.ACTIVITYdisplayedColumns.splice(8,1)
+    this.QuotationdisplayedColumns.splice(7,2)
+    this.ApplicationdisplayedColumns.splice(7,1)
   }
 
   ngOnInit(): void {
