@@ -1,22 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-} from 'angular-calendar';
+import { startOfDay, endOfDay,subDays, addDays, endOfMonth,isSameDay,isSameMonth,addHours,} from 'date-fns';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView,} from 'angular-calendar';
 import { Subject } from 'rxjs';
+import { ActivityManageService } from '../activity-management-list/activity-manage.service';
+import { Router } from '@angular/router';
 
 const colors: any = {
   red: {
@@ -34,6 +22,10 @@ const colors: any = {
   orange: {
     primary: '#ff8100',
     secondary: '#ff8100',
+  },
+  Open:{
+    primary: '3dc2ff',
+    secondary: '#3dc2ff',
   }
 };
 
@@ -88,81 +80,59 @@ export class MycalendarComponent implements OnInit {
   ];
 
   refresh = new Subject<void>();
-  eventNumber:number=0
+  eventNumber: number = 0
+  activityList = []
   EventData = [
-
-    {
-      start: (new Date()),
-      // end: (new Date()),
-      title: 'Testing Events 1',
-      color: colors.blue,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfDay(new Date()),7),
-      // end: subDays(startOfDay(new Date()),3),
-      title: 'Testing Events 2',
-      color: colors.blue,
-      actions: this.actions,
-    },
-    
     // {
-    //   start: subDays(startOfDay(new Date()), 1),
-    //   end: addDays(new Date(), 1),
-    //   title: 'Test Event1 ',
+    //   start: (new Date()),
+    //   end: (new Date()),
+    //   title: 'Testing Events 1',
     //   color: colors.blue,
     //   actions: this.actions,
-    //   allDay: true,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true,
-    //   },
-    //   draggable: true,
     // },
     // {
-    //   start: startOfDay(new Date()),
-    //   end: addDays(new Date(), 1),
-    //   title: 'Test Event 2 ',
-    //   color: colors.yellow,
-    //   actions: this.actions,
-    // },
-    // {
-    //   start: subDays(startOfDay(new Date()), 1),
-    //   end: addDays(startOfDay(new Date()), 1),
-    //   title: 'Test Event 3 ',
-    //   color: colors.orange,
-    //   allDay: true,
-    // },
-    // {
-    //   start: addHours(startOfDay(new Date()), 1),
-    //   end: addHours(new Date(), 1),
-    //   title: 'Test Event 4',
+    //   start: subDays(endOfDay(new Date()), 7),
+    //   end: subDays(startOfDay(new Date()), 3),
+    //   title: 'Testing Events 2',
     //   color: colors.red,
     //   actions: this.actions,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true,
-    //   },
-    //   draggable: true,
     // },
   ];
   events: CalendarEvent[] = []
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
+  
 
-
-
-  constructor(private modal: NgbModal) {
-
-
+  constructor(private modal: NgbModal, private activityService: ActivityManageService,private router:Router) {
   }
 
   ngOnInit(): void {
-   this.getActivity()
+    this.getActivity()
   }
 
-  getActivity(){
-    this.events = this.EventData
-    this.eventNumber=this.events.length
+  getActivity() {
+    let postData = {
+      status: "Open"
+    }
+    this.activityService.getActivityList(postData).subscribe((res: any) => {
+      if (res) {
+        console.log("RES", res)
+        this.activityList = res
+        this.EventData = this.activityList.map((data) => {
+          return {
+            start: new Date(data.planDate),
+            end:  new Date(data.dueDate),
+            title: data.activityTitle,
+            color: data.status=='01' ? colors.Open :colors.red,
+            activityNo:data.activityNo,
+            actions: this.actions,
+          }
+        })
+        console.log(" this.EventData",  this.EventData)
+        this.events = this.EventData
+        this.eventNumber = this.events.length
+        this.refresh.next();
+      }
+    })
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -198,27 +168,34 @@ export class MycalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    // this.modalData = { event, action };
+    // this.modal.open(this.modalContent, { size: 'lg' });
+    this.navigateToDetail('edit', event.activityNo)
+  }
+
+  navigateToDetail(data, id?: string) {
+    this.router.navigate(["/activity/activity-management-detail"], { queryParams: { pageStatus: data, pageId: id } })
   }
 
   addEvent(i): void {
-    this.eventNumber +=1
-    this.events = [
-      ...this.events,
-      {
-        title:`Testing Events ${   this.eventNumber }`,
-        start: subDays(startOfDay(new Date()),3),
-        // end: addDays(new Date(), 1),
-        color: colors.blue,
-        actions: this.actions,
-        // draggable: true,
-        // resizable: {
-        //   beforeStart: true,
-        //   afterEnd: true,
-        // },
-      },
-    ];
+    // this.eventNumber += 1
+    // this.events = [
+    //   ...this.events,
+    //   {
+    //     title: `Testing Events ${this.eventNumber}`,
+    //     start: subDays(startOfDay(new Date()), 3),
+    //     // end: addDays(new Date(), 1),
+    //     color: colors.blue,
+    //     actions: this.actions,
+    //     activityNo:null,
+    //     // draggable: true,
+    //     // resizable: {
+    //     //   beforeStart: true,
+    //     //   afterEnd: true,
+    //     // },
+    //   },
+    // ];
+    this.navigateToDetail('create', null)
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
