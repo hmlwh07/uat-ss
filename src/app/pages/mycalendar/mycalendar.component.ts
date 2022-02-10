@@ -12,13 +12,13 @@ const colors: any = {
     secondary: '#FAE3E3',
   },
   blue: {
-    primary: '#1e90ff',
+    primary: '#1e90ff', 
     secondary: '#D1E8FF',
   },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
+  yellow: {  
+    primary: '#e3bc08', 
+    secondary: '#FDF1BA',  
+  }, 
   orange: {
     primary: '#ff8100',
     secondary: '#ff8100',
@@ -26,7 +26,19 @@ const colors: any = {
   Open:{
     primary: '3dc2ff',
     secondary: '#3dc2ff',
-  }
+  },
+  Face: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
+  Online: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF',
+  },
+  Phone: {
+    primary: '#ff8100',
+    secondary: '#ff8100',
+  },
 };
 
 
@@ -118,11 +130,21 @@ export class MycalendarComponent implements OnInit {
         console.log("RES", res)
         this.activityList = res
         this.EventData = this.activityList.map((data) => {
+          let actColor
+          if(data.activityType=='Face to Face'){
+            actColor=colors.Face
+          }
+          if(data.activityType=='Online'){
+            actColor=colors.Online
+          }
+          else{
+            actColor=colors.Phone
+          }
           return {
             start: new Date(data.planDate),
             end:  new Date(data.dueDate),
             title: data.activityTitle,
-            color: data.status=='01' ? colors.Open :colors.red,
+            color: actColor,
             activityNo:data.activityNo,
             actions: this.actions,
           }

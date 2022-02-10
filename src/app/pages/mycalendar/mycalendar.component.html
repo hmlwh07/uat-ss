@@ -53,7 +53,7 @@
                         (eventTimesChanged)="eventTimesChanged($event)">
                     </mwl-calendar-month-view>
                     <!-- <mwl-calendar-week-view *ngSwitchCase="calendarView.Week" [events]="events" [viewDate]="viewDate" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
-                    </mwl-calendar-week-view>
+                    </mwl-calendar-week-view> 
                     <mwl-calendar-day-view *ngSwitchCase="calendarView.Day" [events]="events" [viewDate]="viewDate" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
                     </mwl-calendar-day-view> -->
                 </div>
@@ -68,7 +68,7 @@
               }}</span>
                     </div>
                     <div class="cal-events" *ngIf="day.events.length > 0">
-                        <div class="cal-event" *ngFor="let event of day.events | slice:0:showAll ? undefined :3; trackBy: trackByEventId" (mwlClick)="eventClicked.emit({ event: event })"></div>
+                        <div class="cal-event" *ngFor="let event of day.events | slice:0:showAll ? undefined :3; trackBy: trackByEventId" [ngStyle]="{ backgroundColor: event.color?.primary }" (mwlClick)="eventClicked.emit({ event: event })"></div>
                         <span class="cal-day-badge" *ngIf="day.events.length > 3">
                 + {{ day.events.length - 3 }} 
               </span>
