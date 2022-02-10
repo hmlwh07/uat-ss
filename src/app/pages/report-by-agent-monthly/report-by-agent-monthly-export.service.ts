@@ -5,7 +5,7 @@ import * as fs from 'file-saver';
 import { BizOperationService } from 'src/app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
-const API_ADDON_URL = `${environment.apiUrl}/SummaryReportByBranchForMonthly`;
+const API_ADDON_URL = `${environment.apiUrl}/summaryReportByBranchForMonthly`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
 
@@ -169,24 +169,16 @@ export class ReportAgentMonthlyExportService extends BizOperationService<any, nu
 
     branchDataForExcel.forEach(d => {
       let row = worksheet.addRow(d);
-      let no = row.getCell(1);
-      if (no) {
-        no.alignment = { vertical: 'middle', horizontal: 'center' }
-      }
       let index = 0;
       d.forEach(a => {
         index++;
-        if (index != 2 && index != 3 && index != 4 && index != 5) {
-          let center = row.getCell(index);
+        let center = row.getCell(index);
+        if (index == 1 || index == 2 || index == 3) {
           if (center) {
-            center.alignment = { vertical: 'middle', horizontal: 'right' }
+            center.alignment = { vertical: 'middle', horizontal: 'left' }
           }
-        }
-        if (index == 1) {
-          let center = row.getCell(index);
-          if (center) {
-            center.alignment = { vertical: 'middle', horizontal: 'center' }
-          }
+        } else {
+          center.alignment = { vertical: 'middle', horizontal: 'right' }
         }
       });
     }
