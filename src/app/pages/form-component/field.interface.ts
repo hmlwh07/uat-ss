@@ -8,6 +8,7 @@ export interface Field {
   reGetOption?: Function
   isNrc?: boolean
   doFunction?: Function
+  internalConfig?: ConfigInput[]
 }
 
 export interface ConfigInput {

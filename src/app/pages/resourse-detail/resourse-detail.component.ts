@@ -237,9 +237,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             skip = true
           }
           // parentArray.push()
+          // x.master == 'true' ? x.name + "Value" :
         }
         if (!skip) {
-          let tempName = x.master == 'true' ? x.name + "Value" : x.name
+          let tempName = x.name
           let otherNameObj = {
             name: tempName,
             type: x.input,
@@ -258,7 +259,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         } else {
           let index = tableReform.findIndex(data => data.parent == x.dependency.parentName)
           if (index >= 0) {
-            let tempName = x.master == 'true' ? x.name + "Value" : x.name
+            let tempName = x.name
             let otherNameObj = {
               name: tempName,
               type: x.input,

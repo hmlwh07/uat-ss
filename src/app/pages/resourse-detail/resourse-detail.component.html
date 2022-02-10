@@ -61,7 +61,7 @@
                             <!-- </span> -->
                             <!-- </span> -->
                             <ng-container
-                              *ngIf="(cont.master == 'false' || cont.master == false) && cont.options ;else nomalValue">
+                              *ngIf="(cont.master == 'false' || cont.master == false) && cont.options && cont.options.length > 0 ;else nomalValue">
                               <span>
                                 {{getOptionValue(resultObj[page.tableName+page.id][cont.name],cont.options,page.tableName+page.id,cont.name)}}</span>
                             </ng-container>

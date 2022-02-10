@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 import { of, Subscription } from 'rxjs';
 import { BtnConfig, ConfigInput } from '../field.interface';
 
@@ -15,7 +16,7 @@ import { BtnConfig, ConfigInput } from '../field.interface';
 export class CustomDialogComponent implements OnInit, OnDestroy {
   @Input() group: FormGroup;
   @Input() config: ConfigInput
-
+  @Input() internalConfig: ConfigInput[] = []
   selectedData: any
   private subscriptions: Subscription[] = [];
   constructor(
@@ -33,13 +34,18 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
     if (this.selectedData) {
       // console.log(this.selectedData[this.config.valueField]);
       // console.log(this.config,this.selectedData);
-      
+
       if (this.selectedData[this.config.valueField]) {
         this.group.controls[this.config.name].setValue(this.selectedData[this.config.valueField])
         for (let afield of this.config.autoFields) {
           const formControl = this.group.get(afield.value);
+          let input = this.internalConfig.find(x => x.name == afield.value)
           if (formControl) {
-            formControl.setValue(this.selectedData[afield.field])
+            if (input) {
+              let value = input.input == 'date' ? moment(this.selectedData[afield.field]) : this.selectedData[afield.field]
+              formControl.setValue(value)
+            } else
+              formControl.setValue(this.selectedData[afield.field])
           }
         }
       }
