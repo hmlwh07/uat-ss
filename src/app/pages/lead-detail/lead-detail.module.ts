@@ -28,7 +28,6 @@ import { LeadDetailShareModule } from './lead-detail.share.module';
     NgSelectModule,
     MatDatepickerModule,
     MatTabsModule,
-    CustomerListShareModule,
     LeadDetailShareModule,
     MatInputModule,
     RouterModule.forChild([

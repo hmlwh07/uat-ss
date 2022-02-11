@@ -23,7 +23,7 @@ export class LeadListService {
     if (search.contactName) {
       url = url + "contactName=" + search.contactName + "&"
     } if (search.openDateStr) {
-      url = url + "openDateStr=" + moment(search.openDateStr) + "&"
+      url = url + "openDateStr=" + moment(search.openDateStr).format("YYYY-MM-DD") + "&"
     } if (search.productId) {
       url = url + "productId=" + search.productId + "&"
     } 

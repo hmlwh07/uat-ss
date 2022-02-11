@@ -23,7 +23,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Lead ID</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-sm " name="leadId" autocomplete="off" [class.is-invalid]="isControlInvalid('leadId')" [class.is-valid]="isControlValid('leadId')" formControlName="leadId" />
+                                        <input type="text" class="form-control form-control-sm " name="leadId"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('leadId')"
+                                            [class.is-valid]="isControlValid('leadId')" formControlName="leadId" />
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +33,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Phone Number</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" (change)="calculateLeadQuality()" name="phoneNo" autocomplete="off" [class.is-invalid]="isControlInvalid('phoneNo')" [class.is-valid]="isControlValid('phoneNo')" formControlName="phoneNo" />
+                                        <input type="text" class="form-control form-control-sm"
+                                            (change)="calculateLeadQuality()" name="phoneNo" autocomplete="off"
+                                            [class.is-invalid]="isControlInvalid('phoneNo')"
+                                            [class.is-valid]="isControlValid('phoneNo')" formControlName="phoneNo" />
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +48,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Subject</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" name="subject" autocomplete="off" [class.is-invalid]="isControlInvalid('subject')" [class.is-valid]="isControlValid('subject')" formControlName="subject" />
+                                        <input type="text" class="form-control form-control-sm" name="subject"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('subject')"
+                                            [class.is-valid]="isControlValid('subject')" formControlName="subject" />
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +60,8 @@
                                     <label class="col-sm-4 col-form-label">Open Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;" formControlName="openedDate" [matDatepicker]="openDate" readonly>
+                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                                formControlName="openedDate" [matDatepicker]="openDate" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="openDate"></mat-datepicker-toggle>
                                             <mat-datepicker #openDate disabled="true"></mat-datepicker>
 
@@ -70,7 +78,10 @@
                                     <label class="col-sm-4 col-form-label">Contact</label>
                                     <div class="col-sm-8">
 
-                                        <input type="text" class="form-control form-control-sm" name="contactName" autocomplete="off" [class.is-invalid]="isControlInvalid('contactName')" [class.is-valid]="isControlValid('contactName')" formControlName="contactName" />
+                                        <input type="text" class="form-control form-control-sm" name="contactName"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('contactName')"
+                                            [class.is-valid]="isControlValid('contactName')"
+                                            formControlName="contactName" />
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +91,9 @@
                                     <label class="col-sm-4 col-form-label">Activation Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;" formControlName="activationDate" [matDatepicker]="activitionDate" readonly>
+                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                                formControlName="activationDate" [matDatepicker]="activitionDate"
+                                                readonly>
                                             <mat-datepicker-toggle matSuffix [for]="activitionDate">
                                             </mat-datepicker-toggle>
                                             <mat-datepicker #activitionDate disabled="true"></mat-datepicker>
@@ -93,10 +106,10 @@
                         </div>
 
                         <div class="row" style="align-items: center">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Preferred Contact</label>
-                                    <div class="col-sm-8 checkgroup">
+                                    <label class="col-sm-2 col-form-label">Preferred Contact</label>
+                                    <div class="col-sm-10 checkgroup">
                                         <div class="check-input">
                                             <label class="col-form-label">SMS</label>
                                             <input type="checkbox" formControlName="sms">
@@ -112,26 +125,17 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Occupation</label>
-                                    <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('occupationCode')" [class.is-valid]="isControlValid('occupationCode')" [items]="occupationOption" bindLabel="value" bindValue="code" formControlName="occupationCode">
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Type</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('typeCode')" [class.is-invalid]="isControlInvalid('typeCode')" [class.is-valid]="isControlValid('typeCode')" [items]="typeOption" bindLabel="value" bindValue="code" formControlName="typeCode">
+                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('typeCode')"
+                                            [class.is-invalid]="isControlInvalid('typeCode')"
+                                            [class.is-valid]="isControlValid('typeCode')" [items]="typeOption"
+                                            bindLabel="value" bindValue="code" formControlName="typeCode">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -141,7 +145,8 @@
                                     <label class="col-sm-4 col-form-label">Closed Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;" formControlName="closedDate" [matDatepicker]="closeDate" readonly>
+                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                                formControlName="closedDate" [matDatepicker]="closeDate" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="closeDate"></mat-datepicker-toggle>
                                             <mat-datepicker #closeDate disabled="true"></mat-datepicker>
 
@@ -156,7 +161,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Status</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" [readonly]="true" [class.is-invalid]="isControlInvalid('statusCode')" [class.is-valid]="isControlValid('statusCode')" [items]="statusOption" bindLabel="value" bindValue="code" formControlName="statusCode">
+                                        <ng-select class="ng-custom-select" [readonly]="true"
+                                            [class.is-invalid]="isControlInvalid('statusCode')"
+                                            [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
+                                            bindLabel="value" bindValue="code" formControlName="statusCode">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -167,7 +175,8 @@
                                     <label class="col-sm-4 col-form-label">Expiration Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;" formControlName="expirationDate" [matDatepicker]="expDate">
+                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                                formControlName="expirationDate" [matDatepicker]="expDate">
                                             <mat-datepicker-toggle matSuffix [for]="expDate"></mat-datepicker-toggle>
                                             <mat-datepicker #expDate></mat-datepicker>
 
@@ -176,7 +185,33 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row" style="align-items: center">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Occupation</label>
+                                    <div class="col-sm-8">
+                                        <ng-select class="ng-custom-select"
+                                            [class.is-invalid]="isControlInvalid('occupationCode')"
+                                            [class.is-valid]="isControlValid('occupationCode')"
+                                            [items]="occupationOption" bindLabel="value" bindValue="code"
+                                            formControlName="occupationCode">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Company</label>
+                                    <div class="col-sm-8">
+                                        <ng-select class="ng-custom-select"
+                                            [class.is-invalid]="isControlInvalid('companyCode')"
+                                            [class.is-valid]="isControlValid('companyCode')" [items]="companyOption"
+                                            bindLabel="value" bindValue="code" formControlName="companyCode">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row" style="align-items: center">
 
@@ -184,7 +219,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">State</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')" [class.is-invalid]="isControlInvalid('stateCode')" [class.is-valid]="isControlValid('stateCode')" [items]="stateOption" bindLabel="value" bindValue="code" formControlName="stateCode">
+                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
+                                            [class.is-invalid]="isControlInvalid('stateCode')"
+                                            [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
+                                            bindLabel="value" bindValue="code" formControlName="stateCode">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -193,7 +231,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">District</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('district')" [class.is-invalid]="isControlInvalid('districtCode')" [class.is-valid]="isControlValid('districtCode')" [items]="distinctOption" bindLabel="value" bindValue="code" formControlName="districtCode">
+                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('district')"
+                                            [class.is-invalid]="isControlInvalid('districtCode')"
+                                            [class.is-valid]="isControlValid('districtCode')" [items]="distinctOption"
+                                            bindLabel="value" bindValue="code" formControlName="districtCode">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -205,7 +246,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Township</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality()" [class.is-invalid]="isControlInvalid('townshipCode')" [class.is-valid]="isControlValid('townshipCode')" [items]="townshipOption" bindLabel="value" bindValue="code" formControlName="townshipCode">
+                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                                            [class.is-invalid]="isControlInvalid('townshipCode')"
+                                            [class.is-valid]="isControlValid('townshipCode')" [items]="townshipOption"
+                                            bindLabel="value" bindValue="code" formControlName="townshipCode">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -216,8 +260,12 @@
 
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input type="text" readonly class="form-control form-control-sm" name="validityPeriod" autocomplete="off" [class.is-invalid]="isControlInvalid('validityPeriod')" [class.is-valid]="isControlValid('validityPeriod')" formControlName="validityPeriod" />
-                                            <label class="col-sm-4 col-form-label">Days</label>
+                                            <input type="text" readonly class="form-control form-control-sm"
+                                                name="validityPeriod" autocomplete="off"
+                                                [class.is-invalid]="isControlInvalid('validityPeriod')"
+                                                [class.is-valid]="isControlValid('validityPeriod')"
+                                                formControlName="validityPeriod" />
+                                            <!-- <label class="col-sm-4 col-form-label">Days</label> -->
                                         </div>
                                     </div>
                                 </div>
@@ -230,7 +278,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Distribution Channel</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality()" [class.is-invalid]="isControlInvalid('channelCode')" [class.is-valid]="isControlValid('channelCode')" [items]="channelOption" bindLabel="value" bindValue="code" formControlName="channelCode">
+                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                                            [class.is-invalid]="isControlInvalid('channelCode')"
+                                            [class.is-valid]="isControlValid('channelCode')" [items]="channelOption"
+                                            bindLabel="value" bindValue="code" formControlName="channelCode">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -242,7 +293,11 @@
                                     <div class="col-sm-8">
                                         <!-- <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('assignTo')" [class.is-valid]="isControlValid('assignTo')" [items]="assignToOption" bindLabel="value" bindValue="code" formControlName="assignTo">
                                         </ng-select> -->
-                                        <input type="text" readonly class="form-control form-control-sm" name="assignToName" autocomplete="off" [class.is-invalid]="isControlInvalid('assignToName')" [class.is-valid]="isControlValid('assignToName')" formControlName="assignToName" />
+                                        <input type="text" readonly class="form-control form-control-sm"
+                                            name="assignToName" autocomplete="off"
+                                            [class.is-invalid]="isControlInvalid('assignToName')"
+                                            [class.is-valid]="isControlValid('assignToName')"
+                                            formControlName="assignToName" />
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +308,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Product</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('product')" [class.is-invalid]="isControlInvalid('productId')" [class.is-valid]="isControlValid('productId')" [items]="productOption2" bindLabel="value" bindValue="code" formControlName="productId">
+                                        <ng-select class="ng-custom-select" (change)="calculateLeadQuality('product')"
+                                            [class.is-invalid]="isControlInvalid('productId')"
+                                            [class.is-valid]="isControlValid('productId')" [items]="productOption2"
+                                            bindLabel="value" bindValue="code" formControlName="productId">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -262,7 +320,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Email</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" name="email" autocomplete="off" [class.is-invalid]="isControlInvalid('email')" [class.is-valid]="isControlValid('email')" formControlName="email" />
+                                        <input type="text" class="form-control form-control-sm" name="email"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('email')"
+                                            [class.is-valid]="isControlValid('email')" formControlName="email" />
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +333,9 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Campaign Name</label>
                                     <div class="col-sm-8" (click)="viewCampaignList()">
-                                        <input type="text" class="form-control form-control-sm " (change)="calculateLeadQuality()" name="campaignName" readonly autocomplete="off" formControlName="campaignName" />
+                                        <input type="text" class="form-control form-control-sm "
+                                            (change)="calculateLeadQuality()" name="campaignName" readonly
+                                            autocomplete="off" formControlName="campaignName" />
                                     </div>
                                 </div>
                             </div>
@@ -281,7 +343,11 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Identity Type</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('identityType')" [class.is-valid]="isControlValid('identityType')" [items]="identityTypeOption" bindLabel="value" bindValue="code" formControlName="identityType">
+                                        <ng-select class="ng-custom-select"
+                                            [class.is-invalid]="isControlInvalid('identityType')"
+                                            [class.is-valid]="isControlValid('identityType')"
+                                            [items]="identityTypeOption" bindLabel="value" bindValue="code"
+                                            formControlName="identityType">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -293,7 +359,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Campaign ID</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-sm" name="campaignNo" autocomplete="off" [class.is-invalid]="isControlInvalid('campaignNo')" [class.is-valid]="isControlValid('campaignNo')" formControlName="campaignNo" />
+                                        <input type="text" class="form-control form-control-sm" name="campaignNo"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('campaignNo')"
+                                            [class.is-valid]="isControlValid('campaignNo')"
+                                            formControlName="campaignNo" />
                                     </div>
                                 </div>
                             </div>
@@ -302,9 +371,15 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">NRC/FRC/Passport</label>
                                     <div class="col-sm-8">
-                                        <input type="text" *ngIf="leadForm.get('identityType').value == 'NRC'" class="form-control form-control-sm " name="identityNumber" autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')" (click)="openNRCModal()" [class.is-valid]="isControlValid('identityNumber')"
+                                        <input type="text" *ngIf="leadForm.get('identityType').value == 'NRC'"
+                                            class="form-control form-control-sm " name="identityNumber"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
+                                            (click)="openNRCModal()" [class.is-valid]="isControlValid('identityNumber')"
                                             formControlName="identityNumber" readonly />
-                                        <input type="text" *ngIf="leadForm.get('identityType').value != 'NRC'" class="form-control form-control-sm " name="identityNumber" autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')" [class.is-valid]="isControlValid('identityNumber')"
+                                        <input type="text" *ngIf="leadForm.get('identityType').value != 'NRC'"
+                                            class="form-control form-control-sm " name="identityNumber"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
+                                            [class.is-valid]="isControlValid('identityNumber')"
                                             formControlName="identityNumber" />
                                     </div>
                                 </div>
@@ -316,7 +391,11 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Source</label>
                                     <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" (change)="calculateScore(leadForm.value.sourceCode)" [class.is-invalid]="isControlInvalid('sourceCode')" [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption" bindLabel="value" bindValue="code" formControlName="sourceCode">
+                                        <ng-select class="ng-custom-select"
+                                            (change)="calculateScore(leadForm.value.sourceCode)"
+                                            [class.is-invalid]="isControlInvalid('sourceCode')"
+                                            [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption"
+                                            bindLabel="value" bindValue="code" formControlName="sourceCode">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -328,7 +407,9 @@
                                     <div class="col-sm-8">
                                         <!-- <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('existingCustomerName')"  [class.is-valid]="isControlValid('existingCustomerName')" [items]="existingOption" bindLabel="value" bindValue="code" formControlName="existingCustomerName">
                                             </ng-select>  (click)="viewExistingCustomer()"  -->
-                                        <input type="text" class="form-control form-control-sm " name="existingCustomerName" autocomplete="off" readonly formControlName="existingCustomerName" />
+                                        <input type="text" class="form-control form-control-sm "
+                                            name="existingCustomerName" autocomplete="off" readonly
+                                            formControlName="existingCustomerName" />
                                     </div>
 
                                 </div>
@@ -336,21 +417,16 @@
 
                         </div>
                         <div class="row" style="align-items: center">
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Company</label>
-                                    <div class="col-sm-8">
-                                        <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('companyCode')" [class.is-valid]="isControlValid('companyCode')" [items]="companyOption" bindLabel="value" bindValue="code" formControlName="companyCode">
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Referral Customer</label>
                                     <div class="col-sm-8" (click)="viewExistingCustomer('ref')">
-                                        <input type="text" class="form-control form-control-sm" name="referralCustomerName" readonly autocomplete="off" [class.is-invalid]="isControlInvalid('referralCustomerName')" [class.is-valid]="isControlValid('referralCustomerName')" readonly formControlName="referralCustomerName"
-                                        />
+                                        <input type="text" class="form-control form-control-sm"
+                                            name="referralCustomerName" readonly autocomplete="off"
+                                            [class.is-invalid]="isControlInvalid('referralCustomerName')"
+                                            [class.is-valid]="isControlValid('referralCustomerName')" readonly
+                                            formControlName="referralCustomerName" />
                                     </div>
                                 </div>
                             </div>
@@ -368,7 +444,11 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Estimated Money Income</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control form-control-sm" name="monthlyIncome" autocomplete="off" [class.is-invalid]="isControlInvalid('monthlyIncome')" [class.is-valid]="isControlValid('monthlyIncome')" formControlName="monthlyIncome" />
+                                            <input type="text" class="form-control form-control-sm" name="monthlyIncome"
+                                                autocomplete="off"
+                                                [class.is-invalid]="isControlInvalid('monthlyIncome')"
+                                                [class.is-valid]="isControlValid('monthlyIncome')"
+                                                formControlName="monthlyIncome" />
                                         </div>
                                     </div>
                                 </div>
@@ -376,7 +456,10 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Facebook Acc</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control form-control-sm" name="facebookAcc" autocomplete="off" [class.is-invalid]="isControlInvalid('facebookAcc')" [class.is-valid]="isControlValid('facebookAcc')" formControlName="facebookAcc" />
+                                            <input type="text" class="form-control form-control-sm" name="facebookAcc"
+                                                autocomplete="off" [class.is-invalid]="isControlInvalid('facebookAcc')"
+                                                [class.is-valid]="isControlValid('facebookAcc')"
+                                                formControlName="facebookAcc" />
                                         </div>
                                     </div>
                                 </div>
@@ -388,7 +471,11 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Marital Status</label>
                                         <div class="col-sm-7">
-                                            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('maritalStatus')" [class.is-valid]="isControlValid('maritalStatus')" [items]="maritialOption" bindLabel="value" bindValue="code" formControlName="maritalStatus">
+                                            <ng-select class="ng-custom-select"
+                                                [class.is-invalid]="isControlInvalid('maritalStatus')"
+                                                [class.is-valid]="isControlValid('maritalStatus')"
+                                                [items]="maritialOption" bindLabel="value" bindValue="code"
+                                                formControlName="maritalStatus">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -398,7 +485,11 @@
                                         <label class="col-sm-5  col-form-label">Customer Financial Plan/Goal(in Next
                                             6-12 months)</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control form-control-sm" name="financialPlan" autocomplete="off" [class.is-invalid]="isControlInvalid('financialPlan')" [class.is-valid]="isControlValid('financialPlan')" formControlName="financialPlan" />
+                                            <input type="text" class="form-control form-control-sm" name="financialPlan"
+                                                autocomplete="off"
+                                                [class.is-invalid]="isControlInvalid('financialPlan')"
+                                                [class.is-valid]="isControlValid('financialPlan')"
+                                                formControlName="financialPlan" />
                                         </div>
                                     </div>
                                 </div>
@@ -409,7 +500,11 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">No. of Children</label>
                                         <div class="col-sm-7">
-                                            <input type="number" class="form-control form-control-sm" name="numberOfChildren" autocomplete="off" [class.is-invalid]="isControlInvalid('numberOfChildren')" [class.is-valid]="isControlValid('numberOfChildren')" formControlName="numberOfChildren" />
+                                            <input type="number" class="form-control form-control-sm"
+                                                name="numberOfChildren" autocomplete="off"
+                                                [class.is-invalid]="isControlInvalid('numberOfChildren')"
+                                                [class.is-valid]="isControlValid('numberOfChildren')"
+                                                formControlName="numberOfChildren" />
                                         </div>
                                     </div>
                                 </div>
@@ -417,8 +512,11 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">Existing Insurance Coverage</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control form-control-sm" name="existingInsuranceCoverage" autocomplete="off" [class.is-invalid]="isControlInvalid('existingInsuranceCoverage')" [class.is-valid]="isControlValid('existingInsuranceCoverage')" formControlName="existingInsuranceCoverage"
-                                            />
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="existingInsuranceCoverage" autocomplete="off"
+                                                [class.is-invalid]="isControlInvalid('existingInsuranceCoverage')"
+                                                [class.is-valid]="isControlValid('existingInsuranceCoverage')"
+                                                formControlName="existingInsuranceCoverage" />
                                         </div>
                                     </div>
                                 </div>
@@ -429,8 +527,11 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">Existing Insurance Plan</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control form-control-sm" name="existingInsurancePlan" autocomplete="off" [class.is-invalid]="isControlInvalid('existingInsurancePlan')" [class.is-valid]="isControlValid('existingInsurancePlan')" formControlName="existingInsurancePlan"
-                                            />
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="existingInsurancePlan" autocomplete="off"
+                                                [class.is-invalid]="isControlInvalid('existingInsurancePlan')"
+                                                [class.is-valid]="isControlValid('existingInsurancePlan')"
+                                                formControlName="existingInsurancePlan" />
                                         </div>
                                     </div>
                                 </div>
@@ -438,7 +539,10 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">Score</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control form-control-sm" name="score" autocomplete="off" [class.is-invalid]="isControlInvalid('score')" [class.is-valid]="isControlValid('score')" formControlName="score" readonly />
+                                            <input type="text" class="form-control form-control-sm" name="score"
+                                                autocomplete="off" [class.is-invalid]="isControlInvalid('score')"
+                                                [class.is-valid]="isControlValid('score')" formControlName="score"
+                                                readonly />
                                         </div>
                                     </div>
                                 </div>
@@ -449,7 +553,9 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">Asset (If Any)</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control form-control-sm" name="asset" autocomplete="off" [class.is-invalid]="isControlInvalid('asset')" [class.is-valid]="isControlValid('asset')" formControlName="asset" />
+                                            <input type="text" class="form-control form-control-sm" name="asset"
+                                                autocomplete="off" [class.is-invalid]="isControlInvalid('asset')"
+                                                [class.is-valid]="isControlValid('asset')" formControlName="asset" />
                                         </div>
                                     </div>
                                 </div>
@@ -457,10 +563,13 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">Prospect Customer</label>
                                         <div class="col-sm-5" (click)="viewExistingCustomer('prosp')">
-                                            <input type="text" readonly class="form-control form-control-sm " name="prospectCustomer" autocomplete="off" formControlName="prospectCustomer" />
+                                            <input type="text" readonly class="form-control form-control-sm "
+                                                name="prospectCustomer" autocomplete="off"
+                                                formControlName="prospectCustomer" />
                                         </div>
                                         <div class="col-sm-2" *ngIf="!isAddProspect">
-                                            <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="viewProspectCustomer()">
+                                            <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
+                                                (click)="viewProspectCustomer()">
                                                 <span class="flaticon2-plus"></span>
                                             </a>
                                         </div>
@@ -473,7 +582,9 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">Lost Reason</label>
                                         <div class="col-sm-7">
-                                            <textarea type="text" readonly class="form-control form-control-sm" name="lostReason" autocomplete="off" formControlName="lostReason"></textarea>
+                                            <textarea type="text" readonly class="form-control form-control-sm"
+                                                name="lostReason" autocomplete="off"
+                                                formControlName="lostReason"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -481,7 +592,8 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5 col-form-label">Reject Reason</label>
                                         <div class="col-sm-7">
-                                            <textarea type="text" readonly class="form-control form-control-sm" name="reason" autocomplete="off" formControlName="reason"></textarea>
+                                            <textarea type="text" readonly class="form-control form-control-sm"
+                                                name="reason" autocomplete="off" formControlName="reason"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -497,34 +609,40 @@
                             <!-- <div class="col-sm-8" *ngIf="leadForm.value.statusCode=='02'  ">
                             </div> -->
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='02'">
-                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('03')">
+                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
+                                    (click)="updateLeadStatus('03')">
                                     <span class="">Approve</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='02' ">
-                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('04')">
+                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
+                                    (click)="updateLeadStatus('04')">
                                     <span class="">Reject</span>
                                 </button>
                             </div>
                             <!-- <div class="col-sm-8" *ngIf="leadForm.value.statusCode=='03'">isValidWin
                             </div> -->
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03'">
-                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('05')">
+                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
+                                    (click)="updateLeadStatus('05')">
                                     <span class="">Win</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03'">
-                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('06')">
+                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
+                                    (click)="updateLeadStatus('06')">
                                     <span class="">Lost</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode =='03'">
-                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('save')">
+                                <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
+                                    (click)="updateLeadStatus('save')">
                                     <span class="">Save</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode =='03'">
-                                <button type="button" class="btn btn-sm btn-secondary ml-2" style="width: 100%;" (click)="updateLeadStatus('cancel')">
+                                <button type="button" class="btn btn-sm btn-secondary ml-2" style="width: 100%;"
+                                    (click)="updateLeadStatus('cancel')">
                                     <span class="">Cancel</span>
                                 </button>
                             </div>
@@ -544,7 +662,8 @@
                         <h3 class="card-label left-border-image">FNA</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('FNA')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                            class="btn btn-primary btn-circle" (click)="add('FNA')">
                             <span class="flaticon2-plus"></span>
                         </button>
                         <button type="button" *ngIf="isFNA" class="icon" (click)="toggleAccordion('FNA')">
@@ -560,7 +679,9 @@
 
                     <section>
 
-                        <app-material-table-view #fna [data]="fnaList" [colum]="FNAELEMENT_COL" [displayedColumns]="FNAdisplayedColumns" [selectable]="isPopup" (emitter)="actionBtn($event, 'FNA')">
+                        <app-material-table-view #fna [data]="fnaList" [colum]="FNAELEMENT_COL"
+                            [displayedColumns]="FNAdisplayedColumns" [selectable]="isPopup"
+                            (emitter)="actionBtn($event, 'FNA')">
                         </app-material-table-view>
 
                     </section>
@@ -575,13 +696,15 @@
                         <h3 class="card-label left-border-image">Activity</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('Activity')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                            class="btn btn-primary btn-circle" (click)="add('Activity')">
                             <span class="flaticon2-plus"></span>
                         </button>
                         <button type="button" *ngIf="isActivity" class="icon" (click)="toggleAccordion('Activity')">
                             <span class="flaticon2-back icon"></span>
                         </button>
-                        <button type="button" *ngIf="!isActivity" class="icon ml-2" (click)="toggleAccordion('Activity')">
+                        <button type="button" *ngIf="!isActivity" class="icon ml-2"
+                            (click)="toggleAccordion('Activity')">
                             <span class="flaticon2-down icon"></span>
                         </button>
                     </div>
@@ -590,7 +713,9 @@
 
                     <section>
 
-                        <app-material-table-view #activity [data]="activityList" [colum]="ACTIVITY_ELEMENT_COL" [displayedColumns]="ACTIVITYdisplayedColumns" [selectable]="isPopup" (emitter)="actActionBtn($event)">
+                        <app-material-table-view #activity [data]="activityList" [colum]="ACTIVITY_ELEMENT_COL"
+                            [displayedColumns]="ACTIVITYdisplayedColumns" [selectable]="isPopup"
+                            (emitter)="actActionBtn($event)">
                         </app-material-table-view>
 
                     </section>
@@ -604,13 +729,15 @@
                         <h3 class="card-label left-border-image">Quotation</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('Quotation')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                            class="btn btn-primary btn-circle" (click)="add('Quotation')">
                             <span class="flaticon2-plus"></span>
                         </button>
                         <button type="button" *ngIf="isQuotation" class="icon" (click)="toggleAccordion('Quotation')">
                             <span class="flaticon2-back icon"></span>
                         </button>
-                        <button type="button" *ngIf="!isQuotation" class="icon ml-2" (click)="toggleAccordion('Quotation')">
+                        <button type="button" *ngIf="!isQuotation" class="icon ml-2"
+                            (click)="toggleAccordion('Quotation')">
                             <span class="flaticon2-down icon"></span>
                         </button>
                     </div>
@@ -620,7 +747,9 @@
 
                     <section>
 
-                        <app-material-table-view #quotation [data]="quatationList" [colum]="QUOTATION_ELEMENT_COL" [displayedColumns]="QuotationdisplayedColumns" (emitter)="actionBtn($event, 'QUO')" [selectable]="isPopup">
+                        <app-material-table-view #quotation [data]="quatationList" [colum]="QUOTATION_ELEMENT_COL"
+                            [displayedColumns]="QuotationdisplayedColumns" (emitter)="actionBtn($event, 'QUO')"
+                            [selectable]="isPopup">
                         </app-material-table-view>
 
                     </section>
@@ -635,13 +764,16 @@
                         <h3 class="card-label left-border-image">Application</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="add('Application')">
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                            class="btn btn-primary btn-circle" (click)="add('Application')">
                             <span class="flaticon2-plus"></span>
                         </button>
-                        <button type="button" *ngIf="isApplication" class="icon" (click)="toggleAccordion('Application')">
+                        <button type="button" *ngIf="isApplication" class="icon"
+                            (click)="toggleAccordion('Application')">
                             <span class="flaticon2-back icon"></span>
                         </button>
-                        <button type="button" *ngIf="!isApplication" class="icon ml-2" (click)="toggleAccordion('Application')">
+                        <button type="button" *ngIf="!isApplication" class="icon ml-2"
+                            (click)="toggleAccordion('Application')">
                             <span class="flaticon2-down icon"></span>
                         </button>
                     </div>
@@ -650,7 +782,9 @@
 
                     <section [ngClass]="isApplication ? 'active' : 'inactive'">
 
-                        <app-material-table-view #application [data]="applicationList" [colum]="APPLICATION_ELEMENT_COL" [displayedColumns]="ApplicationdisplayedColumns" (emitter)="actionBtn($event, 'APP')" [selectable]="isPopup">
+                        <app-material-table-view #application [data]="applicationList" [colum]="APPLICATION_ELEMENT_COL"
+                            [displayedColumns]="ApplicationdisplayedColumns" (emitter)="actionBtn($event, 'APP')"
+                            [selectable]="isPopup">
                         </app-material-table-view>
 
                     </section>
@@ -670,7 +804,8 @@
                             <input #fileInput type="file" id="file1" (click)="fileInput.value = null" value=""
                                 (change)="importHCPDocument($event)"><span class="flaticon2-plus"></span>
                             </button> -->
-                            <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)" class="btn btn-primary btn-circle" (click)="addAttachment()">
+                            <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                                class="btn btn-primary btn-circle" (click)="addAttachment()">
                                 <span class="flaticon2-plus"></span>
                             </button>
                         </div>
@@ -679,7 +814,8 @@
                             <span class="flaticon2-back icon"></span>
 
                         </button>
-                        <button type="button" *ngIf="!isAttachment" class="icon ml-2" (click)="toggleAccordion('Attachment')">
+                        <button type="button" *ngIf="!isAttachment" class="icon ml-2"
+                            (click)="toggleAccordion('Attachment')">
                             <span class="flaticon2-down icon"></span>
                         </button>
                     </div>
@@ -689,7 +825,9 @@
 
                     <section [ngClass]="isAttachment ? 'active' : 'inactive'">
 
-                        <app-material-table-view #attachment [data]="attachmentList" [colum]="ATTACHMENT_ELEMENT_COL" [displayedColumns]="AttachmentdisplayedColumns" (emitter)="actionBtn($event,'ATT')" [selectable]="isPopup">
+                        <app-material-table-view #attachment [data]="attachmentList" [colum]="ATTACHMENT_ELEMENT_COL"
+                            [displayedColumns]="AttachmentdisplayedColumns" (emitter)="actionBtn($event,'ATT')"
+                            [selectable]="isPopup">
                         </app-material-table-view>
 
                     </section>

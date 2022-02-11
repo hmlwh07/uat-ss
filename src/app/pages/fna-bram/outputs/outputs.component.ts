@@ -54,7 +54,7 @@ export class OutputsComponent implements OnInit {
   operation = [];
   management = [];
   mgmtInfra = [];
-  isData: boolean;
+  isData: boolean = false;
 
 
   fnaSwitchEvent(type) {

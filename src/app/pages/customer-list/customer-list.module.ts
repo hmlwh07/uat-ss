@@ -18,7 +18,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     InlineSVGModule,
     CRUDTableModule,
     CustomerListShareModule,
- 
     RouterModule.forChild([
       {
         path: '',

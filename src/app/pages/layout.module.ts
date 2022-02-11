@@ -44,6 +44,8 @@ import { ReportWeeklySalesAnalysisByBranchComponent } from './report-weekly-sale
 import { ReportDailySalesAnalysisByBranchComponent } from './report-daily-sales-analysis-by-branch/report-daily-sales-analysis-by-branch.component';
 import { ReportKeyDriverComponent } from './report-key-driver/report-key-driver.component';
 import { ReportCommonSearchComponent } from './report-common-search/report-common-search.component';
+import { CalendarModule } from 'angular-calendar';
+import { MycalendarComponent } from './mycalendar/mycalendar.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { ReportCommonSearchComponent } from './report-common-search/report-commo
     AsideDynamicComponent,
     HeaderMenuDynamicComponent,
     FnaTypeComponent,
+    MycalendarComponent,
     // ResetPasswordComponent,
     //ReportCommonSearchComponent,
     //ReportDetailByBankBranchComponent,
@@ -98,12 +101,14 @@ import { ReportCommonSearchComponent } from './report-common-search/report-commo
     PagesRoutingModule,
     InlineSVGModule,
     ExtrasModule,
+    CalendarModule,
     NgbDropdownModule,
     NgbProgressbarModule,
     CoreModule,
     SubheaderModule,
     FormsModule,
     ReactiveFormsModule,
+    CalendarModule,
   ],
 })
 export class LayoutModule { }

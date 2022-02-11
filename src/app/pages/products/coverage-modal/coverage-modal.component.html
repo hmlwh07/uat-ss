@@ -16,7 +16,7 @@
               <span class="switch switch-icon">
                 <label>
                   <input type="checkbox" name="isSum" formControlName="isSum"
-                    (change)="changeCheck($event.target.checked,'sum')" />
+                    (change)="changeCheck($event,'sum')" />
                   <span></span>
                 </label>
               </span>
@@ -32,7 +32,7 @@
               <span class="switch switch-icon">
                 <label>
                   <input type="checkbox" name="isUnit" formControlName="isUnit"
-                    (change)="changeCheck($event.target.checked,'unit')" />
+                    (change)="changeCheck($event,'unit')" />
                   <span></span>
                 </label>
               </span>
@@ -48,7 +48,7 @@
               <span class="switch switch-icon">
                 <label>
                   <input type="checkbox" name="isPremium" formControlName="isPremium"
-                    (change)="changeCheck($event.target.checked,'premium')" />
+                    (change)="changeCheck($event,'premium')" />
                   <span></span>
                 </label>
               </span>

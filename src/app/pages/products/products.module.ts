@@ -32,9 +32,9 @@ import { EditPrintUIModalComponent } from './edit-print-ui-modal/edit-print-ui-m
 import { PrintPreviewModalComponent } from './print-preview-modal/print-preview-modal.component';
 import { EditSourceModalComponent } from './edit-source-modal/edit-source-modal.component';
 import { ValidityPeriodService } from './services/validity-period.service';
+import { ProductShareModule } from './products-share.module';
 @NgModule({
-  declarations: [ProductsPageComponent, ProductsComponent, ProductsModalComponent, CoverageModalComponent, ProductDetailsComponent, PageUIModalComponent, CoverageOption, UIPagesComponent, ViewUIModalComponent, StaticUIModalComponent, InputConfigModalComponent, PrintConfigModalComponent, PrintFormsModalComponent,EditPrintUIModalComponent,PrintPreviewModalComponent,EditSourceModalComponent],
-  exports: [ProductsComponent],
+  declarations: [ProductsPageComponent],
   imports: [
     CommonModule,
     InlineSVGModule,
@@ -50,6 +50,7 @@ import { ValidityPeriodService } from './services/validity-period.service';
     DragDropModule,
     MatSortModule,
     OverlayModule,
+    ProductShareModule,
     RouterModule.forChild([
       {
         path: '',
@@ -68,6 +69,6 @@ import { ValidityPeriodService } from './services/validity-period.service';
 
     ]),
   ],
-  providers: [CoverageDataService, AddOnDataService, ProductUIService, ProductUIDeleteService,ValidityPeriodService]
+  providers: [CoverageDataService, AddOnDataService, ProductUIService, ProductUIDeleteService, ValidityPeriodService]
 })
 export class ProductsModule { }

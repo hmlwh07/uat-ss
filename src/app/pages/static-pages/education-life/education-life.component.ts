@@ -198,6 +198,7 @@ export class EducationLifeComponent implements OnInit {
           "request": this.showDatas,
           "resourceDataDTO": {
             "agentId": this.auth.currentUserValue.id || 1,
+            "customerId": this.prodService.creatingCustomer.customerId || 1,
             "policyNumber": null,
             "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
             "premiumView": this.premiumAmt,

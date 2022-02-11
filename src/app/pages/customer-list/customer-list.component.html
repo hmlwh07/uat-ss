@@ -20,8 +20,8 @@
             </div>
             <div class="card-body px-10 py-3">
                 <form action="#" class="form" [formGroup]="customerForm">
-                    <div class="row" >
-                        <div class="col-md-4">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Name</label>
                                 <div class="col-sm-8">
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Party Code</label>
                                 <div class="col-sm-8">
@@ -41,21 +41,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Status</label>
-                                <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm"
-                                        [class.is-invalid]="isControlInvalid('statusCode')"
-                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
-                                        bindLabel="value" bindValue="code" formControlName="statusCode">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
-                    <div class="row" >
-                        <div class="col-md-4">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">ID Type</label>
                                 <div class="col-sm-8">
@@ -68,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">ID No.</label>
                                 <div class="col-sm-8">
@@ -76,6 +65,20 @@
                                         autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
                                         [class.is-valid]="isControlValid('identityNumber')"
                                         formControlName="identityNumber" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Status</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm"
+                                        [class.is-invalid]="isControlInvalid('statusCode')"
+                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
+                                        bindLabel="value" bindValue="code" formControlName="statusCode">
+                                    </ng-select>
                                 </div>
                             </div>
                         </div>

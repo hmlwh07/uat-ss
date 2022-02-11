@@ -41,16 +41,16 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   @ViewChild('application') applicationmatTable: MaterialTableViewComponent;
   @ViewChild('attachment') attachmentmatTable: MaterialTableViewComponent;
   @ViewChild('quotation') quotationmatTable: MaterialTableViewComponent;
-  FNAELEMENT_COL = JSON.parse(JSON.stringify(FNAListCol));
-  FNAdisplayedColumns = JSON.parse(JSON.stringify(FNADisplayCol));
-  ACTIVITY_ELEMENT_COL = JSON.parse(JSON.stringify(ActivityCol));
-  ACTIVITYdisplayedColumns = JSON.parse(JSON.stringify(ActivityDisplayCol));
-  QUOTATION_ELEMENT_COL = JSON.parse(JSON.stringify(QuotationCol));
-  QuotationdisplayedColumns = JSON.parse(JSON.stringify(QuoDisplayCol));
-  APPLICATION_ELEMENT_COL = JSON.parse(JSON.stringify(PolicyCol));
-  ApplicationdisplayedColumns = JSON.parse(JSON.stringify(PolicyDisplayCol));
-  ATTACHMENT_ELEMENT_COL = JSON.parse(JSON.stringify(AttachmentCol))
-  AttachmentdisplayedColumns = JSON.parse(JSON.stringify(AttachmentDisplayCol))
+  FNAELEMENT_COL: any[] = JSON.parse(JSON.stringify(FNAListCol));
+  FNAdisplayedColumns: any[] = JSON.parse(JSON.stringify(FNADisplayCol));
+  ACTIVITY_ELEMENT_COL: any[] = JSON.parse(JSON.stringify(ActivityCol));
+  ACTIVITYdisplayedColumns: any[] = JSON.parse(JSON.stringify(ActivityDisplayCol));
+  QUOTATION_ELEMENT_COL: any[] = JSON.parse(JSON.stringify(QuotationCol));
+  QuotationdisplayedColumns: any[] = JSON.parse(JSON.stringify(QuoDisplayCol));
+  APPLICATION_ELEMENT_COL: any[] = JSON.parse(JSON.stringify(PolicyCol));
+  ApplicationdisplayedColumns: any[] = JSON.parse(JSON.stringify(PolicyDisplayCol));
+  ATTACHMENT_ELEMENT_COL: any[] = JSON.parse(JSON.stringify(AttachmentCol))
+  AttachmentdisplayedColumns: any[] = JSON.parse(JSON.stringify(AttachmentDisplayCol))
   // ATTACHMENT_ELEMENT_COL = JSON.parse(JSON.stringify(FNAListCol));
   // AttachmentdisplayedColumns = JSON.parse(JSON.stringify(FNADisplayCol));
 
@@ -134,7 +134,9 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     private CustomerAttachmentService: AttachmentServiceRef,
     private AttachmentDownloadService: AttachmentDownloadService,
   ) {
-
+    this.ACTIVITYdisplayedColumns.splice(8,1)
+    this.QuotationdisplayedColumns.splice(7,2)
+    this.ApplicationdisplayedColumns.splice(7,1)
   }
 
   ngOnInit(): void {
@@ -155,7 +157,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
 
         } else {
-         
+
           this.loadForm(this.oldData);
           if (this.isLead) {
             this.customerForm.controls['statusCode'].setValue('A')
@@ -163,8 +165,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
         }
       }
       );
-   
-    
+
+
   }
 
 
@@ -214,7 +216,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     this.masterDataService.getDataByType("CUST_STATUS").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
       if (res) {
         this.statusOption = res
-        console.log("  this.statusOption ",  this.statusOption )
+        console.log("  this.statusOption ", this.statusOption)
         this.cdf.detectChanges()
       }
     })
@@ -292,7 +294,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       "statusCode": new FormControl({ value: oldData ? oldData.statusCode : 'A', disabled: disabledForm || this.isLead }, Validators.required),
       "partyCode": new FormControl({ value: oldData ? oldData.partyCode : '', disabled: disabledForm }),
       "fatherName": new FormControl({ value: oldData ? oldData.fatherName : '', disabled: disabledForm }),
-      "phone": new FormControl({ value: oldData ? oldData.phone : '', disabled: disabledForm }, Validators.required),
+      "phone": new FormControl({ value: oldData ? oldData.phone : '', disabled: disabledForm }, [Validators.required, Validators.maxLength(11), Validators.minLength(9)]),
       "email": new FormControl({ value: oldData ? oldData.email : '', disabled: disabledForm }, [Validators.email, Validators.required]),
       "dateOfBirth": new FormControl({ value: !oldData ? null : oldData.dateOfBirth ? moment(oldData.dateOfBirth) : null, disabled: disabledForm, }, Validators.required),
       "occupationCode": new FormControl({ value: oldData ? oldData.occupationCode : '', disabled: disabledForm }),
@@ -382,7 +384,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       console.log("RESSS", res)
       if (res) {
         if (this.isPopup) {
-          this.modalService.dismissAll({ data: { name: data.firstName, customerId: res }, type: "save" })
+          let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
+          this.modalService.dismissAll({ data: { name: name, customerId: res }, type: "save" })
         } else {
           this.location.back()
         }
@@ -482,6 +485,14 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     if (event.cmd == 'download') {
       this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
     }
+    if (event.cmd == 'delete') {
+      this.CustomerAttachmentService.delete(event.data.id).toPromise().then(res=>{
+        if(res){
+          this.getCustomerAttachment()
+        }
+      })
+    }
+
   }
 
   async addAttachment() {
