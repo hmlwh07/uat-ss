@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportProductBranchPremiumExportService } from './report-by-product-branch-premium-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-branch-premium.const';
@@ -69,6 +69,9 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
     } else {
       this.productsHeader = [];
       this.branchDataList = [];
+      this.dataList = [];
+      this.totalDataList = [];
+
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('policyProductBranch', res);
         if (res) {
@@ -79,7 +82,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
             }
           }
 
-          if (res.dataList.length > 0) {  
+          if (res.dataList.length > 0) {
             this.dataList = res.dataList;
             let countNo: number = 0;
             for (var i = 0; i < this.dataList.length; i++) {
@@ -135,6 +138,8 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+    let totalValue = [];
+
     this.productValues.push('No.');
     this.productValues.push('Branch');
     for (var i = 0; i < this.productsHeader.length; i++) {
@@ -151,7 +156,6 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
       this.branchDataForExcel.push(list)
     }
 
-    let totalValue = [];
     totalValue.push('');
     totalValue.push('Total');
     for (var i = 0; i < this.totalDataList.length; i++) {

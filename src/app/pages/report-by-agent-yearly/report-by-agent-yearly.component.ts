@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportAgentYearlyExportService } from './report-by-agent-yearly-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-agent-yearly.const';
@@ -62,6 +62,8 @@ export class ReportByAgentYearlyComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.productList= [];
+    this.dataList = [];
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -107,7 +109,9 @@ export class ReportByAgentYearlyComponent implements OnInit {
 
   generateReportExcel() {
     console.log('generateReportExcel ', this.reports);
-    this.productValues = []
+    this.productValues = [];
+    this.subHeader = [];
+    this.dataExcel= [];
     for (var i = 0; i < this.productList.length; i++) {
       this.productValues.push(this.productList[i].reportMonth)
     }

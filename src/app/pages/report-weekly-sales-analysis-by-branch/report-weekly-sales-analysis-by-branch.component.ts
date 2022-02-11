@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportWeeklySalesAnalysisBranchExportService } from './report-weekly-sales-analysis-by-branch-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-weekly-sales-analysis-by-branch.const';
@@ -40,6 +40,8 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   subHeader = [];
   dataExcel = [];
   isData: boolean = false;
+  displayList = [];
+  title: string = 'Weekly Sales Analysis Report';
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportWeeklySalesAnalysisBranchExportService) { }
@@ -48,44 +50,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      this.reports[i].id = i
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
-
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
-
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-          }
-        }
-      }
-    }
-
-    console.log('report ', this.reports);
-
   }
 
   async getOfficeHirearchy() {
@@ -97,72 +61,219 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.displayList = [];
+    let activities = [
+      { activityName: 'Daily Lead' },
+      { activityName: 'Appointments (Phone)' },
+      { activityName: 'Appointments (Face to Face)' },
+      { activityName: 'Appointments (Online)' },
+      { activityName: 'Needs (LPP & BRAM complete)' },
+      { activityName: 'Solutions' },
+      { activityName: 'Sales' },
+      { activityName: 'Referrals' }
+    ]
+
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        if (res.length > 0) {
+        console.log('weeklySalesAnalysis', res);
+        if (res.datum.weeklydataList) {
           this.isData = true;
-          this.reports = res;
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = [];
-            for (var j = 0; j < this.reports[i].products.length; j++) {
-              this.reports[i].products[j].id = i
-              this.reports[i].products[j].noOfPolicies = null;
-              this.reports[i].products[j].premium = null;
-              this.products.push(this.reports[i].products[j]);
-            }
-
-            for (var k = 0; k < this.reports[i].policies.length; k++) {
-              this.reports[i].policies[k].id = i
-              this.policies.push(this.reports[i].policies[k]);
-            }
-          }
-
-          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-          }
-
-          for (var i = 0; i < this.reports.length; i++) {
-            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-              for (var k = 0; k < this.reports[i].policies.length; k++) {
-                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-                }
+          for (var i = 0; i < res.datum.weeklydataList.length; i++) {
+            for (var j = 0; j < activities.length; j++) {
+              let obj = {
+                agentName: res.datum.weeklydataList[i].agentName,
+                branchName: res.datum.weeklydataList[i].branchName,
+                activityName: activities[j].activityName,
+                weekActualAgainstTarge: this.weekActualAgainstTarge(activities[j].activityName, res.datum.weeklydataList[i]),
+                weekConversionToProspect: this.weekConversionToProspect(activities[j].activityName, res.datum.weeklydataList[i]),
+                weekConversionToPreviousStage: this.weekConversionToPreviousStage(activities[j].activityName, res.datum.weeklydataList[i]),
+                weekExpectedTargetConversion: this.weekExpectedTargetConversion(activities[j].activityName, res.datum.weeklydataList[i]),
+                weekExpectedTargetConversionToProspects: this.weekExpectedTargetConversionToProspects(activities[j].activityName, res.datum.weeklydataList[i])
               }
+              this.displayList.push(obj)
             }
           }
-          console.log('report ', this.reports);
         }
       });
     }
     this.cdf.detectChanges();
   }
 
-  generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
-    this.productValues = []
-    for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+  weekActualAgainstTarge(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalLead, obj.weeklyTargetTotalLead)
     }
+    if (activityName == 'Appointments (Phone)' && obj.weeklyTargetTotalAppointment != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentPhone, obj.weeklyTargetTotalAppointment)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.weeklyTargetTotalAppointment != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentFaceToFace, obj.weeklyTargetTotalAppointment)
+    }
+    if (activityName == 'Appointments (Online)' && obj.weeklyTargetTotalAppointment != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentOnline, obj.weeklyTargetTotalAppointment)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalNeeds, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Solutions' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalSolutions, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Sales' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalSales, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Referrals' && obj.weeklyTargetSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalReferrals, obj.weeklyTargetSolutions)
+    }
+    return calculatedValue;
+  }
 
-    // Sub Header
-    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
-    for (var i = 0; i < this.productList.length; i++) {
-      this.subHeader.push("No of Policies");
-      this.subHeader.push("Premium");
+  weekConversionToProspect(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
     }
+    if (activityName == 'Appointments (Phone)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentPhone, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentFaceToFace, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentOnline, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalNeeds, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Solutions' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalSolutions, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Sales' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalSales, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Referrals' && obj.weeklyActualTotalSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalReferrals, obj.weeklyActualTotalSolutions)
+    }
+    return calculatedValue;
+  }
+
+  weekConversionToPreviousStage(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
+    }
+    if (activityName == 'Appointments (Phone)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentPhone, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentFaceToFace, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentOnline, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.weeklyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalNeeds, obj.weeklyActualTotalLead)
+    }
+    if (activityName == 'Solutions' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalSolutions, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Sales' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalSales, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Referrals' && obj.weeklyActualTotalSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalReferrals, obj.weeklyActualTotalSolutions)
+    }
+    return calculatedValue;
+  }
+
+  weekExpectedTargetConversion(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
+    }
+    if (activityName == 'Appointments (Phone)' && obj.weeklyTargetTotalAppointment != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalAppointment, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalAppointment, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentOnline, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.weeklyActualTotalAppointmentOnline != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalNeeds, obj.weeklyActualTotalAppointmentOnline)
+    }
+    if (activityName == 'Solutions' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetSolutions, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Sales' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetSales, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Referrals' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetSolutions, obj.weeklyTargetTotalLead)
+    }
+    return calculatedValue;
+  }
+
+  weekExpectedTargetConversionToProspects(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
+    }
+    if (activityName == 'Appointments (Phone)' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalAppointment, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalAppointment, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.weeklyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentOnline, obj.weeklyTargetTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.weeklyTargetTotalAppointment != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalNeeds, obj.weeklyTargetTotalAppointment)
+    }
+    if (activityName == 'Solutions' && obj.weeklyTargetTotalAppointment != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetSolutions, obj.weeklyTargetTotalAppointment)
+    }
+    if (activityName == 'Sales' && obj.weeklyTargetSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetSales, obj.weeklyTargetSolutions)
+    }
+    if (activityName == 'Referrals' && obj.weeklyTargetSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetSales, obj.weeklyTargetSolutions)
+    }
+    return calculatedValue;
+  }
+
+
+  calculateDivision(value, divided) {
+    let returnValue: any;
+    if (divided != 0) {
+      returnValue = this.mathRoundTo(value / divided, 2);
+    } else {
+      returnValue = 0;
+    }
+    return returnValue;
+  }
+
+
+
+  generateReportExcel() {
+    this.dataExcel = [];
+    console.log('generateReportExcel ', this.reports);
+    this.productValues = ['Agent Name', 'Branch Name',
+      'Activities', 'Week Actual against Target',
+      'Week Conversion to Prospect', 'Week Conversion to Previous Stage',
+      'Week Expected Target Conversion', 'Week Expected Target Conversion to Prospects']
 
     // Data
-    for (var i = 0; i < this.reports.length; i++) {
-      let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
-      }
-      this.dataExcel.push(list)
+    for (var i = 0; i < this.displayList.length; i++) {
+      this.dataExcel.push([this.displayList[i].agentName,
+      this.displayList[i].branchName, this.displayList[i].activityName,
+      this.displayList[i].weekActualAgainstTarge, this.displayList[i].weekConversionToProspect,
+      this.displayList[i].weekConversionToPreviousStage, this.displayList[i].weekExpectedTargetConversion,
+      this.displayList[i].monthExpectedTargetConversionToProspects])
     }
 
     let fromDate = null;
@@ -175,7 +286,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title,
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -186,8 +297,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      products: this.productValues,
-      subHeader: this.subHeader,
+      productsHeader: this.productValues,
       data: this.dataExcel
     }
     this.exportService.exportExcel(reportData);

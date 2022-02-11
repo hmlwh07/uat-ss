@@ -65,6 +65,8 @@ export class ReportByAgentDailyComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.productList = [];
+    this.dataList = [];
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -125,7 +127,9 @@ export class ReportByAgentDailyComponent implements OnInit {
 
   generateReportExcel() {
     console.log('generateReportExcel ', this.reports);
-    this.productValues = []
+    this.productValues = [];
+    this.subHeader = [];
+    this.dataExcel = [];
     for (var i = 0; i < this.productList.length; i++) {
       this.productValues.push(this.productList[i].headerDateName)
     }

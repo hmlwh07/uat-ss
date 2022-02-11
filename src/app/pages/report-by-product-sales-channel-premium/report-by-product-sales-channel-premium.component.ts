@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportProductSalesChannelPremiumExportService } from './report-by-product-sales-channel-premium-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-sales-channel-premium.const';
@@ -68,6 +68,7 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
     } else {
       this.productsHeader = [];
       this.branchDataList = [];
+      this.dataList = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('premiumProductSaleChannel', res);
         if (res) {
@@ -114,6 +115,7 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+
     this.productValues.push('No.');
     this.productValues.push('Month');
     for (var i = 0; i < this.productsHeader.length; i++) {

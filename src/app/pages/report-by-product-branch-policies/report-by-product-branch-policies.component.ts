@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportProductBranchPoliciesExportService } from './report-by-product-branch-policies-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-branch-policies.const';
@@ -59,6 +59,9 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.productsHeader = [];
+    this.dataList = [];
+    this.totalDataList = [];
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -133,6 +136,8 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+    let totalValue = [];
+
     this.productValues.push('No.');
     this.productValues.push('Branch');
     for (var i = 0; i < this.productsHeader.length; i++) {
@@ -149,7 +154,6 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
       this.branchDataForExcel.push(list)
     }
 
-    let totalValue = [];
     totalValue.push('');
     totalValue.push('Total');
     for (var i = 0; i < this.totalDataList.length; i++) {

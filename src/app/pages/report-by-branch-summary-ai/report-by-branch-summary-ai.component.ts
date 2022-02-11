@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportBranchSummaryAIExportService } from './report-by-branch-summary-ai-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-branch-summary-ai.const';
@@ -97,6 +97,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
 
   generateReportExcel() {
     this.reportsForExcel = [];
+    let totalValue = [];
     console.log('generateReportExcel', this.reports);
     let countSrNo: number = 0;
     for (var i = 0; i < this.reports.length; i++) {
@@ -104,10 +105,6 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       this.reportsForExcel.push([countSrNo, this.reports[i].branch,
         this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
     }
-
-    let totalValue = [];
-
-
     for (var i = 0; i < this.totalDataList.length; i++) {
       totalValue.push(null);
       totalValue.push('Total');

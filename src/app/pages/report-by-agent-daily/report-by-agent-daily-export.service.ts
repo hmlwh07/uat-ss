@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { BizOperationService } from 'src/app/core/biz.operation.service';
+import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
 const API_ADDON_URL = `${environment.apiUrl}/summaryReportByBranchForDaily`;

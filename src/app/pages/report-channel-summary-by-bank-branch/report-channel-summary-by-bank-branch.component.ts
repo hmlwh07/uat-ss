@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportChannelSummaryBankBranchExportService } from './report-channel-summary-by-bank-branch-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-channel-summary-by-bank-branch.const';
@@ -151,6 +151,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     this.particularForExcel = [];
     this.policiesForExcel = [];
     this.premiumForExcel = [];
+    
     for (var i = 0; i < this.displayList[0].particular.length; i++) {
       this.particularForExcel.push(this.displayList[0].particular[i].channel)
     }

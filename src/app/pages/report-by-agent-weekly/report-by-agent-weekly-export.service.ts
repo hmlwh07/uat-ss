@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { BizOperationService } from 'src/app/core/biz.operation.service';
-import { environment } from 'src/environments/environment';
+import { BizOperationService } from '../../../app/core/biz.operation.service';
+import { environment } from '../../../environments/environment';
 
 const API_ADDON_URL = `${environment.apiUrl}/summaryReportByBranchForWeekly`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
+
 
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
   "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",

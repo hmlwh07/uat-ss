@@ -2,14 +2,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { BizOperationService } from 'src/app/core/biz.operation.service';
-import { environment } from 'src/environments/environment';
+import { BizOperationService } from '../../../app/core/biz.operation.service';
+import { environment } from '../../../environments/environment';
 
-const API_ADDON_URL = `${environment.apiUrl}/premiumProductBranch`;
+const API_ADDON_URL = `${environment.apiUrl}/report/keyDriver`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
 
-const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ", "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ"];
+
+const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+  "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN", "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AW", "AX", "AY", "AZ",
+  "BA", "BB", "BC", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BK", "BL", "BM", "BN", "BO", "BP", "BQ", "BR", "BS", "BT", "BU", "BV", "BW", "BX", "BY", "BZ",
+  "CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "CI", "CJ", "CK", "CL", "CM", "CN", "CO", "CP", "CQ", "CR", "CS", "CT", "CU", "CV", "CW", "CX", "CY", "CZ",
+  "DA", "DB", "DC", "DD", "DE", "DF", "DG", "DH", "DI", "DJ", "DK", "DL", "DM", "DN", "DO", "DP", "DQ", "DR", "DS", "DT", "DU", "DV", "DW", "DX", "DY", "DZ",
+  "EA", "EB", "EC", "ED", "EE", "EF", "EG", "EH", "EI", "EJ", "EK", "EL", "EM", "EN", "EO", "EP", "EQ", "ER", "ES", "ET", "EU", "EV", "EW", "EX", "EY", "Z"];
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +48,16 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
 
 
   getAllReportData(searchValue) {
-    return this.httpClient.post(API_ADDON_URL, searchValue);
+    if (searchValue.fromDate) {
+      searchValue.fromDate = this.formatDateYYYY_MM_DD(searchValue.fromDate);
+    }
+    if (searchValue.toDate) {
+      searchValue.toDate = this.formatDateYYYY_MM_DD(searchValue.toDate);
+    }
+    const params = new HttpParams({
+      fromObject: searchValue
+    });
+    return this.httpClient.get<any>(API_ADDON_URL, { params: params });
   }
 
   exportExcel(excelData) {
@@ -52,6 +67,17 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     const subHeader = excelData.subHeader
     const searchValue = excelData.searchValue
     const data = excelData.data;
+    const totalNewBusinessCase = excelData.totalNewBusinessCase
+    const totalPremium = excelData.totalPremium
+    const roundTotalProductDistribution = excelData.roundTotalProductDistribution
+    const roundTotalAverageCaseSize = excelData.roundTotalAverageCaseSize
+    const manPower = excelData.manPower
+    const activeManPower = excelData.activeManPower
+    const activeRatio = excelData.activeRatio
+    const productivity = excelData.productivity
+    const anpCaseSize = excelData.anpCaseSize
+    const monthlyCaseSize = excelData.monthlyCaseSize
+    const channelProductivity = excelData.channelProductivity
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -59,11 +85,11 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
 
     // Freeze
     worksheet.views = [
-      { state: 'frozen', xSplit: 5, ySplit: 5, activeCell: 'A1' }
+      { state: 'frozen', xSplit: 0, ySplit: 4, activeCell: 'A1' }
     ];
 
     //Add Row and formatting
-    worksheet.mergeCells('A1', 'E2');
+    worksheet.mergeCells('A1', 'C2');
     let titleRow = worksheet.getCell('A1');
     titleRow.value = title
     titleRow.font = {
@@ -75,6 +101,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
+    console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -129,16 +156,12 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     worksheet.addRow([]);
 
     //Adding Sub Header Row
-    worksheet.mergeCells('A4:E4');
-    let startIndex: number = 5;
-    let endIndex: number = 6;
+    //worksheet.mergeCells('A4:F4');
+    let startIndex: number = 0;
     for (var i = 0; i < products.length; i++) {
       let start = this.calculateStartPoint(startIndex);
-      startIndex += 2;
-      let end = this.calculateEndPoint(endIndex);
-      endIndex += 2;
-
-      worksheet.mergeCells(start + ':' + end);
+      startIndex += 1;
+      worksheet.mergeCells(start + ':' + start);
       let fireCell = worksheet.getCell(start);
       fireCell.value = products[i];
       fireCell.font = {
@@ -149,48 +172,257 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       fireCell.alignment = { vertical: 'middle', horizontal: 'center' }
     }
 
-
-    for (var i = 0; i < subHeader.length; i++) {
-      let start = this.calculateDataPoint(i);
-      worksheet.mergeCells(start + ':' + start);
-      let dataCell = worksheet.getCell(start);
-      dataCell.value = subHeader[i];
-      dataCell.font = {
-        name: 'Calibri',
-        size: 12,
-        bold: true
-      }
-      dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
-    }
-
-
-
-    // Adding Data with Conditional Formatting
+    //Adding Data with Conditional Formatting
     data.forEach(d => {
       let row = worksheet.addRow(d);
-      let no = row.getCell(1);
-      if (no) {
-        no.alignment = { vertical: 'middle', horizontal: 'center' }
-      }
       let index = 0;
       d.forEach(a => {
         index++;
-        if (index != 2 && index != 3 && index != 4 && index != 5) {
-          let center = row.getCell(index);
-          if (center) {
-            center.alignment = { vertical: 'middle', horizontal: 'right' }
-          }
-        }
+        let center = row.getCell(index);
         if (index == 1) {
-          let center = row.getCell(index);
           if (center) {
-            center.alignment = { vertical: 'middle', horizontal: 'center' }
+            center.alignment = { vertical: 'middle', horizontal: 'left' }
           }
+        } else {
+          center.alignment = { vertical: 'middle', horizontal: 'right' }
         }
       });
     }
     );
 
+    if (totalNewBusinessCase) {
+      let total = data.length + 5
+      let totalCell = worksheet.getCell('A' + total);
+      totalCell.value = 'Total';
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: true
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let index = data.length + 5
+      let valueCell = worksheet.getCell('B' + index);
+      valueCell.value = totalNewBusinessCase;
+      valueCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: true
+      }
+      valueCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (totalPremium) {
+      let total = data.length + 5
+      let totalCell = worksheet.getCell('C' + total);
+      totalCell.value = totalPremium;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: true
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (roundTotalProductDistribution) {
+      let total = data.length + 5
+      let totalCell = worksheet.getCell('D' + total);
+      totalCell.value = roundTotalProductDistribution;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: true
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (roundTotalAverageCaseSize) {
+      let total = data.length + 5
+      let totalCell = worksheet.getCell('E' + total);
+      totalCell.value = roundTotalAverageCaseSize;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: true
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (manPower) {
+      let manpowerIndex = data.length + 6
+      let manPowerCell = worksheet.getCell('A' + manpowerIndex);
+      manPowerCell.value = 'Manpower';
+      manPowerCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      manPowerCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 6
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = manPower;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (activeManPower) {
+      let activeManpowerIndex = data.length + 7
+      let activeManPowerCell = worksheet.getCell('A' + activeManpowerIndex);
+      activeManPowerCell.value = 'Active Manpower';
+      activeManPowerCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      activeManPowerCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 7
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = activeManPower;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (activeManPower) {
+      let activeManpowerIndex = data.length + 7
+      let activeManPowerCell = worksheet.getCell('A' + activeManpowerIndex);
+      activeManPowerCell.value = 'Active Manpower';
+      activeManPowerCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      activeManPowerCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 7
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = activeManPower;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (activeRatio) {
+      let activeRatioIndex = data.length + 8
+      let activeRatioIndexCell = worksheet.getCell('A' + activeRatioIndex);
+      activeRatioIndexCell.value = 'Active ratio';
+      activeRatioIndexCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      activeRatioIndexCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 8
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = activeRatio;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (productivity) {
+      let productivityndex = data.length + 9
+      let productivityIndexCell = worksheet.getCell('A' + productivityndex);
+      productivityIndexCell.value = 'Productivity';
+      productivityIndexCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      productivityIndexCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 9
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = productivity;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (channelProductivity) {
+      let channelProductivityIndex = data.length + 10
+      let channelProductivityCell = worksheet.getCell('A' + channelProductivityIndex);
+      channelProductivityCell.value = 'Channel Productivity';
+      channelProductivityCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      channelProductivityCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 10
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = channelProductivity;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (anpCaseSize) {
+      let anpCaseSizeIndex = data.length + 11
+      let anpCaseSizeCell = worksheet.getCell('A' + anpCaseSizeIndex);
+      anpCaseSizeCell.value = 'ANP Case Size';
+      anpCaseSizeCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      anpCaseSizeCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 11
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = anpCaseSize;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
+
+    if (monthlyCaseSize) {
+      let monthlyCaseSizeIndex = data.length + 12
+      let monthlyCaseSizeCell = worksheet.getCell('A' + monthlyCaseSizeIndex);
+      monthlyCaseSizeCell.value = 'Monthly Case Size';
+      monthlyCaseSizeCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      monthlyCaseSizeCell.alignment = { vertical: 'middle', horizontal: 'left' }
+
+      let total = data.length + 12
+      let totalCell = worksheet.getCell('B' + total);
+      totalCell.value = monthlyCaseSize;
+      totalCell.font = {
+        name: 'Calibri',
+        size: 10,
+        bold: false
+      }
+      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+    }
 
     worksheet.columns.forEach(function (column, i) {
       var maxLength = 0;
@@ -203,11 +435,11 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       column.width = maxLength < 10 ? 10 : maxLength;
     });
 
-    worksheet.getColumn(1).width = 5;
-    worksheet.getColumn(2).width = 20;
-    worksheet.getColumn(3).width = 15;
-    worksheet.getColumn(4).width = 15;
-    worksheet.getColumn(5).width = 20;
+    // worksheet.getColumn(1).width = 5;
+    // worksheet.getColumn(2).width = 20;
+    // worksheet.getColumn(3).width = 15;
+    // worksheet.getColumn(4).width = 15;
+    // worksheet.getColumn(5).width = 20;
 
     const autoHeight = (worksheet) => {
       const lineHeight = 12 // height per line is roughly 12
@@ -223,39 +455,51 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
-      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');       
+      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
     });
-  
-}
+
+  }
 
 
 
-calculateStartPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateStartPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateEndPoint(index) {
-  return alphabet[index] + '4'
-}
+  calculateEndPoint(index) {
+    return alphabet[index] + '4'
+  }
 
-calculateDataPoint(index) {
-  return alphabet[index] + '5'
-}
+  calculateDataPoint(index) {
+    return alphabet[index] + '5'
+  }
 
-formatDateDDMMYYY(date) {
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-  if (month.length < 2)
-    month = '0' + month;
-  if (day.length < 2)
-    day = '0' + day;
-  return [day, month, year].join('_');
-}
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('_');
+  }
 
-mathRoundTo(num: number, places: number) {
-  const factor = 10 ** places;
-  return (Math.round(num * factor) / factor).toLocaleString();
-};
+  mathRoundTo(num: number, places: number) {
+    const factor = 10 ** places;
+    return (Math.round(num * factor) / factor).toLocaleString();
+  };
+
+  formatDateYYYY_MM_DD(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [year, month, day].join('-');
+  }
 }

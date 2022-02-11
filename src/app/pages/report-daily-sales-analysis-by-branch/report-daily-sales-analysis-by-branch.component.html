@@ -147,7 +147,7 @@
                 <br *ngIf="createFormGroup.value.regionId">
                 <br *ngIf="createFormGroup.value.clusterId">
                 <br *ngIf="createFormGroup.value.branchId">
-                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">AGENT SALES REPORT</h3>
+                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">{{ title }}</h3>
             </div>
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.agentId">
@@ -178,40 +178,26 @@
         <div style="width: 100%;
         overflow-y: hidden;
         overflow-x: scroll;">
-            <table border="1">
-                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
-                    <th colspan="5"></th>
-                    <th *ngFor="let product of productList; let i = index">{{ product.productName }}</th>
-                </tr>
+             <table border="1">
                 <tr>
-                    <th>No</th>
-                    <th>Branch</th>
-                    <th>Channel</th>
                     <th>Agent Name</th>
-                    <th>Agent No.</th>
-                    <th *ngFor="let product of productList; let i = index">
-                        <span>No of Policies
-                            <div class="right-border-transform"></div>
-                        </span>
-                        <span>Premium</span>
-                    </th>
+                    <th>Branch Name</th>
+                    <th>Activities</th>
+                    <th>Daily Actual against Target</th>
+                    <th>Daily Conversion to Prospect</th>
+                    <th>Daily Conversion to Previous Stage</th>
+                    <th>Daily Expected Target Conversion</th>
+                    <th>Daily Expected Target Conversion to Prospects</th>
                 </tr>
-                <tr *ngFor="let report of reports; let i = index">
-                    <td>{{ i + 1}}</td>
-                    <td>{{ report.branchName }}</td>
-                    <td>{{ report.channelName }}</td>
-                    <td>{{ report.agentName }}</td>
-                    <td>{{ report.agentNo }}</td>
-                    <td *ngFor="let policy of reports[i].productPolicies; let j = index; ">
-                        <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
-                            <div class="right-border-transform"></div>
-                        </span>
-                        <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
-                        <span *ngIf="!policy.noOfPolicies">
-                            <div class="right-border-transform"></div>
-                        </span>
-                        <span *ngIf="!policy.noOfPolicies"></span>
-                    </td>
+                <tr *ngFor="let data of displayList; let i = index">
+                    <td>{{ data.agentName }}</td>
+                    <td>{{ data.branchName }}</td>
+                    <td>{{ data.activityName }}</td>
+                    <td>{{ data.dailyActualAgainstTarge }}</td>
+                    <td>{{ data.dailyConversionToProspect }}</td>
+                    <td>{{ data.dailyConversionToPreviousStage }}</td>
+                    <td>{{ data.dailyExpectedTargetConversion }}</td>
+                    <td>{{ data.dailyExpectedTargetConversionToProspects }}</td>
                 </tr>
             </table>
         </div>
