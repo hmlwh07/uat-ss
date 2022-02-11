@@ -85,10 +85,7 @@ export class ReportKeyDriverComponent implements OnInit {
         console.log('keyDriver', res);
         if (res.datum) {
           this.keyDriver = res.datum
-          console.log('res.datum ======> ', res.datum);
-
-
-          if (res.datum.productsList) {
+          if (res.datum.productsList.length > 0) {
             this.isData = true;
             for (var i = 0; i < res.datum.productsList.length; i++) {
               this.totalNewBusinessCase += res.datum.productsList[i].pcount;
@@ -105,18 +102,9 @@ export class ReportKeyDriverComponent implements OnInit {
               }
               this.displayDataList.push(obj);
             }
-            console.log('totalNewBusinessCase ======> ', this.totalNewBusinessCase);
-            console.log('totalPremium ======> ', this.totalPremium);
-            console.log('totalProductDistribution ======> ', this.totalProductDistribution);
-            console.log('totalAverageCaseSize ======> ', this.totalAverageCaseSize);
-            console.log('displayDataList ======> ', this.displayDataList);
-
             this.roundTotalProductDistribution = this.mathRoundTo(this.totalProductDistribution, 2)
             this.roundTotalProductDistribution = this.mathRoundTo(this.totalProductDistribution, 2)
             this.roundTotalAverageCaseSize = this.mathRoundTo(this.totalAverageCaseSize, 2)
-
-            console.log('roundTotalProductDistribution ======> ', this.roundTotalProductDistribution);
-            console.log('roundTotalAverageCaseSize ======> ', this.roundTotalAverageCaseSize);
 
             if (this.keyDriver.manPower) {
               this.activeRatio = this.mathRoundTo(this.keyDriver.activeManPower / this.keyDriver.manPower, 2);

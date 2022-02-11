@@ -122,29 +122,29 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
           cellIndex = 'F2';
           cellIndexValue = 'To Date: ' + searchValue[i].toDate;
         }
-        if (searchValue[i].agentName) {
-          cellIndex = 'L1';
-          cellIndexValue = 'Agent: ' + searchValue[i].agentName;
-        }
         if (searchValue[i].companyName) {
-          cellIndex = 'M1';
+          cellIndex = 'L1';
           cellIndexValue = 'Company: ' + searchValue[i].companyName;
         }
         if (searchValue[i].channelName) {
-          cellIndex = 'N1';
+          cellIndex = 'M1';
           cellIndexValue = 'Channel: ' + searchValue[i].channelName;
         }
         if (searchValue[i].regionName) {
-          cellIndex = 'L2';
+          cellIndex = 'N1';
           cellIndexValue = 'Region: ' + searchValue[i].regionName;
         }
         if (searchValue[i].clusterName) {
-          cellIndex = 'M2';
+          cellIndex = 'L2';
           cellIndexValue = 'Cluster: ' + searchValue[i].clusterName;
         }
         if (searchValue[i].branchName) {
-          cellIndex = 'N2';
+          cellIndex = 'M2';
           cellIndexValue = 'Branch: ' + searchValue[i].branchName;
+        }
+        if (searchValue[i].agentName) {
+          cellIndex = 'N2';
+          cellIndexValue = 'Agent: ' + searchValue[i].agentName;
         }
 
         if (cellIndex != null && cellIndexValue != null) {
