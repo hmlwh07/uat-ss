@@ -125,6 +125,8 @@ export class ReportKeyDriverComponent implements OnInit {
             if (this.totalNewBusinessCase != 0) {
               this.monthlyCaseSize = this.mathRoundTo((this.totalPremium / 12) / this.totalNewBusinessCase, 2)
             }
+          }else {
+            this.isData = false
           }
         }
       });
@@ -407,7 +409,7 @@ export class ReportKeyDriverComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

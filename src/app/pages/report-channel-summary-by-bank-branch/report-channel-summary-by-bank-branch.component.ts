@@ -140,6 +140,8 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
                 }
               }
             }
+          }else{
+            this.isHasData = false;
           }
         }
       });
@@ -382,7 +384,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

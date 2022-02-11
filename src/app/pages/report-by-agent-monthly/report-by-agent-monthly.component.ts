@@ -44,7 +44,7 @@ export class ReportByAgentMonthlyComponent implements OnInit {
   dataList = [];
   title: string = 'Monthly Activity Report';
 
-  
+
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportAgentMonthlyExportService) { }
 
@@ -110,6 +110,8 @@ export class ReportByAgentMonthlyComponent implements OnInit {
                 }
               }
             }
+          }else {
+            this.isData = false;
           }
         }
       });
@@ -356,7 +358,7 @@ export class ReportByAgentMonthlyComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

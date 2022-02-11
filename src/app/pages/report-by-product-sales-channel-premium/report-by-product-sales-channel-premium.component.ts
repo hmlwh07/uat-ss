@@ -73,7 +73,6 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
         console.log('premiumProductSaleChannel', res);
         if (res) {
           if (res.products.length > 0) {
-            this.isData = true;
             for (var i = 0; i < res.products.length; i++) {
               this.productsHeader.push({ id: res.products[i].id, name: res.products[i].name })
             }
@@ -102,6 +101,8 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
                 }
               }
               console.log('dataList', this.dataList);
+            }else {
+              this.isData = false
             }
           }
         }
@@ -348,7 +349,7 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

@@ -79,7 +79,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('monthlySalesAnalysis', res);
-        if (res.datum.monthlydataList) {
+        if (res.datum.monthlydataList.length > 0) {
           this.isData = true;
           for (var i = 0; i < res.datum.monthlydataList.length; i++) {
             for (var j = 0; j < activities.length; j++) {
@@ -96,6 +96,8 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
               this.displayList.push(obj)
             }
           }
+        } else {
+          this.isData = false
         }
       });
     }
@@ -107,26 +109,26 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Daily Lead' && obj.monthlyTargetTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalLead, obj.monthlyTargetTotalLead)
     }
-    if (activityName == 'Appointments (Phone)' && obj.monthlyTargetTotalAppointment != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentPhone, obj.monthlyTargetTotalAppointment)
+    if (activityName == 'Appointments (Phone)' && obj.monthlyTargetTotalAppointmentPhone != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentPhone, obj.monthlyTargetTotalAppointmentPhone)
     }
-    if (activityName == 'Appointments (Face to Face)' && obj.monthlyTargetTotalAppointment != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentFaceToFace, obj.monthlyTargetTotalAppointment)
+    if (activityName == 'Appointments (Face to Face)' && obj.monthlyTargetTotalAppointmentFaceToFace != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentFaceToFace, obj.monthlyTargetTotalAppointmentFaceToFace)
     }
-    if (activityName == 'Appointments (Online)' && obj.monthlyTargetTotalAppointment != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentOnline, obj.monthlyTargetTotalAppointment)
+    if (activityName == 'Appointments (Online)' && obj.monthlyTargetTotalAppointmentOnline != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentOnline, obj.monthlyTargetTotalAppointmentOnline)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds, obj.monthlyTargetTotalLead)
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyTargetTotalNeeds != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds, obj.monthlyTargetTotalNeeds)
     }
-    if (activityName == 'Solutions' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyTargetTotalLead)
+    if (activityName == 'Solutions' && obj.monthlyTargetSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyTargetSolutions)
     }
-    if (activityName == 'Sales' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSales, obj.monthlyTargetTotalLead)
+    if (activityName == 'Sales' && obj.monthlyTargetSales != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSales, obj.monthlyTargetSales)
     }
-    if (activityName == 'Referrals' && obj.monthlyTargetSolutions != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalReferrals, obj.monthlyTargetSolutions)
+    if (activityName == 'Referrals' && obj.monthlyTargetReferrals != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalReferrals, obj.monthlyTargetReferrals)
     }
     return calculatedValue;
   }
@@ -148,14 +150,14 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyActualTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds, obj.monthlyActualTotalLead)
     }
-    if (activityName == 'Solutions' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyTargetTotalLead)
+    if (activityName == 'Solutions' && obj.monthlyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyActualTotalLead)
     }
-    if (activityName == 'Sales' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSales, obj.monthlyTargetTotalLead)
+    if (activityName == 'Sales' && obj.monthlyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSales, obj.monthlyActualTotalLead)
     }
-    if (activityName == 'Referrals' && obj.monthlyActualTotalSolutions != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalReferrals, obj.monthlyActualTotalSolutions)
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
     }
     return calculatedValue;
   }
@@ -177,14 +179,14 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyActualTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds, obj.monthlyActualTotalLead)
     }
-    if (activityName == 'Solutions' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyTargetTotalLead)
+    if (activityName == 'Solutions' && obj.monthlyActualTotalNeeds != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyActualTotalNeeds)
     }
-    if (activityName == 'Sales' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSales, obj.monthlyTargetTotalLead)
+    if (activityName == 'Sales' && obj.monthlyActualTotalSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSales, obj.monthlyActualTotalSolutions)
     }
-    if (activityName == 'Referrals' && obj.monthlyActualTotalSolutions != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalReferrals, obj.monthlyActualTotalSolutions)
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
     }
     return calculatedValue;
   }
@@ -194,26 +196,26 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Daily Lead') {
       calculatedValue = 0
     }
-    if (activityName == 'Appointments (Phone)' && obj.monthlyTargetTotalAppointment != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalAppointment, obj.monthlyTargetTotalLead)
+    if (activityName == 'Appointments (Phone)' && obj.monthlyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentPhone, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Appointments (Face to Face)' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalAppointment, obj.monthlyTargetTotalLead)
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentFaceToFace, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Appointments (Online)' && obj.monthlyTargetTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentOnline, obj.monthlyTargetTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyActualTotalAppointmentOnline != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalNeeds, obj.monthlyActualTotalAppointmentOnline)
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Solutions' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetSolutions, obj.monthlyTargetTotalLead)
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Sales' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetSales, obj.monthlyTargetTotalLead)
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalSales, obj.monthlyTargetTotalLead)
     }
-    if (activityName == 'Referrals' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetSolutions, obj.monthlyTargetTotalLead)
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
     }
     return calculatedValue;
   }
@@ -224,25 +226,25 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
       calculatedValue = 0
     }
     if (activityName == 'Appointments (Phone)' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalAppointment, obj.monthlyTargetTotalLead)
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentPhone, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Appointments (Face to Face)' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalAppointment, obj.monthlyTargetTotalLead)
+      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalAppointmentFaceToFace, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Appointments (Online)' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentOnline, obj.monthlyTargetTotalLead)
+      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalAppointmentOnline, obj.monthlyTargetTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyTargetTotalAppointment != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalNeeds, obj.monthlyTargetTotalAppointment)
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyTargetTotalNeeds != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalNeeds, obj.monthlyTargetTotalNeeds)
     }
-    if (activityName == 'Solutions' && obj.monthlyTargetTotalAppointment != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetSolutions, obj.monthlyTargetTotalAppointment)
+    if (activityName == 'Solutions' && obj.monthlyTargetTotalNeeds != 0) {
+      calculatedValue = this.calculateDivision(obj.monthlyTargetSolutions, obj.monthlyTargetTotalNeeds)
     }
     if (activityName == 'Sales' && obj.monthlyTargetSolutions != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyTargetSales, obj.monthlyTargetSolutions)
     }
-    if (activityName == 'Referrals' && obj.monthlyTargetSolutions != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetSales, obj.monthlyTargetSolutions)
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
     }
     return calculatedValue;
   }
@@ -492,7 +494,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

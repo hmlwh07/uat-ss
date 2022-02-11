@@ -76,13 +76,13 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
         console.log('policyProductBranch', res);
         if (res) {
           if (res.products.length > 0) {
-            this.isData = true;
             for (var i = 0; i < res.products.length; i++) {
               this.productsHeader.push({ id: res.products[i].id, name: res.products[i].name })
             }
           }
 
           if (res.dataList.length > 0) {
+            this.isData = true;
             this.dataList = res.dataList;
             let countNo: number = 0;
             for (var i = 0; i < this.dataList.length; i++) {
@@ -124,7 +124,8 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
                 }
               }
             }
-
+          } else {
+            this.isData = false
           }
         }
       });
@@ -380,7 +381,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

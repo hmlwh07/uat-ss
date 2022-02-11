@@ -70,10 +70,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('policyProductBranch', res);
         if (res) {
-          if (res.products.length > 0) {
-            this.isData = true;
-            // this.productsHeader.push({ id: null, name: 'No.' });
-            // this.productsHeader.push({ id: null, name: 'Branch' });
+          if (res.products.length > 0) {  
             res.products = JSON.parse(JSON.stringify([...new Map(res.products.map(item => [item.id, item])).values()]));
             for (var i = 0; i < res.products.length; i++) {
               if (res.products[i].name) {
@@ -83,6 +80,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
 
           if (res.dataList.length > 0) {
+            this.isData = true;
             let countNo: number = 0;
             this.dataList = res.dataList;
             // make table
@@ -122,7 +120,8 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
                 }
               }
             }
-
+          } else {
+            this.isData = false;
           }
 
         }
@@ -378,7 +377,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

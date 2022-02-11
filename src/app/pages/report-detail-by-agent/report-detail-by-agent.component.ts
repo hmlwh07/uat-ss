@@ -116,6 +116,8 @@ export class ReportDetailByAgentComponent implements OnInit {
                 }
               }
             }
+          }else{
+            this.isData = false;
           }
         }
       });
@@ -328,11 +330,7 @@ export class ReportDetailByAgentComponent implements OnInit {
         this.agentName = ev.agentName
       }
     }
-
-
     this.cdf.detectChanges()
-
-
   }
 
   loadForm() {
@@ -369,7 +367,7 @@ export class ReportDetailByAgentComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+   // this.getAllReports();
   }
 
   clearDate(type) {

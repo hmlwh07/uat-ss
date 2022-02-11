@@ -118,6 +118,8 @@ export class ReportByAgentWeeklyComponent implements OnInit {
                 }
               }
             }
+          }else{
+            this.isData = false;
           }
         }
       });
@@ -372,7 +374,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+   // this.getAllReports();
   }
 
   clearDate(type) {

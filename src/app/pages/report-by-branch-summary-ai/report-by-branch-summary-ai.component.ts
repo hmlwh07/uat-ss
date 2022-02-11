@@ -88,6 +88,8 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
               });
             }
           }
+        }else{
+          this.isData = false;
         }
       });
     }
@@ -331,7 +333,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

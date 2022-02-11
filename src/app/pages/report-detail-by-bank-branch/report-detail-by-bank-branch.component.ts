@@ -113,6 +113,8 @@ export class ReportDetailByBankBranchComponent implements OnInit {
               }
             }
             console.log('dataList', this.dataList);
+          }else {
+            this.isData = false
           }
         }
       });
@@ -368,7 +370,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+   // this.getAllReports();
   }
 
   clearDate(type) {
