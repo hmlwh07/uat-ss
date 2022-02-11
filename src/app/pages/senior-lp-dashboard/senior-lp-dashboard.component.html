@@ -6,7 +6,7 @@
           <div class="my-center">
             <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
             <br>
-            <label class="text-dark center">Jemmy Tree</label><br>
+            <label class="text-dark center">{{ data.agentInfo.employeeName }}</label><br>
             <label class="text-dark center">Senior LP Manager</label>
           </div>
         </div>
@@ -14,7 +14,7 @@
       <div class="card-body customer-card-body card-50" style="margin-top: 10px;">
         <div class="row my-row mb-5">
           <div class="col-10">
-            <label>Premium2021 Yangon Branch</label>
+            <label>Premium {{ data?.yearlyTotalPremium?.year }} {{ data.agentInfo.branchName }}</label>
           </div>
           <div class="col-2">
             <img src="./assets/images/alert.png" class="icon-image" alt="" />
@@ -22,7 +22,9 @@
         </div>
 
         <div class="mb-5">
-          <label style="padding-left: 50px;"><span class="font-weight-bolder text-dark center font-24">200,000</span>
+          <label style="padding-left: 50px;"><span class="font-weight-bolder text-dark center font-24">
+            {{ data.agentInfo.totalPremium }}
+          </span>
             <span><sup>MMk</sup></span></label>
         </div>
         <div>
@@ -31,22 +33,12 @@
               <label class="font-weight-bolder text-dark underline">Products</label>
             </div>
           </div>
-          <div class="row my-row">
-            <div class="col-6">Motor</div>
-            <div class="col-6">: 50000 MMK</div>
+          <ng-container *ngFor="let product of data?.yearlyProductPremium">
+          <div class="row my-row" >
+            <div class="col-6">{{ product.productName }}</div>
+            <div class="col-6">: {{ product.premium }} MMK</div>
           </div>
-          <div class="row my-row">
-            <div class="col-6">Fire</div>
-            <div class="col-6">: 30000 MMK</div>
-          </div>
-          <div class="row my-row">
-            <div class="col-6">Education</div>
-            <div class="col-6">: 20000 MMK</div>
-          </div>
-          <div class="row my-row">
-            <div class="col-6">SportMan</div>
-            <div class="col-6">: 100000 MMK</div>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -63,229 +55,58 @@
       </div>
      
       <div style="margin-top: 10px;">
-          <div class="my-profile-card" (click)="goToLPManager()">
+        <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
+          <div class="my-profile-card" (click)="goToLPManager(agent)">
             <div class="flex">
               <div>
                 <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
               </div>
               <div class="pl-5">
                 <div>
-                  <span>Tony Tang</span>
+                  <span>{{ agent.name }}</span>
                 </div>
                 <div>
-                  <span>220 MMK</span>
+                  <span>{{ agent.premium }} MMK</span>
                 </div>
               </div>
-              <div class="my-border-left ml-30 pl-10">
+              <div class="my-border-left ml-4 pl-2">
                 <div>
                   <span>Team</span>
                 </div>
                 <div>
-                  <span>700 MMK</span>
+                  <span>{{ agent.teamPremium }} MMK</span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="my-profile-card" (click)="goToLPManager()">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
-                <div>
-                  <span>Tony Tang</span>
-                </div>
-                <div>
-                  <span>220 MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-30 pl-10">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>700 MMK</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          </ng-container>
       </div>
     </div>
   </div>
-
-  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5">
+  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5" *ngIf="leadObj">
     <div class="card card-custom my-card">
     <div class="my-p-10">
       <span>LEADS CONVERSION - Yangon Branch</span>
-      <h5>56%</h5>
-      <app-column-chart></app-column-chart>
+      <h5>{{ leadObj.leadWinRate }} %</h5>
+      <div id="chart">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions"
+          [yaxis]="chartOptions.yaxis"
+          [xaxis]="chartOptions.xaxis"
+          [legend]="chartOptions.legend"
+          [colors]="chartOptions.colors"
+          [grid]="chartOptions.grid"
+        ></apx-chart>
+      </div>
     </div>
 
 
     <div class="container">
       <span>ACTIVE AGENTS TODAY</span>
-      <h5>4</h5>
+      <h5>{{ leadObj.todayActiveAgent }} </h5>
     </div>
 
     <div class="container">
@@ -296,7 +117,7 @@
             <div><span>TASKS TODAY</span></div>
             <br>
             <div class="my-center">
-              <h5>15</h5>
+              <h5>{{ leadObj.taskToday }}</h5>
             </div>
           </div>
         </div>
@@ -305,7 +126,7 @@
             <div><span>LEADS TODAY</span></div>
             <br>
             <div class="my-center">
-              <h5>58</h5>
+              <h5>{{ leadObj.leadToday }}</h5>
             </div>
           </div>
         </div>

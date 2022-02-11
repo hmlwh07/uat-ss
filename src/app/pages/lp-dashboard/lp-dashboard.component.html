@@ -6,23 +6,25 @@
           <div class="my-center">
             <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
             <br>
-            <label class="text-dark center">Jame</label><br>
-            <label class="text-dark center">S00012(LP)</label>
+            <label class="text-dark center">{{ data.agentInfo.employeeName }}</label><br>
+            <label class="text-dark center">S00012 (LP) </label>
           </div>
         </div>
       </div>
       <div class="card-body customer-card-body card-50" style="margin-top: 10px;">
         <div class="row my-row mb-5">
           <div class="col-10">
-            <label>Premium 2021</label>
+            <label>Premium {{ data?.yearlyTotalPremium?.year }} {{ data.agentInfo.branchName }}</label>
           </div>
           <div class="col-2">
             <img src="./assets/images/alert.png" class="icon-image" alt="" />
           </div>
         </div>
 
-        <div class="mb-5"> 
-          <label style="padding-left: 50px;"><span class="font-weight-bolder text-dark center font-24">200,000</span>
+        <div class="mb-5">
+          <label style="padding-left: 50px;"><span class="font-weight-bolder text-dark center font-24">
+            {{ data.agentInfo.totalPremium }}
+          </span>
             <span><sup>MMk</sup></span></label>
         </div>
         <div>
@@ -31,22 +33,12 @@
               <label class="font-weight-bolder text-dark underline">Products</label>
             </div>
           </div>
-          <div class="row my-row">
-            <div class="col-6">Motor</div>
-            <div class="col-6">: 50000 MMK</div>
+          <ng-container *ngFor="let product of data?.yearlyProductPremium">
+          <div class="row my-row" >
+            <div class="col-6">{{ product.productName }}</div>
+            <div class="col-6">: {{ product.premium }} MMK</div>
           </div>
-          <div class="row my-row">
-            <div class="col-6">Fire</div>
-            <div class="col-6">: 30000 MMK</div>
-          </div>
-          <div class="row my-row">
-            <div class="col-6">Education</div>
-            <div class="col-6">: 20000 MMK</div>
-          </div>
-          <div class="row my-row">
-            <div class="col-6">SportMan</div>
-            <div class="col-6">: 100000 MMK</div>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>

@@ -1,46 +1,41 @@
-import { DatePipe, DecimalPipe, Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
-import { checkVaidDep } from '../check-parent';
-import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../form-component/field.interface';
-import { PageDataService } from '../product-form/page-data.service';
-import { PrintConfig } from '../products/models/print-config.interface';
-import { PageUIType, ProductPages } from '../products/models/product.dto';
-import { PrintPreviewModalComponent } from '../products/print-preview-modal/print-preview-modal.component';
-import { AddOnQuoService } from '../products/services/add-on-quo.service';
-import { CoverageQuoService } from '../products/services/coverage-quo.service';
-import { ProductDataService } from '../products/services/products-data.service';
+import { FormControl, FormGroup } from '@angular/forms';
+
 import {
   ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle,
   ApexYAxis,
   ApexLegend,
   ApexDataLabels,
-  ApexMarkers,
   ApexPlotOptions,
-  ApexStroke,
-  ApexFill,
-  ApexTooltip
+  ApexGrid
 } from 'ng-apexcharts';
+
+import { DashboardService } from './senior-lp-dashboard.service';
+import { AuthService } from 'src/app/modules/auth/_services/auth.service';
+type ApexXAxis = {
+  type?: "category" | "datetime" | "numeric";
+  categories?: any;
+  labels?: {
+    style?: {
+      colors?: string | string[];
+      fontSize?: string;
+    };
+  };
+};
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  title: ApexTitleSubtitle;
-  legend: ApexLegend;
   dataLabels: ApexDataLabels;
-  markers: ApexMarkers;
-  plotOptions : ApexPlotOptions;
-  stroke : ApexStroke;
-  fill : ApexFill;
-  tooltip : ApexTooltip;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  grid: ApexGrid;
+  colors: string[];
+  legend: ApexLegend;
 };
 
 @Component({
@@ -49,69 +44,124 @@ export type ChartOptions = {
   styleUrls: ['./senior-lp-dashboard.component.scss']
 })
 export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
-  @ViewChild('chart') chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal) { 
-    this.chartOptions = {
-      series: [{
-      name: 'Net Profit',
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-    }, {
-      name: 'Revenue',
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-    }, {
-      name: 'Free Cash Flow',
-      data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-    }],
-      chart: {
-      type: 'bar',
-      height: 350
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '55%',
-        // endingShape: 'rounded'
-      },
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ['transparent']
-    },
-    xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-    },
-    yaxis: {
-      title: {
-        text: '$ (thousands)'
+  data: any;
+  authObj: any;
+  actForm: FormGroup;
+  leadObj = {
+    leadWinRate: 56,
+    leadAssignCount: 100,
+    todayActiveAgent: 4,
+    taskToday: 15,
+    leadToday: 58
+  };
+  unsub: any;
+
+  constructor(public auth: AuthService, private dashboardService: DashboardService,private router : Router
+  ) {
+    this.unsub = this.auth.currentUserSubject.subscribe((res) => {
+      if (res) {
+        this.authObj = res;
       }
-    },
-    fill: {
-      opacity: 1
-    },
-    tooltip: {
-      y: {
-        formatter: function (val) {
-          return "$ " + val + " thousands"
-        }
-      }
-    }
-    };
+    })
+
+    this.loadForm();
+    this.setChartOptions();
   }
 
-  
+
   async ngOnInit() {
-    
+    this.getList();
+    this.setChartOptions();
+  }
+
+  loadForm() {
+    this.actForm = new FormGroup({
+      "empId": new FormControl(this.authObj.id)
+    })
+  }
+
+  getList() {
+    this.dashboardService.getActivityList(this.actForm.value).toPromise().then((res) => {
+      if (res) {
+        this.data = res
+        console.log('data', this.data);
+      }
+    })
   }
 
   ngOnDestroy() {
+    this.unsub.unsubscribe();
   }
 
-  goToLPManager(){
-    this.router.navigate(['/dashboard/lp-manager-dashboard']);
+  goToLPManager(agent: any) {
+    this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId : agent.empId } })
+  }
+
+  setChartOptions(){
+    this.chartOptions = {
+      series: [
+        {
+          name: "",
+          data: [100,1000]
+        }
+      ],
+      chart: {
+        height: 200,
+        type: "bar",
+        events: {
+          click: function(chart, w, e) {
+            // console.log(chart, w, e)
+          }
+        }
+      },
+      colors: [
+        "#008FFB",
+        "#00E396",
+        "#FEB019",
+        "#FF4560",
+        "#775DD0",
+        "#546E7A",
+        "#26a69a",
+        "#D10CE8"
+      ],
+      plotOptions: {
+        bar: {
+          columnWidth: "45%",
+          distributed: true
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: false
+      },
+      grid: {
+        show: false
+      },
+      xaxis: {
+        categories: [
+          ["Converted", "100"],
+          ["Assigned", "1,000"],
+        ],
+        labels: {
+          style: {
+            colors: [
+              "#008FFB",
+              "#00E396",
+              "#FEB019",
+              "#FF4560",
+              "#775DD0",
+              "#546E7A",
+              "#26a69a",
+              "#D10CE8"
+            ],
+            fontSize: "12px"
+          }
+        }
+      }
+    };
   }
 }

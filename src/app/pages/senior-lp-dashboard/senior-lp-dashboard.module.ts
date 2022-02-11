@@ -7,6 +7,7 @@ import { FormComponentModule } from '../form-component/form-component.module';
 import { RouterModule } from '@angular/router';
 import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew.module';
 import { ColumnChartModule } from './../_column-chart/column-chart.component.module';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [SeniorLpDashboardComponent],
@@ -18,7 +19,7 @@ import { ColumnChartModule } from './../_column-chart/column-chart.component.mod
     FormComponentModule,
     StaticPagesViewModule,
     ColumnChartModule,
-
+    NgApexchartsModule,
     RouterModule.forChild([
       {
         path: '',
