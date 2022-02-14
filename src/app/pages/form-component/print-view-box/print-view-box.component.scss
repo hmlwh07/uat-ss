@@ -1,5 +1,5 @@
 .print-grid {
-  font-size: 1rem;
+  font-size: 0.75rem;
 
   table {
     // width: 1200px;
@@ -17,18 +17,18 @@
   text-align: center;
   padding   : 5px 5px;
   width     : 100px;
-  font-size : 1rem;
+  font-size : 0.75rem;
 }
 
 .value-col {
   padding   : 5px 5px;
   text-align: center;
   width     : 120px;
-  font-size : 1rem;
+  font-size : 0.75rem;
 }
 
 .title-style {
-  font-size: 1.25rem;
+  font-size: 0.9rem;
 }
 
 
@@ -51,7 +51,7 @@ table td {
 .header-title {
   display    : flex;
   align-items: center;
-  font-size  : 1.25rem;
+  font-size  : 0.9rem;
   font-weight: bold;
   color      : #005f99;
   position   : absolute;
@@ -63,7 +63,7 @@ table td {
 }
 
 .product-name {
-  font-size  : 2rem;
+  font-size  : 1.5rem;
   font-weight: bold;
   width      : 100%;
   text-align : center;

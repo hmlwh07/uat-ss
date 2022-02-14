@@ -227,6 +227,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     let parentArray: string[] = []
     let tempControls: ConfigInput[] = JSON.parse(JSON.stringify(controls))
     for (let x of tempControls) {
+      x.options = x.options ? x.options : []
       let skip = false
       if (!x.isHideView) {
         if (x.tableTitle) {
