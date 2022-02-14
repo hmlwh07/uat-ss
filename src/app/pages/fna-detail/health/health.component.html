@@ -100,7 +100,7 @@
                 <div class="col-7">
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" readonly class="form-control form-control-sm"
+                            <input type="text" readonly class="form-control form-control-sm date-input"
                                 formControlName="dateOfBirthSpouse" [min]="fromMinDate" [max]="fromMaxDate"
                                 [matDatepicker]="picker" (dateChange)="doValid('dateOfBirthSpouse')">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -219,7 +219,7 @@
                 <div class="col-7">
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" readonly class="form-control form-control-sm"
+                            <input type="text" readonly class="form-control form-control-sm date-input"
                                 formControlName="dateOfBirth" [min]="fromMinDate" [max]="fromMaxDate"
                                 [matDatepicker]="picker" (dateChange)="doValid('dateOfBirth')" autocomplete="off">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

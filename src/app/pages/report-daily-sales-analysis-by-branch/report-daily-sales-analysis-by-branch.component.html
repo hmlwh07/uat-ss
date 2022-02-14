@@ -6,11 +6,12 @@
                     <h3 class="card-label left-border-image">Daily Sales Analysis by Branch</h3>
                 </div>
                 <div class="card-toolbar">
-                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
+                    <button type="button" [disabled]="!isData" (click)="generateReportExcel()"
+                        class="btn btn-primary ml-2" style="min-width: 50px;">
                         <span class="">Generate</span>
                     </button>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
-                        <span class="">Cancel</span>
+                        <span class="" (click)="cancelReport()">Cancel</span>
                     </button>
                 </div>
             </div>
@@ -21,7 +22,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">From Date</label>
                                 <div class="col-sm-6">
-                                    <input type="text" readonly class="form-control form-control-sm"
+                                    <input type="text" readonly class="form-control form-control-sm date-input"
                                         formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
                                         [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -37,7 +38,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">To Date</label>
                                 <div class="col-sm-6">
-                                    <input type="text" readonly class="form-control form-control-sm"
+                                    <input type="text" readonly class="form-control form-control-sm date-input"
                                         formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
                                         [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -49,38 +50,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Agent Name</label>
-                                <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select" placeholder="Please Select"
-                                        (change)="changeOptions($event, 'agent')" [items]="selectOptions.agents"
-                                        bindLabel="agentName" bindValue="id" formControlName="agentId">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="align-items: center;">
-                        <div class="col-sm-4">
+                        <div class="col-sm-4"
+                            *ngIf="createFormGroup.value.fromDate != '' && createFormGroup.value.toDate != '' ">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Company</label>
                                 <div class="col-sm-8">
-                                    <ng-select [readonly]="selectOptions.companies.length == 0 "
-                                        class="ng-custom-select" placeholder="Please Select"
-                                        (change)="changeOptions($event, 'company')" [items]="selectOptions.companies"
-                                        bindLabel="companyName" bindValue="id" formControlName="companyId">
+                                    <ng-select class="ng-custom-select" placeholder="Please Select"
+                                        (change)="changeOptions($event, 'channel')" [items]="selectOptions.companies"
+                                        bindLabel="name" bindValue="id" formControlName="companyId">
                                     </ng-select>
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="row" style="align-items: center;"
+                        *ngIf="createFormGroup.value.fromDate != '' && createFormGroup.value.toDate != '' ">
                         <div class="col-sm-4">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Channel</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.channels.length == 0 " class="ng-custom-select"
-                                        placeholder="Please Select" (change)="changeOptions($event, 'channel')"
-                                        [items]="selectOptions.channels" bindLabel="channelName" bindValue="id"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'region')"
+                                        [items]="selectOptions.channels" bindLabel="name" bindValue="id"
                                         formControlName="channelId">
                                     </ng-select>
                                 </div>
@@ -91,35 +83,48 @@
                                 <label class="col-sm-4 col-form-label">Region</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.regions.length == 0 " class="ng-custom-select"
-                                        placeholder="Please Select" (change)="changeOptions($event, 'region')"
-                                        [items]="selectOptions.regions" bindLabel="regionsName" bindValue="id"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'cluster')"
+                                        [items]="selectOptions.regions" bindLabel="name" bindValue="id"
                                         formControlName="regionId">
                                     </ng-select>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" style="align-items: center;">
                         <div class="col-sm-4">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Cluster</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.cluster.length == 0 " class="ng-custom-select"
-                                        placeholder="Please Select" (change)="changeOptions($event, 'cluster')"
-                                        [items]="selectOptions.cluster" bindLabel="clusterName" bindValue="id"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'branch')"
+                                        [items]="selectOptions.cluster" bindLabel="name" bindValue="id"
                                         formControlName="clusterId">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="align-items: center;"
+                        *ngIf="createFormGroup.value.fromDate != '' && createFormGroup.value.toDate != '' ">
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Branch</label>
+                                <div class="col-sm-8">
+                                    <ng-select [readonly]="selectOptions.branches.length == 0 " class="ng-custom-select"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'agent')"
+                                        [items]="selectOptions.branches" bindLabel="name" bindValue="id"
+                                        formControlName="branchId">
                                     </ng-select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Branch</label>
+                                <label class="col-sm-4 col-form-label">Agent Name</label>
                                 <div class="col-sm-8">
-                                    <ng-select [readonly]="selectOptions.branches.length == 0 " class="ng-custom-select"
-                                        placeholder="Please Select" (change)="changeOptions($event, 'branch')"
-                                        [items]="selectOptions.branches" bindLabel="brancheName" bindValue="id"
-                                        formControlName="branchId">
+                                    <ng-select [readonly]="selectOptions.agents.length == 0 " class="ng-custom-select"
+                                        placeholder="Please Select" (change)="changeOptions($event, 'office')"
+                                        [items]="selectOptions.agents" bindLabel="agentName" bindValue="agentId"
+                                        formControlName="agentId">
                                     </ng-select>
                                 </div>
                             </div>
@@ -127,6 +132,88 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="isData">
+    <div class="col-12">
+        <div style="width: 100%;
+        overflow: hidden; position: relative;">
+            <div style="width: 40%;float: left; position: relative;">
+                <br *ngIf="createFormGroup.value.agentId">
+                <br *ngIf="createFormGroup.value.companyId">
+                <br *ngIf="createFormGroup.value.channelId">
+                <br *ngIf="createFormGroup.value.regionId">
+                <br *ngIf="createFormGroup.value.clusterId">
+                <br *ngIf="createFormGroup.value.branchId">
+                <h3 class="card-label left-border-image" style="font-size: 1.15rem;">AGENT SALES REPORT</h3>
+            </div>
+            <div style="width: 30%; float: left; position: relative;">
+                <br *ngIf="createFormGroup.value.agentId">
+                <br *ngIf="createFormGroup.value.companyId">
+                <br *ngIf="createFormGroup.value.channelId">
+                <br *ngIf="createFormGroup.value.regionId">
+                <br *ngIf="createFormGroup.value.clusterId">
+                <br *ngIf="createFormGroup.value.branchId">
+                <div>
+                    <span *ngIf="createFormGroup.value.fromDate">From Date: {{
+                        formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <span *ngIf="createFormGroup.value.toDate">To Date: {{
+                        formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
+                </div>
+            </div>
+            <div class="search-display">
+                <br *ngIf="createFormGroup.value.agentId">
+                <br *ngIf="createFormGroup.value.companyId">
+                <span *ngIf="createFormGroup.value.agentId">Agent: {{ agentName }} </span>
+                <span *ngIf="createFormGroup.value.companyId">Company: {{ companyName }} </span>
+                <span *ngIf="createFormGroup.value.channelId">Channel: {{ channelName }} </span>
+                <span *ngIf="createFormGroup.value.regionId">Region: {{ regionName }} </span>
+                <span *ngIf="createFormGroup.value.clusterId">Cluster: {{ clusterName }} </span>
+                <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
+            </div>
+        </div>
+        <div style="width: 100%;
+        overflow-y: hidden;
+        overflow-x: scroll;">
+            <table border="1">
+                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
+                    <th colspan="5"></th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.productName }}</th>
+                </tr>
+                <tr>
+                    <th>No</th>
+                    <th>Branch</th>
+                    <th>Channel</th>
+                    <th>Agent Name</th>
+                    <th>Agent No.</th>
+                    <th *ngFor="let product of productList; let i = index">
+                        <span>No of Policies
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span>Premium</span>
+                    </th>
+                </tr>
+                <tr *ngFor="let report of reports; let i = index">
+                    <td>{{ i + 1}}</td>
+                    <td>{{ report.branchName }}</td>
+                    <td>{{ report.channelName }}</td>
+                    <td>{{ report.agentName }}</td>
+                    <td>{{ report.agentNo }}</td>
+                    <td *ngFor="let policy of reports[i].productPolicies; let j = index; ">
+                        <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span *ngIf="policy.noOfPolicies">{{ policy.premium }}</span>
+                        <span *ngIf="!policy.noOfPolicies">
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span *ngIf="!policy.noOfPolicies"></span>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

@@ -60,7 +60,7 @@
                                     <label class="col-sm-4 col-form-label">Open Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                            <input matInput class="form-control-sm date-input" style="width: 100%;"
                                                 formControlName="openedDate" [matDatepicker]="openDate" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="openDate"></mat-datepicker-toggle>
                                             <mat-datepicker #openDate disabled="true"></mat-datepicker>
@@ -91,7 +91,7 @@
                                     <label class="col-sm-4 col-form-label">Activation Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                            <input matInput class="form-control-sm date-input" style="width: 100%;"
                                                 formControlName="activationDate" [matDatepicker]="activitionDate"
                                                 readonly>
                                             <mat-datepicker-toggle matSuffix [for]="activitionDate">
@@ -145,7 +145,7 @@
                                     <label class="col-sm-4 col-form-label">Closed Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                            <input matInput class="form-control-sm date-input" style="width: 100%;"
                                                 formControlName="closedDate" [matDatepicker]="closeDate" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="closeDate"></mat-datepicker-toggle>
                                             <mat-datepicker #closeDate disabled="true"></mat-datepicker>
@@ -175,7 +175,7 @@
                                     <label class="col-sm-4 col-form-label">Expiration Date</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm" style="width: 100%;"
+                                            <input matInput class="form-control-sm date-input" style="width: 100%;"
                                                 formControlName="expirationDate" [matDatepicker]="expDate">
                                             <mat-datepicker-toggle matSuffix [for]="expDate"></mat-datepicker-toggle>
                                             <mat-datepicker #expDate></mat-datepicker>
@@ -622,7 +622,7 @@
                             </div>
                             <!-- <div class="col-sm-8" *ngIf="leadForm.value.statusCode=='03'">isValidWin
                             </div> -->
-                            <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03'">
+                            <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03' && applicationList.length > 0">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
                                     (click)="updateLeadStatus('05')">
                                     <span class="">Win</span>

@@ -429,7 +429,7 @@ app-header.header.header-fixed,
     content         : "";
     position        : absolute;
     left            : 0px;
-    top             : 4px;
+    top             : 0px;
     display         : block;
     width           : 6px;
     height          : 15px;
@@ -741,7 +741,7 @@ kbz-loading {
 }
 
 .input-group {
-    .form-control-sm {
+    .date-input.form-control-sm {
         background-color: #ffffff;
         background-clip : padding-box;
         border          : 1px solid #E4E6EF;

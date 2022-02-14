@@ -6,7 +6,7 @@
         <label class="col-sm-4 col-form-label ">Period of Insurance</label>
         <div class="col-sm-6">
           <div class="input-group">
-            <input matInput class="form-control-sm" formControlName="insuranceStartDate" [min]="fromMinDate"
+            <input matInput class="form-control-sm date-input" formControlName="insuranceStartDate" [min]="fromMinDate"
               [max]="fromMaxDate" [matDatepicker]="picker" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
@@ -42,7 +42,7 @@
           </div> -->
           <!-- <app-print-error [control]="controls.insuranceStartDate"></app-print-error> -->
           <div class="input-group">
-            <input matInput class="form-control-sm" formControlName="insuranceEndDate" [min]="toMinDate"
+            <input matInput class="form-control-sm date-input" formControlName="insuranceEndDate" [min]="toMinDate"
               [max]="toMaxDate" [matDatepicker]="picker2" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2 disabled="true"></mat-datepicker>
@@ -100,7 +100,7 @@
           </div> -->
           <!-- <app-print-error [control]="controls.dateOfBirth"></app-print-error> -->
           <div class="input-group">
-            <input matInput class="form-control-sm" formControlName="dateOfBirth" [min]="dobMinDate" [max]="dobMaxDate"
+            <input matInput class="form-control-sm date-input" formControlName="dateOfBirth" [min]="dobMinDate" [max]="dobMaxDate"
               [matDatepicker]="picker3" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
             <mat-datepicker #picker3 disabled="false"></mat-datepicker>

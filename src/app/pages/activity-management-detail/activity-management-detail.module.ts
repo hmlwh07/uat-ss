@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ActivityManagementDetailComponent } from './activity-management-detail.component';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RelatedModalCompoent } from './pop-up-modal/related-modal.component';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
@@ -25,6 +25,7 @@ import { MatInputModule } from '@angular/material/input';
     MatDatepickerModule,
     MatInputModule,
     NgSelectModule,
+    NgbModalModule,
     CustomerListShareModule,
     RouterModule.forChild([
       {

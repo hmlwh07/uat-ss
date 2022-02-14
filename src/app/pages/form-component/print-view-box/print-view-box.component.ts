@@ -77,8 +77,8 @@ export class PrintViewBoxComponent implements OnInit {
         this.temConfig.push(formObj as PrintFormat)
         // return formObj as PrintFormat
       }
-      console.log(this.temConfig,this.tempData);
-      
+      console.log(this.temConfig, this.tempData);
+
     }
     if (this.productService.editData) {
       this.premimunAmt = this.productService.editData.premiumView
@@ -122,6 +122,8 @@ export class PrintViewBoxComponent implements OnInit {
   getStatic(key: string) {
     if (key == 'premimun')
       return this.premimunAmt
+    if (key == "insurer_name")
+      return this.agentName
     return ""
   }
 

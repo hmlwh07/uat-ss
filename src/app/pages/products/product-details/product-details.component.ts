@@ -89,6 +89,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       align: 'center',
       static: true,
       key: "policy_number"
+    },
+    {
+      title: "Insurer",
+      background: "#DDEBF7",
+      color: "#1F4E78",
+      rowspan: 1,
+      colspan: 1,
+      align: 'center',
+      static: true,
+      key: "insurer_name"
     }
   ]
   constructor(private itemService: ProductDataService, private location: Location, private modalService: NgbModal, private fb: FormBuilder, private cdRef: ChangeDetectorRef, private coverageService: CoverageDataService, private addOnService: AddOnDataService, private productUI: ProductUIService, private prodDel: ProductUIDeleteService, private fileUpload: AttachmentUploadService, private loading: LoadingService, private validityPeriodService: ValidityPeriodService) {

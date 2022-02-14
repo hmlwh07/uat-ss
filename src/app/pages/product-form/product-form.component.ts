@@ -304,6 +304,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     let tempControls: ConfigInput[] = JSON.parse(JSON.stringify(controls))
     for (let x of tempControls) {
       let skip = false
+      x.options = x.options ? x.options : []
       if (!x.isHideView) {
         if (x.tableTitle) {
           let index = parentArray.findIndex(data => data == x.tableTitle)
@@ -320,7 +321,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             name: tempName,
             type: x.input,
             subType: x.type,
-            options: (x.master == "false" || x.master == false) && x.options ? x.options : []
+            options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
           }
           let tempObj = {
             title: x.tableTitle || x.label || x.name,
@@ -328,7 +329,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             type: x.input,
             subType: x.type,
             parent: x.dependency ? x.dependency.parentName : "",
-            options: (x.master == "false" || x.master == false) && x.options ? x.options : []
+            options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
           }
           this.tableReform.push(tempObj)
         } else {
@@ -339,7 +340,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
               name: tempName,
               type: x.input,
               subType: x.type,
-              options: (x.master == "false" || x.master == false) && x.options ? x.options : []
+              options: (x.master == "false" || x.master == false) && x.options.length > 0 ? x.options : []
             }
             this.tableReform[index].cols.push(otherNameObj)
           }

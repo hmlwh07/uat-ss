@@ -16,6 +16,7 @@ import { ConfigInput, InputBoxType, InputType, ValidationType } from './field.in
         *ngIf="field.input !== 'underline';"
         dynamicField
         [config]="field"
+        [internalConfig]="internalConfig"
         [index]="i"
         [group]="form"
         (onEdit)="Edited($event)"

@@ -1,0 +1,61 @@
+.form-control-sm {
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid #e4e6ef;
+    padding: 0px 0.75rem;
+}
+.mat-datepicker-toggle {
+    position: absolute;
+    top: 0px;
+    right: 8px;
+}
+
+table {
+    overflow: hidden;
+    width: 100%;
+    border-collapse: unset;
+    tr {
+        width: 100%;
+        overflow: hidden;
+        th,
+        td {
+            text-align: center;
+            position: relative;
+            border-collapse: unset;
+            span {
+                width: 50%;
+                display: block;
+                float: left;
+                text-align: center;
+            }
+           
+        }
+    }
+}
+
+.search-display {
+    width: 30%;
+    float: left;
+    margin: 0 0 5px 0;
+    padding-left: 24px;
+    span {
+        width: 100%;
+        display: block;
+    }
+}
+
+.right-border-transform {
+    width: 1px;
+    height: 100%;
+    background-color: #000;
+    transform: rotate(0deg);
+    position: absolute;
+    top: 0;
+    left: 49%;
+}
+
+.data{
+    td:nth-child(1){
+        text-align: left;
+    }
+}

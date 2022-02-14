@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { environment } from 'src/environments/environment';
+import { CustomerService } from '../../../customer-detail/customer.service';
+import { ProductDataService } from '../../../products/services/products-data.service';
 import { FANService } from '../../fna-manage.service';
 import { FANProductService } from './product-manage.service';
 
@@ -13,12 +18,13 @@ export class ProductAnalysisComponent implements OnInit {
   @Input() product: any = null;
   @Input() fnaId: any = null;
   @Input() customerId: any = null;
+  @Input() passValue:any = {}
   @Output() changeProduct: EventEmitter<string> = new EventEmitter<string>();
   productSwitch: string = 'product';
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   fnaProducts = [];
   products = [];
-  constructor(private fnaService: FANService, private fnaProductService: FANProductService, private alertService: AlertService) { }
+  constructor(private fnaService: FANService, private fnaProductService: FANProductService, private alertService: AlertService,private prodctService: ProductDataService,private customerService: CustomerService,private router: Router) { }
 
   ngOnInit(): void {
     if (this.fnaService.fnaProduct) {
@@ -68,8 +74,18 @@ export class ProductAnalysisComponent implements OnInit {
     return Array.from(it);
   }
 
-  display() {
-
+  display(product) {
+    forkJoin([this.prodctService.findOne(product.productId), this.customerService.findOne(this.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
+      if (res) {
+        this.prodctService.createingProd = res[0]
+        this.prodctService.creatingCustomer = res[1]
+        this.prodctService.type = 'quotation'
+        this.prodctService.viewType = 'quotation'
+        this.prodctService.referenceID = null
+        this.prodctService.creatingLeadId = this.passValue.leadId
+        this.router.navigateByUrl("/product-form")
+      }
+    })
   }
 
 }

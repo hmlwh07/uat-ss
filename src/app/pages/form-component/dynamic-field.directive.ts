@@ -44,6 +44,7 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit, AfterVie
   @Output() onEdit = new EventEmitter<number>();
 
   @Input() divBreaked: any = []
+  @Input() internalConfig: ConfigInput[] = []
 
   component: ComponentRef<Field>;
 
@@ -62,6 +63,7 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit, AfterVie
     if (this.component) {
       this.component.instance.config = this.config;
       this.component.instance.group = this.group;
+      this.component.instance.internalConfig = this.internalConfig;
       if (this.editStage) {
         if (this.config.break === "true") {
           let element: HTMLElement = <HTMLElement>this.component.location.nativeElement;
@@ -110,6 +112,7 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit, AfterVie
       this.component = this.container.createComponent(component);
       this.component.instance.config = this.config;
       this.component.instance.group = this.group;
+      this.component.instance.internalConfig = this.internalConfig;
       if (this.config.input == 'input' && this.config.type == 'nrc') {
         this.component.instance.isNrc = true
         this.component.instance.editStage = this.editStage

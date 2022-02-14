@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-report-common-search',
@@ -15,12 +15,12 @@ export class ReportCommonSearchComponent implements OnInit {
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
-    agents: [{ id: 1, agentName: 'Agent 1' }, { id: 2, agentName: 'Agent 2' }],
     companies: [],
     channels: [],
     regions: [],
     cluster: [],
-    branches: []
+    branches: [],
+    agents: [],
   }
 
   constructor(private cdf: ChangeDetectorRef) { }  
@@ -121,15 +121,14 @@ export class ReportCommonSearchComponent implements OnInit {
 
   loadForm() {
     this.createFormGroup = new FormGroup({
-      "id": new FormControl(null),
-      "fromDate": new FormControl(null),
-      "toDate": new FormControl(null),
-      "agentId": new FormControl(null),
-      "companyId": new FormControl(null),
-      "channelId": new FormControl(null),
-      "regionId": new FormControl(null),
-      "clusterId": new FormControl(null),
-      "branchId": new FormControl(null)
+      "fromDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "toDate": new FormControl('', [Validators.required, Validators.nullValidator]),
+      "agentId": new FormControl(''),
+      "companyId": new FormControl(''),
+      "channelId": new FormControl(''),
+      "regionId": new FormControl(''),
+      "clusterId": new FormControl(''),
+      "branchId": new FormControl('')
     });
   }
 
@@ -154,22 +153,15 @@ export class ReportCommonSearchComponent implements OnInit {
   }
 
   doValid(type) {
-    if (type == 'FromDate') {
-      let value = this.createFormGroup.controls['fromDate'].value;
-    }
-
-    if (type == 'ToDate') {
-      let value = this.createFormGroup.controls['toDate'].value;
-    }
-    console.log('doValid', this.createFormGroup.value.name);
+    
   }
 
   clearDate(type) {
     if (type == 'FromDate') {
-      this.createFormGroup.controls['fromDate'].setValue(null);
+      this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
-      this.createFormGroup.controls['toDate'].setValue(null);
+      this.createFormGroup.controls['toDate'].setValue('');
     }
   }
 

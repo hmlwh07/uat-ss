@@ -85,7 +85,7 @@
                                 <label class="col-sm-4 col-form-label">Date of Birth</label>
                                 <div class="col-sm-8">
                                     <div class="input-group input-group-sm ">
-                                        <input matInput class="form-control-sm" style="width: 100%;" formControlName="dateOfBirth" [class.is-invalid]="isControlInvalid('dateOfBirth')" [class.is-valid]="isControlValid('dateOfBirth')" [matDatepicker]="picker" readonly>
+                                        <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="dateOfBirth" [class.is-invalid]="isControlInvalid('dateOfBirth')" [class.is-valid]="isControlValid('dateOfBirth')" [matDatepicker]="picker" readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker disabled="false"></mat-datepicker>
 

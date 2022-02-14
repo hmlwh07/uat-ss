@@ -39,7 +39,7 @@
       </div>
     </div>
     <app-llp-analysis *ngSwitchDefault [aboutLLP]="aboutLLP" [customerId]="customerId" (change)="fnaEvent($event)"></app-llp-analysis>
-    <app-product-analysis [fnaId]="oldId" [customerId]="customerId" [product]="product" *ngSwitchCase="'product'"
+    <app-product-analysis [fnaId]="oldId" [customerId]="customerId" [passValue]="passValue" [product]="product" *ngSwitchCase="'product'"
       (changeProduct)="changeProduct($event)">
     </app-product-analysis>
     <app-education [fnaId]="oldId" [customerId]="customerId" [education]="education" *ngSwitchCase="'Education'"

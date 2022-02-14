@@ -1038,15 +1038,15 @@ export class LeadDetailComponent implements OnInit {
       }
       else if (event.cmd == 'view') {
         this.goQuoViewDetail(event.data);
-      }
-      else if (event.cmd == 'view') {
-        this.goQuoViewDetail(event.data);
+      }else if (event.cmd == 'create') {
+        this.createPolicy(event.data);
       }
     } else if (type == 'APP') {
       if (event.cmd == 'edit') {
         this.editApp(event.data);
-      } else if (event.cmd == 'create') {
-        this.createPolicy(event.data);
+      } 
+      else if (event.cmd == 'view') {
+        this.goAppViewDetail(event.data);
       }
     } else if (type == 'ATT') {
       if (event.cmd == 'download') {
@@ -1054,9 +1054,9 @@ export class LeadDetailComponent implements OnInit {
       }
       if (event.cmd == 'delete') {
         this.LeadAttachmentService.delete(event.data.id).toPromise().then((res) => {
-          if (res) {
+          // if (res) {
             this.getLeadAttachment()
-          }
+          // }
         })
       }
     }

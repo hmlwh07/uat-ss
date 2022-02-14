@@ -50,6 +50,8 @@
     "date-fns": "^2.28.0",
     "faker": "^6.6.6",
     "flatpickr": "^4.6.9",
+    "exceljs": "^1.12.0",
+    "file-saver": "^2.0.5",
     "highlight.js": "^10.4.0",
     "highlightjs-line-numbers.js": "^2.8.0",
     "jspdf": "^2.5.0",
@@ -61,12 +63,13 @@
     "ngx-currency": "^2.5.3",
     "ngx-highlightjs": "^4.1.3",
     "ngx-otp-input": "^0.9.1",
-    "ngx-perfect-scrollbar": "^9.0.0",
+    "ngx-perfect-scrollbar": "^10.1.1",
     "object-path": "^0.11.4",
     "perfect-scrollbar": "^1.5.0",
     "rxjs": "~7.4.0",
     "socicon": "^3.0.5",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

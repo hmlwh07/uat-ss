@@ -6,7 +6,7 @@
         <label class="col-sm-4 col-form-label ">Policy Effective Date</label>
         <div class="col-sm-6">
           <div class="input-group">
-            <input matInput class="form-control-sm" formControlName="startDate" [min]="fromMinDate" [max]="fromMaxDate"
+            <input matInput class="form-control-sm date-input" formControlName="startDate" [min]="fromMinDate" [max]="fromMaxDate"
               [matDatepicker]="picker" readonly (dateChange)="doValid()">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
@@ -20,7 +20,7 @@
         <label class="col-sm-4 col-form-label ">-</label>
         <div class="col-sm-6">
           <div class="input-group">
-            <input matInput class="form-control-sm" formControlName="endDate" [min]="toMinDate" [max]="toMaxDate"
+            <input matInput class="form-control-sm date-input" formControlName="endDate" [min]="toMinDate" [max]="toMaxDate"
               [matDatepicker]="picker2" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2 disabled="true"></mat-datepicker>
