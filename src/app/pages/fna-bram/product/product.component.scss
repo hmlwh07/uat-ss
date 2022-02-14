@@ -1,6 +1,7 @@
 .fna-bram-tab {
     width: 100%;
-    overflow: hidden;
+    overflow-x: scroll;
+    overflow-y: hidden;
     padding: 36px;
     margin: 0;
     table {
