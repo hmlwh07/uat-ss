@@ -194,19 +194,26 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
 
   cancelReport() {
     this.createFormGroup.reset();
-    this.selectOptions.companies = [];
     this.selectOptions.channels = [];
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
+    this.selectOptions.agents = [];
+    this.productsHeader = [];
+    this.branchDataList = [];
+    this.dataList = [];
+    this.totalDataList = [];
+    this.createFormGroup.value.fromDate = '';
+    this.createFormGroup.value.toDate = '';
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
     this.regionName = null;
     this.clusterName = null;
     this.branchName = null;
+    this.agentName = null;
+    this.cdf.detectChanges();
   }
-
 
   async changeOptions(ev, type) {
     if (type == 'company') {

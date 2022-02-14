@@ -53,3 +53,29 @@ table {
     top: 0;
     left: 49%;
 }
+.from-date {    
+    button {
+        padding: 0;
+        position: absolute;
+        right: 0;
+        width: auto;      
+        color: #FFFFFF;
+        background-color: #005f99;
+        border-color: #005f99;
+        height: 35px;
+        padding: 0 10px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 571px) {
+    .from-date {
+        position: relative;
+        .input-date {
+            width: 85%;
+        }
+        button {
+            top: 38px;
+        }
+    }
+}
+

@@ -193,20 +193,26 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     }
     this.exportService.exportExcel(reportData);
   }
-
   cancelReport() {
     this.createFormGroup.reset();
-    this.selectOptions.companies = [];
     this.selectOptions.channels = [];
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
+    this.selectOptions.agents = [];
+    this.displayList[0].particular = [];
+    this.displayList[0].policies = [];
+    this.displayList[0].premium = [];
+    this.createFormGroup.value.fromDate = '';
+    this.createFormGroup.value.toDate = '';
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
     this.regionName = null;
     this.clusterName = null;
     this.branchName = null;
+    this.agentName = null;
+    this.cdf.detectChanges();
   }
 
 
