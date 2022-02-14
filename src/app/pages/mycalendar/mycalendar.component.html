@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <div class="card card-custom gutter-b">
+        <!-- <div class="card card-custom gutter-b">
             <div class="card-header">
                 <div class="card-title">
                     <h3 class="card-label left-border-image">My Calendar</h3>
@@ -11,24 +11,26 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="card card-custom gutter-b">
             <div class="card-body px-3 py-3">
-                <div class="row text-center">
+                <div class="row ">
                     <div class="col-md-4">
                         <div class="btn-group">
-                            <div class="btn btn-primary " mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                            <div class="btn btn-primary " mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                                (viewDateChange)="closeOpenMonthViewDay()">
                                 Previous
                             </div>
                             <div class="btn btn-secondary " mwlCalendarToday [(viewDate)]="viewDate">
                                 Today
                             </div>
-                            <div class="btn btn-primary " mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                            <div class="btn btn-primary " mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                                (viewDateChange)="closeOpenMonthViewDay()">
                                 Next
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 text-center">
                         <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
                     </div>
                     <!-- <div class="col-md-4">
@@ -49,7 +51,9 @@
                 <br />
 
                 <div [ngSwitch]="view">
-                    <mwl-calendar-month-view *ngSwitchCase="calendarView.Month" [cellTemplate]="customCellTemplate" [events]="events" [viewDate]="viewDate" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+                    <mwl-calendar-month-view *ngSwitchCase="calendarView.Month" [cellTemplate]="customCellTemplate"
+                        [events]="events" [viewDate]="viewDate" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+                        (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
                         (eventTimesChanged)="eventTimesChanged($event)">
                     </mwl-calendar-month-view>
                     <!-- <mwl-calendar-week-view *ngSwitchCase="calendarView.Week" [events]="events" [viewDate]="viewDate" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
@@ -57,21 +61,27 @@
                     <mwl-calendar-day-view *ngSwitchCase="calendarView.Day" [events]="events" [viewDate]="viewDate" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
                     </mwl-calendar-day-view> -->
                 </div>
-                <ng-template #customCellTemplate let-day="day" let-openDay="openDay" let-locale="locale" let-tooltipPlacement="tooltipPlacement" let-highlightDay="highlightDay" let-unhighlightDay="unhighlightDay" let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate"
-                    let-tooltipAppendToBody="tooltipAppendToBody" let-tooltipDelay="tooltipDelay" let-trackByEventId="trackByEventId" let-validateDrag="validateDrag">
+                <ng-template #customCellTemplate let-day="day" let-openDay="openDay" let-locale="locale"
+                    let-tooltipPlacement="tooltipPlacement" let-highlightDay="highlightDay"
+                    let-unhighlightDay="unhighlightDay" let-eventClicked="eventClicked"
+                    let-tooltipTemplate="tooltipTemplate" let-tooltipAppendToBody="tooltipAppendToBody"
+                    let-tooltipDelay="tooltipDelay" let-trackByEventId="trackByEventId" let-validateDrag="validateDrag">
                     <div class="cal-cell-top">
                         <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{
-                day.badgeTotal
-              }}</span>
+                            day.badgeTotal
+                            }}</span>
                         <span class="cal-day-number">{{
-                day.date | calendarDate: 'monthViewDayNumber':locale
-              }}</span>
+                            day.date | calendarDate: 'monthViewDayNumber':locale
+                            }}</span>
                     </div>
                     <div class="cal-events" *ngIf="day.events.length > 0">
-                        <div class="cal-event" *ngFor="let event of day.events | slice:0:showAll ? undefined :3; trackBy: trackByEventId" [ngStyle]="{ backgroundColor: event.color?.primary }" (mwlClick)="eventClicked.emit({ event: event })"></div>
-                        <span class="cal-day-badge" *ngIf="day.events.length > 3">
-                + {{ day.events.length - 3 }} 
-              </span>
+                        <div class="cal-event"
+                            *ngFor="let event of day.events | slice:0:showAll ? undefined :20; trackBy: trackByEventId"
+                            [ngStyle]="{ backgroundColor: event.color?.primary }"
+                            (mwlClick)="eventClicked.emit({ event: event })"></div>
+                        <span class="cal-day-badge" *ngIf="day.events.length > 20">
+                            + {{ day.events.length - 20 }}
+                        </span>
                     </div>
                 </ng-template>
 

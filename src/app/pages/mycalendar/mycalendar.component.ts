@@ -143,9 +143,9 @@ export class MycalendarComponent implements OnInit {
           return {
             start: new Date(data.planDate),
             end:  new Date(data.dueDate),
-            title: data.activityTitle,
+            title: data.activityTitle + "( " + data.activityType + " )",
             color: actColor,
-            activityNo:data.activityNo,
+            meta:data.activityNo,
             actions: this.actions,
           }
         })
@@ -192,7 +192,7 @@ export class MycalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
-    this.navigateToDetail('edit', event.activityNo)
+    this.navigateToDetail('edit', event.meta)
   }
 
   navigateToDetail(data, id?: string) {

@@ -768,3 +768,14 @@ kbz-loading {
 .form-group.row{
     align-items: center;
 }
+.cal-month-view .cal-cell-top {
+    min-height: 50px !important;
+    height: 50px !important;
+}
+.cal-month-view .cal-open-day-events{
+    background-color: white;
+    color: #404040;
+}
+.cal-month-view .cal-day-cell {
+    min-height: 80px;
+}
