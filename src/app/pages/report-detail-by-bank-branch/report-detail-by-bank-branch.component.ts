@@ -182,6 +182,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
 
   cancelReport() {
     this.createFormGroup.reset();
+    this.loadForm();
     this.selectOptions.channels = [];
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
@@ -189,8 +190,6 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     this.selectOptions.agents = [];
     this.productList = [];
     this.dataList = [];
-    this.createFormGroup.value.fromDate = '';
-    this.createFormGroup.value.toDate = '';
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
@@ -198,6 +197,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     this.clusterName = null;
     this.branchName = null;
     this.agentName = null;
+    this.isData = false;
     this.cdf.detectChanges();
   }
 

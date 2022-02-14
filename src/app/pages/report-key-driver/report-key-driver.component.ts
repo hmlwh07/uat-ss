@@ -223,6 +223,7 @@ export class ReportKeyDriverComponent implements OnInit {
 
   cancelReport() {
     this.createFormGroup.reset();
+    this.loadForm();
     this.selectOptions.channels = [];
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
@@ -232,8 +233,6 @@ export class ReportKeyDriverComponent implements OnInit {
     this.totalPremium = 0;
     this.totalProductDistribution = 0;
     this.totalAverageCaseSize = 0;
-    this.createFormGroup.value.fromDate = '';
-    this.createFormGroup.value.toDate = '';
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
@@ -241,6 +240,7 @@ export class ReportKeyDriverComponent implements OnInit {
     this.clusterName = null;
     this.branchName = null;
     this.agentName = null;
+    this.isData = false;
     this.cdf.detectChanges();
   }
 

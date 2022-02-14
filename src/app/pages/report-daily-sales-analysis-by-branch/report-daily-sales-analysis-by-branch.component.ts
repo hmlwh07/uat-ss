@@ -307,14 +307,13 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
 
   cancelReport() {
     this.createFormGroup.reset();
+    this.loadForm();
     this.selectOptions.channels = [];
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
     this.selectOptions.agents = [];
     this.displayList = [];
-    this.createFormGroup.value.fromDate = '';
-    this.createFormGroup.value.toDate = '';
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
@@ -322,6 +321,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     this.clusterName = null;
     this.branchName = null;
     this.agentName = null;
+    this.isData = false;
     this.cdf.detectChanges();
   }
 
