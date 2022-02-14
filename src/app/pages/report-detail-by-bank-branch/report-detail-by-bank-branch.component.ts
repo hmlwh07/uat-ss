@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportDetailBankBranchExportService } from './report-detail-by-bank-branch-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-detail-by-bank-branch.const';
@@ -12,7 +12,7 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-detail-by-bank-branch.const
 })
 export class ReportDetailByBankBranchComponent implements OnInit {
   createFormGroup: FormGroup;
-  title= "Bank Branch Sale Report"
+  title = "Bank Branch Sale Report"
   fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
   fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
   toMaxDate: { year: number; month: number; day: number; };
@@ -71,6 +71,9 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.productList = [];
+    this.dataList = [];
+    
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -110,6 +113,8 @@ export class ReportDetailByBankBranchComponent implements OnInit {
               }
             }
             console.log('dataList', this.dataList);
+          }else {
+            this.isData = false
           }
         }
       });
@@ -120,6 +125,9 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   generateReportExcel() {
     console.log('generateReportExcel ', this.reports);
     this.productValues = []
+    this.subHeader = [];
+    this.dataExcel = [];
+
     for (var i = 0; i < this.productList.length; i++) {
       this.productValues.push(this.productList[i].name)
     }
@@ -362,7 +370,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+   // this.getAllReports();
   }
 
   clearDate(type) {
@@ -373,7 +381,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
       this.createFormGroup.controls['toDate'].setValue('');
     }
 
-    this.isData = false; 
+    this.isData = false;
     this.dataList = [];
     this.productList = []
   }

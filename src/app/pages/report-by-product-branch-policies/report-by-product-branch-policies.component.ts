@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportProductBranchPoliciesExportService } from './report-by-product-branch-policies-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-branch-policies.const';
@@ -59,6 +59,9 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.productsHeader = [];
+    this.dataList = [];
+    this.totalDataList = [];
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -67,10 +70,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('policyProductBranch', res);
         if (res) {
-          if (res.products.length > 0) {
-            this.isData = true;
-            // this.productsHeader.push({ id: null, name: 'No.' });
-            // this.productsHeader.push({ id: null, name: 'Branch' });
+          if (res.products.length > 0) {  
             res.products = JSON.parse(JSON.stringify([...new Map(res.products.map(item => [item.id, item])).values()]));
             for (var i = 0; i < res.products.length; i++) {
               if (res.products[i].name) {
@@ -80,6 +80,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
 
           if (res.dataList.length > 0) {
+            this.isData = true;
             let countNo: number = 0;
             this.dataList = res.dataList;
             // make table
@@ -119,7 +120,8 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
                 }
               }
             }
-
+          } else {
+            this.isData = false;
           }
 
         }
@@ -133,6 +135,8 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+    let totalValue = [];
+
     this.productValues.push('No.');
     this.productValues.push('Branch');
     for (var i = 0; i < this.productsHeader.length; i++) {
@@ -149,7 +153,6 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
       this.branchDataForExcel.push(list)
     }
 
-    let totalValue = [];
     totalValue.push('');
     totalValue.push('Total');
     for (var i = 0; i < this.totalDataList.length; i++) {
@@ -374,7 +377,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

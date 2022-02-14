@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportKeyDriverExportService } from './report-key-driver-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-key-driver.const';
@@ -40,6 +40,20 @@ export class ReportKeyDriverComponent implements OnInit {
   subHeader = [];
   dataExcel = [];
   isData: boolean = false;
+  displayDataList = [];
+  totalAverageCaseSize: number = 0;
+  totalProductDistribution: number = 0;
+  roundTotalProductDistribution: string;
+  roundTotalAverageCaseSize: string;
+  totalNewBusinessCase: number = 0;
+  totalPremium: number = 0;
+  keyDriver: any;
+  activeRatio: string;
+  title: string = 'Key Driver Report';
+  productivity: any;
+  channelProductivity: string;
+  anpCaseSize: string;
+  monthlyCaseSize: string;
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportKeyDriverExportService) { }
@@ -48,44 +62,6 @@ export class ReportKeyDriverComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      this.reports[i].id = i
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
-
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
-
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-          }
-        }
-      }
-    }
-
-    console.log('report ', this.reports);
-
   }
 
   async getOfficeHirearchy() {
@@ -97,72 +73,113 @@ export class ReportKeyDriverComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.totalNewBusinessCase = 0;
+    this.totalPremium = 0;
+    this.totalProductDistribution = 0;
+    this.totalAverageCaseSize = 0;
+
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        if (res.length > 0) {
-          this.reports = res;
-          this.isData = true;
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = [];
-            for (var j = 0; j < this.reports[i].products.length; j++) {
-              this.reports[i].products[j].id = i
-              this.reports[i].products[j].noOfPolicies = null;
-              this.reports[i].products[j].premium = null;
-              this.products.push(this.reports[i].products[j]);
+        console.log('keyDriver', res);
+        if (res.datum) {
+          this.keyDriver = res.datum
+          if (res.datum.productsList.length > 0) {
+            this.isData = true;
+            for (var i = 0; i < res.datum.productsList.length; i++) {
+              this.totalNewBusinessCase += res.datum.productsList[i].pcount;
+              this.totalPremium += res.datum.productsList[i].premium;
             }
+            for (var i = 0; i < res.datum.productsList.length; i++) {
+              let obj = {
+                product: res.datum.productsList[i].pcode,
+                newBusinessCase: res.datum.productsList[i].pcount,
+                newBusinessPremium: res.datum.productsList[i].premium,
+                productDistribution: this.productDistribution(res.datum.productsList[i].pcount, this.totalNewBusinessCase),
+                averageCaseSize: this.averageCaseSize(res.datum.productsList[i].premium, res.datum.productsList[i].pcount)
 
-            for (var k = 0; k < this.reports[i].policies.length; k++) {
-              this.reports[i].policies[k].id = i
-              this.policies.push(this.reports[i].policies[k]);
-            }
-          }
-
-          this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-          for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-          }
-
-          for (var i = 0; i < this.reports.length; i++) {
-            for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-              for (var k = 0; k < this.reports[i].policies.length; k++) {
-                if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-                  this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-                  this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-                }
               }
+              this.displayDataList.push(obj);
             }
+            this.roundTotalProductDistribution = this.mathRoundTo(this.totalProductDistribution, 2)
+            this.roundTotalProductDistribution = this.mathRoundTo(this.totalProductDistribution, 2)
+            this.roundTotalAverageCaseSize = this.mathRoundTo(this.totalAverageCaseSize, 2)
+
+            if (this.keyDriver.manPower) {
+              this.activeRatio = this.mathRoundTo(this.keyDriver.activeManPower / this.keyDriver.manPower, 2);
+            }
+
+            if (this.keyDriver.activeManPower) {
+              this.productivity = this.mathRoundTo(this.totalNewBusinessCase / this.keyDriver.activeManPower, 2)
+            }
+
+            if (this.keyDriver.manPower) {
+              this.channelProductivity = this.mathRoundTo(this.totalNewBusinessCase / this.keyDriver.manPower, 2)
+            }
+
+            if (this.totalNewBusinessCase != 0) {
+              this.anpCaseSize = this.mathRoundTo(this.totalPremium / this.totalNewBusinessCase, 2)
+            }
+
+            if (this.totalNewBusinessCase != 0) {
+              this.monthlyCaseSize = this.mathRoundTo((this.totalPremium / 12) / this.totalNewBusinessCase, 2)
+            }
+          }else {
+            this.isData = false
           }
-          console.log('report ', this.reports);
         }
       });
     }
     this.cdf.detectChanges();
   }
 
-  generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
-    this.productValues = []
-    for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+  productDistribution(newBusinessCase, totalNewBusinessCase) {
+    let returnValue: any;
+    if (totalNewBusinessCase != 0) {
+      returnValue = this.mathRoundTo(newBusinessCase * 100 / totalNewBusinessCase, 2);
+    } else {
+      returnValue = 0;
     }
+    this.totalProductDistribution += Number(returnValue);
+    return returnValue;
+  }
 
-    // Sub Header
-    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
-    for (var i = 0; i < this.productList.length; i++) {
-      this.subHeader.push("No of Policies");
-      this.subHeader.push("Premium");
+  averageCaseSize(premium, newBusinessCase) {
+    let returnValue: any;
+    if (newBusinessCase != 0) {
+      returnValue = this.mathRoundTo(premium / newBusinessCase, 2);
+    } else {
+      returnValue = 0;
     }
+    this.totalAverageCaseSize += Number(returnValue);
+    return returnValue;
+  }
+
+  calculateDivision(value, divided) {
+    let returnValue: any;
+    if (divided != 0) {
+      returnValue = this.mathRoundTo(value / divided, 2);
+    } else {
+      returnValue = 0;
+    }
+    return returnValue;
+  }
+
+  generateReportExcel() {
+    this.dataExcel = [];
+    this.productValues = ['Product', 'New Business Case', 'New Business Premium	',
+      'Product Distribution', 'Average Case Size'];
 
     // Data
-    for (var i = 0; i < this.reports.length; i++) {
-      let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
-      }
-      this.dataExcel.push(list)
+    for (var i = 0; i < this.displayDataList.length; i++) {
+      this.dataExcel.push([
+        this.displayDataList[i].product,
+        this.displayDataList[i].newBusinessCase,
+        this.displayDataList[i].newBusinessPremium,
+        this.displayDataList[i].productDistribution,
+        this.displayDataList[i].averageCaseSize,
+      ]);
     }
 
     let fromDate = null;
@@ -175,7 +192,7 @@ export class ReportKeyDriverComponent implements OnInit {
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title,
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -188,7 +205,18 @@ export class ReportKeyDriverComponent implements OnInit {
       ],
       products: this.productValues,
       subHeader: this.subHeader,
-      data: this.dataExcel
+      data: this.dataExcel,
+      totalNewBusinessCase: this.totalNewBusinessCase,
+      totalPremium: this.totalPremium,
+      roundTotalProductDistribution: this.roundTotalProductDistribution,
+      roundTotalAverageCaseSize: this.roundTotalAverageCaseSize,
+      manPower: this.keyDriver.manPower,
+      activeManPower: this.keyDriver.activeManPower,
+      activeRatio: this.activeRatio,
+      productivity: this.productivity,
+      channelProductivity: this.channelProductivity,
+      anpCaseSize: this.anpCaseSize,
+      monthlyCaseSize: this.monthlyCaseSize
     }
     this.exportService.exportExcel(reportData);
   }
@@ -381,7 +409,7 @@ export class ReportKeyDriverComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    //this.getAllReports();
   }
 
   clearDate(type) {

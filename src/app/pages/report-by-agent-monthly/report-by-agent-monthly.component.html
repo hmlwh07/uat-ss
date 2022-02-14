@@ -6,12 +6,17 @@
                     <h3 class="card-label left-border-image">By Agent Monthly</h3>
                 </div>
                 <div class="card-toolbar">
+                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;"
+                        (click)="getAllReports()">
+                        <span class="flaticon2-magnifier-tool"></span>
+                    </button>
                     <button type="button" [disabled]="!isData" (click)="generateReportExcel()"
                         class="btn btn-primary ml-2" style="min-width: 50px;">
                         <span class="">Generate</span>
                     </button>
-                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;">
-                        <span class="" (click)="cancelReport()">Cancel</span>
+                    <button type="button" (click)="cancelReport()" class="btn btn-primary ml-2"
+                        style="min-width: 50px;">
+                        <span class="">Cancel</span>
                     </button>
                 </div>
             </div>
@@ -179,19 +184,24 @@
         overflow-y: hidden;
         overflow-x: scroll;">
             <table border="1">
-                <tr style="border-top: 1px solid #000;" *ngIf="productsHeader.length > 0">
-                    <th *ngFor="let product of productsHeader; let i = index">{{ product.name }}</th>
+                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
+                    <th>Agent Name</th>
+                    <th>Branch Name</th>
+                    <th>Activities</th>
+                    <th>Target</th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.headerMonthName }}</th>
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">
                     <td>{{ data.agentName }}</td>
                     <td>{{ data.branchName }}</td>
                     <td>{{ data.activitiesName }}</td>
-                    <td>{{ data.target }}</td>
-                    <td *ngFor="let policy of dataList[i].productDataList; let j = index; ">
-                        {{ data.value }}
+                    <td>{{ data.totalTargetValue }}</td>
+                    <td *ngFor="let monthly of dataList[i].productDataList; let j = index; ">{{ monthly.monthlyValue }}
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 </div>
+
+<div *ngIf="!isData" style="color: gray; text-align: center;"> There is no data </div>

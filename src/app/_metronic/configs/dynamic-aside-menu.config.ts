@@ -72,7 +72,7 @@ export const DynamicAsideMenuConfig = {
     //   page: '/fna/fna-list',
     //   bullet: 'dot',
     //   show: true,
-    //   submenu: [        
+    //   submenu: [
     //     {
     //       title: 'FNA List',
     //       page: '/fna/fna-list',
@@ -218,12 +218,12 @@ export const DynamicAsideMenuConfig = {
       submenu_show: true,
       submenu: [
         {
-          title: '#Detail Report by agent all​',
+          title: '#Detail Report by agent all',
           page: 'report/report-detail-by-agent',
           show: true
         },
         {
-          title: '#Detail Report by bank branch​',
+          title: '#Detail Report by bank branch',
           page: 'report/report-detail-by-bank-branch',
           show: true
         },
@@ -296,11 +296,9 @@ export const DynamicAsideMenuConfig = {
           title: 'Key Driver Report',
           page: 'report/report-key-driver',
           show: true
-        },
-
+        }
       ]
     },
-
     {
       title: 'Setting',
       root: true,

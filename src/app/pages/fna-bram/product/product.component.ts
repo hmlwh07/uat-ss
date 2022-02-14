@@ -144,6 +144,7 @@ export class ProductComponent implements OnInit {
     let nameList = []
     //472
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
+      console.log('getAllProductRec', res);
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
         this.isData = true;
@@ -173,8 +174,9 @@ export class ProductComponent implements OnInit {
             this.totalHighMonthlyRate = totalHighMonthlyRate
           }
 
-          if (res.highRisk[i].product == 'Fire' || res.highRisk[i].product == 'Motor' ||
-            res.highRisk[i].product == 'Personal Accident') {
+          // Fire, Motor, Personal Accident
+          if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' ||
+            res.highRisk[i].productCode == 'PLPA01' || res.highRisk[i].productCode == 'PCPA01') {
             res.highRisk[i].action = 'Buy';
           } else {
             res.highRisk[i].action = '';
@@ -207,12 +209,15 @@ export class ProductComponent implements OnInit {
             res.lessRisk[i].monthlyRate = Number(res.lessRisk[i].monthlyRate);
             totalLessMonthlyRate += res.lessRisk[i].monthlyRate
           }
-          if (res.lessRisk[i].product == 'Fire' || res.lessRisk[i].product == 'Motor' ||
-            res.lessRisk[i].product == 'Personal Accident') {
+
+           // Fire, Motor, Personal Accident
+          if (res.lessRisk[i].productCode == 'CLFR01' || res.lessRisk[i].productCode == 'PLMO02' ||
+            res.lessRisk[i].productCode == 'PLPA01' || res.lessRisk[i].productCode == 'PCPA01') {
             res.lessRisk[i].action = 'Buy';
           } else {
             res.lessRisk[i].action = '';
           }
+
         }
       } else {
         res.lessRisk = []
@@ -302,12 +307,13 @@ export class ProductComponent implements OnInit {
         this.totalGrantAnnualRate = totalGrantAnnualRate;
         this.totalGrantMonthlyRate = totalGrantMonthlyRate;
 
-        if (this.grantTotalList[i].product == 'Fire' || this.grantTotalList[i].product == 'Motor' ||
-          this.grantTotalList[i].product == 'Personal Accident') {
+        if (this.grantTotalList[i].productCode == 'CLFR01' || this.grantTotalList[i].productCode == 'PLMO02' ||
+          this.grantTotalList[i].productCode == 'PLPA01' ||  this.grantTotalList[i].productCode == 'PCPA01') {
           this.grantTotalList[i].action = 'Buy';
         } else {
           this.grantTotalList[i].action = '';
         }
+
 
         let data = {
           packageOffer: packageOffer, product: [

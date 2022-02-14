@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportProductSalesChannelPoliciesExportService } from './report-by-product-sales-channel-policies-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-sales-channel-policies.const';
@@ -69,18 +69,18 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
     } else {
       this.productsHeader = [];
       this.branchDataList = [];
+      this.dataList = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('policyProductBranch', res);
         if (res) {
           if (res.products.length > 0) {
-            this.isData = true;
             for (var i = 0; i < res.products.length; i++) {
               this.productsHeader.push({ id: res.products[i].id, name: res.products[i].name })
             }
           }
 
           if (res.dataList.length > 0) {
-            this.isData = true;            
+            this.isData = true;
             this.dataList = res.dataList;
             let countNo: number = 0;
             for (var i = 0; i < this.dataList.length; i++) {
@@ -103,6 +103,8 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
               }
             }
             console.log('dataList', this.dataList);
+          } else {
+            this.isData = false
           }
         }
       });
@@ -121,12 +123,6 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
       this.productValues.push(this.productsHeader[i].name)
     }
 
-    // Data For Excel
-    // let countSrNo: number = 0;
-    // for (var i = 0; i < this.dataList.length; i++) {
-    //   countSrNo += 1;
-    //   this.branchDataForExcel.push([countSrNo, this.dataList[i].month])
-    // }
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
       list.push(i + 1, this.dataList[i].month)
@@ -135,8 +131,6 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
       }
       this.branchDataForExcel.push(list)
     }
-
-
 
 
     let fromDate = null;
@@ -355,7 +349,7 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    // this.getAllReports();
   }
 
   clearDate(type) {

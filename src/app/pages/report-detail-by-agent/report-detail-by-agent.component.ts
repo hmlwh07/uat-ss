@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { CONSTANT_AGENT_REPORT_DATA, ReportIdentityType, ReportStatus } from './report-detail-by-agent.const';
 import * as XLSX from 'xlsx';
 import { ReportDetailAgentExportService } from './report-detail-by-agent-export.service';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 
 @Component({
   selector: 'app-report-detail-by-agent',
@@ -64,6 +64,10 @@ export class ReportDetailByAgentComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.productList = [];
+    this.dataList = [];
+    this.totalDataList = [];
+
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -112,6 +116,8 @@ export class ReportDetailByAgentComponent implements OnInit {
                 }
               }
             }
+          }else{
+            this.isData = false;
           }
         }
       });
@@ -122,6 +128,9 @@ export class ReportDetailByAgentComponent implements OnInit {
   generateReportExcel() {
     console.log('generateReportExcel ', this.reports);
     this.productValues = []
+    this.subHeader = [];
+    this.dataExcel = [];
+
     for (var i = 0; i < this.productList.length; i++) {
       this.productValues.push(this.productList[i].name)
     }
@@ -321,11 +330,7 @@ export class ReportDetailByAgentComponent implements OnInit {
         this.agentName = ev.agentName
       }
     }
-
-
     this.cdf.detectChanges()
-
-
   }
 
   loadForm() {
@@ -362,7 +367,7 @@ export class ReportDetailByAgentComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+   // this.getAllReports();
   }
 
   clearDate(type) {
