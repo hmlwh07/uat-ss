@@ -10,6 +10,7 @@ import { MycalendarComponent } from './mycalendar.component';
 import { CalendarModule,DateAdapter } from 'angular-calendar';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ActivityManagementListModule } from '../activity-management-list/activity-management-list.module';
 @NgModule({
  imports: [
     CommonModule,
@@ -19,6 +20,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     CRUDTableModule,
     NgbDatepickerModule,
     NgSelectModule,
+    // ActivityManagementListModule,
     RouterModule.forChild([
       {
         path: '',
