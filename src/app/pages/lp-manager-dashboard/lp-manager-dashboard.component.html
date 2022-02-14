@@ -7,7 +7,7 @@
             <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
             <br>
             <label class="text-dark center">{{ data.agentInfo.employeeName }}</label><br>
-            <label class="text-dark center">Senior LP Manager</label>
+            <label class="text-dark center">LP Manager</label>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
      
       <div style="margin-top: 10px;">
         <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
-          <div class="my-profile-card" (click)="goToLPManager(agent)">
+          <div class="my-profile-card" (click)="goToLPDashboard(agent)">
             <div class="flex">
               <div>
                 <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
@@ -67,14 +67,6 @@
                 </div>
                 <div>
                   <span>{{ agent.premium }} MMK</span>
-                </div>
-              </div>
-              <div class="my-border-left ml-4 pl-2">
-                <div>
-                  <span>Team</span>
-                </div>
-                <div>
-                  <span>{{ agent.teamPremium }} MMK</span>
                 </div>
               </div>
             </div>
@@ -89,6 +81,7 @@
       <span>LEADS CONVERSION - Yangon Branch</span>
       <h5>{{ leadObj.leadWinRate }} %</h5>
       <div id="chart">
+        Chart
         <apx-chart
           [series]="chartOptions.series"
           [chart]="chartOptions.chart"

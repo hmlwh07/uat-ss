@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
-import { SeniorLpDashboardComponent } from './senior-lp-dashboard.component';
+import { LpManagerDashboardComponent } from './lp-manager-dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponentModule } from '../form-component/form-component.module';
@@ -10,7 +10,7 @@ import { ColumnChartModule } from './../_column-chart/column-chart.component.mod
 import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
-  declarations: [SeniorLpDashboardComponent],
+  declarations: [LpManagerDashboardComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -23,10 +23,10 @@ import { NgApexchartsModule } from "ng-apexcharts";
     RouterModule.forChild([
       {
         path: '',
-        component: SeniorLpDashboardComponent,
+        component: LpManagerDashboardComponent,
       },
     ]),
   ],
   providers: [DatePipe, DecimalPipe]
 })
-export class SeniorLpDashboardModule { }
+export class LpManagerDashboardModule { }

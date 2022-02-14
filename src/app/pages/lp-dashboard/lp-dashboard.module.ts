@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
-import { SeniorLpDashboardComponent } from './senior-lp-dashboard.component';
+import { LpDashboardComponent } from './lp-dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponentModule } from '../form-component/form-component.module';
 import { RouterModule } from '@angular/router';
 import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew.module';
-import { ColumnChartModule } from './../_column-chart/column-chart.component.module';
-import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
-  declarations: [SeniorLpDashboardComponent],
+  declarations: [LpDashboardComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,15 +16,13 @@ import { NgApexchartsModule } from "ng-apexcharts";
     NgbModalModule,
     FormComponentModule,
     StaticPagesViewModule,
-    ColumnChartModule,
-    NgApexchartsModule,
     RouterModule.forChild([
       {
         path: '',
-        component: SeniorLpDashboardComponent,
+        component: LpDashboardComponent,
       },
     ]),
   ],
   providers: [DatePipe, DecimalPipe]
 })
-export class SeniorLpDashboardModule { }
+export class LpDashboardModule { }

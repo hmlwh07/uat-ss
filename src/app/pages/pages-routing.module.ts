@@ -8,6 +8,20 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
+        path: 'dashboard/lp-dashboard',
+        loadChildren: () =>
+          import('./lp-dashboard/lp-dashboard.module').then(
+            (m) => m.LpDashboardModule
+          ),
+      },
+      {
+        path: 'dashboard/lp-manager-dashboard',
+        loadChildren: () =>
+          import('./lp-manager-dashboard/lp-manager-dashboard.module').then(
+            (m) => m.LpManagerDashboardModule
+          ),
+      },
+      {
         path: 'dashboard/senior-lp-dashboard',
         loadChildren: () =>
           import('./senior-lp-dashboard/senior-lp-dashboard.module').then(

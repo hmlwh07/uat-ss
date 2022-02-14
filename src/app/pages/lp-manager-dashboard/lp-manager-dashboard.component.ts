@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import {
@@ -13,7 +13,7 @@ import {
   ApexGrid
 } from 'ng-apexcharts';
 
-import { DashboardService } from './senior-lp-dashboard.service';
+import { DashboardService } from './../senior-lp-dashboard/senior-lp-dashboard.service';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
@@ -39,15 +39,15 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-senior-lp-dashboard',
-  templateUrl: './senior-lp-dashboard.component.html',
-  styleUrls: ['./senior-lp-dashboard.component.scss']
+  selector: 'app-lp-manager-dashboard',
+  templateUrl: './lp-manager-dashboard.component.html',
+  styleUrls: ['./lp-manager-dashboard.component.scss']
 })
-export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
+
+export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  public chartOptions: Partial<ChartOptions>; 
   data: any;
-  authObj: any;
   actForm: FormGroup;
   leadObj = {
     leadWinRate: 56,
@@ -56,20 +56,14 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     taskToday: 15,
     leadToday: 58
   };
-  unsub: any;
-
-  constructor(public auth: AuthService, private dashboardService: DashboardService,private router : Router
-  ) {
-    this.unsub = this.auth.currentUserSubject.subscribe((res) => {
-      if (res) {
-        this.authObj = res;
-      }
-    })
-
-    this.loadForm();
+  id: any;
+  constructor(private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
+    this.route.queryParams.subscribe(async params => {
+      this.id = JSON.parse(params.empId);
+      this.loadForm();
+    });
     this.setChartOptions();
   }
-
 
   async ngOnInit() {
     this.getList();
@@ -78,8 +72,8 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
 
   loadForm() {
     this.actForm = new FormGroup({
-      "empId": new FormControl(this.authObj.id)
-    })
+      "empId": new FormControl(this.id)
+    });
   }
 
   getList() {
@@ -92,11 +86,10 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsub.unsubscribe();
   }
 
-  goToLPManager(agent: any) {
-    this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId : agent.empId } })
+  goToLPDashboard(agent: any) {
+    this.router.navigate(['/dashboard/lp-dashboard'], { queryParams: { empId: agent.empId } })
   }
 
   setChartOptions(){
@@ -165,3 +158,4 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     };
   }
 }
+
