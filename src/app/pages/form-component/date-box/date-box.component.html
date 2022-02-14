@@ -8,7 +8,7 @@
         [formControlName]="config.name" /> -->
         <!-- <mat-form-field class="form-control-sm" appearance="fill"> -->
         <div class="input-group ">
-          <input matInput class="form-control-sm" [formControlName]="config.name" [min]="fromMinDate"
+          <input matInput class="form-control-sm date-input" [formControlName]="config.name" [min]="fromMinDate"
             [max]="fromMaxDate" [matDatepicker]="picker" readonly>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker disabled="{{isDisabled}}"></mat-datepicker>
@@ -33,7 +33,7 @@
           [formControlName]="config.name" /> -->
           <!-- <mat-form-field appearance="fill"> -->
           <div class="input-group ">
-            <input matInput class="form-control-sm" [formControlName]="config.name" [min]="fromMinDate"
+            <input matInput class="form-control-sm date-input" [formControlName]="config.name" [min]="fromMinDate"
               [max]="fromMaxDate" [matDatepicker]="picker" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="{{isDisabled}}"></mat-datepicker>
@@ -72,7 +72,7 @@
               </div>
             </div> -->
             <div class="input-group">
-              <input matInput class="form-control-sm" [formControlName]="config.name" [min]="fromMinDate"
+              <input matInput class="form-control-sm date-input" [formControlName]="config.name" [min]="fromMinDate"
                 [max]="fromMaxDate" [matDatepicker]="picker" (dateChange)="doValid()" readonly>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker disabled="{{isDisabled}}"></mat-datepicker>
@@ -96,7 +96,7 @@
               </div>
               <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error> -->
               <div class="input-group">
-                <input matInput class="form-control-sm" [formControlName]="config.name" [min]="fromMinDate"
+                <input matInput class="form-control-sm date-input" [formControlName]="config.name" [min]="fromMinDate"
                   [max]="fromMaxDate" [matDatepicker]="picker" (dateChange)="doValid()" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker disabled="{{isDisabled}}"></mat-datepicker>
@@ -123,7 +123,7 @@
             </div> -->
             <!-- <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error> -->
             <div class="input-group">
-              <input matInput class="form-control-sm" [formControlName]="config.endName" [min]="toMinDate"
+              <input matInput class="form-control-sm date-input" [formControlName]="config.endName" [min]="toMinDate"
                 [max]="toMaxDate" [matDatepicker]="picker2" readonly>
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2 disabled="true"></mat-datepicker>
@@ -132,7 +132,7 @@
           <ng-template #InlineForm2>
             <div class="col-{{config.inputSize}}">
               <div class="input-group">
-                <input matInput class="form-control-sm" [formControlName]="config.endName" [min]="toMinDate"
+                <input matInput class="form-control-sm date-input" [formControlName]="config.endName" [min]="toMinDate"
                   [max]="toMaxDate" [matDatepicker]="picker2" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2 disabled="true"></mat-datepicker>

@@ -55,7 +55,7 @@
 
             <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef> Action</th>
-                <td mat-cell *matCellDef="let data" (click)="buyProduct(data.action)"
+                <td mat-cell *matCellDef="let data" (click)="buyProduct(data)"
                     [ngClass]="data.packageOffer.toLowerCase().split(' ').join('-')" style="color: #005f99 !important;">
                     {{
                     data.action

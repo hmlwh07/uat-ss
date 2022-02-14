@@ -23,7 +23,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">From Date</label>
                                 <div class="col-sm-6">
-                                    <input type="text" readonly class="form-control form-control-sm"
+                                    <input type="text" readonly class="form-control form-control-sm date-input"
                                         formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
                                         [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -39,7 +39,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">To Date</label>
                                 <div class="col-sm-6">
-                                    <input type="text" readonly class="form-control form-control-sm"
+                                    <input type="text" readonly class="form-control form-control-sm date-input"
                                         formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
                                         [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

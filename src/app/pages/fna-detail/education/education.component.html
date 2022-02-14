@@ -35,7 +35,7 @@
             <div class="col-7">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" readonly class="form-control form-control-sm" formControlName="dateOfBirth"
+                        <input type="text" readonly class="form-control form-control-sm date-input" formControlName="dateOfBirth"
                             [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker" (dateChange)="doValid()"
                             autocomplete="off" [class.is-invalid]="isControlInvalid('dateOfBirth')"
                             [class.is-valid]="isControlValid('dateOfBirth')">

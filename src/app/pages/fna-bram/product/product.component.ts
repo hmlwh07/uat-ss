@@ -1,11 +1,16 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { ProductService } from './product.manage.service';
+import { FNAProductService } from './product.manage.service';
 import { FANService } from '../../fna-detail/fna-manage.service';
 import 'jspdf-autotable';
 import { AlertService } from '../../../../app/modules/loading-toast/alert-model/alert.service';
 import { FNABRAMDiscount } from './product.dto';
+import { forkJoin, of } from 'rxjs';
+import { CustomerService } from '../../customer-detail/customer.service';
+import { ProductDataService } from '../../products/services/products-data.service';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 
@@ -62,10 +67,10 @@ export class ProductComponent implements OnInit {
   totalGrantMonthlyRate: any;
   highPercent: number = null;
   grantPercent: number = null;
-  isData: boolean = false;
+  isData: boolean;
   updateProducts = [];
 
-  constructor(private productService: ProductService, private cdf: ChangeDetectorRef,
+  constructor(private productService: FNAProductService, private productDataService: ProductDataService, private cdf: ChangeDetectorRef, private customerService: CustomerService, private router: Router,
     private fnaService: FANService, private alertService: AlertService) {
 
   }
@@ -113,9 +118,18 @@ export class ProductComponent implements OnInit {
     return this.spans[index] && this.spans[index][col];
   }
 
-  buyProduct(status) {
-
-
+  buyProduct(product) {
+    forkJoin([this.productDataService.findOne(product.productId), this.customerService.findOne(this.passValueData.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
+      if (res) {
+        this.productDataService.createingProd = res[0]
+        this.productDataService.creatingCustomer = res[1]
+        this.productDataService.type = 'quotation'
+        this.productDataService.viewType = 'quotation'
+        this.productDataService.referenceID = null
+        this.productDataService.creatingLeadId = this.passValueData.leadId
+        this.router.navigateByUrl("/product-form")
+      }
+    })
   }
 
   async getAllProductRec() {

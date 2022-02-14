@@ -8,7 +8,7 @@ const API_ADDON_URL = `${environment.apiUrl}/fna`;
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService extends BizOperationService<any, number>{
+export class FNAProductService extends BizOperationService<any, number>{
   constructor(protected httpClient: HttpClient) {
     super(httpClient, API_ADDON_URL);
   }
