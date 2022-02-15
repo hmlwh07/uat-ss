@@ -44,6 +44,12 @@ import { AlertService } from "../../../app/modules/loading-toast/alert-model/ale
 import { FNABRAMDiscount } from "../fna-bram/product/product.dto";
 import { forkJoin, of } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { IncomeDto } from "../fna-detail/income/income-manage.dto";
+import { RetirementDto } from "../fna-detail/retirement/retirement-manage.dto";
+import { HealthDto } from "../fna-detail/health/health-manage.dto";
+import { EducationDto } from "../fna-detail/education/education-manage.dto";
+import { AssectDto } from "../fna-detail/asset/asset-manage.dto";
+import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/product-manage.dto";
 @Component({
   selector: "app-lead-detail",
   templateUrl: "./lead-detail.component.html",
@@ -1038,13 +1044,13 @@ export class LeadDetailComponent implements OnInit {
       }
       else if (event.cmd == 'view') {
         this.goQuoViewDetail(event.data);
-      }else if (event.cmd == 'create') {
+      } else if (event.cmd == 'create') {
         this.createPolicy(event.data);
       }
     } else if (type == 'APP') {
       if (event.cmd == 'edit') {
         this.editApp(event.data);
-      } 
+      }
       else if (event.cmd == 'view') {
         this.goAppViewDetail(event.data);
       }
@@ -1055,7 +1061,7 @@ export class LeadDetailComponent implements OnInit {
       if (event.cmd == 'delete') {
         this.LeadAttachmentService.delete(event.data.id).toPromise().then((res) => {
           // if (res) {
-            this.getLeadAttachment()
+          this.getLeadAttachment()
           // }
         })
       }
@@ -1237,6 +1243,18 @@ export class LeadDetailComponent implements OnInit {
   // }
 
   displayFNAType() {
+    this.fnaService.fnaUpdateProducts = [];
+    this.fnaService.fnaIncome = new IncomeDto();
+    this.fnaService.fnaRetirementSaving = new RetirementDto();
+    this.fnaService.fnaHealths = new Array<HealthDto>();
+    this.fnaService.fnaEducations = new Array<EducationDto>();
+    this.fnaService.fnaAssect = new Array<AssectDto>();
+    this.fnaService.fnaProduct = new Array<ProductDto>();
+    this.fnaService.percentage = '';
+    this.fnaService.totalPercentageText = '';
+    this.fnaService.bgColor = '';
+    this.fnaService.fnaUpdateProducts = new Array<any>();
+    this.fnaService.fnaTextColor = null;
     if (this.oldId != null && this.oldId != '' && this.oldId != undefined &&
       this.customer.customerId != null && this.customer.customerId != '') {
       const modalRef = this.modalService.open(FnaTypeComponent, { size: 'xl', backdrop: false });
@@ -1246,7 +1264,6 @@ export class LeadDetailComponent implements OnInit {
       modalRef.componentInstance.conductedBy = this.oldData.createdBy;
       modalRef.result.then(() => { }, (res) => {
         if (res) {
-
           res.customerDob = this.customer.customerDob;
           if (res.fnaType == "BRAM") {
             console.log('BRAM ==========> ', res);
@@ -1266,6 +1283,18 @@ export class LeadDetailComponent implements OnInit {
   }
 
   async createOrEdit(data) {
+    this.fnaService.fnaUpdateProducts = [];
+    this.fnaService.fnaIncome = new IncomeDto();
+    this.fnaService.fnaRetirementSaving = new RetirementDto();
+    this.fnaService.fnaHealths = new Array<HealthDto>();
+    this.fnaService.fnaEducations = new Array<EducationDto>();
+    this.fnaService.fnaAssect = new Array<AssectDto>();
+    this.fnaService.fnaProduct = new Array<ProductDto>();
+    this.fnaService.percentage = '';
+    this.fnaService.totalPercentageText = '';
+    this.fnaService.bgColor = '';
+    this.fnaService.fnaUpdateProducts = new Array<any>();
+    this.fnaService.fnaTextColor = null;
     console.log('customer', this.customer);
     let passValue: any;
     if (data) {
@@ -1329,10 +1358,24 @@ export class LeadDetailComponent implements OnInit {
       this.alertService.activate('This record was deleted', 'Success Message').then(result => {
         // this.fnaList = [];
         // this.getAllFNA();
+
       });
       this.cdf.detectChanges();
       this.fnamatTable.reChangeData();
     });
+
+    this.fnaService.fnaUpdateProducts = [];
+    this.fnaService.fnaIncome = new IncomeDto();
+    this.fnaService.fnaRetirementSaving = new RetirementDto();
+    this.fnaService.fnaHealths = new Array<HealthDto>();
+    this.fnaService.fnaEducations = new Array<EducationDto>();
+    this.fnaService.fnaAssect = new Array<AssectDto>();
+    this.fnaService.fnaProduct = new Array<ProductDto>();
+    this.fnaService.percentage = '';
+    this.fnaService.totalPercentageText = '';
+    this.fnaService.bgColor = '';
+    this.fnaService.fnaUpdateProducts = new Array<any>();
+    this.fnaService.fnaTextColor = null;
   }
 
 
