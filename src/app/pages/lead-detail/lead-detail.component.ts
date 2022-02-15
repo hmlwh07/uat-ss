@@ -1288,7 +1288,6 @@ export class LeadDetailComponent implements OnInit {
         if (data.fnaType == 'LPP') {
           this.router.navigate(["/fna/fna-detail"], {
             queryParams: { passValue: JSON.stringify(passValue) },
-            skipLocationChange: true, replaceUrl: true
           })
         } else {
           passValue.grandDiscount = data.grandDiscount
@@ -1297,7 +1296,6 @@ export class LeadDetailComponent implements OnInit {
           FNABRAMDiscount.HIGH_DISCOUNT = 0;
           this.router.navigate(["/fna/fna-bram"], {
             queryParams: { passValue: JSON.stringify(passValue) },
-            skipLocationChange: true, replaceUrl: true
           })
         }
       }

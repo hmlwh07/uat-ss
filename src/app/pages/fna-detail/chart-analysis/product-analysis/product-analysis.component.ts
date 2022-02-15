@@ -75,7 +75,7 @@ export class ProductAnalysisComponent implements OnInit {
   }
 
   display(product) {
-    forkJoin([this.prodctService.findOne(product.productId), this.customerService.findOne(this.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
+    forkJoin([this.prodctService.findOne(product.id), this.customerService.findOne(this.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
         this.prodctService.createingProd = res[0]
         this.prodctService.creatingCustomer = res[1]
