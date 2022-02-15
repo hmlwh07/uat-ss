@@ -8,7 +8,7 @@ export const CurrencyCol: TableCol[] = [
     isDate: true
   },
   {
-    title: "Currency Type",
+    title: "Currency",
     type: COLTYPE.FEILD,
     field: "type",
     isUpper: true
@@ -19,7 +19,7 @@ export const CurrencyCol: TableCol[] = [
     field: "amount",
   },
   {
-    title: "Actions",
+    title: "Action",
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {
