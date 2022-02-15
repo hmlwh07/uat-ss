@@ -6,6 +6,8 @@ import { StaticField } from "../static-pages/static-field.interface";
 import { AddonViewComponent } from "./addon-view/addon-view.component";
 import { CoverageViewComponent } from "./coverage-view/coverage-view.component";
 import { EducationLifeViewComponent } from "./education-life-view/education-life-view.component";
+import { EndoGripViewComponent } from "./endo-griph-view/endo-griph-view.component";
+import { EndoViewComponent } from "./endo-view/endo-view.component";
 import { FirePageViewComponent } from "./fire-page-view/fire-page-view.component";
 import { FireRiskViewComponent } from "./fire-risk-view/fire-risk-view.component";
 import { HealthQuoViewComponent } from "./health-quo-view/health-quo-view.component";
@@ -20,7 +22,9 @@ const STATIC_VIEW_COMPONENT = {
   // 'static_1635392848894': EducationLifeGripViewComponent,
   'static_1635747288508': SimplePageViewComponent,
   'static_1642920843499': FirePageViewComponent,
-  'static_1643116155828': FireRiskViewComponent
+  'static_1643116155828': FireRiskViewComponent,
+  'static_1644896661652': EndoViewComponent,
+  'static_1644896804675': EndoGripViewComponent,
   // ''
 }
 @Directive({

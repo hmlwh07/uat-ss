@@ -1,0 +1,36 @@
+
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Education Life Benefit</h3>
+    </div>
+  </div>
+  <div class="card-body customer-card-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>End of Policy Year</th>
+          <th>Age</th>
+          <th style="text-align: right;">Premium Paid</th>
+          <th style="text-align: right;">Death/PTD Benefit</th>
+          <th style="text-align: right;">Surrender Value</th>
+          <th style="text-align: right;">Policy Loan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of showDatas;let i = index">
+          <td>{{item.endOfPolicyYear}}</td>
+          <td>{{item.age}}</td>
+          <td style="text-align: right;">{{(item.premiumPaid | number) || "-"}}</td>
+          <td style="text-align: right;">{{item.benefit | number}}</td>
+          <td style="text-align: right;">{{(item.surrenderValue | number) || "-"}}</td>
+          <td style="text-align: right;">{{(item.policyLoan | number) || "-"}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr class="mb-5">
+    <ng-container *ngIf="showDatas.length > 0">
+      <app-endo-grip-view [parentData]="showDatas"></app-endo-grip-view>
+    </ng-container>
+  </div>
+</div>

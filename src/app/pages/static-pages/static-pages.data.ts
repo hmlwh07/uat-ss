@@ -77,7 +77,16 @@ export const STATIC_PAGES = [
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"
-  }
+  },
+  {
+    id: 'static_1644896661652',
+    type: PageUIType.STATIC,
+    pageTitle: "Benefit Illustration",
+    showLabel: "Endowment Benefit Illustration",
+    pageType: 'form',
+    tableName: 'static',
+    pageIcon: "fa-briefcase"
+  },
 ]
 
 export const STATIC_PRINTS = [
@@ -101,6 +110,8 @@ export const CoveragePageID = "coverage_1634010995936"
 export const AddonpageID = "addon_1634010770155"
 export const EducationLifeID = "static_1635309151504"
 export const EducationLifeGRAPID = "static_1635392848894"
+export const EndowmentID = "static_1644896661652"
+export const EndowmentGRAPID = "static_1644896804675"
 
 
 export enum PaymentFrequency {

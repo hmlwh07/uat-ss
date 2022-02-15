@@ -90,13 +90,16 @@ export interface ProductPages {
 }
 
 export interface PageUI {
-  id: string
-  pageTitle: string,
-  pageType: string,
-  tableName: string,
-  pageIcon: string,
-  parent?: string,
+  id: string,
+  pageTitle?: string,
+  pageType?: string,
+  pageIcon?: string,
+  parent?: string
   type?: string
+  tableName?: string,
+  function?: string
+  party?: boolean
+  unitCode?: string
 }
 
 export enum PageUIType {

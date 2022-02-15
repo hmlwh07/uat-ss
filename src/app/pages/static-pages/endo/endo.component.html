@@ -1,0 +1,34 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>End of Policy Year</th>
+      <th>Age</th>
+      <th>Premium Paid</th>
+      <th>Death/PTD Benefit</th>
+      <th>Surrender Value</th>
+      <th>Policy Loan</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="premiumRate.length > 0 && surrendRate.length > 0">
+    <tr *ngFor="let item of showDatas;let i = index">
+      <td>{{item.endOfPolicyYear}}</td>
+      <td>{{item.age}}</td>
+      <td style="text-align: right;">{{(item.premiumPaid | number) || "-"}}</td>
+      <td style="text-align: right;">{{item.benefit | number}}</td>
+      <td style="text-align: right;">{{(item.surrenderValue | number) || "-"}}</td>
+      <td style="text-align: right;">{{(item.policyLoan | number) || "-"}}</td>
+    </tr>
+  </tbody>
+</table>
+<hr class="mb-5">
+<ng-container *ngIf="showDatas.length > 0">
+  <app-endo-grip [parentData]="showDatas"></app-endo-grip>
+</ng-container>
+<div class="row mt-3">
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+  </div>
+  <div class="col-sm-6 mx-auto">
+    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+  </div>
+</div>
