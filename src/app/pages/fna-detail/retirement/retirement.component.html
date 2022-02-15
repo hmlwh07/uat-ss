@@ -34,17 +34,17 @@
                     </div>
                 </div>
                 <div class="col-8">
-                    <div class="col-8" style="padding: 0; float: left;">
+                    <div class="col-7" style="padding: 0; float: left;">
                         <div class="form-group">
                             <input type="number" readonly class="form-control form-control-sm form-control-md"
                                 autocomplete="off" [class.is-invalid]="isControlInvalid('retirementAge')"
                                 [class.is-valid]="isControlValid('retirementAge')" formControlName="retirementAge" />
                         </div>
                     </div>
-                    <div class="col-4" style="float: right;">
+                    <div class="col-5" style="float: right; padding: 0;">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary btn-elevate" [disabled]="!currentIncome"
-                                (click)="calculate()">Calculate</button>
+                            <button type="button" class="btn btn-primary btn-elevate" style="float: left; width: auto;"
+                                [disabled]="!currentIncome" (click)="calculate()">Calculate</button>
                         </div>
                     </div>
                 </div>
@@ -92,10 +92,12 @@
 
         <div class="btn-about col-12">
             <button type="button" *ngIf="fnaService.fnaRetirementSaving" class="btn btn-primary btn-elevate mx-2"
-                (click)="viewAll()">View All</button>
-            <button type="button" class="btn btn-primary btn-elevate" (click)="backAction()" style="width: 150px;">Back
+                (click)="viewAll()" style="margin-bottom: 10px;">View All</button>
+            <button type="button" class="btn btn-primary btn-elevate" (click)="backAction()"
+                style="width: 150px;margin-bottom: 10px; ">Back
                 Main Page</button>
-            <button type="submit" class="btn btn-primary btn-elevate mx-2" [disabled]="!isCalculate">Save</button>
+            <button type="submit" class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;"
+                [disabled]="!isCalculate">Save</button>
         </div>
     </form>
 </div>

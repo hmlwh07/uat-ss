@@ -97,7 +97,7 @@
                         <label class="form-label">Date of Birth</label>
                     </div>
                 </div>
-                <div class="col-7">
+                <div class="col-6">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" readonly class="form-control form-control-sm date-input"
@@ -108,9 +108,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-1">
+                <div class="col-2" style="padding: 0;">
                     <button type="button" style="width: auto;
-                    float: right;
+                    float: left;
                     margin: 0 !important;" (click)="clearDOB('dateOfBirthSpouse')"
                         class="btn btn-primary btn-elevate mx-2">Clear</button>
                 </div>
@@ -216,7 +216,7 @@
                         <label class="form-label">Date of Birth</label>
                     </div>
                 </div>
-                <div class="col-7">
+                <div class="col-6">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" readonly class="form-control form-control-sm date-input"
@@ -227,9 +227,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-1">
+                <div class="col-2" style="padding: 0;">
                     <button type="button" style="width: auto;
-                    float: right;
+                    float: left;
                     margin: 0 !important;" (click)="clearDOB('dateOfBirth')"
                         class="btn btn-primary btn-elevate mx-2">Clear</button>
                 </div>
@@ -304,18 +304,20 @@
 
         <div class="btn-about col-12">
             <button type="button" *ngIf="selectedIndex == 2 && tempChildList.length > 0"
-                class="btn btn-primary btn-elevate mx-2" (click)="viewAll()">View All</button>
+                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;" (click)="viewAll()">View
+                All</button>
             <button type="button" *ngIf="selectedIndex >= 2" class="btn btn-primary btn-elevate mx-2"
-                (click)="backToStartAction()" style="width: 150px;">Back Main Page</button>
+                (click)="backToStartAction()" style="width: 150px; margin-bottom: 10px;">Back Main Page</button>
             <button type="button" *ngIf="selectedIndex > 2" class="btn btn-primary btn-elevate mx-2"
-                (click)="backAction()">Back</button>
-            <button type="button" (click)="saveAndNextHealth()" class="btn btn-primary btn-elevate mx-2">Save</button>
-            <button type="button" (click)="addChild('add')" [disabled]="!formGroup.value.id"
-                *ngIf="selectedIndex <= 4 && selectedIndex - 1 >= nextCount"
+                style="margin-bottom: 10px;" (click)="backAction()">Back</button>
+            <button type="button" style="margin-bottom: 10px;" (click)="saveAndNextHealth()"
+                class="btn btn-primary btn-elevate mx-2">Save</button>
+            <button type="button" style="margin-bottom: 10px;" (click)="addChild('add')"
+                [disabled]="!formGroup.value.id" *ngIf="selectedIndex <= 4 && selectedIndex - 1 >= nextCount"
                 class="btn btn-primary btn-elevate mx-2">Add
                 Child</button>
-
-            <button type="button" (click)="addChild('next')" *ngIf="selectedIndex <= 4 && selectedIndex - 1 < nextCount"
+            <button type="button" style="margin-bottom: 10px;" (click)="addChild('next')"
+                *ngIf="selectedIndex <= 4 && selectedIndex - 1 < nextCount"
                 class="btn btn-primary btn-elevate mx-2">Next</button>
 
         </div>
