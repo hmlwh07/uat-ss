@@ -5,7 +5,7 @@ export const CurrencyCol: TableCol[] = [
     title: "Date",
     type: COLTYPE.FEILD,
     field: "date",
-    isDate: true
+    isFromatDate: true
   },
   {
     title: "Currency Type",
