@@ -253,7 +253,13 @@ export class ReportDetailByAgentComponent implements OnInit {
           }
         });
       } else {
-        this.channelName = null;
+        this.companyName = null;
+        this.createFormGroup.value.companyId = '';
+        this.createFormGroup.value.channelId = '';
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -274,7 +280,12 @@ export class ReportDetailByAgentComponent implements OnInit {
           }
         });
       } else {
-        this.regionName = null
+        this.channelName = null
+        this.createFormGroup.value.channelId = '';
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
 
     }
@@ -294,7 +305,11 @@ export class ReportDetailByAgentComponent implements OnInit {
           }
         });
       } else {
-        this.clusterName = null
+        this.regionName = null
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
     if (type == 'branch') {
@@ -310,7 +325,10 @@ export class ReportDetailByAgentComponent implements OnInit {
           }
         });
       } else {
-        this.branchName = null;
+        this.clusterName = null;
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -323,9 +341,11 @@ export class ReportDetailByAgentComponent implements OnInit {
           }
         });
       } else {
-        this.agentName = null;
+        this.branchName = null;
         this.selectOptions.agents = [];
         this.createFormGroup.controls['agentId'].setValue('');
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -335,10 +355,14 @@ export class ReportDetailByAgentComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
+      } else {
+        this.agentName = null
+        this.createFormGroup.value.agentId = '';
       }
     }
     this.cdf.detectChanges()
   }
+
 
   loadForm() {
     this.createFormGroup = new FormGroup({
@@ -388,6 +412,17 @@ export class ReportDetailByAgentComponent implements OnInit {
     this.productList = [];
     this.dataList = []
 
+    this.selectOptions.channels = [];
+    this.selectOptions.regions = [];
+    this.selectOptions.cluster = [];
+    this.selectOptions.branches = [];
+    this.selectOptions.agents = [];
+    this.createFormGroup.controls['companyId'].setValue('');
+    this.createFormGroup.controls['channelId'].setValue('');
+    this.createFormGroup.controls['regionId'].setValue('');
+    this.createFormGroup.controls['clusterId'].setValue('');
+    this.createFormGroup.controls['branchId'].setValue('');
+    this.createFormGroup.controls['agentId'].setValue('');
   }
 
   formatDateDDMMYYY(date) {
