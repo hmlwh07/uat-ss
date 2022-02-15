@@ -123,8 +123,8 @@ export class ProductComponent implements OnInit {
       if (res) {
         this.productDataService.createingProd = res[0]
         this.productDataService.creatingCustomer = res[1]
-        this.productDataService.type = 'quotation'
-        this.productDataService.viewType = 'quotation'
+        this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy':'quotation'
+        this.productDataService.viewType = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy':'quotation'
         this.productDataService.referenceID = null
         this.productDataService.creatingLeadId = this.passValueData.leadId
         this.router.navigateByUrl("/product-form")

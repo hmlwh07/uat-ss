@@ -18,13 +18,13 @@ export class ProductAnalysisComponent implements OnInit {
   @Input() product: any = null;
   @Input() fnaId: any = null;
   @Input() customerId: any = null;
-  @Input() passValue:any = {}
+  @Input() passValue: any = {}
   @Output() changeProduct: EventEmitter<string> = new EventEmitter<string>();
   productSwitch: string = 'product';
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   fnaProducts = [];
   products = [];
-  constructor(private fnaService: FANService, private fnaProductService: FANProductService, private alertService: AlertService,private prodctService: ProductDataService,private customerService: CustomerService,private router: Router) { }
+  constructor(private fnaService: FANService, private fnaProductService: FANProductService, private alertService: AlertService, private prodctService: ProductDataService, private customerService: CustomerService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.fnaService.fnaProduct) {
@@ -49,7 +49,7 @@ export class ProductAnalysisComponent implements OnInit {
     this.productSwitch = type;
     this.products = this.removeDuplicates(this.products);
     this.fnaService.fnaUpdateProducts.concat(this.products);
-  
+
     let reqBody = {
       customerId: this.customerId,
       fnaType: "LPP",
@@ -79,8 +79,8 @@ export class ProductAnalysisComponent implements OnInit {
       if (res) {
         this.prodctService.createingProd = res[0]
         this.prodctService.creatingCustomer = res[1]
-        this.prodctService.type = 'quotation'
-        this.prodctService.viewType = 'quotation'
+        this.prodctService.type = res[0].code == "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy' : "quotation"
+        this.prodctService.viewType = res[0].code == "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy' : "quotation"
         this.prodctService.referenceID = null
         this.prodctService.creatingLeadId = this.passValue.leadId
         this.router.navigateByUrl("/product-form")
