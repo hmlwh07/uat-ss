@@ -74,7 +74,7 @@ export class CurrencyExChangeComponent implements OnInit {
 
   saveData(event: any) {
     let postData = event
-    // console.log(postData);
+    console.log(postData);
     this.currencyService.save(postData).toPromise().then((res: any) => {
       if (res) {
         this.getData()
@@ -83,6 +83,7 @@ export class CurrencyExChangeComponent implements OnInit {
   }
 
   updateData(postData: any) {
+    console.log('UPDATE',postData);
     this.currencyService.update(postData.id, postData).toPromise().then((res: any) => {
       if (res) {
         this.getData()
@@ -97,6 +98,7 @@ export class CurrencyExChangeComponent implements OnInit {
     modalRef.componentInstance.isModal = true
     modalRef.componentInstance.isEdit = true
     modalRef.result.then(() => { }, (res) => {
+      
       if (res) {
         if (res.cmd == 'save') {
           this.updateData(res.data)

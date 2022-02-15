@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { BizOperationService } from "../../core/biz.operation.service";
-
+import * as moment from "moment";
 const API_CURRENCY_URL = `${environment.apiUrl}/currency`;
 const API_CURRENCY_URL2 = `${environment.apiUrl}/currencyWithType`;
 
@@ -22,7 +22,7 @@ export class CurrencyExchangeService extends BizOperationService<CurrencyExchang
   getList(search: any = {}) {
     let url = API_CURRENCY_URL + "?"
     if (search.date) {
-      url = url + "date=" + search.date + "&"
+      url = url + "date=" + moment(search.date).format("YYYY-MM-DD") + "&"
     } if (search.currency) {
       url = url + "currency=" + search.currency + "&"
     }
