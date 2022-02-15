@@ -7,36 +7,36 @@ import { map } from 'rxjs/operators';
 import { MY_FORMATS } from 'src/app/core/is-json';
 import { validateAllFields } from '../../../core/valid-all-feild';
 import { MasterDataService } from '../../../modules/master-data/master-data.service';
-
+import * as moment from "moment";
 @Component({
   selector: 'app-currency-add-form',
   templateUrl: './currency-add-form.component.html',
   styleUrls: ['./currency-add-form.component.scss'],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class CurrencyAddFormComponent implements OnInit,AfterViewInit {
+export class CurrencyAddFormComponent implements OnInit, AfterViewInit {
 
   formGroup: FormGroup
   currencyType: string[] = []
   id: number
   @Input() isModal: boolean = false
-  @Input() isEdit:boolean=false
+  @Input() isEdit: boolean = false
   oldData: any = {}
   @Output() formSubmit = new EventEmitter();
-  constructor(private masterDataService: MasterDataService, public modal: NgbModal,private cdf: ChangeDetectorRef) { }
+  constructor(private masterDataService: MasterDataService, public modal: NgbModal, private cdf: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
       type: new FormControl(this.oldData.type || "usd", [Validators.required]),
       amount: new FormControl(this.oldData.amount || null, [Validators.required]),
-      date:new FormControl(this.oldData.date || null, [Validators.required]),
+      date: new FormControl(this.oldData.date ? moment(this.oldData.date) : null, [Validators.required]),
     })
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.getType()
   }
   // type
@@ -46,7 +46,7 @@ export class CurrencyAddFormComponent implements OnInit,AfterViewInit {
     this.masterDataService.getDataByType("CURRENCY_TYPE").pipe(map((res: any) => {
       return res.map(x => x.codeId)
     })).toPromise().then((res: any) => {
-      if(res){
+      if (res) {
         this.currencyType = res
         this.cdf.detectChanges()
       }
@@ -76,6 +76,10 @@ export class CurrencyAddFormComponent implements OnInit,AfterViewInit {
   saveData() {
     if (this.formGroup.valid) {
       if (this.isModal) {
+        let date=moment(this.formGroup.value.date)
+        this.formGroup.controls['date'].setValue(date)
+        console.log(( this.formGroup.value));
+        
         this.modal.dismissAll({ data: { ...this.formGroup.value, id: this.id }, cmd: 'save' })
       } else {
         this.formSubmit.emit({ ...this.formGroup.value })
