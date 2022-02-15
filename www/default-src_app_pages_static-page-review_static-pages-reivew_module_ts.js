@@ -634,6 +634,255 @@ EducationLifeViewComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
 
 /***/ }),
 
+/***/ 79938:
+/*!***************************************************************************************!*\
+  !*** ./src/app/pages/static-page-review/endo-griph-view/endo-griph-view.component.ts ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EndoGripViewComponent": () => (/* binding */ EndoGripViewComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_griph_view_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./endo-griph-view.component.html */ 71698);
+/* harmony import */ var _endo_griph_view_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endo-griph-view.component.scss */ 6858);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../modules/loading-toast/alert-model/alert.service */ 60940);
+/* harmony import */ var _core_global_fun_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/global-fun.service */ 73762);
+/* harmony import */ var _static_pages_endo_models_services_endo_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../static-pages/endo/models&services/endo.service */ 61438);
+
+
+
+
+
+
+
+let EndoGripViewComponent = class EndoGripViewComponent {
+    constructor(alertService, globalFun, endoPayment, cdf) {
+        this.alertService = alertService;
+        this.globalFun = globalFun;
+        this.endoPayment = endoPayment;
+        this.cdf = cdf;
+        this.actionEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_5__.EventEmitter();
+        this.showDatas = [];
+        this.show = false;
+        this.chartOptions = {
+            series: [
+                {
+                    name: "Premium Amount",
+                    data: [],
+                    color: "#005f99"
+                }
+            ],
+            chart: {
+                height: 450,
+                type: "line",
+                toolbar: {
+                    show: false
+                }
+            },
+            title: {
+                text: "Basic Benefit Illustration",
+                offsetX: 0,
+                offsetY: 10,
+                floating: false,
+                style: {
+                    fontSize: "1.1rem",
+                    fontFamily: "Roboto"
+                }
+            },
+            xaxis: {
+                type: 'category',
+                categories: ["0", "1 year", "2 years", "3 years", "4 years", "5 years", "6 years", "7 years", "8 years", "9 years", "10 years", "11 years", "12 years", "13 years", "14 years"],
+                labels: {
+                    style: {
+                        fontSize: "1rem",
+                        fontFamily: "Roboto"
+                    }
+                }
+            },
+            yaxis: {
+                min: 0,
+                max: 5000000,
+                tickAmount: 5,
+                labels: {
+                    style: {
+                        fontSize: "1rem",
+                        fontFamily: "Roboto"
+                    }
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'right',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            },
+            dataLabels: {
+                enabled: true,
+                textAnchor: 'middle',
+                offsetX: -10,
+                offsetY: -5,
+                enabledOnSeries: [0]
+            },
+            markers: {
+                size: [5, 0, 0],
+            }
+        };
+    }
+    ngOnInit() {
+        // this.createListData()
+        let dataArr = this.parentData.map((x) => {
+            if (x.premiumPaid)
+                return x.premiumPaid > 0 ? x.premiumPaid : null;
+            else
+                return null;
+        });
+        dataArr.unshift(null);
+        this.chartOptions.series[0].data = dataArr;
+        // if (this.parentData.length > 0) {
+        //   if (this.parentData[0].benefitPlan == '002') {
+        //     this.chartOptions.title.text = "Double Benefit Illustration"
+        //     this.chartOptions.yaxis.max = 5000000 * 2
+        //     this.chartOptions.series[1] = {
+        //       data: [],
+        //       name: "Goal"
+        //     }
+        //     this.chartOptions.series[2] = {
+        //       data: [],
+        //       name: "2X Goal"
+        //     }
+        //     this.chartOptions.series[1].data = [5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000]
+        //     this.chartOptions.series[2].data = [10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000]
+        //   }
+        // }
+    }
+    createListData() {
+        this.endoPayment.getMany(this.resourcesId).toPromise().then((res) => {
+            // console.log(res);
+            if (res) {
+                let dataArr = res.map((x) => {
+                    if (x.premiumPaid)
+                        return x.premiumPaid;
+                });
+                dataArr.unshift(0);
+                // console.log(dataArr, res);
+                // if (res.length > 0) {
+                //   if (res[0].benefitPlan == '002') {
+                //     this.chartOptions.title.text = "Double Benefit Illustration"
+                //     this.chartOptions.yaxis.max = 5000000 * 2
+                //   }
+                // }
+                this.chartOptions.series[0].data = dataArr.filter(x => x >= 0);
+                this.show = true;
+                this.cdf.detectChanges();
+            }
+        });
+    }
+};
+EndoGripViewComponent.ctorParameters = () => [
+    { type: _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_2__.AlertService },
+    { type: _core_global_fun_service__WEBPACK_IMPORTED_MODULE_3__.GlobalFunctionService },
+    { type: _static_pages_endo_models_services_endo_service__WEBPACK_IMPORTED_MODULE_4__.EndoService },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.ChangeDetectorRef }
+];
+EndoGripViewComponent.propDecorators = {
+    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
+    editData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
+    actionEvent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Output }],
+    chart: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.ViewChild, args: ["chart",] }],
+    parentData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }]
+};
+EndoGripViewComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+        selector: 'app-endo-grip-view',
+        template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_griph_view_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
+        styles: [_endo_griph_view_component_scss__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], EndoGripViewComponent);
+
+
+
+/***/ }),
+
+/***/ 72965:
+/*!***************************************************************************!*\
+  !*** ./src/app/pages/static-page-review/endo-view/endo-view.component.ts ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EndoViewComponent": () => (/* binding */ EndoViewComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_view_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./endo-view.component.html */ 35564);
+/* harmony import */ var _endo_view_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endo-view.component.scss */ 28848);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _static_pages_endo_models_services_endo_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../static-pages/endo/models&services/endo.service */ 61438);
+
+
+
+
+
+let EndoViewComponent = class EndoViewComponent {
+    constructor(eduPayment, cdf) {
+        this.eduPayment = eduPayment;
+        this.cdf = cdf;
+        this.actionEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_3__.EventEmitter();
+        this.premimuRate = {
+            "9opt": 5,
+            "11opt": 7,
+            "14opt": 10,
+        };
+        this.frequency = {
+            monthly: 1,
+            quatarly: 4,
+            semi_annually: 6,
+            annually: 12,
+        };
+        this.lists = [];
+        this.premiumRate = [];
+        this.surrendRate = [];
+        this.showDatas = [];
+    }
+    ngOnInit() {
+        this.createListData();
+    }
+    createListData() {
+        this.eduPayment.getMany(this.resourcesId).toPromise().then((res) => {
+            if (res) {
+                this.showDatas = res;
+                this.cdf.detectChanges();
+            }
+        });
+    }
+};
+EndoViewComponent.ctorParameters = () => [
+    { type: _static_pages_endo_models_services_endo_service__WEBPACK_IMPORTED_MODULE_2__.EndoService },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_3__.ChangeDetectorRef }
+];
+EndoViewComponent.propDecorators = {
+    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__.Input }],
+    editData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__.Input }],
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__.Input }],
+    actionEvent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__.Output }]
+};
+EndoViewComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Component)({
+        selector: 'app-endo-view',
+        template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_view_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
+        styles: [_endo_view_component_scss__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], EndoViewComponent);
+
+
+
+/***/ }),
+
 /***/ 53485:
 /*!***********************************************************************************!*\
   !*** ./src/app/pages/static-page-review/fire-building/fire-building.component.ts ***!
@@ -1060,15 +1309,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StaticPageViewDirective": () => (/* binding */ StaticPageViewDirective)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 98806);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 14001);
 /* harmony import */ var _addon_view_addon_view_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addon-view/addon-view.component */ 17555);
 /* harmony import */ var _coverage_view_coverage_view_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./coverage-view/coverage-view.component */ 49836);
 /* harmony import */ var _education_life_view_education_life_view_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./education-life-view/education-life-view.component */ 71526);
-/* harmony import */ var _fire_page_view_fire_page_view_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fire-page-view/fire-page-view.component */ 86205);
-/* harmony import */ var _fire_risk_view_fire_risk_view_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fire-risk-view/fire-risk-view.component */ 56777);
-/* harmony import */ var _health_quo_view_health_quo_view_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./health-quo-view/health-quo-view.component */ 65572);
-/* harmony import */ var _simple_page_view_simple_page_view_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./simple-page-view/simple-page-view.component */ 9217);
+/* harmony import */ var _endo_griph_view_endo_griph_view_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./endo-griph-view/endo-griph-view.component */ 79938);
+/* harmony import */ var _endo_view_endo_view_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./endo-view/endo-view.component */ 72965);
+/* harmony import */ var _fire_page_view_fire_page_view_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fire-page-view/fire-page-view.component */ 86205);
+/* harmony import */ var _fire_risk_view_fire_risk_view_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fire-risk-view/fire-risk-view.component */ 56777);
+/* harmony import */ var _health_quo_view_health_quo_view_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./health-quo-view/health-quo-view.component */ 65572);
+/* harmony import */ var _simple_page_view_simple_page_view_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./simple-page-view/simple-page-view.component */ 9217);
+
+
 
 
 
@@ -1080,15 +1333,17 @@ __webpack_require__.r(__webpack_exports__);
 
 // import { STATIC_VIEW_COMPONENT } from "./static-pages-reivew.data";
 const STATIC_VIEW_COMPONENT = {
-    'static_1634018514043': _simple_page_view_simple_page_view_component__WEBPACK_IMPORTED_MODULE_6__.SimplePageViewComponent,
+    'static_1634018514043': _simple_page_view_simple_page_view_component__WEBPACK_IMPORTED_MODULE_8__.SimplePageViewComponent,
     'addon_1634010770155': _addon_view_addon_view_component__WEBPACK_IMPORTED_MODULE_0__.AddonViewComponent,
     'coverage_1634010995936': _coverage_view_coverage_view_component__WEBPACK_IMPORTED_MODULE_1__.CoverageViewComponent,
-    'static_1635218894755': _health_quo_view_health_quo_view_component__WEBPACK_IMPORTED_MODULE_5__.HealthQuoViewComponent,
+    'static_1635218894755': _health_quo_view_health_quo_view_component__WEBPACK_IMPORTED_MODULE_7__.HealthQuoViewComponent,
     'static_1635309151504': _education_life_view_education_life_view_component__WEBPACK_IMPORTED_MODULE_2__.EducationLifeViewComponent,
     // 'static_1635392848894': EducationLifeGripViewComponent,
-    'static_1635747288508': _simple_page_view_simple_page_view_component__WEBPACK_IMPORTED_MODULE_6__.SimplePageViewComponent,
-    'static_1642920843499': _fire_page_view_fire_page_view_component__WEBPACK_IMPORTED_MODULE_3__.FirePageViewComponent,
-    'static_1643116155828': _fire_risk_view_fire_risk_view_component__WEBPACK_IMPORTED_MODULE_4__.FireRiskViewComponent
+    'static_1635747288508': _simple_page_view_simple_page_view_component__WEBPACK_IMPORTED_MODULE_8__.SimplePageViewComponent,
+    'static_1642920843499': _fire_page_view_fire_page_view_component__WEBPACK_IMPORTED_MODULE_5__.FirePageViewComponent,
+    'static_1643116155828': _fire_risk_view_fire_risk_view_component__WEBPACK_IMPORTED_MODULE_6__.FireRiskViewComponent,
+    'static_1644896661652': _endo_view_endo_view_component__WEBPACK_IMPORTED_MODULE_4__.EndoViewComponent,
+    'static_1644896804675': _endo_griph_view_endo_griph_view_component__WEBPACK_IMPORTED_MODULE_3__.EndoGripViewComponent,
     // ''
 };
 let StaticPageViewDirective = class StaticPageViewDirective {
@@ -1112,16 +1367,16 @@ let StaticPageViewDirective = class StaticPageViewDirective {
     }
 };
 StaticPageViewDirective.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.ComponentFactoryResolver },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.ViewContainerRef }
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.ComponentFactoryResolver },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.ViewContainerRef }
 ];
 StaticPageViewDirective.propDecorators = {
-    compId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }],
-    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }],
-    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }]
+    compId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.Input }],
+    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.Input }],
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.Input }]
 };
-StaticPageViewDirective = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Directive)({
+StaticPageViewDirective = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Directive)({
         selector: '[staticPageView]'
     })
 ], StaticPageViewDirective);
@@ -1419,6 +1674,57 @@ EduPaymentService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
 
 /***/ }),
 
+/***/ 61438:
+/*!*************************************************************************!*\
+  !*** ./src/app/pages/static-pages/endo/models&services/endo.service.ts ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EndoService": () => (/* binding */ EndoService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 83981);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../environments/environment */ 18260);
+/* harmony import */ var _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../core/biz.operation.service */ 91691);
+
+
+
+
+
+const API_EDU_LIFE_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/endowment`;
+let EndoService = class EndoService extends _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__.BizOperationService {
+    constructor(httpClient) {
+        super(httpClient, API_EDU_LIFE_URL);
+        this.httpClient = httpClient;
+    }
+    deleteMany(redId) {
+        // /api/v1/health/payment-schedule/resource/{resourceId}
+        return this.httpClient.delete(API_EDU_LIFE_URL + "/resource/" + redId);
+    }
+    getMany(redId) {
+        // /api/v1/health/payment-schedule/resource/{resourceId}
+        return this.httpClient.get(API_EDU_LIFE_URL + "/resource/" + redId);
+    }
+    saveMany(data) {
+        return this.httpClient.post(API_EDU_LIFE_URL + "s", data);
+    }
+};
+EndoService.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient }
+];
+EndoService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+        providedIn: 'root'
+    })
+], EndoService);
+
+
+
+/***/ }),
+
 /***/ 93931:
 /*!*****************************************************************************************!*\
   !*** ./src/app/pages/static-pages/health-quo/models&services/health-payment.service.ts ***!
@@ -1631,6 +1937,34 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ 71698:
+/*!********************************************************************************************************************************************************!*\
+  !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-page-review/endo-griph-view/endo-griph-view.component.html ***!
+  \********************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<!-- <div class=\"card card-custom gutter-b\">\n  <div class=\"card-header\">\n    <div class=\"card-title\">\n      <h3 class=\"card-label\">Education Life Benefit Illustration</h3>\n    </div>\n  </div>\n  <div class=\"card-body customer-card-body\"> -->\n    <ng-container *ngIf=\"parentData\">\n      <apx-chart [series]=\"chartOptions.series\" [chart]=\"chartOptions.chart\" [xaxis]=\"chartOptions.xaxis\"\n        [yaxis]=\"chartOptions.yaxis\" [title]=\"chartOptions.title\" [legend]=\"chartOptions.legend\"\n        [dataLabels]=\"chartOptions.dataLabels\" [markers]=\"chartOptions.markers\"></apx-chart>\n    </ng-container>\n  <!-- </div>\n</div> -->");
+
+/***/ }),
+
+/***/ 35564:
+/*!********************************************************************************************************************************************!*\
+  !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-page-review/endo-view/endo-view.component.html ***!
+  \********************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("\n<div class=\"card card-custom gutter-b\">\n  <div class=\"card-header\">\n    <div class=\"card-title\">\n      <h3 class=\"card-label\">Education Life Benefit</h3>\n    </div>\n  </div>\n  <div class=\"card-body customer-card-body\">\n    <table class=\"table table-bordered\">\n      <thead>\n        <tr>\n          <th>End of Policy Year</th>\n          <th>Age</th>\n          <th style=\"text-align: right;\">Premium Paid</th>\n          <th style=\"text-align: right;\">Death/PTD Benefit</th>\n          <th style=\"text-align: right;\">Surrender Value</th>\n          <th style=\"text-align: right;\">Policy Loan</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr *ngFor=\"let item of showDatas;let i = index\">\n          <td>{{item.endOfPolicyYear}}</td>\n          <td>{{item.age}}</td>\n          <td style=\"text-align: right;\">{{(item.premiumPaid | number) || \"-\"}}</td>\n          <td style=\"text-align: right;\">{{item.benefit | number}}</td>\n          <td style=\"text-align: right;\">{{(item.surrenderValue | number) || \"-\"}}</td>\n          <td style=\"text-align: right;\">{{(item.policyLoan | number) || \"-\"}}</td>\n        </tr>\n      </tbody>\n    </table>\n    <hr class=\"mb-5\">\n    <ng-container *ngIf=\"showDatas.length > 0\">\n      <app-endo-grip-view [parentData]=\"showDatas\"></app-endo-grip-view>\n    </ng-container>\n  </div>\n</div>");
+
+/***/ }),
+
 /***/ 16414:
 /*!****************************************************************************************************************************************************!*\
   !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-page-review/fire-building/fire-building.component.html ***!
@@ -1748,6 +2082,26 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /***/ ((module) => {
 
 module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlZHVjYXRpb24tbGlmZS12aWV3LmNvbXBvbmVudC5zY3NzIn0= */";
+
+/***/ }),
+
+/***/ 6858:
+/*!*****************************************************************************************!*\
+  !*** ./src/app/pages/static-page-review/endo-griph-view/endo-griph-view.component.scss ***!
+  \*****************************************************************************************/
+/***/ ((module) => {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlbmRvLWdyaXBoLXZpZXcuY29tcG9uZW50LnNjc3MifQ== */";
+
+/***/ }),
+
+/***/ 28848:
+/*!*****************************************************************************!*\
+  !*** ./src/app/pages/static-page-review/endo-view/endo-view.component.scss ***!
+  \*****************************************************************************/
+/***/ ((module) => {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlbmRvLXZpZXcuY29tcG9uZW50LnNjc3MifQ== */";
 
 /***/ }),
 

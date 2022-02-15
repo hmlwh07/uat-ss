@@ -2352,6 +2352,536 @@ EduPaymentService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
 
 /***/ }),
 
+/***/ 353:
+/*!***********************************************************************!*\
+  !*** ./src/app/pages/static-pages/endo-griph/endo-griph.component.ts ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EndoGripComponent": () => (/* binding */ EndoGripComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_griph_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./endo-griph.component.html */ 70938);
+/* harmony import */ var _endo_griph_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endo-griph.component.scss */ 47469);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _static_field_interface__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../static-field.interface */ 11766);
+/* harmony import */ var _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../modules/loading-toast/alert-model/alert.service */ 60940);
+/* harmony import */ var _core_global_fun_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/global-fun.service */ 73762);
+/* harmony import */ var _static_pages_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../static-pages.data */ 6920);
+
+
+
+
+
+
+
+
+let EndoGripComponent = class EndoGripComponent {
+    constructor(alertService, globalFun) {
+        this.alertService = alertService;
+        this.globalFun = globalFun;
+        this.actionEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_6__.EventEmitter();
+        this.showDatas = [];
+        this.chartOptions = {
+            series: [
+                {
+                    name: "Premium Amount",
+                    data: [],
+                    color: "#005f99"
+                }
+            ],
+            chart: {
+                height: 450,
+                type: "line",
+                toolbar: {
+                    show: false
+                }
+            },
+            title: {
+                text: "Basic Benefit Illustration",
+                offsetX: 0,
+                offsetY: 10,
+                floating: false,
+                style: {
+                    fontSize: "1.1rem",
+                    fontFamily: "Roboto"
+                }
+            },
+            xaxis: {
+                type: 'category',
+                categories: ["0", "1 year", "2 years", "3 years", "4 years", "5 years", "6 years", "7 years", "8 years", "9 years", "10 years", "11 years", "12 years", "13 years", "14 years"],
+                labels: {
+                    style: {
+                        fontSize: "1rem",
+                        fontFamily: "Roboto"
+                    }
+                }
+            },
+            yaxis: {
+                min: 0,
+                max: 1000000,
+                tickAmount: 5,
+                labels: {
+                    style: {
+                        fontSize: "1rem",
+                        fontFamily: "Roboto"
+                    }
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'right',
+                floating: true,
+                offsetY: -25,
+                offsetX: -5
+            },
+            dataLabels: {
+                enabled: true,
+                textAnchor: 'middle',
+                offsetX: -10,
+                offsetY: -5,
+                enabledOnSeries: [0]
+            },
+            markers: {
+                size: [5, 0, 0],
+            }
+        };
+    }
+    ngOnInit() {
+        // this.parentData = this.getParnet()
+        if (!this.parentData) {
+            this.alertService.activate("This page cann't to show because there is no education life product detail data. Please add education life product detail in rodcut configuration", "Warning");
+        }
+        else {
+            let dataArr = this.parentData.map((x) => {
+                if (x.premiumPaid)
+                    return x.premiumPaid > 0 ? x.premiumPaid : null;
+                else
+                    return null;
+            });
+            dataArr.unshift(null);
+            // if (this.parentData.length > 0) {
+            // if (this.parentData[0].benefitPlan == '002') {
+            //   this.chartOptions.title.text = "Double Benefit Illustration"
+            //   this.chartOptions.yaxis.max = 5000000 * 2
+            //   this.chartOptions.series[1] = {
+            //     data: [],
+            //     name: "Goal"
+            //   }
+            //   this.chartOptions.series[2] = {
+            //     data: [],
+            //     name: "2X Goal"
+            //   }
+            //   this.chartOptions.series[1].data = [5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000, 5000000,5000000]
+            //   this.chartOptions.series[2].data = [10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000, 10000000,10000000]
+            // }
+            // }
+            this.chartOptions.series[0].data = dataArr;
+            // 0, 636000, 1272000, 1908000, 2544000, 3180000, 3816000, 4452000
+        }
+    }
+    getParnet() {
+        return this.globalFun.tempFormData[_static_pages_data__WEBPACK_IMPORTED_MODULE_5__.EndowmentID];
+    }
+    nextPage() {
+        this.actionEvent.emit({ type: _static_field_interface__WEBPACK_IMPORTED_MODULE_2__.StaticActionType.NEXT });
+    }
+    backPage() {
+        this.actionEvent.emit({ type: _static_field_interface__WEBPACK_IMPORTED_MODULE_2__.StaticActionType.PREV });
+    }
+};
+EndoGripComponent.ctorParameters = () => [
+    { type: _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_3__.AlertService },
+    { type: _core_global_fun_service__WEBPACK_IMPORTED_MODULE_4__.GlobalFunctionService }
+];
+EndoGripComponent.propDecorators = {
+    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }],
+    editData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }],
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }],
+    actionEvent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Output }],
+    chart: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ViewChild, args: ["chart",] }],
+    parentData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }]
+};
+EndoGripComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
+        selector: 'app-endo-grip',
+        template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_griph_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
+        styles: [_endo_griph_component_scss__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], EndoGripComponent);
+
+
+
+/***/ }),
+
+/***/ 69155:
+/*!***********************************************************!*\
+  !*** ./src/app/pages/static-pages/endo/endo.component.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EndoComponent": () => (/* binding */ EndoComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./endo.component.html */ 3544);
+/* harmony import */ var _endo_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endo.component.scss */ 64558);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/common */ 28267);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ 29243);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rxjs */ 28433);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! rxjs */ 32354);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! rxjs/operators */ 72407);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! rxjs/operators */ 2014);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! rxjs/operators */ 49566);
+/* harmony import */ var _core_global_fun_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/global-fun.service */ 73762);
+/* harmony import */ var _core_is_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/is-json */ 47975);
+/* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../modules/auth */ 67198);
+/* harmony import */ var _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../modules/loading-toast/alert-model/alert.service */ 60940);
+/* harmony import */ var _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../products/services/products-data.service */ 35618);
+/* harmony import */ var _static_field_interface__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../static-field.interface */ 11766);
+/* harmony import */ var _static_pages_data__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../static-pages.data */ 6920);
+/* harmony import */ var _models_services_endo_rate_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./models&services/endo-rate.service */ 70839);
+/* harmony import */ var _models_services_endo_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./models&services/endo.service */ 61438);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let EndoComponent = class EndoComponent {
+    constructor(globalFun, alertService, prodService, eduPreService, eduSurrService, eduPayment, cdf, auth, numberPipe) {
+        this.globalFun = globalFun;
+        this.alertService = alertService;
+        this.prodService = prodService;
+        this.eduPreService = eduPreService;
+        this.eduSurrService = eduSurrService;
+        this.eduPayment = eduPayment;
+        this.cdf = cdf;
+        this.auth = auth;
+        this.numberPipe = numberPipe;
+        this.actionEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_12__.EventEmitter();
+        this.premimuRate = {
+            "9opt": 5,
+            "11opt": 7,
+            "14opt": 10,
+        };
+        this.frequency = {
+            monthly: 1,
+            quarterly: 4,
+            semi_annually: 6,
+            annually: 12,
+        };
+        this.lists = [];
+        this.premiumRate = [];
+        this.surrendRate = [];
+        this.showDatas = [];
+    }
+    ngOnInit() {
+        this.parentData = this.getParnet();
+        if (!this.parentData) {
+            this.alertService.activate("This page cann't to show because there is no education life product detail data. Please add education life product detail in rodcut configuration", "Warning");
+        }
+        else {
+            this.getRateValue().pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_13__.switchMap)((res) => {
+                if (!res[0] || !res[1])
+                    throw res;
+                return (0,rxjs__WEBPACK_IMPORTED_MODULE_14__.of)({ premium: res[0], surrend: res[1] });
+            })).toPromise().then((res) => {
+                if (res) {
+                    this.premiumRate = res.premium;
+                    this.surrendRate = res.surrend;
+                    this.createListData();
+                }
+            }).catch(e => {
+                console.log(e);
+            });
+            // rate age benifitPlan policyTerm year
+            // this.parentData['sum_insured'] this.parentData['sum_insured']
+            // paPolicyValidationResult
+        }
+    }
+    createListData() {
+        this.getcalculateData();
+        this.showDatas = [];
+        // console.log(this.premimuRate[policyTermValue + "opt"]);
+        this.lists.forEach((x, i) => {
+            let objData = {
+                resourceId: this.resourcesId,
+                endOfPolicyYear: x,
+                age: this.currentAge + i,
+                premiumPaid: this.premimuRateNum >= x ? this.calculatePre(this.currentAge + i, x) : 0,
+                benefit: this.sumInsured,
+                surrenderValue: this.calculateSur(x),
+                policyLoan: this.calculateSur(x) * 0.9
+            };
+            // {
+            //   "age": 0,
+            //   "benefitPlan": "string",
+            //   "deathBenefit": 0,
+            //   "id": 0,
+            //   "maturityBenefit": 0,
+            //   "premiumPaid": 0,
+            //   "resourceId": "string",
+            //   "surrenderValue": 0
+            // }
+            this.showDatas.push(objData);
+            if (i + 1 == this.lists.length) {
+                this.cdf.detectChanges();
+            }
+        });
+    }
+    getcalculateData() {
+        let policyTerm = this.globalFun.paPolicyValidationResult.value;
+        let policyTermValue = policyTerm.validationValue;
+        this.premimuRateNum = this.premimuRate[policyTermValue + "opt"];
+        this.policyTermCode = this.parentData['policy_term'];
+        this.sumInsured = this.parentData['sum_insured'];
+        let dob = this.parentData['date_of_birth'];
+        this.currentAge = Math.ceil(moment__WEBPACK_IMPORTED_MODULE_2__().diff(dob, 'years', true));
+        let paymentFrequency = this.parentData['payment_frequency'];
+        this.frequencyValue = this.frequency[paymentFrequency];
+        this.lists = Array.from({ length: policyTermValue }, (_, i) => i + 1);
+        return true;
+    }
+    getParnet() {
+        if ((0,_core_is_json__WEBPACK_IMPORTED_MODULE_4__.IsJsonString)(this.product.config)) {
+            let pageUI = JSON.parse(this.product.config);
+            let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || [];
+            let parent = pageOrder.find(page => page.unitCode == 'endo_detail_2022215');
+            if (parent) {
+                return this.globalFun.tempFormData[parent.tableName + parent.id] || null;
+            }
+            return null;
+        }
+        return null;
+    }
+    calculatePre(age, year) {
+        // console.log();
+        let tempRate = 15.5;
+        let rate = this.premiumRate.find(x => x.age == age);
+        if (rate) {
+            tempRate = rate.rate;
+        }
+        // this.frequencyValue
+        let monthly = ((tempRate / 1000) * this.sumInsured);
+        if (year == 1) {
+            console.log(this.frequencyValue);
+            let tempPre = (this.globalFun.calculateDecimal(monthly * this.frequencyValue) + 1500);
+            this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / " + this.parentData['payment_frequency'];
+            this.globalFun.paPremiumResult.next(this.premiumAmt);
+        }
+        return this.globalFun.calculateDecimal(monthly * 12) * year;
+    }
+    calculateSur(year) {
+        let tempRate = 10;
+        let rate = this.surrendRate.find(x => x.year == year);
+        if (rate) {
+            tempRate = rate.rate;
+            let surrend = (tempRate / 100) * this.sumInsured;
+            return surrend;
+        }
+        return 0;
+    }
+    getRateValue() {
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_15__.forkJoin)([this.getPRate(), this.getSurRate()]).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_16__.map)((res) => {
+            return res;
+        }));
+    }
+    getPRate() {
+        return this.eduPreService.getMany(this.parentData['policy_term']);
+    }
+    getSurRate() {
+        return this.eduSurrService.getMany(this.parentData['policy_term']);
+    }
+    nextPage() {
+        if (this.showDatas.length > 0) {
+            this.eduPayment.deleteMany(this.resourcesId).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_17__.mergeMap)((res) => {
+                let postData = {
+                    "request": this.showDatas,
+                    "resourceDataDTO": {
+                        "agentId": this.auth.currentUserValue.id || 1,
+                        "customerId": this.prodService.creatingCustomer.customerId || 1,
+                        "policyNumber": null,
+                        "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+                        "premiumView": this.premiumAmt,
+                        "productId": this.product.id,
+                        "quotationId": this.prodService.referenceID,
+                        "type": this.prodService.type
+                    },
+                    "resourceId": this.resourcesId
+                };
+                return this.eduPayment.saveMany(postData);
+            })).toPromise().then((res) => {
+                if (res) {
+                    this.globalFun.tempFormData[_static_pages_data__WEBPACK_IMPORTED_MODULE_9__.EndowmentID] = this.showDatas;
+                    this.actionEvent.emit({ type: _static_field_interface__WEBPACK_IMPORTED_MODULE_8__.StaticActionType.NEXT });
+                }
+            });
+        }
+    }
+    backPage() {
+        this.actionEvent.emit({ type: _static_field_interface__WEBPACK_IMPORTED_MODULE_8__.StaticActionType.PREV });
+    }
+};
+EndoComponent.ctorParameters = () => [
+    { type: _core_global_fun_service__WEBPACK_IMPORTED_MODULE_3__.GlobalFunctionService },
+    { type: _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_6__.AlertService },
+    { type: _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_7__.ProductDataService },
+    { type: _models_services_endo_rate_service__WEBPACK_IMPORTED_MODULE_10__.EndoRateService },
+    { type: _models_services_endo_rate_service__WEBPACK_IMPORTED_MODULE_10__.EndoSurrRateService },
+    { type: _models_services_endo_service__WEBPACK_IMPORTED_MODULE_11__.EndoService },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_12__.ChangeDetectorRef },
+    { type: _modules_auth__WEBPACK_IMPORTED_MODULE_5__.AuthService },
+    { type: _angular_common__WEBPACK_IMPORTED_MODULE_18__.DecimalPipe }
+];
+EndoComponent.propDecorators = {
+    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_12__.Input }],
+    editData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_12__.Input }],
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_12__.Input }],
+    actionEvent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_12__.Output }]
+};
+EndoComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_19__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.Component)({
+        selector: 'app-endo',
+        template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_endo_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
+        styles: [_endo_component_scss__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], EndoComponent);
+
+
+
+/***/ }),
+
+/***/ 70839:
+/*!******************************************************************************!*\
+  !*** ./src/app/pages/static-pages/endo/models&services/endo-rate.service.ts ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EndoRateService": () => (/* binding */ EndoRateService),
+/* harmony export */   "EndoSurrRateService": () => (/* binding */ EndoSurrRateService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 83981);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../environments/environment */ 18260);
+/* harmony import */ var _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../core/biz.operation.service */ 91691);
+
+
+
+
+
+const API_ENDO_RATE_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/endowment/rate`;
+let EndoRateService = class EndoRateService extends _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__.BizOperationService {
+    constructor(httpClient) {
+        super(httpClient, API_ENDO_RATE_URL);
+        this.httpClient = httpClient;
+    }
+    getMany(term) {
+        return this.httpClient.get(API_ENDO_RATE_URL + "?policyTerm=" + term);
+    }
+};
+EndoRateService.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient }
+];
+EndoRateService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+        providedIn: 'root'
+    })
+], EndoRateService);
+
+const API_ENDO_S_RATE_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/endowment/surrender/rate`;
+let EndoSurrRateService = class EndoSurrRateService extends _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__.BizOperationService {
+    constructor(httpClient) {
+        super(httpClient, API_ENDO_S_RATE_URL);
+        this.httpClient = httpClient;
+    }
+    getMany(term) {
+        return this.httpClient.get(API_ENDO_S_RATE_URL + "?policyTerm=" + term);
+    }
+};
+EndoSurrRateService.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient }
+];
+EndoSurrRateService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+        providedIn: 'root'
+    })
+], EndoSurrRateService);
+
+
+
+/***/ }),
+
+/***/ 61438:
+/*!*************************************************************************!*\
+  !*** ./src/app/pages/static-pages/endo/models&services/endo.service.ts ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EndoService": () => (/* binding */ EndoService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 83981);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../environments/environment */ 18260);
+/* harmony import */ var _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../core/biz.operation.service */ 91691);
+
+
+
+
+
+const API_EDU_LIFE_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/endowment`;
+let EndoService = class EndoService extends _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__.BizOperationService {
+    constructor(httpClient) {
+        super(httpClient, API_EDU_LIFE_URL);
+        this.httpClient = httpClient;
+    }
+    deleteMany(redId) {
+        // /api/v1/health/payment-schedule/resource/{resourceId}
+        return this.httpClient.delete(API_EDU_LIFE_URL + "/resource/" + redId);
+    }
+    getMany(redId) {
+        // /api/v1/health/payment-schedule/resource/{resourceId}
+        return this.httpClient.get(API_EDU_LIFE_URL + "/resource/" + redId);
+    }
+    saveMany(data) {
+        return this.httpClient.post(API_EDU_LIFE_URL + "s", data);
+    }
+};
+EndoService.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient }
+];
+EndoService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+        providedIn: 'root'
+    })
+], EndoService);
+
+
+
+/***/ }),
+
 /***/ 76834:
 /*!*********************************************************************!*\
   !*** ./src/app/pages/static-pages/fire-risk/fire-risk.component.ts ***!
@@ -4519,6 +5049,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AddonpageID": () => (/* binding */ AddonpageID),
 /* harmony export */   "EducationLifeID": () => (/* binding */ EducationLifeID),
 /* harmony export */   "EducationLifeGRAPID": () => (/* binding */ EducationLifeGRAPID),
+/* harmony export */   "EndowmentID": () => (/* binding */ EndowmentID),
+/* harmony export */   "EndowmentGRAPID": () => (/* binding */ EndowmentGRAPID),
 /* harmony export */   "PaymentFrequency": () => (/* binding */ PaymentFrequency)
 /* harmony export */ });
 /* harmony import */ var _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../products/models/product.dto */ 1402);
@@ -4595,7 +5127,16 @@ const STATIC_PAGES = [
         pageType: 'form',
         tableName: 'static',
         pageIcon: "fa-briefcase"
-    }
+    },
+    {
+        id: 'static_1644896661652',
+        type: _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__.PageUIType.STATIC,
+        pageTitle: "Benefit Illustration",
+        showLabel: "Endowment Benefit Illustration",
+        pageType: 'form',
+        tableName: 'static',
+        pageIcon: "fa-briefcase"
+    },
 ];
 const STATIC_PRINTS = [
     {
@@ -4616,6 +5157,8 @@ const CoveragePageID = "coverage_1634010995936";
 const AddonpageID = "addon_1634010770155";
 const EducationLifeID = "static_1635309151504";
 const EducationLifeGRAPID = "static_1635392848894";
+const EndowmentID = "static_1644896661652";
+const EndowmentGRAPID = "static_1644896804675";
 var PaymentFrequency;
 (function (PaymentFrequency) {
     PaymentFrequency["Monthly"] = "monthly";
@@ -4637,16 +5180,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StaticPageDirective": () => (/* binding */ StaticPageDirective)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 98806);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 14001);
 /* harmony import */ var _addon_page_addon_page_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addon-page/addon-page.component */ 56156);
 /* harmony import */ var _coverage_page_coverage_page_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./coverage-page/coverage-page.component */ 66602);
 /* harmony import */ var _education_life_education_life_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./education-life/education-life.component */ 17268);
-/* harmony import */ var _fire_risk_fire_risk_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fire-risk/fire-risk.component */ 76834);
-/* harmony import */ var _fire_simple_page_fire_simple_page_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fire-simple-page/fire-simple-page.component */ 13405);
-/* harmony import */ var _health_quo_health_quo_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./health-quo/health-quo.component */ 39465);
-/* harmony import */ var _simple_page_policy_simple_page_policy_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./simple-page-policy/simple-page-policy.component */ 18125);
-/* harmony import */ var _simple_page_simple_page_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./simple-page/simple-page.component */ 74005);
+/* harmony import */ var _endo_griph_endo_griph_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./endo-griph/endo-griph.component */ 353);
+/* harmony import */ var _endo_endo_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./endo/endo.component */ 69155);
+/* harmony import */ var _fire_risk_fire_risk_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fire-risk/fire-risk.component */ 76834);
+/* harmony import */ var _fire_simple_page_fire_simple_page_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fire-simple-page/fire-simple-page.component */ 13405);
+/* harmony import */ var _health_quo_health_quo_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./health-quo/health-quo.component */ 39465);
+/* harmony import */ var _simple_page_policy_simple_page_policy_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./simple-page-policy/simple-page-policy.component */ 18125);
+/* harmony import */ var _simple_page_simple_page_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./simple-page/simple-page.component */ 74005);
+
+
 
 
 
@@ -4661,19 +5208,21 @@ __webpack_require__.r(__webpack_exports__);
 const STATIC_COMPONENT = {
     'addon_1634010770155': _addon_page_addon_page_component__WEBPACK_IMPORTED_MODULE_0__.AddonPageComponent,
     'coverage_1634010995936': _coverage_page_coverage_page_component__WEBPACK_IMPORTED_MODULE_1__.CoveragePageComponent,
-    'static_1634018514043': _simple_page_simple_page_component__WEBPACK_IMPORTED_MODULE_7__.SimplePageComponent,
-    'static_1635218894755': _health_quo_health_quo_component__WEBPACK_IMPORTED_MODULE_5__.HealthQuoComponent,
+    'static_1634018514043': _simple_page_simple_page_component__WEBPACK_IMPORTED_MODULE_9__.SimplePageComponent,
+    'static_1635218894755': _health_quo_health_quo_component__WEBPACK_IMPORTED_MODULE_7__.HealthQuoComponent,
     'static_1635309151504': _education_life_education_life_component__WEBPACK_IMPORTED_MODULE_2__.EducationLifeComponent,
     // 'static_1635392848894' : EducationLifeGripComponent,
-    'static_1635747288508': _simple_page_policy_simple_page_policy_component__WEBPACK_IMPORTED_MODULE_6__.SimplePagePolicyComponent,
-    'static_1641364737069': _fire_simple_page_fire_simple_page_component__WEBPACK_IMPORTED_MODULE_4__.FirePageComponent,
-    'static_1643116155828': _fire_risk_fire_risk_component__WEBPACK_IMPORTED_MODULE_3__.FireRiskComponent
+    'static_1635747288508': _simple_page_policy_simple_page_policy_component__WEBPACK_IMPORTED_MODULE_8__.SimplePagePolicyComponent,
+    'static_1641364737069': _fire_simple_page_fire_simple_page_component__WEBPACK_IMPORTED_MODULE_6__.FirePageComponent,
+    'static_1643116155828': _fire_risk_fire_risk_component__WEBPACK_IMPORTED_MODULE_5__.FireRiskComponent,
+    'static_1644896661652': _endo_endo_component__WEBPACK_IMPORTED_MODULE_4__.EndoComponent,
+    'static_1644896804675': _endo_griph_endo_griph_component__WEBPACK_IMPORTED_MODULE_3__.EndoGripComponent,
 };
 let StaticPageDirective = class StaticPageDirective {
     constructor(resolver, container) {
         this.resolver = resolver;
         this.container = container;
-        this.eventOut = new _angular_core__WEBPACK_IMPORTED_MODULE_8__.EventEmitter();
+        this.eventOut = new _angular_core__WEBPACK_IMPORTED_MODULE_10__.EventEmitter();
     }
     ngOnInit() {
         this.reCreate();
@@ -4693,19 +5242,19 @@ let StaticPageDirective = class StaticPageDirective {
     }
 };
 StaticPageDirective.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.ComponentFactoryResolver },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.ViewContainerRef }
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.ComponentFactoryResolver },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.ViewContainerRef }
 ];
 StaticPageDirective.propDecorators = {
-    compId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Input }],
-    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Input }],
-    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Input }],
-    premiumAmt: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Input }],
-    editData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Input }],
-    eventOut: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Output }]
+    compId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.Input }],
+    product: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.Input }],
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.Input }],
+    premiumAmt: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.Input }],
+    editData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.Input }],
+    eventOut: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_10__.Output }]
 };
-StaticPageDirective = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Directive)({
+StaticPageDirective = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.Directive)({
         selector: '[staticPage]'
     })
 ], StaticPageDirective);
@@ -5458,6 +6007,34 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ 70938:
+/*!****************************************************************************************************************************************!*\
+  !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-pages/endo-griph/endo-griph.component.html ***!
+  \****************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<apx-chart\n    [series]=\"chartOptions.series\"\n    [chart]=\"chartOptions.chart\"\n    [xaxis]=\"chartOptions.xaxis\"\n    [yaxis]=\"chartOptions.yaxis\"\n    [title]=\"chartOptions.title\"\n    [legend]=\"chartOptions.legend\"\n    [dataLabels]=\"chartOptions.dataLabels\"\n    [markers]=\"chartOptions.markers\"\n  ></apx-chart>\n  <!-- <div class=\"row mt-3\">\n    <div class=\"col-sm-6 mx-auto\">\n      <button class=\"btn btn-block btn-secondary\" (click)=\"backPage()\"> Previous </button>\n    </div>\n    <div class=\"col-sm-6 mx-auto\">\n      <button class=\"btn btn-block btn-primary\" (click)=\"nextPage()\"> Save & Next </button>\n    </div>\n  </div> -->");
+
+/***/ }),
+
+/***/ 3544:
+/*!****************************************************************************************************************************!*\
+  !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-pages/endo/endo.component.html ***!
+  \****************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<table class=\"table table-bordered\">\n  <thead>\n    <tr>\n      <th>End of Policy Year</th>\n      <th>Age</th>\n      <th>Premium Paid</th>\n      <th>Death/PTD Benefit</th>\n      <th>Surrender Value</th>\n      <th>Policy Loan</th>\n    </tr>\n  </thead>\n  <tbody *ngIf=\"premiumRate.length > 0 && surrendRate.length > 0\">\n    <tr *ngFor=\"let item of showDatas;let i = index\">\n      <td>{{item.endOfPolicyYear}}</td>\n      <td>{{item.age}}</td>\n      <td style=\"text-align: right;\">{{(item.premiumPaid | number) || \"-\"}}</td>\n      <td style=\"text-align: right;\">{{item.benefit | number}}</td>\n      <td style=\"text-align: right;\">{{(item.surrenderValue | number) || \"-\"}}</td>\n      <td style=\"text-align: right;\">{{(item.policyLoan | number) || \"-\"}}</td>\n    </tr>\n  </tbody>\n</table>\n<hr class=\"mb-5\">\n<ng-container *ngIf=\"showDatas.length > 0\">\n  <app-endo-grip [parentData]=\"showDatas\"></app-endo-grip>\n</ng-container>\n<div class=\"row mt-3\">\n  <div class=\"col-sm-6 mx-auto\">\n    <button class=\"btn btn-block btn-secondary\" (click)=\"backPage()\"> Previous </button>\n  </div>\n  <div class=\"col-sm-6 mx-auto\">\n    <button class=\"btn btn-block btn-primary\" (click)=\"nextPage()\"> Save & Next </button>\n  </div>\n</div>");
+
+/***/ }),
+
 /***/ 84084:
 /*!**************************************************************************************************************************************!*\
   !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-pages/fire-risk/fire-risk.component.html ***!
@@ -5641,6 +6218,26 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /***/ ((module) => {
 
 module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlZHVjYXRpb24tbGlmZS5jb21wb25lbnQuc2NzcyJ9 */";
+
+/***/ }),
+
+/***/ 47469:
+/*!*************************************************************************!*\
+  !*** ./src/app/pages/static-pages/endo-griph/endo-griph.component.scss ***!
+  \*************************************************************************/
+/***/ ((module) => {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlbmRvLWdyaXBoLmNvbXBvbmVudC5zY3NzIn0= */";
+
+/***/ }),
+
+/***/ 64558:
+/*!*************************************************************!*\
+  !*** ./src/app/pages/static-pages/endo/endo.component.scss ***!
+  \*************************************************************/
+/***/ ((module) => {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlbmRvLmNvbXBvbmVudC5zY3NzIn0= */";
 
 /***/ }),
 

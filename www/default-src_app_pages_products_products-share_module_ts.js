@@ -1519,7 +1519,7 @@ PrintPreviewModalComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
 
 /***/ }),
 
-/***/ 61438:
+/***/ 13776:
 /*!*****************************************************************************!*\
   !*** ./src/app/pages/products/product-details/product-details.component.ts ***!
   \*****************************************************************************/
@@ -2322,7 +2322,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _products_modal_products_modal_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./products-modal/products-modal.component */ 89030);
 /* harmony import */ var _angular_material_radio__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/material/radio */ 63387);
 /* harmony import */ var _coverage_modal_coverage_modal_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./coverage-modal/coverage-modal.component */ 12123);
-/* harmony import */ var _product_details_product_details_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./product-details/product-details.component */ 61438);
+/* harmony import */ var _product_details_product_details_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./product-details/product-details.component */ 13776);
 /* harmony import */ var _metronic_shared_crud_table__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../_metronic/shared/crud-table */ 70380);
 /* harmony import */ var _page_ui_modal_page_ui_modal_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./page-ui-modal/page-ui-modal.component */ 63217);
 /* harmony import */ var _coverage_option_coverage_option_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./coverage-option/coverage-option.component */ 41714);
@@ -2818,6 +2818,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AddonpageID": () => (/* binding */ AddonpageID),
 /* harmony export */   "EducationLifeID": () => (/* binding */ EducationLifeID),
 /* harmony export */   "EducationLifeGRAPID": () => (/* binding */ EducationLifeGRAPID),
+/* harmony export */   "EndowmentID": () => (/* binding */ EndowmentID),
+/* harmony export */   "EndowmentGRAPID": () => (/* binding */ EndowmentGRAPID),
 /* harmony export */   "PaymentFrequency": () => (/* binding */ PaymentFrequency)
 /* harmony export */ });
 /* harmony import */ var _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../products/models/product.dto */ 1402);
@@ -2894,7 +2896,16 @@ const STATIC_PAGES = [
         pageType: 'form',
         tableName: 'static',
         pageIcon: "fa-briefcase"
-    }
+    },
+    {
+        id: 'static_1644896661652',
+        type: _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__.PageUIType.STATIC,
+        pageTitle: "Benefit Illustration",
+        showLabel: "Endowment Benefit Illustration",
+        pageType: 'form',
+        tableName: 'static',
+        pageIcon: "fa-briefcase"
+    },
 ];
 const STATIC_PRINTS = [
     {
@@ -2915,6 +2926,8 @@ const CoveragePageID = "coverage_1634010995936";
 const AddonpageID = "addon_1634010770155";
 const EducationLifeID = "static_1635309151504";
 const EducationLifeGRAPID = "static_1635392848894";
+const EndowmentID = "static_1644896661652";
+const EndowmentGRAPID = "static_1644896804675";
 var PaymentFrequency;
 (function (PaymentFrequency) {
     PaymentFrequency["Monthly"] = "monthly";
