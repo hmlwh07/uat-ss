@@ -49,25 +49,19 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   public chartOptions: Partial<ChartOptions>; 
   data: any;
   actForm: FormGroup;
-  leadObj = {
-    leadWinRate: 56,
-    leadAssignCount: 100,
-    todayActiveAgent: 4,
-    taskToday: 15,
-    leadToday: 58
-  };
+  leadObj : any;
   id: any;
   constructor(private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
     this.route.queryParams.subscribe(async params => {
       this.id = JSON.parse(params.empId);
       this.loadForm();
     });
-    this.setChartOptions();
   }
 
   async ngOnInit() {
     this.getList();
-    this.setChartOptions();
+    this.getLeadList();
+    //this.setChartOptions();
   }
 
   loadForm() {
@@ -77,13 +71,22 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   }
 
   getList() {
-    this.dashboardService.getActivityList(this.actForm.value).toPromise().then((res) => {
+    this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.data = res
-        console.log('data', this.data);
       }
     })
   }
+
+  getLeadList() {
+    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res) => {
+      if (res) {
+        this.leadObj = res
+        this.setChartOptions();
+      }
+    })
+  }
+  
 
   ngOnDestroy() {
   }
@@ -97,7 +100,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       series: [
         {
           name: "",
-          data: [100,1000]
+          data: [this.leadObj.leadWinCount,this.leadObj.leadAssignCount]
         }
       ],
       chart: {
@@ -136,8 +139,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       },
       xaxis: {
         categories: [
-          ["Converted", "100"],
-          ["Assigned", "1,000"],
+          ["Converted", this.leadObj.leadWinCount],
+          ["Assigned", this.leadObj.leadAssignCount],
         ],
         labels: {
           style: {
