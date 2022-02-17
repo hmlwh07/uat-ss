@@ -106,19 +106,19 @@ export class ReportByAgentWeeklyComponent implements OnInit {
                       this.dataList[i].productDataList[k].headerWeekName = this.dataList[i].dynamicList[j].headerWeekName
                       this.dataList[i].productDataList[k].headerWeekRange = this.dataList[i].dynamicList[j].headerWeekRange
                       this.dataList[i].productDataList[k].headerMonthName = this.dataList[i].dynamicList[j].headerMonthName
-                      this.dataList[i].productDataList[k].targetValue = this.dataList[i].dynamicList[j].targetValue
-                      this.dataList[i].productDataList[k].dailyValue = this.dataList[i].dynamicList[j].dailyValue
-                      this.dataList[i].productDataList[k].weeklyValue = this.dataList[i].dynamicList[j].weeklyValue
-                      this.dataList[i].productDataList[k].monthlyValue = this.dataList[i].dynamicList[j].monthlyValue
+                      //this.dataList[i].productDataList[k].targetValue = this.dataList[i].dynamicList[j].targetValue
+                      this.dataList[i].productDataList[k].dailyValue = this.mathRoundTo(Number(this.dataList[i].dynamicList[j].dailyValue), 2)
+                      this.dataList[i].productDataList[k].weeklyValue = this.mathRoundTo(Number(this.dataList[i].dynamicList[j].weeklyValue), 2)
+                      this.dataList[i].productDataList[k].monthlyValue = this.mathRoundTo(Number(this.dataList[i].dynamicList[j].monthlyValue), 2)
                       totalTargetValue += Number(this.dataList[i].dynamicList[j].targetValue);
                     }
                   }
 
-                  this.dataList[i].totalTargetValue = totalTargetValue;
+                  this.dataList[i].totalTargetValue = this.mathRoundTo(totalTargetValue, 2);
                 }
               }
             }
-          }else{
+          } else {
             this.isData = false;
           }
         }
@@ -357,7 +357,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -404,17 +404,17 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     if (type == 'FromDate') {
       this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
       this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
-        let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-        if (diffYear != 0 && diffYear != 1) {
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
       }
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate  = new Date(this.createFormGroup.value.toDate);
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
       this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
-       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-       if (diffYear != 0 && diffYear != 1) {
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
       }
     }

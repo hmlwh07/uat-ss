@@ -526,7 +526,7 @@
         .investment {
             height: 90px;
             .lpp-icon {
-                top: 28px;
+                top: 28px; 
             }
             a {
                 top: 65px;
@@ -855,5 +855,12 @@
         height: 405px;
         right: 35px;
         bottom: 18px;
+    }
+}
+
+button{
+    color: #fff;
+    label{
+        margin: 0;
     }
 }

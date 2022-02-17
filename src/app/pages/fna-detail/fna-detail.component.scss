@@ -217,13 +217,12 @@
         border-radius: 0 !important;
         text-align: center;
         width: 40px;
-        left: unset ;
+        left: unset;
         top: unset;
         right: 0;
         bottom: 0;
-      
     }
-    .progress{
+    .progress {
         width: 100% !important;
         height: 70% !important;
     }
@@ -246,13 +245,25 @@
     // }
 }
 
-
-
-@media screen and (min-width: 320px) and (max-width: 490px) {
-    .chart-grid{
-        min-width: 490px;
-        overflow-x: scroll;
+@media screen and (min-width: 320px) and (max-width: 460px) {
+    .chart-grid {
+        width: 100%;
+        padding: 0 !important;
+    }
+    .fna-segment{
+        width: 100%;
     }
 }
 
+@media screen and (min-width: 461px) and (max-width: 680px) {
+    .fna-segment{
+        width: 100%;
+    }
+}
 
+button{
+    color: #fff;
+    label{
+        margin: 0;
+    }
+}
