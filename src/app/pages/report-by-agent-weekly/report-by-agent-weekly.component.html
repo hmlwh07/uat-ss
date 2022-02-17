@@ -191,7 +191,7 @@
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">
                     <td>{{ data.agentName }}</td>
-                    <td>{{ data.cluster }}</td>
+                    <td>{{ data.branchName }}</td>
                     <td>{{ data.activitiesName }}</td>
                     <td>{{ data.totalTargetValue }}</td>
                     <td *ngFor="let daily of dataList[i].productDataList; let j = index; ">{{ daily.weeklyValue }}</td>

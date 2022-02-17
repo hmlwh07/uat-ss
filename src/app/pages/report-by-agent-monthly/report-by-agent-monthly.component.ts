@@ -105,7 +105,8 @@ export class ReportByAgentMonthlyComponent implements OnInit {
                       totalTargetValue += Number(this.dataList[i].dynamicList[j].targetValue);
                     }
                   }
-                  this.dataList[i].totalTargetValue = this.mathRoundTo(totalTargetValue, 2);
+
+                  this.dataList[i].totalTargetValue = this.mathRoundTo(totalTargetValue,2);
                 }
               }
             }

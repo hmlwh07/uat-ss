@@ -142,7 +142,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     // Data
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(i + 1, this.dataList[i].branch, this.dataList[i].channel, this.dataList[i].bankBranch, this.dataList[i].agentName, this.dataList[i].agentNo)
+      list.push(i + 1, this.dataList[i].cluster, this.dataList[i].channel, this.dataList[i].branch, this.dataList[i].agentName, this.dataList[i].agentNo)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(this.dataList[i].productDataList[j].noOfPolicy, this.dataList[i].productDataList[j].totalPreminum)
       }

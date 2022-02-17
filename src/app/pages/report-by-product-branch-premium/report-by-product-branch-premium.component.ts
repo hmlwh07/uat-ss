@@ -148,7 +148,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
     // Data For Excel
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(i + 1, this.dataList[i].branch)
+      list.push(i + 1, this.dataList[i].cluster)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(this.dataList[i].productDataList[j].noOfPolicy)
       }

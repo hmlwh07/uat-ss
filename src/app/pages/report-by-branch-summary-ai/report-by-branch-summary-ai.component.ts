@@ -110,7 +110,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     let countSrNo: number = 0;
     for (var i = 0; i < this.reports.length; i++) {
       countSrNo += 1;
-      this.reportsForExcel.push([countSrNo, this.reports[i].branch,
+      this.reportsForExcel.push([countSrNo, this.reports[i].cluster,
         this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
     }
     for (var i = 0; i < this.totalDataList.length; i++) {
