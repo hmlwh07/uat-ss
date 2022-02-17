@@ -32,25 +32,17 @@ let SeniorLpDashboardComponent = class SeniorLpDashboardComponent {
         this.auth = auth;
         this.dashboardService = dashboardService;
         this.router = router;
-        this.leadObj = {
-            leadWinRate: 56,
-            leadAssignCount: 100,
-            todayActiveAgent: 4,
-            taskToday: 15,
-            leadToday: 58
-        };
         this.unsub = this.auth.currentUserSubject.subscribe((res) => {
             if (res) {
                 this.authObj = res;
             }
         });
         this.loadForm();
-        this.setChartOptions();
     }
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
             this.getList();
-            this.setChartOptions();
+            this.getLeadList();
         });
     }
     loadForm() {
@@ -59,10 +51,17 @@ let SeniorLpDashboardComponent = class SeniorLpDashboardComponent {
         });
     }
     getList() {
-        this.dashboardService.getActivityList(this.actForm.value).toPromise().then((res) => {
+        this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
             if (res) {
                 this.data = res;
-                console.log('data', this.data);
+            }
+        });
+    }
+    getLeadList() {
+        this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res) => {
+            if (res) {
+                this.leadObj = res;
+                this.setChartOptions();
             }
         });
     }
@@ -77,7 +76,7 @@ let SeniorLpDashboardComponent = class SeniorLpDashboardComponent {
             series: [
                 {
                     name: "",
-                    data: [100, 1000]
+                    data: [this.leadObj.leadWinCount, this.leadObj.leadAssignCount]
                 }
             ],
             chart: {
@@ -116,8 +115,8 @@ let SeniorLpDashboardComponent = class SeniorLpDashboardComponent {
             },
             xaxis: {
                 categories: [
-                    ["Converted", "100"],
-                    ["Assigned", "1,000"],
+                    ["Converted", this.leadObj.leadWinCount],
+                    ["Assigned", this.leadObj.leadAssignCount],
                 ],
                 labels: {
                     style: {

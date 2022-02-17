@@ -672,13 +672,37 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const API_ADDON_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/dashboard/agent`;
+const API_Lead_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/dashboard/lead-activity/count`;
+const API_Recent_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/dashboard/resent-operation`;
+const API_Campaign_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/dashboard/today-campaign`;
 let DashboardService = class DashboardService extends _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__.BizOperationService {
     constructor(httpClient) {
         super(httpClient, API_ADDON_URL);
         this.httpClient = httpClient;
     }
-    getActivityList(search = {}) {
+    getList(search = {}) {
         let url = API_ADDON_URL + "?";
+        if (search.empId) {
+            url = url + "empId=" + search.empId + "&";
+        }
+        return this.httpClient.get(url);
+    }
+    getLeadList(search = {}) {
+        let url = API_Lead_URL + "?";
+        if (search.empId) {
+            url = url + "empId=" + search.empId + "&";
+        }
+        return this.httpClient.get(url);
+    }
+    getRecentList(search = {}) {
+        let url = API_Recent_URL + "?";
+        if (search.empId) {
+            url = url + "empId=" + search.empId + "&";
+        }
+        return this.httpClient.get(url);
+    }
+    getCampaignList(search = {}) {
+        let url = API_Campaign_URL + "?";
         if (search.empId) {
             url = url + "empId=" + search.empId + "&";
         }

@@ -2416,19 +2416,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LeadDetailComponent": () => (/* binding */ LeadDetailComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! tslib */ 98806);
 /* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_lead_detail_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./lead-detail.component.html */ 71775);
 /* harmony import */ var _lead_detail_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lead-detail.component.scss */ 14512);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @angular/core */ 14001);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/forms */ 18346);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @angular/router */ 13252);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @angular/forms */ 18346);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @angular/router */ 13252);
 /* harmony import */ var src_app_modules_master_data_master_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/modules/master-data/master-data.service */ 26697);
 /* harmony import */ var _lead_list_lead_list_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lead-list/lead-list.service */ 57311);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @angular/common */ 28267);
-/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @angular/material/core */ 26816);
-/* harmony import */ var _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @angular/material-moment-adapter */ 80155);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @angular/common */ 28267);
+/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @angular/material/core */ 26816);
+/* harmony import */ var _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @angular/material-moment-adapter */ 80155);
 /* harmony import */ var _lead_detail_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lead-detail.service */ 73447);
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 44070);
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 44070);
 /* harmony import */ var _customer_list_customer_list_const__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../customer-list/customer-list.const */ 62311);
 /* harmony import */ var _form_component_nrc_popup_nrc_popup_page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../form-component/nrc-popup/nrc-popup.page */ 69523);
 /* harmony import */ var _form_component_custom_input_alert_custom_input_alert_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../form-component/custom-input-alert/custom-input-alert.component */ 91471);
@@ -2452,9 +2452,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fna_detail_fna_manage_service__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../fna-detail/fna-manage.service */ 60865);
 /* harmony import */ var _app_modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../../../app/modules/loading-toast/alert-model/alert.service */ 60940);
 /* harmony import */ var _fna_bram_product_product_dto__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../fna-bram/product/product.dto */ 58695);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! rxjs */ 32354);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! rxjs */ 28433);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! rxjs/operators */ 62489);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! rxjs */ 32354);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! rxjs */ 28433);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! rxjs/operators */ 62489);
+/* harmony import */ var _fna_detail_income_income_manage_dto__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../fna-detail/income/income-manage.dto */ 98849);
+/* harmony import */ var _fna_detail_retirement_retirement_manage_dto__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../fna-detail/retirement/retirement-manage.dto */ 48921);
+
+
 
 
 
@@ -2993,7 +2997,7 @@ let LeadDetailComponent = class LeadDetailComponent {
         });
     }
     updateLeadStatus(status) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__awaiter)(this, void 0, void 0, function* () {
             if (status == "save") {
                 this.createLead();
             }
@@ -3176,55 +3180,55 @@ let LeadDetailComponent = class LeadDetailComponent {
         this.leadForm = null;
         this.cdf.detectChanges();
         console.log("EXISTING", this.isExisting, "PORSPECT", this.isProspectCustomer);
-        this.leadForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormGroup({
-            leadId: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.leadId : '', disabled: true }),
-            phoneNo: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.phoneNo : '', disabled: this.disabledForm }),
-            openedDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.openedDate) : '', disabled: true }),
-            subject: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.subject : '', disabled: this.disabledForm }),
-            companyCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.companyCode : '', disabled: true }),
+        this.leadForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormGroup({
+            leadId: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.leadId : '', disabled: true }),
+            phoneNo: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.phoneNo : '', disabled: this.disabledForm }),
+            openedDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.openedDate) : '', disabled: true }),
+            subject: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.subject : '', disabled: this.disabledForm }),
+            companyCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.companyCode : '', disabled: true }),
             // contact: new FormControl(oldData ? oldData.contact : ""),
-            sms: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? (oldData.contact + "").includes('sms') : false, disabled: this.disabledForm }),
-            pemail: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? (oldData.contact + "").includes('email') : false, disabled: this.disabledForm }),
-            phone: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? (oldData.contact + "").includes('phone') : false, disabled: this.disabledForm }),
-            contactName: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.contactName : '', disabled: this.disabledForm }),
-            activationDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.activationDate) : '', disabled: true }),
-            channelCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.channelCode : '', disabled: true }),
-            occupationCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.occupationCode : '', disabled: this.disabledForm }),
-            closedDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.closedDate) : '', disabled: this.disabledForm }),
-            typeCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.typeCode : '', disabled: true }),
-            stateCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.stateCode : '', disabled: this.disabledForm }),
-            expirationDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.expirationDate) : '', disabled: this.disabledForm }),
-            statusCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.statusCode : '', disabled: true }),
+            sms: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? (oldData.contact + "").includes('sms') : false, disabled: this.disabledForm }),
+            pemail: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? (oldData.contact + "").includes('email') : false, disabled: this.disabledForm }),
+            phone: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? (oldData.contact + "").includes('phone') : false, disabled: this.disabledForm }),
+            contactName: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.contactName : '', disabled: this.disabledForm }),
+            activationDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.activationDate) : '', disabled: true }),
+            channelCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.channelCode : '', disabled: true }),
+            occupationCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.occupationCode : '', disabled: this.disabledForm }),
+            closedDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.closedDate) : '', disabled: this.disabledForm }),
+            typeCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.typeCode : '', disabled: true }),
+            stateCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.stateCode : '', disabled: this.disabledForm }),
+            expirationDate: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? moment__WEBPACK_IMPORTED_MODULE_17__(oldData.expirationDate) : '', disabled: this.disabledForm }),
+            statusCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.statusCode : '', disabled: true }),
             // oldData ? oldData.statusCode : ''
-            districtCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.districtCode : '', disabled: this.disabledForm }),
-            validityPeriod: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.validityPeriod : '', disabled: true }),
-            reason: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.reason : '', disabled: true }),
-            townshipCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.townshipCode : '', disabled: this.disabledForm }),
-            assignTo: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.ownerId : '', disabled: this.disabledForm }),
-            assignToName: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.ownerName : '', disabled: this.disabledForm }),
-            productId: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.productId : '', disabled: true }),
-            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.email : '', disabled: this.disabledForm }),
-            campaignName: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.campaignName : '', disabled: this.disabledForm }),
-            identityType: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.identityType : '', disabled: true }),
-            sourceCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.sourceCode : '', disabled: this.disabledForm }),
-            campaignNo: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.campaignNo : '', disabled: this.disabledForm }),
-            identityNumber: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.identityNumber : '', disabled: true }),
-            existingCustomerName: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }),
-            existingCustomerId: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.existingCustomerId : "", disabled: true }),
-            referralCustomerName: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.referralCustomerName.trim() : "", disabled: this.disabledForm }),
-            referralCustomerId: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.referralCustomerId : "", disabled: this.disabledForm }),
-            monthlyIncome: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.monthlyIncome : '', disabled: this.disabledForm }),
-            facebookAcc: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.facebookAcc : '', disabled: this.disabledForm }),
-            maritalStatus: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.maritalStatus : '', disabled: this.disabledForm }),
-            financialPlan: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.financialPlan : '', disabled: this.disabledForm }),
-            numberOfChildren: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.numberOfChildren : '', disabled: this.disabledForm }),
-            existingInsuranceCoverage: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.existingInsuranceCoverage : '', disabled: this.disabledForm }),
-            existingInsurancePlan: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.existingInsurancePlan : '', disabled: this.disabledForm }),
-            score: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.score : '', disabled: this.disabledForm }),
-            asset: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.asset : '', disabled: this.disabledForm }),
-            prospectCustomer: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: this.disabledForm }),
-            prospectCustomerId: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.prospectCustomerId : "", disabled: this.disabledForm }),
-            lostReason: new _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormControl({ value: oldData ? oldData.lostReason : '', disabled: true }),
+            districtCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.districtCode : '', disabled: this.disabledForm }),
+            validityPeriod: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.validityPeriod : '', disabled: true }),
+            reason: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.reason : '', disabled: true }),
+            townshipCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.townshipCode : '', disabled: this.disabledForm }),
+            assignTo: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.ownerId : '', disabled: this.disabledForm }),
+            assignToName: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.ownerName : '', disabled: this.disabledForm }),
+            productId: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.productId : '', disabled: true }),
+            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.email : '', disabled: this.disabledForm }),
+            campaignName: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.campaignName : '', disabled: this.disabledForm }),
+            identityType: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.identityType : '', disabled: true }),
+            sourceCode: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.sourceCode : '', disabled: this.disabledForm }),
+            campaignNo: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.campaignNo : '', disabled: this.disabledForm }),
+            identityNumber: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.identityNumber : '', disabled: true }),
+            existingCustomerName: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }),
+            existingCustomerId: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.existingCustomerId : "", disabled: true }),
+            referralCustomerName: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.referralCustomerName.trim() : "", disabled: this.disabledForm }),
+            referralCustomerId: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.referralCustomerId : "", disabled: this.disabledForm }),
+            monthlyIncome: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.monthlyIncome : '', disabled: this.disabledForm }),
+            facebookAcc: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.facebookAcc : '', disabled: this.disabledForm }),
+            maritalStatus: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.maritalStatus : '', disabled: this.disabledForm }),
+            financialPlan: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.financialPlan : '', disabled: this.disabledForm }),
+            numberOfChildren: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.numberOfChildren : '', disabled: this.disabledForm }),
+            existingInsuranceCoverage: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.existingInsuranceCoverage : '', disabled: this.disabledForm }),
+            existingInsurancePlan: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.existingInsurancePlan : '', disabled: this.disabledForm }),
+            score: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.score : '', disabled: this.disabledForm }),
+            asset: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.asset : '', disabled: this.disabledForm }),
+            prospectCustomer: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: this.disabledForm }),
+            prospectCustomerId: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.prospectCustomerId : "", disabled: this.disabledForm }),
+            lostReason: new _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormControl({ value: oldData ? oldData.lostReason : '', disabled: true }),
         });
         console.log("FORM", this.leadForm);
         this.cdf.detectChanges();
@@ -3444,7 +3448,7 @@ let LeadDetailComponent = class LeadDetailComponent {
         });
     }
     editQuo(item) {
-        (0,rxjs__WEBPACK_IMPORTED_MODULE_29__.forkJoin)([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_30__.catchError)(e => { return (0,rxjs__WEBPACK_IMPORTED_MODULE_31__.of)(undefined); }))]).toPromise().then((res) => {
+        (0,rxjs__WEBPACK_IMPORTED_MODULE_31__.forkJoin)([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_32__.catchError)(e => { return (0,rxjs__WEBPACK_IMPORTED_MODULE_33__.of)(undefined); }))]).toPromise().then((res) => {
             if (res) {
                 this.prodctService.createingProd = res[0];
                 this.prodctService.creatingCustomer = res[1];
@@ -3458,7 +3462,7 @@ let LeadDetailComponent = class LeadDetailComponent {
         });
     }
     editApp(item) {
-        (0,rxjs__WEBPACK_IMPORTED_MODULE_29__.forkJoin)([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_30__.catchError)(e => { return (0,rxjs__WEBPACK_IMPORTED_MODULE_31__.of)(undefined); }))]).toPromise().then((res) => {
+        (0,rxjs__WEBPACK_IMPORTED_MODULE_31__.forkJoin)([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_32__.catchError)(e => { return (0,rxjs__WEBPACK_IMPORTED_MODULE_33__.of)(undefined); }))]).toPromise().then((res) => {
             if (res[0]) {
                 this.prodctService.createingProd = res[0];
                 this.prodctService.creatingCustomer = res[1];
@@ -3483,7 +3487,7 @@ let LeadDetailComponent = class LeadDetailComponent {
     //   }
     // }
     addAttachment() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__awaiter)(this, void 0, void 0, function* () {
             let modalRef;
             modalRef = this.modalService.open(_form_component_custom_input_alert_custom_input_alert_component__WEBPACK_IMPORTED_MODULE_7__.CustomInputAlertComponent, { size: 'lg', backdrop: false });
             modalRef.componentInstance.type = 'description';
@@ -3518,7 +3522,7 @@ let LeadDetailComponent = class LeadDetailComponent {
         });
     }
     getLeadAttachment() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__awaiter)(this, void 0, void 0, function* () {
             this.LeadAttachmentService.getAttachmentListRef(this.oldId, 'LEAD').toPromise().then((res) => {
                 if (res) {
                     console.log("RESFILE", res);
@@ -3568,6 +3572,18 @@ let LeadDetailComponent = class LeadDetailComponent {
     //   }
     // }
     displayFNAType() {
+        this.fnaService.fnaUpdateProducts = [];
+        this.fnaService.fnaIncome = new _fna_detail_income_income_manage_dto__WEBPACK_IMPORTED_MODULE_27__.IncomeDto();
+        this.fnaService.fnaRetirementSaving = new _fna_detail_retirement_retirement_manage_dto__WEBPACK_IMPORTED_MODULE_28__.RetirementDto();
+        this.fnaService.fnaHealths = new Array();
+        this.fnaService.fnaEducations = new Array();
+        this.fnaService.fnaAssect = new Array();
+        this.fnaService.fnaProduct = new Array();
+        this.fnaService.percentage = '';
+        this.fnaService.totalPercentageText = '';
+        this.fnaService.bgColor = '';
+        this.fnaService.fnaUpdateProducts = new Array();
+        this.fnaService.fnaTextColor = null;
         if (this.oldId != null && this.oldId != '' && this.oldId != undefined &&
             this.customer.customerId != null && this.customer.customerId != '') {
             const modalRef = this.modalService.open(_fna_list_fna_type_fna_type_component__WEBPACK_IMPORTED_MODULE_21__.FnaTypeComponent, { size: 'xl', backdrop: false });
@@ -3594,7 +3610,19 @@ let LeadDetailComponent = class LeadDetailComponent {
         }
     }
     createOrEdit(data) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__awaiter)(this, void 0, void 0, function* () {
+            this.fnaService.fnaUpdateProducts = [];
+            this.fnaService.fnaIncome = new _fna_detail_income_income_manage_dto__WEBPACK_IMPORTED_MODULE_27__.IncomeDto();
+            this.fnaService.fnaRetirementSaving = new _fna_detail_retirement_retirement_manage_dto__WEBPACK_IMPORTED_MODULE_28__.RetirementDto();
+            this.fnaService.fnaHealths = new Array();
+            this.fnaService.fnaEducations = new Array();
+            this.fnaService.fnaAssect = new Array();
+            this.fnaService.fnaProduct = new Array();
+            this.fnaService.percentage = '';
+            this.fnaService.totalPercentageText = '';
+            this.fnaService.bgColor = '';
+            this.fnaService.fnaUpdateProducts = new Array();
+            this.fnaService.fnaTextColor = null;
             console.log('customer', this.customer);
             let passValue;
             if (data) {
@@ -3633,7 +3661,7 @@ let LeadDetailComponent = class LeadDetailComponent {
         });
     }
     getAllFNA() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__awaiter)(this, void 0, void 0, function* () {
             console.log('getAllFNA', this.oldId);
             yield this.fnaListService.getAll().toPromise().then((res) => {
                 console.log('getAllFNA', res);
@@ -3651,8 +3679,8 @@ let LeadDetailComponent = class LeadDetailComponent {
         });
     }
     deleteFNA(id) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__awaiter)(this, void 0, void 0, function* () {
-            yield this.fnaListService.delete(id).toPromise().then((res) => (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__awaiter)(this, void 0, void 0, function* () {
+            yield this.fnaListService.delete(id).toPromise().then((res) => (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__awaiter)(this, void 0, void 0, function* () {
                 this.fnaList = this.fnaList.filter(data => data.id !== id);
                 this.alertService.activate('This record was deleted', 'Success Message').then(result => {
                     // this.fnaList = [];
@@ -3661,6 +3689,18 @@ let LeadDetailComponent = class LeadDetailComponent {
                 this.cdf.detectChanges();
                 this.fnamatTable.reChangeData();
             }));
+            this.fnaService.fnaUpdateProducts = [];
+            this.fnaService.fnaIncome = new _fna_detail_income_income_manage_dto__WEBPACK_IMPORTED_MODULE_27__.IncomeDto();
+            this.fnaService.fnaRetirementSaving = new _fna_detail_retirement_retirement_manage_dto__WEBPACK_IMPORTED_MODULE_28__.RetirementDto();
+            this.fnaService.fnaHealths = new Array();
+            this.fnaService.fnaEducations = new Array();
+            this.fnaService.fnaAssect = new Array();
+            this.fnaService.fnaProduct = new Array();
+            this.fnaService.percentage = '';
+            this.fnaService.totalPercentageText = '';
+            this.fnaService.bgColor = '';
+            this.fnaService.fnaUpdateProducts = new Array();
+            this.fnaService.fnaTextColor = null;
         });
     }
     convertDateFormatMMDDYYY(date) {
@@ -3679,15 +3719,15 @@ let LeadDetailComponent = class LeadDetailComponent {
     }
 };
 LeadDetailComponent.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_28__.FormBuilder },
-    { type: _angular_common__WEBPACK_IMPORTED_MODULE_32__.Location },
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_30__.FormBuilder },
+    { type: _angular_common__WEBPACK_IMPORTED_MODULE_34__.Location },
     { type: src_app_modules_master_data_master_data_service__WEBPACK_IMPORTED_MODULE_2__.MasterDataService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_33__.ActivatedRoute },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_35__.ActivatedRoute },
     { type: _lead_detail_service__WEBPACK_IMPORTED_MODULE_4__.LeadDetailService },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_34__.ChangeDetectorRef },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_36__.ChangeDetectorRef },
     { type: _lead_list_lead_list_service__WEBPACK_IMPORTED_MODULE_3__.LeadListService },
-    { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_35__.NgbModal },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_33__.Router },
+    { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_37__.NgbModal },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_35__.Router },
     { type: _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_15__.ProductDataService },
     { type: _customer_detail_customer_service__WEBPACK_IMPORTED_MODULE_16__.CustomerService },
     { type: _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_15__.ProductDataService },
@@ -3700,23 +3740,23 @@ LeadDetailComponent.ctorParameters = () => [
     { type: _app_modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_25__.AlertService }
 ];
 LeadDetailComponent.propDecorators = {
-    fnamatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_34__.ViewChild, args: ['fna',] }],
-    activitymatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_34__.ViewChild, args: ['activity',] }],
-    applicationmatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_34__.ViewChild, args: ['application',] }],
-    attachmentmatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_34__.ViewChild, args: ['attachment',] }],
-    quotationmatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_34__.ViewChild, args: ['quotation',] }]
+    fnamatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_36__.ViewChild, args: ['fna',] }],
+    activitymatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_36__.ViewChild, args: ['activity',] }],
+    applicationmatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_36__.ViewChild, args: ['application',] }],
+    attachmentmatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_36__.ViewChild, args: ['attachment',] }],
+    quotationmatTable: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_36__.ViewChild, args: ['quotation',] }]
 };
-LeadDetailComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_27__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_34__.Component)({
+LeadDetailComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_29__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_36__.Component)({
         selector: "app-lead-detail",
         template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_lead_detail_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
         providers: [
             {
-                provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_36__.DateAdapter,
-                useClass: _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_37__.MomentDateAdapter,
-                deps: [_angular_material_core__WEBPACK_IMPORTED_MODULE_36__.MAT_DATE_LOCALE],
+                provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_38__.DateAdapter,
+                useClass: _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_39__.MomentDateAdapter,
+                deps: [_angular_material_core__WEBPACK_IMPORTED_MODULE_38__.MAT_DATE_LOCALE],
             },
-            { provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_36__.MAT_DATE_FORMATS, useValue: _core_is_json__WEBPACK_IMPORTED_MODULE_18__.MY_FORMATS },
+            { provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_38__.MAT_DATE_FORMATS, useValue: _core_is_json__WEBPACK_IMPORTED_MODULE_18__.MY_FORMATS },
         ],
         styles: [_lead_detail_component_scss__WEBPACK_IMPORTED_MODULE_1__]
     })
