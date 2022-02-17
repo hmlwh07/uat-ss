@@ -12,8 +12,8 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-sales-channel-po
 })
 export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   createFormGroup: FormGroup;
-  fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  fromMinDate = null;
+  fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [],
@@ -95,8 +95,8 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
                 for (var j = 0; j < this.dataList[i].products.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
-                      this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
-                      this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                      this.dataList[i].productDataList[k].noOfPolicy = this.mathRoundTo(this.dataList[i].products[j].noOfPolicy, 2)
+                      this.dataList[i].productDataList[k].totalPreminum = this.mathRoundTo(this.dataList[i].products[j].totalPreminum, 2)
                     }
                   }
                 }
@@ -333,7 +333,7 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -374,12 +374,31 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.dirty || control.touched;
   }
-
   doValid(type) {
-    // this.getAllReports();
+    console.log('doValid', type);
+    if (type == 'FromDate') {
+      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
+      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['toDate'].setValue('');
+      }
+    }
+
+    if (type == 'ToDate') {
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
+      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['fromDate'].setValue('');
+      }
+    }
+    this.cdf.detectChanges();
   }
 
   clearDate(type) {
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
     }

@@ -1,19 +1,25 @@
 <div class="product-grid">
     <h3 class="card-label left-border-image" style="margin: 24px 0;">Recommended</h3>
     <div class="products col-12" *ngFor="let fnaProduct of fnaProducts;">
-        <div class="col-2" style="float: left; padding: 0; width: 85px; height: 46px;">
+        <div class="col-2" style="float: left;
+        padding: 0;
+        width: 60px;
+        height: 60px;
+        position: relative;
+        top: -10px;">
             <img *ngIf="fnaProduct.productImage" [src]="fnaProduct.productImage" style="width: 100%; height: 100%;"
                 title="" alt="" />
         </div>
         <label class="col-6">{{ fnaProduct.name }}</label>
-        <button class="col-4" type="button" (click)="display(fnaProduct)" class="btn btn-primary btn-elevate">Get Quote</button>
+        <button class="col-4" type="button" (click)="display(fnaProduct)" class="btn btn-primary btn-elevate"><label>Get
+                Quote</label></button>
     </div>
     <div class="btn-group col-12">
         <button type="button" class="btn"
             [ngStyle]="{'background-color': productSwitch === 'product' ? '#005f99' : '#A6A6A6' }"
-            (click)="previous('aboutLLP')">Previous</button>
+            (click)="previous('aboutLLP')"><label>Previous</label></button>
         <button type="button" class="btn"
             [ngStyle]="{'background-color': productSwitch === 'save' ? '#005f99' : '#A6A6A6' }"
-            (click)="saveProduct('save')">Save</button>
+            (click)="saveProduct('save')"><label>Save</label></button>
     </div>
 </div>

@@ -13,8 +13,8 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-by-branch-summary-ai.const'
 export class ReportByBranchSummaryAiComponent implements OnInit {
   createFormGroup: FormGroup;
   title = 'By Branch Summary IA'
-  fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  fromMinDate = null;
+  fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [{ id: 1, companyName: 'Company 1' }, { id: 2, companyName: 'Company 2' }],
@@ -82,13 +82,19 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
             totalPreminum += this.reports[i].totalPreminum
             if (srNo == this.reports.length) {
               this.totalDataList.push({
-                totalActiveAgents: totalActiveAgents,
-                totalNoOfPolicy: totalNoOfPolicy,
-                totalPreminum: totalPreminum
+                totalActiveAgents: this.mathRoundTo(totalActiveAgents, 2),
+                totalNoOfPolicy: this.mathRoundTo(totalNoOfPolicy, 2),
+                totalPreminum: this.mathRoundTo(totalPreminum, 2)
               });
             }
           }
-        }else{
+
+          for (var i = 0; i < this.reports.length; i++) {
+            this.reports[i].activeAgents = this.mathRoundTo(this.reports[i].activeAgents, 2)
+            this.reports[i].noOfPolicy = this.mathRoundTo(this.reports[i].noOfPolicy, 2)
+            this.reports[i].totalPreminum = this.mathRoundTo(this.reports[i].totalPreminum, 2)
+          }
+        } else {
           this.isData = false;
         }
       });
@@ -104,7 +110,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     let countSrNo: number = 0;
     for (var i = 0; i < this.reports.length; i++) {
       countSrNo += 1;
-      this.reportsForExcel.push([countSrNo, this.reports[i].branch,
+      this.reportsForExcel.push([countSrNo, this.reports[i].cluster,
         this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
     }
     for (var i = 0; i < this.totalDataList.length; i++) {
@@ -313,7 +319,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -357,10 +363,30 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   }
 
   doValid(type) {
-    //this.getAllReports();
+    console.log('doValid', type);
+    if (type == 'FromDate') {
+      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
+      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['toDate'].setValue('');
+      }
+    }
+
+    if (type == 'ToDate') {
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
+      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['fromDate'].setValue('');
+      }
+    }
+    this.cdf.detectChanges();
   }
 
   clearDate(type) {
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
     }

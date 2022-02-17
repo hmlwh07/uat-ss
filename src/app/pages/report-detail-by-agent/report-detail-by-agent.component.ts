@@ -13,10 +13,10 @@ import { validateAllFields } from '../../../app/core/valid-all-feild';
 })
 export class ReportDetailByAgentComponent implements OnInit {
   @ViewChild('TABLE', { static: false }) TABLE: ElementRef;
-  title = 'Agent Sale Report';
+  title = 'Agent Sales Report';
   createFormGroup: FormGroup;
-  fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  fromMinDate = null;
+  fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [],
@@ -72,6 +72,8 @@ export class ReportDetailByAgentComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+        console.log('getAllReportData', res);
+
         if (res) {
           if (res.products.length > 0) {
             for (var i = 0; i < res.products.length; i++) {
@@ -95,8 +97,8 @@ export class ReportDetailByAgentComponent implements OnInit {
                 for (var j = 0; j < this.dataList[i].products.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
-                      this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
-                      this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                      this.dataList[i].productDataList[k].noOfPolicy = this.mathRoundTo(Number(this.dataList[i].products[j].noOfPolicy), 2)
+                      this.dataList[i].productDataList[k].totalPreminum = this.mathRoundTo(Number(this.dataList[i].products[j].totalPreminum), 2)
                     }
                   }
                 }
@@ -145,7 +147,7 @@ export class ReportDetailByAgentComponent implements OnInit {
     // Data
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(i + 1, this.dataList[i].branch, this.dataList[i].channel, this.dataList[i].agentName, this.dataList[i].agentNo)
+      list.push(i + 1, this.dataList[i].cluster, this.dataList[i].channel, this.dataList[i].agentName, this.dataList[i].agentNo)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(this.dataList[i].productDataList[j].noOfPolicy, this.dataList[i].productDataList[j].totalPreminum)
       }
@@ -398,10 +400,30 @@ export class ReportDetailByAgentComponent implements OnInit {
   }
 
   doValid(type) {
-    // this.getAllReports();
+    console.log('doValid', type);
+    if (type == 'FromDate') {
+      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
+      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['toDate'].setValue('');
+      }
+    }
+
+    if (type == 'ToDate') {
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
+      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['fromDate'].setValue('');
+      }
+    }
+    this.cdf.detectChanges();
   }
 
   clearDate(type) {
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
     }

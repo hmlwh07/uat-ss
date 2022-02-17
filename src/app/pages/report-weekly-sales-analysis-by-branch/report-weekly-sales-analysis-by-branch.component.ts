@@ -12,8 +12,8 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-weekly-sales-analysis-by-br
 })
 export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   createFormGroup: FormGroup;
-  fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  fromMinDate = null;
+  fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [],
@@ -313,7 +313,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
     this.selectOptions.agents = [];
-    this.displayList = [];   
+    this.displayList = [];
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
@@ -475,7 +475,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -518,10 +518,30 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    //this.getAllReports();
+    console.log('doValid', type);
+    if (type == 'FromDate') {
+      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
+      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['toDate'].setValue('');
+      }
+    }
+
+    if (type == 'ToDate') {
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
+      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+       if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['fromDate'].setValue('');
+      }
+    }
+    this.cdf.detectChanges();
   }
 
   clearDate(type) {
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
     }
@@ -533,7 +553,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
-    this.selectOptions.agents = [];  
+    this.selectOptions.agents = [];
     this.createFormGroup.controls['companyId'].setValue('');
     this.createFormGroup.controls['channelId'].setValue('');
     this.createFormGroup.controls['regionId'].setValue('');

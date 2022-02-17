@@ -13,8 +13,8 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-channel-summary-by-bank-bra
 export class ReportChannelSummaryByBankBranchComponent implements OnInit {
   createFormGroup: FormGroup;
   title = "Channel Summary Report";
-  fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  fromMinDate = null;
+  fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [],
@@ -140,7 +140,19 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
                 }
               }
             }
-          }else{
+
+            for (var j = 0; j < this.displayList[0].policies.length; j++) {
+              if (j > 0) {
+                this.displayList[0].policies[j].noOfPolicy = this.mathRoundTo(Number(this.displayList[0].policies[j].noOfPolicy), 2);
+              }
+            }
+
+            for (var j = 0; j < this.displayList[0].premium.length; j++) {
+              if (j > 0) {
+                this.displayList[0].premium[j].totalPreminum = this.mathRoundTo(Number(this.displayList[0].premium[j].totalPreminum), 2);
+              }
+            }
+          } else {
             this.isHasData = false;
           }
         }
@@ -153,7 +165,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     this.particularForExcel = [];
     this.policiesForExcel = [];
     this.premiumForExcel = [];
-    
+
     for (var i = 0; i < this.displayList[0].particular.length; i++) {
       this.particularForExcel.push(this.displayList[0].particular[i].channel)
     }
@@ -366,7 +378,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -410,17 +422,37 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    //this.getAllReports();
+    console.log('doValid', type);
+    if (type == 'FromDate') {
+      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
+      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['toDate'].setValue('');
+      }
+    }
+
+    if (type == 'ToDate') {
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
+      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['fromDate'].setValue('');
+      }
+    }
+    this.cdf.detectChanges();
   }
 
   clearDate(type) {
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
-    }   
-    
+    }
+
     this.isHasData = false;
     this.displayList[0].particular = [];
     this.displayList[0].policies = [];

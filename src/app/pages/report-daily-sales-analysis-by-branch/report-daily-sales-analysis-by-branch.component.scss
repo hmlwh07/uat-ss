@@ -34,13 +34,16 @@ table {
 }
 
 .search-display {
-    width: 30%;
+    width: 40%;
     float: left;
-    margin: 0 0 5px 0;
-    padding-left: 24px;
-    span {
+    div {
         width: 100%;
-        display: block;
+        overflow: hidden;
+        span {
+            width: 33%;
+            display: inline-block;
+            float: left;
+        }
     }
 }
 
@@ -74,7 +77,7 @@ table {
             width: 85%;
         }
         button {
-            top: 38px;
+            top: 23px;
         }
     }
 }

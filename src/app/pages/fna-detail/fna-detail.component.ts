@@ -3,9 +3,15 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter2, CustomDateParserFormatter } from 'src/app/_metronic/core';
+import { AssectDto } from './asset/asset-manage.dto';
+import { ProductDto } from './chart-analysis/product-analysis/product-manage.dto';
+import { EducationDto } from './education/education-manage.dto';
 import { FNAConstant } from './fna-constant';
 import { FnaDataViewComponent } from './fna-data-view/fna-data-view.component';
 import { FANService } from './fna-manage.service';
+import { HealthDto } from './health/health-manage.dto';
+import { IncomeDto } from './income/income-manage.dto';
+import { RetirementDto } from './retirement/retirement-manage.dto';
 
 @Component({
   selector: 'app-fna-detail',
@@ -89,9 +95,22 @@ export class FnaDetailComponent implements OnInit {
 
   async getFNAById() {
     this.isValue = false;
-    this.fnaService.fnaEducations = [];
-    this.fnaService.fnaHealths = [];
+    this.fnaProduct = [];
+    this.fnaService.fnaUpdateProducts = [];
+    this.fnaService.fnaIncome = new IncomeDto();
+    this.fnaService.fnaRetirementSaving = new RetirementDto();
+    this.fnaService.fnaHealths = new Array<HealthDto>();
+    this.fnaService.fnaEducations = new Array<EducationDto>();
+    this.fnaService.fnaAssect = new Array<AssectDto>();
+    this.fnaService.fnaProduct = new Array<ProductDto>();
+    this.fnaService.percentage = '';
+    this.fnaService.totalPercentageText = '';
+    this.fnaService.bgColor = '';
+    this.fnaService.fnaUpdateProducts = new Array<any>();
+    this.fnaService.fnaTextColor = null;
     await this.fnaService.findOne(this.oldId).toPromise().then(res => {
+      console.log('getFNAById', res);
+
       if (res) {
         if (res.fnaAssets.length > 0 && res.fnaEducations.length &&
           res.fnaHealths.length > 0 && res.fnaIncome != null &&

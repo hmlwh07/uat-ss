@@ -143,22 +143,14 @@
     <div class="col-12">
         <div style="width: 100%;
         overflow: hidden; position: relative;">
-            <div style="width: 40%;float: left; position: relative;">
-                <br *ngIf="createFormGroup.value.agentId">
+            <div style="width: 30%;float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
-                <br *ngIf="createFormGroup.value.channelId">
-                <br *ngIf="createFormGroup.value.regionId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <br *ngIf="createFormGroup.value.branchId">
                 <h3 class="card-label left-border-image" style="font-size: 1.15rem;">{{ title }}</h3>
             </div>
             <div style="width: 30%; float: left; position: relative;">
-                <br *ngIf="createFormGroup.value.agentId">
                 <br *ngIf="createFormGroup.value.companyId">
-                <br *ngIf="createFormGroup.value.channelId">
-                <br *ngIf="createFormGroup.value.regionId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <br *ngIf="createFormGroup.value.branchId">
                 <div>
                     <span *ngIf="createFormGroup.value.fromDate">From Date: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
@@ -168,14 +160,18 @@
                 </div>
             </div>
             <div class="search-display">
-                <br *ngIf="createFormGroup.value.agentId">
-                <br *ngIf="createFormGroup.value.companyId">
-                <span *ngIf="createFormGroup.value.agentId">Agent: {{ agentName }} </span>
-                <span *ngIf="createFormGroup.value.companyId">Company: {{ companyName }} </span>
-                <span *ngIf="createFormGroup.value.channelId">Channel: {{ channelName }} </span>
-                <span *ngIf="createFormGroup.value.regionId">Region: {{ regionName }} </span>
-                <span *ngIf="createFormGroup.value.clusterId">Cluster: {{ clusterName }} </span>
-                <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
+                <div *ngIf="createFormGroup.value.companyId != '' || 
+                createFormGroup.value.channelId !='' || createFormGroup.value.regionId != '' ">
+                    <span *ngIf="createFormGroup.value.companyId">Company: {{ companyName }} </span>
+                    <span *ngIf="createFormGroup.value.channelId">Channel: {{ channelName }} </span>
+                    <span *ngIf="createFormGroup.value.regionId">Region: {{ regionName }} </span>
+                </div>
+                <div *ngIf="createFormGroup.value.clusterId != '' || 
+                createFormGroup.value.branchId !='' || createFormGroup.value.agentId !='' ">
+                    <span *ngIf="createFormGroup.value.clusterId">Cluster: {{ clusterName }} </span>
+                    <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
+                    <span *ngIf="createFormGroup.value.agentId">Agent: {{ agentName }} </span>
+                </div>
             </div>
         </div>
         <div style="width: 100%;
