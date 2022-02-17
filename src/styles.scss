@@ -82,7 +82,7 @@ $custom-typography: mat-typography-config($font-family: "Roboto");
 .mat-cell,
 .mat-footer-cell,
 .mat-cell {
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
 }
 
 .mat-paginator,
@@ -778,4 +778,17 @@ kbz-loading {
 }
 .cal-month-view .cal-day-cell {
     min-height: 80px;
+}
+.form-control-sm {
+    font-size: 0.9rem !important;
+}
+
+.col-form-label {
+    font-size  : 1rem !important;
+    font-weight: 400;
+}
+.modal-body > signature-pad{
+    canvas{
+        width: 100% !important;
+    }
 }

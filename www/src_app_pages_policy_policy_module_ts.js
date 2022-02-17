@@ -67,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _customer_list_customer_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../customer-list/customer-list.component */ 41275);
 /* harmony import */ var _products_products_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../products/products.component */ 55099);
 /* harmony import */ var _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../products/services/products-data.service */ 35618);
-/* harmony import */ var _quotations_policy_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../quotations/policy.service */ 12202);
+/* harmony import */ var _policy_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../policy.service */ 46045);
 /* harmony import */ var _policy_const__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./policy.const */ 76175);
 
 
@@ -182,7 +182,7 @@ PolicyComponent.ctorParameters = () => [
     { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_13__.NgbModal },
     { type: _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_7__.ProductDataService },
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_14__.Router },
-    { type: _quotations_policy_service__WEBPACK_IMPORTED_MODULE_8__.PolicyService },
+    { type: _policy_service__WEBPACK_IMPORTED_MODULE_8__.PolicyService },
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_15__.ChangeDetectorRef },
     { type: _customer_detail_customer_service__WEBPACK_IMPORTED_MODULE_4__.CustomerService }
 ];

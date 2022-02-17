@@ -3617,7 +3617,6 @@ let LeadDetailComponent = class LeadDetailComponent {
                     if (data.fnaType == 'LPP') {
                         this.router.navigate(["/fna/fna-detail"], {
                             queryParams: { passValue: JSON.stringify(passValue) },
-                            skipLocationChange: true, replaceUrl: true
                         });
                     }
                     else {
@@ -3627,7 +3626,6 @@ let LeadDetailComponent = class LeadDetailComponent {
                         _fna_bram_product_product_dto__WEBPACK_IMPORTED_MODULE_26__.FNABRAMDiscount.HIGH_DISCOUNT = 0;
                         this.router.navigate(["/fna/fna-bram"], {
                             queryParams: { passValue: JSON.stringify(passValue) },
-                            skipLocationChange: true, replaceUrl: true
                         });
                     }
                 }

@@ -32072,8 +32072,8 @@ let ProductComponent = class ProductComponent {
             if (res) {
                 this.productDataService.createingProd = res[0];
                 this.productDataService.creatingCustomer = res[1];
-                this.productDataService.type = 'quotation';
-                this.productDataService.viewType = 'quotation';
+                this.productDataService.type =  true ? 'policy' : 0;
+                this.productDataService.viewType =  true ? 'policy' : 0;
                 this.productDataService.referenceID = null;
                 this.productDataService.creatingLeadId = this.passValueData.leadId;
                 this.router.navigateByUrl("/product-form");

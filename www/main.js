@@ -532,7 +532,7 @@ let MaterialTableViewComponent = class MaterialTableViewComponent {
         this.emitter.emit(event);
     }
     FormatedDate(date) {
-        return moment__WEBPACK_IMPORTED_MODULE_3__(date, "YYYYMMDD").format('MM/DD/YYYY');
+        return moment__WEBPACK_IMPORTED_MODULE_3__(date, "YYYYMMDD").format('DD/MM/YYYY');
     }
     getFreq(data) {
         let val = "";
@@ -3923,7 +3923,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /***/ ((module) => {
 
 "use strict";
-module.exports = ".mat-paginator-container {\n  justify-content: space-between;\n}\n\n.label.label-custom-round {\n  line-height: 20px;\n  white-space: nowrap;\n  border-radius: 10px;\n  width: 80px;\n  color: white;\n}\n\n.table-img {\n  max-width: 50px;\n  max-height: 50px;\n}\n\n.label-default {\n  color: black !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1hdGVyaWFsLXRhYmxlLXZpZXcuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSw4QkFBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxtQkFBQTtFQUNBLG1CQUFBO0VBQ0EsV0FBQTtFQUdBLFlBQUE7QUFESjs7QUFJQTtFQUNJLGVBQUE7RUFDQSxnQkFBQTtBQURKOztBQUlBO0VBQ0ksdUJBQUE7QUFESiIsImZpbGUiOiJtYXRlcmlhbC10YWJsZS12aWV3LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1hdC1wYWdpbmF0b3ItY29udGFpbmVyIHtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW5cbn1cblxuLmxhYmVsLmxhYmVsLWN1c3RvbS1yb3VuZCB7XG4gICAgbGluZS1oZWlnaHQ6IDIwcHg7XG4gICAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbiAgICBib3JkZXItcmFkaXVzOiAxMHB4O1xuICAgIHdpZHRoOiA4MHB4O1xuICAgIC8vIGZvbnQtc2l6ZTogMXJlbTtcbiAgICAvLyBmb250LWZhbWlseTogXCJSb2JvdG9cIjtcbiAgICBjb2xvcjogd2hpdGU7XG59XG5cbi50YWJsZS1pbWcge1xuICAgIG1heC13aWR0aDogNTBweDtcbiAgICBtYXgtaGVpZ2h0OiA1MHB4O1xufVxuXG4ubGFiZWwtZGVmYXVsdCB7XG4gICAgY29sb3I6IGJsYWNrICFpbXBvcnRhbnQ7XG59Il19 */";
+module.exports = ".mat-paginator-container {\n  justify-content: space-between;\n}\n\n.label.label-custom-round {\n  line-height: 20px;\n  white-space: nowrap;\n  border-radius: 10px;\n  width: 80px;\n  color: white;\n}\n\n.table-img {\n  max-width: 50px;\n  max-height: 50px;\n}\n\n.label-default {\n  color: black !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1hdGVyaWFsLXRhYmxlLXZpZXcuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSw4QkFBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxtQkFBQTtFQUNBLG1CQUFBO0VBQ0EsV0FBQTtFQUdBLFlBQUE7QUFESjs7QUFJQTtFQUNJLGVBQUE7RUFDQSxnQkFBQTtBQURKOztBQUlBO0VBQ0ksdUJBQUE7QUFESiIsImZpbGUiOiJtYXRlcmlhbC10YWJsZS12aWV3LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1hdC1wYWdpbmF0b3ItY29udGFpbmVyIHtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW5cbn1cblxuLmxhYmVsLmxhYmVsLWN1c3RvbS1yb3VuZCB7XG4gICAgbGluZS1oZWlnaHQ6IDIwcHg7XG4gICAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbiAgICBib3JkZXItcmFkaXVzOiAxMHB4O1xuICAgIHdpZHRoOiA4MHB4O1xuICAgIC8vIGZvbnQtc2l6ZTogMC45cmVtO1xuICAgIC8vIGZvbnQtZmFtaWx5OiBcIlJvYm90b1wiO1xuICAgIGNvbG9yOiB3aGl0ZTtcbn1cblxuLnRhYmxlLWltZyB7XG4gICAgbWF4LXdpZHRoOiA1MHB4O1xuICAgIG1heC1oZWlnaHQ6IDUwcHg7XG59XG5cbi5sYWJlbC1kZWZhdWx0IHtcbiAgICBjb2xvcjogYmxhY2sgIWltcG9ydGFudDtcbn0iXX0= */";
 
 /***/ }),
 

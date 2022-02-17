@@ -649,7 +649,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 44070);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/operators */ 2014);
 /* harmony import */ var _metronic_shared_crud_table_components_material_table_view_material_table_view_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component */ 51946);
-/* harmony import */ var _quotations_policy_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../quotations/policy.service */ 12202);
+/* harmony import */ var _policy_policy_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../policy/policy.service */ 46045);
 /* harmony import */ var _quotations_quotation_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../quotations/quotation.service */ 80842);
 /* harmony import */ var _customer_list_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../customer-list.service */ 482);
 /* harmony import */ var _employee_list_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../employee-list.service */ 74576);
@@ -745,7 +745,7 @@ let RelatedModalCompoent = class RelatedModalCompoent {
 RelatedModalCompoent.ctorParameters = () => [
     { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbActiveModal },
     { type: _quotations_quotation_service__WEBPACK_IMPORTED_MODULE_3__.QuotationService },
-    { type: _quotations_policy_service__WEBPACK_IMPORTED_MODULE_2__.PolicyService },
+    { type: _policy_policy_service__WEBPACK_IMPORTED_MODULE_2__.PolicyService },
     { type: _customer_list_service__WEBPACK_IMPORTED_MODULE_4__.CustomerListService },
     { type: _employee_list_service__WEBPACK_IMPORTED_MODULE_5__.EmployeeListService },
     { type: _angular_core__WEBPACK_IMPORTED_MODULE_9__.ChangeDetectorRef }

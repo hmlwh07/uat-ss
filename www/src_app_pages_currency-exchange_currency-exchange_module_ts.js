@@ -11,18 +11,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CurrencyAddFormComponent": () => (/* binding */ CurrencyAddFormComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tslib */ 98806);
 /* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_currency_add_form_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./currency-add-form.component.html */ 55381);
 /* harmony import */ var _currency_add_form_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./currency-add-form.component.scss */ 9364);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 14001);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 18346);
-/* harmony import */ var _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material-moment-adapter */ 80155);
-/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/material/core */ 26816);
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 44070);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/operators */ 2014);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 18346);
+/* harmony import */ var _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/material-moment-adapter */ 80155);
+/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material/core */ 26816);
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 44070);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 2014);
 /* harmony import */ var src_app_core_is_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/core/is-json */ 47975);
 /* harmony import */ var _core_valid_all_feild__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/valid-all-feild */ 53489);
 /* harmony import */ var _modules_master_data_master_data_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../modules/master-data/master-data.service */ 26697);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ 29243);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -44,13 +47,13 @@ let CurrencyAddFormComponent = class CurrencyAddFormComponent {
         this.isModal = false;
         this.isEdit = false;
         this.oldData = {};
-        this.formSubmit = new _angular_core__WEBPACK_IMPORTED_MODULE_5__.EventEmitter();
+        this.formSubmit = new _angular_core__WEBPACK_IMPORTED_MODULE_6__.EventEmitter();
     }
     ngOnInit() {
-        this.formGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormGroup({
-            type: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControl(this.oldData.type || "usd", [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]),
-            amount: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControl(this.oldData.amount || null, [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]),
-            date: new _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControl(this.oldData.date || null, [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]),
+        this.formGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormGroup({
+            type: new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormControl(this.oldData.type || "usd", [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]),
+            amount: new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormControl(this.oldData.amount || null, [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]),
+            date: new _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormControl(this.oldData.date ? moment__WEBPACK_IMPORTED_MODULE_5__(this.oldData.date) : null, [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]),
         });
     }
     ngAfterViewInit() {
@@ -59,7 +62,7 @@ let CurrencyAddFormComponent = class CurrencyAddFormComponent {
     // type
     // amount
     getType() {
-        this.masterDataService.getDataByType("CURRENCY_TYPE").pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.map)((res) => {
+        this.masterDataService.getDataByType("CURRENCY_TYPE").pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.map)((res) => {
             return res.map(x => x.codeId);
         })).toPromise().then((res) => {
             if (res) {
@@ -87,6 +90,9 @@ let CurrencyAddFormComponent = class CurrencyAddFormComponent {
     saveData() {
         if (this.formGroup.valid) {
             if (this.isModal) {
+                let date = moment__WEBPACK_IMPORTED_MODULE_5__(this.formGroup.value.date);
+                this.formGroup.controls['date'].setValue(date);
+                console.log((this.formGroup.value));
                 this.modal.dismissAll({ data: Object.assign(Object.assign({}, this.formGroup.value), { id: this.id }), cmd: 'save' });
             }
             else {
@@ -100,21 +106,21 @@ let CurrencyAddFormComponent = class CurrencyAddFormComponent {
 };
 CurrencyAddFormComponent.ctorParameters = () => [
     { type: _modules_master_data_master_data_service__WEBPACK_IMPORTED_MODULE_4__.MasterDataService },
-    { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_8__.NgbModal },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.ChangeDetectorRef }
+    { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_9__.NgbModal },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ChangeDetectorRef }
 ];
 CurrencyAddFormComponent.propDecorators = {
-    isModal: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
-    isEdit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
-    formSubmit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Output }]
+    isModal: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }],
+    isEdit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }],
+    formSubmit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Output }]
 };
-CurrencyAddFormComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+CurrencyAddFormComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_10__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
         selector: 'app-currency-add-form',
         template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_currency_add_form_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
         providers: [
-            { provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_10__.DateAdapter, useClass: _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_11__.MomentDateAdapter, deps: [_angular_material_core__WEBPACK_IMPORTED_MODULE_10__.MAT_DATE_LOCALE] },
-            { provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_10__.MAT_DATE_FORMATS, useValue: src_app_core_is_json__WEBPACK_IMPORTED_MODULE_2__.MY_FORMATS },
+            { provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_11__.DateAdapter, useClass: _angular_material_moment_adapter__WEBPACK_IMPORTED_MODULE_12__.MomentDateAdapter, deps: [_angular_material_core__WEBPACK_IMPORTED_MODULE_11__.MAT_DATE_LOCALE] },
+            { provide: _angular_material_core__WEBPACK_IMPORTED_MODULE_11__.MAT_DATE_FORMATS, useValue: src_app_core_is_json__WEBPACK_IMPORTED_MODULE_2__.MY_FORMATS },
         ],
         styles: [_currency_add_form_component_scss__WEBPACK_IMPORTED_MODULE_1__]
     })
@@ -212,7 +218,7 @@ let CurrencyExChangeComponent = class CurrencyExChangeComponent {
     }
     saveData(event) {
         let postData = event;
-        // console.log(postData);
+        console.log(postData);
         this.currencyService.save(postData).toPromise().then((res) => {
             if (res) {
                 this.getData();
@@ -220,6 +226,7 @@ let CurrencyExChangeComponent = class CurrencyExChangeComponent {
         });
     }
     updateData(postData) {
+        console.log('UPDATE', postData);
         this.currencyService.update(postData.id, postData).toPromise().then((res) => {
             if (res) {
                 this.getData();
@@ -362,10 +369,10 @@ const CurrencyCol = [
         title: "Date",
         type: _metronic_shared_crud_table_components_material_table_view_table_dto__WEBPACK_IMPORTED_MODULE_0__.COLTYPE.FEILD,
         field: "date",
-        isDate: true
+        isFromatDate: true
     },
     {
-        title: "Currency Type",
+        title: "Currency",
         type: _metronic_shared_crud_table_components_material_table_view_table_dto__WEBPACK_IMPORTED_MODULE_0__.COLTYPE.FEILD,
         field: "type",
         isUpper: true
@@ -376,7 +383,7 @@ const CurrencyCol = [
         field: "amount",
     },
     {
-        title: "Actions",
+        title: "Action",
         type: _metronic_shared_crud_table_components_material_table_view_table_dto__WEBPACK_IMPORTED_MODULE_0__.COLTYPE.ACTION,
         field: "actions",
         btn: {
@@ -420,7 +427,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"row\">\n    <div class=\"col-12\">\n        <div class=\"card card-custom\" style=\"margin-bottom: 15px;\">\n            <div class=\"card-header\">\n                <div class=\"card-title\">\n                    <h3 class=\"card-label left-border-image\">Exchange Rate</h3>\n                </div>\n                <div class=\"card-toolbar\">\n                    <button type=\"button\" class=\"btn btn-primary ml-2\" style=\"min-width: 50px;\" (click)=\"getData()\">\n                    <span class=\"flaticon2-magnifier-tool\"></span>\n                </button>\n                    <button type=\"button\" class=\"btn btn-primary btn-circle\" style=\"min-width: 50px; margin-left: 5px;\" (click)=\"addData()\">\n          <span class=\"flaticon2-plus\"></span>\n        </button>\n                </div>\n                <!-- <app-currency-add-form (formSubmit)=\"saveData($event)\" [isModal]=\"false\"></app-currency-add-form> -->\n            </div>\n\n            <div class=\"card-body \">\n                <form action=\"#\" class=\"form\" [formGroup]=\"exchangeForm\">\n                    <div class=\"row\" style=\"align-items: center;\">\n                        <div class=\"col-sm-6\">\n                            <div class=\"form-group row\">\n                                <label class=\"col-sm-4 col-form-label\">Currency</label>\n                                <div class=\"col-sm-8\">\n                                    <select class=\"form-control form-control-sm\" name=\"title\" placeholder=\"Currency Type\" autocomplete=\"off\" formControlName=\"currency\">\n                                    <option value=\"usd\">USD</option>\n                                    \n                                  </select>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"col-sm-6\">\n                            <div class=\"form-group row\">\n                                <label class=\"col-sm-4 col-form-label\">Date</label>\n                                <div class=\"col-sm-8\">\n                                    <div class=\"input-group \">\n                                        <input matInput class=\"form-control form-control-sm date-input\" formControlName=\"date\" [matDatepicker]=\"picker\" readonly>\n                                        <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                                        <mat-datepicker #picker disabled=\"false\"></mat-datepicker>\n\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"card card-custom px-10 py-3\">\n            <div class=\"card-body\">\n                <app-material-table-view [data]=\"currencyList\" [colum]=\"ELEMENT_COL\" [displayedColumns]=\"displayedColumns\" (emitter)=\"actionBtn($event)\">\n                </app-material-table-view>\n            </div>\n        </div>\n    </div>\n</div>");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"row\">\n    <div class=\"col-12\">\n        <div class=\"card card-custom\" style=\"margin-bottom: 15px;\">\n            <div class=\"card-header\">\n                <div class=\"card-title\">\n                    <h3 class=\"card-label left-border-image\">Exchange Rate</h3>\n                </div>\n                <div class=\"card-toolbar\">\n                    <button type=\"button\" class=\"btn btn-primary btn-circle\" (click)=\"addData()\">\n                        <span class=\"flaticon2-plus\"></span>\n                    </button>\n                    <button type=\"button\" class=\"btn btn-primary ml-2\" style=\"min-width: 50px;\" (click)=\"getData()\">\n                        <span class=\"flaticon2-magnifier-tool\"></span>\n                    </button>\n                </div>\n                <!-- <app-currency-add-form (formSubmit)=\"saveData($event)\" [isModal]=\"false\"></app-currency-add-form> -->\n            </div>\n\n            <div class=\"card-body \">\n                <form action=\"#\" class=\"form\" [formGroup]=\"exchangeForm\">\n                    <div class=\"row\" style=\"align-items: center;\">\n                        <div class=\"col-sm-6\">\n                            <div class=\"form-group row\">\n                                <label class=\"col-sm-4 col-form-label\">Currency</label>\n                                <div class=\"col-sm-8\">\n                                    <select class=\"form-control form-control-sm\" name=\"title\"\n                                        placeholder=\"Currency Type\" autocomplete=\"off\" formControlName=\"currency\">\n                                        <option value=\"usd\">USD</option>\n\n                                    </select>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"col-sm-6\">\n                            <div class=\"form-group row\">\n                                <label class=\"col-sm-4 col-form-label\">Date</label>\n                                <div class=\"col-sm-8\">\n                                    <div class=\"input-group \">\n                                        <input matInput class=\"form-control form-control-sm date-input\"\n                                            formControlName=\"date\" [matDatepicker]=\"picker\" readonly>\n                                        <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                                        <mat-datepicker #picker disabled=\"false\"></mat-datepicker>\n\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"card card-custom px-10 py-3\">\n            <div class=\"card-body\">\n                <app-material-table-view [data]=\"currencyList\" [colum]=\"ELEMENT_COL\"\n                    [displayedColumns]=\"displayedColumns\" (emitter)=\"actionBtn($event)\">\n                </app-material-table-view>\n            </div>\n        </div>\n    </div>\n</div>");
 
 /***/ }),
 

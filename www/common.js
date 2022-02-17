@@ -437,6 +437,49 @@ LeadListService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
 
 /***/ }),
 
+/***/ 46045:
+/*!************************************************!*\
+  !*** ./src/app/pages/policy/policy.service.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PolicyService": () => (/* binding */ PolicyService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 83981);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../environments/environment */ 18260);
+/* harmony import */ var _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/biz.operation.service */ 91691);
+
+
+
+
+
+const API_QUOTATION_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/policy`;
+let PolicyService = class PolicyService extends _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__.BizOperationService {
+    constructor(httpClient) {
+        super(httpClient, API_QUOTATION_URL);
+        this.httpClient = httpClient;
+    }
+    updateAttachment(resId, attId) {
+        return this.httpClient.put(API_QUOTATION_URL + "/attachment", { attachmentId: attId + "", policyNo: resId });
+    }
+};
+PolicyService.ctorParameters = () => [
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient }
+];
+PolicyService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+        providedIn: 'root'
+    })
+], PolicyService);
+
+
+
+/***/ }),
+
 /***/ 85068:
 /*!***********************************************************!*\
   !*** ./src/app/pages/products/products-page.component.ts ***!
@@ -563,46 +606,6 @@ ProductsModule = (0,tslib__WEBPACK_IMPORTED_MODULE_12__.__decorate)([
         providers: [_services_coverage_data_service__WEBPACK_IMPORTED_MODULE_6__.CoverageDataService, _services_add_on_data_service__WEBPACK_IMPORTED_MODULE_7__.AddOnDataService, _services_products_UI_service__WEBPACK_IMPORTED_MODULE_8__.ProductUIService, _services_products_UI_service__WEBPACK_IMPORTED_MODULE_8__.ProductUIDeleteService, _services_validity_period_service__WEBPACK_IMPORTED_MODULE_10__.ValidityPeriodService]
     })
 ], ProductsModule);
-
-
-
-/***/ }),
-
-/***/ 12202:
-/*!****************************************************!*\
-  !*** ./src/app/pages/quotations/policy.service.ts ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PolicyService": () => (/* binding */ PolicyService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 98806);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 83981);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../environments/environment */ 18260);
-/* harmony import */ var _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/biz.operation.service */ 91691);
-
-
-
-
-
-const API_QUOTATION_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiUrl}/policy`;
-let PolicyService = class PolicyService extends _core_biz_operation_service__WEBPACK_IMPORTED_MODULE_1__.BizOperationService {
-    constructor(httpClient) {
-        super(httpClient, API_QUOTATION_URL);
-        this.httpClient = httpClient;
-    }
-};
-PolicyService.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpClient }
-];
-PolicyService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
-        providedIn: 'root'
-    })
-], PolicyService);
 
 
 

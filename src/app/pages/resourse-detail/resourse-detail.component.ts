@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
 import { checkVaidDep } from '../check-parent';
 import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../form-component/field.interface';
+import { PolicyService } from '../policy/policy.service';
 import { PageDataService } from '../product-form/page-data.service';
 import { PrintConfig } from '../products/models/print-config.interface';
 import { PageUIType, ProductPages } from '../products/models/product.dto';
@@ -12,6 +13,7 @@ import { PrintPreviewModalComponent } from '../products/print-preview-modal/prin
 import { AddOnQuoService } from '../products/services/add-on-quo.service';
 import { CoverageQuoService } from '../products/services/coverage-quo.service';
 import { ProductDataService } from '../products/services/products-data.service';
+import { SignaturePadComponent } from './signature-pad/signature-pad.component';
 
 @Component({
   selector: 'app-resourse-detail',
@@ -42,7 +44,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   detailInput: any = {}
   private formatedData = {}
   printConfig: PrintConfig = {}
-  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal) { }
+  signFileId: any = "";
+  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService) { }
 
   async ngOnInit() {
     if (!this.productService.createingProd || !this.productService.createingProd.id) {
@@ -51,6 +54,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.item = this.productService.createingProd
       this.type = this.productService.previewType
       this.resourceDetail = this.productService.editData
+      this.signFileId = this.resourceDetail.attachmentId
       if (!this.resourceDetail) {
         this.location.back()
         return
@@ -385,6 +389,22 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.resourcesId = this.resourceDetail.id
     modalRef.result.then(() => { }, (res) => {
 
+    })
+  }
+
+  createSign() {
+    const modalRef = this.modalService.open(SignaturePadComponent, { size: 'md', backdrop: false });
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        if (res.type == "save") {
+          this.policyService.updateAttachment(this.resourceDetail.id, res.data).toPromise().then((response) => {
+            if (response) {
+              this.signFileId = res.data
+              this.productService.editData['attachmentId'] = res.data
+            }
+          })
+        }
+      }
     })
   }
 

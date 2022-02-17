@@ -13139,7 +13139,7 @@ Google Code style (c) Aahan Krish <geekpanth3r@gmail.com>
   font-style: normal;
 }
 .ki {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 .ki:before {
     font-family: "Ki";
@@ -41775,7 +41775,7 @@ button.close {
   vertical-align: middle;
   width: 100%;
   padding: 0 5px 0 0;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .role-list-timeline .role-list-timeline-items .role-list-timeline-item .role-list-timeline-text .badge {
   font-size: 0.85rem;
@@ -63911,7 +63911,7 @@ i {
 }
 .card.card-custom > .card-header .card-title small {
   color: #3F4254;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .card.card-custom > .card-header .card-toolbar {
   display: flex;
@@ -66388,7 +66388,7 @@ button {
 }
 .alert.alert-custom .alert-close i {
   transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .alert.alert-custom .alert-close i.ki {
   font-size: 0.75rem;
@@ -66991,7 +66991,7 @@ button {
   width: 18px;
 }
 .btn.btn-xs i {
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding-right: 0.3rem;
 }
 .btn.btn-xs .svg-icon {
@@ -74347,7 +74347,7 @@ code {
 }
 .input-group.input-group-sm i {
   line-height: 0;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .input-group.input-group-lg i {
   line-height: 0;
@@ -74913,7 +74913,7 @@ code {
 }
 .accordion .card .card-body {
   padding: 1rem 1.25rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .accordion:last-child {
   margin-bottom: 0;
@@ -75104,7 +75104,7 @@ code {
 .datatable.datatable-default > .datatable-table > .datatable-foot .datatable-row > .datatable-cell {
   vertical-align: middle;
   padding: 1rem 1rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .datatable.datatable-default > .datatable-table > .datatable-head .datatable-row > .datatable-cell:first-child,
 .datatable.datatable-default > .datatable-table > .datatable-body .datatable-row > .datatable-cell:first-child,
@@ -75607,7 +75607,7 @@ code {
 .datatable.datatable-default > .datatable-pager > .datatable-pager-info .datatable-pager-size .btn.dropdown-toggle {
   height: 2.25rem;
   padding: 0.45rem 1rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   border: 0 !important;
   color: #7E8299;
@@ -75658,7 +75658,7 @@ code {
   position: relative;
   text-align: left;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
   margin: 0;
 }
@@ -76180,7 +76180,7 @@ code {
   position: relative;
   text-align: left;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
   margin: 0;
 }
@@ -76867,7 +76867,7 @@ code {
 .switch {
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .switch label {
   margin: 0;
@@ -77361,7 +77361,7 @@ code {
   transition: top 0.6s ease;
 }
 .dialog.dialog-loader {
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 0.75rem;
   font-weight: 400;
   color: #3F4254;
@@ -84089,7 +84089,7 @@ code {
   margin-bottom: 1.5rem;
 }
 .quick-search.quick-search-offcanvas .quick-search-form .form-control {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 .quick-search.quick-search-offcanvas .quick-search-form .input-group:before {
@@ -85110,7 +85110,7 @@ code {
 }
 .timeline.timeline-1 .timeline-item .timeline-content {
   flex-grow: 1;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 0 0 0 0.75rem;
 }
 .timeline.timeline-1 .timeline-item:last-child {
@@ -85546,7 +85546,7 @@ code {
 .timeline.timeline-6 .timeline-item .timeline-label {
   width: 50px;
   flex-shrink: 0;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   position: relative;
   color: #3F4254;
@@ -85908,10 +85908,10 @@ code {
   text-align: center;
 }
 .navi .navi-item .navi-link {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .navi .navi-item .navi-link .navi-text {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .navi.navi-font-lg .navi-item .navi-link {
   font-size: 1.1rem;
@@ -86884,7 +86884,7 @@ code {
 .dropzone.dropzone-default .dropzone-msg-desc {
   color: #3F4254;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .dropzone.dropzone-default .dz-preview .dz-image {
   border-radius: 0.42rem;
@@ -87215,7 +87215,7 @@ code {
   padding: 0;
   background-color: #F3F6F9;
   border-radius: 0.42rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 .example .example-code pre[class*=language-] code {
   padding: 0;
@@ -87701,7 +87701,7 @@ body {
     display: flex;
     align-items: center;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: initial;
   }
   .header-menu .menu-nav > .menu-item .menu-inner > .menu-item .menu-link .menu-label,
@@ -87803,7 +87803,7 @@ body {
   }
   .header-menu .menu-nav > .menu-item > .menu-link .menu-text {
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: initial;
   }
   .header-menu .menu-nav > .menu-item > .menu-link .menu-label {
@@ -87879,7 +87879,7 @@ body {
   }
   .header-menu .menu-nav > .menu-item .menu-submenu > .menu-subnav > .menu-item > .menu-link .menu-text {
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: initial;
   }
   .header-menu .menu-nav > .menu-item .menu-submenu > .menu-subnav > .menu-item > .menu-link .menu-label {
@@ -87981,7 +87981,7 @@ body {
   }
   .header-menu .menu-nav > .menu-item .menu-submenu > .menu-subnav .menu-content .menu-inner > .menu-item > .menu-link .menu-text {
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: initial;
   }
   .header-menu .menu-nav > .menu-item .menu-submenu > .menu-subnav .menu-content .menu-inner > .menu-item > .menu-link .menu-label {
@@ -88372,7 +88372,7 @@ body {
   .header-menu-mobile .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading .menu-text,
 .header-menu-mobile .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link .menu-text {
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: initial;
   }
   .header-menu-mobile .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading .menu-icon,
@@ -88945,7 +88945,7 @@ body {
 .aside-menu .menu-nav > .menu-item > .menu-heading .menu-text,
 .aside-menu .menu-nav > .menu-item > .menu-link .menu-text {
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-transform: initial;
 }
 .aside-menu .menu-nav > .menu-item > .menu-heading .menu-icon,
@@ -89033,7 +89033,7 @@ body {
 .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading .menu-text,
 .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link .menu-text {
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-transform: initial;
 }
 .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-heading .menu-icon,
@@ -89307,7 +89307,7 @@ body {
 .aside-menu.aside-menu-dropdown .menu-nav .menu-item:not([data-menu-submenu-mode=accordion]).menu-item-hover > .menu-submenu .menu-subnav > .menu-item > .menu-heading .menu-text,
 .aside-menu.aside-menu-dropdown .menu-nav .menu-item:not([data-menu-submenu-mode=accordion]).menu-item-hover > .menu-submenu .menu-subnav > .menu-item > .menu-link .menu-text {
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: initial;
   }
   .aside-minimize:not(.aside-minimize-hover) .aside-menu .menu-nav .menu-item:not([data-menu-submenu-mode=accordion]).menu-item-hover > .menu-submenu .menu-subnav > .menu-item > .menu-heading .menu-icon,
@@ -91900,7 +91900,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-cell,
 .mat-footer-cell,
 .mat-cell {
-  font-size: 1rem !important;
+  font-size: 0.9rem !important;
 }
 .mat-paginator,
 .mat-paginator-page-size .mat-select-trigger {
@@ -92544,6 +92544,16 @@ kbz-loading #content-wrapper {
 }
 .cal-month-view .cal-day-cell {
   min-height: 80px;
+}
+.form-control-sm {
+  font-size: 0.9rem !important;
+}
+.col-form-label {
+  font-size: 1rem !important;
+  font-weight: 400;
+}
+.modal-body > signature-pad canvas {
+  width: 100% !important;
 }
 
 /*# sourceMappingURL=styles.css.map*/

@@ -27,6 +27,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { DateAdapter } from '@angular/material/core';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { File } from '@ionic-native/file/ngx';
+
 // #fake-start#
 // #fake-end#
 function appInitializer(authService: AuthService) {
