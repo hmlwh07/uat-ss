@@ -103,6 +103,8 @@ export class ReportByAgentYearlyComponent implements OnInit {
           } else {
             this.isData = false;
           }
+          
+          console.log('dataList',this.dataList)
         }
       });
     }
