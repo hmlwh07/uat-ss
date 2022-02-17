@@ -13,13 +13,9 @@ import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 export class LpDashboardComponent implements OnInit, OnDestroy {
   data: any;
   actForm: FormGroup;
-  leadObj = {
-    leadWinRate: 56,
-    leadAssignCount: 100,
-    todayActiveAgent: 4,
-    taskToday: 15,
-    leadToday: 58
-  };
+  
+  recentObj : any;
+  campaign : any;
   unsub: any;
   id : any;
   constructor(private route: ActivatedRoute,public auth:AuthService, private dashboardService: DashboardService,private router : Router) { 
@@ -32,6 +28,8 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.getList();
+    this.getRecentList();
+    this.getCampaignList();
   }
 
   loadForm() {
@@ -41,10 +39,26 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   }
 
   getList() {
-    this.dashboardService.getActivityList(this.actForm.value).toPromise().then((res) => {
+    this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.data = res
-        console.log('data', this.data);
+      }
+    })
+  }
+
+  getRecentList() {
+    this.dashboardService.getRecentList(this.actForm.value).toPromise().then((res) => {
+      if (res) {
+        this.recentObj = res
+        console.log('this.recentObj',this.recentObj)
+      }
+    })
+  }
+
+  getCampaignList() {
+    this.dashboardService.getCampaignList(this.actForm.value).toPromise().then((res) => {
+      if (res) {
+        this.campaign = res
       }
     })
   }

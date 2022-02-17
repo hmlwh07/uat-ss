@@ -23,8 +23,8 @@
 
         <div class="mb-5">
           <label style="padding-left: 50px;"><span class="font-weight-bolder text-dark center font-24">
-            {{ data.agentInfo.totalPremium }}
-          </span>
+              {{ data.agentInfo.totalPremium }}
+            </span>
             <span><sup>MMk</sup></span></label>
         </div>
         <div>
@@ -34,10 +34,10 @@
             </div>
           </div>
           <ng-container *ngFor="let product of data?.yearlyProductPremium">
-          <div class="row my-row" >
-            <div class="col-6">{{ product.productName }}</div>
-            <div class="col-6">: {{ product.premium }} MMK</div>
-          </div>
+            <div class="row my-row">
+              <div class="col-6">{{ product.productName }}</div>
+              <div class="col-6">: {{ product.premium }} MMK</div>
+            </div>
           </ng-container>
         </div>
       </div>
@@ -47,177 +47,49 @@
   <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5">
     <div class="card card-custom my-card">
       <div class="my-p-10">
-        <div class="my-center"><span>Recent Operations</span></div>
+        <div class="my-center"><span class="bold">Recent Operations</span></div>
       </div>
-
       <div>
-        <div class="row my-row lp-dashboard-box-header flex">
+        <div class="row my-row lp-dashboard-box-header flex bold">
           <div class="col-10">Quotes</div>
-          <div class="col-2 underline">All></div>
+          <div class="col-2 underline">All ></div>
         </div>
+        <br>
+
         <div class="lp-dashboard-box-body">
-          <div>Endowment</div>
-          <div><span>Gery Guo </span>
-            <span class="pl-10">Submitted</span>
+          <div class="bold">{{ recentObj.quotations[0].productName  }}</div>
+          <div><span> {{ recentObj.quotations[0].customerName }} </span>
+            <span class="pl-10">{{ recentObj.quotations[0].status }}</span>
           </div>
         </div>
         <br>
         <div class="lp-dashboard-box-body">
-          <div>Education Saver</div>
-          <div><span>Tony Tang </span>
-            <span class="pl-10">Submitted</span>
+          <div class="bold">{{ recentObj.quotations[1].productName  }}</div>
+          <div><span> {{ recentObj.quotations[1].customerName }} </span>
+            <span class="pl-10">{{ recentObj.quotations[1].status }}</span>
           </div>
         </div>
         <br>
 
-        <div class="row my-row lp-dashboard-box-header flex">
+        <div class="row my-row lp-dashboard-box-header flex bold">
           <div class="col-10">Policies</div>
-          <div class="col-2 underline">All></div>
+          <div class="col-2 underline">All ></div>
         </div>
+        <br>
         <div class="lp-dashboard-box-body">
-          <div>Endowment</div>
-          <div><span>Gery Guo </span>
-            <span class="pl-10">Submitted</span>
+          <div class="bold">{{ recentObj.policies[0].productName  }}</div>
+          <div><span> {{ recentObj.policies[0].customerName }} </span>
+            <span class="pl-10">{{ recentObj.policies[0].status }}</span>
           </div>
         </div>
         <br>
         <div class="lp-dashboard-box-body">
-          <div>Education Saver</div>
-          <div><span>Gery Guo </span>
-            <span class="pl-10">Submitted</span>
+          <div class="bold">{{ recentObj.policies[1].productName  }}</div>
+          <div><span> {{ recentObj.policies[1].customerName }} </span>
+            <span class="pl-10">{{ recentObj.policies[1].status }}</span>
           </div>
         </div>
-      </div>
-      <br>
-
-      <div>
-        <div class="row my-row lp-dashboard-box-header">
-          <div class="col-12">Campaign for Today
-          </div>
-        </div>
-        <div class="campaign-box">
-          
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 1
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 2
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 1
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 2
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 1
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 2
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 1
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 2
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 1
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 2
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 1
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        <div class="lp-dashboard-box-body">
-          <div>
-            <span>- Campaign Name 2
-          </span>
-          </div>
-          <div>
-            <span>   Status
-          </span>
-          </div>
-        </div>
-        </div>
+        <br>
       </div>
     </div>
   </div>
@@ -225,25 +97,25 @@
   <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5">
     <div class="card card-custom my-card">
       <div class="my-p-10">
-        <div class="my-center"><span>Things to Follow Up</span></div>
+        <div class="my-center"><span class="bold">Things to Follow Up</span></div>
       </div>
 
       <div>
         <div class="row my-row lp-dashboard-box-header flex">
           <div class="col-5">Calendar</div>
           <div class="col-5">Today > </div>
-          <div class="col-2 underline">All></div>
+          <div class="col-2 underline">All ></div>
         </div>
 
         <div class="lp-dashboard-box-body flex my-p-5">
           <div class="col-2"><img src="./assets/images/wine.png" class="user-icon" alt="" />
           </div>
           <div class="col-10">
-              <div><span>Lunch with Customer</span></div>
-              <div class="f-11">
-                <span>Gerry Guo</span>
-                <span class="pl-10">01 Sep 12:00 - 1:00 PM</span>
-              </div>
+            <div><span>Lunch with Customer</span></div>
+            <div class="f-11">
+              <span>Gerry Guo</span>
+              <span class="pl-10">01 Sep 12:00 - 1:00 PM</span>
+            </div>
           </div>
         </div>
 
@@ -251,11 +123,11 @@
           <div class="col-2"><img src="./assets/images/actbdcakeivity.png" class="user-icon" alt="" />
           </div>
           <div class="col-10">
-              <div><span>Tony Tang's 30th Birthday</span></div>
-              <div class="f-11">
-                <span>Gerry Guo</span>
-                <span class="pl-10">01 Sep</span>
-              </div>
+            <div><span>Tony Tang's 30th Birthday</span></div>
+            <div class="f-11">
+              <span>Gerry Guo</span>
+              <span class="pl-10">01 Sep</span>
+            </div>
           </div>
         </div>
 
@@ -263,11 +135,11 @@
           <div class="col-2"><img src="./assets/images/activity.png" class="user-icon" alt="" />
           </div>
           <div class="col-10">
-              <div><span>Other Activity</span></div>
-              <div class="f-11">
-                <span>Gerry Guo</span>
-                <span class="pl-10">01 Sep 12:00 - 1:00 PM</span>
-              </div>
+            <div><span>Other Activity</span></div>
+            <div class="f-11">
+              <span>Gerry Guo</span>
+              <span class="pl-10">01 Sep 12:00 - 1:00 PM</span>
+            </div>
           </div>
         </div>
 
@@ -275,11 +147,11 @@
           <div class="col-2"><img src="./assets/images/activity.png" class="user-icon" alt="" />
           </div>
           <div class="col-10">
-              <div><span>Other Activity</span></div>
-              <div class="f-11">
-                <span>Gerry Guo</span>
-                <span class="pl-10">01 Sep 12:00 - 1:00 PM</span>
-              </div>
+            <div><span>Other Activity</span></div>
+            <div class="f-11">
+              <span>Gerry Guo</span>
+              <span class="pl-10">01 Sep 12:00 - 1:00 PM</span>
+            </div>
           </div>
         </div>
 
@@ -296,11 +168,11 @@
           <div class="col-2"><img src="./assets/images/medicalrecord.png" class="user-icon" alt="" />
           </div>
           <div class="col-10">
-              <div><span>Get Medical Report</span></div>
-              <div class="f-11">
-                <span>Gerry Guo</span>
-                <span class="pl-10">Due 01 Oct</span>
-              </div>
+            <div><span>Get Medical Report</span></div>
+            <div class="f-11">
+              <span>Gerry Guo</span>
+              <span class="pl-10">Due 01 Oct</span>
+            </div>
           </div>
         </div>
 
@@ -313,18 +185,18 @@
               <span>Gerry Guo</span>
               <span class="pl-10">Due 01 Oct</span>
             </div>
-        </div>
+          </div>
         </div>
 
         <div class="lp-dashboard-box-body flex my-p-5">
           <div class="col-2"><img src="./assets/images/wine.png" class="user-icon" alt="" />
           </div>
           <div class="col-10">
-              <div><span>Dinner</span></div>
-              <div class="f-11">
-                <span>Gerry Guo</span>
-                <span class="pl-10">Due 01 Oct</span>
-              </div>
+            <div><span>Dinner</span></div>
+            <div class="f-11">
+              <span>Gerry Guo</span>
+              <span class="pl-10">Due 01 Oct</span>
+            </div>
           </div>
         </div>
 
@@ -339,10 +211,10 @@
         <div class="lp-dashboard-box-body">
           <div class="my-pl-10">
             <span>Gerry Guo</span>
-              </div>
-              <div class="my-pl-10">
-                <span class="f-11">Assigned on 01/01/2020</span>
-              </div>
+          </div>
+          <div class="my-pl-10">
+            <span class="f-11">Assigned on 01/01/2020</span>
+          </div>
         </div>
 
         <div class="lp-dashboard-box-body">
