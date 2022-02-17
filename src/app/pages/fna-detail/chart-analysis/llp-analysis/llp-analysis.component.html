@@ -1,5 +1,5 @@
 <div style="margin: 50px 0 0 0;position: relative; ">
-    <div style="width: 100%; max-width: 450px; min-width: 450px; position: relative; margin: 0 auto;" class="chart">
+    <div class="chart">
         <div class="inner investment" (click)="actionChart('Freedom')">
             <div class="sub-inner " [ngClass]="freedom.length? 'bg-freedom' : 'inactive-freedon-left' ">
 
@@ -59,9 +59,9 @@
         </div>
         <div>
             <div class="investment-1 button-saving"
-                [ngStyle]="{'background':fnaEducations.length && fnaRetirementSaving? '#16384d' : '#aaaaaa' }"
-                style="width: 56%;"><label style="position: relative;
-                right: 7px;">SAVING</label></div>
+                [ngStyle]="{'background':fnaEducations.length && fnaRetirementSaving? '#16384d' : '#aaaaaa' }">
+                <label>SAVING</label>
+            </div>
         </div>
         <div class="protection">
             <div class="sub-inner row">
@@ -100,8 +100,7 @@
         </div>
         <div>
             <div [ngStyle]="{'background':fnaIncome && fnaHealths.length && fnaAssets.length? '#16384d' : '#aaaaaa' }"
-                class="investment-1 button-protection" style="width: 95%; transform: skewX(40deg); left: 0;"><label
-                    style="transform: skewX(-40deg)">PROTECTION</label>
+                class="investment-1 button-protection"><label>PROTECTION</label>
             </div>
         </div>
         <div class="left-border"></div>

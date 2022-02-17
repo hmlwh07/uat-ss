@@ -471,41 +471,389 @@
 
 // /* For tablets: */
 
-@media screen and (min-width: 400px) and (max-width: 620px) {
-    .left-border {
-        transform: skewX(-25deg);
-    }
-    .right-border {
-        transform: skewX(25deg);
-    }
+// @media screen and (min-width: 400px) and (max-width: 620px) {
+//     .left-border {
+//         transform: skewX(-25deg);
+//     }
+//     .right-border {
+//         transform: skewX(25deg);
+//     }
 
-    .investment-1 {
-        width: 20% !important;
-    }
-    .button-saving {
-        width: 49% !important;
-    }
-    .button-protection {
-        width: 85% !important;
-    }
+//     .investment-1 {
+//         width: 20% !important;
+//     }
+//     .button-saving {
+//         width: 49% !important;
+//     }
+//     .button-protection {
+//         width: 85% !important;
+//     }
+// }
+
+// @media screen and (min-width: 620px) {
+//     .left-border {
+//         transform: skewX(-25deg);
+//     }
+//     .right-border {
+//         transform: skewX(25deg);
+//     }
+
+//     .investment-1 {
+//         width: 20% !important;
+//     }
+//     .button-saving {
+//         width: 49% !important;
+//     }
+//     .button-protection {
+//         width: 85% !important;
+//     }
+// }
+
+.chart {
+    position: relative;
+    margin: 0 auto;
 }
 
 
-@media screen and (min-width: 620px) {
+
+@media screen and (min-width: 320px) and (max-width: 460px) {
+    .chart {
+        width: 265px;
+        img {
+            min-width: 25px;
+            max-width: 25px;
+        }
+        .investment {
+            height: 90px;
+            .lpp-icon {
+                top: 28px;
+            }
+            a {
+                top: 65px;
+                font-size: 10px;
+            }
+        }
+        .saving {
+            height: 90px;
+            .lpp-icon {
+                top: 28px;
+            }
+            a {
+                top: 60px;
+                font-size: 10px;
+            }
+        }
+        .protection {
+            height: 90px;
+            .lpp-icon {
+                top: 28px;
+            }
+            a {
+                top: 65px;
+                font-size: 10px;
+            }
+        }
+        .investment-1 {
+            height: 20px;
+            width: 23%;
+            label {
+                font-size: 9px;
+                line-height: 20px;
+            }
+        }
+        .button-saving {
+            width: 59%;
+        }
+        .button-protection {
+            width: 90%;
+            left: 0px;
+        }
+    }
     .left-border {
-        transform: skewX(-25deg);
+        transform: skewX(-23deg);
+        width: 60px;
+        height: 312px;
+        left: 5px;
+        bottom: 18px;
     }
     .right-border {
-        transform: skewX(25deg);
+        transform: skewX(23deg);
+        width: 60px;
+        height: 312px;
+        right: 5px;
+        bottom: 18px;
     }
+}
 
-    .investment-1 {
-        width: 20% !important;
+@media screen and (min-width: 461px) and (max-width: 680px) {
+    .chart {
+        width: 395px;
+        img {
+            min-width: 25px;
+            max-width: 25px;
+        }
+        .investment {
+            height: 100px;
+            .lpp-icon {
+                top: 27px;
+            }
+            a {
+                top: 70px;
+                font-size: 12px;
+            }
+        }
+        .saving {
+            height: 100px;
+            .lpp-icon {
+                top: 27px;
+            }
+            a {
+                top: 70px;
+                font-size: 12px;
+            }
+        }
+        .protection {
+            height: 100px;
+            .lpp-icon {
+                top: 27px;
+            }
+            a {
+                top: 70px;
+                font-size: 12px;
+            }
+        }
+        .investment-1 {
+            height: 20px;
+            width: 23%;
+        }
+        .button-saving {
+            width: 59%;
+        }
+        .button-protection {
+            width: 90%;
+            left: 0px;
+        }
     }
-    .button-saving {
-        width: 49% !important;
+    .left-border {
+        transform: skewX(-30deg);
+        width: 75px;
+        height: 350px;
+        left: 25px;
+        bottom: 18px;
     }
-    .button-protection {
-        width: 85% !important;
+    .right-border {
+        transform: skewX(30deg);
+        width: 75px;
+        height: 350px;
+        right: 25px;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width: 681px) and (max-width: 780px) {
+    .chart {
+        width: 430px;
+        img {
+            min-width: 30px;
+            max-width: 30px;
+        }
+        .investment {
+            height: 110px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 77px;
+                font-size: 12px;
+            }
+        }
+        .saving {
+            height: 110px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 70px;
+                font-size: 12px;
+            }
+        }
+        .protection {
+            height: 110px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 77px;
+                font-size: 12px;
+            }
+        }
+        .investment-1 {
+            height: 20px;
+            width: 23%;
+            label {
+                line-height: 20px;
+                display: block;
+            }
+        }
+        .button-saving {
+            width: 59%;
+        }
+        .button-protection {
+            width: 90%;
+            left: -2px;
+        }
+    }
+    .left-border {
+        transform: skewX(-30deg);
+        width: 85px;
+        height: 380px;
+        left: 25px;
+        bottom: 18px;
+    }
+    .right-border {
+        transform: skewX(30deg);
+        width: 85px;
+        height: 380px;
+        right: 25px;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width: 781px) and (max-width: 1060px) {
+    .chart {
+        width: 430px;
+        img {
+            min-width: 30px;
+            max-width: 30px;
+        }
+        .investment {
+            height: 110px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 77px;
+                font-size: 12px;
+            }
+        }
+        .saving {
+            height: 110px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 70px;
+                font-size: 12px;
+            }
+        }
+        .protection {
+            height: 110px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 77px;
+                font-size: 12px;
+            }
+        }
+        .investment-1 {
+            height: 20px;
+            width: 23%;
+            label {
+                line-height: 20px;
+                display: block;
+            }
+        }
+        .button-saving {
+            width: 59%;
+        }
+        .button-protection {
+            width: 90%;
+            left: -2px;
+        }
+    }
+    .left-border {
+        transform: skewX(-30deg);
+        width: 85px;
+        height: 380px;
+        left: 25px;
+        bottom: 18px;
+    }
+    .right-border {
+        transform: skewX(30deg);
+        width: 85px;
+        height: 380px;
+        right: 25px;
+        bottom: 18px;
+    }
+}
+
+@media screen and (min-width: 1061px) {
+    .chart {
+        width: 500px;
+        img {
+            min-width: 35px;
+            max-width: 35px;
+        }
+        .investment {
+            height: 115px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 81px;
+                font-size: 12px;
+            }
+        }
+        .saving {
+            height: 115px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 75px;
+                font-size: 12px;
+            }
+        }
+        .protection {
+            height: 115px;
+            .lpp-icon {
+                top: 32px;
+            }
+            a {
+                top: 81px;
+                font-size: 12px;
+            }
+        }
+        .investment-1 {
+            height: 25px;
+            width: 23%;
+            label {
+                font-size: 12px;
+                line-height: 25px;
+                display: block;
+            }
+        }
+        .button-saving {
+            width: 59%;
+        }
+        .button-protection {
+            width: 90%;
+            left: 0px;
+        }
+    }
+    .left-border {
+        transform: skewX(-32deg);
+        width: 90px;
+        height: 405px;
+        left: 35px;
+        bottom: 18px;
+    }
+    .right-border {
+        transform: skewX(32deg);
+        width: 90px;
+        height: 405px;
+        right: 35px;
+        bottom: 18px;
     }
 }

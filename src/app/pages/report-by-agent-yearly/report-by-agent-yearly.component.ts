@@ -62,7 +62,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
   }
 
   async getAllReports() {
-    this.productList= [];
+    this.productList = [];
     this.dataList = [];
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
@@ -93,14 +93,14 @@ export class ReportByAgentYearlyComponent implements OnInit {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].reportMonth == this.dataList[i].dynamicList[j].reportMonth) {
-                      this.dataList[i].productDataList[k].noOfPolicies = this.dataList[i].dynamicList[j].noOfPolicies
-                      this.dataList[i].productDataList[k].totalPremium = this.dataList[i].dynamicList[j].totalPremium
+                      this.dataList[i].productDataList[k].noOfPolicies = this.mathRoundTo(this.dataList[i].dynamicList[j].noOfPolicies, 2)
+                      this.dataList[i].productDataList[k].totalPremium = this.mathRoundTo(this.dataList[i].dynamicList[j].totalPremium, 2)
                     }
                   }
                 }
               }
             }
-          }else{
+          } else {
             this.isData = false;
           }
         }
@@ -113,7 +113,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     console.log('generateReportExcel ', this.reports);
     this.productValues = [];
     this.subHeader = [];
-    this.dataExcel= [];
+    this.dataExcel = [];
     for (var i = 0; i < this.productList.length; i++) {
       this.productValues.push(this.productList[i].reportMonth)
     }
@@ -176,7 +176,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
     this.selectOptions.agents = [];
-    this.productList= [];
+    this.productList = [];
     this.dataList = [];
     this.agentName = null;
     this.companyName = null;
@@ -340,7 +340,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -387,17 +387,17 @@ export class ReportByAgentYearlyComponent implements OnInit {
     if (type == 'FromDate') {
       this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
       this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
-       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-       if (diffYear != 0 && diffYear != 1) {
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
       }
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate  = new Date(this.createFormGroup.value.toDate);
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
       this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
-       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-       if (diffYear != 0 && diffYear != 1) {
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
       }
     }

@@ -1,6 +1,6 @@
 <div class="box-grid" style="background: #fff;">
   <div class="financial-grid">
-    <div style="width: 100%; border-bottom: medium dashed #d9d9d9;">
+    <div style="width: 97%; border-bottom: medium dashed #d9d9d9;">
       <h3 class="card-label left-border-image">Financial Needs Analysis</h3>
       <div class="financial">
         <div>
@@ -15,12 +15,6 @@
           <label>Created : </label>
           <label>{{ passValue.createdAt }}</label>
         </div>
-        <!-- <div class="progress fna-progress">
-          <span style="width:100%; height: 100%;" [ngClass]="bgColor" [ngStyle]="{'height': percentage }"><span
-              class="sub-progress">
-              <div class="text-rotate" [ngStyle]="{'bottom': totalPercentageText }">{{ percentage }}</div>
-            </span></span>
-        </div> -->
       </div>
       <div class="fna-progress">
         <div class="progress">
@@ -44,9 +38,8 @@
           Recommendation</button>
       </div>
     </div>
-    <app-llp-analysis *ngSwitchDefault [aboutLLP]="aboutLLP" [customerId]="customerId" (change)="fnaEvent($event)">
-    </app-llp-analysis>
-    <app-product-analysis [fnaId]="oldId" [customerId]="customerId" [product]="product" *ngSwitchCase="'product'"
+    <app-llp-analysis *ngSwitchDefault [aboutLLP]="aboutLLP" [customerId]="customerId" (change)="fnaEvent($event)"></app-llp-analysis>
+    <app-product-analysis [fnaId]="oldId" [customerId]="customerId" [passValue]="passValue" [product]="product" *ngSwitchCase="'product'"
       (changeProduct)="changeProduct($event)">
     </app-product-analysis>
     <app-education [fnaId]="oldId" [customerId]="customerId" [education]="education" *ngSwitchCase="'Education'"

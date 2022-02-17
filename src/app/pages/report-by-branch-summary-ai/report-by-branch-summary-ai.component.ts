@@ -82,13 +82,19 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
             totalPreminum += this.reports[i].totalPreminum
             if (srNo == this.reports.length) {
               this.totalDataList.push({
-                totalActiveAgents: totalActiveAgents,
-                totalNoOfPolicy: totalNoOfPolicy,
-                totalPreminum: totalPreminum
+                totalActiveAgents: this.mathRoundTo(totalActiveAgents, 2),
+                totalNoOfPolicy: this.mathRoundTo(totalNoOfPolicy, 2),
+                totalPreminum: this.mathRoundTo(totalPreminum, 2)
               });
             }
           }
-        }else{
+
+          for (var i = 0; i < this.reports.length; i++) {
+            this.reports[i].activeAgents = this.mathRoundTo(this.reports[i].activeAgents, 2)
+            this.reports[i].noOfPolicy = this.mathRoundTo(this.reports[i].noOfPolicy, 2)
+            this.reports[i].totalPreminum = this.mathRoundTo(this.reports[i].totalPreminum, 2)
+          }
+        } else {
           this.isData = false;
         }
       });
@@ -313,7 +319,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -361,17 +367,17 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     if (type == 'FromDate') {
       this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
       this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
-       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-       if (diffYear != 0 && diffYear != 1) {
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
       }
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate  = new Date(this.createFormGroup.value.toDate);
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
       this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
-       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-       if (diffYear != 0 && diffYear != 1) {
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
       }
     }
