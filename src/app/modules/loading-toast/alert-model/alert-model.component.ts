@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 @Component({
     // moduleId: module.id,
     template: `
-    <div class="modal-content">
+    <div class="modal-content" >
         <div class="modal-header">
             <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-md">
             {{title}}
