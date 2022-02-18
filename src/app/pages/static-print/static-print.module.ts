@@ -7,10 +7,12 @@ import { CoveragePrintComponent } from './coverage-print/coverage-print.componen
 import { AddonPrintComponent } from './addon-print/addon-print.component';
 import { FireDetailPrintComponent } from './fire-detail-print/fire-detail-print.component';
 import { FireRiskPrintComponent } from './fire-risk-print/fire-risk-print.component';
+import { HealthPrintComponent } from './health-print/health-print.component';
+import { PaPrintComponent } from './pa-print/pa-print.component';
 
 @NgModule({
-  declarations: [StaticPrintDirective,FarmerPrintComponent,MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent,FireDetailPrintComponent,FireRiskPrintComponent],
-  exports: [StaticPrintDirective,FarmerPrintComponent,MoterPrintComponent,FireDetailPrintComponent,FireRiskPrintComponent],
+  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent],
+  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent],
   imports: [
     CommonModule
   ]

@@ -19,6 +19,8 @@ export class GlobalFunctionService {
   normalCoverageResult = new BehaviorSubject(null)
   motorTotalSiResult = new BehaviorSubject(null)
   paPolicyValidationResult = new BehaviorSubject(null)
+  halfOfSumInsuredResult = new BehaviorSubject(null)
+  snakeSumInsuredResult = new BehaviorSubject(null)
   tempFormData = {}
   exChange: number = 1650
 
@@ -104,6 +106,27 @@ export class GlobalFunctionService {
     // if()
     this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency + " / month")
     return true
+  }
+  snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean){
+    let valInt = 0
+    if (typeof currentValue == 'string') {
+      valInt = parseInt(currentValue.replace("T-", ""))
+    }
+    let sumInsured = valInt * 500000
+    this.halfOfSumInsured(sumInsured,activeForm)
+    this.snakeSumInsuredResult.next(sumInsured)
+  }
+
+  halfOfSumInsured(currentValue: any,activeForm: any, option?: any[], form?: boolean){
+    let valInt = parseFloat(currentValue)
+    let value = this.calculateDecimal(valInt * 0.5)
+    this.halfOfSumInsuredResult.next(value)
+  }
+
+  snakePremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean){
+    let sumInsured = parseFloat(activeForm.sum_insured)
+    let premium = this.calculateDecimal(sumInsured * 0.001)
+    this.paPremiumResult.next(this.numberPipe.transform(premium) + " MMK")
   }
 
   sumInsuredValidation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
