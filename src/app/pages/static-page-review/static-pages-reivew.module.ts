@@ -18,6 +18,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FireRiskViewComponent } from './fire-risk-view/fire-risk-view.component';
 import { FirePageViewComponent } from './fire-page-view/fire-page-view.component';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { EndoGripViewComponent } from './endo-griph-view/endo-griph-view.component';
+import { EndoViewComponent } from './endo-view/endo-view.component';
 @NgModule({
   declarations: [
     StaticPageViewDirective,
@@ -30,7 +32,9 @@ import { NgxCurrencyModule } from 'ngx-currency';
     FireBuildingComponent,
     CalculatedBuildingComponent,
     FireRiskViewComponent,
-    FirePageViewComponent
+    FirePageViewComponent,
+    EndoGripViewComponent,
+    EndoViewComponent,
   ],
   exports: [
     StaticPageViewDirective,
@@ -41,7 +45,9 @@ import { NgxCurrencyModule } from 'ngx-currency';
     EducationLifeViewComponent,
     EducationLifeGripViewComponent,
     FirePageViewComponent,
-    FireRiskViewComponent
+    FireRiskViewComponent,
+    EndoGripViewComponent,
+    EndoViewComponent,
   ],
   imports: [
     CommonModule,

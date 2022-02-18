@@ -231,4 +231,8 @@ export class MycalendarComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
+
+  getColor(event:any){
+    return event.color?.primary 
+  }
 }

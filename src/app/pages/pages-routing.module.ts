@@ -63,20 +63,20 @@ const routes: Routes = [
         loadChildren: () =>
           import('./builder/builder.module').then((m) => m.BuilderModule),
       },
-      {
-        path: 'user-management',
-        loadChildren: () =>
-          import('../modules/user-management/user-management.module').then(
-            (m) => m.UserManagementModule
-          ),
-      },
-      {
-        path: 'user-profile',
-        loadChildren: () =>
-          import('../modules/user-profile/user-profile.module').then(
-            (m) => m.UserProfileModule
-          ),
-      },
+      // {
+      //   path: 'user-management',
+      //   loadChildren: () =>
+      //     import('../modules/user-management/user-management.module').then(
+      //       (m) => m.UserManagementModule
+      //     ),
+      // },
+      // {
+      //   path: 'user-profile',
+      //   loadChildren: () =>
+      //     import('../modules/user-profile/user-profile.module').then(
+      //       (m) => m.UserProfileModule
+      //     ),
+      // },
       {
         path: 'resourse-detail',
         loadChildren: () =>

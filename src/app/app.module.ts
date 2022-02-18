@@ -2,7 +2,6 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ClipboardModule } from 'ngx-clipboard';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
@@ -50,7 +49,6 @@ function appInitializer(authService: AuthService) {
     IonicModule,
     HttpClientModule,
     HighlightModule,
-    ClipboardModule,
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,

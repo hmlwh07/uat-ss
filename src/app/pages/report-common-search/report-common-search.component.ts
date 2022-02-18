@@ -13,6 +13,7 @@ export class ReportCommonSearchComponent implements OnInit {
   createFormGroup: FormGroup;
   fromMinDate = null;
   fromMaxDate = null;
+  isData:boolean = false
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [],
@@ -130,6 +131,17 @@ export class ReportCommonSearchComponent implements OnInit {
       "clusterId": new FormControl(''),
       "branchId": new FormControl('')
     });
+  }
+  cancelReport(){
+    this.createFormGroup.reset()
+  }
+
+  generateReportExcel(){
+
+  }
+
+  getAllReports(){
+    
   }
 
   isControlValid(controlName: string): boolean {

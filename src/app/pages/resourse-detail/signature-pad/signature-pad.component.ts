@@ -11,7 +11,7 @@ import { AttachmentUploadService } from '../../../_metronic/core/services/attach
 })
 export class SignaturePadComponent implements OnInit, AfterViewInit {
   @ViewChild(SignaturePad) signaturePad: SignaturePad;
-  private signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
+  signaturePadOptions: Object = { // passed through to szimek/signature_pad constructor
     'minWidth': 5,
     'canvasWidth': 500,
     'canvasHeight': 300
