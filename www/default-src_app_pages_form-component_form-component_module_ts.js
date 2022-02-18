@@ -7865,25 +7865,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "FarmerPrintComponent": () => (/* binding */ FarmerPrintComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 98806);
 /* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_farmer_print_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./farmer-print.component.html */ 72368);
 /* harmony import */ var _farmer_print_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./farmer-print.component.scss */ 22989);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../environments/environment */ 18260);
+/* harmony import */ var _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../products/services/products-data.service */ 35618);
+
+
 
 
 
 
 let FarmerPrintComponent = class FarmerPrintComponent {
-    constructor() { }
+    constructor(productService) {
+        this.productService = productService;
+        this.signId = "";
+        this.Default_DOWNLOAD_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_2__.environment.apiUrl}/attachment-downloader/`;
+    }
     ngOnInit() {
+        this.signId = this.productService.editData ? this.productService.editData.attachmentId : "";
     }
 };
-FarmerPrintComponent.ctorParameters = () => [];
+FarmerPrintComponent.ctorParameters = () => [
+    { type: _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_3__.ProductDataService }
+];
 FarmerPrintComponent.propDecorators = {
-    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__.Input }]
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Input }]
 };
-FarmerPrintComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Component)({
+FarmerPrintComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
         selector: 'app-farmer-print',
         template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_farmer_print_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
         styles: [_farmer_print_component_scss__WEBPACK_IMPORTED_MODULE_1__]
@@ -8003,6 +8014,57 @@ FireRiskPrintComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
 
 /***/ }),
 
+/***/ 41388:
+/*!***************************************************************************!*\
+  !*** ./src/app/pages/static-print/health-print/health-print.component.ts ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "HealthPrintComponent": () => (/* binding */ HealthPrintComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_health_print_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./health-print.component.html */ 75637);
+/* harmony import */ var _health_print_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./health-print.component.scss */ 94630);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../environments/environment */ 18260);
+/* harmony import */ var _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../products/services/products-data.service */ 35618);
+
+
+
+
+
+
+let HealthPrintComponent = class HealthPrintComponent {
+    constructor(productService) {
+        this.productService = productService;
+        this.signId = "";
+        this.Default_DOWNLOAD_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_2__.environment.apiUrl}/attachment-downloader/`;
+    }
+    ngOnInit() {
+        this.signId = this.productService.editData ? this.productService.editData.attachmentId : "";
+    }
+};
+HealthPrintComponent.ctorParameters = () => [
+    { type: _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_3__.ProductDataService }
+];
+HealthPrintComponent.propDecorators = {
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Input }]
+};
+HealthPrintComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
+        selector: 'app-health-print',
+        template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_health_print_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
+        styles: [_health_print_component_scss__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], HealthPrintComponent);
+
+
+
+/***/ }),
+
 /***/ 32622:
 /*!*************************************************************************!*\
   !*** ./src/app/pages/static-print/moter-print/moter-print.component.ts ***!
@@ -8054,6 +8116,57 @@ MoterPrintComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
 
 /***/ }),
 
+/***/ 43698:
+/*!*******************************************************************!*\
+  !*** ./src/app/pages/static-print/pa-print/pa-print.component.ts ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PaPrintComponent": () => (/* binding */ PaPrintComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_pa_print_component_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./pa-print.component.html */ 67037);
+/* harmony import */ var _pa_print_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pa-print.component.scss */ 2326);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../environments/environment */ 18260);
+/* harmony import */ var _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../products/services/products-data.service */ 35618);
+
+
+
+
+
+
+let PaPrintComponent = class PaPrintComponent {
+    constructor(productService) {
+        this.productService = productService;
+        this.signId = "";
+        this.Default_DOWNLOAD_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_2__.environment.apiUrl}/attachment-downloader/`;
+    }
+    ngOnInit() {
+        this.signId = this.productService.editData ? this.productService.editData.attachmentId : "";
+    }
+};
+PaPrintComponent.ctorParameters = () => [
+    { type: _products_services_products_data_service__WEBPACK_IMPORTED_MODULE_3__.ProductDataService }
+];
+PaPrintComponent.propDecorators = {
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Input }]
+};
+PaPrintComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
+        selector: 'app-pa-print',
+        template: _Users_casperakm_Work_Bss_KBZ_SALE_node_modules_ngtools_webpack_src_loaders_direct_resource_js_pa_print_component_html__WEBPACK_IMPORTED_MODULE_0__["default"],
+        styles: [_pa_print_component_scss__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], PaPrintComponent);
+
+
+
+/***/ }),
+
 /***/ 35002:
 /*!*******************************************************************!*\
   !*** ./src/app/pages/static-print/static-print-view.directive.ts ***!
@@ -8065,14 +8178,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StaticPrintDirective": () => (/* binding */ StaticPrintDirective)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 98806);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 14001);
 /* harmony import */ var _addon_print_addon_print_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addon-print/addon-print.component */ 48960);
 /* harmony import */ var _coverage_print_coverage_print_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./coverage-print/coverage-print.component */ 19059);
 /* harmony import */ var _farmer_print_farmer_print_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./farmer-print/farmer-print.component */ 62937);
 /* harmony import */ var _fire_detail_print_fire_detail_print_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fire-detail-print/fire-detail-print.component */ 95321);
 /* harmony import */ var _fire_risk_print_fire_risk_print_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fire-risk-print/fire-risk-print.component */ 85910);
-/* harmony import */ var _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./moter-print/moter-print.component */ 32622);
+/* harmony import */ var _health_print_health_print_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./health-print/health-print.component */ 41388);
+/* harmony import */ var _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./moter-print/moter-print.component */ 32622);
+/* harmony import */ var _pa_print_pa_print_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pa-print/pa-print.component */ 43698);
+
+
 
 
 
@@ -8082,8 +8199,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const STATIC_PRINT_COMPONENT = {
-    'print_1638594148571': _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_5__.MoterPrintComponent,
+    'print_1638594148571': _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_6__.MoterPrintComponent,
     'print_1638594176913': _farmer_print_farmer_print_component__WEBPACK_IMPORTED_MODULE_2__.FarmerPrintComponent,
+    'print_1645157346931': _health_print_health_print_component__WEBPACK_IMPORTED_MODULE_5__.HealthPrintComponent,
+    'print_1645157579888': _pa_print_pa_print_component__WEBPACK_IMPORTED_MODULE_7__.PaPrintComponent,
     'addon_1634010770155': _addon_print_addon_print_component__WEBPACK_IMPORTED_MODULE_0__.AddonPrintComponent,
     'coverage_1634010995936': _coverage_print_coverage_print_component__WEBPACK_IMPORTED_MODULE_1__.CoveragePrintComponent,
     'static_1641364737069': _fire_detail_print_fire_detail_print_component__WEBPACK_IMPORTED_MODULE_3__.FireDetailPrintComponent,
@@ -8103,15 +8222,15 @@ let StaticPrintDirective = class StaticPrintDirective {
     }
 };
 StaticPrintDirective.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ComponentFactoryResolver },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.ViewContainerRef }
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.ComponentFactoryResolver },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.ViewContainerRef }
 ];
 StaticPrintDirective.propDecorators = {
-    compId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }],
-    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }]
+    compId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Input }],
+    resourcesId: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_8__.Input }]
 };
-StaticPrintDirective = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Directive)({
+StaticPrintDirective = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Directive)({
         selector: '[staticPirint]'
     })
 ], StaticPrintDirective);
@@ -8131,9 +8250,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StaticPrintModule": () => (/* binding */ StaticPrintModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 98806);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 14001);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common */ 28267);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! tslib */ 98806);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 14001);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/common */ 28267);
 /* harmony import */ var _farmer_print_farmer_print_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./farmer-print/farmer-print.component */ 62937);
 /* harmony import */ var _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./moter-print/moter-print.component */ 32622);
 /* harmony import */ var _static_print_view_directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./static-print-view.directive */ 35002);
@@ -8141,6 +8260,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _addon_print_addon_print_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./addon-print/addon-print.component */ 48960);
 /* harmony import */ var _fire_detail_print_fire_detail_print_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fire-detail-print/fire-detail-print.component */ 95321);
 /* harmony import */ var _fire_risk_print_fire_risk_print_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fire-risk-print/fire-risk-print.component */ 85910);
+/* harmony import */ var _health_print_health_print_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./health-print/health-print.component */ 41388);
+/* harmony import */ var _pa_print_pa_print_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pa-print/pa-print.component */ 43698);
+
+
 
 
 
@@ -8153,12 +8276,12 @@ __webpack_require__.r(__webpack_exports__);
 
 let StaticPrintModule = class StaticPrintModule {
 };
-StaticPrintModule = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.NgModule)({
-        declarations: [_static_print_view_directive__WEBPACK_IMPORTED_MODULE_2__.StaticPrintDirective, _farmer_print_farmer_print_component__WEBPACK_IMPORTED_MODULE_0__.FarmerPrintComponent, _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_1__.MoterPrintComponent, _coverage_print_coverage_print_component__WEBPACK_IMPORTED_MODULE_3__.CoveragePrintComponent, _addon_print_addon_print_component__WEBPACK_IMPORTED_MODULE_4__.AddonPrintComponent, _fire_detail_print_fire_detail_print_component__WEBPACK_IMPORTED_MODULE_5__.FireDetailPrintComponent, _fire_risk_print_fire_risk_print_component__WEBPACK_IMPORTED_MODULE_6__.FireRiskPrintComponent],
-        exports: [_static_print_view_directive__WEBPACK_IMPORTED_MODULE_2__.StaticPrintDirective, _farmer_print_farmer_print_component__WEBPACK_IMPORTED_MODULE_0__.FarmerPrintComponent, _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_1__.MoterPrintComponent, _fire_detail_print_fire_detail_print_component__WEBPACK_IMPORTED_MODULE_5__.FireDetailPrintComponent, _fire_risk_print_fire_risk_print_component__WEBPACK_IMPORTED_MODULE_6__.FireRiskPrintComponent],
+StaticPrintModule = (0,tslib__WEBPACK_IMPORTED_MODULE_9__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_10__.NgModule)({
+        declarations: [_static_print_view_directive__WEBPACK_IMPORTED_MODULE_2__.StaticPrintDirective, _farmer_print_farmer_print_component__WEBPACK_IMPORTED_MODULE_0__.FarmerPrintComponent, _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_1__.MoterPrintComponent, _coverage_print_coverage_print_component__WEBPACK_IMPORTED_MODULE_3__.CoveragePrintComponent, _addon_print_addon_print_component__WEBPACK_IMPORTED_MODULE_4__.AddonPrintComponent, _fire_detail_print_fire_detail_print_component__WEBPACK_IMPORTED_MODULE_5__.FireDetailPrintComponent, _fire_risk_print_fire_risk_print_component__WEBPACK_IMPORTED_MODULE_6__.FireRiskPrintComponent, _health_print_health_print_component__WEBPACK_IMPORTED_MODULE_7__.HealthPrintComponent, _pa_print_pa_print_component__WEBPACK_IMPORTED_MODULE_8__.PaPrintComponent],
+        exports: [_static_print_view_directive__WEBPACK_IMPORTED_MODULE_2__.StaticPrintDirective, _farmer_print_farmer_print_component__WEBPACK_IMPORTED_MODULE_0__.FarmerPrintComponent, _moter_print_moter_print_component__WEBPACK_IMPORTED_MODULE_1__.MoterPrintComponent, _fire_detail_print_fire_detail_print_component__WEBPACK_IMPORTED_MODULE_5__.FireDetailPrintComponent, _fire_risk_print_fire_risk_print_component__WEBPACK_IMPORTED_MODULE_6__.FireRiskPrintComponent, _pa_print_pa_print_component__WEBPACK_IMPORTED_MODULE_8__.PaPrintComponent, _health_print_health_print_component__WEBPACK_IMPORTED_MODULE_7__.HealthPrintComponent],
         imports: [
-            _angular_common__WEBPACK_IMPORTED_MODULE_9__.CommonModule
+            _angular_common__WEBPACK_IMPORTED_MODULE_11__.CommonModule
         ]
     })
 ], StaticPrintModule);
@@ -8478,7 +8601,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"farmer-print\">\n  <div class=\"title-style left-border-image mt-5\">Declaration</div>\n  <p class=\"mb-1\">I hereby declare that above statement are correct and current health is in good condition</p>\n  <div class=\"grid-list\">\n    <div class=\"sign-row mt-2\">\n      <div class=\"sign-box\">\n        <span>Witness's Signautre</span>\n        <div class=\"border-line\"></div>\n      </div>\n      <div class=\"sign-box\">\n        <span>Insured's Signautre</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\">\n      <div class=\"sign-box\">\n        <span>Witness's Name</span>\n        <div class=\"border-line\"></div>\n      </div>\n      <div class=\"sign-box\">\n        <span>Insured's Name</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\">\n      <div class=\"sign-box\">\n        <span>Phone No.</span>\n        <div class=\"border-line\"></div>\n      </div>\n      <div class=\"sign-box\">\n        <span>Date</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n  </div>\n\n  <!--  -->\n  <p class=\"mb-1\">Underwriters review and assessment on the insured health condition.</p>\n  <div class=\"grid-list\">\n    <div class=\"sign-row mt-2\" style=\"justify-content: flex-end;\">\n\n      <div class=\"sign-box\">\n        <span>Underwriter's Signautre</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\" style=\"justify-content: flex-end;\">\n\n      <div class=\"sign-box\">\n        <span>Name</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\" style=\"justify-content: flex-end;\">\n\n      <div class=\"sign-box\">\n        <span>Position</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class=\"farmer-print\">\n  <div class=\"title-style left-border-image mt-5\">Admission</div>\n  <p class=\"mb-1\">This is the admission that above statements are correct and current health condition of own self is\n    good. </p>\n  <div class=\"grid-list\">\n    <div class=\"sign-row mt-2\">\n      <div class=\"sign-box\">\n        <span>Witness's Signautre</span>\n        <div class=\"border-line\"></div>\n      </div>\n      <div class=\"sign-box\">\n        <span>Insured's Signautre</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\">\n      <div class=\"sign-box\">\n        <span>Witness's Name</span>\n        <div class=\"border-line\"></div>\n      </div>\n      <div class=\"sign-box\">\n        <span>Insured's Name</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\">\n      <div class=\"sign-box\">\n        <span>Phone No.</span>\n        <div class=\"border-line\"></div>\n      </div>\n      <div class=\"sign-box\">\n        <span>Date</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n  </div>\n\n  <!--  -->\n  <p class=\"mb-1\">As an inspector to accept the proposal, to give a remark whether insured’s health condition is\n    good/not.</p>\n  <div class=\"grid-list\">\n    <div class=\"sign-row mt-2\" style=\"justify-content: flex-end;\">\n\n      <div class=\"sign-box\">\n        <span>Inspector's Signautre</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\" style=\"justify-content: flex-end;\">\n\n      <div class=\"sign-box\">\n        <span>Name</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n    <div class=\"sign-row mt-2\" style=\"justify-content: flex-end;\">\n\n      <div class=\"sign-box\">\n        <span>Position</span>\n        <div class=\"border-line\"></div>\n      </div>\n    </div>\n  </div>\n</div>");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"farmer-print\">\n  <div class=\"title-style left-border-image mt-5\">Declaration</div>\n  <p class=\"mb-1\">I hereby declare that above statement are correct and current health is in good condition</p>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Witness's Signautre</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Insured's Signautre</label>\n      <div class=\"sign-area\">\n      </div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Witness's Name</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Insured's Name</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Phone No.</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Date</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <p class=\"mb-1\">Underwriters review and assessment on the insured health condition.</p>\n  <div class=\"sign-row\" style=\"justify-content: flex-end;\">\n    <div class=\"sign-box\">\n      <label>Underwriter's Signautre</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\" style=\"justify-content: flex-end;\">\n    <div class=\"sign-box\">\n      <label>Name</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\" style=\"justify-content: flex-end;\">\n    <div class=\"sign-box\">\n      <label>Position</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n</div>\n\n<div class=\"farmer-print\">\n  <div class=\"title-style left-border-image mt-5\">Admission</div>\n  <p class=\"mb-1\">This is the admission that above statements are correct and current health condition of own self is\n    good. </p>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Witness's Signautre</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Insured's Signautre</label>\n      <div class=\"sign-area\">\n      </div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Witness's Name</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Insured's Name</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Phone No.</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Date</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n\n  <!--  -->\n  <p class=\"mb-1\">As an inspector to accept the proposal, to give a remark whether insured's health condition is\n    good/not.</p>\n  <div class=\"sign-row\" style=\"justify-content: flex-end;\">\n    <div class=\"sign-box\">\n      <label>Inspector's Signautre</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\" style=\"justify-content: flex-end;\">\n    <div class=\"sign-box\">\n      <label>Name</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\" style=\"justify-content: flex-end;\">\n    <div class=\"sign-box\">\n      <label>Position</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n</div>");
 
 /***/ }),
 
@@ -8512,6 +8635,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ 75637:
+/*!********************************************************************************************************************************************!*\
+  !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-print/health-print/health-print.component.html ***!
+  \********************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"farmer-print\">\n  <div class=\"title-style left-border-image mt-5\">DECLARATION BY PROPOSER</div>\n  <p class=\"mb-1\">I hereby certify that above statements are true and correct with my present health conditions.\n  </p>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Witness's Signature</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Insured's Signature</label>\n      <div class=\"sign-area\">\n      </div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Witness's Name </label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Insured's Name</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>N.R.C No</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>N.R.C No</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Address</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Address</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Health Conditions (Based on appearance )</label>\n    </div>\n    <div class=\"sign-box\">\n      <label>\n        <span>Good</span>\n        <input type=\"checkbox\" name=\"health\" id=\"\">\n        <span class=\"ml-2\">Good</span>\n        <input type=\"checkbox\" name=\"health\" id=\"\">\n      </label>\n    </div>\n  </div>\n  <!-- <p class=\"mb-1\">\n    Health Conditions (Based on appearance )\n  </p> -->\n\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Date</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Inspector Signature</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Name</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Position</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n  </div>\n\n</div>");
+
+/***/ }),
+
 /***/ 8019:
 /*!******************************************************************************************************************************************!*\
   !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-print/moter-print/moter-print.component.html ***!
@@ -8524,6 +8662,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"moter-print\">\n\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>DATE</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>PROPOSER SIGNATURE</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>NRC</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Date of Birth</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n\n</div>");
+
+/***/ }),
+
+/***/ 67037:
+/*!************************************************************************************************************************************!*\
+  !*** ./node_modules/@ngtools/webpack/src/loaders/direct-resource.js!./src/app/pages/static-print/pa-print/pa-print.component.html ***!
+  \************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"farmer-print\">\n  <div class=\"title-style left-border-image mt-5\">DECLARATION BY PROPOSER</div>\n  <p class=\"mb-1\">I hereby declare that I am in good health and free from any physical injuries the day which I\n    submitting the proposal. I certify that the above-mentioned statements are true and correct to the best of my\n    knowledge. I am fully aware that these are basic principles of the agreement between the insurance company and me. I\n    also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the\n    benefits will be forfeited.\n  </p>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Agent/Witness Signature</label>\n      <div class=\"sign-area\">\n        <ng-container *ngIf=\"signId\">\n          <img [src]=\"Default_DOWNLOAD_URL+signId\" alt=\"\" class=\"sign-img\">\n        </ng-container>\n      </div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Name</label>\n      <div class=\"sign-area\">\n      </div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Address</label>\n      <div class=\"sign-area\"></div>\n    </div>\n    <div class=\"sign-box\">\n      <label>Phone No.</label>\n      <div class=\"sign-area\"></div>\n    </div>\n  </div>\n  <div class=\"sign-row\">\n    <div class=\"sign-box\">\n      <label>Insured's Signature</label>\n      <div class=\"sign-area\"></div>\n    </div>\n\n  </div>\n  <p class=\"mb-1\">\n    <u><b>Remarks:</b></u><br>\n    The benefits will be issued to beneficiary's parents or guardians if he/she is under 18.The following policies will\n    be practiced if the insured or beneficiary is dead earlier than the insured, and meanwhile, the death of the insured\n    occurred before the amendment or transfer is being made.<br>\n    1.the insured's husband or wife<br>\n    2.the insured's children<br>\n    3.the insured's grandchildren<br>\n    4.the insured's siblings<br>\n    5.the insured's parents<br>\n\n  </p>\n\n</div>");
 
 /***/ }),
 
@@ -8754,7 +8907,7 @@ module.exports = ".field-col, .field-value {\n  text-align: center;\n  width: 20
 /***/ ((module) => {
 
 "use strict";
-module.exports = ".sign-row {\n  display: flex;\n  justify-content: space-between;\n  font-size: 0.75rem;\n}\n.sign-row .sign-box {\n  display: flex;\n  justify-content: space-between;\n  width: 300px;\n}\n.sign-row .sign-box .border-line {\n  width: 150px;\n  border-bottom: 1px dashed #000;\n}\n.farmer-print > p {\n  background-color: #ddebf7;\n  border: 1px solid #9BC2E6;\n  padding: 2px;\n  margin-top: 10px;\n}\n.title-style {\n  font-size: 0.9rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZhcm1lci1wcmludC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLGtCQUFBO0FBQ0Y7QUFDRTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLFlBQUE7QUFDSjtBQUNJO0VBQ0UsWUFBQTtFQUNBLDhCQUFBO0FBQ047QUFHQTtFQUNFLHlCQUFBO0VBQ0EseUJBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7QUFBRjtBQUVBO0VBQ0UsaUJBQUE7QUFDRiIsImZpbGUiOiJmYXJtZXItcHJpbnQuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2lnbi1yb3cge1xuICBkaXNwbGF5ICAgICAgICA6IGZsZXg7XG4gIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgZm9udC1zaXplIDogMC43NXJlbTtcblxuICAuc2lnbi1ib3gge1xuICAgIGRpc3BsYXkgICAgICAgIDogZmxleDtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4gICAgd2lkdGggICAgICAgICAgOiAzMDBweDtcblxuICAgIC5ib3JkZXItbGluZSB7XG4gICAgICB3aWR0aCAgICAgICAgOiAxNTBweDtcbiAgICAgIGJvcmRlci1ib3R0b206IDFweCBkYXNoZWQgIzAwMDtcbiAgICB9XG4gIH1cbn1cbi5mYXJtZXItcHJpbnQ+IHB7XG4gIGJhY2tncm91bmQtY29sb3I6IHJnYigyMjEsIDIzNSwgMjQ3KTtcbiAgYm9yZGVyICAgICAgICAgOiAxcHggc29saWQgIzlCQzJFNjtcbiAgcGFkZGluZzogMnB4O1xuICBtYXJnaW4tdG9wOiAxMHB4O1xufVxuLnRpdGxlLXN0eWxle1xuICBmb250LXNpemU6IDAuOXJlbTtcbn0iXX0= */";
+module.exports = ".sign-row {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 15px;\n  font-size: 0.9rem;\n}\n.sign-row .sign-area {\n  width: 150px;\n  min-height: 30px;\n  border-bottom: 1px #000 dashed;\n}\n.sign-row .sign-area .sign-img {\n  width: 150px;\n}\n.farmer-print > p {\n  background-color: #ddebf7;\n  border: 1px solid #9BC2E6;\n  padding: 2px;\n  margin-top: 10px;\n}\n.title-style {\n  font-size: 0.9rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImZhcm1lci1wcmludC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7QUFDRjtBQUNFO0VBQ0UsWUFBQTtFQUNBLGdCQUFBO0VBQ0EsOEJBQUE7QUFDSjtBQUNJO0VBQ0UsWUFBQTtBQUNOO0FBS0E7RUFDRSx5QkFBQTtFQUNBLHlCQUFBO0VBQ0EsWUFBQTtFQUNBLGdCQUFBO0FBRkY7QUFJQTtFQUNFLGlCQUFBO0FBREYiLCJmaWxlIjoiZmFybWVyLXByaW50LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnNpZ24tcm93IHtcbiAgZGlzcGxheSAgICAgICAgOiBmbGV4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4gIG1hcmdpbi10b3AgICAgIDogMTVweDtcbiAgZm9udC1zaXplICAgICAgOiAwLjlyZW07XG5cbiAgLnNpZ24tYXJlYSB7XG4gICAgd2lkdGggICAgICAgIDogMTUwcHg7XG4gICAgbWluLWhlaWdodCAgIDogMzBweDtcbiAgICBib3JkZXItYm90dG9tOiAxcHggIzAwMCBkYXNoZWQ7XG5cbiAgICAuc2lnbi1pbWcge1xuICAgICAgd2lkdGg6IDE1MHB4O1xuXG4gICAgfVxuICB9XG59XG5cbi5mYXJtZXItcHJpbnQ+IHB7XG4gIGJhY2tncm91bmQtY29sb3I6IHJnYigyMjEsIDIzNSwgMjQ3KTtcbiAgYm9yZGVyICAgICAgICAgOiAxcHggc29saWQgIzlCQzJFNjtcbiAgcGFkZGluZzogMnB4O1xuICBtYXJnaW4tdG9wOiAxMHB4O1xufVxuLnRpdGxlLXN0eWxle1xuICBmb250LXNpemU6IDAuOXJlbTtcbn1cbi8vIC5zaWduLXJvdyB7XG4vLyAgIGRpc3BsYXkgICAgICAgIDogZmxleDtcbi8vICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuLy8gICBmb250LXNpemUgOiAwLjc1cmVtO1xuXG4vLyAgIC5zaWduLWJveCB7XG4vLyAgICAgZGlzcGxheSAgICAgICAgOiBmbGV4O1xuLy8gICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2Vlbjtcbi8vICAgICB3aWR0aCAgICAgICAgICA6IDMwMHB4O1xuXG4vLyAgICAgLmJvcmRlci1saW5lIHtcbi8vICAgICAgIHdpZHRoICAgICAgICA6IDE1MHB4O1xuLy8gICAgICAgYm9yZGVyLWJvdHRvbTogMXB4IGRhc2hlZCAjMDAwO1xuLy8gICAgIH1cbi8vICAgfVxuLy8gfVxuLy8gLmZhcm1lci1wcmludD4gcHtcbi8vICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDIyMSwgMjM1LCAyNDcpO1xuLy8gICBib3JkZXIgICAgICAgICA6IDFweCBzb2xpZCAjOUJDMkU2O1xuLy8gICBwYWRkaW5nOiAycHg7XG4vLyAgIG1hcmdpbi10b3A6IDEwcHg7XG4vLyB9XG4vLyAudGl0bGUtc3R5bGV7XG4vLyAgIGZvbnQtc2l6ZTogMC45cmVtO1xuLy8gfSJdfQ== */";
 
 /***/ }),
 
@@ -8780,6 +8933,17 @@ module.exports = ".field-col, .field-value {\n  text-align: center !important;\n
 
 /***/ }),
 
+/***/ 94630:
+/*!*****************************************************************************!*\
+  !*** ./src/app/pages/static-print/health-print/health-print.component.scss ***!
+  \*****************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = ".sign-row {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 15px;\n  font-size: 0.9rem;\n}\n.sign-row .sign-area {\n  width: 150px;\n  min-height: 30px;\n  border-bottom: 1px #000 dashed;\n}\n.sign-row .sign-area .sign-img {\n  width: 150px;\n}\n.farmer-print > p {\n  background-color: #ddebf7;\n  border: 1px solid #9BC2E6;\n  padding: 2px;\n  margin-top: 10px;\n}\n.title-style {\n  font-size: 0.9rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhlYWx0aC1wcmludC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQUE7RUFDQSw4QkFBQTtFQUNBLGdCQUFBO0VBQ0EsaUJBQUE7QUFDRjtBQUNFO0VBQ0UsWUFBQTtFQUNBLGdCQUFBO0VBQ0EsOEJBQUE7QUFDSjtBQUNJO0VBQ0UsWUFBQTtBQUNOO0FBS0E7RUFDRSx5QkFBQTtFQUNBLHlCQUFBO0VBQ0EsWUFBQTtFQUNBLGdCQUFBO0FBRkY7QUFJQTtFQUNFLGlCQUFBO0FBREYiLCJmaWxlIjoiaGVhbHRoLXByaW50LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnNpZ24tcm93IHtcbiAgZGlzcGxheSAgICAgICAgOiBmbGV4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4gIG1hcmdpbi10b3AgICAgIDogMTVweDtcbiAgZm9udC1zaXplICAgICAgOiAwLjlyZW07XG5cbiAgLnNpZ24tYXJlYSB7XG4gICAgd2lkdGggICAgICAgIDogMTUwcHg7XG4gICAgbWluLWhlaWdodCAgIDogMzBweDtcbiAgICBib3JkZXItYm90dG9tOiAxcHggIzAwMCBkYXNoZWQ7XG5cbiAgICAuc2lnbi1pbWcge1xuICAgICAgd2lkdGg6IDE1MHB4O1xuXG4gICAgfVxuICB9XG59XG5cbi5mYXJtZXItcHJpbnQ+IHB7XG4gIGJhY2tncm91bmQtY29sb3I6IHJnYigyMjEsIDIzNSwgMjQ3KTtcbiAgYm9yZGVyICAgICAgICAgOiAxcHggc29saWQgIzlCQzJFNjtcbiAgcGFkZGluZzogMnB4O1xuICBtYXJnaW4tdG9wOiAxMHB4O1xufVxuLnRpdGxlLXN0eWxle1xuICBmb250LXNpemU6IDAuOXJlbTtcbn1cbi8vIC5zaWduLXJvdyB7XG4vLyAgIGRpc3BsYXkgICAgICAgIDogZmxleDtcbi8vICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuLy8gICBmb250LXNpemUgOiAwLjc1cmVtO1xuXG4vLyAgIC5zaWduLWJveCB7XG4vLyAgICAgZGlzcGxheSAgICAgICAgOiBmbGV4O1xuLy8gICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2Vlbjtcbi8vICAgICB3aWR0aCAgICAgICAgICA6IDMwMHB4O1xuXG4vLyAgICAgLmJvcmRlci1saW5lIHtcbi8vICAgICAgIHdpZHRoICAgICAgICA6IDE1MHB4O1xuLy8gICAgICAgYm9yZGVyLWJvdHRvbTogMXB4IGRhc2hlZCAjMDAwO1xuLy8gICAgIH1cbi8vICAgfVxuLy8gfVxuLy8gLmZhcm1lci1wcmludD4gcHtcbi8vICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDIyMSwgMjM1LCAyNDcpO1xuLy8gICBib3JkZXIgICAgICAgICA6IDFweCBzb2xpZCAjOUJDMkU2O1xuLy8gICBwYWRkaW5nOiAycHg7XG4vLyAgIG1hcmdpbi10b3A6IDEwcHg7XG4vLyB9XG4vLyAudGl0bGUtc3R5bGV7XG4vLyAgIGZvbnQtc2l6ZTogMC45cmVtO1xuLy8gfSJdfQ== */";
+
+/***/ }),
+
 /***/ 59446:
 /*!***************************************************************************!*\
   !*** ./src/app/pages/static-print/moter-print/moter-print.component.scss ***!
@@ -8788,6 +8952,17 @@ module.exports = ".field-col, .field-value {\n  text-align: center !important;\n
 
 "use strict";
 module.exports = ".sign-row {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 15px;\n  font-size: 0.9rem;\n}\n.sign-row .sign-area {\n  width: 150px;\n  min-height: 30px;\n  border-bottom: 1px #000 dashed;\n}\n.sign-row .sign-area .sign-img {\n  width: 150px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1vdGVyLXByaW50LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBQTtFQUNBLDhCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxpQkFBQTtBQUNGO0FBQ0U7RUFDRSxZQUFBO0VBQ0EsZ0JBQUE7RUFDQSw4QkFBQTtBQUNKO0FBQ0k7RUFDRSxZQUFBO0FBQ04iLCJmaWxlIjoibW90ZXItcHJpbnQuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2lnbi1yb3cge1xuICBkaXNwbGF5ICAgICAgICA6IGZsZXg7XG4gIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgbWFyZ2luLXRvcCAgICAgOiAxNXB4O1xuICBmb250LXNpemUgICAgICA6IDAuOXJlbTtcblxuICAuc2lnbi1hcmVhIHtcbiAgICB3aWR0aCAgICAgICAgOiAxNTBweDtcbiAgICBtaW4taGVpZ2h0ICAgOiAzMHB4O1xuICAgIGJvcmRlci1ib3R0b206IDFweCAjMDAwIGRhc2hlZDtcblxuICAgIC5zaWduLWltZyB7XG4gICAgICB3aWR0aDogMTUwcHg7XG5cbiAgICB9XG4gIH1cbn0iXX0= */";
+
+/***/ }),
+
+/***/ 2326:
+/*!*********************************************************************!*\
+  !*** ./src/app/pages/static-print/pa-print/pa-print.component.scss ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = ".sign-row {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 15px;\n  font-size: 0.9rem;\n}\n.sign-row .sign-area {\n  width: 150px;\n  min-height: 30px;\n  border-bottom: 1px #000 dashed;\n}\n.sign-row .sign-area .sign-img {\n  width: 150px;\n}\n.farmer-print > p {\n  background-color: #ddebf7;\n  border: 1px solid #9BC2E6;\n  padding: 2px;\n  margin-top: 10px;\n}\n.title-style {\n  font-size: 0.9rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhLXByaW50LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsYUFBQTtFQUNBLDhCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxpQkFBQTtBQUNGO0FBQ0U7RUFDRSxZQUFBO0VBQ0EsZ0JBQUE7RUFDQSw4QkFBQTtBQUNKO0FBQ0k7RUFDRSxZQUFBO0FBQ047QUFLQTtFQUNFLHlCQUFBO0VBQ0EseUJBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7QUFGRjtBQUlBO0VBQ0UsaUJBQUE7QUFERiIsImZpbGUiOiJwYS1wcmludC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5zaWduLXJvdyB7XG4gIGRpc3BsYXkgICAgICAgIDogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuICBtYXJnaW4tdG9wICAgICA6IDE1cHg7XG4gIGZvbnQtc2l6ZSAgICAgIDogMC45cmVtO1xuXG4gIC5zaWduLWFyZWEge1xuICAgIHdpZHRoICAgICAgICA6IDE1MHB4O1xuICAgIG1pbi1oZWlnaHQgICA6IDMwcHg7XG4gICAgYm9yZGVyLWJvdHRvbTogMXB4ICMwMDAgZGFzaGVkO1xuXG4gICAgLnNpZ24taW1nIHtcbiAgICAgIHdpZHRoOiAxNTBweDtcblxuICAgIH1cbiAgfVxufVxuXG4uZmFybWVyLXByaW50PiBwe1xuICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjIxLCAyMzUsIDI0Nyk7XG4gIGJvcmRlciAgICAgICAgIDogMXB4IHNvbGlkICM5QkMyRTY7XG4gIHBhZGRpbmc6IDJweDtcbiAgbWFyZ2luLXRvcDogMTBweDtcbn1cbi50aXRsZS1zdHlsZXtcbiAgZm9udC1zaXplOiAwLjlyZW07XG59XG4vLyAuc2lnbi1yb3cge1xuLy8gICBkaXNwbGF5ICAgICAgICA6IGZsZXg7XG4vLyAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2Vlbjtcbi8vICAgZm9udC1zaXplIDogMC43NXJlbTtcblxuLy8gICAuc2lnbi1ib3gge1xuLy8gICAgIGRpc3BsYXkgICAgICAgIDogZmxleDtcbi8vICAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4vLyAgICAgd2lkdGggICAgICAgICAgOiAzMDBweDtcblxuLy8gICAgIC5ib3JkZXItbGluZSB7XG4vLyAgICAgICB3aWR0aCAgICAgICAgOiAxNTBweDtcbi8vICAgICAgIGJvcmRlci1ib3R0b206IDFweCBkYXNoZWQgIzAwMDtcbi8vICAgICB9XG4vLyAgIH1cbi8vIH1cbi8vIC5mYXJtZXItcHJpbnQ+IHB7XG4vLyAgIGJhY2tncm91bmQtY29sb3I6IHJnYigyMjEsIDIzNSwgMjQ3KTtcbi8vICAgYm9yZGVyICAgICAgICAgOiAxcHggc29saWQgIzlCQzJFNjtcbi8vICAgcGFkZGluZzogMnB4O1xuLy8gICBtYXJnaW4tdG9wOiAxMHB4O1xuLy8gfVxuLy8gLnRpdGxlLXN0eWxle1xuLy8gICBmb250LXNpemU6IDAuOXJlbTtcbi8vIH0iXX0= */";
 
 /***/ })
 

@@ -2961,7 +2961,17 @@ const STATIS_PINRTS = [
         id: "print_1638594176913",
         pageTitle: "Farmer Sign",
         type: _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__.PageUIType.STATIC,
-    }
+    },
+    {
+        id: "print_1645157346931",
+        pageTitle: "Health Sign",
+        type: _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__.PageUIType.STATIC,
+    },
+    {
+        id: "print_1645157579888",
+        pageTitle: "Personal Accident Sign",
+        type: _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__.PageUIType.STATIC,
+    },
 ];
 
 
