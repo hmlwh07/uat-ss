@@ -190,7 +190,8 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     }
     );
 
-    if (totalNewBusinessCase) {
+
+    if (totalNewBusinessCase != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('A' + total);
       totalCell.value = 'Total';
@@ -212,7 +213,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       valueCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (totalPremium) {
+    if (totalPremium != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('C' + total);
       totalCell.value = totalPremium;
@@ -224,7 +225,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (roundTotalProductDistribution) {
+    if (roundTotalProductDistribution != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('D' + total);
       totalCell.value = roundTotalProductDistribution;
@@ -236,7 +237,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (roundTotalAverageCaseSize) {
+    if (roundTotalAverageCaseSize != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('E' + total);
       totalCell.value = roundTotalAverageCaseSize;
@@ -248,7 +249,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (manPower) {
+    if (manPower != null) {
       let manpowerIndex = data.length + 6
       let manPowerCell = worksheet.getCell('A' + manpowerIndex);
       manPowerCell.value = 'Manpower';
@@ -270,7 +271,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (activeManPower) {
+    if (activeManPower != null) {
       let activeManpowerIndex = data.length + 7
       let activeManPowerCell = worksheet.getCell('A' + activeManpowerIndex);
       activeManPowerCell.value = 'Active Manpower';
@@ -292,7 +293,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (activeManPower) {
+    if (activeManPower != null) {
       let activeManpowerIndex = data.length + 7
       let activeManPowerCell = worksheet.getCell('A' + activeManpowerIndex);
       activeManPowerCell.value = 'Active Manpower';
@@ -314,7 +315,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (activeRatio) {
+    if (activeRatio != null) {
       let activeRatioIndex = data.length + 8
       let activeRatioIndexCell = worksheet.getCell('A' + activeRatioIndex);
       activeRatioIndexCell.value = 'Active ratio';
@@ -336,7 +337,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (productivity) {
+    if (productivity != null) {
       let productivityndex = data.length + 9
       let productivityIndexCell = worksheet.getCell('A' + productivityndex);
       productivityIndexCell.value = 'Productivity';
@@ -358,7 +359,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (channelProductivity) {
+    if (channelProductivity != null) {
       let channelProductivityIndex = data.length + 10
       let channelProductivityCell = worksheet.getCell('A' + channelProductivityIndex);
       channelProductivityCell.value = 'Channel Productivity';
@@ -380,7 +381,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (anpCaseSize) {
+    if (anpCaseSize != null) {
       let anpCaseSizeIndex = data.length + 11
       let anpCaseSizeCell = worksheet.getCell('A' + anpCaseSizeIndex);
       anpCaseSizeCell.value = 'ANP Case Size';
@@ -402,7 +403,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
-    if (monthlyCaseSize) {
+    if (monthlyCaseSize != null) {
       let monthlyCaseSizeIndex = data.length + 12
       let monthlyCaseSizeCell = worksheet.getCell('A' + monthlyCaseSizeIndex);
       monthlyCaseSizeCell.value = 'Monthly Case Size';

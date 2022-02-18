@@ -186,46 +186,46 @@
                     <th>Average Case Size</th>
                 </tr>
                 <tr *ngFor="let data of displayDataList; let i = index">
-                    <td>{{ data.product }}</td>
+                    <td style="text-align: left;">{{ data.product }}</td>
                     <td>{{ data.newBusinessCase }}</td>
                     <td>{{ data.newBusinessPremium }}</td>
                     <td>{{ data.productDistribution }}</td>
                     <td>{{ data.averageCaseSize }}</td>
                 </tr>
                 <tr>
-                    <td>Total</td>
+                    <td style="text-align: left;">Total</td>
                     <td>{{ totalNewBusinessCase }}</td>
                     <td>{{ totalPremium }}</td>
                     <td>{{ roundTotalProductDistribution }}</td>
                     <td>{{ roundTotalAverageCaseSize }}</td>
                 </tr>
                 <tr>
-                    <td>Manpower</td>
-                    <td colspan="4">{{ keyDriver.manPower }}</td>
+                    <td style="text-align: left;">Manpower</td>
+                    <td colspan="4">{{ keyDriver.manPower || 0 }}</td>
                 </tr>
                 <tr>
-                    <td>Active Manpower</td>
-                    <td colspan="4">{{ keyDriver.activeManPower }}</td>
+                    <td style="text-align: left;">Active Manpower</td>
+                    <td colspan="4">{{ keyDriver.activeManPower || 0}}</td>
                 </tr>
                 <tr>
-                    <td>Active ratio</td>
-                    <td colspan="4">{{ activeRatio }}</td>
+                    <td style="text-align: left;">Active ratio</td>
+                    <td colspan="4">{{ activeRatio || 0 }}</td>
                 </tr>
                 <tr>
-                    <td>Productivity</td>
-                    <td colspan="4">{{ productivity }}</td>
+                    <td style="text-align: left;">Productivity</td>
+                    <td colspan="4">{{ productivity || 0}}</td>
                 </tr>
                 <tr>
-                    <td>Channel Productivity</td>
-                    <td colspan="4">{{ channelProductivity }}</td>
+                    <td style="text-align: left;">Channel Productivity</td>
+                    <td colspan="4">{{ channelProductivity || 0}}</td>
                 </tr>
                 <tr>
-                    <td>ANP Case Size</td>
-                    <td colspan="4">{{ anpCaseSize }}</td>
+                    <td style="text-align: left;">ANP Case Size</td>
+                    <td colspan="4">{{ anpCaseSize || 0 }}</td>
                 </tr>
                 <tr>
-                    <td>Monthly Case Size</td>
-                    <td colspan="4">{{ monthlyCaseSize }}</td>
+                    <td style="text-align: left;">Monthly Case Size</td>
+                    <td colspan="4">{{ monthlyCaseSize || 0 }}</td>
                 </tr>
             </table>
         </div>

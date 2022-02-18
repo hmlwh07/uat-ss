@@ -83,21 +83,21 @@ export class ReportKeyDriverComponent implements OnInit {
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('keyDriver', res);
-        if (res.datum) {
-          this.keyDriver = res.datum
-          if (res.datum.productsList.length > 0) {
+        if (res) {
+          this.keyDriver = res
+          if (res.productsList.length > 0) {
             this.isData = true;
-            for (var i = 0; i < res.datum.productsList.length; i++) {
-              this.totalNewBusinessCase += res.datum.productsList[i].pcount;
-              this.totalPremium += res.datum.productsList[i].premium;
+            for (var i = 0; i < res.productsList.length; i++) {
+              this.totalNewBusinessCase += res.productsList[i].pcount;
+              this.totalPremium += res.productsList[i].premium;
             }
-            for (var i = 0; i < res.datum.productsList.length; i++) {
+            for (var i = 0; i < res.productsList.length; i++) {
               let obj = {
-                product: res.datum.productsList[i].pcode,
-                newBusinessCase: res.datum.productsList[i].pcount,
-                newBusinessPremium: res.datum.productsList[i].premium,
-                productDistribution: this.productDistribution(res.datum.productsList[i].pcount, this.totalNewBusinessCase),
-                averageCaseSize: this.averageCaseSize(res.datum.productsList[i].premium, res.datum.productsList[i].pcount)
+                product: res.productsList[i].name,
+                newBusinessCase: res.productsList[i].pcount,
+                newBusinessPremium: res.productsList[i].premium,
+                productDistribution: this.productDistribution(res.productsList[i].pcount, this.totalNewBusinessCase),
+                averageCaseSize: this.averageCaseSize(res.productsList[i].premium, res.productsList[i].pcount)
 
               }
               this.displayDataList.push(obj);
@@ -125,7 +125,7 @@ export class ReportKeyDriverComponent implements OnInit {
             if (this.totalNewBusinessCase != 0) {
               this.monthlyCaseSize = this.mathRoundTo((this.totalPremium / 12) / this.totalNewBusinessCase, 2)
             }
-          }else {
+          } else {
             this.isData = false
           }
         }
@@ -206,17 +206,17 @@ export class ReportKeyDriverComponent implements OnInit {
       products: this.productValues,
       subHeader: this.subHeader,
       data: this.dataExcel,
-      totalNewBusinessCase: this.totalNewBusinessCase,
-      totalPremium: this.totalPremium,
-      roundTotalProductDistribution: this.roundTotalProductDistribution,
-      roundTotalAverageCaseSize: this.roundTotalAverageCaseSize,
-      manPower: this.keyDriver.manPower,
-      activeManPower: this.keyDriver.activeManPower,
-      activeRatio: this.activeRatio,
-      productivity: this.productivity,
-      channelProductivity: this.channelProductivity,
-      anpCaseSize: this.anpCaseSize,
-      monthlyCaseSize: this.monthlyCaseSize
+      totalNewBusinessCase: this.totalNewBusinessCase || 0,
+      totalPremium: this.totalPremium || 0,
+      roundTotalProductDistribution: this.roundTotalProductDistribution || 0,
+      roundTotalAverageCaseSize: this.roundTotalAverageCaseSize || 0,
+      manPower: this.keyDriver.manPower || 0,
+      activeManPower: this.keyDriver.activeManPower || 0,
+      activeRatio: this.activeRatio || 0,
+      productivity: this.productivity || 0,
+      channelProductivity: this.channelProductivity || 0,
+      anpCaseSize: this.anpCaseSize || 0,
+      monthlyCaseSize: this.monthlyCaseSize || 0
     }
     this.exportService.exportExcel(reportData);
   }
@@ -228,7 +228,7 @@ export class ReportKeyDriverComponent implements OnInit {
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
-    this.selectOptions.agents = [];    
+    this.selectOptions.agents = [];
     this.totalNewBusinessCase = 0;
     this.totalPremium = 0;
     this.totalProductDistribution = 0;
@@ -394,7 +394,7 @@ export class ReportKeyDriverComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -448,10 +448,10 @@ export class ReportKeyDriverComponent implements OnInit {
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate  = new Date(this.createFormGroup.value.toDate);
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
       this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
-     let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-     if (diffYear != 0 && diffYear != 1) {
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
       }
     }
@@ -477,7 +477,7 @@ export class ReportKeyDriverComponent implements OnInit {
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
-    this.selectOptions.agents = [];  
+    this.selectOptions.agents = [];
     this.createFormGroup.controls['companyId'].setValue('');
     this.createFormGroup.controls['channelId'].setValue('');
     this.createFormGroup.controls['regionId'].setValue('');
