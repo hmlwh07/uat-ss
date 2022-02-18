@@ -4,6 +4,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MY_FORMATS } from 'src/app/core/is-json';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CurrencyAddFormComponent } from './add-form/currency-add-form.component';
 import { CurrencyExchange, CurrencyExchangeService } from './currency-exchange.service';
@@ -23,7 +24,7 @@ export class CurrencyExChangeComponent implements OnInit {
   ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyCol))
   displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
   exchangeForm:FormGroup
-  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef, private modalCrl: NgbModal) {
+  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef, private modalCrl: NgbModal,private alertService:AlertService) {
 
   }
 
@@ -78,6 +79,7 @@ export class CurrencyExChangeComponent implements OnInit {
     this.currencyService.save(postData).toPromise().then((res: any) => {
       if (res) {
         this.getData()
+        this.alertService.activate('This record was created', 'Success Message');
       }
     })
   }
@@ -87,6 +89,7 @@ export class CurrencyExChangeComponent implements OnInit {
     this.currencyService.update(postData.id, postData).toPromise().then((res: any) => {
       if (res) {
         this.getData()
+        this.alertService.activate('This record was updated', 'Success Message');
       }
     })
   }

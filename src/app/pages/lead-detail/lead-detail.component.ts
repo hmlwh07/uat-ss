@@ -917,6 +917,7 @@ export class LeadDetailComponent implements OnInit {
       .toPromise()
       .then((res) => {
         if (res) {
+          this.alertService.activate('This record was created', 'Success Message');
           // this.location.back();
         }
       });
@@ -929,6 +930,7 @@ export class LeadDetailComponent implements OnInit {
       .then((res) => {
         if (res) {
           this.getOld()
+          this.alertService.activate('This record was updated', 'Success Message');
           // this.location.back();
         }
       });

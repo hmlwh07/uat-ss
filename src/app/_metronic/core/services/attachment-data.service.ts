@@ -24,7 +24,7 @@ const API_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   providedIn: 'root'
 })
 export class AttachmentDownloadService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient, private file: File, private loadingService: LoadingService, private toastService: KBZToastService) {
+  constructor(protected httpClient: HttpClient, private file: File, private loadingService: LoadingService, private toastService: KBZToastService,private alertService:AlertService) {
     super(httpClient, API_DOWNLOAD_URL);
   }
 
@@ -59,7 +59,8 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
       }).catch(async (e) => {
         console.log(e);
         await this.loadingService.deactivate()
-        this.toastService.activate("File Error")
+        this.alertService.activate('"File Error', 'Error Message');
+        // this.toastService.activate("File Error")
       })
     })
   }
@@ -67,11 +68,13 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
   createFile(fileName, blobFile) {
     this.file.writeFile(this.file.externalRootDirectory + "/kbzsale_downloads", fileName, blobFile, { replace: true }).then(async (res) => {
       await this.loadingService.deactivate()
-      this.toastService.activate('Download File')
+      // this.toastService.activate('Download File')
+      this.alertService.activate('"Download File', 'Success Message');
     }).catch(async (e) => {
       console.log(e);
       await this.loadingService.deactivate()
-      this.toastService.activate('Download File')
+      this.alertService.activate('"Download Fail', 'Error Message');
+      // this.toastService.activate('Download File')
     })
 
   }

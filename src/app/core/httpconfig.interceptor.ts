@@ -6,10 +6,11 @@ import { EMPTY } from 'rxjs';
 import { KBZToastService } from "../modules/loading-toast/toast/kbz-toast.service";
 import { LoadingService } from "../modules/loading-toast/loading/loading.service";
 import { AuthService } from "../modules/auth";
+import { AlertService } from "../modules/loading-toast/alert-model/alert.service";
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
-    constructor(private alertService: KBZToastService, private loading: LoadingService, private authService: AuthService) { }
+    constructor(private alertService: AlertService, private loading: LoadingService, private authService: AuthService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // if (!this.userProfile.isOnline) {
         // return throwError('Please Check Your Network Connection !');
@@ -52,12 +53,13 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             // catchError(this.errorHandler)
             catchError(
                 (error: HttpErrorResponse) => {
+                      console.log('error--->>>', error);
                     this.loading.deactivate()
                     if (error.error) {
                         if (typeof error.error == 'string') {
-                            this.alertService.activate("Internal Server error!", "Error")
+                            this.alertService.activate("Internal Server error!", "Error Message")
                         } else {
-                            this.alertService.activate(error.error.message || "Internal Server error!", 'error');
+                            this.alertService.activate(error.error.payload || "Internal Server error!", 'Error Message');
                             if(error.error.code == "403"){
                                 this.authService.logout()
                                 document.location.reload();
@@ -65,7 +67,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                         }
                     }
                     else
-                        this.alertService.activate("Sorry!, Try again later", 'error');
+                        this.alertService.activate("Sorry!, Try again later", 'Error Message');
 
                     return throwError(error)
                 }

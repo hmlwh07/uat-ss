@@ -12,6 +12,7 @@ import { CustomerListComponent } from '../customer-list/customer-list.component'
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../core/is-json';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 @Component({
   selector: 'app-activity-management-detail',
   templateUrl: './activity-management-detail.component.html',
@@ -44,7 +45,8 @@ export class ActivityManagementDetailComponent implements OnInit {
     private modalService: NgbModal,
     private activityManageService: ActivityManageService,
     private location: Location,
-    private cdf: ChangeDetectorRef
+    private cdf: ChangeDetectorRef,
+    private alertService:AlertService
   ) {
 
   }
@@ -222,6 +224,7 @@ export class ActivityManagementDetailComponent implements OnInit {
     }
     this.activityManageService.save(data).toPromise().then((res) => {
       if (res) {
+        this.alertService.activate('This record was created', 'Success Message');
         this.location.back()
       }
     })
@@ -234,6 +237,7 @@ export class ActivityManagementDetailComponent implements OnInit {
     }
     this.activityManageService.updateNoID(data).toPromise().then((res) => {
       if (res) {
+        this.alertService.activate('This record was updated', 'Success Message');
         this.location.back()
       }
     })

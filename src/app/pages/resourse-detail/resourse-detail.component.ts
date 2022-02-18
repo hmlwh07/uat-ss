@@ -2,6 +2,7 @@ import { DatePipe, DecimalPipe, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
 import { checkVaidDep } from '../check-parent';
 import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../form-component/field.interface';
@@ -45,7 +46,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   private formatedData = {}
   printConfig: PrintConfig = {}
   signFileId: any = "";
-  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService) { }
+  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService,private alertService:AlertService) { }
 
   async ngOnInit() {
     if (!this.productService.createingProd || !this.productService.createingProd.id) {
@@ -399,8 +400,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         if (res.type == "save") {
           this.policyService.updateAttachment(this.resourceDetail.id, res.data).toPromise().then((response) => {
             if (response) {
+              this.alertService.activate('This record was created', 'Success Message');
               this.signFileId = res.data
               this.productService.editData['attachmentId'] = res.data
+            
             }
           })
         }
