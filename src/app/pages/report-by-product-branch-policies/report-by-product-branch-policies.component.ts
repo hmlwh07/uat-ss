@@ -153,7 +153,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
       let list = [];
       list.push(i + 1, this.dataList[i].cluster)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].noOfPolicy)
+        list.push(this.dataList[i].productDataList[j].noOfPolicy || 0.00)
       }
       this.branchDataForExcel.push(list)
     }
@@ -161,7 +161,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
     totalValue.push('');
     totalValue.push('Total');
     for (var i = 0; i < this.totalDataList.length; i++) {
-      totalValue.push(this.totalDataList[i].noOfPolicy)
+      totalValue.push(this.totalDataList[i].noOfPolicy || 0.00)
     }
 
 

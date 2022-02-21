@@ -176,10 +176,10 @@ export class ReportKeyDriverComponent implements OnInit {
     for (var i = 0; i < this.displayDataList.length; i++) {
       this.dataExcel.push([
         this.displayDataList[i].product,
-        this.displayDataList[i].newBusinessCase,
-        this.displayDataList[i].newBusinessPremium,
-        this.displayDataList[i].productDistribution,
-        this.displayDataList[i].averageCaseSize,
+        this.displayDataList[i].newBusinessCase || 0.00,
+        this.displayDataList[i].newBusinessPremium || 0.00,
+        this.displayDataList[i].productDistribution || 0.00,
+        this.displayDataList[i].averageCaseSize || 0.00,
       ]);
     }
 
@@ -207,17 +207,17 @@ export class ReportKeyDriverComponent implements OnInit {
       products: this.productValues,
       subHeader: this.subHeader,
       data: this.dataExcel,
-      totalNewBusinessCase: this.totalNewBusinessCase || 0,
-      totalPremium: this.totalPremium || 0,
-      roundTotalProductDistribution: this.roundTotalProductDistribution || 0,
-      roundTotalAverageCaseSize: this.roundTotalAverageCaseSize || 0,
-      manPower: this.keyDriver.manPower || 0,
-      activeManPower: this.keyDriver.activeManPower || 0,
-      activeRatio: this.activeRatio || 0,
+      totalNewBusinessCase: this.totalNewBusinessCase || 0.00,
+      totalPremium: this.totalPremium || 0.00,
+      roundTotalProductDistribution: this.roundTotalProductDistribution || 0.00,
+      roundTotalAverageCaseSize: this.roundTotalAverageCaseSize || 0.00,
+      manPower: this.keyDriver.manPower || 0.00,
+      activeManPower: this.keyDriver.activeManPower || 0.00,
+      activeRatio: this.activeRatio || 0.00,
       productivity: this.productivity || 0,
-      channelProductivity: this.channelProductivity || 0,
-      anpCaseSize: this.anpCaseSize || 0,
-      monthlyCaseSize: this.monthlyCaseSize || 0
+      channelProductivity: this.channelProductivity || 0.00,
+      anpCaseSize: this.anpCaseSize || 0.00,
+      monthlyCaseSize: this.monthlyCaseSize || 0.00
     }
     this.exportService.exportExcel(reportData);
   }

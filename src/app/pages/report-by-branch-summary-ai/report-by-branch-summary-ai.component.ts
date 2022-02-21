@@ -112,14 +112,14 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     for (var i = 0; i < this.reports.length; i++) {
       countSrNo += 1;
       this.reportsForExcel.push([countSrNo, this.reports[i].cluster,
-        this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
+        this.reports[i].activeAgents, this.reports[i].noOfPolicy || 0.00 , this.reports[i].totalPreminum || 0.00])
     }
     for (var i = 0; i < this.totalDataList.length; i++) {
       totalValue.push(null);
       totalValue.push('Total');
-      totalValue.push(this.totalDataList[i].totalActiveAgents);
-      totalValue.push(this.totalDataList[i].totalNoOfPolicy);
-      totalValue.push(this.totalDataList[i].totalPreminum);
+      totalValue.push(this.totalDataList[i].totalActiveAgents || 0.00);
+      totalValue.push(this.totalDataList[i].totalNoOfPolicy || 0.00);
+      totalValue.push(this.totalDataList[i].totalPreminum || 0.00);
     }
 
     let fromDate = '';

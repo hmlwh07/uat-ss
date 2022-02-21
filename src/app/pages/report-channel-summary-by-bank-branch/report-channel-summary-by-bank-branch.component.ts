@@ -174,11 +174,11 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     }
 
     for (var i = 0; i < this.displayList[0].policies.length; i++) {
-      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy || 0)
+      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy || 0.00)
     }
 
     for (var i = 0; i < this.displayList[0].premium.length; i++) {
-      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum || 0)
+      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum || 0.00)
     }
 
     let fromDate = '';

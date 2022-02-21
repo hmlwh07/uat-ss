@@ -128,7 +128,7 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
       let list = [];
       list.push(i + 1, this.dataList[i].month)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].noOfPolicy)
+        list.push(this.dataList[i].productDataList[j].noOfPolicy || 0.00)
       }
       this.branchDataForExcel.push(list)
     }

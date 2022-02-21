@@ -133,9 +133,10 @@ export class ReportByAgentYearlyComponent implements OnInit {
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
       countNo++
-      list.push(countNo, this.dataList[i].cluster, this.dataList[i].channel, this.dataList[i].agentName, this.dataList[i].agentNo)
+      list.push(countNo, this.dataList[i].cluster, this.dataList[i].channel, 
+        this.dataList[i].agentName, this.dataList[i].agentNo)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].noOfPolicies, this.dataList[i].productDataList[j].totalPremium)
+        list.push(this.dataList[i].productDataList[j].noOfPolicies, this.dataList[i].productDataList[j].totalPremium || 0.00)
       }
       this.dataExcel.push(list)
     }
