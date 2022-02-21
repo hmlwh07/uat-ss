@@ -28,16 +28,16 @@ const colors: any = {
     secondary: '#3dc2ff',
   },
   Face: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
+    primary: '#3880ff',
+    secondary: '#3880ff',
   },
   Online: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
+    primary: '#ffc409',
+    secondary: '#ffc409',
   },
   Phone: {
-    primary: '#ff8100',
-    secondary: '#ff8100',
+    primary: '#2dd36f',
+    secondary: '#2dd36f',
   },
 };
 
@@ -134,10 +134,10 @@ export class MycalendarComponent implements OnInit {
           if(data.activityType=='Face to Face'){
             actColor=colors.Face
           }
-          if(data.activityType=='Online'){
+          else if(data.activityType=='Online'){
             actColor=colors.Online
           }
-          else{
+          else if(data.activityType=='Phone Call'){
             actColor=colors.Phone
           }
           return {
