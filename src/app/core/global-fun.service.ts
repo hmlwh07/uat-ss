@@ -126,9 +126,10 @@ export class GlobalFunctionService {
   }
 
   snakePremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
-    let sumInsured = parseFloat(activeForm.sum_insured)
+    let sumInsured = parseFloat(activeForm.sum_insured_amount)
     let premium = this.calculateDecimal(sumInsured * 0.001)
     this.paPremiumResult.next(this.numberPipe.transform(premium) + " MMK")
+    return true
   }
 
   sumInsuredValidation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {

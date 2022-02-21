@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { getFileReader } from '../../../core/get-file-reader';
 import { ConfigInput } from '../field.interface';
 
 @Component({
@@ -45,7 +46,7 @@ export class CustomInputAlertComponent implements OnInit {
     if (event) {
       const file = event.target.files[0];
       console.log(file);
-      const reader = new FileReader();
+      const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         // console.log(reader);

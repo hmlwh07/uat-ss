@@ -28,6 +28,7 @@ import { LoadingService } from '../../../modules/loading-toast/loading/loading.s
 import { environment } from '../../../../environments/environment';
 import { EditSourceModalComponent } from '../edit-source-modal/edit-source-modal.component';
 import { ValidityPeriodService } from '../services/validity-period.service';
+import { getFileReader } from '../../../core/get-file-reader';
 
 @Component({
   selector: 'app-product-details',
@@ -693,7 +694,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     if (event) {
       const file = event.target.files[0];
       console.log(file);
-      const reader = new FileReader();
+      const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         // console.log(reader);

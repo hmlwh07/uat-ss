@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  NgZone,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -197,7 +198,8 @@ export class LeadDetailComponent implements OnInit {
     private fnaListService: FANListService,
     private authService: AuthService,
     private fnaService: FANService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
@@ -614,7 +616,9 @@ export class LeadDetailComponent implements OnInit {
     if (status == "save") {
       this.createLead();
     } else if (status == "cancel") {
-      this.location.back()
+      this.ngZone.run(() => {
+        this.location.back()
+      })
     }
     else {
       if (status == "04" || status == "06") {
@@ -1154,30 +1158,31 @@ export class LeadDetailComponent implements OnInit {
     modalRef.componentInstance.oldId = this.oldId
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        console.log("RESSS", res)
-        this.description = res.description
+        if (res) {
+          console.log("RESSS", res)
+          this.description = res.description
 
-        this.AttachmentUploadService.save(res.data).toPromise().then((res) => {
-          if (res) {
-            console.log("RESFILE", res)
-            let postData = {
-              attachmentId: res,
-              description: this.description,
-              refDocNo: this.oldId,
-              refDocType: 'LEAD'
-            }
-            this.LeadAttachmentService.save(postData).toPromise().then((res) => {
-              if (res) {
-                console.log("RESFILE", res)
-                this.getLeadAttachment()
-                // this.getOld()
+          this.AttachmentUploadService.save(res.data).toPromise().then((res) => {
+            if (res) {
+              console.log("RESFILE", res)
+              let postData = {
+                attachmentId: res,
+                description: this.description,
+                refDocNo: this.oldId,
+                refDocType: 'LEAD'
               }
+              this.LeadAttachmentService.save(postData).toPromise().then((res) => {
+                if (res) {
+                  console.log("RESFILE", res)
+                  this.getLeadAttachment()
+                  // this.getOld()
+                }
 
-            })
-          }
-        }).catch(e => {
-        })
-
+              })
+            }
+          }).catch(e => {
+          })
+        }
       }
 
     })
