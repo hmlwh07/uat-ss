@@ -1,8 +1,9 @@
 <div style="margin: 50px 0 0 0;position: relative; ">
-    <div style="width: 500px; position: relative; margin: 0 auto;">
+    <div class="chart">
         <div class="inner investment" (click)="actionChart('Freedom')">
-            <div class="sub-inner ">
-                <div>
+            <div class="sub-inner " [ngClass]="freedom.length? 'bg-freedom' : 'inactive-freedon-left' ">
+
+                <!-- <div>
                     <div class="freedom-left-inner" [ngClass]="freedom.length? 'bg-freedom' : 'inactive-freedon-left' ">
                     </div>
                 </div>
@@ -11,12 +12,21 @@
                         [ngClass]="freedom.length? 'bg-freedom' : 'inactive-freedon-left' ">
                     </div>
                 </div>
-                <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' }">Freedom</a>
-                <img *ngIf="freedom.length > 0" class="lpp-icon" src="./assets/images/success/freedom-01.svg"
-                    alt="freedom" style="left: 55.5px; top: 40px;" />
-                <img *ngIf="freedom.length == 0" class="lpp-icon" src="./assets/images/default/freedom-01.svg"
-                    alt="freedom" style="left: 55.5px; top: 40px;" />
+                <div>
+                    <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' }">Freedom</a>
+                    <img *ngIf="freedom.length > 0" class="lpp-icon" src="./assets/images/success/freedom-01.svg"
+                        alt="freedom" style="left: 55.5px; top: 40px;" />
+                    <img *ngIf="freedom.length == 0" class="lpp-icon" src="./assets/images/default/freedom-01.svg"
+                        alt="freedom" style="left: 55.5px; top: 40px;" />
+                </div> -->
             </div>
+            <div class="lpp-icon">
+                <img *ngIf="freedom.length > 0" class="freedom" src="./assets/images/success/freedom-01.svg"
+                    alt="freedom" />
+                <img *ngIf="freedom.length == 0" class="freedom" src="./assets/images/default/freedom-01.svg"
+                    alt="freedom" />
+            </div>
+            <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' }">Freedom</a>
         </div>
         <div>
             <div class="investment-1" [ngStyle]="{'background':freedom.length? '#16384d' : '#aaaaaa' }">
@@ -28,60 +38,69 @@
                 <div class="education-left-inner" (click)="fnaSwitchEvent('Education')">
                     <div [ngClass]="fnaEducations.length? 'bg-saving' : 'inactive-freedon-right' "></div>
                     <a [ngStyle]="{'color':fnaEducations.length? '#16384d' : '#275f96' }">Education</a>
-                    <img *ngIf="fnaEducations.length > 0" class="lpp-icon"
-                        src="./assets/images/success/Education-01.svg" alt="education" style="left: 75px; top: 30px;" />
-                    <img *ngIf="fnaEducations.length == 0" class="lpp-icon"
-                        src="./assets/images/default/education-01.svg" alt="education" style="left: 75px; top: 30px;" />
+                    <div class="lpp-icon">
+                        <img *ngIf="fnaEducations.length > 0" class="education"
+                            src="./assets/images/success/Education-01.svg" alt="education" />
+                        <img *ngIf="fnaEducations.length == 0" class="education"
+                            src="./assets/images/default/education-01.svg" alt="education" />
+                    </div>
                 </div>
                 <div class="retirement-right-inner" (click)="fnaSwitchEvent('Retirement')">
                     <div [ngClass]="fnaRetirementSaving? 'bg-saving' : 'inactive-freedon-left' "></div>
                     <a [ngStyle]="{'color':fnaRetirementSaving? '#16384d' : '#275f96' }">Retirement</a>
-                    <img *ngIf="fnaRetirementSaving" class="lpp-icon" src="./assets/images/success/retirement-01.svg"
-                        alt="retirement" style="left: 49px; top: 30px;" />
-                    <img *ngIf="!fnaRetirementSaving" class="lpp-icon" src="./assets/images/default/retirement-01.svg"
-                        alt="retirement" style="left: 49px; top: 30px;" />
+                    <div class="lpp-icon">
+                        <img *ngIf="fnaRetirementSaving" class="retirement-img"
+                            src="./assets/images/success/retirement-01.svg" alt="retirement" />
+                        <img *ngIf="!fnaRetirementSaving" class="retirement-img"
+                            src="./assets/images/default/retirement-01.svg" alt="retirement" />
+                    </div>
                 </div>
             </div>
         </div>
         <div>
-            <div class="investment-1"
-                [ngStyle]="{'background':fnaEducations.length && fnaRetirementSaving? '#16384d' : '#aaaaaa' }"
-                style="width: 290px;"><label style="position: relative;
-                right: 7px;">SAVING</label></div>
+            <div class="investment-1 button-saving"
+                [ngStyle]="{'background':fnaEducations.length && fnaRetirementSaving? '#16384d' : '#aaaaaa' }">
+                <label>SAVING</label>
+            </div>
         </div>
         <div class="protection">
             <div class="sub-inner row">
                 <div class="income-left-inner col-4" (click)="fnaSwitchEvent('Income')">
                     <div [ngClass]="fnaIncome? 'bg-protection' : 'inactive-freedon-left' "></div>
                     <a [ngStyle]="{'color':fnaIncome? '#ffffff' : '#275f96' }">Income</a>
-                    <img *ngIf="fnaIncome" class="lpp-icon" src="./assets/images/success/income-01.svg" alt="income"
-                        style="left: 82px; top: 35px;" />
-                    <img *ngIf="!fnaIncome" class="lpp-icon" src="./assets/images/default/income-01.svg" alt="income"
-                        style="left: 82px; top: 35px;" />
+                    <div class="lpp-icon">
+                        <img *ngIf="fnaIncome" class="income" src="./assets/images/success/income-01.svg"
+                            alt="income" />
+                        <img *ngIf="!fnaIncome" class="income" src="./assets/images/default/income-01.svg"
+                            alt="income" />
+                    </div>
                 </div>
                 <div class="health-middle-inner col-4" (click)="fnaSwitchEvent('Health')">
                     <div [ngClass]="fnaHealths.length? 'bg-protection' : 'inactive-freedon-right' "> </div>
                     <a [ngStyle]="{'color':fnaHealths.length? '#ffffff' : '#275f96' }"
                         style="margin: 0 0 0 2px;">Health</a>
-                    <img *ngIf="fnaHealths.length > 0" class="lpp-icon" src="./assets/images/success/health-01.svg"
-                        alt="healths" style="left: 66px; top: 35px;" />
-                    <img *ngIf="fnaHealths.length == 0" class="lpp-icon" src="./assets/images/default/health-01.svg"
-                        alt="healths" style="left: 66px; top: 35px;" />
+                    <div class="lpp-icon">
+                        <img *ngIf="fnaHealths.length > 0" class="health" src="./assets/images/success/health-01.svg"
+                            alt="healths" />
+                        <img *ngIf="fnaHealths.length == 0" class="health" src="./assets/images/default/health-01.svg"
+                            alt="healths" />
+                    </div>
                 </div>
                 <div class="asset-right-inner col-4" (click)="fnaSwitchEvent('Asset')">
                     <div [ngClass]="fnaAssets.length? 'bg-protection' : 'inactive-freedon-left' "></div>
-                    <img *ngIf="fnaAssets.length > 0" class="lpp-icon" src="./assets/images/success/assets-01.svg"
-                        alt="assets" style="left: 43px; top: 35px;" />
-                    <img *ngIf="fnaAssets.length == 0" class="lpp-icon" src="./assets/images/default/assets-01.svg"
-                        alt="assets" style="left: 43px; top: 35px;" />
+                    <div class="lpp-icon">
+                        <img *ngIf="fnaAssets.length > 0" class="assets" src="./assets/images/success/assets-01.svg"
+                            alt="assets" />
+                        <img *ngIf="fnaAssets.length == 0" class="assets" src="./assets/images/default/assets-01.svg"
+                            alt="assets" />
+                    </div>
                     <a [ngStyle]="{'color':fnaAssets.length? '#ffffff' : '#275f96' }">Assets</a>
                 </div>
             </div>
         </div>
         <div>
             <div [ngStyle]="{'background':fnaIncome && fnaHealths.length && fnaAssets.length? '#16384d' : '#aaaaaa' }"
-                class="investment-1" style="width: 480px; transform: skewX(40deg); left: 0;"><label
-                    style="transform: skewX(-40deg)">PROTECTION</label>
+                class="investment-1 button-protection"><label>PROTECTION</label>
             </div>
         </div>
         <div class="left-border"></div>
@@ -90,6 +109,7 @@
 </div>
 
 <div class="btn-next">
-    <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 " (click)="fnaSwitchEvent('product')">Save &
-        Next</button>
+    <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
+        (click)="fnaSwitchEvent('product')"><label>Save &
+            Next</label></button>
 </div>

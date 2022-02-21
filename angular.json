@@ -24,7 +24,11 @@
               "apexcharts",
               "clipboard.js",
               "highlight.js",
-              "uuid"
+              "uuid",
+              "jspdf-autotable",
+              "raf",
+              "core-js",
+              "qrcode"
             ],
             "assets": [
               {
@@ -67,7 +71,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
+                  "maximumWarning": "4mb",
                   "maximumError": "5mb"
                 }
               ]

@@ -78,16 +78,19 @@
         </div>
         <div class="btn-about">
             <button type="button" *ngIf="selectedIndex == 0 && assects.length > 0"
-                class="btn btn-primary btn-elevate mx-2" (click)="viewAll()">View All</button>
+                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;" (click)="viewAll()">View
+                All</button>
             <button type="button" *ngIf="selectedIndex >= 0" class="btn btn-primary btn-elevate mx-2"
-                (click)="backToStartAction()" style="width: 150px;">Back Main Page</button>
+                (click)="backToStartAction()" style="width: 150px; margin-bottom: 10px;">Back Main Page</button>
             <button type="button" *ngIf="selectedIndex > 0" class="btn btn-primary btn-elevate mx-2"
-                (click)="backAction()">Back</button>
-            <button type="button" (click)="saveAsset()" class="btn btn-primary btn-elevate mx-2">Save</button>
+                style="margin-bottom: 10px;" (click)="backAction()">Back</button>
+            <button type="button" (click)="saveAsset()" class="btn btn-primary btn-elevate mx-2"
+                style="margin-bottom: 10px;">Save</button>
             <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 >= nextCount"
-                (click)="addChild()" class="btn btn-primary btn-elevate mx-2">Add Asset</button>
+                (click)="addChild()" class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">Add
+                Asset</button>
             <button type="button" *ngIf="selectedIndex + 1 < nextCount" (click)="addChild()"
-                class="btn btn-primary btn-elevate mx-2">Next</button>
+                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">Next</button>
         </div>
     </form>
 </div>

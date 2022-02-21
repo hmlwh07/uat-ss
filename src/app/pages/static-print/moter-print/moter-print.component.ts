@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { ProductDataService } from '../../products/services/products-data.service';
 
 @Component({
   selector: 'app-moter-print',
@@ -7,10 +9,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MoterPrintComponent implements OnInit {
   @Input() resourcesId?: string
-
-  constructor() { }
+  signId:any = ""
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  constructor(private productService: ProductDataService,) { }
 
   ngOnInit(): void {
+    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
   }
 
 }

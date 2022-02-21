@@ -6,9 +6,11 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponentModule } from '../form-component/form-component.module';
 import { RouterModule } from '@angular/router';
 import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew.module';
+import { SignaturePadModule } from 'angular2-signaturepad';
+import { SignaturePadComponent } from './signature-pad/signature-pad.component';
 
 @NgModule({
-  declarations: [ResourseDetailComponent],
+  declarations: [ResourseDetailComponent, SignaturePadComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -16,6 +18,7 @@ import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew
     NgbModalModule,
     FormComponentModule,
     StaticPagesViewModule,
+    SignaturePadModule,
     RouterModule.forChild([
       {
         path: '',

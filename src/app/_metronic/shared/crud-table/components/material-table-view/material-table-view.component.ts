@@ -106,7 +106,7 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
     this.emitter.emit(event)
   }
   FormatedDate(date) {
-    return moment(date, "YYYYMMDD").format('MM/DD/YYYY');
+    return moment(date, "YYYYMMDD").format('DD/MM/YYYY');
   }
 
   getFreq(data: string) {

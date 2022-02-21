@@ -83,25 +83,27 @@ export class HealthQuoViewComponent implements OnInit {
   getSchedule() {
     this.healthPayService.getMany(this.tempResourcesId).toPromise().then((res: any) => {
       if (res) {
-        this.totalP = 0
-        this.totalL = 0
-        res.map(x => {
-          this.totalP += x.premium
-          this.totalL += x.levy
-        })
-        this.schedule = res
-        if (res[0].paymentTerm == "lump") {
-          this.tempSchedule = [
-            { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
-          ]
-        } else {
-          let tempTotal= this.totalP/2
-          this.tempSchedule = [
-            { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
-            { premium: tempTotal, levy: 0, total: tempTotal },
-          ]
+        if (res.length > 0) {
+          this.totalP = 0
+          this.totalL = 0
+          res.map(x => {
+            this.totalP += x.premium
+            this.totalL += x.levy
+          })
+          this.schedule = res
+          if (res[0].paymentTerm == "lump") {
+            this.tempSchedule = [
+              { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
+            ]
+          } else {
+            let tempTotal = this.totalP / 2
+            this.tempSchedule = [
+              { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
+              { premium: tempTotal, levy: 0, total: tempTotal },
+            ]
+          }
+          this.cdf.detectChanges()
         }
-        this.cdf.detectChanges()
       }
     })
   }

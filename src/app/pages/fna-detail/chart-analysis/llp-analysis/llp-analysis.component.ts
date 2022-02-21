@@ -1,6 +1,12 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FANService } from '../../fna-manage.service';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { IncomeDto } from '../../income/income-manage.dto';
+import { RetirementDto } from '../../retirement/retirement-manage.dto';
+import { HealthDto } from '../../health/health-manage.dto';
+import { EducationDto } from '../../education/education-manage.dto';
+import { AssectDto } from '../../asset/asset-manage.dto';
+import { ProductDto } from '../product-analysis/product-manage.dto';
 
 @Component({
   selector: 'app-llp-analysis',
@@ -45,9 +51,22 @@ export class LlpAnalysisComponent implements OnInit {
 
   async getFNAById() {
     this.isValue = false;
-    this.fnaService.fnaEducations = [];
-    this.fnaService.fnaHealths = [];
+    this.fnaProduct = [];
+    this.products = [];
+    this.fnaService.fnaUpdateProducts = [];
+    this.fnaService.fnaIncome = new IncomeDto();
+    this.fnaService.fnaRetirementSaving = new RetirementDto();
+    this.fnaService.fnaHealths = new Array<HealthDto>();
+    this.fnaService.fnaEducations = new Array<EducationDto>();
+    this.fnaService.fnaAssect = new Array<AssectDto>();
+    this.fnaService.fnaProduct = new Array<ProductDto>();
+    this.fnaService.percentage = '';
+    this.fnaService.totalPercentageText = '';
+    this.fnaService.bgColor = '';
+    this.fnaService.fnaUpdateProducts = new Array<any>();
+    this.fnaService.fnaTextColor = null;
     await this.fnaService.findOne(this.oldId).toPromise().then(res => {
+      console.log('getFNAById llp', res);
       if (res) {
         if (res.fnaAssets.length > 0 && res.fnaEducations.length &&
           res.fnaHealths.length > 0 && res.fnaIncome != null &&
@@ -140,7 +159,7 @@ export class LlpAnalysisComponent implements OnInit {
   }
 
   actionChart(type) {
-   
+
   }
 
 

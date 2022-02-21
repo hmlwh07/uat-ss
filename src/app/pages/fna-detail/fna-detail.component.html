@@ -1,4 +1,4 @@
-<div class="box-grid" style="background: #fff;">
+<div class="box-grid" style="background: #fff; border: 1px solid #d3cbcb; ">
   <div class="financial-grid">
     <div style="width: 97%; border-bottom: medium dashed #d9d9d9;">
       <h3 class="card-label left-border-image">Financial Needs Analysis</h3>
@@ -32,15 +32,17 @@
     <div *ngIf="selected == '' " class="fna-segment">
       <div>
         <button type="button" class="btn"
-          [ngStyle]="{'background-color': fnaSwitch === 'aboutLLP' ? '#005f99' : '#A6A6A6' }">About LPP</button>
+          [ngStyle]="{'background-color': fnaSwitch === 'aboutLLP' ? '#005f99' : '#A6A6A6' }"><label>About
+            LPP</label></button>
         <button type="button" class="btn"
-          [ngStyle]="{'background-color': fnaSwitch === 'product' ? '#005f99' : '#A6A6A6' }">Product
-          Recommendation</button>
+          [ngStyle]="{'background-color': fnaSwitch === 'product' ? '#005f99' : '#A6A6A6' }"><label>Product
+            Recommendation</label></button>
       </div>
     </div>
-    <app-llp-analysis *ngSwitchDefault [aboutLLP]="aboutLLP" [customerId]="customerId" (change)="fnaEvent($event)"></app-llp-analysis>
-    <app-product-analysis [fnaId]="oldId" [customerId]="customerId" [passValue]="passValue" [product]="product" *ngSwitchCase="'product'"
-      (changeProduct)="changeProduct($event)">
+    <app-llp-analysis *ngSwitchDefault [aboutLLP]="aboutLLP" [customerId]="customerId" (change)="fnaEvent($event)">
+    </app-llp-analysis>
+    <app-product-analysis [fnaId]="oldId" [customerId]="customerId" [passValue]="passValue" [product]="product"
+      *ngSwitchCase="'product'" (changeProduct)="changeProduct($event)">
     </app-product-analysis>
     <app-education [fnaId]="oldId" [customerId]="customerId" [education]="education" *ngSwitchCase="'Education'"
       (changeAnalysis)="fnaEvent($event)">

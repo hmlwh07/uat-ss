@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import jsPDF from 'jspdf';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportProductBranchPoliciesExportService } from './report-by-product-branch-policies-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-branch-policies.const';
@@ -14,8 +14,8 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-by-product-branch-policies.
 export class ReportByProductBranchPoliciesComponent implements OnInit {
   createFormGroup: FormGroup;
   title = "Product Branch Policies";
-  fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  fromMinDate = null;
+  fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [],
@@ -59,6 +59,9 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.productsHeader = [];
+    this.dataList = [];
+    this.totalDataList = [];
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -68,9 +71,6 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
         console.log('policyProductBranch', res);
         if (res) {
           if (res.products.length > 0) {
-            this.isData = true;
-            // this.productsHeader.push({ id: null, name: 'No.' });
-            // this.productsHeader.push({ id: null, name: 'Branch' });
             res.products = JSON.parse(JSON.stringify([...new Map(res.products.map(item => [item.id, item])).values()]));
             for (var i = 0; i < res.products.length; i++) {
               if (res.products[i].name) {
@@ -80,6 +80,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
 
           if (res.dataList.length > 0) {
+            this.isData = true;
             let countNo: number = 0;
             this.dataList = res.dataList;
             // make table
@@ -96,8 +97,8 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
                 for (var j = 0; j < this.dataList[i].products.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
-                      this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
-                      this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                      this.dataList[i].productDataList[k].noOfPolicy = this.mathRoundTo(this.dataList[i].products[j].noOfPolicy, 2)
+                      this.dataList[i].productDataList[k].totalPreminum = this.mathRoundTo(this.dataList[i].products[j].totalPreminum, 2)
                     }
                   }
                 }
@@ -117,9 +118,14 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
 
                   }
                 }
+
+                for (var k = 0; k < this.totalDataList.length; k++) {
+                  this.totalDataList[k].noOfPolicy = this.mathRoundTo(this.totalDataList[k].noOfPolicy, 2)
+                }
               }
             }
-
+          } else {
+            this.isData = false;
           }
 
         }
@@ -133,6 +139,8 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+    let totalValue = [];
+
     this.productValues.push('No.');
     this.productValues.push('Branch');
     for (var i = 0; i < this.productsHeader.length; i++) {
@@ -142,14 +150,13 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
     // Data For Excel 
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(i + 1, this.dataList[i].branch)
+      list.push(i + 1, this.dataList[i].cluster)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(this.dataList[i].productDataList[j].noOfPolicy)
       }
       this.branchDataForExcel.push(list)
     }
 
-    let totalValue = [];
     totalValue.push('');
     totalValue.push('Total');
     for (var i = 0; i < this.totalDataList.length; i++) {
@@ -187,17 +194,24 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
 
   cancelReport() {
     this.createFormGroup.reset();
-    this.selectOptions.companies = [];
+    this.loadForm();
     this.selectOptions.channels = [];
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
+    this.selectOptions.agents = [];
+    this.productsHeader = [];
+    this.dataList = [];
+    this.totalDataList = [];
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
     this.regionName = null;
     this.clusterName = null;
     this.branchName = null;
+    this.agentName = null;
+    this.isData = false;
+    this.cdf.detectChanges();
   }
 
 
@@ -249,7 +263,13 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
         });
       } else {
-        this.channelName = null;
+        this.companyName = null;
+        this.createFormGroup.value.companyId = '';
+        this.createFormGroup.value.channelId = '';
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -270,7 +290,12 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
         });
       } else {
-        this.regionName = null
+        this.channelName = null
+        this.createFormGroup.value.channelId = '';
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
 
     }
@@ -290,7 +315,11 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
         });
       } else {
-        this.clusterName = null
+        this.regionName = null
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
     if (type == 'branch') {
@@ -306,7 +335,10 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
         });
       } else {
-        this.branchName = null;
+        this.clusterName = null;
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -319,9 +351,11 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           }
         });
       } else {
-        this.agentName = null;
+        this.branchName = null;
         this.selectOptions.agents = [];
         this.createFormGroup.controls['agentId'].setValue('');
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -331,14 +365,14 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
+      } else {
+        this.agentName = null
+        this.createFormGroup.value.agentId = '';
       }
     }
-
-
     this.cdf.detectChanges()
-
-
   }
+
 
   loadForm() {
     this.createFormGroup = new FormGroup({
@@ -374,10 +408,30 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    console.log('doValid', type);
+    if (type == 'FromDate') {
+      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
+      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['toDate'].setValue('');
+      }
+    }
+
+    if (type == 'ToDate') {
+      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
+      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['fromDate'].setValue('');
+      }
+    }
+    this.cdf.detectChanges();
   }
 
   clearDate(type) {
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
     }
@@ -388,6 +442,18 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
     this.isData = false;
     this.productsHeader = [];
     this.dataList = []
+
+    this.selectOptions.channels = [];
+    this.selectOptions.regions = [];
+    this.selectOptions.cluster = [];
+    this.selectOptions.branches = [];
+    this.selectOptions.agents = [];
+    this.createFormGroup.controls['companyId'].setValue('');
+    this.createFormGroup.controls['channelId'].setValue('');
+    this.createFormGroup.controls['regionId'].setValue('');
+    this.createFormGroup.controls['clusterId'].setValue('');
+    this.createFormGroup.controls['branchId'].setValue('');
+    this.createFormGroup.controls['agentId'].setValue('');
   }
 
   formatDateDDMMYYY(date) {

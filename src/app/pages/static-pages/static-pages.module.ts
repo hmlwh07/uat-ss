@@ -28,9 +28,11 @@ import { FirePageComponent } from './fire-simple-page/fire-simple-page.component
 import { FireRiskComponent } from './fire-risk/fire-risk.component';
 import { RiskDetailComponent } from './fire-risk/risk-detail/risk-detail.component';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { EndoGripComponent } from './endo-griph/endo-griph.component';
+import { EndoComponent } from './endo/endo.component';
 @NgModule({
-  declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent],
-  exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent],
+  declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent],
+  exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent],
   imports: [
     CommonModule,
     FormsModule,

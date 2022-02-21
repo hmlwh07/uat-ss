@@ -9,8 +9,8 @@ import { CustomerService } from '../../customer-detail/customer.service';
 import { CustomerListComponent } from '../../customer-list/customer-list.component';
 import { ProductsComponent } from '../../products/products.component';
 import { ProductDataService } from '../../products/services/products-data.service';
-import { PolicyService } from '../../quotations/policy.service';
 import { PolicyDTO } from '../policy.dto';
+import { PolicyService } from '../policy.service';
 import { PolicyDisplayCol, PolicyCol } from './policy.const';
 
 @Component({

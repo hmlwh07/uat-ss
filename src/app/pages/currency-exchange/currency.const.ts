@@ -5,10 +5,10 @@ export const CurrencyCol: TableCol[] = [
     title: "Date",
     type: COLTYPE.FEILD,
     field: "date",
-    isDate: true
+    isFromatDate: true
   },
   {
-    title: "Currency Type",
+    title: "Currency",
     type: COLTYPE.FEILD,
     field: "type",
     isUpper: true
@@ -19,7 +19,7 @@ export const CurrencyCol: TableCol[] = [
     field: "amount",
   },
   {
-    title: "Actions",
+    title: "Action",
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {

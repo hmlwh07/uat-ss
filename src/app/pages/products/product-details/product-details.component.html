@@ -81,7 +81,6 @@
                   <input type="text" class="form-control form-control-sm" name="productName" placeholder="Product name"
                     autocomplete="off" [class.is-invalid]="isControlInvalid('productName',formGroup)"
                     [class.is-valid]="isControlValid('productName',formGroup)" formControlName="productName" />
-                  <div class="feedback">Enter Your <b>Product Name</b></div>
                 </div>
                 <!-- Product name -->
                 <!-- Product code -->
@@ -90,7 +89,6 @@
                   <input type="text" class="form-control form-control-sm" name="productCode" placeholder="Product code"
                     autocomplete="off" [class.is-invalid]="isControlInvalid('productCode',formGroup)"
                     [class.is-valid]="isControlValid('productCode',formGroup)" formControlName="productCode" />
-                  <div class="feedback">Enter Your <b>Product Code</b></div>
                 </div>
                 <!-- Product code -->
                 <!-- Product Type -->
@@ -106,7 +104,6 @@
                     <option value="GENERAL">General Insurance</option>
                     <option value="LIFE">Life Insurance</option>
                   </select>
-                  <div class="feedback">Select <b>Product Type</b></div>
                 </div>
                 <!-- Product Type -->
               </div>
@@ -118,7 +115,7 @@
                   <mat-radio-group formControlName="isAllowBackDate">
                     <mat-radio-button class="example-margin" value="no">No</mat-radio-button>
                     <mat-radio-button class="example-margin" value="yes">Yes</mat-radio-button>
-                    <mat-radio-button class="example-margin" value="30days">Yes and max 30 days</mat-radio-button>
+                    <!-- <mat-radio-button class="example-margin" value="30days">Yes and max 30 days</mat-radio-button> -->
                   </mat-radio-group>
                 </div>
               </div>
@@ -136,6 +133,15 @@
                 </div>
               </div>
 
+            </div>
+            <div class="row" *ngIf="formGroup.value.isAllowBackDate == 'yes'">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label class="form-label">Rule Days</label>
+                  <input type="number" class="form-control form-control-sm" name="allowDays" placeholder="Days"
+                    autocomplete="off" formControlName="allowDays" />
+                </div>
+              </div>
             </div>
 
             <div class="row">
@@ -161,7 +167,6 @@
                     <option value="DAY">Days</option>
                     <option value="MONTH">Months</option>
                   </select>
-                  <div class="feedback">Select Rule <b>Period Type</b></div>
                 </div>
               </div>
               <div class="col-sm-4">
@@ -179,7 +184,6 @@
                   <input type="number" class="form-control form-control-sm" name="policyDay" placeholder="Dates"
                     autocomplete="off" [class.is-invalid]="isControlInvalid('policyDay',formGroup)"
                     [class.is-valid]="isControlValid('policyDay',formGroup)" formControlName="policyDay" />
-                  <div class="feedback">Enter Rule<b> Period</b></div>
                 </div>
               </div>
               <div class="col-sm-4">
@@ -195,7 +199,6 @@
                     <option value="DAY">Days</option>
                     <option value="MONTH">Months</option>
                   </select>
-                  <div class="feedback">Select Rule <b>Period Type</b></div>
                 </div>
               </div>
               <div class="col-sm-4">
@@ -330,11 +333,12 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <button type="submit" class="btn btn-primary btn-elevate btn-block mt-3" (click)="createOrEditLead()">Add Lead Source</button>
+              <button type="submit" class="btn btn-primary btn-elevate btn-block mt-3" (click)="createOrEditLead()">Add
+                Lead Source</button>
             </div>
             <div class="col-6">
               <button type="submit" class="btn btn-primary btn-elevate btn-block mt-3" (click)="save()"
-              [disabled]="formGroup.invalid">Save & Next</button>
+                [disabled]="formGroup.invalid">Save & Next</button>
             </div>
           </div>
           <!-- <button type="submit" class="btn btn-primary btn-elevate btn-block mt-3" (click)="save()"

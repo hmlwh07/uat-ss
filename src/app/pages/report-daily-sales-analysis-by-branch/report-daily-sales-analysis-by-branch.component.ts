@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportDailyDalesAnalysisBranchExportService } from './report-daily-sales-analysis-by-branch-export.service';
 import { CONSTANT_AGENT_REPORT_DATA } from './report-daily-sales-analysis-by-branch.const';
@@ -12,8 +12,8 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-daily-sales-analysis-by-bra
 })
 export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
   createFormGroup: FormGroup;
-  fromMinDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-  fromMaxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+  fromMinDate = null;
+  fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
   selectOptions = {
     companies: [],
@@ -40,6 +40,8 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
   subHeader = [];
   dataExcel = [];
   isData: boolean = false;
+  displayList = [];
+  title: string = 'Daily Sales Analysis Report';
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportDailyDalesAnalysisBranchExportService) { }
@@ -48,44 +50,6 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
-    console.log('CONSTANT_AGENT_REPORT_DATA', CONSTANT_AGENT_REPORT_DATA);
-    this.reports = CONSTANT_AGENT_REPORT_DATA
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = [];
-      this.reports[i].id = i
-      for (var j = 0; j < this.reports[i].products.length; j++) {
-        this.reports[i].products[j].id = i
-        this.reports[i].products[j].noOfPolicies = null;
-        this.reports[i].products[j].premium = null;
-        this.products.push(this.reports[i].products[j]);
-      }
-
-      for (var k = 0; k < this.reports[i].policies.length; k++) {
-        this.reports[i].policies[k].id = i
-        this.policies.push(this.reports[i].policies[k]);
-      }
-    }
-
-    this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-    console.log('productList ', this.productList);
-
-    for (var i = 0; i < this.reports.length; i++) {
-      this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-    }
-
-    for (var i = 0; i < this.reports.length; i++) {
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        for (var k = 0; k < this.reports[i].policies.length; k++) {
-          if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-            this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-            this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-          }
-        }
-      }
-    }
-
-    console.log('report ', this.reports);
-
   }
 
   async getOfficeHirearchy() {
@@ -97,74 +61,221 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
   }
 
   async getAllReports() {
+    this.displayList = [];
+    let activities = [
+      { activityName: 'Daily Lead' },
+      { activityName: 'Appointments (Phone)' },
+      { activityName: 'Appointments (Face to Face)' },
+      { activityName: 'Appointments (Online)' },
+      { activityName: 'Needs (LPP & BRAM complete)' },
+      { activityName: 'Solutions' },
+      { activityName: 'Sales' },
+      { activityName: 'Referrals' }
+    ]
+
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         console.log('dailySalesAnalysis', res);
-
-        // if (res.length > 0) {
-        //   this.reports = res;
-        //   this.isData = true;
-        //   for (var i = 0; i < this.reports.length; i++) {
-        //     this.reports[i].productPolicies = [];
-        //     for (var j = 0; j < this.reports[i].products.length; j++) {
-        //       this.reports[i].products[j].id = i
-        //       this.reports[i].products[j].noOfPolicies = null;
-        //       this.reports[i].products[j].premium = null;
-        //       this.products.push(this.reports[i].products[j]);
-        //     }
-
-        //     for (var k = 0; k < this.reports[i].policies.length; k++) {
-        //       this.reports[i].policies[k].id = i
-        //       this.policies.push(this.reports[i].policies[k]);
-        //     }
-        //   }
-
-        //   this.productList = [...new Map(this.products.map(item => [item.productCode, item])).values()];
-        //   for (var i = 0; i < this.reports.length; i++) {
-        //     this.reports[i].productPolicies = JSON.parse(JSON.stringify(this.productList))
-        //   }
-
-        //   for (var i = 0; i < this.reports.length; i++) {
-        //     for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        //       for (var k = 0; k < this.reports[i].policies.length; k++) {
-        //         if (this.reports[i].productPolicies[j].productCode == this.reports[i].policies[k].productCode) {
-        //           this.reports[i].productPolicies[j].noOfPolicies = this.mathRoundTo(this.reports[i].policies[k].noOfPolicies, 2)
-        //           this.reports[i].productPolicies[j].premium = this.mathRoundTo(this.reports[i].policies[k].premium, 2)
-        //         }
-        //       }
-        //     }
-        //   }
-        //   console.log('report ', this.reports);
-        // }
+        if (res.dailydataList.length > 0) {
+          this.isData = true;
+          for (var i = 0; i < res.dailydataList.length; i++) {
+            for (var j = 0; j < activities.length; j++) {
+              let obj = {
+                agentName: res.dailydataList[i].agentName,
+                branchName: res.dailydataList[i].branchName,
+                activityName: activities[j].activityName,
+                dailyActualAgainstTarge: this.dailyActualAgainstTarge(activities[j].activityName, res.dailydataList[i]),
+                dailyConversionToProspect: this.dailyConversionToProspect(activities[j].activityName, res.dailydataList[i]),
+                dailyConversionToPreviousStage: this.dailyConversionToPreviousStage(activities[j].activityName, res.dailydataList[i]),
+                dailyExpectedTargetConversion: this.dailyExpectedTargetConversion(activities[j].activityName, res.dailydataList[i]),
+                dailyExpectedTargetConversionToProspects: this.dailyExpectedTargetConversionToProspects(activities[j].activityName, res.dailydataList[i])
+              }
+              this.displayList.push(obj)
+            }
+          }
+        } else {
+          this.isData = false
+        }
       });
     }
     this.cdf.detectChanges();
   }
 
-  generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
-    this.productValues = []
-    for (var i = 0; i < this.productList.length; i++) {
-      this.productValues.push(this.productList[i].productName)
+  dailyActualAgainstTarge(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalLead, obj.dailyTargetTotalLead)
     }
+    if (activityName == 'Appointments (Phone)' && obj.dailyTargetTotalAppointmentPhone != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentPhone, obj.dailyTargetTotalAppointmentPhone)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.dailyTargetTotalAppointmentFaceToFace != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentFaceToFace, obj.dailyTargetTotalAppointmentFaceToFace)
+    }
+    if (activityName == 'Appointments (Online)' && obj.dailyTargetTotalAppointmentOnline != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentOnline, obj.dailyTargetTotalAppointmentOnline)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.dailyTargetTotalNeeds != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalNeeds, obj.dailyTargetTotalNeeds)
+    }
+    if (activityName == 'Solutions' && obj.dailyTargetSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalSolutions, obj.dailyTargetSolutions)
+    }
+    if (activityName == 'Sales' && obj.dailyTargetSales != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalSales, obj.dailyTargetSales)
+    }
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
+    }
+    return calculatedValue;
+  }
 
-    // Sub Header
-    this.subHeader = ["No.", "Branch", "Channel", "Agent Name", "Agent No."];
-    for (var i = 0; i < this.productList.length; i++) {
-      this.subHeader.push("No of Policies");
-      this.subHeader.push("Premium");
+  dailyConversionToProspect(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
     }
+    if (activityName == 'Appointments (Phone)' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentPhone, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentFaceToFace, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentOnline, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalNeeds, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Solutions' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalSolutions, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Sales' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalSales, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
+    }
+    return calculatedValue;
+  }
+
+  dailyConversionToPreviousStage(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
+    }
+    if (activityName == 'Appointments (Phone)' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentPhone, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentFaceToFace, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.dailyActualTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentOnline, obj.dailyActualTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.dailyActualTotalAppointmentOnline != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalNeeds, obj.dailyActualTotalAppointmentOnline)
+    }
+    if (activityName == 'Solutions' && obj.dailyActualTotalNeeds != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalSolutions, obj.dailyActualTotalNeeds)
+    }
+    if (activityName == 'Sales' && obj.dailyActualTotalSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalSales, obj.dailyActualTotalSolutions)
+    }
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
+    }
+    return calculatedValue;
+  }
+
+  dailyExpectedTargetConversion(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
+    }
+    if (activityName == 'Appointments (Phone)' && obj.dailyTargetTotalAppointment != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalAppointmentPhone, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalAppointmentFaceToFace, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalAppointmentOnline, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalNeeds, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Solutions' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetSolutions, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Sales' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetSales, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
+    }
+    return calculatedValue;
+  }
+
+  dailyExpectedTargetConversionToProspects(activityName, obj) {
+    let calculatedValue: number = 0;
+    if (activityName == 'Daily Lead') {
+      calculatedValue = 0
+    }
+    if (activityName == 'Appointments (Phone)' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalAppointmentPhone, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Face to Face)' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalAppointmentFaceToFace, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Appointments (Online)' && obj.dailyTargetTotalLead != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentOnline, obj.dailyTargetTotalLead)
+    }
+    if (activityName == 'Needs (LPP & BRAM complete)' && obj.dailyActualTotalAppointmentOnline != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalNeeds, obj.dailyActualTotalAppointmentOnline)
+    }
+    if (activityName == 'Solutions' && obj.dailyTargetTotalNeeds != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetSolutions, obj.dailyTargetTotalNeeds)
+    }
+    if (activityName == 'Sales' && obj.dailyTargetSolutions != 0) {
+      calculatedValue = this.calculateDivision(obj.dailyTargetSales, obj.dailyTargetSolutions)
+    }
+    if (activityName == 'Referrals') {
+      calculatedValue = 0
+    }
+    return calculatedValue;
+  }
+
+
+  calculateDivision(value, divided) {
+    let returnValue: any;
+    if (divided != 0) {
+      returnValue = this.mathRoundTo(value / divided, 2);
+    } else {
+      returnValue = 0;
+    }
+    return returnValue;
+  }
+
+
+
+  generateReportExcel() {
+    this.dataExcel = [];
+    console.log('generateReportExcel ', this.reports);
+    this.productValues = ['Agent Name', 'Branch Name',
+      'Activities', 'Daily Actual against Target',
+      'Daily Conversion to Prospect', 'Daily Conversion to Previous Stage',
+      'Daily Expected Target Conversion', 'Daily Expected Target Conversion to Prospects']
 
     // Data
-    for (var i = 0; i < this.reports.length; i++) {
-      let list = [];
-      list.push(i + 1, this.reports[i].branchName, this.reports[i].channelName, this.reports[i].agentName, this.reports[i].agentNo)
-      for (var j = 0; j < this.reports[i].productPolicies.length; j++) {
-        list.push(this.reports[i].productPolicies[j].noOfPolicies, this.reports[i].productPolicies[j].premium)
-      }
-      this.dataExcel.push(list)
+    for (var i = 0; i < this.displayList.length; i++) {
+      this.dataExcel.push([this.displayList[i].agentName,
+      this.displayList[i].branchName, this.displayList[i].activityName,
+      this.displayList[i].dailyActualAgainstTarge, this.displayList[i].dailyConversionToProspect,
+      this.displayList[i].dailyConversionToPreviousStage, this.displayList[i].dailyExpectedTargetConversion,
+      this.displayList[i].dailyExpectedTargetConversionToProspects])
     }
 
     let fromDate = null;
@@ -177,7 +288,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     }
 
     let reportData = {
-      title: 'Employee Sales Report - Jan 2020',
+      title: this.title,
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
@@ -188,8 +299,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      products: this.productValues,
-      subHeader: this.subHeader,
+      productsHeader: this.productValues,
       data: this.dataExcel
     }
     this.exportService.exportExcel(reportData);
@@ -197,17 +307,22 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
 
   cancelReport() {
     this.createFormGroup.reset();
-    this.selectOptions.companies = [];
+    this.loadForm();
     this.selectOptions.channels = [];
     this.selectOptions.regions = [];
     this.selectOptions.cluster = [];
     this.selectOptions.branches = [];
+    this.selectOptions.agents = [];
+    this.displayList = [];
     this.agentName = null;
     this.companyName = null;
     this.channelName = null;
     this.regionName = null;
     this.clusterName = null;
     this.branchName = null;
+    this.agentName = null;
+    this.isData = false;
+    this.cdf.detectChanges();
   }
 
 
@@ -259,7 +374,13 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
           }
         });
       } else {
-        this.channelName = null;
+        this.companyName = null;
+        this.createFormGroup.value.companyId = '';
+        this.createFormGroup.value.channelId = '';
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -280,7 +401,12 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
           }
         });
       } else {
-        this.regionName = null
+        this.channelName = null
+        this.createFormGroup.value.channelId = '';
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
 
     }
@@ -300,7 +426,11 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
           }
         });
       } else {
-        this.clusterName = null
+        this.regionName = null
+        this.createFormGroup.value.regionId = '';
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
     if (type == 'branch') {
@@ -316,7 +446,10 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
           }
         });
       } else {
-        this.branchName = null;
+        this.clusterName = null;
+        this.createFormGroup.value.clusterId = '';
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -329,9 +462,11 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
           }
         });
       } else {
-        this.agentName = null;
+        this.branchName = null;
         this.selectOptions.agents = [];
         this.createFormGroup.controls['agentId'].setValue('');
+        this.createFormGroup.value.branchId = '';
+        this.createFormGroup.value.agentId = '';
       }
     }
 
@@ -341,14 +476,14 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
+      }else{
+        this.agentName = null
+        this.createFormGroup.value.agentId = '';
       }
     }
-
-
     this.cdf.detectChanges()
-
-
   }
+
 
   loadForm() {
     this.createFormGroup = new FormGroup({
@@ -384,21 +519,53 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    this.getAllReports();
+    console.log('doValid', type);
+    if (type == 'FromDate') {
+      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
+      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['toDate'].setValue('');
+      }
+    }
+
+    if (type == 'ToDate') {
+      this.fromMaxDate  = new Date(this.createFormGroup.value.toDate);
+      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
+        this.createFormGroup.controls['fromDate'].setValue('');
+      }
+    }
+    this.cdf.detectChanges();
   }
 
   clearDate(type) {
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
     }
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
-    }  
+    }
 
     this.isData = false;
     this.productList = [];
-    this.reports = [];   
-    
+    this.reports = [];
+
+    this.selectOptions.channels = [];
+    this.selectOptions.regions = [];
+    this.selectOptions.cluster = [];
+    this.selectOptions.branches = [];
+    this.selectOptions.agents = [];
+    this.createFormGroup.controls['companyId'].setValue('');
+    this.createFormGroup.controls['channelId'].setValue('');
+    this.createFormGroup.controls['regionId'].setValue('');
+    this.createFormGroup.controls['clusterId'].setValue('');
+    this.createFormGroup.controls['branchId'].setValue('');
+    this.createFormGroup.controls['agentId'].setValue('');
+
   }
 
   formatDateDDMMYYY(date) {

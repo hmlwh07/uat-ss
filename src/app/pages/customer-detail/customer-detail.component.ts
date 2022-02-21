@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
 import { validateAllFields } from 'src/app/core/valid-all-feild';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { AttachmentDownloadService, AttachmentServiceRef, AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
@@ -133,6 +134,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     private AttachmentUploadService: AttachmentUploadService,
     private CustomerAttachmentService: AttachmentServiceRef,
     private AttachmentDownloadService: AttachmentDownloadService,
+    private alertService:AlertService
   ) {
     this.ACTIVITYdisplayedColumns.splice(8,1)
     this.QuotationdisplayedColumns.splice(7,2)
@@ -387,6 +389,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
           let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
           this.modalService.dismissAll({ data: { name: name, customerId: res }, type: "save" })
         } else {
+          this.alertService.activate('This record was created', 'Success Message');
           this.location.back()
         }
       }
@@ -397,6 +400,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     let data = { ...postData, customerId: this.oldId, individualId: this.oldSecondaryId };
     this.customerService.updateNoID(data).toPromise().then((res) => {
       if (res) {
+        this.alertService.activate('This record was updated', 'Success Message');
         this.location.back()
       }
     })

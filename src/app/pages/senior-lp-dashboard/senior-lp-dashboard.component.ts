@@ -1,17 +1,42 @@
-import { DatePipe, DecimalPipe, Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
-import { checkVaidDep } from '../check-parent';
-import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../form-component/field.interface';
-import { PageDataService } from '../product-form/page-data.service';
-import { PrintConfig } from '../products/models/print-config.interface';
-import { PageUIType, ProductPages } from '../products/models/product.dto';
-import { PrintPreviewModalComponent } from '../products/print-preview-modal/print-preview-modal.component';
-import { AddOnQuoService } from '../products/services/add-on-quo.service';
-import { CoverageQuoService } from '../products/services/coverage-quo.service';
-import { ProductDataService } from '../products/services/products-data.service';
+import { FormControl, FormGroup } from '@angular/forms';
+
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexYAxis,
+  ApexLegend,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexGrid
+} from 'ng-apexcharts';
+
+import { DashboardService } from './senior-lp-dashboard.service';
+import { AuthService } from 'src/app/modules/auth/_services/auth.service';
+type ApexXAxis = {
+  type?: "category" | "datetime" | "numeric";
+  categories?: any;
+  labels?: {
+    style?: {
+      colors?: string | string[];
+      fontSize?: string;
+    };
+  };
+};
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  grid: ApexGrid;
+  colors: string[];
+  legend: ApexLegend;
+};
 
 @Component({
   selector: 'app-senior-lp-dashboard',
@@ -19,12 +44,134 @@ import { ProductDataService } from '../products/services/products-data.service';
   styleUrls: ['./senior-lp-dashboard.component.scss']
 })
 export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
+  @ViewChild("chart") chart: ChartComponent;
+  public chartOptions: Partial<ChartOptions>;
+  data: any;
+  authObj: any;
+  actForm: FormGroup;
+  // leadObj = {
+  //   leadWinRate: 56,
+  //   leadWinCount : 100,
+  //   taskToday: 15,
+  //   todayActiveAgent: 4,
+  //   leadAssignCount: 100,
+  //   leadToday: 58
+  // };
+  leadObj : any;
 
-  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal) { }
+  unsub: any;
+
+  constructor(public auth: AuthService, private dashboardService: DashboardService,private router : Router
+  ) {
+    this.unsub = this.auth.currentUserSubject.subscribe((res) => {
+      if (res) {
+        this.authObj = res;
+      }
+    })
+
+    this.loadForm();
+  }
+
 
   async ngOnInit() {
+    this.getList();
+    this.getLeadList();
+  }
+
+  loadForm() {
+    this.actForm = new FormGroup({
+      "empId": new FormControl(this.authObj.id)
+    })
+  }
+
+  getList() {
+    this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
+      if (res) {
+        this.data = res
+      }
+    })
+  }
+
+  getLeadList() {
+    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res) => {
+      if (res) {
+        this.leadObj = res
+        this.setChartOptions();
+      }
+    })
   }
 
   ngOnDestroy() {
+    this.unsub.unsubscribe();
+  }
+
+  goToLPManager(agent: any) {
+    this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId : agent.empId } })
+  }
+
+  setChartOptions(){
+    this.chartOptions = {
+      series: [
+        {
+          name: "",
+          data: [this.leadObj.leadWinCount,this.leadObj.leadAssignCount]
+        }
+      ],
+      chart: {
+        height: 200,
+        type: "bar",
+        events: {
+          click: function(chart, w, e) {
+            // console.log(chart, w, e)
+          }
+        }
+      },
+      colors: [
+        "#008FFB",
+        "#00E396",
+        "#FEB019",
+        "#FF4560",
+        "#775DD0",
+        "#546E7A",
+        "#26a69a",
+        "#D10CE8"
+      ],
+      plotOptions: {
+        bar: {
+          columnWidth: "45%",
+          distributed: true
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: false
+      },
+      grid: {
+        show: false
+      },
+      xaxis: {
+        categories: [
+          ["Converted", this.leadObj.leadWinCount],
+          ["Assigned", this.leadObj.leadAssignCount],
+        ],
+        labels: {
+          style: {
+            colors: [
+              "#008FFB",
+              "#00E396",
+              "#FEB019",
+              "#FF4560",
+              "#775DD0",
+              "#546E7A",
+              "#26a69a",
+              "#D10CE8"
+            ],
+            fontSize: "12px"
+          }
+        }
+      }
+    };
   }
 }

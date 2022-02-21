@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { map } from "rxjs/operators";
 import { MaterialTableViewComponent } from "../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component";
-import { PolicyService } from "../../quotations/policy.service";
+import { PolicyService } from "../../policy/policy.service";
 import { QuotationService } from "../../quotations/quotation.service";
 import { CustomerListService } from "../customer-list.service";
 import { EmployeeListService } from "../employee-list.service";

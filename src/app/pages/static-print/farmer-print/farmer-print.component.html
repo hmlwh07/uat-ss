@@ -1,62 +1,58 @@
 <div class="farmer-print">
   <div class="title-style left-border-image mt-5">Declaration</div>
   <p class="mb-1">I hereby declare that above statement are correct and current health is in good condition</p>
-  <div class="grid-list">
-    <div class="sign-row mt-2">
-      <div class="sign-box">
-        <span>Witness's Signautre</span>
-        <div class="border-line"></div>
-      </div>
-      <div class="sign-box">
-        <span>Insured's Signautre</span>
-        <div class="border-line"></div>
+  <div class="sign-row">
+    <div class="sign-box">
+      <label>Witness's Signautre</label>
+      <div class="sign-area">
+        <ng-container *ngIf="signId">
+          <img [src]="Default_DOWNLOAD_URL+signId" alt="" class="sign-img">
+        </ng-container>
       </div>
     </div>
-    <div class="sign-row mt-2">
-      <div class="sign-box">
-        <span>Witness's Name</span>
-        <div class="border-line"></div>
-      </div>
-      <div class="sign-box">
-        <span>Insured's Name</span>
-        <div class="border-line"></div>
-      </div>
-    </div>
-    <div class="sign-row mt-2">
-      <div class="sign-box">
-        <span>Phone No.</span>
-        <div class="border-line"></div>
-      </div>
-      <div class="sign-box">
-        <span>Date</span>
-        <div class="border-line"></div>
+    <div class="sign-box">
+      <label>Insured's Signautre</label>
+      <div class="sign-area">
       </div>
     </div>
   </div>
-
-  <!--  -->
+  <div class="sign-row">
+    <div class="sign-box">
+      <label>Witness's Name</label>
+      <div class="sign-area"></div>
+    </div>
+    <div class="sign-box">
+      <label>Insured's Name</label>
+      <div class="sign-area"></div>
+    </div>
+  </div>
+  <div class="sign-row">
+    <div class="sign-box">
+      <label>Phone No.</label>
+      <div class="sign-area"></div>
+    </div>
+    <div class="sign-box">
+      <label>Date</label>
+      <div class="sign-area"></div>
+    </div>
+  </div>
   <p class="mb-1">Underwriters review and assessment on the insured health condition.</p>
-  <div class="grid-list">
-    <div class="sign-row mt-2" style="justify-content: flex-end;">
-
-      <div class="sign-box">
-        <span>Underwriter's Signautre</span>
-        <div class="border-line"></div>
-      </div>
+  <div class="sign-row" style="justify-content: flex-end;">
+    <div class="sign-box">
+      <label>Underwriter's Signautre</label>
+      <div class="sign-area"></div>
     </div>
-    <div class="sign-row mt-2" style="justify-content: flex-end;">
-
-      <div class="sign-box">
-        <span>Name</span>
-        <div class="border-line"></div>
-      </div>
+  </div>
+  <div class="sign-row" style="justify-content: flex-end;">
+    <div class="sign-box">
+      <label>Name</label>
+      <div class="sign-area"></div>
     </div>
-    <div class="sign-row mt-2" style="justify-content: flex-end;">
-
-      <div class="sign-box">
-        <span>Position</span>
-        <div class="border-line"></div>
-      </div>
+  </div>
+  <div class="sign-row" style="justify-content: flex-end;">
+    <div class="sign-box">
+      <label>Position</label>
+      <div class="sign-area"></div>
     </div>
   </div>
 </div>
@@ -65,63 +61,61 @@
   <div class="title-style left-border-image mt-5">Admission</div>
   <p class="mb-1">This is the admission that above statements are correct and current health condition of own self is
     good. </p>
-  <div class="grid-list">
-    <div class="sign-row mt-2">
-      <div class="sign-box">
-        <span>Witness's Signautre</span>
-        <div class="border-line"></div>
-      </div>
-      <div class="sign-box">
-        <span>Insured's Signautre</span>
-        <div class="border-line"></div>
+  <div class="sign-row">
+    <div class="sign-box">
+      <label>Witness's Signautre</label>
+      <div class="sign-area">
+        <ng-container *ngIf="signId">
+          <img [src]="Default_DOWNLOAD_URL+signId" alt="" class="sign-img">
+        </ng-container>
       </div>
     </div>
-    <div class="sign-row mt-2">
-      <div class="sign-box">
-        <span>Witness's Name</span>
-        <div class="border-line"></div>
-      </div>
-      <div class="sign-box">
-        <span>Insured's Name</span>
-        <div class="border-line"></div>
+    <div class="sign-box">
+      <label>Insured's Signautre</label>
+      <div class="sign-area">
       </div>
     </div>
-    <div class="sign-row mt-2">
-      <div class="sign-box">
-        <span>Phone No.</span>
-        <div class="border-line"></div>
-      </div>
-      <div class="sign-box">
-        <span>Date</span>
-        <div class="border-line"></div>
-      </div>
+  </div>
+  <div class="sign-row">
+    <div class="sign-box">
+      <label>Witness's Name</label>
+      <div class="sign-area"></div>
+    </div>
+    <div class="sign-box">
+      <label>Insured's Name</label>
+      <div class="sign-area"></div>
+    </div>
+  </div>
+  <div class="sign-row">
+    <div class="sign-box">
+      <label>Phone No.</label>
+      <div class="sign-area"></div>
+    </div>
+    <div class="sign-box">
+      <label>Date</label>
+      <div class="sign-area"></div>
     </div>
   </div>
 
   <!--  -->
-  <p class="mb-1">As an inspector to accept the proposal, to give a remark whether insured’s health condition is
+  <p class="mb-1">As an inspector to accept the proposal, to give a remark whether insured's health condition is
     good/not.</p>
-  <div class="grid-list">
-    <div class="sign-row mt-2" style="justify-content: flex-end;">
-
-      <div class="sign-box">
-        <span>Inspector's Signautre</span>
-        <div class="border-line"></div>
-      </div>
+  <div class="sign-row" style="justify-content: flex-end;">
+    <div class="sign-box">
+      <label>Inspector's Signautre</label>
+      <div class="sign-area"></div>
     </div>
-    <div class="sign-row mt-2" style="justify-content: flex-end;">
-
-      <div class="sign-box">
-        <span>Name</span>
-        <div class="border-line"></div>
-      </div>
+  </div>
+  <div class="sign-row" style="justify-content: flex-end;">
+    <div class="sign-box">
+      <label>Name</label>
+      <div class="sign-area"></div>
     </div>
-    <div class="sign-row mt-2" style="justify-content: flex-end;">
-
-      <div class="sign-box">
-        <span>Position</span>
-        <div class="border-line"></div>
-      </div>
+  </div>
+  <div class="sign-row" style="justify-content: flex-end;">
+    <div class="sign-box">
+      <label>Position</label>
+      <div class="sign-area"></div>
     </div>
   </div>
 </div>

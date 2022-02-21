@@ -1,104 +1,137 @@
-
-.top-box{
+.top-box {
   color: #B5B5C3;
   margin-left: 50px;
-  span{
-    color: #000;
-   //  font-weight: 700;
-  }
- }
 
-.my-center{
-  text-align : center;
+  span {
+    color: #000;
+    //  font-weight: 700;
+  }
+}
+
+.my-center {
+  text-align: center;
 }
 
 .user-image{
-  width: 80px;
+  width: 100px;
+  margin-bottom: 15px;
 }
 
-.user-icon{
+.user-icon {
   width: 35px;
 }
 
-.icon-image{
+.icon-image {
   width: 20px;
 }
 
-.font-24{
+.font-24 {
   font-size: 24px !important;
 }
 
-.underline{
+.underline {
   text-decoration: underline;
 }
 
-.bold{
+.bold {
   font-weight: 600;
 }
 
-.flex{
-  display : flex;
+.flex {
+  display: flex;
 }
 
-.my-border-left{
-  border-left: 1px solid rgba(56, 55, 55, 0.12);
+.my-border-left {
+  border-left: 1px solid #7e8299;
 }
 
-.my-card-title{
+.my-card-title {
   justify-content: center;
   width: 100%;
 }
 
-.width-100{
-  width : 100%;
+.width-100 {
+  width: 100%;
 }
 
-.float-right{
-  float : right;
+.float-right {
+  float: right;
 }
 
-.my-border-bottom{
+.my-profile-card {
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  background-color: #FFF;
+  width: calc(100% - 16px);
+  height: auto;
+  padding: 10px;
+  margin: 8px;
+  cursor:pointer;
+}
+
+.my-border-bottom {
   border-bottom: 1px solid rgb(218, 217, 217);
 }
 
-.my-border-none{
+.my-border-none {
   border: none;
 }
 
-.my-p-10{
+.my-p-10 {
   padding: 10px;
 }
-.my-row{
+
+.my-row {
   margin-left: 0px !important;
   margin-right: 0px !important;
 }
 
-.my-mt-5{
-  margin-top: 5px;;
+.my-mt-5 {
+  margin-top: 5px;
+  ;
 }
 
-.my-p-10{
-  padding :15px;
+.my-p-10 {
+  padding: 15px;
 }
 
-.my-box{
-  width : 100px;
-  height : 100px;
-  color : #FFF;
-  padding:5px;
+.my-box {
+  width: 100px;
+  height: 100px;
+  color: #FFF;
+  padding: 5px;
 }
 
-.box-1{
+.box-1 {
   @extend .my-box;
-  background-color : orange;
+  background-color: orange;
 }
 
-.box-2{
+.box-2 {
   @extend .my-box;
-  background-color : rgb(104, 104, 250);
+  background-color: rgb(104, 104, 250);
 }
 
-.container{
+.container {
   width: 100%;
-  height : 33%;
+  min-height: 200px;
+}
+
+.fist-panel-container {
+  width: 100%;
+  height: 50%;
+}
+
+.my-card {
+  max-height: calc(100vh - 215px);
+  min-height: 530px;
+  overflow-y: auto;
+}
+
+.card-50 {
+  height: 230px;
+}
+
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
 }

@@ -8,6 +8,20 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
+        path: 'dashboard/lp-dashboard',
+        loadChildren: () =>
+          import('./lp-dashboard/lp-dashboard.module').then(
+            (m) => m.LpDashboardModule
+          ),
+      },
+      {
+        path: 'dashboard/lp-manager-dashboard',
+        loadChildren: () =>
+          import('./lp-manager-dashboard/lp-manager-dashboard.module').then(
+            (m) => m.LpManagerDashboardModule
+          ),
+      },
+      {
         path: 'dashboard/senior-lp-dashboard',
         loadChildren: () =>
           import('./senior-lp-dashboard/senior-lp-dashboard.module').then(
@@ -49,20 +63,20 @@ const routes: Routes = [
         loadChildren: () =>
           import('./builder/builder.module').then((m) => m.BuilderModule),
       },
-      {
-        path: 'user-management',
-        loadChildren: () =>
-          import('../modules/user-management/user-management.module').then(
-            (m) => m.UserManagementModule
-          ),
-      },
-      {
-        path: 'user-profile',
-        loadChildren: () =>
-          import('../modules/user-profile/user-profile.module').then(
-            (m) => m.UserProfileModule
-          ),
-      },
+      // {
+      //   path: 'user-management',
+      //   loadChildren: () =>
+      //     import('../modules/user-management/user-management.module').then(
+      //       (m) => m.UserManagementModule
+      //     ),
+      // },
+      // {
+      //   path: 'user-profile',
+      //   loadChildren: () =>
+      //     import('../modules/user-profile/user-profile.module').then(
+      //       (m) => m.UserProfileModule
+      //     ),
+      // },
       {
         path: 'resourse-detail',
         loadChildren: () =>

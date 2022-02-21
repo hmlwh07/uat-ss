@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { BizOperationService } from 'src/app/core/biz.operation.service';
+import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from 'src/environments/environment';
 
 const API_ADDON_URL = `${environment.apiUrl}/summaryReportByBranchForDaily`;
@@ -102,29 +102,29 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
           cellIndex = 'F2';
           cellIndexValue = 'To Date: ' + searchValue[i].toDate;
         }
-        if (searchValue[i].agentName) {
-          cellIndex = 'L1';
-          cellIndexValue = 'Agent: ' + searchValue[i].agentName;
-        }
         if (searchValue[i].companyName) {
-          cellIndex = 'M1';
+          cellIndex = 'L1';
           cellIndexValue = 'Company: ' + searchValue[i].companyName;
         }
         if (searchValue[i].channelName) {
-          cellIndex = 'N1';
+          cellIndex = 'M1';
           cellIndexValue = 'Channel: ' + searchValue[i].channelName;
         }
         if (searchValue[i].regionName) {
-          cellIndex = 'L2';
+          cellIndex = 'N1';
           cellIndexValue = 'Region: ' + searchValue[i].regionName;
         }
         if (searchValue[i].clusterName) {
-          cellIndex = 'M2';
+          cellIndex = 'L2';
           cellIndexValue = 'Cluster: ' + searchValue[i].clusterName;
         }
         if (searchValue[i].branchName) {
-          cellIndex = 'N2';
+          cellIndex = 'M2';
           cellIndexValue = 'Branch: ' + searchValue[i].branchName;
+        }
+        if (searchValue[i].agentName) {
+          cellIndex = 'N2';
+          cellIndexValue = 'Agent: ' + searchValue[i].agentName;
         }
 
         if (cellIndex != null && cellIndexValue != null) {

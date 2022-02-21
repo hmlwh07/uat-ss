@@ -146,7 +146,7 @@
       <div class="card card-custom gutter-b">
         <div class="card-footer">
           <div class="row">
-            <div class="{{type == 'quotation' ? 'col-sm-6': 'col-sm-12' }}">
+            <div class="col-sm-6">
               <button type="submit" class="btn btn-primary btn-block" (click)="goToList()">
                 Go Back To {{ (type == 'policy' ? "application" : type) | titlecase }} List
               </button>
@@ -154,6 +154,11 @@
             <div class="col-sm-6" *ngIf="type == 'quotation'">
               <button type="submit" class="btn btn-primary btn-block" (click)="createPolicy()">
                 Create New Application
+              </button>
+            </div>
+            <div class="col-sm-6" *ngIf="type == 'policy'">
+              <button type="submit" class="btn btn-primary btn-block" (click)="createSign()">
+                Create Signature
               </button>
             </div>
           </div>

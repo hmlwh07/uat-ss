@@ -82,7 +82,7 @@ $custom-typography: mat-typography-config($font-family: "Roboto");
 .mat-cell,
 .mat-footer-cell,
 .mat-cell {
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
 }
 
 .mat-paginator,
@@ -767,4 +767,28 @@ kbz-loading {
 }
 .form-group.row{
     align-items: center;
+}
+.cal-month-view .cal-cell-top {
+    min-height: 50px !important;
+    height: 50px !important;
+}
+.cal-month-view .cal-open-day-events{
+    background-color: white;
+    color: #404040;
+}
+.cal-month-view .cal-day-cell {
+    min-height: 80px;
+}
+.form-control-sm {
+    font-size: 0.9rem !important;
+}
+
+.col-form-label {
+    font-size  : 1rem !important;
+    font-weight: 400;
+}
+.modal-body > signature-pad{
+    canvas{
+        width: 100% !important;
+    }
 }

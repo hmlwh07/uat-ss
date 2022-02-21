@@ -6,12 +6,12 @@
                     <h3 class="card-label left-border-image">Exchange Rate</h3>
                 </div>
                 <div class="card-toolbar">
+                    <button type="button" class="btn btn-primary btn-circle" (click)="addData()">
+                        <span class="flaticon2-plus"></span>
+                    </button>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="getData()">
-                    <span class="flaticon2-magnifier-tool"></span>
-                </button>
-                    <button type="button" class="btn btn-primary btn-circle" style="min-width: 50px; margin-left: 5px;" (click)="addData()">
-          <span class="flaticon2-plus"></span>
-        </button>
+                        <span class="flaticon2-magnifier-tool"></span>
+                    </button>
                 </div>
                 <!-- <app-currency-add-form (formSubmit)="saveData($event)" [isModal]="false"></app-currency-add-form> -->
             </div>
@@ -23,10 +23,11 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Currency</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control form-control-sm" name="title" placeholder="Currency Type" autocomplete="off" formControlName="currency">
-                                    <option value="usd">USD</option>
-                                    
-                                  </select>
+                                    <select class="form-control form-control-sm" name="title"
+                                        placeholder="Currency Type" autocomplete="off" formControlName="currency">
+                                        <option value="usd">USD</option>
+
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +36,8 @@
                                 <label class="col-sm-4 col-form-label">Date</label>
                                 <div class="col-sm-8">
                                     <div class="input-group ">
-                                        <input matInput class="form-control form-control-sm date-input" formControlName="date" [matDatepicker]="picker" readonly>
+                                        <input matInput class="form-control form-control-sm date-input"
+                                            formControlName="date" [matDatepicker]="picker" readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker disabled="false"></mat-datepicker>
 
@@ -54,7 +56,8 @@
     <div class="col-sm-12">
         <div class="card card-custom px-10 py-3">
             <div class="card-body">
-                <app-material-table-view [data]="currencyList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)">
+                <app-material-table-view [data]="currencyList" [colum]="ELEMENT_COL"
+                    [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)">
                 </app-material-table-view>
             </div>
         </div>
