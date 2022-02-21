@@ -19,7 +19,7 @@ export const CurrencyCol: TableCol[] = [
     field: "amount",
   },
   {
-    title: "Action",
+    title: "Actions",
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {

@@ -29,7 +29,7 @@
                                 {{FormatedDate(element[item.field])}}
                             </ng-container>
                             <ng-container *ngIf="item.isFromatDate">
-                                {{element[item.field] | date : "dd/MM/Y" }}
+                                {{element[item.field] | date : "dd/MM/yyyy" }}
                             </ng-container>
                             <ng-container *ngIf="item.isActivityStatus">
                                 <span
