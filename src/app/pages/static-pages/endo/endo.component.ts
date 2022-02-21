@@ -63,7 +63,7 @@ export class EndoComponent implements OnInit {
   ngOnInit(): void {
     this.parentData = this.getParnet()
     if (!this.parentData) {
-      this.alertService.activate("This page cann't to show because there is no education life product detail data. Please add education life product detail in rodcut configuration", "Warning")
+      this.alertService.activate("This page cann't to show because there is no endowment product detail data. Please add endowment product detail in prodcut configuration", "Warning")
     } else {
 
       this.getRateValue().pipe(switchMap((res) => {
@@ -135,8 +135,9 @@ export class EndoComponent implements OnInit {
   getParnet() {
     if (IsJsonString(this.product.config)) {
       let pageUI: ProductPages = JSON.parse(this.product.config);
+      // console.log("pageUI",pageUI);
       let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
-      let parent = pageOrder.find(page => page.unitCode == 'endo_detail_2022215')
+      let parent = pageOrder.find(page => page.tableName == 'endo_detail')
       if (parent) {
         return this.globalFun.tempFormData[parent.tableName + parent.id] || null
       }

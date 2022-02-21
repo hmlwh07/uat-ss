@@ -1,11 +1,13 @@
 import { DecimalPipe } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { isString } from "@ng-bootstrap/ng-bootstrap/util/util";
+import * as moment from "moment";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { AlertService } from "../modules/loading-toast/alert-model/alert.service";
 import { LatestCurrencyExchangeService } from "../pages/currency-exchange/currency-exchange.service";
 import { IN_BOUND, OUT_BOUND } from "./const-data-value";
+import { IsJsonString } from "./is-json";
 import { MotorRateService } from "./rate-datas/motor-rate.service";
 
 @Injectable({
@@ -107,23 +109,23 @@ export class GlobalFunctionService {
     this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency + " / month")
     return true
   }
-  snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean){
+  snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let valInt = 0
     if (typeof currentValue == 'string') {
       valInt = parseInt(currentValue.replace("T-", ""))
     }
     let sumInsured = valInt * 500000
-    this.halfOfSumInsured(sumInsured,activeForm)
+    this.halfOfSumInsured(sumInsured, activeForm)
     this.snakeSumInsuredResult.next(sumInsured)
   }
 
-  halfOfSumInsured(currentValue: any,activeForm: any, option?: any[], form?: boolean){
+  halfOfSumInsured(currentValue: any, activeForm: any, option?: any[], form?: boolean) {
     let valInt = parseFloat(currentValue)
     let value = this.calculateDecimal(valInt * 0.5)
     this.halfOfSumInsuredResult.next(value)
   }
 
-  snakePremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean){
+  snakePremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let sumInsured = parseFloat(activeForm.sum_insured)
     let premium = this.calculateDecimal(sumInsured * 0.001)
     this.paPremiumResult.next(this.numberPipe.transform(premium) + " MMK")
@@ -156,6 +158,57 @@ export class GlobalFunctionService {
         return false
       }
     }
+    return false
+  }
+
+  // validDOB(currentValue: string, activeForm: any, option?: any[], form?: boolean, productCode?: string) {
+  //   let dob = activeForm['date_of_birth']
+  //   let age = Math.ceil(moment().diff(dob, 'years', true));
+  //   if(productCode == "SASS01" && age > 67){
+
+  //   }
+  // }
+
+  validEndoTerm(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let policy = activeForm['policy_term']
+    // ENDO_POLICY_TERM
+    if (policy == "T-003") {
+      let dob = this.tempFormData['policyholder_1641795142279']['date_of_birth']
+      let age = Math.ceil(moment().diff(dob, 'years', true));
+      if (age > 55) {
+        this.alert.activate("If age is over 55,Policy term can't be over 7 years", "Validation")
+        return false
+      }
+    }
+    else if (policy == "T-002") {
+      let dob = this.tempFormData['policyholder_1641795142279']['date_of_birth']
+      let age = Math.ceil(moment().diff(dob, 'years', true));
+      if (age > 58) {
+        this.alert.activate("If age is over 58,Policy term can't be over 5 years", "Validation")
+        return false
+      }
+    }
+    return true
+  }
+
+  validDOBEDU(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let dob = activeForm['date_of_birth']
+    let age = Math.ceil(moment().diff(dob, 'years', true));
+    // ENDO_POLICY_TERM
+    if(age > 14 && age < 42){
+      return true
+    }
+    this.alert.activate("Minimum  Age is 14 years and Maximum Age is 42 years", "Validation")
+    return false
+  }
+  validDOBEndo(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let dob = activeForm['date_of_birth']
+    let age = Math.ceil(moment().diff(dob, 'years', true));
+    // ENDO_POLICY_TERM
+    if(age > 10 && age < 60){
+      return true
+    }
+    this.alert.activate("Minimum  Age is 10 years and Maximum Age is 60 years", "Validation")
     return false
   }
 
@@ -646,10 +699,10 @@ export class GlobalFunctionService {
     }
     if (activeForm.sm_policy_term) {
       policy = activeForm.sm_policy_term
-    } 
+    }
     if (activeForm.sm_sum_insured) {
       sumInsured = activeForm.sm_sum_insured
-    } 
+    }
     let rate = 0
     if (type == 'T-001') {
       rate = 0.5 / 100
@@ -694,7 +747,7 @@ export class GlobalFunctionService {
     return true
     // travel_duration
   }
-  
+
   calculateDecimal(value: any) {
     return Math.round(value * 100) / 100
   }

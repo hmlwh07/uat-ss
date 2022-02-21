@@ -255,7 +255,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  clickBtn(event:any) {
+  clickBtn(event: any) {
     this[event]();
   }
 
@@ -434,6 +434,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         if (isTable < 0) {
 
           this.tempData[page.tableName + page.id] = { ...formData, refId: res.refId }
+          if (page.unitCode == "policyholder_1641795142279")
+            this.tempData['policyholder_1641795142279'] = { ...formData, refId: res.refId }
           if (this.pageOrder.length > this.activePage + 1) {
             this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
             this.activePage += 1
@@ -530,6 +532,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           this.cdRef.detectChanges()
         } else {
           this.tempData[page.tableName + page.id] = { ...formData, refId: res[0].refId, pageId: page.id }
+          if (page.unitCode == "policyholder_1641795142279")
+            this.tempData['policyholder_1641795142279'] = { ...formData, refId: res[0].refId, pageId: page.id }
           if (this.pageOrder.length > this.activePage + 1) {
             if (this.formData[this.activePage + 1].controls) {
               this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
@@ -712,7 +716,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         let page = this.findPageValue(tempFormData, element.id)
         let view = page.pageType == 'table'
         this.pageDataService.getDetail(page.tableName, oldData.id, page.id, view, page.controls, true).toPromise().then(async (res: any) => {
-          console.log(res, page, "res");
 
           if (res && res.length > 0) {
             let temp = page.pageType == 'form' ? {} : []
@@ -746,6 +749,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             };
             if ((page.unitCode == "policyholder_1641795142279")) {
               temp["customer_id"] = this.creatingCustomer['customerId']
+              this.tempData["policyholder_1641795142279"] = temp
             }
             this.tempData[page.tableName + page.id] = temp
             this.globalFun.tempFormData = this.tempData

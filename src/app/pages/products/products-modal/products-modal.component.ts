@@ -55,6 +55,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
       type: [this.oldData.type || 'GENERAL', Validators.compose([Validators.required, Validators.nullValidator])],
       stamDuty: [this.oldData.stamDuty || false, Validators.compose([Validators.required, Validators.nullValidator])],
       isAllowBackDate: [this.oldData.isAllowBackDate || null, Validators.compose([Validators.required, Validators.nullValidator])],
+      allowDays: [this.oldData.allowDays || null],
       ruleDate: [this.oldData.quotationDay || null, Validators.compose([Validators.required, Validators.nullValidator])],
       ruleType: [this.oldData.quotationRule || null, Validators.compose([Validators.required, Validators.nullValidator])],
       policyDay: [this.oldData.policyDay || null, Validators.compose([Validators.required, Validators.nullValidator])],
@@ -82,6 +83,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
         application: false,
         quotation: false,
         isAllowBackDate: formData.isAllowBackDate,
+        allowDays: formData.isAllowDays,
         stamDuty: formData.stamDuty,
         statusCd: formData.statusCd
       }

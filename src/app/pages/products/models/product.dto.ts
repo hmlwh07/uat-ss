@@ -9,6 +9,7 @@ export interface Product {
   application?: boolean
   quotation?: boolean
   isAllowBackDate?: string
+  allowDays?: number
   stamDuty?: boolean
   coverages?: any[]
   addOns?: any[],
