@@ -142,7 +142,7 @@ export class MycalendarComponent implements OnInit {
           }
           return {
             start: new Date(data.planDate),
-            end:  new Date(data.dueDate),
+            end:  new Date(data.planDate),
             title: data.activityTitle + "( " + data.activityType + " )",
             color: actColor,
             meta:data.activityNo,

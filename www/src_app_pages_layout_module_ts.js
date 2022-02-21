@@ -10594,9 +10594,9 @@ const DefaultLayoutConfig = {
         breakpoints: {
             sm: 576,
             md: 768,
-            lg: 1500,
-            xl: 1700,
-            xxl: 1900,
+            lg: 1000,
+            xl: 1200,
+            xxl: 1400,
         },
         colors: {
             theme: {
@@ -16099,7 +16099,7 @@ let MycalendarComponent = class MycalendarComponent {
                     }
                     return {
                         start: new Date(data.planDate),
-                        end: new Date(data.dueDate),
+                        end: new Date(data.planDate),
                         title: data.activityTitle + "( " + data.activityType + " )",
                         color: actColor,
                         meta: data.activityNo,
