@@ -151,7 +151,7 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
+                <div class="date-display">
                     <span *ngIf="createFormGroup.value.fromDate">From Date: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -175,8 +175,9 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
                     <th colspan="4"></th>
@@ -190,11 +191,15 @@
                     <th *ngFor="let product of productList; let i = index">{{ product.headerWeekName }}</th>
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">
-                    <td>{{ data.agentName }}</td>
-                    <td>{{ data.branchName }}</td>
-                    <td>{{ data.activitiesName }}</td>
-                    <td>{{ data.totalTargetValue }}</td>
-                    <td *ngFor="let daily of dataList[i].productDataList; let j = index; ">{{ daily.weeklyValue }}</td>
+                    <td class="text-left">{{ data.agentName }}</td>
+                    <td class="text-left">{{ data.branchName }}</td>
+                    <td class="text-left">{{ data.activitiesName }}</td>
+                    <td class="text-right" *ngIf="data.totalTargetValue">{{ data.totalTargetValue | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right" *ngIf="!data.totalTargetValue">0.00</td>
+                    <td class="text-right" *ngFor="let daily of dataList[i].productDataList; let j = index; ">
+                        <label *ngIf="daily.totalTargetValue"> {{ daily.weeklyValue | number:'1.2-2' || 0.00 }}</label>
+                        <label *ngIf="!daily.totalTargetValue">0.00</label>
+                    </td>
                 </tr>
             </table>
         </div>

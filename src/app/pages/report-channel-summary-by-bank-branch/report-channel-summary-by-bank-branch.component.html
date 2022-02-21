@@ -151,7 +151,7 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
+                <div class="date-display">
                     <span *ngIf="createFormGroup.value.fromDate">From Date: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -175,19 +175,24 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr>
                     <th *ngFor="let particular of displayList[0].particular; let i = index">{{ particular.channel }}
                     </th>
                 </tr>
                 <tr class="data">
-                    <td *ngFor="let policies of displayList[0].policies; let i = index">{{ policies.noOfPolicy || 0 }}
+                    <td class="text-right" *ngFor="let policies of displayList[0].policies; let i = index">
+                        <label *ngIf="i == 0">{{ policies.noOfPolicy || 0.00 }}</label>
+                        <label *ngIf="i != 0">{{ policies.noOfPolicy | number:'1.2-2' || 0.00 }}</label>
                     </td>
                 </tr>
                 <tr class="data">
-                    <td *ngFor="let premium of displayList[0].premium; let i = index">{{ premium.totalPreminum || 0 }}
+                    <td class="text-right" *ngFor="let premium of displayList[0].premium; let i = index">
+                        <label *ngIf="i == 0">{{ premium.totalPreminum || 0.00 }}</label>
+                        <label *ngIf="i != 0">{{ premium.totalPreminum | number:'1.2-2' || 0.00 }}</label>
                     </td>
                 </tr>
             </table>

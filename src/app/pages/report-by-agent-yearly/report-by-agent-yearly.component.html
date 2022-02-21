@@ -25,7 +25,7 @@
                     <div class="row" style="align-items: center;">
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">From Date</label>
+                                <label class="col-sm-4 col-form-label">From Month/Year</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">To Date</label>
+                                <label class="col-sm-4 col-form-label">To Month/Year</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -151,7 +151,7 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
+                <div class="date-display">
                     <span *ngIf="createFormGroup.value.fromDate">From Date: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -175,20 +175,21 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
                     <th colspan="5"></th>
                     <th *ngFor="let product of productList; let i = index">{{ product.reportMonth }}</th>
                 </tr>
                 <tr>
-                    <th>No</th>
+                    <th style="min-width: 50px;">No</th>
                     <th>Branch</th>
                     <th>Channel</th>
                     <th>Agent Name</th>
                     <th>Agent No.</th>
-                    <th *ngFor="let product of productList; let i = index">
+                    <th style="min-width: 160px;" *ngFor="let product of productList; let i = index">
                         <span>No of Policies
                             <div class="right-border-transform"></div>
                         </span>
@@ -197,20 +198,23 @@
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">
                     <td>{{ data.no }}</td>
-                    <td>{{ data.cluster }}</td>
-                    <td>{{ data.channel }}</td>
-                    <td>{{ data.agentName }}</td>
-                    <td>{{ data.agentNo }}</td>
-                    <td *ngFor="let policy of dataList[i].productDataList; let j = index; ">
-                        <span *ngIf="policy.noOfPolicies">{{ policy.noOfPolicies }}
+                    <td class="text-left">{{ data.cluster }}</td>
+                    <td class="text-left">{{ data.channel }}</td>
+                    <td class="text-left">{{ data.agentName }}</td>
+                    <td class="text-left">{{ data.agentNo }}</td>
+                    <td class="text-right" *ngFor="let policy of dataList[i].productDataList; let j = index; ">
+                        <span style="text-align: end;  padding: 0 5px 0 0;" *ngIf="policy.noOfPolicies">{{
+                            policy.noOfPolicies |
+                            number:'1.2-2' || 0.00 }}
                             <div class="right-border-transform"></div>
                         </span>
-                        <span *ngIf="policy.totalPremium">{{ policy.totalPremium }}</span>
-                        <span *ngIf="!policy.noOfPolicies">
-                            0
+                        <span style="text-align: end;" *ngIf="policy.totalPremium">{{ policy.totalPremium |
+                            number:'1.2-2' || 0.00 }}</span>
+                        <span style="text-align: end; padding: 0 5px 0 0;" *ngIf="!policy.noOfPolicies">
+                            0.00
                             <div class="right-border-transform"></div>
                         </span>
-                        <span *ngIf="!policy.totalPremium">0</span>
+                        <span style="text-align: end;" *ngIf="!policy.totalPremium">0.00</span>
                     </td>
                 </tr>
             </table>

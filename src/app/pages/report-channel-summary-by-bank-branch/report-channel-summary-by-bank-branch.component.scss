@@ -47,6 +47,17 @@ table {
     }
 }
 
+.date-display{
+    width: 100%;
+    overflow: hidden;
+    span {
+        width: 50%;
+        min-width: 135px;
+        float: left;
+        display: block;
+    }
+}
+
 .right-border-transform {
     width: 1px;
     height: 100%;
@@ -87,5 +98,15 @@ table {
             top: 23px;
         }
     }
+}
+
+  
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: end;
+    padding: 0 5px 0 0;
 }
 

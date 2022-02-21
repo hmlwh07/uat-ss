@@ -152,7 +152,7 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
+                <div class="date-display">
                     <span *ngIf="createFormGroup.value.fromDate">From Date: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -176,8 +176,9 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr>
                     <th>Agent Name</th>
@@ -190,14 +191,15 @@
                     <th>Week Expected Target Conversion to Prospects</th>
                 </tr>
                 <tr *ngFor="let data of displayList; let i = index">
-                    <td>{{ data.agentName }}</td>
-                    <td>{{ data.branchName }}</td>
-                    <td>{{ data.activityName }}</td>
-                    <td>{{ data.weekActualAgainstTarge }}</td>
-                    <td>{{ data.weekConversionToProspect }}</td>
-                    <td>{{ data.weekConversionToPreviousStage }}</td>
-                    <td>{{ data.weekExpectedTargetConversion }}</td>
-                    <td>{{ data.weekExpectedTargetConversionToProspects }}</td>
+                    <td class="text-left">{{ data.agentName }}</td>
+                    <td class="text-left">{{ data.branchName }}</td>
+                    <td class="text-left">{{ data.activityName }}</td>
+                    <td class="text-right">{{ data.weekActualAgainstTarge | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.weekConversionToProspect | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.weekConversionToPreviousStage | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.weekExpectedTargetConversion | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.weekExpectedTargetConversionToProspects | number:'1.2-2' || 0.00 }}
+                    </td>
                 </tr>
             </table>
         </div>
