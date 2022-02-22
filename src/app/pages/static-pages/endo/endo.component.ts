@@ -137,7 +137,7 @@ export class EndoComponent implements OnInit {
       let pageUI: ProductPages = JSON.parse(this.product.config);
       // console.log("pageUI",pageUI);
       let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
-      let parent = pageOrder.find(page => page.tableName == 'endo_detail')
+      let parent = pageOrder.find(page => page.tableName == "endo_detail")
       if (parent) {
         return this.globalFun.tempFormData[parent.tableName + parent.id] || null
       }
