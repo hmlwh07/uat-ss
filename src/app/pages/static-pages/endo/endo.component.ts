@@ -27,6 +27,7 @@ export class EndoComponent implements OnInit {
   @Input() resourcesId: string
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   parentData: any
+  parentData2: any
   premimuRate = {
     "9opt": 5,
     "11opt": 7,
@@ -62,6 +63,7 @@ export class EndoComponent implements OnInit {
 
   ngOnInit(): void {
     this.parentData = this.getParnet()
+    this.parentData2 = this.getParnet(true)
     if (!this.parentData) {
       this.alertService.activate("This page cann't to show because there is no endowment product detail data. Please add endowment product detail in prodcut configuration", "Warning")
     } else {
@@ -124,7 +126,7 @@ export class EndoComponent implements OnInit {
     this.premimuRateNum = this.premimuRate[policyTermValue + "opt"]
     this.policyTermCode = this.parentData['policy_term']
     this.sumInsured = this.parentData['sum_insured']
-    let dob = this.parentData['date_of_birth']
+    let dob = this.parentData2['date_of_birth']
     this.currentAge = Math.ceil(moment().diff(dob, 'years', true));
     let paymentFrequency = this.parentData['payment_frequency']
     this.frequencyValue = this.frequency[paymentFrequency]
@@ -132,12 +134,17 @@ export class EndoComponent implements OnInit {
     return true
   }
 
-  getParnet() {
+  getParnet(life?: boolean) {
     if (IsJsonString(this.product.config)) {
       let pageUI: ProductPages = JSON.parse(this.product.config);
       // console.log("pageUI",pageUI);
       let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
-      let parent = pageOrder.find(page => page.tableName == "endo_detail")
+      let parent: any = {}
+      if (life)
+        parent = pageOrder.find(page => page.tableName == "life_insured_endow")
+      else
+        parent = pageOrder.find(page => page.tableName == "endo_detail")
+
       if (parent) {
         return this.globalFun.tempFormData[parent.tableName + parent.id] || null
       }
