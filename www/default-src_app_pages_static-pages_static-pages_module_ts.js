@@ -2675,7 +2675,7 @@ let EndoComponent = class EndoComponent {
     calculatePre(age, year) {
         // console.log();
         let tempRate = 15.5;
-        let rate = this.premiumRate.find(x => x.age == age);
+        let rate = this.premiumRate.find(x => x.formAge <= age && x.toAge >= age);
         if (rate) {
             tempRate = rate.rate;
         }

@@ -149,7 +149,7 @@ export class EndoComponent implements OnInit {
   calculatePre(age: number, year: number): number {
     // console.log();
     let tempRate = 15.5
-    let rate = this.premiumRate.find(x => x.age == age)
+    let rate = this.premiumRate.find(x => x.formAge <= age && x.toAge >= age)
     if (rate) {
       tempRate = rate.rate
     }
