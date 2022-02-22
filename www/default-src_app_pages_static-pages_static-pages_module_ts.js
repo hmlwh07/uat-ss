@@ -2061,7 +2061,8 @@ let EducationLifeComponent = class EducationLifeComponent {
     }
     ngOnInit() {
         this.parentData = this.getParnet();
-        if (!this.parentData) {
+        this.parentData2 = this.getParnet(true);
+        if (!this.parentData && !this.parentData2) {
             this.alertService.activate("This page cann't to show because there is no education life product detail data. Please add education life product detail in rodcut configuration", "Warning");
         }
         else {
@@ -2122,18 +2123,22 @@ let EducationLifeComponent = class EducationLifeComponent {
         this.policyTermCode = this.parentData['policy_term'];
         this.sumInsured = this.parentData['sum_insured'];
         this.plan = this.parentData['insured_plan'];
-        let dob = this.parentData['date_of_birth'];
+        let dob = this.parentData2['date_of_birth'];
         this.currentAge = Math.ceil(moment__WEBPACK_IMPORTED_MODULE_2__().diff(dob, 'years', true));
         let paymentFrequency = this.parentData['payment_frequency'];
         this.frequencyValue = this.frequency[paymentFrequency];
         this.lists = Array.from({ length: policyTermValue }, (_, i) => i + 1);
         return true;
     }
-    getParnet() {
+    getParnet(life) {
         if ((0,_core_is_json__WEBPACK_IMPORTED_MODULE_4__.IsJsonString)(this.product.config)) {
             let pageUI = JSON.parse(this.product.config);
             let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || [];
-            let parent = pageOrder.find(page => page.tableName == 'el_detail');
+            let parent = {};
+            if (life)
+                parent = pageOrder.find(page => page.tableName == 'life_insured_el');
+            else
+                parent = pageOrder.find(page => page.tableName == 'el_detail');
             if (parent) {
                 return this.globalFun.tempFormData[parent.tableName + parent.id] || null;
             }
@@ -2594,6 +2599,7 @@ let EndoComponent = class EndoComponent {
     }
     ngOnInit() {
         this.parentData = this.getParnet();
+        this.parentData2 = this.getParnet(true);
         if (!this.parentData) {
             this.alertService.activate("This page cann't to show because there is no endowment product detail data. Please add endowment product detail in prodcut configuration", "Warning");
         }
@@ -2652,19 +2658,23 @@ let EndoComponent = class EndoComponent {
         this.premimuRateNum = this.premimuRate[policyTermValue + "opt"];
         this.policyTermCode = this.parentData['policy_term'];
         this.sumInsured = this.parentData['sum_insured'];
-        let dob = this.parentData['date_of_birth'];
+        let dob = this.parentData2['date_of_birth'];
         this.currentAge = Math.ceil(moment__WEBPACK_IMPORTED_MODULE_2__().diff(dob, 'years', true));
         let paymentFrequency = this.parentData['payment_frequency'];
         this.frequencyValue = this.frequency[paymentFrequency];
         this.lists = Array.from({ length: policyTermValue }, (_, i) => i + 1);
         return true;
     }
-    getParnet() {
+    getParnet(life) {
         if ((0,_core_is_json__WEBPACK_IMPORTED_MODULE_4__.IsJsonString)(this.product.config)) {
             let pageUI = JSON.parse(this.product.config);
             // console.log("pageUI",pageUI);
             let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || [];
-            let parent = pageOrder.find(page => page.tableName == 'endo_detail');
+            let parent = {};
+            if (life)
+                parent = pageOrder.find(page => page.tableName == "life_insured_endow");
+            else
+                parent = pageOrder.find(page => page.tableName == "endo_detail");
             if (parent) {
                 return this.globalFun.tempFormData[parent.tableName + parent.id] || null;
             }
@@ -2675,7 +2685,7 @@ let EndoComponent = class EndoComponent {
     calculatePre(age, year) {
         // console.log();
         let tempRate = 15.5;
-        let rate = this.premiumRate.find(x => x.age == age);
+        let rate = this.premiumRate.find(x => x.formAge <= age && x.toAge >= age);
         if (rate) {
             tempRate = rate.rate;
         }
@@ -2797,7 +2807,7 @@ let EndoRateService = class EndoRateService extends _core_biz_operation_service_
         this.httpClient = httpClient;
     }
     getMany(term) {
-        return this.httpClient.get(API_ENDO_RATE_URL + "?policyTerm=" + term);
+        return this.httpClient.get(API_ENDO_RATE_URL + "s?policyTerm=" + term);
     }
 };
 EndoRateService.ctorParameters = () => [
