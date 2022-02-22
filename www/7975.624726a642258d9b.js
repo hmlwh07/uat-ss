@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkapp=self.webpackChunkapp||[]).push([[7975],{47975:(M,e,Y)=>{function a(n){try{JSON.parse(n)}catch(p){return!1}return!0}Y.d(e,{c:()=>a,G:()=>t});const t={parse:{dateInput:"DD-MM-YYYY"},display:{dateInput:"DD-MM-YYYY",monthYearLabel:"MMMM YYYY",dateA11yLabel:"LL",monthYearA11yLabel:"MMMM YYYY"}}}}]);
