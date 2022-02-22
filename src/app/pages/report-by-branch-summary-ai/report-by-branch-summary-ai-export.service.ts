@@ -222,7 +222,6 @@ export class ReportBranchSummaryAIExportService extends BizOperationService<any,
     let startTotalIndex: number = 0;
     for (var i = 0; i < totalValue.length; i++) {
       let start = this.calculateTotalPoint(startTotalIndex, reportsForExcel.length);
-      console.log('startTotalIndex =====> ', start);
       startTotalIndex += 1;
       let totalCell = worksheet.getCell(start);
       totalCell.value = totalValue[i];

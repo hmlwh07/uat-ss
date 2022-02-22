@@ -113,8 +113,6 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
      }
      reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
    
-
-    console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -186,11 +184,8 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     }
 
     //Adding Data with Conditional Formatting
-    console.log('data =====> ', data);
     data.forEach(d => {
       let row = worksheet.addRow(d);
-      console.log('row', row);
-
       let index = 0;
       d.forEach(a => {
         index++;
@@ -201,7 +196,6 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
           }
         } else {
           center.alignment = { vertical: 'middle', horizontal: 'right' }   
-          console.log('center', center.numFmt);       
           center.numFmt = '#,##0.00_);(#,##0.00)';
         }
       });
@@ -434,7 +428,6 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
 
 
     if (monthlyCaseSize != null) {
-      console.log('monthlyCaseSize', monthlyCaseSize);
       let monthlyCaseSizeIndex = data.length + 12
       let monthlyCaseSizeCell = worksheet.getCell('A' + monthlyCaseSizeIndex);
       monthlyCaseSizeCell.value = 'Monthly Case Size';

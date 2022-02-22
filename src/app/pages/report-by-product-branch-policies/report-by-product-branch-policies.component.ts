@@ -69,7 +69,6 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
       this.productsHeader = [];
       this.dataList = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('policyProductBranch', res);
         if (res) {
           if (res.products.length > 0) {
             res.products = JSON.parse(JSON.stringify([...new Map(res.products.map(item => [item.id, item])).values()]));
@@ -111,7 +110,6 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
                     let total: number = 0;
                     for (var k = 0; k < this.totalDataList.length; k++) {
                       if (this.totalDataList[k].id == this.dataList[i].products[j].id) {
-                        console.log('noOfPolicy =====> ', this.dataList[i].products[j].noOfPolicy);
                         this.totalDataList[k].noOfPolicy += this.dataList[i].products[j].noOfPolicy;
                         //total += this.dataList[i].products[j].noOfPolicy;
                       }
@@ -223,7 +221,6 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -361,9 +358,6 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

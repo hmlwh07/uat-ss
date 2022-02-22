@@ -100,14 +100,12 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
         }
       });
     }
-    console.log('reports', this.reports)
     this.cdf.detectChanges();
   }
 
   generateReportExcel() {
     this.reportsForExcel = [];
     let totalValue = [];
-    console.log('generateReportExcel', this.reports);
     let countSrNo: number = 0;
     for (var i = 0; i < this.reports.length; i++) {
       countSrNo += 1;
@@ -177,7 +175,6 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -315,9 +312,6 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

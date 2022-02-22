@@ -70,8 +70,6 @@ export class ReportByAgentMonthlyComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('summaryReportByBranchForDaily', res);
-
         if (res) {
           if (res.headerColumnList.length > 0) {
             for (var i = 0; i < res.headerColumnList.length; i++) {
@@ -203,7 +201,6 @@ export class ReportByAgentMonthlyComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -341,9 +338,6 @@ export class ReportByAgentMonthlyComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

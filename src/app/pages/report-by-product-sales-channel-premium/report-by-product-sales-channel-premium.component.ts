@@ -71,7 +71,6 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
       this.branchDataList = [];
       this.dataList = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('premiumProductSaleChannel', res);
         if (res) {
           if (res.products.length > 0) {
             for (var i = 0; i < res.products.length; i++) {
@@ -101,15 +100,12 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
                   }
                 }
               }
-              console.log('dataList', this.dataList);
             } else {
               this.isData = false
             }
           }
         }
       });
-
-      console.log('this.branchDataList =====> ', this.branchDataList);
     }
     this.cdf.detectChanges();
   }
@@ -191,7 +187,6 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -329,9 +324,6 @@ export class ReportByProductSalesChannelPremiumComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

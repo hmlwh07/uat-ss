@@ -78,7 +78,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('weeklySalesAnalysis', res);        
         if (res.weeklydataList.length > 0) {
           this.isData = true;
           for (var i = 0; i < res.weeklydataList.length; i++) {
@@ -101,8 +100,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
         }
       });
     }
-    console.log('displayList =====> ', this.displayList);
-
     this.cdf.detectChanges();
   }
 
@@ -266,7 +263,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
 
   generateReportExcel() {
     this.dataExcel = [];
-    console.log('generateReportExcel ', this.reports);
     this.productValues = ['Agent Name', 'Branch Name',
       'Activities', 'Week Actual against Target',
       'Week Conversion to Prospect', 'Week Conversion to Previous Stage',
@@ -335,7 +331,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -473,9 +468,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

@@ -58,7 +58,6 @@ export class ReportProductBranchPremiumExportService extends BizOperationService
     const params = new HttpParams({
       fromObject: searchValue
     });
-    console.log('params =====> ', params);
     return this.httpClient.get(API_ADDON_URL, { params: params });
   }
 
@@ -223,7 +222,6 @@ export class ReportProductBranchPremiumExportService extends BizOperationService
     let startTotalIndex: number = 0;
     for (var i = 0; i < totalValue.length; i++) {
       let start = this.calculateTotalPoint(startTotalIndex, branchDataForExcel.length);
-      console.log('startTotalIndex =====> ', start);
       startTotalIndex += 1;
       let totalCell = worksheet.getCell(start);
       totalCell.value = totalValue[i];
@@ -233,6 +231,9 @@ export class ReportProductBranchPremiumExportService extends BizOperationService
         bold: true
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      if (startTotalIndex > 2) {
+        totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+      }
     }
 
     worksheet.columns.forEach(function (column, i) {
