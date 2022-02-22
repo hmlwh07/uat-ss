@@ -8,7 +8,7 @@ import { validateAllFields } from '../../../core/valid-all-feild';
 import { AuthService } from '../../../modules/auth';
 import { CustomAdapter, CustomDateParserFormatter } from '../../../_metronic/core';
 import { PolicyDTO } from '../../policy/policy.dto';
-import { Product } from '../../products/models/product.dto';
+import { Product, ProductPages } from '../../products/models/product.dto';
 import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { QuotationDTO } from '../../quotations/quotation.dto';
@@ -21,7 +21,7 @@ import { AlertService } from '../../../modules/loading-toast/alert-model/alert.s
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatRadioChange } from '@angular/material/radio';
-import { MY_FORMATS } from '../../../core/is-json';
+import { IsJsonString, MY_FORMATS } from '../../../core/is-json';
 @Component({
   selector: 'app-simple-page',
   templateUrl: './simple-page.component.html',
@@ -55,6 +55,9 @@ export class SimplePageComponent implements OnInit {
   options4: any[] = []
   private editId: number
   refID: string
+  parentData: any
+  currentAge = 0
+  dob: string = ""
   constructor(
     private fb: FormBuilder,
     private prodService: ProductDataService,
@@ -69,7 +72,7 @@ export class SimplePageComponent implements OnInit {
     this.staticForm = this.fb.group({
       insuranceStartDate: [null, Validators.compose([Validators.required])],
       insuranceEndDate: [null, Validators.compose([Validators.required])],
-      dateOfBirth: [null, Validators.compose([Validators.required])],
+      dateOfBirth: [null],
       basicCoverId: ['Health Insurance', Validators.compose([Validators.required])],
       paymentFrequency: [null, Validators.compose([Validators.required])],
       sumInsuredMainCover: [null, Validators.compose([Validators.required])],
@@ -88,13 +91,16 @@ export class SimplePageComponent implements OnInit {
     // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
     this.toMinDate = toDate.format('YYYY-MM-DD')
     // this.toMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-    let dobMaxDate = moment().subtract(6, `years`)
-    this.dobMaxDate = dobMaxDate.format('YYYY-MM-DD')
+    // let dobMaxDate = moment().subtract(6, `years`)
+    // this.dobMaxDate = dobMaxDate.format('YYYY-MM-DD')
     // this.dobMaxDate = { year: parseInt(dobMaxDate.format('YYYY')), month: parseInt(dobMaxDate.format('M')), day: parseInt(dobMaxDate.format('D')) };
-    let dobMinDate = moment().subtract(75, `years`)
-    this.dobMinDate = dobMinDate.format('YYYY-MM-DD')
+    // let dobMinDate = moment().subtract(75, `years`)
+    // this.dobMinDate = dobMinDate.format('YYYY-MM-DD')
     // this.dobMinDate = { year: parseInt(dobMinDate.format('YYYY')), month: parseInt(dobMinDate.format('M')), day: parseInt(dobMinDate.format('D')) };
     // if (this.prodService.editData || this.refID)
+    this.parentData = this.getParent()
+    this.dob = this.parentData['date_of_birth']
+    this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
     this.getOldData()
     // this.getAddOn()
     // for (const item of this.product.addOns) {
@@ -109,22 +115,36 @@ export class SimplePageComponent implements OnInit {
     //   this.addOns[item.id + 'opt'] = response ? response.sumInsured || 0 : 0
     // }
   }
+  getParent(){
+    if (IsJsonString(this.product.config)) {
+      let pageUI: ProductPages = JSON.parse(this.product.config);
+      // console.log("pageUI",pageUI);
+      let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
+      
+      let parent = pageOrder.find(page => page.tableName == "life_insured_health")
 
-  radioChange($event: MatRadioChange) {
-
-    if ($event.value === 'Health Insurance') {
-      let dobMaxDate = moment().subtract(6, `years`)
-      this.dobMaxDate = dobMaxDate.format('YYYY-MM-DD')
-      let dobMinDate = moment().subtract(75, `years`)
-      this.dobMinDate = dobMinDate.format('YYYY-MM-DD')
-    } else {
-      let dobMaxDate = moment().subtract(6, `years`)
-      this.dobMaxDate = dobMaxDate.format('YYYY-MM-DD')
-      let dobMinDate = moment().subtract(60, `years`)
-      this.dobMinDate = dobMinDate.format('YYYY-MM-DD')
+      if (parent) {
+        return this.globalFun.tempFormData[parent.tableName + parent.id] || null
+      }
+      return null
     }
-    this.cdf.detectChanges()
+    return null
   }
+  // radioChange($event: MatRadioChange) {
+
+  //   if ($event.value === 'Health Insurance') {
+  //     let dobMaxDate = moment().subtract(6, `years`)
+  //     this.dobMaxDate = dobMaxDate.format('YYYY-MM-DD')
+  //     let dobMinDate = moment().subtract(75, `years`)
+  //     this.dobMinDate = dobMinDate.format('YYYY-MM-DD')
+  //   } else {
+  //     let dobMaxDate = moment().subtract(6, `years`)
+  //     this.dobMaxDate = dobMaxDate.format('YYYY-MM-DD')
+  //     let dobMinDate = moment().subtract(60, `years`)
+  //     this.dobMinDate = dobMinDate.format('YYYY-MM-DD')
+  //   }
+  //   this.cdf.detectChanges()
+  // }
 
   doValid() {
     let value = this.staticForm.controls['insuranceStartDate'].value
@@ -201,7 +221,7 @@ export class SimplePageComponent implements OnInit {
       insuranceStartDate: formValue.insuranceStartDate,
       medicalCardNo: formValue.medicalCardNo,
       paymentFrequency: formValue.paymentFrequency,
-      dateOfBirth: formValue.dateOfBirth,
+      dateOfBirth: this.dob,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,
