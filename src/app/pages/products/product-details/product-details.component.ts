@@ -28,6 +28,7 @@ import { LoadingService } from '../../../modules/loading-toast/loading/loading.s
 import { environment } from '../../../../environments/environment';
 import { EditSourceModalComponent } from '../edit-source-modal/edit-source-modal.component';
 import { ValidityPeriodService } from '../services/validity-period.service';
+import { getFileReader } from '../../../core/get-file-reader';
 
 @Component({
   selector: 'app-product-details',
@@ -239,6 +240,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       productCode: [this.product.code || null, Validators.compose([Validators.required, Validators.nullValidator])],
       stamDuty: [this.product.stamDuty || false, Validators.compose([Validators.required, Validators.nullValidator])],
       isAllowBackDate: [this.product.isAllowBackDate || null, Validators.compose([Validators.required, Validators.nullValidator])],
+      allowDays: [this.product.allowDays || null],
       ruleDate: [this.product.quotationDay || null, Validators.compose([Validators.required, Validators.nullValidator])],
       ruleType: [this.product.quotationRule || null, Validators.compose([Validators.required, Validators.nullValidator])],
       policyDay: [this.product.policyDay || null, Validators.compose([Validators.required, Validators.nullValidator])],
@@ -283,6 +285,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         application: this.application,
         quotation: this.quotation,
         isAllowBackDate: formData.isAllowBackDate,
+        allowDays: formData.allowDays,
         stamDuty: formData.stamDuty,
         statusCd: formData.statusCd,
         config: this.product.config,
@@ -480,6 +483,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       application: this.application,
       quotation: this.quotation,
       isAllowBackDate: this.product.isAllowBackDate,
+      allowDays: this.product.allowDays,
       stamDuty: this.product.stamDuty,
       statusCd: this.product.statusCd,
       type: this.product.type,
@@ -690,7 +694,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     if (event) {
       const file = event.target.files[0];
       console.log(file);
-      const reader = new FileReader();
+      const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         // console.log(reader);

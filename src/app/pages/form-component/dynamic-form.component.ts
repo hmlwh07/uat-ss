@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { GlobalFunctionService } from '../../core/global-fun.service';
+import { AlertService } from '../../modules/loading-toast/alert-model/alert.service';
 import { ConfigInput, InputBoxType, InputType, ValidationType } from './field.interface';
 
 @Component({
@@ -90,10 +91,10 @@ export class DynamicFormComponent implements OnInit {
         if (val.type == ValidationType.REQUIRED) {
           valid.push(Validators.required)
         } else if (val.type == ValidationType.MAX && config.type != 'date') {
-          let validat = config.type == 'number' ? Validators.max(val.value) : Validators.maxLength(val.value)
+          let validat = config.type == 'number' || config.type == 'currency' ? Validators.max(val.value) : Validators.maxLength(val.value)
           valid.push(validat)
         } else if (val.type == ValidationType.MIN && config.type != 'date') {
-          let validat = config.type == 'number' ? Validators.min(val.value) : Validators.minLength(val.value)
+          let validat = config.type == 'number' || config.type == 'currency' ? Validators.min(val.value) : Validators.minLength(val.value)
           valid.push(validat)
         }
       }

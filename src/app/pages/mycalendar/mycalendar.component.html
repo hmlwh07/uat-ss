@@ -78,7 +78,7 @@
                         <div class="cal-event"
                             *ngFor="let event of day.events | slice:0:showAll ? undefined :20; trackBy: trackByEventId"
                             [ngStyle]="{ backgroundColor: getColor(event)}"
-                            (mwlClick)="eventClicked.emit({ event: event })"></div>
+                            ></div>
                         <span class="cal-day-badge" *ngIf="day.events.length > 20">
                             + {{ day.events.length - 20 }}
                         </span>

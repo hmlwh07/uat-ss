@@ -25,7 +25,7 @@
                     <div class="row" style="align-items: center;">
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">From Date</label>
+                                <label class="col-sm-4 col-form-label">From Month/Year</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">To Date</label>
+                                <label class="col-sm-4 col-form-label">To Month/Year</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -151,11 +151,10 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
-                    <span *ngIf="createFormGroup.value.fromDate">From Date: {{
+                <div class="date-display">
+                    <span *ngIf="createFormGroup.value.fromDate">From Month/Year : {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <span *ngIf="createFormGroup.value.toDate">To Date: {{
+                    <span *ngIf="createFormGroup.value.toDate">To Month/Year : {{
                         formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
                 </div>
             </div>
@@ -175,8 +174,9 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr>
                     <th>Product</th>
@@ -186,46 +186,46 @@
                     <th>Average Case Size</th>
                 </tr>
                 <tr *ngFor="let data of displayDataList; let i = index">
-                    <td>{{ data.product }}</td>
-                    <td>{{ data.newBusinessCase }}</td>
-                    <td>{{ data.newBusinessPremium }}</td>
-                    <td>{{ data.productDistribution }}</td>
-                    <td>{{ data.averageCaseSize }}</td>
+                    <td class="text-left">{{ data.product }}</td>
+                    <td class="text-right">{{ data.newBusinessCase | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ data.newBusinessPremium | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ data.productDistribution | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ data.averageCaseSize | number:'1.2-2' }}</td>
                 </tr>
                 <tr>
-                    <td>Total</td>
-                    <td>{{ totalNewBusinessCase }}</td>
-                    <td>{{ totalPremium }}</td>
-                    <td>{{ roundTotalProductDistribution }}</td>
-                    <td>{{ roundTotalAverageCaseSize }}</td>
+                    <td class="text-left">Total</td>
+                    <td class="text-right">{{ totalNewBusinessCase | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ totalPremium | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ roundTotalProductDistribution | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ roundTotalAverageCaseSize | number:'1.2-2' }}</td>
                 </tr>
                 <tr>
-                    <td>Manpower</td>
-                    <td colspan="4">{{ keyDriver.manPower }}</td>
+                    <td class="text-left">Manpower</td>
+                    <td colspan="4">{{ keyDriver.manPower | number:'1.2-2' || 0 }}</td>
                 </tr>
                 <tr>
-                    <td>Active Manpower</td>
-                    <td colspan="4">{{ keyDriver.activeManPower }}</td>
+                    <td class="text-left">Active Manpower</td>
+                    <td colspan="4">{{ keyDriver.activeManPower | number:'1.2-2' || 0}}</td>
                 </tr>
                 <tr>
-                    <td>Active ratio</td>
-                    <td colspan="4">{{ activeRatio }}</td>
+                    <td class="text-left">Active ratio</td>
+                    <td colspan="4">{{ activeRatio | number:'1.2-2' || 0 }}</td>
                 </tr>
                 <tr>
-                    <td>Productivity</td>
-                    <td colspan="4">{{ productivity }}</td>
+                    <td class="text-left">Productivity</td>
+                    <td colspan="4">{{ productivity | number:'1.2-2' || 0}}</td>
                 </tr>
                 <tr>
-                    <td>Channel Productivity</td>
-                    <td colspan="4">{{ channelProductivity }}</td>
+                    <td class="text-left">Channel Productivity</td>
+                    <td colspan="4">{{ channelProductivity | number:'1.2-2' || 0}}</td>
                 </tr>
                 <tr>
-                    <td>ANP Case Size</td>
-                    <td colspan="4">{{ anpCaseSize }}</td>
+                    <td class="text-left">ANP Case Size</td>
+                    <td colspan="4">{{ anpCaseSize | number:'1.2-2' || 0 }}</td>
                 </tr>
                 <tr>
-                    <td>Monthly Case Size</td>
-                    <td colspan="4">{{ monthlyCaseSize }}</td>
+                    <td class="text-left">Monthly Case Size</td>
+                    <td colspan="4">{{ monthlyCaseSize | number:'1.2-2' || 0 }}</td>
                 </tr>
             </table>
         </div>

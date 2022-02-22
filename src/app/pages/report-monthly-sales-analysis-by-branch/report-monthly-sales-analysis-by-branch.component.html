@@ -25,7 +25,7 @@
                     <div class="row" style="align-items: center;">
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">From Date</label>
+                                <label class="col-sm-4 col-form-label">From Month/Year</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">To Date</label>
+                                <label class="col-sm-4 col-form-label">To Month/Year</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -151,11 +151,10 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
-                    <span *ngIf="createFormGroup.value.fromDate">From Date: {{
+                <div class="date-display">
+                    <span *ngIf="createFormGroup.value.fromDate">From Month/Year: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <span *ngIf="createFormGroup.value.toDate">To Date: {{
+                    <span *ngIf="createFormGroup.value.toDate">To Month/Year: {{
                         formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
                 </div>
             </div>
@@ -175,8 +174,9 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr>
                     <th>Agent Name</th>
@@ -189,14 +189,14 @@
                     <th>Month Expected Target Conversion to Prospects</th>
                 </tr>
                 <tr *ngFor="let data of displayList; let i = index">
-                    <td>{{ data.agentName }}</td>
-                    <td>{{ data.branchName }}</td>
-                    <td>{{ data.activityName }}</td>
-                    <td>{{ data.monthActualAgainstTarge }}</td>
-                    <td>{{ data.monthConversionToProspect }}</td>
-                    <td>{{ data.monthConversionToPreviousStage }}</td>
-                    <td>{{ data.monthExpectedTargetConversion }}</td>
-                    <td>{{ data.monthExpectedTargetConversionToProspects }}</td>
+                    <td class="text-left">{{ data.agentName }}</td>
+                    <td class="text-left">{{ data.branchName }}</td>
+                    <td class="text-left">{{ data.activityName }}</td>
+                    <td class="text-right">{{ data.monthActualAgainstTarge | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.monthConversionToProspect | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.monthConversionToPreviousStage | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.monthExpectedTargetConversion | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ data.monthExpectedTargetConversionToProspects | number:'1.2-2' || 0.00 }}</td>
                 </tr>
             </table>
         </div>

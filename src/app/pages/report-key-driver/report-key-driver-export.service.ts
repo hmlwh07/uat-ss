@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { AuthService } from '../../../app/modules/auth';
 import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from '../../../environments/environment';
 
@@ -21,7 +22,7 @@ const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
   providedIn: 'root'
 })
 export class ReportKeyDriverExportService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient, private authService: AuthService) {
     super(httpClient, API_ADDON_URL);
   }
 
@@ -101,6 +102,18 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
+     //Reported By:
+     worksheet.mergeCells('G2', 'G2');
+     let reportBy = worksheet.getCell('G2');
+     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+     reportBy.font = {
+       name: 'Calibri',
+       size: 10,    
+       bold: true
+     }
+     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
+   
+
     console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
@@ -173,8 +186,11 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     }
 
     //Adding Data with Conditional Formatting
+    console.log('data =====> ', data);
     data.forEach(d => {
       let row = worksheet.addRow(d);
+      console.log('row', row);
+
       let index = 0;
       d.forEach(a => {
         index++;
@@ -184,13 +200,16 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
             center.alignment = { vertical: 'middle', horizontal: 'left' }
           }
         } else {
-          center.alignment = { vertical: 'middle', horizontal: 'right' }
+          center.alignment = { vertical: 'middle', horizontal: 'right' }   
+          console.log('center', center.numFmt);       
+          center.numFmt = '#,##0.00_);(#,##0.00)';
         }
       });
     }
     );
 
-    if (totalNewBusinessCase) {
+
+    if (totalNewBusinessCase != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('A' + total);
       totalCell.value = 'Total';
@@ -210,9 +229,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: true
       }
       valueCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      valueCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (totalPremium) {
+    if (totalPremium != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('C' + total);
       totalCell.value = totalPremium;
@@ -222,9 +242,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: true
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (roundTotalProductDistribution) {
+    if (roundTotalProductDistribution != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('D' + total);
       totalCell.value = roundTotalProductDistribution;
@@ -234,9 +255,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: true
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (roundTotalAverageCaseSize) {
+    if (roundTotalAverageCaseSize != null) {
       let total = data.length + 5
       let totalCell = worksheet.getCell('E' + total);
       totalCell.value = roundTotalAverageCaseSize;
@@ -246,9 +268,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: true
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (manPower) {
+    if (manPower != null) {
       let manpowerIndex = data.length + 6
       let manPowerCell = worksheet.getCell('A' + manpowerIndex);
       manPowerCell.value = 'Manpower';
@@ -268,9 +291,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (activeManPower) {
+    if (activeManPower != null) {
       let activeManpowerIndex = data.length + 7
       let activeManPowerCell = worksheet.getCell('A' + activeManpowerIndex);
       activeManPowerCell.value = 'Active Manpower';
@@ -290,9 +314,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (activeManPower) {
+    if (activeManPower != null) {
       let activeManpowerIndex = data.length + 7
       let activeManPowerCell = worksheet.getCell('A' + activeManpowerIndex);
       activeManPowerCell.value = 'Active Manpower';
@@ -312,9 +337,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (activeRatio) {
+    if (activeRatio != null) {
       let activeRatioIndex = data.length + 8
       let activeRatioIndexCell = worksheet.getCell('A' + activeRatioIndex);
       activeRatioIndexCell.value = 'Active ratio';
@@ -334,9 +360,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (productivity) {
+    if (productivity != null) {
       let productivityndex = data.length + 9
       let productivityIndexCell = worksheet.getCell('A' + productivityndex);
       productivityIndexCell.value = 'Productivity';
@@ -356,9 +383,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (channelProductivity) {
+    if (channelProductivity != null) {
       let channelProductivityIndex = data.length + 10
       let channelProductivityCell = worksheet.getCell('A' + channelProductivityIndex);
       channelProductivityCell.value = 'Channel Productivity';
@@ -378,9 +406,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (anpCaseSize) {
+    if (anpCaseSize != null) {
       let anpCaseSizeIndex = data.length + 11
       let anpCaseSizeCell = worksheet.getCell('A' + anpCaseSizeIndex);
       anpCaseSizeCell.value = 'ANP Case Size';
@@ -400,9 +429,12 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
-    if (monthlyCaseSize) {
+
+    if (monthlyCaseSize != null) {
+      console.log('monthlyCaseSize', monthlyCaseSize);
       let monthlyCaseSizeIndex = data.length + 12
       let monthlyCaseSizeCell = worksheet.getCell('A' + monthlyCaseSizeIndex);
       monthlyCaseSizeCell.value = 'Monthly Case Size';
@@ -422,6 +454,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: false
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
     }
 
     worksheet.columns.forEach(function (column, i) {

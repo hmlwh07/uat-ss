@@ -14,7 +14,7 @@ export class EndoRateService extends BizOperationService<any, number>{
   }
 
   getMany(term: string) {
-    return this.httpClient.get(API_ENDO_RATE_URL + "?policyTerm=" + term)
+    return this.httpClient.get(API_ENDO_RATE_URL + "s?policyTerm=" + term)
   }
 }
 

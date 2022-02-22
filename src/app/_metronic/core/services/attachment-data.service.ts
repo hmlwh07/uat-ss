@@ -6,8 +6,10 @@ import { BizOperationService } from "../../../core/biz.operation.service";
 import { AlertService } from "../../../modules/loading-toast/alert-model/alert.service";
 import { LoadingService } from "../../../modules/loading-toast/loading/loading.service";
 import { KBZToastService } from "../../../modules/loading-toast/toast/kbz-toast.service";
-import { File } from '@ionic-native/file/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 import { Capacitor } from "@capacitor/core";
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import write_blob from "capacitor-blob-writer";
 
 const API_UPLOAD_URL = `${environment.apiUrl}/attachment-uploader`;
 @Injectable({
@@ -24,7 +26,7 @@ const API_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   providedIn: 'root'
 })
 export class AttachmentDownloadService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient, private file: File, private loadingService: LoadingService, private toastService: KBZToastService,private alertService:AlertService) {
+  constructor(protected httpClient: HttpClient, private file: File, private loadingService: LoadingService, private toastService: KBZToastService, private alertService: AlertService) {
     super(httpClient, API_DOWNLOAD_URL);
   }
 
@@ -48,34 +50,35 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     a.click();
     a.remove()
   }
-  
+
   async mobileDownload(fileName: string, res: any) {
-    const url = URL.createObjectURL(res);
-    this.file.checkDir(this.file.externalRootDirectory, 'kbzsale_downloads').then(response => {
+    try {
+      let ret = await Filesystem.mkdir({
+        path: 'kbzsale_downloads',
+        directory: Directory.Documents,
+        recursive: false,
+      });
+      console.log("folder ", ret);
       this.createFile(fileName, res)
-    }).catch(error => {
-      this.file.createDir(this.file.externalRootDirectory, 'kbzsale_downloads', false).then(response => {
-        this.createFile(fileName, res)
-      }).catch(async (e) => {
-        console.log(e);
-        await this.loadingService.deactivate()
-        this.alertService.activate('"File Error', 'Error Message');
-        // this.toastService.activate("File Error")
-      })
-    })
+    } catch (e) {
+      this.createFile(fileName, res)
+      //console.error("Unable to make directory", e);
+    }
   }
 
-  createFile(fileName, blobFile) {
-    this.file.writeFile(this.file.externalRootDirectory + "/kbzsale_downloads", fileName, blobFile, { replace: true }).then(async (res) => {
+  async createFile(fileName, blobFile) {
+    try {
+      await write_blob({
+        path: "kbzsale_downloads/" + fileName,
+        directory: Directory.Documents,
+        blob: blobFile
+      })
       await this.loadingService.deactivate()
-      // this.toastService.activate('Download File')
       this.alertService.activate('"Download File', 'Success Message');
-    }).catch(async (e) => {
-      console.log(e);
+    } catch (error) {
       await this.loadingService.deactivate()
       this.alertService.activate('"Download Fail', 'Error Message');
-      // this.toastService.activate('Download File')
-    })
+    }
 
   }
 }
