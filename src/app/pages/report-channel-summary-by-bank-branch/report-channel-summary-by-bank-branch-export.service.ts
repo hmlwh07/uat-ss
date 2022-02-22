@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { AuthService } from '../../../app/modules/auth';
 import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from '../../../environments/environment';
 
@@ -21,7 +22,7 @@ const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
   providedIn: 'root'
 })
 export class ReportChannelSummaryBankBranchExportService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient, private authService: AuthService) {
     super(httpClient, API_ADDON_URL);
   }
 
@@ -107,6 +108,18 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
+     //Reported By:
+     worksheet.mergeCells('G2', 'G2');
+     let reportBy = worksheet.getCell('G2');
+     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+     reportBy.font = {
+       name: 'Calibri',
+       size: 10,    
+       bold: true
+     }
+     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
+   
+
     console.log('searchValue', searchValue);
 
     // Display search name   
@@ -188,6 +201,8 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
       dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
       if (i == 0) {
         dataCell.alignment = { vertical: 'middle', horizontal: 'left' }
+      }else{
+        dataCell.numFmt = '#,##0.00_);(#,##0.00)';
       }
     }
 
@@ -203,6 +218,8 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
       dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
       if (i == 0) {
         dataCell.alignment = { vertical: 'middle', horizontal: 'left' }
+      }else{
+        dataCell.numFmt = '#,##0.00_);(#,##0.00)';
       }
 
     }

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportAgentWeeklyExportService } from './report-by-agent-weekly-export.service';
@@ -82,6 +83,10 @@ export class ReportByAgentWeeklyComponent implements OnInit {
 
           if (res.dataList.length > 0) {
             this.isData = true;
+            res.dataList.sort((a, b) => {
+              if (a.agentName < b.agentName) return -1
+              return a.agentName > b.agentName ? 1 : 0
+            });
             this.dataList = res.dataList;
             for (var i = 0; i < this.dataList.length; i++) {
               let list = [];
@@ -107,14 +112,14 @@ export class ReportByAgentWeeklyComponent implements OnInit {
                       this.dataList[i].productDataList[k].headerWeekRange = this.dataList[i].dynamicList[j].headerWeekRange
                       this.dataList[i].productDataList[k].headerMonthName = this.dataList[i].dynamicList[j].headerMonthName
                       //this.dataList[i].productDataList[k].targetValue = this.dataList[i].dynamicList[j].targetValue
-                      this.dataList[i].productDataList[k].dailyValue = this.mathRoundTo(Number(this.dataList[i].dynamicList[j].dailyValue), 2)
-                      this.dataList[i].productDataList[k].weeklyValue = this.mathRoundTo(Number(this.dataList[i].dynamicList[j].weeklyValue), 2)
-                      this.dataList[i].productDataList[k].monthlyValue = this.mathRoundTo(Number(this.dataList[i].dynamicList[j].monthlyValue), 2)
+                      this.dataList[i].productDataList[k].dailyValue = Number(this.dataList[i].dynamicList[j].dailyValue)
+                      this.dataList[i].productDataList[k].weeklyValue = Number(this.dataList[i].dynamicList[j].weeklyValue)
+                      this.dataList[i].productDataList[k].monthlyValue = Number(this.dataList[i].dynamicList[j].monthlyValue)
                       totalTargetValue += Number(this.dataList[i].dynamicList[j].targetValue);
                     }
                   }
 
-                  this.dataList[i].totalTargetValue = this.mathRoundTo(totalTargetValue, 2);
+                  this.dataList[i].totalTargetValue = totalTargetValue
                 }
               }
             }
@@ -147,9 +152,9 @@ export class ReportByAgentWeeklyComponent implements OnInit {
       let list = [];
       list.push(this.dataList[i].agentName,
         this.dataList[i].branchName, this.dataList[i].activitiesName,
-        this.dataList[i].totalTargetValue)
+        this.dataList[i].totalTargetValue || 0.00)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].weeklyValue)
+        list.push(this.dataList[i].productDataList[j].weeklyValue || 0.00)
       }
       this.dataExcel.push(list)
     }
@@ -203,6 +208,8 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     this.branchName = null;
     this.agentName = null;
     this.isData = false;
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     this.cdf.detectChanges();
   }
 
@@ -337,7 +344,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     if (type == 'agent') {
       if (ev) {
         this.branchName = ev.name
-        await this.exportService.getAgentOffice(11).toPromise().then(async (res: any) => {
+        await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
           if (res) {
             this.selectOptions.agents = res
           }
@@ -400,10 +407,18 @@ export class ReportByAgentWeeklyComponent implements OnInit {
   }
 
   doValid(type) {
-    console.log('doValid', type);
     if (type == 'FromDate') {
-      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
-      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let value = this.createFormGroup.controls['fromDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['fromDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['fromDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var fromDate = new Date(this.createFormGroup.value.fromDate);
+      fromDate.setFullYear(fromDate.getFullYear() + 1);
+      fromDate.setDate(fromDate.getDate() - 1);
+      this.fromMinDate = this.createFormGroup.value.fromDate
+      this.fromMaxDate = fromDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
@@ -411,8 +426,17 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
-      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let value = this.createFormGroup.controls['toDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['toDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['toDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var toDate = new Date(this.createFormGroup.value.toDate);
+      toDate.setFullYear(toDate.getFullYear() - 1);
+      toDate.setDate(toDate.getDate() + 1);
+      this.fromMinDate = toDate
+      this.fromMaxDate = this.createFormGroup.value.toDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
@@ -420,6 +444,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     }
     this.cdf.detectChanges();
   }
+
 
   clearDate(type) {
     this.fromMinDate = null;

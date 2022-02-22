@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { BizOperationService } from '../../../app/core/biz.operation.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../../app/modules/auth';
 
 const API_ADDON_URL = `${environment.apiUrl}/summaryReportByBranchForDaily`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
@@ -20,7 +21,7 @@ const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
   providedIn: 'root'
 })
 export class ReportAgentDailyExportService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient, private authService: AuthService) {
     super(httpClient, API_ADDON_URL);
   }
 
@@ -87,6 +88,18 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
       color: { argb: '0085A3' }
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
+
+     //Reported By:
+     worksheet.mergeCells('G2', 'G2');
+     let reportBy = worksheet.getCell('G2');
+     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+     reportBy.font = {
+       name: 'Calibri',
+       size: 10,    
+       bold: true
+     }
+     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
+   
 
     console.log('searchValue', searchValue);
     // Display search name   
@@ -174,7 +187,7 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
     }
 
 
-
+    console.log('data =====> ', data);
     // Adding Data with Conditional Formatting
     data.forEach(d => {
       let row = worksheet.addRow(d);
@@ -196,6 +209,11 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
           if (center) {
             center.alignment = { vertical: 'middle', horizontal: 'left' }
           }
+        }
+
+        if (index > 3) {
+          let center = row.getCell(index);         
+          center.numFmt = '#,##0.00_);(#,##0.00)';
         }
       });
     }

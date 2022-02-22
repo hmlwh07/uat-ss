@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportDailyDalesAnalysisBranchExportService } from './report-daily-sales-analysis-by-branch-export.service';
@@ -252,7 +253,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
   calculateDivision(value, divided) {
     let returnValue: any;
     if (divided != 0) {
-      returnValue = this.mathRoundTo(value / divided, 2);
+      returnValue = value / divided
     } else {
       returnValue = 0;
     }
@@ -273,9 +274,9 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     for (var i = 0; i < this.displayList.length; i++) {
       this.dataExcel.push([this.displayList[i].agentName,
       this.displayList[i].branchName, this.displayList[i].activityName,
-      this.displayList[i].dailyActualAgainstTarge, this.displayList[i].dailyConversionToProspect,
-      this.displayList[i].dailyConversionToPreviousStage, this.displayList[i].dailyExpectedTargetConversion,
-      this.displayList[i].dailyExpectedTargetConversionToProspects])
+      this.displayList[i].dailyActualAgainstTarge || 0.00, this.displayList[i].dailyConversionToProspect || 0.00,
+      this.displayList[i].dailyConversionToPreviousStage || 0.00, this.displayList[i].dailyExpectedTargetConversion || 0.00,
+      this.displayList[i].dailyExpectedTargetConversionToProspects || 0.00])
     }
 
     let fromDate = null;
@@ -322,6 +323,8 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     this.branchName = null;
     this.agentName = null;
     this.isData = false;
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     this.cdf.detectChanges();
   }
 
@@ -456,7 +459,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     if (type == 'agent') {
       if (ev) {
         this.branchName = ev.name
-        await this.exportService.getAgentOffice(11).toPromise().then(async (res: any) => {
+        await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
           if (res) {
             this.selectOptions.agents = res
           }
@@ -476,7 +479,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     if (type == 'office') {
       if (ev) {
         this.agentName = ev.agentName
-      }else{
+      } else {
         this.agentName = null
         this.createFormGroup.value.agentId = '';
       }
@@ -519,10 +522,18 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    console.log('doValid', type);
     if (type == 'FromDate') {
-      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
-      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let value = this.createFormGroup.controls['fromDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['fromDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['fromDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var fromDate = new Date(this.createFormGroup.value.fromDate);
+      fromDate.setFullYear(fromDate.getFullYear() + 1);
+      fromDate.setDate(fromDate.getDate() - 1);
+      this.fromMinDate = this.createFormGroup.value.fromDate
+      this.fromMaxDate = fromDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
@@ -530,8 +541,17 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate  = new Date(this.createFormGroup.value.toDate);
-      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let value = this.createFormGroup.controls['toDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['toDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['toDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var toDate = new Date(this.createFormGroup.value.toDate);
+      toDate.setFullYear(toDate.getFullYear() - 1);
+      toDate.setDate(toDate.getDate() + 1);
+      this.fromMinDate = toDate
+      this.fromMaxDate = this.createFormGroup.value.toDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
@@ -539,6 +559,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     }
     this.cdf.detectChanges();
   }
+
 
   clearDate(type) {
     this.fromMinDate = null;
