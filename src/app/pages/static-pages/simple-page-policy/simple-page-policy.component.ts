@@ -6,7 +6,7 @@ import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { AuthService } from '../../../modules/auth';
 import { CustomAdapter, CustomDateParserFormatter } from '../../../_metronic/core';
 import { PolicyDTO } from '../../policy/policy.dto';
-import { Product } from '../../products/models/product.dto';
+import { Product, ProductPages } from '../../products/models/product.dto';
 import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { QuotationDTO } from '../../quotations/quotation.dto';
@@ -21,7 +21,7 @@ import { mergeMap, switchMap } from 'rxjs/operators';
 import { DecimalPipe } from '@angular/common';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from '../../../core/is-json';
+import { IsJsonString, MY_FORMATS } from '../../../core/is-json';
 @Component({
   selector: 'app-simple-page-policy',
   templateUrl: './simple-page-policy.component.html',
@@ -67,6 +67,9 @@ export class SimplePagePolicyComponent implements OnInit {
   }
 
   totalP: number = 0
+  parentData: any
+  currentAge = 0
+  dob: string = ""
   totalL: number = 0
   constructor(
     private fb: FormBuilder,
@@ -84,7 +87,7 @@ export class SimplePagePolicyComponent implements OnInit {
     this.staticForm = this.fb.group({
       insuranceStartDate: [{ value: null, disabled: true }, Validators.compose([Validators.required])],
       insuranceEndDate: [{ value: null, disabled: true }, Validators.compose([Validators.required])],
-      dateOfBirth: [{ value: null, disabled: true }, Validators.compose([Validators.required])],
+      dateOfBirth: [{ value: null, disabled: true }, ],
       basicCoverId: [{ value: 'Health Insurance', disabled: true }, Validators.compose([Validators.required])],
       paymentFrequency: [{ value: null, disabled: true }, Validators.compose([Validators.required])],
       sumInsuredMainCover: [{ value: null, disabled: true }, Validators.compose([Validators.required])],
@@ -103,13 +106,31 @@ export class SimplePagePolicyComponent implements OnInit {
     let toDate = moment().subtract(5, `days`)
     this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
     this.toMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-    let dobMaxDate = moment().subtract(6, `years`)
-    this.dobMaxDate = { year: parseInt(dobMaxDate.format('YYYY')), month: parseInt(dobMaxDate.format('M')), day: parseInt(dobMaxDate.format('D')) };
-    let dobMinDate = moment().subtract(75, `years`)
-    this.dobMinDate = { year: parseInt(dobMinDate.format('YYYY')), month: parseInt(dobMinDate.format('M')), day: parseInt(dobMinDate.format('D')) };
-
+    // let dobMaxDate = moment().subtract(6, `years`)
+    // this.dobMaxDate = { year: parseInt(dobMaxDate.format('YYYY')), month: parseInt(dobMaxDate.format('M')), day: parseInt(dobMaxDate.format('D')) };
+    // let dobMinDate = moment().subtract(75, `years`)
+    // this.dobMinDate = { year: parseInt(dobMinDate.format('YYYY')), month: parseInt(dobMinDate.format('M')), day: parseInt(dobMinDate.format('D')) };
+    this.parentData = this.getParent()
+    this.dob = this.parentData['date_of_birth']
+    this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
     this.getOldData()
 
+  }
+
+  getParent(){
+    if (IsJsonString(this.product.config)) {
+      let pageUI: ProductPages = JSON.parse(this.product.config);
+      // console.log("pageUI",pageUI);
+      let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
+      
+      let parent = pageOrder.find(page => page.tableName == "life_insured_health")
+
+      if (parent) {
+        return this.globalFun.tempFormData[parent.tableName + parent.id] || null
+      }
+      return null
+    }
+    return null
   }
 
   get controls() {
@@ -203,7 +224,7 @@ export class SimplePagePolicyComponent implements OnInit {
       insuranceStartDate: formValue.insuranceStartDate,
       medicalCardNo: formValue.medicalCardNo,
       paymentFrequency: formValue.paymentFrequency,
-      dateOfBirth: formValue.dateOfBirth,
+      dateOfBirth: this.dob,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,

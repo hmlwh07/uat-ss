@@ -76,7 +76,7 @@
             </mat-radio-button> -->
             <mat-radio-button class="mx-1" [value]="'Health Insurance'">Health Insurance
             </mat-radio-button>
-            <mat-radio-button class="mx-1" [value]="'Critical illness'">Critical illness
+            <mat-radio-button class="mx-1" *ngIf="currentAge < 61" [value]="'Critical illness'">Critical illness
             </mat-radio-button>
           </mat-radio-group>
         </div>
@@ -84,21 +84,11 @@
     </div>
     <!-- BC -->
     <!-- DOB -->
-    <div class="col-6">
+    <!-- <div class="col-6">
       <div class="form-group row">
         <label class="col-4 col-form-label">Date of Birth</label>
         <div class="col-6">
-          <!-- <div class="input-group">
-            <input type="text" name="dateOfBirth" class="form-control form-control-sm " autocomplete="off"
-              placeholder="dd/mm/yyyy" ngbDatepicker #db="ngbDatepicker" (click)="db.toggle()" [minDate]="dobMinDate"
-              [maxDate]="dobMaxDate" formControlName="dateOfBirth" readonly="true" />
-            <div class="input-group-append" (click)="db.toggle()">
-              <span class="input-group-text">
-                <i class="text-dark-50 flaticon-calendar"></i>
-              </span>
-            </div>
-          </div> -->
-          <!-- <app-print-error [control]="controls.dateOfBirth"></app-print-error> -->
+          
           <div class="input-group">
             <input matInput class="form-control-sm date-input" formControlName="dateOfBirth" [min]="dobMinDate" [max]="dobMaxDate"
               [matDatepicker]="picker3" readonly>
@@ -109,7 +99,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
     <!-- DOB -->
   </div>
 

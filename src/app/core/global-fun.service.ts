@@ -172,41 +172,46 @@ export class GlobalFunctionService {
 
   validEndoTerm(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let policy = activeForm['policy_term']
+    let arrayTxt = Object.keys(this.tempFormData)
+    let parentKey = arrayTxt.find(x => x.includes("life_insured_endow"))
     // ENDO_POLICY_TERM
-    if (policy == "T-003") {
-      let dob = this.tempFormData['policyholder_1641795142279']['date_of_birth']
-      let age = Math.ceil(moment().diff(dob, 'years', true));
-      if (age > 55) {
-        this.alert.activate("If age is over 55,Policy term can't be over 7 years", "Validation")
-        return false
+    if (parentKey) {
+      if (policy == "T-003") {
+        let dob = this.tempFormData[parentKey]['date_of_birth']
+        let age = Math.ceil(moment().diff(dob, 'years', true));
+        if (age > 55) {
+          this.alert.activate("If age is over 55,Policy term can't be over 7 years", "Validation")
+          return false
+        }
       }
-    }
-    else if (policy == "T-002") {
-      let dob = this.tempFormData['policyholder_1641795142279']['date_of_birth']
-      let age = Math.ceil(moment().diff(dob, 'years', true));
-      if (age > 58) {
-        this.alert.activate("If age is over 58,Policy term can't be over 5 years", "Validation")
-        return false
+      else if (policy == "T-002") {
+        let dob = this.tempFormData[parentKey]['date_of_birth']
+        let age = Math.ceil(moment().diff(dob, 'years', true));
+        if (age > 58) {
+          this.alert.activate("If age is over 58,Policy term can't be over 5 years", "Validation")
+          return false
+        }
       }
+      return true
     }
-    return true
+    return false
   }
 
   validDOBEDU(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let dob = activeForm['date_of_birth']
     let age = Math.ceil(moment().diff(dob, 'years', true));
     // ENDO_POLICY_TERM
-    if(age > 14 && age < 42){
+    if (age >= 18 && age <= 42) {
       return true
     }
-    this.alert.activate("Minimum  Age is 14 years and Maximum Age is 42 years", "Validation")
+    this.alert.activate("Minimum  Age is 18 years and Maximum Age is 42 years", "Validation")
     return false
   }
   validDOBEndo(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let dob = activeForm['date_of_birth']
     let age = Math.ceil(moment().diff(dob, 'years', true));
     // ENDO_POLICY_TERM
-    if(age > 10 && age < 60){
+    if (age >= 10 && age <= 60) {
       return true
     }
     this.alert.activate("Minimum  Age is 10 years and Maximum Age is 60 years", "Validation")
