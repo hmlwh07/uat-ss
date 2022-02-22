@@ -101,7 +101,7 @@ export class ReportByAgentDailyComponent implements OnInit {
               this.dataList[i].productDataList = list;
               if (this.dataList[i].dynamicList) {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
-                  let totalTargetValue: number = 0;
+                  //let totalTargetValue: number = 0;
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].headerDateName == this.dataList[i].dynamicList[j].headerDateName) {
                       this.dataList[i].productDataList[k].headerDateName = this.dataList[i].dynamicList[j].headerDateName
@@ -113,11 +113,11 @@ export class ReportByAgentDailyComponent implements OnInit {
                       this.dataList[i].productDataList[k].dailyValue = this.dataList[i].dynamicList[j].dailyValue
                       this.dataList[i].productDataList[k].weeklyValue = this.dataList[i].dynamicList[j].weeklyValue
                       this.dataList[i].productDataList[k].monthlyValue = this.dataList[i].dynamicList[j].monthlyValue
-                      totalTargetValue += Number(this.dataList[i].dynamicList[j].targetValue);
+                      //totalTargetValue += Number(this.dataList[i].dynamicList[j].targetValue);
                     }
                   }
 
-                  this.dataList[i].totalTargetValue = totalTargetValue
+                  //this.dataList[i].totalTargetValue = totalTargetValue
                 }
               }
             }
@@ -149,7 +149,7 @@ export class ReportByAgentDailyComponent implements OnInit {
       let list = [];
       list.push(this.dataList[i].agentName,
         this.dataList[i].branchName, this.dataList[i].activitiesName,
-        this.dataList[i].totalTargetValue || 0.00)
+        this.dataList[i].target || 0.00)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(Number(this.dataList[i].productDataList[j].dailyValue) || 0.00)
       }
