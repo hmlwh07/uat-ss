@@ -6,6 +6,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import { forkJoin,catchError, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
@@ -142,12 +143,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.getTitle();
-    this.getGender();
-    this.getOccupation();
-    this.getNationality();
-    this.getStatus();
-    this.getState();
+   
+    
     this.loadForm();
     this.route.queryParams
       .subscribe(params => {
@@ -167,61 +164,98 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
         }
       }
       );
-
-
   }
 
 
 
   ngAfterViewInit() {
-    //  this.getNationality();
-
+   this.getMaster()
   }
 
   getNationality() {
-    this.masterDataService.getDataByType("NATIONALITY").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+    return this.masterDataService.getDataByType("NATIONALITY").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      return of([])
+    }))
+    
+    // .toPromise().then((res: any) => {
+    //   if (res) {
+    //     this.nationalityOption = res
+    //     this.cdf.detectChanges()
+    //   }
+    // });
+  }
+
+  getMaster(){
+    forkJoin([
+      this.getTitle(),
+      this.getGender(),
+      this.getOccupation(),
+      this.getStatus(),
+      this.getState(),
+      this.getNationality(),
+    ]).toPromise().then((res:any)=>{
       if (res) {
-        this.nationalityOption = res
+        this.titleOption = res[0]
+        this.genderOption = res[1]
+        this.occupationOption = res[2]
+        this.statusOption = res[3]
+        this.stateOption = res[4]
+        this.nationalityOption = res[5]
         this.cdf.detectChanges()
       }
-    });
+    })
   }
 
   getTitle() {
-    this.masterDataService.getDataByType("TITLE").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
-      if (res) {
-        this.titleOption = res
-        this.cdf.detectChanges()
-      }
-    })
+    return this.masterDataService.getDataByType("TITLE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      return of([])
+    }))
+    // .toPromise().then((res: any) => {
+    //   if (res) {
+    //     this.titleOption = res
+    //     this.cdf.detectChanges()
+    //   }
+    // })
   }
 
   getGender() {
-    this.masterDataService.getDataByType("TB_GENDER").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
-      if (res) {
-        this.genderOption = res
-        this.cdf.detectChanges()
-      }
-    })
+   return this.masterDataService.getDataByType("TB_GENDER").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return of([])
+  }))
+   
+  //  .toPromise().then((res: any) => {
+  //     if (res) {
+  //       this.genderOption = res
+  //       this.cdf.detectChanges()
+  //     }
+  //   })
   }
 
   getOccupation() {
-    this.masterDataService.getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
-      if (res) {
-        this.occupationOption = res
-        this.cdf.detectChanges()
-      }
-    })
+    return this.masterDataService.getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      return of([])
+    }))
+    
+    // .toPromise().then((res: any) => {
+    //   if (res) {
+    //     this.occupationOption = res
+    //     this.cdf.detectChanges()
+    //   }
+    // })
   }
 
   getStatus() {
-    this.masterDataService.getDataByType("CUST_STATUS").pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
-      if (res) {
-        this.statusOption = res
-        console.log("  this.statusOption ", this.statusOption)
-        this.cdf.detectChanges()
-      }
-    })
+    return this.masterDataService.getDataByType("CUST_STATUS").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      return of([])
+    }))
+    
+    // .toPromise().then((res: any) => {
+    //   if (res) {
+    //     this.statusOption = res
+    //     console.log("  this.statusOption ", this.statusOption)
+    //     this.cdf.detectChanges()
+    //   }
+    // })
   }
 
   getFormatOpt(res) {
@@ -231,18 +265,23 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   getState() {
-    this.masterDataService.getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
-      if (res) {
-        this.stateOption = res
-        this.cdf.detectChanges()
-      }
-    });
+    return this.masterDataService.getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      return of([])
+    }))
+    
+    // .toPromise().then((res: any) => {
+    //   if (res) {
+    //     this.stateOption = res
+    //     this.cdf.detectChanges()
+    //   }
+    // });
   }
 
 
 
   getDistrict(parentId: string) {
-    this.masterDataService.getAddressDataByType("DISTRICT", parentId).pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+    this.masterDataService.getAddressDataByType("DISTRICT", parentId).pipe(map(x => this.getFormatOpt(x)))
+    .toPromise().then((res: any) => {
       if (res) {
         this.districtOption = res
         this.cdf.detectChanges()
@@ -250,7 +289,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     });
   }
   getTownship(parentId: string) {
-    this.masterDataService.getAddressDataByType("TOWNSHIP", parentId).pipe(map(x => this.getFormatOpt(x))).toPromise().then((res: any) => {
+    this.masterDataService.getAddressDataByType("TOWNSHIP", parentId).pipe(map(x => this.getFormatOpt(x)))
+    .toPromise().then((res: any) => {
       if (res) {
         this.townshipOption = res
         this.cdf.detectChanges()
@@ -318,7 +358,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
 
   onInitAddress(oldData) {
-    this.getState();
+    // this.getState();
     this.getDistrict(oldData.stateCode);
     this.getTownship(oldData.districtCode)
     this.cdf.detectChanges();

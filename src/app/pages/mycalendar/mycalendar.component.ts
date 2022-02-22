@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { startOfDay, endOfDay,subDays, addDays, endOfMonth,isSameDay,isSameMonth,addHours,} from 'date-fns';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView,} from 'angular-calendar';
+import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, } from 'date-fns';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, } from 'angular-calendar';
 import { Subject } from 'rxjs';
 import { ActivityManageService } from '../activity-management-list/activity-manage.service';
 import { Router } from '@angular/router';
@@ -12,18 +12,18 @@ const colors: any = {
     secondary: '#FAE3E3',
   },
   blue: {
-    primary: '#1e90ff', 
+    primary: '#1e90ff',
     secondary: '#D1E8FF',
   },
-  yellow: {  
-    primary: '#e3bc08', 
-    secondary: '#FDF1BA',  
-  }, 
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
   orange: {
     primary: '#ff8100',
     secondary: '#ff8100',
   },
-  Open:{
+  Open: {
     primary: '3dc2ff',
     secondary: '#3dc2ff',
   },
@@ -112,15 +112,17 @@ export class MycalendarComponent implements OnInit {
   ];
   events: CalendarEvent[] = []
   activeDayIsOpen: boolean = false;
-  
 
-  constructor(private modal: NgbModal, private activityService: ActivityManageService,private router:Router) {
+
+  constructor(private modal: NgbModal, private activityService: ActivityManageService, private router: Router) {
   }
 
   ngOnInit(): void {
+   
+  }
+  ngAfterViewInit() {
     this.getActivity()
   }
-
   getActivity() {
     let postData = {
       status: "Open"
@@ -131,25 +133,25 @@ export class MycalendarComponent implements OnInit {
         this.activityList = res
         this.EventData = this.activityList.map((data) => {
           let actColor
-          if(data.activityType=='Face to Face'){
-            actColor=colors.Face
+          if (data.activityType == 'Face to Face') {
+            actColor = colors.Face
           }
-          else if(data.activityType=='Online'){
-            actColor=colors.Online
+          else if (data.activityType == 'Online') {
+            actColor = colors.Online
           }
-          else if(data.activityType=='Phone Call'){
-            actColor=colors.Phone
+          else if (data.activityType == 'Phone Call') {
+            actColor = colors.Phone
           }
           return {
             start: new Date(data.planDate),
-            end:  new Date(data.dueDate),
+            end: new Date(data.planDate),
             title: data.activityTitle + "( " + data.activityType + " )",
             color: actColor,
-            meta:data.activityNo,
+            meta: data.activityNo,
             actions: this.actions,
           }
         })
-        console.log(" this.EventData",  this.EventData)
+        console.log(" this.EventData", this.EventData)
         this.events = this.EventData
         this.eventNumber = this.events.length
         this.refresh.next();
@@ -232,7 +234,7 @@ export class MycalendarComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
-  getColor(event:any){
-    return event.color?.primary 
+  getColor(event: any) {
+    return event.color?.primary
   }
 }

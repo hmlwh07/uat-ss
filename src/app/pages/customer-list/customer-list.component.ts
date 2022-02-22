@@ -50,9 +50,11 @@ export class CustomerListComponent implements OnInit {
       this.displayedColumns.splice(9, 1)
     }
     this.show = true
+    
+  }
+  ngAfterViewInit() {
     this.getList();
   }
-
   loadForm() {
     this.customerForm = new FormGroup({
       "name": new FormControl(null),

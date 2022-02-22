@@ -19,7 +19,8 @@ import { ProductDataService } from "../products/services/products-data.service";
 import { MY_FORMATS } from "../../core/is-json";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CustomerListComponent } from "../customer-list/customer-list.component";
-
+import { map } from 'rxjs/operators';
+import { forkJoin, catchError, of } from 'rxjs';
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -57,11 +58,24 @@ export class LeadListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.show = true
+  }
+  ngAfterViewInit() {
+    this.getMaster()
     this.getList();
-    this.getStatus();
-    this.getSource();
-    this.getProduct()
-
+  }
+  getMaster() {
+    forkJoin([
+      this.getStatus(),
+      this.getSource(),
+      this.getProduct(),
+    ]).toPromise().then((res: any) => {
+      if (res) {
+        this.statusOption = res[0]
+        this.sourceOption = res[1]
+        this.productOption = res[2]
+        this.cdf.detectChanges()
+      }
+    })
   }
   loadForm() {
     this.LeadForm = new FormGroup({
@@ -89,49 +103,63 @@ export class LeadListComponent implements OnInit {
     });
   }
   getStatus() {
-    this.masterDataService
-      .getDataByType("LEAD_STATUS")
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.statusOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
-          });
-          console.log(this.statusOption);
-          this.cdf.detectChanges();
-        }
-      });
+    return this.masterDataService
+      .getDataByType("LEAD_STATUS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+        return of([])
+      }))
+    // this.masterDataService
+    //   .getDataByType("LEAD_STATUS")
+    //   .toPromise()
+    //   .then((res: any) => {
+    //     console.log(res);
+    //     if (res) {
+    //       this.statusOption = res.map((x) => {
+    //         return { code: x.codeId, value: x.codeName };
+    //       });
+    //       console.log(this.statusOption);
+    //       this.cdf.detectChanges();
+    //     }
+    //   });
+
+
   }
   getSource() {
-    this.masterDataService
-      .getDataByType("LEAD_SOURCE")
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.sourceOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
-          });
-          console.log(this.sourceOption);
-          this.cdf.detectChanges();
-        }
-      });
+
+    return this.masterDataService
+      .getDataByType("LEAD_SOURCE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+        return of([])
+      }))
+    // this.masterDataService
+    //   .getDataByType("LEAD_SOURCE")
+    //   .toPromise()
+    //   .then((res: any) => {
+    //     console.log(res);
+    //     if (res) {
+    //       this.sourceOption = res.map((x) => {
+    //         return { code: x.codeId, value: x.codeName };
+    //       });
+    //       console.log(this.sourceOption);
+    //       this.cdf.detectChanges();
+    //     }
+    //   });
   }
   getProduct() {
-    this.productService
-      .getAll()
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.productOption = res.map((x) => {
-            return { code: x.id, value: x.name };
-          });
-          console.log(this.productOption);
-          this.cdf.detectChanges();
-        }
-      });
+    return this.productService.getAll().pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
+    // this.productService
+    //   .getAll()
+    //   .toPromise()
+    //   .then((res: any) => {
+    //     console.log(res);
+    //     if (res) {
+    //       this.productOption = res.map((x) => {
+    //         return { code: x.id, value: x.name };
+    //       });
+    //       console.log(this.productOption);
+    //       this.cdf.detectChanges();
+    //     }
+    //   });
   }
 
   getList() {
@@ -146,7 +174,11 @@ export class LeadListComponent implements OnInit {
         }
       });
   }
-
+  getFormatOpt(res) {
+    return res.map(x => {
+      return { 'code': x.codeId || x.id, 'value': (x.codeName || x.codeValue) || x.name }
+    })
+  }
   get selected() {
     let user;
     if (this.matTable) {

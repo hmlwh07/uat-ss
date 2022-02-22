@@ -64,6 +64,9 @@ export class ActivityManagementListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   
+  }
+  ngAfterViewInit() {
     this.getList()
   }
 
