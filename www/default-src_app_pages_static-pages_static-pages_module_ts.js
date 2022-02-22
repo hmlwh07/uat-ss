@@ -2664,7 +2664,7 @@ let EndoComponent = class EndoComponent {
             let pageUI = JSON.parse(this.product.config);
             // console.log("pageUI",pageUI);
             let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || [];
-            let parent = pageOrder.find(page => page.tableName == 'endo_detail');
+            let parent = pageOrder.find(page => page.tableName == "endo_detail");
             if (parent) {
                 return this.globalFun.tempFormData[parent.tableName + parent.id] || null;
             }
@@ -2797,7 +2797,7 @@ let EndoRateService = class EndoRateService extends _core_biz_operation_service_
         this.httpClient = httpClient;
     }
     getMany(term) {
-        return this.httpClient.get(API_ENDO_RATE_URL + "?policyTerm=" + term);
+        return this.httpClient.get(API_ENDO_RATE_URL + "s?policyTerm=" + term);
     }
 };
 EndoRateService.ctorParameters = () => [
