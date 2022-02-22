@@ -193,11 +193,11 @@
                     <td class="text-left">{{ data.agentName }}</td>
                     <td class="text-left">{{ data.branchName }}</td>
                     <td class="text-left">{{ data.activityName }}</td>
-                    <td class="text-right">{{ data.weekActualAgainstTarge | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.weekConversionToProspect | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.weekConversionToPreviousStage | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.weekExpectedTargetConversion | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.weekExpectedTargetConversionToProspects | number:'1.2-2' || 0.00 }}
+                    <td class="text-right">{{ (data.weekActualAgainstTarge || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.weekConversionToProspect || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.weekConversionToPreviousStage || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.weekExpectedTargetConversion || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.weekExpectedTargetConversionToProspects || 0) | number:'1.2-2' }}
                     </td>
                 </tr>
             </table>

@@ -192,11 +192,11 @@
                     <td class="text-left">{{ data.agentName }}</td>
                     <td class="text-left">{{ data.branchName }}</td>
                     <td class="text-left">{{ data.activityName }}</td>
-                    <td class="text-right">{{ data.monthActualAgainstTarge | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.monthConversionToProspect | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.monthConversionToPreviousStage | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.monthExpectedTargetConversion | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ data.monthExpectedTargetConversionToProspects | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ (data.monthActualAgainstTarge || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.monthConversionToProspect || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.monthConversionToPreviousStage || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.monthExpectedTargetConversion || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (data.monthExpectedTargetConversionToProspects || 0) | number:'1.2-2' }}</td>
                 </tr>
             </table>
         </div>
