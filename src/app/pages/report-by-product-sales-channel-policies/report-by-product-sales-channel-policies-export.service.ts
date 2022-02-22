@@ -58,7 +58,6 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
     const params = new HttpParams({
       fromObject: searchValue
     });
-    console.log('params =====> ', params);
     return this.httpClient.get(API_ADDON_URL, { params: params });
   }
 

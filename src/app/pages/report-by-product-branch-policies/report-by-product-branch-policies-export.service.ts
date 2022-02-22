@@ -222,7 +222,6 @@ export class ReportProductBranchPoliciesExportService extends BizOperationServic
     let startTotalIndex: number = 0;
     for (var i = 0; i < totalValue.length; i++) {
       let start = this.calculateTotalPoint(startTotalIndex, branchDataForExcel.length);
-      console.log('startTotalIndex =====> ', start);
       startTotalIndex += 1;
       let totalCell = worksheet.getCell(start);
       totalCell.value = totalValue[i];
@@ -232,6 +231,9 @@ export class ReportProductBranchPoliciesExportService extends BizOperationServic
         bold: true
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
+      if (startTotalIndex > 2) {
+        totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+      }
     }
 
     worksheet.columns.forEach(function (column, i) {

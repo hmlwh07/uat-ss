@@ -71,8 +71,6 @@ export class ReportDetailByAgentComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('getAllReportData', res);
-
         if (res) {
           if (res.products.length > 0) {
             for (var i = 0; i < res.products.length; i++) {
@@ -127,7 +125,6 @@ export class ReportDetailByAgentComponent implements OnInit {
   }
 
   generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
     this.productValues = []
     this.subHeader = [];
     this.dataExcel = [];
@@ -180,9 +177,6 @@ export class ReportDetailByAgentComponent implements OnInit {
       subHeader: this.subHeader,
       data: this.dataExcel
     }
-
-    console.log('this.productValues =====> ', this.productValues);
-
     this.exportService.exportExcel(reportData);
   }
 
@@ -211,12 +205,10 @@ export class ReportDetailByAgentComponent implements OnInit {
   }
 
   async changeOptions(ev, type) {
-    console.log('type', type, 'ev', ev);
     if (type == 'company') {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -354,9 +346,6 @@ export class ReportDetailByAgentComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

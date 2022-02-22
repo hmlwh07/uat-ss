@@ -118,9 +118,6 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
        bold: true
      }
      reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
-   
-
-    console.log('searchValue', searchValue);
 
     // Display search name   
     if (searchValue.length > 0) {

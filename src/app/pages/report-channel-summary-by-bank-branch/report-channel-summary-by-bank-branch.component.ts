@@ -77,13 +77,9 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
       this.displayList[0].policies = [];
       this.displayList[0].premium = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('channelSummaryReport', res);
-
         if (res) {
           this.reports = res;
           this.displayList[0].particular.push({ id: null, channel: 'Particular' });
-          console.log('res.channels =====> ', res.channels);
-
           // add header
           if (res.channels) {
             res.channels = [...new Map(res.channels.map(item => [item.id, item])).values()];
@@ -159,8 +155,6 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
         }
       });
     }
-    console.log('displayList', this.displayList);
-
     this.cdf.detectChanges();
   }
 
@@ -238,7 +232,6 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -376,9 +369,6 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

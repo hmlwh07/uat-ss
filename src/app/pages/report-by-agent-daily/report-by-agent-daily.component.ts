@@ -72,16 +72,12 @@ export class ReportByAgentDailyComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('summaryReportByBranchForDaily', res);
-
         if (res) {
           if (res.headerColumnList.length > 0) {
             for (var i = 0; i < res.headerColumnList.length; i++) {
               this.productList.push(res.headerColumnList[i]);
             }
-          }
-
-          //res.dataList = (a, b) => a.agentName.toLowerCase() > b.agentName.toLowerCase() ? 1 : -1;
+          }         
 
           if (res.dataList.length > 0) {
             this.isData = true;
@@ -135,7 +131,6 @@ export class ReportByAgentDailyComponent implements OnInit {
   }
 
   generateReportExcel() {
-    console.log('generateReportExcel ', this.reports);
     this.productValues = [];
     this.subHeader = [];
     this.dataExcel = [];
@@ -186,9 +181,6 @@ export class ReportByAgentDailyComponent implements OnInit {
       subHeader: this.subHeader,
       data: this.dataExcel
     }
-
-    console.log('this.productValues =====> ', this.productValues);
-
     this.exportService.exportExcel(reportData);
   }
 
@@ -221,7 +213,6 @@ export class ReportByAgentDailyComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -359,9 +350,6 @@ export class ReportByAgentDailyComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

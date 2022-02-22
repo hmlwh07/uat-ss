@@ -83,7 +83,6 @@ export class ReportKeyDriverComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('keyDriver', res);
         if (res) {
           this.keyDriver = res
           if (res.productsList.length > 0) {
@@ -252,7 +251,6 @@ export class ReportKeyDriverComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -390,9 +388,6 @@ export class ReportKeyDriverComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

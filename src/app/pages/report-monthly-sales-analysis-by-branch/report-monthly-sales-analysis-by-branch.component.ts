@@ -79,7 +79,6 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('monthlySalesAnalysis', res);
         if (res.monthlydataList.length > 0) {
           this.isData = true;
           for (var i = 0; i < res.monthlydataList.length; i++) {
@@ -265,7 +264,6 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
 
   generateReportExcel() {
     this.dataExcel = [];
-    console.log('generateReportExcel ', this.reports);
     this.productValues = ['Agent Name', 'Branch Name',
       'Activities', 'Month Actual against Target',
       'Month Conversion to Prospect', 'Month Conversion to Previous Stage',
@@ -334,7 +332,6 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -472,9 +469,6 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {

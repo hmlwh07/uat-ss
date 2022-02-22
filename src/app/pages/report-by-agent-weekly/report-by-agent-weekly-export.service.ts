@@ -101,8 +101,6 @@ export class ReportAgentWeeklyExportService extends BizOperationService<any, num
      }
      reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
    
-
-    console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {

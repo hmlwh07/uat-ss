@@ -89,19 +89,17 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
-     //Reported By:
-     worksheet.mergeCells('G2', 'G2');
-     let reportBy = worksheet.getCell('G2');
-     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
-     reportBy.font = {
-       name: 'Calibri',
-       size: 10,    
-       bold: true
-     }
-     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
-   
+    //Reported By:
+    worksheet.mergeCells('G2', 'G2');
+    let reportBy = worksheet.getCell('G2');
+    reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+    reportBy.font = {
+      name: 'Calibri',
+      size: 10,
+      bold: true
+    }
+    reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
 
-    console.log('searchValue', searchValue);
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -186,13 +184,11 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
       dataCell.alignment = { vertical: 'middle', horizontal: 'center' }
     }
 
-
-    console.log('data =====> ', data);
     // Adding Data with Conditional Formatting
     data.forEach(d => {
       let row = worksheet.addRow(d);
       let no = row.getCell(1);
-      if (no) { 
+      if (no) {
         no.alignment = { vertical: 'middle', horizontal: 'left' }
       }
       let index = 0;
@@ -212,7 +208,7 @@ export class ReportAgentDailyExportService extends BizOperationService<any, numb
         }
 
         if (index > 3) {
-          let center = row.getCell(index);         
+          let center = row.getCell(index);
           center.numFmt = '#,##0.00_);(#,##0.00)';
         }
       });
