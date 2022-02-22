@@ -15290,7 +15290,7 @@ let ActivityManageService = class ActivityManageService extends _core_biz_operat
         this.httpClient = httpClient;
     }
     getActivityList(search = {}) {
-        let url = API_ADDON_URL + "?";
+        let url = API_ADDON_URL + "?isTeam=true";
         if (search.type) {
             url = url + "type=" + search.type + "&";
         }
