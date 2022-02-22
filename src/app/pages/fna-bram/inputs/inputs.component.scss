@@ -1,7 +1,6 @@
 .inputs-aside {
     width: 30%;
     overflow: hidden;
-   
 }
 
 button {
@@ -10,7 +9,7 @@ button {
     color: #fff;
 }
 
-.menu-aside{
+.menu-aside {
     button {
         width: 100%;
         border-radius: unset;
@@ -19,5 +18,13 @@ button {
     }
 }
 
-
-
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    .input-main {
+        width: 100%;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        .input-sub {
+            min-width: 420px;
+        }
+    }
+}

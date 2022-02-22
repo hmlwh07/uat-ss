@@ -89,7 +89,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
             for (var i = 0; i < this.dataList.length; i++) {
               let list = [];
               for (var j = 0; j < this.productsHeader.length; j++) {
-                list.push({ id: this.productsHeader[j].id, noOfPolicy: 0 });
+                list.push({ id: this.productsHeader[j].id, noOfPolicy: 0.00 });
               }
               countNo += 1;
               this.dataList[i].no = countNo;
