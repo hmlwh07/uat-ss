@@ -13,8 +13,7 @@
 }
 
 .user-image{
-  width: 100px;
-  margin-bottom: 15px;
+  width: 120px;
 }
 
 .user-icon {
@@ -56,6 +55,14 @@
 
 .float-right {
   float: right;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.my-p-15{
+  padding: 40px 15px 15px 15px;
 }
 
 .my-profile-card {
@@ -122,10 +129,24 @@
 }
 
 .my-card {
+  //max-height: calc(100vh - 215px);
+  //min-height: 530px;
+  overflow-y: auto;
+  background-color: #FFF !important;
+  border : 1px solid lightgrey !important;
+  margin : 5px;
+}
+
+.my-card-fixed-height {
   max-height: calc(100vh - 215px);
   min-height: 530px;
   overflow-y: auto;
+  background-color: #FFF !important;
+  border : 1px solid lightgrey !important;
+  margin : 5px;
 }
+
+
 
 .card-50 {
   height: 230px;

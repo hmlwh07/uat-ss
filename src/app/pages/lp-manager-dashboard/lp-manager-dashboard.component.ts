@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -51,7 +51,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   actForm: FormGroup;
   leadObj : any;
   id: any;
-  constructor(private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
+
+  constructor(private cdf: ChangeDetectorRef,private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
     this.route.queryParams.subscribe(async params => {
       this.id = JSON.parse(params.empId);
       this.loadForm();
@@ -73,7 +74,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   getList() {
     this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
       if (res) {
-        this.data = res
+        this.data = res;
+        this.cdf.detectChanges();
       }
     })
   }
@@ -81,8 +83,9 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   getLeadList() {
     this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res) => {
       if (res) {
-        this.leadObj = res
+        this.leadObj = res;
         this.setChartOptions();
+        this.cdf.detectChanges();
       }
     })
   }

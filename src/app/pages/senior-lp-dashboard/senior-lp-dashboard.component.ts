@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -46,7 +46,7 @@ export type ChartOptions = {
 export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  data: any;
+  data: any = {};
   authObj: any;
   actForm: FormGroup;
   // leadObj = {
@@ -61,7 +61,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
 
   unsub: any;
 
-  constructor(public auth: AuthService, private dashboardService: DashboardService,private router : Router
+  constructor(private cdf: ChangeDetectorRef,private auth: AuthService, private dashboardService: DashboardService,private router : Router,private ngzone : NgZone
   ) {
     this.unsub = this.auth.currentUserSubject.subscribe((res) => {
       if (res) {
@@ -85,10 +85,12 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   }
 
   getList() {
-    this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.data = res
-      }
+    this.ngzone.run(_=>{
+      this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.data = res;
+          this.cdf.detectChanges();        }
+      })
     })
   }
 
@@ -97,6 +99,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
       if (res) {
         this.leadObj = res
         this.setChartOptions();
+        this.cdf.detectChanges();
       }
     })
   }
