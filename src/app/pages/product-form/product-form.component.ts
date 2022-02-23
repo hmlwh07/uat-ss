@@ -855,7 +855,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       if (this.referenceStatus == "in_progress") {
         let postData = {
           "resourceId": this.referenceID,
-          "type": this.prodService.viewType,
+          "type": 'quotation',
           "status": "complete"
         }
         this.pageDataService.updatePremimun(postData).toPromise().then((res) => {
