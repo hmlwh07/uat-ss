@@ -125,7 +125,7 @@ export class CurrencyExChangeComponent implements OnInit {
         if (index >= 0) {
           this.currencyList.splice(index, 1)
           this.matTable.reChangeData()
-
+          this.alertService.activate('This record was deleted', 'Success Message');
         }
       }
     })
