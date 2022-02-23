@@ -1,50 +1,44 @@
 <div class="row my-row" *ngIf="data">
   <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5">
     <div class="card card-custom my-card">
-      <div class="card-header card-50">
-        <div class="card-title my-card-title">
-          <div class="my-center">
-            <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
-            <br>
-            <label class="text-dark center">{{ data?.agentInfo?.employeeName }}</label><br>
-            <label class="text-dark center">S00012 (LP) </label>
-          </div>
+      <div class="flex">
+        <div class="my-center">
+          <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
+        </div>
+        <div class="my-p-15">
+          <label class="text-dark center">{{ data?.agentInfo?.employeeName }}</label><br>
+          <label class="text-dark center">S00012 (LP)</label>
         </div>
       </div>
-      <div class="card-body customer-card-body card-50" style="margin-top: 10px;">
-        <div class="row my-row mb-5">
-          <div class="col-10">
-            <label>Premium {{ data?.yearlyTotalPremium?.year }} {{ data?.agentInfo?.branchName }}</label>
-          </div>
-          <div class="col-2">
-            <img src="./assets/images/alert.png" class="icon-image" alt="" />
-          </div>
+    </div>
+    <div class="card card-custom my-card">
+      <div class="row my-row">
+        <div class="col-12 my-p-10">
+          <h6 class="card-label left-border-image">My Acievement</h6>
         </div>
-
-        <div class="mb-5">
-          <label style="padding-left: 50px;"><span class="font-weight-bolder text-dark center font-24">
-              {{ data?.agentInfo?.totalPremium }}
-            </span>
-            <span><sup>MMk</sup></span></label>
+        <div class="col-10">
+          <label class="primary-color">Premium - {{ data?.yearlyTotalPremium[0]?.year }} {{ months[currentMonthIndex] }}
+            : {{ data?.agentInfo?.totalPremium }} <span>MMk</span>
+          </label>
         </div>
-        <div>
+      </div>
+      <div id="chart">
+        <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [dataLabels]="chartOptions?.dataLabels"
+          [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis"
+          [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
+      </div>
+      <div>
+        <ng-container *ngFor="let product of data?.yearlyProductPremium">
           <div class="row my-row">
-            <div class="col-12">
-              <label class="font-weight-bolder text-dark underline">Products</label>
-            </div>
+            <div class="col-6">{{ product.productName }}</div>
+            <div class="col-6 text-right">{{ product.premium }} MMK</div>
           </div>
-          <ng-container *ngFor="let product of data?.yearlyProductPremium;">
-            <div class="row my-row">
-              <div class="col-6">{{ product.productName }}</div>
-              <div class="col-6">: {{ product.premium }} MMK</div>
-            </div>
-          </ng-container>
-        </div>
+        </ng-container>
       </div>
     </div>
   </div>
   <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5">
-    <div class="card card-custom my-card">
+    <div class="card card-custom my-card my-card-fixed-height">
       <div class="my-p-10">
         <div class="my-center"><span class="bold">Recent Operations</span></div>
       </div>
@@ -57,7 +51,7 @@
         <div>
           <ng-container *ngFor="let q of recentObj?.quotations | slice:0:1">
             <div class="lp-dashboard-box-body">
-              <div class="bold">{{ q.productName  }}</div>
+              <div class="bold">{{ q.productName }}</div>
               <div><span> {{ q.customerName }} </span>
                 <span class="pl-10">{{ q.status }}</span>
               </div>
@@ -71,7 +65,7 @@
         <div>
           <ng-container *ngFor="let p of recentObj?.policies | slice:0:1">
             <div class="lp-dashboard-box-body">
-              <div class="bold">{{ p.productName  }}</div>
+              <div class="bold">{{ p.productName }}</div>
               <div><span> {{ p.customerName }} </span>
                 <span class="pl-10">{{ p.status }}</span>
               </div>
@@ -86,7 +80,7 @@
         <div>
           <ng-container *ngFor="let c of campaignArray | slice:0:1">
             <div class="lp-dashboard-box-body">
-              <div class="bold">- {{ c.campaignName  }}</div>
+              <div class="bold">- {{ c.campaignName }}</div>
               <div>
                 <span>{{ c.status }}</span>
               </div>
@@ -98,7 +92,7 @@
     </div>
   </div>
   <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5">
-    <div class="card card-custom my-card">
+    <div class="card card-custom my-card my-card-fixed-height">
       <div class="my-p-10">
         <div class="my-center"><span class="bold">Things to Follow Up</span></div>
       </div>
@@ -164,7 +158,6 @@
           </ng-container>
         </div>
       </div>
-
     </div>
   </div>
 </div>
