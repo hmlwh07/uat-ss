@@ -38,7 +38,7 @@ export class CurrencyExChangeComponent implements OnInit {
   loadForm(){
     this.exchangeForm = new FormGroup({
       date: new FormControl(null),
-      currency: new FormControl(null),
+      currency: new FormControl('usd'),
     })
   }
 

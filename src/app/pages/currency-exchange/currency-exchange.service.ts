@@ -20,12 +20,13 @@ export class CurrencyExchangeService extends BizOperationService<CurrencyExchang
     super(httpClient, API_CURRENCY_URL);
   }
   getList(search: any = {}) {
-    let url = API_CURRENCY_URL + "?"
+    let url = API_CURRENCY_URL2 + "/usd?"
     if (search.date) {
       url = url + "date=" + moment(search.date).format("YYYY-MM-DD") + "&"
-    } if (search.currency) {
-      url = url + "currency=" + search.currency + "&"
-    }
+    } 
+    // if (search.currency) {
+    //   url = url + "currency=" + search.currency + "&"
+    // }
     console.log(url);
     return this.httpClient.get(url)
   }

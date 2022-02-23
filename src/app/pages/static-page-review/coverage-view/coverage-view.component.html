@@ -9,7 +9,7 @@
       <table class="table table-head-custom table-vertical-center">
         <thead>
           <tr>
-            <th>
+            <th style="text-align: left;">
               Basic Coverage
             </th>
             <th *ngIf="coverage.sumInsured" style="text-align: right;">
@@ -26,7 +26,7 @@
         <tbody class="tbody-align">
           <ng-container *ngFor="let coverage of product.coverages;let i = index">
             <tr *ngIf="coverageData[coverage.id]">
-              <td>{{coverage.description}}</td>
+              <td style="text-align: left;">{{coverage.description}}</td>
               <td *ngIf="coverage.sumInsured">
                 <!-- <ng-container *ngIf="coverageData[coverage.id]"> -->
                 {{coverageData[coverage.id].sum > 0 ? (coverageData[coverage.id].sum | number) :
