@@ -151,10 +151,9 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
+                <div class="date-display">
                     <span *ngIf="createFormGroup.value.fromDate">From Date: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     <span *ngIf="createFormGroup.value.toDate">To Date: {{
                         formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
                 </div>
@@ -175,19 +174,20 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr style="border-top: 1px solid #000;">
-                    <th>No.</th>
+                    <th style="min-width: 50px;">No.</th>
                     <th>Month</th>
                     <th *ngFor="let product of productsHeader; let i = index">{{ product.name }}</th>
                 </tr>
                 <tr style="border-top: 1px solid #000;" *ngFor="let data of dataList; let i = index">
                     <td>{{ data.no }}</td>
-                    <td>{{ data.month }}</td>
-                    <td *ngFor="let product of dataList[i].productDataList; let j = index">
-                        {{ product.noOfPolicy }}
+                    <td class="text-left">{{ data.month }}</td>
+                    <td class="text-right" *ngFor="let product of dataList[i].productDataList; let j = index">
+                        {{ product.noOfPolicy | number:'1.2-2' || 0.00 }}
                     </td>
                 </tr>
             </table>

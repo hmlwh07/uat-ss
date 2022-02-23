@@ -30,11 +30,11 @@ export class CurrencyExChangeComponent implements OnInit {
 
   ngOnInit() {
     this.loadForm()
+  }
+  ngAfterViewInit(){
+   
     this.getData()
   }
-  // ngAfterViewInit(){
-  //   this.getData()
-  // }
   loadForm(){
     this.exchangeForm = new FormGroup({
       date: new FormControl(null),

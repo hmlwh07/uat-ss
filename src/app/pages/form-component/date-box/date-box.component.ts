@@ -7,9 +7,10 @@ import * as moment from 'moment'
 import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomDateParserFormatter } from '../../../_metronic/core';
 import { ProductDataService } from '../../products/services/products-data.service';
-import { MAT_DATE_FORMATS,DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../../core/is-json';
+import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';
 
 @Component({
   selector: 'app-date-box',
@@ -19,8 +20,8 @@ import { MY_FORMATS } from '../../../core/is-json';
     { provide: NgbDateAdapter, useClass: CustomAdapter },
     { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
     // { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
 export class DateBoxComponent implements Field, OnInit, OnDestroy {
@@ -38,7 +39,8 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
   }
   constructor(
     private globalFun: GlobalFunctionService,
-    private prodService: ProductDataService
+    private prodService: ProductDataService,
+    private alert: AlertService,
   ) { }
   isDisabled: boolean = false
   ngOnInit() {
@@ -74,11 +76,21 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
         else if ((iterator.type == ValidationType.MAX) && iterator.isAge) {
           let toDate = moment().subtract(iterator.value, `years`)
           this.fromMinDate = toDate.format('YYYY-MM-DD')
+          let defVal = this.group.controls[this.config.name].value
           // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+          // if (moment(defVal) < moment(this.fromMinDate)) {
+          //   this.alert.activate(iterator.message, "Validation")
+          //   this.group.controls[this.config.name].setValue(null)
+          // }
         }
         else if (iterator.type == ValidationType.MIN && iterator.isAge) {
           let toDate = moment().subtract(iterator.value, `years`)
           this.fromMaxDate = toDate.format('YYYY-MM-DD')
+          let defVal = this.group.controls[this.config.name].value
+          // if (moment(defVal) > moment(this.fromMaxDate)) {
+            // this.alert.activate(iterator.message, "Validation")
+            // this.group.controls[this.config.name].setValue(null)
+          // }
           // this.fromMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
         }
       }
@@ -91,19 +103,21 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
           this.toMinDate = toDate.format('YYYY-MM-DD')
           // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
           // this.toMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-        } else if (prod.isAllowBackDate == '30days') {
-          let toDate = moment().subtract(30, `days`)
-          this.fromMinDate = toDate.format('YYYY-MM-DD')
-          // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-          this.toMinDate = toDate.format('YYYY-MM-DD')
-          // this.toMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        } else if (prod.isAllowBackDate == 'yes') {
+          if (prod.allowDays > 0) {
+            let toDate = moment().subtract(prod.allowDays, `days`)
+            this.fromMinDate = toDate.format('YYYY-MM-DD')
+            // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+            this.toMinDate = toDate.format('YYYY-MM-DD')
+            // this.toMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+          }
         }
         this.listenValid()
       }
 
     }
     // console.log(this.toMinDate,this.fromMinDate,this.fromMaxDate,this.toMaxDate);
-    
+
 
   }
 
@@ -116,7 +130,7 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
   doFunction() {
     if (this.config.isFun) {
       if (this.config.inpFunction.type == FUNCTION_TYPE.TRIGGER) {
-        this.globalFun[this.config.inpFunction.funName](this.group.getRawValue()[this.config.name],this.group.getRawValue())
+        this.globalFun[this.config.inpFunction.funName](this.group.getRawValue()[this.config.name], this.group.getRawValue())
       }
     }
   }

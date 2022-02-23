@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { getFileReader } from '../../../core/get-file-reader';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
 import { AttachmentUploadService } from '../../../_metronic/core/services/attachment-data.service';
 import { Product } from '../models/product.dto'
@@ -55,6 +56,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
       type: [this.oldData.type || 'GENERAL', Validators.compose([Validators.required, Validators.nullValidator])],
       stamDuty: [this.oldData.stamDuty || false, Validators.compose([Validators.required, Validators.nullValidator])],
       isAllowBackDate: [this.oldData.isAllowBackDate || null, Validators.compose([Validators.required, Validators.nullValidator])],
+      allowDays: [this.oldData.allowDays || null],
       ruleDate: [this.oldData.quotationDay || null, Validators.compose([Validators.required, Validators.nullValidator])],
       ruleType: [this.oldData.quotationRule || null, Validators.compose([Validators.required, Validators.nullValidator])],
       policyDay: [this.oldData.policyDay || null, Validators.compose([Validators.required, Validators.nullValidator])],
@@ -82,6 +84,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
         application: false,
         quotation: false,
         isAllowBackDate: formData.isAllowBackDate,
+        allowDays: formData.isAllowDays,
         stamDuty: formData.stamDuty,
         statusCd: formData.statusCd
       }
@@ -141,7 +144,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
     if (event) {
       const file = event.target.files[0];
       console.log(file);
-      const reader = new FileReader();
+      const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         // console.log(reader);

@@ -5,6 +5,7 @@ import * as fs from 'file-saver';
 import { map, Observable } from 'rxjs';
 import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from '../../..//environments/environment';
+import { AuthService } from '../../../app/modules/auth';
 
 const API_ADDON_URL = `${environment.apiUrl}/reportByAgentAll`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
@@ -23,7 +24,7 @@ const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
   providedIn: 'root'
 })
 export class ReportDetailAgentExportService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient, private authService: AuthService) {
     super(httpClient, API_ADDON_URL);
   }
 
@@ -89,9 +90,19 @@ export class ReportDetailAgentExportService extends BizOperationService<any, num
       bold: true,
       color: { argb: '0085A3' }
     }
-    titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
-
-    console.log('searchValue', searchValue);
+    titleRow.alignment = { vertical: 'middle', horizontal: 'left' }   
+   
+     //Reported By:
+     worksheet.mergeCells('G2', 'G2');
+     let reportBy = worksheet.getCell('G2');
+    reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+    reportBy.font = {
+      name: 'Calibri',
+      size: 10,    
+      bold: true
+    }
+    reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
+  
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -104,7 +115,7 @@ export class ReportDetailAgentExportService extends BizOperationService<any, num
         if (searchValue[i].toDate) {
           cellIndex = 'F2';
           cellIndexValue = 'To Date: ' + searchValue[i].toDate;
-        }
+        }       
         if (searchValue[i].companyName) {
           cellIndex = 'L1';
           cellIndexValue = 'Company: ' + searchValue[i].companyName;
@@ -202,6 +213,11 @@ export class ReportDetailAgentExportService extends BizOperationService<any, num
           if (center) {
             center.alignment = { vertical: 'middle', horizontal: 'center' }
           }
+        }
+
+        if (index > 5) {
+          let center = row.getCell(index);
+          center.numFmt = '#,##0.00_);(#,##0.00)';
         }
       });
     }

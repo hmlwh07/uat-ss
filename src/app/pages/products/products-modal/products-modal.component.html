@@ -48,7 +48,7 @@
             <mat-radio-group formControlName="isAllowBackDate">
               <mat-radio-button class="example-margin" value="no">No</mat-radio-button>
               <mat-radio-button class="example-margin" value="yes">Yes</mat-radio-button>
-              <mat-radio-button class="example-margin" value="30days">Yes and max 30 days</mat-radio-button>
+              <!-- <mat-radio-button class="example-margin" value="30days">Yes and max 30 days</mat-radio-button> -->
             </mat-radio-group>
           </div>
         </div>
@@ -66,6 +66,15 @@
           </div>
         </div>
 
+      </div>
+      <div class="row" *ngIf="formGroup.value.isAllowBackDate == 'yes'">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="form-label">Rule Days</label>
+            <input type="number" class="form-control form-control-sm" name="allowDays" placeholder="Days"
+              autocomplete="off" formControlName="allowDays" />
+          </div>
+        </div>
       </div>
 
 

@@ -27,16 +27,17 @@ export class EndoComponent implements OnInit {
   @Input() resourcesId: string
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   parentData: any
+  parentData2: any
   premimuRate = {
-    "9opt": 5,
-    "11opt": 7,
-    "14opt": 10,
+    "5opt": 5,
+    "7opt": 7,
+    "10opt": 10,
   }
   frequency = {
-    monthly: 1,
+    monthly: 12,
     quarterly: 4,
     semi_annually: 6,
-    annually: 12,
+    annually: 1,
   }
   lists: number[] = []
   currentAge: number
@@ -62,14 +63,16 @@ export class EndoComponent implements OnInit {
 
   ngOnInit(): void {
     this.parentData = this.getParnet()
+    this.parentData2 = this.getParnet(true)
     if (!this.parentData) {
-      this.alertService.activate("This page cann't to show because there is no education life product detail data. Please add education life product detail in rodcut configuration", "Warning")
+      this.alertService.activate("This page cann't to show because there is no endowment product detail data. Please add endowment product detail in prodcut configuration", "Warning")
     } else {
 
       this.getRateValue().pipe(switchMap((res) => {
         if (!res[0] || !res[1]) throw res
         return of({ premium: res[0], surrend: res[1] })
       })).toPromise().then((res) => {
+        console.log(res);
 
         if (res) {
           this.premiumRate = res.premium
@@ -95,7 +98,7 @@ export class EndoComponent implements OnInit {
         resourceId: this.resourcesId,
         endOfPolicyYear: x,
         age: this.currentAge + i,
-        premiumPaid: this.premimuRateNum >= x ? this.calculatePre(this.currentAge + i, x) : 0,
+        premiumPaid: this.premimuRateNum >= x ? this.calculatePre(this.currentAge , x) : 0,
         benefit: this.sumInsured,
         surrenderValue: this.calculateSur(x),
         policyLoan: this.calculateSur(x) * 0.9
@@ -121,10 +124,12 @@ export class EndoComponent implements OnInit {
   getcalculateData() {
     let policyTerm: any = this.globalFun.paPolicyValidationResult.value
     let policyTermValue = policyTerm.validationValue
+    console.log(policyTermValue, policyTerm);
+
     this.premimuRateNum = this.premimuRate[policyTermValue + "opt"]
     this.policyTermCode = this.parentData['policy_term']
     this.sumInsured = this.parentData['sum_insured']
-    let dob = this.parentData['date_of_birth']
+    let dob = this.parentData2['date_of_birth']
     this.currentAge = Math.ceil(moment().diff(dob, 'years', true));
     let paymentFrequency = this.parentData['payment_frequency']
     this.frequencyValue = this.frequency[paymentFrequency]
@@ -132,11 +137,17 @@ export class EndoComponent implements OnInit {
     return true
   }
 
-  getParnet() {
+  getParnet(life?: boolean) {
     if (IsJsonString(this.product.config)) {
       let pageUI: ProductPages = JSON.parse(this.product.config);
+      // console.log("pageUI",pageUI);
       let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
-      let parent = pageOrder.find(page => page.unitCode == 'endo_detail_2022215')
+      let parent: any = {}
+      if (life)
+        parent = pageOrder.find(page => page.tableName == "life_insured_endow")
+      else
+        parent = pageOrder.find(page => page.tableName == "endo_detail")
+
       if (parent) {
         return this.globalFun.tempFormData[parent.tableName + parent.id] || null
       }
@@ -147,25 +158,25 @@ export class EndoComponent implements OnInit {
 
   calculatePre(age: number, year: number): number {
     // console.log();
-    let tempRate = 15.5
-    let rate = this.premiumRate.find(x => x.age == age)
+    let tempRate = 0
+    let rate = this.premiumRate.find(x => x.formAge <= age && x.toAge >= age)
     if (rate) {
       tempRate = rate.rate
     }
     // this.frequencyValue
     let monthly = ((tempRate / 1000) * this.sumInsured)
     if (year == 1) {
-      console.log(this.frequencyValue);
-      let tempPre = (this.globalFun.calculateDecimal(monthly * this.frequencyValue) + 1500)
+      let tempPre = (this.globalFun.calculateDecimal(monthly / this.frequencyValue))
+      tempPre = this.globalFun.calculateDecimal(tempPre + ((monthly) * 0.0003))
       this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / " + this.parentData['payment_frequency']
       this.globalFun.paPremiumResult.next(this.premiumAmt)
     }
-    return this.globalFun.calculateDecimal(monthly * 12) * year
+    return this.globalFun.calculateDecimal(monthly) * year
   }
 
   calculateSur(year: number): number {
     let tempRate = 10
-    let rate = this.surrendRate.find(x => x.year == year)
+    let rate = this.surrendRate.find(x => x.premiumPaidYear == year)
     if (rate) {
       tempRate = rate.rate
       let surrend = (tempRate / 100) * this.sumInsured

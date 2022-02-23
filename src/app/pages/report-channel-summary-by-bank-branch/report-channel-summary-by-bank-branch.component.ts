@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportChannelSummaryBankBranchExportService } from './report-channel-summary-by-bank-branch-export.service';
@@ -76,13 +77,9 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
       this.displayList[0].policies = [];
       this.displayList[0].premium = [];
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('channelSummaryReport', res);
-
         if (res) {
           this.reports = res;
           this.displayList[0].particular.push({ id: null, channel: 'Particular' });
-          console.log('res.channels =====> ', res.channels);
-
           // add header
           if (res.channels) {
             res.channels = [...new Map(res.channels.map(item => [item.id, item])).values()];
@@ -104,7 +101,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
               this.displayList[0].policies.push(
                 {
                   id: this.displayList[0].particular[j].id,
-                  noOfPolicy: 0
+                  noOfPolicy: 0.00
                 });
               if (j == 1) {
                 this.displayList[0].policies[0].id = null;
@@ -115,7 +112,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
             for (var j = 0; j < this.displayList[0].particular.length; j++) {
               this.displayList[0].premium.push({
                 id: this.displayList[0].particular[j].id,
-                totalPreminum: null
+                totalPreminum: 0.00
               });
               if (j == 1) {
                 this.displayList[0].premium[0].id = null;
@@ -143,13 +140,13 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
 
             for (var j = 0; j < this.displayList[0].policies.length; j++) {
               if (j > 0) {
-                this.displayList[0].policies[j].noOfPolicy = this.mathRoundTo(Number(this.displayList[0].policies[j].noOfPolicy), 2);
+                this.displayList[0].policies[j].noOfPolicy = this.displayList[0].policies[j].noOfPolicy;
               }
             }
 
             for (var j = 0; j < this.displayList[0].premium.length; j++) {
               if (j > 0) {
-                this.displayList[0].premium[j].totalPreminum = this.mathRoundTo(Number(this.displayList[0].premium[j].totalPreminum), 2);
+                this.displayList[0].premium[j].totalPreminum = this.displayList[0].premium[j].totalPreminum;
               }
             }
           } else {
@@ -171,11 +168,11 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     }
 
     for (var i = 0; i < this.displayList[0].policies.length; i++) {
-      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy || 0)
+      this.policiesForExcel.push(this.displayList[0].policies[i].noOfPolicy || 0.00)
     }
 
     for (var i = 0; i < this.displayList[0].premium.length; i++) {
-      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum || 0)
+      this.premiumForExcel.push(this.displayList[0].premium[i].totalPreminum || 0.00)
     }
 
     let fromDate = '';
@@ -224,6 +221,8 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     this.branchName = null;
     this.agentName = null;
     this.isData = false;
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     this.cdf.detectChanges();
   }
 
@@ -233,7 +232,6 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -358,7 +356,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     if (type == 'agent') {
       if (ev) {
         this.branchName = ev.name
-        await this.exportService.getAgentOffice(11).toPromise().then(async (res: any) => {
+        await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
           if (res) {
             this.selectOptions.agents = res
           }
@@ -371,9 +369,6 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {
@@ -422,10 +417,18 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    console.log('doValid', type);
     if (type == 'FromDate') {
-      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
-      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let value = this.createFormGroup.controls['fromDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['fromDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['fromDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var fromDate = new Date(this.createFormGroup.value.fromDate);
+      fromDate.setFullYear(fromDate.getFullYear() + 1);
+      fromDate.setDate(fromDate.getDate() - 1);
+      this.fromMinDate = this.createFormGroup.value.fromDate
+      this.fromMaxDate = fromDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
@@ -433,8 +436,17 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
-      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let value = this.createFormGroup.controls['toDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['toDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['toDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var toDate = new Date(this.createFormGroup.value.toDate);
+      toDate.setFullYear(toDate.getFullYear() - 1);
+      toDate.setDate(toDate.getDate() + 1);
+      this.fromMinDate = toDate
+      this.fromMaxDate = this.createFormGroup.value.toDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
@@ -442,6 +454,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
     }
     this.cdf.detectChanges();
   }
+
 
   clearDate(type) {
     this.fromMinDate = null;

@@ -54,27 +54,30 @@ export class ActivityManagementDetailComponent implements OnInit {
   ngOnInit(): void {
     // this.loadForm();
     this.route.queryParams
-      .subscribe(params => {
-        this.pageStatus = params.pageStatus;
-        if (this.pageStatus != 'create') {
-          this.oldId = params.pageId;
-          this.getOld()
-        } else {
-          this.loadForm();
-          console.log("PARMA", params)
-          this.actForm.controls.assignTo.setValue(params.assignTo)
-          this.actForm.controls.assignName.setValue(params.assignToName)
-          this.actForm.controls.customerId.setValue(params.customerId)
-          this.actForm.controls.customerName.setValue(params.name)
-          if (params.leadId) {
-            //  this.actForm.controls.relatedTo.setValue(params.leadId)
-            //  this.relatedType ='lead'
-            this.leadId = params.leadId
-            this.isLead = params.isLead
-          }
+    .subscribe(params => {
+      this.pageStatus = params.pageStatus;
+      if (this.pageStatus != 'create') {
+        this.oldId = params.pageId;
+        this.getOld()
+      } else {
+        this.loadForm();
+        console.log("PARMA", params)
+        this.actForm.controls.assignTo.setValue(params.assignTo)
+        this.actForm.controls.assignName.setValue(params.assignToName)
+        this.actForm.controls.customerId.setValue(params.customerId)
+        this.actForm.controls.customerName.setValue(params.name)
+        if (params.leadId) {
+          //  this.actForm.controls.relatedTo.setValue(params.leadId)
+          //  this.relatedType ='lead'
+          this.leadId = params.leadId
+          this.isLead = params.isLead
         }
       }
-      );
+    }
+    );
+  }
+  ngAfterViewInit() {
+  
   }
 
   getOld() {

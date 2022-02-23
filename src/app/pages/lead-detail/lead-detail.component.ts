@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  NgZone,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -50,6 +51,7 @@ import { HealthDto } from "../fna-detail/health/health-manage.dto";
 import { EducationDto } from "../fna-detail/education/education-manage.dto";
 import { AssectDto } from "../fna-detail/asset/asset-manage.dto";
 import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/product-manage.dto";
+import { map } from 'rxjs/operators';
 @Component({
   selector: "app-lead-detail",
   templateUrl: "./lead-detail.component.html",
@@ -197,27 +199,12 @@ export class LeadDetailComponent implements OnInit {
     private fnaListService: FANListService,
     private authService: AuthService,
     private fnaService: FANService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
-    console.log('FNAConstant.LEAD_ID', FNAConstant.LEAD_ID)
-    this.user = this.authService.currentUserValue;
     this.loadForm();
-    this.getState();
-    this.getChannel();
-    this.getType();
-    this.getStatus();
-    this.getState();
-    this.getSource();
-    this.getOccupation();
-    this.getCompany()
-    this.getProduct()
-    this.getLeadQuality()
-    // this.getLeadSource()
-    // this.getCampaign()
-
-    // this.getmaritialOption();
     this.route.queryParams.subscribe((params) => {
       if (params) {
         this.pageStatus = params.pageStatus;
@@ -234,16 +221,48 @@ export class LeadDetailComponent implements OnInit {
 
     });
 
+  
+
+  }
+  ngAfterViewInit() {
+    console.log('FNAConstant.LEAD_ID', FNAConstant.LEAD_ID)
+    this.user = this.authService.currentUserValue;
+   this.getMaster()
+   this.getProduct()
+   this.getLeadQuality()
     if (FNAConstant.LEAD_ID) {
       this.oldId = FNAConstant.LEAD_ID;
       this.getOld();
       this.loadForm();
     }
-
   }
 
+  getMaster(){
+    forkJoin([
+      this.getChannel(),
+      this.getType(),
+      this.getOccupation(),
+      this.getStatus(),
+      this.getState(),
+      this.getSource(),
+      this.getCompany(),
+    ]).toPromise().then((res:any)=>{
+      if (res) {
+       this.channelOption=res[0]
+       this.typeOption=res[1]
+       this.occupationOption=res[2]
+       this.statusOption=res[3]
+       this.stateOption=res[4]
+       this.sourceOption=res[5]
+       this.companyOption=res[6]
+        this.cdf.detectChanges()
+      }
+    })
+  }
+
+
   onInitAddress(oldData) {
-    this.getState();
+    // this.getState();
     this.getDistrict(oldData.stateCode);
     this.getTownship(oldData.districtCode);
     this.cdf.detectChanges();
@@ -269,111 +288,127 @@ export class LeadDetailComponent implements OnInit {
     this.cdf.detectChanges();
   }
 
-  ngAfterViewInit() { }
+
 
 
   getCompany() {
-    this.masterDataService.getDataByType("COMPANY_TYPE").toPromise().then((res: any) => {
-      console.log("COMPANY_TYPE", res);
-      if (res) {
-        this.companyOption = res.map((x) => {
-          return { code: x.codeId, value: x.codeName };
-        });
-        console.log(this.companyOption);
-        this.cdf.detectChanges();
-      }
-    });
+    return this.masterDataService.getDataByType("COMPANY_TYPE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      return of([])
+    }))
+    // .toPromise().then((res: any) => {
+    //   console.log("COMPANY_TYPE", res);
+    //   if (res) {
+    //     this.companyOption = res.map((x) => {
+    //       return { code: x.codeId, value: x.codeName };
+    //     });
+    //     console.log(this.companyOption);
+    //     this.cdf.detectChanges();
+    //   }
+    // });
   }
   getState() {
-    this.masterDataService
-      .getDataByType("STATE", true)
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.stateOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeValue };
-          });
-          console.log(this.stateOption);
-          this.cdf.detectChanges();
-        }
-      });
+   return this.masterDataService
+      .getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+        return of([])
+      }))
+      // .toPromise()
+      // .then((res: any) => {
+      //   console.log(res);
+      //   if (res) {
+      //     this.stateOption = res.map((x) => {
+      //       return { code: x.codeId, value: x.codeValue };
+      //     });
+      //     console.log(this.stateOption);
+      //     this.cdf.detectChanges();
+      //   }
+      // });
   }
   getChannel() {
-    this.masterDataService
-      .getDataByType("LEAD_DISTRIBUTION_CHANNEL")
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.channelOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
-          });
-          console.log(this.channelOption);
-          this.cdf.detectChanges();
-        }
-      });
+    return this.masterDataService
+      .getDataByType("LEAD_DISTRIBUTION_CHANNEL").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+        return of([])
+      }))
+      // .toPromise()
+      // .then((res: any) => {
+      //   console.log(res);
+      //   if (res) {
+      //     this.channelOption = res.map((x) => {
+      //       return { code: x.codeId, value: x.codeName };
+      //     });
+      //     console.log(this.channelOption);
+      //     this.cdf.detectChanges();
+      //   }
+      // });
   }
   getType() {
-    this.masterDataService
-      .getDataByType("LEAD_TYPE")
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.typeOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
-          });
-          console.log(this.typeOption);
-          this.cdf.detectChanges();
-        }
-      });
+    return this.masterDataService
+      .getDataByType("LEAD_TYPE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+        return of([])
+      }))
+      // .toPromise()
+      // .then((res: any) => {
+      //   console.log(res);
+      //   if (res) {
+      //     this.typeOption = res.map((x) => {
+      //       return { code: x.codeId, value: x.codeName };
+      //     });
+      //     console.log(this.typeOption);
+      //     this.cdf.detectChanges();
+      //   }
+      // });
   }
   getStatus() {
-    this.masterDataService
-      .getDataByType("LEAD_STATUS")
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.statusOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
-          });
-          console.log(this.statusOption);
-          this.cdf.detectChanges();
-        }
-      });
+    return this.masterDataService
+      .getDataByType("LEAD_STATUS").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+        return of([])
+      }))
+
+      // .toPromise()
+      // .then((res: any) => {
+      //   console.log(res);
+      //   if (res) {
+      //     this.statusOption = res.map((x) => {
+      //       return { code: x.codeId, value: x.codeName };
+      //     });
+      //     console.log(this.statusOption);
+      //     this.cdf.detectChanges();
+      //   }
+      // });
   }
   getSource() {
-    this.masterDataService
-      .getDataByType("LEAD_SOURCE")
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.sourceOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
-          });
-          console.log(this.sourceOption);
-          this.cdf.detectChanges();
-        }
-      });
+    return this.masterDataService
+      .getDataByType("LEAD_SOURCE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+        return of([])
+      }))
+      // .toPromise()
+      // .then((res: any) => {
+      //   console.log(res);
+      //   if (res) {
+      //     this.sourceOption = res.map((x) => {
+      //       return { code: x.codeId, value: x.codeName };
+      //     });
+      //     console.log(this.sourceOption);
+      //     this.cdf.detectChanges();
+      //   }
+      // });
   }
 
   getOccupation() {
-    this.masterDataService
-      .getDataByType("OCCUPATION")
-      .toPromise()
-      .then((res: any) => {
-        console.log(res);
-        if (res) {
-          this.occupationOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
-          });
-          console.log(this.occupationOption);
-          this.cdf.detectChanges();
-        }
-      });
+    return this.masterDataService
+      .getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+        return of([])
+      }))
+      // .toPromise()
+      // .then((res: any) => {
+      //   console.log(res);
+      //   if (res) {
+      //     this.occupationOption = res.map((x) => {
+      //       return { code: x.codeId, value: x.codeName };
+      //     });
+      //     console.log(this.occupationOption);
+      //     this.cdf.detectChanges();
+      //   }
+      // });
 
   }
   // getmaritialOption() {
@@ -425,7 +460,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   getLeadQuality() {
-    this.LeadDetailService.getLeadQuality().toPromise()
+    this.LeadDetailService.getLeadQuality()
+    .toPromise()
       .then((res: any) => {
         console.log("getLeadQuality", res)
         if (res) {
@@ -614,7 +650,9 @@ export class LeadDetailComponent implements OnInit {
     if (status == "save") {
       this.createLead();
     } else if (status == "cancel") {
-      this.location.back()
+      this.ngZone.run(() => {
+        this.location.back()
+      })
     }
     else {
       if (status == "04" || status == "06") {
@@ -1154,30 +1192,31 @@ export class LeadDetailComponent implements OnInit {
     modalRef.componentInstance.oldId = this.oldId
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        console.log("RESSS", res)
-        this.description = res.description
+        if (res) {
+          console.log("RESSS", res)
+          this.description = res.description
 
-        this.AttachmentUploadService.save(res.data).toPromise().then((res) => {
-          if (res) {
-            console.log("RESFILE", res)
-            let postData = {
-              attachmentId: res,
-              description: this.description,
-              refDocNo: this.oldId,
-              refDocType: 'LEAD'
-            }
-            this.LeadAttachmentService.save(postData).toPromise().then((res) => {
-              if (res) {
-                console.log("RESFILE", res)
-                this.getLeadAttachment()
-                // this.getOld()
+          this.AttachmentUploadService.save(res.data).toPromise().then((res) => {
+            if (res) {
+              console.log("RESFILE", res)
+              let postData = {
+                attachmentId: res,
+                description: this.description,
+                refDocNo: this.oldId,
+                refDocType: 'LEAD'
               }
+              this.LeadAttachmentService.save(postData).toPromise().then((res) => {
+                if (res) {
+                  console.log("RESFILE", res)
+                  this.getLeadAttachment()
+                  // this.getOld()
+                }
 
-            })
-          }
-        }).catch(e => {
-        })
-
+              })
+            }
+          }).catch(e => {
+          })
+        }
       }
 
     })
@@ -1394,4 +1433,10 @@ export class LeadDetailComponent implements OnInit {
     var yyyy = today.getFullYear();
     return dd + '/' + mm + '/' + yyyy;
   }
+  getFormatOpt(res) {
+    return res.map(x => {
+      return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
+    })
+  }
+
 }

@@ -4,6 +4,8 @@ import {
   OnDestroy,
   OnInit,
   HostListener,
+  NgZone,
+  ApplicationRef,
 } from '@angular/core';
 
 import { SplashScreenService } from './_metronic/partials/layout/splash-screen/splash-screen.service';
@@ -14,6 +16,10 @@ import { ProductsService } from './_metronic/core/services/products.service';
 import { LoadingService } from './modules/loading-toast/loading/loading.service';
 import { MasterDataService } from './modules/master-data/master-data.service';
 import { AuthService } from './modules/auth';
+import { Device } from "@capacitor/device"
+import { App as CapacitorApp } from '@capacitor/app';
+import { AlertController } from '@ionic/angular';
+import { AlertService } from './modules/loading-toast/alert-model/alert.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -32,7 +38,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private itemService: ProductsService,
     private kbzToast: LoadingService,
     private master: MasterDataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private zone: NgZone,
+    private applicationRef: ApplicationRef,
+    private alertCtrl: AlertController,
+    private alertService: AlertService,
+
   ) {
 
   }
@@ -66,17 +77,62 @@ export class AppComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           document.body.classList.add('page-loaded');
         }, 500);
+        this.zone.run(() =>
+          setTimeout(() => {
+            this.applicationRef.tick();
+          }, 0)
+        );
       }
     });
     this.unsubscribe.push(routerSubscription);
     let unsub = this.authService.currentUserSubject.subscribe((res) => {
       console.log(res);
-      
+
       if (res) {
         // this.master.getType()
       }
     })
     this.unsubscribe.push(unsub);
+    Device.getInfo().then((res) => {
+      if (res.platform != "web") {
+        CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+          if (!canGoBack) {
+            this.confirmExist();
+          } else {
+            window.history.back();
+          }
+        });
+      }
+    })
+  }
+  async confirmExist() {
+    // this.alertService.activate("Do you want to exit the app?", "App").then((res: any) => {
+    //   if (res) {
+    //     if (res.type == "ok") {
+    //       CapacitorApp.exitApp();
+    //     }
+    //   }
+    // })
+    let alert = await this.alertCtrl.create({
+      message: 'Do you want to exit the app?',
+      buttons: [{
+        text: 'No',
+        role: 'cancel',
+        handler: () => {
+          console.log('canceled :)');
+        }
+      }, {
+        text: 'Yes',
+        handler: () => {
+          CapacitorApp.exitApp();
+        }
+      }],
+      backdropDismiss: false,
+      cssClass: "my-customer-alert",
+    })
+    await alert.present();
+    alert.onDidDismiss().then(res => {
+    })
   }
 
   ngOnDestroy() {

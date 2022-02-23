@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportBranchSummaryAIExportService } from './report-by-branch-summary-ai-export.service';
@@ -82,43 +83,41 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
             totalPreminum += this.reports[i].totalPreminum
             if (srNo == this.reports.length) {
               this.totalDataList.push({
-                totalActiveAgents: this.mathRoundTo(totalActiveAgents, 2),
-                totalNoOfPolicy: this.mathRoundTo(totalNoOfPolicy, 2),
-                totalPreminum: this.mathRoundTo(totalPreminum, 2)
+                totalActiveAgents: totalActiveAgents,
+                totalNoOfPolicy: totalNoOfPolicy,
+                totalPreminum: totalPreminum
               });
             }
           }
 
           for (var i = 0; i < this.reports.length; i++) {
-            this.reports[i].activeAgents = this.mathRoundTo(this.reports[i].activeAgents, 2)
-            this.reports[i].noOfPolicy = this.mathRoundTo(this.reports[i].noOfPolicy, 2)
-            this.reports[i].totalPreminum = this.mathRoundTo(this.reports[i].totalPreminum, 2)
+            this.reports[i].activeAgents = this.reports[i].activeAgents
+            this.reports[i].noOfPolicy = this.reports[i].noOfPolicy
+            this.reports[i].totalPreminum = this.reports[i].totalPreminum
           }
         } else {
           this.isData = false;
         }
       });
     }
-    console.log('reports', this.reports)
     this.cdf.detectChanges();
   }
 
   generateReportExcel() {
     this.reportsForExcel = [];
     let totalValue = [];
-    console.log('generateReportExcel', this.reports);
     let countSrNo: number = 0;
     for (var i = 0; i < this.reports.length; i++) {
       countSrNo += 1;
       this.reportsForExcel.push([countSrNo, this.reports[i].cluster,
-        this.reports[i].activeAgents, this.reports[i].noOfPolicy, this.reports[i].totalPreminum])
+        this.reports[i].activeAgents, this.reports[i].noOfPolicy || 0.00 , this.reports[i].totalPreminum || 0.00])
     }
     for (var i = 0; i < this.totalDataList.length; i++) {
       totalValue.push(null);
       totalValue.push('Total');
-      totalValue.push(this.totalDataList[i].totalActiveAgents);
-      totalValue.push(this.totalDataList[i].totalNoOfPolicy);
-      totalValue.push(this.totalDataList[i].totalPreminum);
+      totalValue.push(this.totalDataList[i].totalActiveAgents || 0.00);
+      totalValue.push(this.totalDataList[i].totalNoOfPolicy || 0.00);
+      totalValue.push(this.totalDataList[i].totalPreminum || 0.00);
     }
 
     let fromDate = '';
@@ -142,7 +141,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
         { clusterName: this.clusterName },
         { branchName: this.branchName }
       ],
-      reportsForExcelHeader: ["Sr. No.", "Branch", "#Active Agents", "#No of Ploicies", "#Premium"],
+      reportsForExcelHeader: ["Sr. No.", "Branch", "#Active Agents", "#No of Policies", "#Premium"],
       reportsForExcel: this.reportsForExcel,
       totalValue: totalValue,
     }
@@ -166,6 +165,8 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     this.branchName = null;
     this.agentName = null;
     this.isData = false;
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     this.cdf.detectChanges();
   }
 
@@ -174,7 +175,6 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -299,7 +299,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     if (type == 'agent') {
       if (ev) {
         this.branchName = ev.name
-        await this.exportService.getAgentOffice(11).toPromise().then(async (res: any) => {
+        await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
           if (res) {
             this.selectOptions.agents = res
           }
@@ -312,9 +312,6 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {
@@ -363,10 +360,18 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
   }
 
   doValid(type) {
-    console.log('doValid', type);
     if (type == 'FromDate') {
-      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
-      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let value = this.createFormGroup.controls['fromDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['fromDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['fromDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var fromDate = new Date(this.createFormGroup.value.fromDate);
+      fromDate.setFullYear(fromDate.getFullYear() + 1);
+      fromDate.setDate(fromDate.getDate() - 1);
+      this.fromMinDate = this.createFormGroup.value.fromDate
+      this.fromMaxDate = fromDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
@@ -374,8 +379,17 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
-      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
+      let value = this.createFormGroup.controls['toDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['toDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['toDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var toDate = new Date(this.createFormGroup.value.toDate);
+      toDate.setFullYear(toDate.getFullYear() - 1);
+      toDate.setDate(toDate.getDate() + 1);
+      this.fromMinDate = toDate
+      this.fromMaxDate = this.createFormGroup.value.toDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
@@ -383,6 +397,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     }
     this.cdf.detectChanges();
   }
+
 
   clearDate(type) {
     this.fromMinDate = null;

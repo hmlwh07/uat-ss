@@ -151,10 +151,9 @@
             <div style="width: 30%; float: left; position: relative;">
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
-                <div>
+                <div class="date-display">
                     <span *ngIf="createFormGroup.value.fromDate">From Date: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                     <span *ngIf="createFormGroup.value.toDate">To Date: {{
                         formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
                 </div>
@@ -175,29 +174,30 @@
             </div>
         </div>
         <div style="width: 100%;
-        overflow-y: hidden;
-        overflow-x: scroll;">
+        overflow-y: scroll;
+        overflow-x: scroll;
+        max-height: 500px;">
             <table border="1">
                 <tr>
-                    <th>Sr. No.</th>
+                    <th style="min-width: 50px;">Sr. No.</th>
                     <th>Branch</th>
                     <th>#Active Agents</th>
-                    <th>#No of Ploicies</th>
+                    <th>#No of Policies</th>
                     <th>#Premium</th>
                 </tr>
                 <tr class="data" *ngFor="let report of reports; let i = index">
                     <td>{{ report.srNo }}</td>
-                    <td>{{ report.cluster }}</td>
-                    <td>{{ report.activeAgents }}</td>
-                    <td>{{ report.noOfPolicy }}</td>
-                    <td>{{ report.totalPreminum }}</td>
+                    <td class="text-left">{{ report.cluster }}</td>
+                    <td class="text-right">{{ report.activeAgents | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ report.noOfPolicy | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ report.totalPreminum | number:'1.2-2' || 0.00 }}</td>
                 </tr>
                 <tr class="data" *ngFor="let total of totalDataList; let i = index">
                     <td></td>
                     <td>Total</td>
-                    <td>{{ total.totalActiveAgents }}</td>
-                    <td>{{ total.totalNoOfPolicy }}</td>
-                    <td>{{ total.totalPreminum }}</td>
+                    <td class="text-right">{{ total.totalActiveAgents | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ total.totalNoOfPolicy | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ total.totalPreminum | number:'1.2-2' || 0.00 }}</td>
                 </tr>
             </table>
         </div>
@@ -205,4 +205,3 @@
 </div>
 
 <div *ngIf="reports.length == 0" style="color: gray; text-align: center;"> There is no data </div>
-

@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/'],{ replaceUrl: true });
     }
   }
 
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe((user: UserModel) => {
         if (user) {
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate([this.returnUrl],{ replaceUrl: true });
         } else {
           this.hasError = true;
         }

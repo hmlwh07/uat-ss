@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { validateAllFields } from '../../../app/core/valid-all-feild';
 import { ReportIdentityType, ReportStatus } from '../report-detail-by-agent/report-detail-by-agent.const';
 import { ReportWeeklySalesAnalysisBranchExportService } from './report-weekly-sales-analysis-by-branch-export.service';
@@ -77,20 +78,19 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
       validateAllFields(this.createFormGroup);
     } else {
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
-        console.log('weeklySalesAnalysis', res);
-        if (res.datum.weeklydataList) {
+        if (res.weeklydataList.length > 0) {
           this.isData = true;
-          for (var i = 0; i < res.datum.weeklydataList.length; i++) {
+          for (var i = 0; i < res.weeklydataList.length; i++) {
             for (var j = 0; j < activities.length; j++) {
               let obj = {
-                agentName: res.datum.weeklydataList[i].agentName,
-                branchName: res.datum.weeklydataList[i].branchName,
+                agentName: res.weeklydataList[i].agentName,
+                branchName: res.weeklydataList[i].branchName,
                 activityName: activities[j].activityName,
-                weekActualAgainstTarge: this.weekActualAgainstTarge(activities[j].activityName, res.datum.weeklydataList[i]),
-                weekConversionToProspect: this.weekConversionToProspect(activities[j].activityName, res.datum.weeklydataList[i]),
-                weekConversionToPreviousStage: this.weekConversionToPreviousStage(activities[j].activityName, res.datum.weeklydataList[i]),
-                weekExpectedTargetConversion: this.weekExpectedTargetConversion(activities[j].activityName, res.datum.weeklydataList[i]),
-                weekExpectedTargetConversionToProspects: this.weekExpectedTargetConversionToProspects(activities[j].activityName, res.datum.weeklydataList[i])
+                weekActualAgainstTarge: this.weekActualAgainstTarge(activities[j].activityName, res.weeklydataList[i]),
+                weekConversionToProspect: this.weekConversionToProspect(activities[j].activityName, res.weeklydataList[i]),
+                weekConversionToPreviousStage: this.weekConversionToPreviousStage(activities[j].activityName, res.weeklydataList[i]),
+                weekExpectedTargetConversion: this.weekExpectedTargetConversion(activities[j].activityName, res.weeklydataList[i]),
+                weekExpectedTargetConversionToProspects: this.weekExpectedTargetConversionToProspects(activities[j].activityName, res.weeklydataList[i])
               }
               this.displayList.push(obj)
             }
@@ -252,7 +252,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   calculateDivision(value, divided) {
     let returnValue: any;
     if (divided != 0) {
-      returnValue = this.mathRoundTo(value / divided, 2);
+      returnValue = value / divided;
     } else {
       returnValue = 0;
     }
@@ -263,7 +263,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
 
   generateReportExcel() {
     this.dataExcel = [];
-    console.log('generateReportExcel ', this.reports);
     this.productValues = ['Agent Name', 'Branch Name',
       'Activities', 'Week Actual against Target',
       'Week Conversion to Prospect', 'Week Conversion to Previous Stage',
@@ -273,9 +272,9 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     for (var i = 0; i < this.displayList.length; i++) {
       this.dataExcel.push([this.displayList[i].agentName,
       this.displayList[i].branchName, this.displayList[i].activityName,
-      this.displayList[i].weekActualAgainstTarge, this.displayList[i].weekConversionToProspect,
-      this.displayList[i].weekConversionToPreviousStage, this.displayList[i].weekExpectedTargetConversion,
-      this.displayList[i].monthExpectedTargetConversionToProspects])
+      this.displayList[i].weekActualAgainstTarge || 0.00, this.displayList[i].weekConversionToProspect || 0.00,
+      this.displayList[i].weekConversionToPreviousStage || 0.00, this.displayList[i].weekExpectedTargetConversion || 0.00,
+      this.displayList[i].monthExpectedTargetConversionToProspects || 0.00])
     }
 
     let fromDate = null;
@@ -322,6 +321,8 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     this.branchName = null;
     this.agentName = null;
     this.isData = false;
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
     this.cdf.detectChanges();
   }
 
@@ -330,7 +331,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
       if (ev) {
         this.companyName = ev.name
         await this.exportService.getOfficeHirearchy('', '01').toPromise().then(async (res: any) => {
-          console.log('officeHirearchy', res);
           if (res) {
             this.selectOptions.channels = res
           }
@@ -455,7 +455,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     if (type == 'agent') {
       if (ev) {
         this.branchName = ev.name
-        await this.exportService.getAgentOffice(11).toPromise().then(async (res: any) => {
+        await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
           if (res) {
             this.selectOptions.agents = res
           }
@@ -468,9 +468,6 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
-
-    console.log('type', type);
-    console.log('ev', ev);
 
     if (type == 'office') {
       if (ev) {
@@ -518,10 +515,18 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   }
 
   doValid(type) {
-    console.log('doValid', type);
     if (type == 'FromDate') {
-      this.fromMinDate = new Date(this.createFormGroup.value.fromDate);
-      this.fromMaxDate = new Date(new Date().setFullYear(new Date(this.fromMinDate).getFullYear() + 1))
+      let value = this.createFormGroup.controls['fromDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['fromDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['fromDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var fromDate = new Date(this.createFormGroup.value.fromDate);
+      fromDate.setFullYear(fromDate.getFullYear() + 1);
+      fromDate.setDate(fromDate.getDate() - 1);
+      this.fromMinDate = this.createFormGroup.value.fromDate
+      this.fromMaxDate = fromDate;
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['toDate'].setValue('');
@@ -529,15 +534,25 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     }
 
     if (type == 'ToDate') {
-      this.fromMaxDate = new Date(this.createFormGroup.value.toDate);
-      this.fromMinDate = new Date(new Date().setFullYear(new Date(this.fromMaxDate).getFullYear() - 1))
-       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-       if (diffYear != 0 && diffYear != 1) {
+      let value = this.createFormGroup.controls['toDate'].value;
+      if (value) {
+        let toDate = moment(this.createFormGroup.controls['toDate'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.createFormGroup.controls['toDate'].setValue(toDate.format('YYYY-MM-DD'))
+      }
+      var toDate = new Date(this.createFormGroup.value.toDate);
+      toDate.setFullYear(toDate.getFullYear() - 1);
+      toDate.setDate(toDate.getDate() + 1);
+      this.fromMinDate = toDate
+      this.fromMaxDate = this.createFormGroup.value.toDate;
+      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
+      if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
       }
     }
     this.cdf.detectChanges();
   }
+
 
   clearDate(type) {
     this.fromMinDate = null;

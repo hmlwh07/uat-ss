@@ -1,6 +1,7 @@
 import { AfterContentChecked, AfterViewChecked, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { getFileReader } from '../../../core/get-file-reader';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
 import { AttachmentUploadService } from '../../../_metronic/core/services/attachment-data.service';
@@ -48,7 +49,7 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
     if (event) {
       const file = event.target.files[0];
       console.log(file);
-      const reader = new FileReader();
+      const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         // console.log(reader);
@@ -68,7 +69,7 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
               this.group.controls[this.config.name].setValue(`[${res}].${data.fileName}`)
             }
             this.loading.deactivate()
-          }).catch(e=>{
+          }).catch(e => {
             this.loading.deactivate()
           })
         };
@@ -86,8 +87,8 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
     }
   }
 
-  openFile(){
-    if(this.editStage) return false
+  openFile() {
+    if (this.editStage) return false
     this.selectedFileEl.nativeElement.click()
   }
 
