@@ -98,12 +98,12 @@ export class ReportByAgentWeeklyComponent implements OnInit {
                 });
               }
 
-              this.dataList[i].productDataList = list;
+              this.dataList[i].productDataList = JSON.parse(JSON.stringify(list));
               if (this.dataList[i].dynamicList) {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
                   //let totalTargetValue: number = 0;
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
-                    if (this.dataList[i].productDataList[k].headerWeekRange == this.dataList[i].dynamicList[j].headerWeekRange) {
+                    if (this.dataList[i].productDataList[k].headerWeekName == this.dataList[i].dynamicList[j].headerWeekName) {
                       this.dataList[i].productDataList[k].headerDateName = this.dataList[i].dynamicList[j].headerDateName
                       this.dataList[i].productDataList[k].headerDate = this.dataList[i].dynamicList[j].headerDate
                       this.dataList[i].productDataList[k].headerWeekName = this.dataList[i].dynamicList[j].headerWeekName
@@ -117,7 +117,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
                     }
                   }
 
-                 // this.dataList[i].totalTargetValue = totalTargetValue
+                  // this.dataList[i].totalTargetValue = totalTargetValue
                 }
               }
             }
@@ -336,6 +336,8 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     }
 
     if (type == 'agent') {
+      this.selectOptions.agents = [];
+      this.createFormGroup.controls['agentId'].setValue('');
       if (ev) {
         this.branchName = ev.name
         await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
@@ -345,8 +347,6 @@ export class ReportByAgentWeeklyComponent implements OnInit {
         });
       } else {
         this.branchName = null;
-        this.selectOptions.agents = [];
-        this.createFormGroup.controls['agentId'].setValue('');
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
@@ -427,10 +427,22 @@ export class ReportByAgentWeeklyComponent implements OnInit {
       toDate.setFullYear(toDate.getFullYear() - 1);
       toDate.setDate(toDate.getDate() + 1);
       this.fromMinDate = toDate
-      this.fromMaxDate = this.createFormGroup.value.toDate;
+      if (!this.createFormGroup.value.toDate) {
+        this.fromMaxDate = this.createFormGroup.value.toDate;
+      }
+
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
+      }
+      if (diffYear == 1) {
+        if (new Date(this.createFormGroup.value.toDate).getMonth() > new Date(this.createFormGroup.value.fromDate).getMonth()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
+        if (new Date(this.createFormGroup.value.toDate).getMonth() == new Date(this.createFormGroup.value.fromDate).getMonth() &&
+          new Date(this.createFormGroup.value.toDate).getDate() >= new Date(this.createFormGroup.value.fromDate).getDate()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
       }
     }
     this.cdf.detectChanges();

@@ -51,7 +51,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadForm();
-    this.getOfficeHirearchy();
+    this.getOfficeHirearchy();    
   }
 
   async getOfficeHirearchy() {
@@ -62,7 +62,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     });
   }
 
-  async getAllReports() {
+  async getAllReports() {  
     this.productList = [];
     this.dataList = [];
     if (this.createFormGroup.invalid) {
@@ -315,17 +315,17 @@ export class ReportByAgentYearlyComponent implements OnInit {
     }
 
     if (type == 'agent') {
+      this.selectOptions.agents = [];
+      this.createFormGroup.controls['agentId'].setValue('');
       if (ev) {
         this.branchName = ev.name
         await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
           if (res) {
             this.selectOptions.agents = res
           }
-        });
+        });       
       } else {
-        this.branchName = null;
-        this.selectOptions.agents = [];
-        this.createFormGroup.controls['agentId'].setValue('');
+        this.branchName = null;   
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
@@ -406,15 +406,26 @@ export class ReportByAgentYearlyComponent implements OnInit {
       toDate.setFullYear(toDate.getFullYear() - 1);
       toDate.setDate(toDate.getDate() + 1);
       this.fromMinDate = toDate
-      this.fromMaxDate = this.createFormGroup.value.toDate;
+      if (!this.createFormGroup.value.toDate) {
+        this.fromMaxDate = this.createFormGroup.value.toDate;
+      }
+
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
       }
+      if (diffYear == 1) {
+        if (new Date(this.createFormGroup.value.toDate).getMonth() > new Date(this.createFormGroup.value.fromDate).getMonth()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
+        if (new Date(this.createFormGroup.value.toDate).getMonth() == new Date(this.createFormGroup.value.fromDate).getMonth() &&
+          new Date(this.createFormGroup.value.toDate).getDate() >= new Date(this.createFormGroup.value.fromDate).getDate()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
+      }
     }
     this.cdf.detectChanges();
   }
-
 
   clearDate(type) {
     this.fromMinDate = null;

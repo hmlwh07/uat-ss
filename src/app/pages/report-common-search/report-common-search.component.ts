@@ -165,7 +165,7 @@ export class ReportCommonSearchComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-   doValid(type) {
+  doValid(type) {
     if (type == 'FromDate') {
       let value = this.createFormGroup.controls['fromDate'].value;
       if (value) {
@@ -195,15 +195,26 @@ export class ReportCommonSearchComponent implements OnInit {
       toDate.setFullYear(toDate.getFullYear() - 1);
       toDate.setDate(toDate.getDate() + 1);
       this.fromMinDate = toDate
-      this.fromMaxDate = this.createFormGroup.value.toDate;
+      if (!this.createFormGroup.value.toDate) {
+        this.fromMaxDate = this.createFormGroup.value.toDate;
+      }
+
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
       }
+      if (diffYear == 1) {
+        if (new Date(this.createFormGroup.value.toDate).getMonth() > new Date(this.createFormGroup.value.fromDate).getMonth()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
+        if (new Date(this.createFormGroup.value.toDate).getMonth() == new Date(this.createFormGroup.value.fromDate).getMonth() &&
+          new Date(this.createFormGroup.value.toDate).getDate() >= new Date(this.createFormGroup.value.fromDate).getDate()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
+      }
     }
     this.cdf.detectChanges();
   }
-
 
   clearDate(type) {
     this.fromMinDate = null;

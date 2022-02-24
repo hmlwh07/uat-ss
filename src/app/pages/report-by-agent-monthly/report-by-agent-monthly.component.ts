@@ -69,7 +69,7 @@ export class ReportByAgentMonthlyComponent implements OnInit {
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
-      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
+      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => { 
         if (res) {
           if (res.headerColumnList.length > 0) {
             for (var i = 0; i < res.headerColumnList.length; i++) {
@@ -87,14 +87,15 @@ export class ReportByAgentMonthlyComponent implements OnInit {
             for (var i = 0; i < this.dataList.length; i++) {
               let list = [];
               for (var j = 0; j < this.productList.length; j++) {
+                this.productList[j].monthlyValue = 0.00;
                 list.push(this.productList[j]);
               }
 
-              this.dataList[i].productDataList = list;
+              this.dataList[i].productDataList = JSON.parse(JSON.stringify(list));
               if (this.dataList[i].dynamicList) {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
                   //let totalTargetValue: number = 0;
-                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
+                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {  
                     if (this.dataList[i].productDataList[k].headerMonthName == this.dataList[i].dynamicList[j].headerMonthName) {
                       this.dataList[i].productDataList[k].headerDateName = this.dataList[i].dynamicList[j].headerDateName
                       this.dataList[i].productDataList[k].headerDate = this.dataList[i].dynamicList[j].headerDate
@@ -323,17 +324,17 @@ export class ReportByAgentMonthlyComponent implements OnInit {
     }
 
     if (type == 'agent') {
+      this.selectOptions.agents = [];
+      this.createFormGroup.controls['agentId'].setValue('');
       if (ev) {
         this.branchName = ev.name
         await this.exportService.getAgentOffice(ev.id).toPromise().then(async (res: any) => {
           if (res) {
             this.selectOptions.agents = res
           }
-        });
+        });       
       } else {
-        this.branchName = null;
-        this.selectOptions.agents = [];
-        this.createFormGroup.controls['agentId'].setValue('');
+        this.branchName = null;   
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
@@ -383,7 +384,6 @@ export class ReportByAgentMonthlyComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.dirty || control.touched;
   }
-
   doValid(type) {
     if (type == 'FromDate') {
       let value = this.createFormGroup.controls['fromDate'].value;
@@ -414,10 +414,22 @@ export class ReportByAgentMonthlyComponent implements OnInit {
       toDate.setFullYear(toDate.getFullYear() - 1);
       toDate.setDate(toDate.getDate() + 1);
       this.fromMinDate = toDate
-      this.fromMaxDate = this.createFormGroup.value.toDate;
+      if (!this.createFormGroup.value.toDate) {
+        this.fromMaxDate = this.createFormGroup.value.toDate;
+      }
+
       let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
       if (diffYear != 0 && diffYear != 1) {
         this.createFormGroup.controls['fromDate'].setValue('');
+      }
+      if (diffYear == 1) {
+        if (new Date(this.createFormGroup.value.toDate).getMonth() > new Date(this.createFormGroup.value.fromDate).getMonth()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
+        if (new Date(this.createFormGroup.value.toDate).getMonth() == new Date(this.createFormGroup.value.fromDate).getMonth() &&
+          new Date(this.createFormGroup.value.toDate).getDate() >= new Date(this.createFormGroup.value.fromDate).getDate()) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
       }
     }
     this.cdf.detectChanges();
