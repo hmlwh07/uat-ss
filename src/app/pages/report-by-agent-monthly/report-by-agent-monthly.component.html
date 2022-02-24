@@ -189,8 +189,8 @@
                     <td class="text-left">{{ data.agentName }}</td>
                     <td class="text-left">{{ data.branchName }}</td>
                     <td class="text-left">{{ data.activitiesName }}</td>
-                    <td class="text-right" *ngIf="data.totalTargetValue">{{ (data.totalTargetValue || 0) | number:'1.2-2' }}</td>
-                    <td class="text-right" *ngIf="!data.totalTargetValue">0.00</td>
+                    <td class="text-right" *ngIf="data.target">{{ (data.target || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right" *ngIf="!data.target">0.00</td>
                     <td class="text-right" *ngFor="let monthly of dataList[i].productDataList; let j = index; ">
                         <label *ngIf="monthly.monthlyValue">{{ (monthly.monthlyValue || 0) | number:'1.2-2' }}</label>
                         <label *ngIf="!monthly.monthlyValue">0.00</label>
