@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -46,22 +46,15 @@ export type ChartOptions = {
 export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  data: any;
+  data: any = {};
   authObj: any;
   actForm: FormGroup;
-  // leadObj = {
-  //   leadWinRate: 56,
-  //   leadWinCount : 100,
-  //   taskToday: 15,
-  //   todayActiveAgent: 4,
-  //   leadAssignCount: 100,
-  //   leadToday: 58
-  // };
   leadObj : any;
-
+  currentMonthIndex : number = new Date().getUTCMonth();
+  months = ['JAN','FEB','Mar','APR','MAY','JUL','AUG','SEP','OCT','NOV','DEC'];
   unsub: any;
 
-  constructor(public auth: AuthService, private dashboardService: DashboardService,private router : Router
+  constructor(private cdf: ChangeDetectorRef,private auth: AuthService, private dashboardService: DashboardService,private router : Router,private ngzone : NgZone
   ) {
     this.unsub = this.auth.currentUserSubject.subscribe((res) => {
       if (res) {
@@ -85,18 +78,22 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   }
 
   getList() {
-    this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.data = res
-      }
+    this.ngzone.run(_=>{
+      this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.data = res;
+          this.cdf.detectChanges();       
+        }
+      })
     })
   }
 
   getLeadList() {
     this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res) => {
       if (res) {
-        this.leadObj = res
+        this.leadObj = res;
         this.setChartOptions();
+        this.cdf.detectChanges();
       }
     })
   }
@@ -109,6 +106,14 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId : agent.empId } })
   }
 
+  goToSalePolicies() {
+    this.router.navigate(['/sale/application/list']);
+  }
+
+  goToActivities() {
+    this.router.navigate(['activity/activity-management-list']);
+  }
+
   setChartOptions(){
     this.chartOptions = {
       series: [
@@ -118,11 +123,10 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
         }
       ],
       chart: {
-        height: 200,
+        height: 150,
         type: "bar",
         events: {
           click: function(chart, w, e) {
-            // console.log(chart, w, e)
           }
         }
       },
@@ -138,7 +142,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
       ],
       plotOptions: {
         bar: {
-          columnWidth: "45%",
+          columnWidth: "20%",
           distributed: true
         }
       },
