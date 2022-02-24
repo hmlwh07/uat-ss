@@ -24,6 +24,11 @@ type ApexXAxis = {
   };
 };
 
+interface ViewObjData {
+  quotations?: any[]
+  policies?: any[]
+}
+
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -47,7 +52,10 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   data: any;
   actForm: FormGroup;
 
-  recentObj: any = {};
+  recentObj: ViewObjData = {
+    quotations: [],
+    policies: []
+  };
   campaign: any = [];
   campaignArray = [];
   followup: any = [];
@@ -59,8 +67,21 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   unsub: any = {};
   id: any;
   leadObj: any;
-
-  constructor(private cdf: ChangeDetectorRef,private ngzone: NgZone, private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
+  months = [
+    'JAN',
+    'FEB',
+    'Mar',
+    'APR',
+    'MAY',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
+  currentMonthIndex: number = new Date().getUTCMonth();
+  constructor(private cdf: ChangeDetectorRef, private ngzone: NgZone, private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
     this.route.queryParams.subscribe(async params => {
 
       this.id = JSON.parse(params.empId);
@@ -69,13 +90,13 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      this.getList();
-      this.getLeadList();
-      this.getRecentList();
-      this.getCampaignList();
-      this.getFollowupList();
-      this.getBacklogList();
-      this.getLeadAssignList();
+    this.getList();
+    this.getLeadList();
+    this.getRecentList();
+    this.getCampaignList();
+    this.getFollowupList();
+    this.getBacklogList();
+    this.getLeadAssignList();
   }
 
   loadForm() {
@@ -108,20 +129,20 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
 
   getRecentList() {
     this.ngzone.run(_ => {
-    this.dashboardService.getRecentList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.recentObj = res
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getRecentList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.recentObj = res
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
   getCampaignList() {
     this.dashboardService.getCampaignList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.campaign = res
-        this.campaign.map(c=>{
+        this.campaign.map(c => {
           this.campaignArray.push(c);
         })
         this.cdf.detectChanges();
@@ -156,16 +177,16 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   getFollowupList() {
     this.ngzone.run(_ => {
 
-    this.dashboardService.getFollowupList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.followup = res;
-        this.followup.map(log => {
-          this.followUpArray.push(log);
-        })
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getFollowupList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.followup = res;
+          this.followup.map(log => {
+            this.followUpArray.push(log);
+          })
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
 
@@ -244,6 +265,6 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
       },
     };
   }
-  
+
 }
 

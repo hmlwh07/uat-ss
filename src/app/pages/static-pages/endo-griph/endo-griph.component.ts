@@ -124,7 +124,9 @@ export class EndoGripComponent implements OnInit {
         else return null
       })
       dataArr.unshift(null)
-      // if (this.parentData.length > 0) {
+      if (this.parentData.length > 0) {
+        this.chartOptions.yaxis.max = this.parentData[0].benefit
+      }
         // if (this.parentData[0].benefitPlan == '002') {
         //   this.chartOptions.title.text = "Double Benefit Illustration"
         //   this.chartOptions.yaxis.max = 5000000 * 2

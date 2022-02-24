@@ -179,7 +179,7 @@ export class EndoComponent implements OnInit {
     let rate = this.surrendRate.find(x => x.premiumPaidYear == year)
     if (rate) {
       tempRate = rate.rate
-      let surrend = (tempRate / 100) * this.sumInsured
+      let surrend = (tempRate / 1000) * this.sumInsured
       return surrend
     }
     return 0
