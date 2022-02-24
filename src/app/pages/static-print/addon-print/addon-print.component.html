@@ -20,13 +20,13 @@
         <tr *ngIf="addOnData[addon.id]">
           <td class="field-value">{{addon.description}}</td>
           <td class="field-value" *ngIf="addon.sumInsured">
-            {{(addOnData[addon.id] ? addOnData[addon.id].sum : 0) | number}}
+            {{addOnData[addon.id].sum > 0 ? (addOnData[addon.id].sum | number) : addOnData[addon.id].sum}}
           </td>
           <td class="field-value" *ngIf="addon.unit">
             {{(addOnData[addon.id] ? addOnData[addon.id].unit : 0)}}
           </td>
           <td class="field-value" *ngIf="addon.premium">
-            {{(addOnData[addon.id] ? addOnData[addon.id].premium : 0) | number}}
+            {{addOnData[addon.id].premium > 0 ? (addOnData[addon.id].premium | number) : addOnData[addon.id].premium}}
           </td>
         </tr>
       </ng-container>
