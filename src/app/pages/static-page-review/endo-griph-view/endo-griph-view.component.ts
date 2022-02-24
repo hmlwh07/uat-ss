@@ -124,7 +124,9 @@ export class EndoGripViewComponent implements OnInit {
     })
     dataArr.unshift(null)
     this.chartOptions.series[0].data = dataArr
-
+    if (this.parentData.length > 0) {
+      this.chartOptions.yaxis.max = parseInt(this.parentData[0].benefit)
+    }
     // if (this.parentData.length > 0) {
     //   if (this.parentData[0].benefitPlan == '002') {
     //     this.chartOptions.title.text = "Double Benefit Illustration"
