@@ -1,8 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { AuthService } from 'src/app/modules/auth';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from '../../../environments/environment';
 
@@ -22,7 +24,8 @@ const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
   providedIn: 'root'
 })
 export class ReportAgentMonthlyExportService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient, private authService: AuthService) {
+  constructor(protected httpClient: HttpClient, private authService: AuthService,
+    public platform: Platform, private attachmentDownloadService: AttachmentDownloadService) {
     super(httpClient, API_ADDON_URL);
   }
 
@@ -245,7 +248,11 @@ export class ReportAgentMonthlyExportService extends BizOperationService<any, nu
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
-      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        this.attachmentDownloadService.mobileDownload(title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx', blob);
+      } else {
+        fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
+      }
     });
 
   }

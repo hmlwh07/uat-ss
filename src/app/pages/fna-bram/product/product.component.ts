@@ -11,6 +11,8 @@ import { CustomerService } from '../../customer-detail/customer.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
 
 
 
@@ -70,8 +72,10 @@ export class ProductComponent implements OnInit {
   isData: boolean;
   updateProducts = [];
 
-  constructor(private productService: FNAProductService, private productDataService: ProductDataService, private cdf: ChangeDetectorRef, private customerService: CustomerService, private router: Router,
-    private fnaService: FANService, private alertService: AlertService) {
+  constructor(private productService: FNAProductService, private productDataService: ProductDataService,
+    private cdf: ChangeDetectorRef, private customerService: CustomerService, private router: Router,
+    private fnaService: FANService, private alertService: AlertService,
+    public platform: Platform, private attachmentDownloadService: AttachmentDownloadService) {
 
   }
 
@@ -123,8 +127,8 @@ export class ProductComponent implements OnInit {
       if (res) {
         this.productDataService.createingProd = res[0]
         this.productDataService.creatingCustomer = res[1]
-        this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy':'quotation'
-        this.productDataService.viewType = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy':'quotation'
+        this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
+        this.productDataService.viewType = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
         this.productDataService.referenceID = null
         this.productDataService.creatingLeadId = this.passValueData.leadId
         this.router.navigateByUrl("/product-form")
@@ -210,7 +214,7 @@ export class ProductComponent implements OnInit {
             totalLessMonthlyRate += res.lessRisk[i].monthlyRate
           }
 
-           // Fire, Motor, Personal Accident
+          // Fire, Motor, Personal Accident
           if (res.lessRisk[i].productCode == 'CLFR01' || res.lessRisk[i].productCode == 'PLMO02' ||
             res.lessRisk[i].productCode == 'PLPA01' || res.lessRisk[i].productCode == 'PCPA01') {
             res.lessRisk[i].action = 'Buy';
@@ -308,7 +312,7 @@ export class ProductComponent implements OnInit {
         this.totalGrantMonthlyRate = totalGrantMonthlyRate;
 
         if (this.grantTotalList[i].productCode == 'CLFR01' || this.grantTotalList[i].productCode == 'PLMO02' ||
-          this.grantTotalList[i].productCode == 'PLPA01' ||  this.grantTotalList[i].productCode == 'PCPA01') {
+          this.grantTotalList[i].productCode == 'PLPA01' || this.grantTotalList[i].productCode == 'PCPA01') {
           this.grantTotalList[i].action = 'Buy';
         } else {
           this.grantTotalList[i].action = '';
@@ -855,10 +859,17 @@ export class ProductComponent implements OnInit {
       170, this.totalHeight + 155);
     doc.text("previous, Questions not answered shall be filtered out automatically",
       170, this.totalHeight + 165);
-    // Open PDF document in new tab
-    doc.output('dataurlnewwindow', { filename: this.passValueData.customerName + '_' + this.passValueData.fnaId + '_' + quotationDate + '.pdf' })
-    // Download PDF document  
-    doc.save(this.passValueData.customerName + '_' + this.passValueData.fnaId + '_' + quotationDate + '.pdf');
+    console.log('DOC =====> ', doc);
+
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+      this.attachmentDownloadService.mobileDownload(this.passValueData.customerName + '_' + this.passValueData.fnaId + '_' + this.formatDateDD_MM_YYY(new Date()) + '.pdf', blobPDF);
+    } else {
+      // Open PDF document in new tab
+      doc.output('dataurlnewwindow', { filename: this.passValueData.customerName + '_' + this.passValueData.fnaId + '_' + this.formatDateDD_MM_YYY(new Date()) + '.pdf' })
+      // Download PDF document  
+      doc.save(this.passValueData.customerName + '_' + this.passValueData.fnaId + '_' + this.formatDateDD_MM_YYY(new Date()) + '.pdf');
+    }
   }
 
   formatDateDDMMYYY(date) {
@@ -871,6 +882,18 @@ export class ProductComponent implements OnInit {
     if (day.length < 2)
       day = '0' + day;
     return [month, day, year].join('/');
+  }
+
+  formatDateDD_MM_YYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [month, day, year].join('_');
   }
 
   calculatePercentage(percent, totalAmount) {
