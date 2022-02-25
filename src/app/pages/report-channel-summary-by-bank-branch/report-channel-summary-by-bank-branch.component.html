@@ -185,13 +185,13 @@
                 <tr class="data">
                     <td class="text-right" *ngFor="let policies of displayList[0].policies; let i = index">
                         <label *ngIf="i == 0">{{ policies.noOfPolicy || 0.00 }}</label>
-                        <label *ngIf="i != 0">{{ policies.noOfPolicy | number:'1.2-2' || 0.00 }}</label>
+                        <label *ngIf="i != 0">{{ (policies.noOfPolicy || 0) | number:'1.2-2' }}</label>
                     </td>
                 </tr>
                 <tr class="data">
                     <td class="text-right" *ngFor="let premium of displayList[0].premium; let i = index">
                         <label *ngIf="i == 0">{{ premium.totalPreminum || 0.00 }}</label>
-                        <label *ngIf="i != 0">{{ premium.totalPreminum | number:'1.2-2' || 0.00 }}</label>
+                        <label *ngIf="i != 0">{{ (premium.totalPreminum || 0) | number:'1.2-2' }}</label>
                     </td>
                 </tr>
             </table>

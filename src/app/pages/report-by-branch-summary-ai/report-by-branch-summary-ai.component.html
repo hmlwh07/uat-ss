@@ -188,16 +188,16 @@
                 <tr class="data" *ngFor="let report of reports; let i = index">
                     <td>{{ report.srNo }}</td>
                     <td class="text-left">{{ report.cluster }}</td>
-                    <td class="text-right">{{ report.activeAgents | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ report.noOfPolicy | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ report.totalPreminum | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ (report.activeAgents || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (report.noOfPolicy || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (report.totalPreminum || 0) | number:'1.2-2' }}</td>
                 </tr>
                 <tr class="data" *ngFor="let total of totalDataList; let i = index">
                     <td></td>
                     <td>Total</td>
-                    <td class="text-right">{{ total.totalActiveAgents | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ total.totalNoOfPolicy | number:'1.2-2' || 0.00 }}</td>
-                    <td class="text-right">{{ total.totalPreminum | number:'1.2-2' || 0.00 }}</td>
+                    <td class="text-right">{{ (total.totalActiveAgents || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (total.totalNoOfPolicy || 0) | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ (total.totalPreminum || 0) | number:'1.2-2' }}</td>
                 </tr>
             </table>
         </div>

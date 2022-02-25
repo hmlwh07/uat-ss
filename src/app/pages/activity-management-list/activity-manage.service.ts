@@ -14,7 +14,7 @@ export class ActivityManageService extends BizOperationService<ActivityManage, n
   }
 
   getActivityList(search: any = {}) {
-    let url = API_ADDON_URL + "?isTeam=true"
+    let url = API_ADDON_URL + "?isTeam=true&"
     if (search.type) {
       url = url + "type=" + search.type + "&"
     } if (search.title) {

@@ -187,7 +187,7 @@
                     <td>{{ data.no }}</td>
                     <td class="text-left">{{ data.month }}</td>
                     <td class="text-right" *ngFor="let product of dataList[i].productDataList; let j = index">
-                        {{ product.totalPreminum | number:'1.2-2' || 0.00 }}
+                        {{ (product.totalPreminum || 0) | number:'1.2-2'}}
                     </td>
                 </tr>
             </table>

@@ -203,12 +203,12 @@
                     <td class="text-left">{{ data.agentNo }}</td>
                     <td class="text-right" *ngFor="let policy of dataList[i].productDataList; let j = index; ">
                         <span style="text-align: end;  padding: 0 5px 0 0;" *ngIf="policy.noOfPolicies">{{
-                            policy.noOfPolicies |
-                            number:'1.2-2' || 0.00 }}
+                            (policy.noOfPolicies || 0) |
+                            number:'1.2-2'  }}
                             <div class="right-border-transform"></div>
                         </span>
-                        <span style="text-align: end;" *ngIf="policy.totalPremium">{{ policy.totalPremium |
-                            number:'1.2-2' || 0.00 }}</span>
+                        <span style="text-align: end;" *ngIf="policy.totalPremium">{{ (policy.totalPremium || 0) |
+                            number:'1.2-2' }}</span>
                         <span style="text-align: end; padding: 0 5px 0 0;" *ngIf="!policy.noOfPolicies">
                             0.00
                             <div class="right-border-transform"></div>

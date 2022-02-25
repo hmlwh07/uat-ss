@@ -38,7 +38,7 @@ export class CurrencyExChangeComponent implements OnInit {
   loadForm(){
     this.exchangeForm = new FormGroup({
       date: new FormControl(null),
-      currency: new FormControl(null),
+      currency: new FormControl('usd'),
     })
   }
 
@@ -125,7 +125,7 @@ export class CurrencyExChangeComponent implements OnInit {
         if (index >= 0) {
           this.currencyList.splice(index, 1)
           this.matTable.reChangeData()
-
+          this.alertService.activate('This record was deleted', 'Success Message');
         }
       }
     })
