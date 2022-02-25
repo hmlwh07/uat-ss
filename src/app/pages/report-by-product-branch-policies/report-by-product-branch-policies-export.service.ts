@@ -5,6 +5,8 @@ import * as fs from 'file-saver';
 import { AuthService } from '../../../app/modules/auth';
 import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from '../../../environments/environment';
+import { Platform } from '@ionic/angular';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
 
 const API_ADDON_URL = `${environment.apiUrl}/policyProductBranch`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
@@ -22,7 +24,8 @@ const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M
   providedIn: 'root'
 })
 export class ReportProductBranchPoliciesExportService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient, private authService: AuthService) {
+  constructor(protected httpClient: HttpClient, private authService: AuthService,
+    public platform: Platform, private attachmentDownloadService: AttachmentDownloadService) {
     super(httpClient, API_ADDON_URL);
   }
 
@@ -274,7 +277,11 @@ export class ReportProductBranchPoliciesExportService extends BizOperationServic
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
-      fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        this.attachmentDownloadService.mobileDownload(title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx', blob);
+      } else {
+        fs.saveAs(blob, title + '_' + this.formatDateDDMMYYY(new Date()) + '.xlsx');
+      }
     });
 
   }
