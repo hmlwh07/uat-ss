@@ -90,19 +90,32 @@ export class ReportDetailAgentExportService extends BizOperationService<any, num
       bold: true,
       color: { argb: '0085A3' }
     }
-    titleRow.alignment = { vertical: 'middle', horizontal: 'left' }   
-   
-     //Reported By:
-     worksheet.mergeCells('G2', 'G2');
-     let reportBy = worksheet.getCell('G2');
+    titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
+
+    //Reported Date:
+    worksheet.mergeCells('G1', 'G1');
+    let reportDate = worksheet.getCell('G1');
+    reportDate.value = 'Reported Date: ' + this.formatReportedDate(new Date());
+    reportDate.font = {
+      name: 'Calibri',
+      size: 10,
+      bold: true
+    }
+    reportDate.alignment = { vertical: 'middle', horizontal: 'left' }
+
+    
+
+    //Reported By:
+    worksheet.mergeCells('G2', 'G2');
+    let reportBy = worksheet.getCell('G2');
     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
     reportBy.font = {
       name: 'Calibri',
-      size: 10,    
+      size: 10,
       bold: true
     }
     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
-  
+
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -115,7 +128,7 @@ export class ReportDetailAgentExportService extends BizOperationService<any, num
         if (searchValue[i].toDate) {
           cellIndex = 'F2';
           cellIndexValue = 'To Date: ' + searchValue[i].toDate;
-        }       
+        }
         if (searchValue[i].companyName) {
           cellIndex = 'L1';
           cellIndexValue = 'Company: ' + searchValue[i].companyName;
@@ -284,6 +297,18 @@ export class ReportDetailAgentExportService extends BizOperationService<any, num
     if (day.length < 2)
       day = '0' + day;
     return [day, month, year].join('_');
+  }
+
+  formatReportedDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
   }
 
   mathRoundTo(num: number, places: number) {

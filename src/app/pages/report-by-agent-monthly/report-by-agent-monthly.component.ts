@@ -53,6 +53,8 @@ export class ReportByAgentMonthlyComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
   }
 
   async getOfficeHirearchy() {
