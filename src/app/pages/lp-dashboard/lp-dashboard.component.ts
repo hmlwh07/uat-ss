@@ -58,7 +58,6 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   backlogArray = [];
   unsub: any = {};
   id: any;
-  leadObj: any;
 
   constructor(private cdf: ChangeDetectorRef,private ngzone: NgZone, private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
     this.route.queryParams.subscribe(async params => {
@@ -70,7 +69,6 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
       this.getList();
-      this.getLeadList();
       this.getRecentList();
       this.getCampaignList();
       this.getFollowupList();
@@ -84,26 +82,12 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  getLeadList() {
-    this.ngzone.run(_ => {
-    this.dashboardService
-      .getLeadList(this.actForm.value)
-      .toPromise()
-      .then((res) => {
-        if (res) {
-          this.leadObj = res;
-          this.setChartOptions();
-          this.cdf.detectChanges();
-        }
-      });
-    });
-  }
-
   getList() {
     this.ngzone.run(_ => {
     this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.data = res;
+        this.setChartOptions();
         this.cdf.detectChanges();
       }
     })
@@ -189,15 +173,27 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   goToSalePolicies() {
     this.router.navigate(['/sale/application/list'])
   }
+
+  goToCalendar(){
+    this.router.navigate(['/mycalendar'])
+  }
+
+  goToLeadList(){
+    this.router.navigate(['/lead/lead-list'])
+  }
+
   setChartOptions() {
     this.chartOptions = {
       series: [
         {
           name: '',
-          data: [this.leadObj.leadWinCount, this.leadObj.leadAssignCount],
+          data: [this.data.converted, this.data.assigned],
         },
       ],
       chart: {
+        toolbar: {
+          show: false
+        },
         height: 150,
         type: 'bar',
         events: {
@@ -232,8 +228,8 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
       },
       xaxis: {
         categories: [
-          ['Converted', this.leadObj.leadWinCount],
-          ['Assigned', this.leadObj.leadAssignCount],
+          ['Converted', this.data.converted],
+          ['Assigned', this.data.assigned],
         ],
         labels: {
           style: {

@@ -50,8 +50,12 @@ export type ChartOptions = {
   styleUrls: ['./lp-manager-dashboard.component.scss'],
 })
 export class LpManagerDashboardComponent implements OnInit, OnDestroy {
-  @ViewChild('chart') chart: ChartComponent;
+  @ViewChild("chartAgent") chartAgent: ChartComponent;
+  @ViewChild("chartLead") chartLead: ChartComponent;
+
+  public chartOptionsAgent: Partial<ChartOptions>;
   public chartOptions: Partial<ChartOptions>;
+
   data: any;
   actForm: FormGroup;
   leadObj: any;
@@ -102,6 +106,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       .then((res) => {
         if (res) {
           this.data = res;
+          this.setChartOptions('agent');
           this.cdf.detectChanges();
         }
       });
@@ -114,7 +119,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       .then((res) => {
         if (res) {
           this.leadObj = res;
-          this.setChartOptions();
+          this.setChartOptions('lead');
           this.cdf.detectChanges();
         }
       });
@@ -136,69 +141,73 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['activity/activity-management-list'])
   }
 
-  setChartOptions() {
-    this.chartOptions = {
+  setChartOptions(type : string){
+    let key =  type == 'lead'?  'chartOptions' : 'chartOptionsAgent';
+    this[key]= {
       series: [
         {
-          name: '',
-          data: [this.leadObj.leadWinCount, this.leadObj.leadAssignCount],
-        },
+          name: "",
+          data: [type == 'lead'? this.leadObj.leadWinCount : this.data.converted ,type == 'lead'? this.leadObj.leadAssignCount
+        : this.data.assigned]
+        }
       ],
       chart: {
-        height: 150,
-        type: 'bar',
-        events: {
-          click: function (chart, w, e) {
-            // console.log(chart, w, e)
-          },
+        toolbar: {
+          show: false
         },
+        height: 150,
+        type: "bar",
+        events: {
+          click: function(w, e) {
+          }
+        }
       },
       colors: [
-        '#008FFB',
-        '#00E396',
-        '#FEB019',
-        '#FF4560',
-        '#775DD0',
-        '#546E7A',
-        '#26a69a',
-        '#D10CE8',
+        "#008FFB",
+        "#00E396",
+        "#FEB019",
+        "#FF4560",
+        "#775DD0",
+        "#546E7A",
+        "#26a69a",
+        "#D10CE8"
       ],
       plotOptions: {
         bar: {
-          columnWidth: '20%',
-          distributed: true,
-        },
+          columnWidth: "20%",
+          distributed: true
+        }
       },
       dataLabels: {
-        enabled: false,
+        enabled: false
       },
       legend: {
-        show: false,
+        show: false
       },
       grid: {
-        show: false,
+        show: false
       },
       xaxis: {
         categories: [
-          ['Converted', this.leadObj.leadWinCount],
-          ['Assigned', this.leadObj.leadAssignCount],
+          ["Converted",type == 'lead'? this.leadObj.leadWinCount : this.data.converted],
+          ["Assigned", type == 'lead'? this.leadObj.leadAssignCount : this.data.assigned],
         ],
         labels: {
           style: {
             colors: [
-              '#008FFB',
-              '#00E396',
-              '#FEB019',
-              '#FF4560',
-              '#775DD0',
-              '#546E7A',
-              '#26a69a',
-              '#D10CE8',
+              "#008FFB",
+              "#00E396",
+              "#FEB019",
+              "#FF4560",
+              "#775DD0",
+              "#546E7A",
+              "#26a69a",
+              "#D10CE8"
             ],
-            fontSize: '12px',
-          },
-        },
-      },
+            fontSize: "12px"
+          }
+        }
+      }
     };
   }
 }
