@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ export class CustomInputAlertComponent implements OnInit {
   @ViewChild('selectedFile') selectedFileEl: ElementRef;
   private subscriptions: Subscription[] = [];
   constructor(
-    private fb: FormBuilder, public modal: NgbActiveModal,private AttachmentUploadService:AttachmentUploadService,
+    private fb: FormBuilder, public modal: NgbActiveModal,private AttachmentUploadService:AttachmentUploadService,private cdf: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -62,8 +62,10 @@ export class CustomInputAlertComponent implements OnInit {
           }
           this.fileName=file.name
           this.fileData=data
+          this.cdf.detectChanges()
         };
       }
+      
       
     }
       
