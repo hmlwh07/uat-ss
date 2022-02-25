@@ -49,6 +49,8 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
   }
 
   async getOfficeHirearchy() {
@@ -87,12 +89,12 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
             for (var i = 0; i < this.dataList.length; i++) {
               let list = [];
               for (var j = 0; j < this.productsHeader.length; j++) {
-                list.push({ id: this.productsHeader[j].id, noOfPolicy: 0 });
+                list.push({ id: this.productsHeader[j].id, noOfPolicy: 0.00, totalPreminum: 0.00 });
               }
               countNo += 1;
               this.dataList[i].no = countNo;
-              this.dataList[i].productDataList = list;
-              this.dataList[i].totalDataList = list;
+              this.dataList[i].productDataList = JSON.parse(JSON.stringify(list));
+              this.dataList[i].totalDataList = JSON.parse(JSON.stringify(list));;
               if (this.dataList[i].products) {
                 for (var j = 0; j < this.dataList[i].products.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
@@ -110,7 +112,7 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
                     let total: number = 0;
                     for (var k = 0; k < this.totalDataList.length; k++) {
                       if (this.totalDataList[k].id == this.dataList[i].products[j].id) {
-                        this.totalDataList[k].noOfPolicy += this.dataList[i].products[j].noOfPolicy;
+                        this.totalDataList[k].noOfPolicy += Number(this.dataList[i].products[j].noOfPolicy);
                         //total += this.dataList[i].products[j].noOfPolicy;
                       }
                     }
@@ -351,9 +353,9 @@ export class ReportByProductBranchPoliciesComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }

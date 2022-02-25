@@ -109,6 +109,17 @@ export class ReportProductBranchPremiumExportService extends BizOperationService
     }
     titleRow.alignment = { vertical: 'middle', horizontal: 'left' }
 
+    //Reported Date:
+    worksheet.mergeCells('G1', 'G1');
+    let reportDate = worksheet.getCell('G1');
+    reportDate.value = 'Reported Date: ' + this.formatReportedDate(new Date());
+    reportDate.font = {
+      name: 'Calibri',
+      size: 10,
+      bold: true
+    }
+    reportDate.alignment = { vertical: 'middle', horizontal: 'left' }
+
      //Reported By:
      worksheet.mergeCells('G2', 'G2');
      let reportBy = worksheet.getCell('G2');
@@ -305,6 +316,18 @@ export class ReportProductBranchPremiumExportService extends BizOperationService
     const factor = 10 ** places;
     return (Math.round(num * factor) / factor).toLocaleString();
   };
+
+  formatReportedDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
+  }
 
 }
 

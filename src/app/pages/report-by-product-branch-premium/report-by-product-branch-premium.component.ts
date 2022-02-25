@@ -54,6 +54,8 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
+    this.fromMinDate = null;
+    this.fromMaxDate = null;
   }
 
   async getOfficeHirearchy() {
@@ -88,12 +90,12 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
             for (var i = 0; i < this.dataList.length; i++) {
               let list = [];
               for (var j = 0; j < this.productsHeader.length; j++) {
-                list.push({ id: this.productsHeader[j].id, noOfPolicy: 0.00 });
+                list.push({ id: this.productsHeader[j].id, noOfPolicy: 0.00, totalPreminum: 0.00 });
               }
               countNo += 1;
               this.dataList[i].no = countNo;
-              this.dataList[i].productDataList = list
-              this.dataList[i].totalDataList = list
+              this.dataList[i].productDataList = JSON.parse(JSON.stringify(list));
+              this.dataList[i].totalDataList = JSON.parse(JSON.stringify(list));
               if (this.dataList[i].products) {
                 for (var j = 0; j < this.dataList[i].products.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
@@ -111,14 +113,14 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
                     let total: number = 0;
                     for (var k = 0; k < this.totalDataList.length; k++) {
                       if (this.totalDataList[k].id == this.dataList[i].products[j].id) {
-                        this.totalDataList[k].noOfPolicy += this.dataList[i].products[j].noOfPolicy;
+                        this.totalDataList[k].totalPreminum += Number(this.dataList[i].products[j].totalPreminum);
                       }
                     }
                   }
                 }
 
                 for (var k = 0; k < this.totalDataList.length; k++) {
-                  this.totalDataList[k].noOfPolicy = this.totalDataList[k].noOfPolicy
+                  this.totalDataList[k].totalPreminum = this.totalDataList[k].totalPreminum
                 }
               }
             }
@@ -147,7 +149,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
       let list = [];
       list.push(i + 1, this.dataList[i].cluster)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].noOfPolicy || 0.00)
+        list.push(this.dataList[i].productDataList[j].totalPreminum || 0.00)
       }
       this.branchDataForExcel.push(list)
     }
@@ -155,7 +157,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
     totalValue.push('');
     totalValue.push('Total');
     for (var i = 0; i < this.totalDataList.length; i++) {
-      totalValue.push(this.totalDataList[i].noOfPolicy || 0.00)
+      totalValue.push(this.totalDataList[i].totalPreminum || 0.00)
     }
 
 
@@ -347,9 +349,9 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
