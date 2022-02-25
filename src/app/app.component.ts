@@ -20,6 +20,7 @@ import { Device } from "@capacitor/device"
 import { App as CapacitorApp } from '@capacitor/app';
 import { AlertController } from '@ionic/angular';
 import { AlertService } from './modules/loading-toast/alert-model/alert.service';
+import { MenuDataService } from './core/menu-data.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private applicationRef: ApplicationRef,
     private alertCtrl: AlertController,
     private alertService: AlertService,
+    private menuService: MenuDataService
 
   ) {
 
@@ -89,6 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(res);
 
       if (res) {
+        this.menuService.getMenusData()
         // this.master.getType()
       }
     })
