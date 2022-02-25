@@ -17,7 +17,9 @@
           <h6 class="card-label left-border-image">My Acievement</h6>
         </div>
         <div class="col-10">
-          <label class="primary-color">Premium - {{ data?.yearlyTotalPremium[0]?.year }} {{ months[currentMonthIndex] }}
+          <label class="primary-color">Premium -
+            <span *ngIf="data && data.yearlyProductPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }}</span>
+            <span *ngIf="months && months.length > 0">{{ months[currentMonthIndex] }}</span>
             : {{ data?.agentInfo?.totalPremium }} <span>MMk</span>
           </label>
         </div>
@@ -48,7 +50,7 @@
           <div class="col-2 underline pointer" (click)="goToSaleQuotation()">All ></div>
         </div>
 
-        <div>
+        <div *ngIf="recentObj && recentObj.quotations && recentObj.quotations.length > 0">
           <ng-container *ngFor="let q of recentObj?.quotations | slice:0:1">
             <div class="lp-dashboard-box-body">
               <div class="bold">{{ q.productName }}</div>
@@ -62,8 +64,8 @@
           <div class="col-10">Policies</div>
           <div class="col-2 underline pointer" (click)="goToSalePolicies()">All ></div>
         </div>
-        <div>
-          <ng-container *ngFor="let p of recentObj?.policies | slice:0:1">
+        <div *ngIf="recentObj && recentObj.policies && recentObj.policies.length > 0">
+          <ng-container *ngFor="let p of recentObj?.policies  | slice: 0:1">
             <div class="lp-dashboard-box-body">
               <div class="bold">{{ p.productName }}</div>
               <div><span> {{ p.customerName }} </span>
@@ -77,7 +79,7 @@
           <div class="col-10">Campaign for Today
           </div>
         </div>
-        <div>
+        <div *ngIf="campaignArray.length > 0">
           <ng-container *ngFor="let c of campaignArray | slice:0:1">
             <div class="lp-dashboard-box-body">
               <div class="bold">- {{ c.campaignName }}</div>
@@ -103,7 +105,7 @@
         <div class="col-2 underline">All ></div>
       </div>
 
-      <div>
+      <div *ngIf="followUpArray.length > 0">
         <ng-container *ngFor="let followup of followUpArray  | slice: 0:3">
           <div class="lp-dashboard-box-body flex my-p-5">
 
@@ -127,19 +129,22 @@
           <div class="col-2 underline">All></div>
         </div>
 
-        <ng-container *ngFor="let log of backlogArray | slice: 0:2">
-          <div class="lp-dashboard-box-body flex my-p-5">
-            <div class="col-2"><img src="./assets/images/medicalrecord.png" class="user-icon" alt="" />
-            </div>
-            <div class="col-10">
-              <div><span>{{ log.title }}</span></div>
-              <div class="f-11">
-                <span>{{ log.customerName }}</span>
-                <span class="pl-10">Due {{ log.dueDate | date:'mediumDate' }}</span>
+        <div *ngIf="backlogArray && backlogArray.length > 0">
+
+          <ng-container *ngFor="let log of backlogArray | slice: 0:2">
+            <div class="lp-dashboard-box-body flex my-p-5">
+              <div class="col-2"><img src="./assets/images/medicalrecord.png" class="user-icon" alt="" />
+              </div>
+              <div class="col-10">
+                <div><span>{{ log.title }}</span></div>
+                <div class="f-11">
+                  <span>{{ log.customerName }}</span>
+                  <span class="pl-10">Due {{ log.dueDate | date:'mediumDate' }}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
 
       <div>
@@ -147,7 +152,7 @@
           <div class="col-10">Leads Assigned</div>
           <div class="col-2 underline">All></div>
         </div>
-        <div class="lp-dashboard-box-body flex my-p-5">
+        <div class="lp-dashboard-box-body flex my-p-5" *ngIf="assignLeadArray && assignLeadArray.length > 0">
           <ng-container *ngFor="let obj of assignLeadArray | slice: 0:1">
             <div class="my-pl-10">
               <span>{{ obj.registerUserName }}</span>

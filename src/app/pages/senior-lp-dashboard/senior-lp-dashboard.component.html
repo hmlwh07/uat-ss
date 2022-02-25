@@ -17,7 +17,9 @@
           <h6 class="card-label left-border-image">My Acievement</h6>
         </div>
         <div class="col-10">
-          <label class="primary-color">Premium - {{ data?.yearlyTotalPremium[0]?.year }} {{ months[currentMonthIndex] }}
+          <label class="primary-color">Premium - 
+            <span *ngIf="data && data.yearlyTotalPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }}</span> 
+            <span *ngIf="months && months.length > 0">{{ months[currentMonthIndex] }}</span>
             : {{ data?.agentInfo?.totalPremium }} <span>MMk</span>
           </label>
         </div>
@@ -27,7 +29,7 @@
           [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis"
           [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
       </div>
-      <div>
+      <div *ngIf="data && data.yearlyTotalPremium.length > 0">
         <ng-container *ngFor="let product of data?.yearlyProductPremium">
           <div class="row my-row">
             <div class="col-6">{{ product.productName }}</div>
@@ -50,11 +52,11 @@
       </div>
       <div class="row my-row">
         <div class="col-12">
-          <span class="primary-color">{{ data?.yearlyTotalPremium[0]?.year }} - {{ months[currentMonthIndex] }} </span>
+          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{ months[currentMonthIndex] }}</span> </span>
         </div>
       </div>
 
-      <div class="width-100">
+      <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
         <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
           <div class="my-profile-card my-border-bottom" (click)="goToLPManager(agent)">
             <div class="flex">
@@ -89,7 +91,7 @@
       </div>
       <div class="row my-row">
         <div class="col-12">
-          <span class="primary-color">{{ data?.yearlyTotalPremium[0]?.year }} - {{ months[currentMonthIndex] }} </span>
+          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{ months[currentMonthIndex] }}</span> </span>
         </div>
       </div>
       <div id="chart">

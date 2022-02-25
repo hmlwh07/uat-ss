@@ -46,7 +46,7 @@ export type ChartOptions = {
 export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  data: any = {};
+  data: any;
   authObj: any;
   actForm: FormGroup;
   leadObj : any;

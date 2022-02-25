@@ -85,6 +85,7 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   }
 
   getLeadList() {
+    this.ngzone.run(_ => {
     this.dashboardService
       .getLeadList(this.actForm.value)
       .toPromise()
@@ -95,22 +96,26 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
           this.cdf.detectChanges();
         }
       });
+    });
   }
 
   getList() {
+    this.ngzone.run(_ => {
     this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.data = res;
         this.cdf.detectChanges();
       }
     })
+  });
   }
 
   getRecentList() {
     this.ngzone.run(_ => {
     this.dashboardService.getRecentList(this.actForm.value).toPromise().then((res) => {
       if (res) {
-        this.recentObj = res
+        this.recentObj = res;
+        console.log('recentObj',this.recentObj)
         this.cdf.detectChanges();
       }
     })
@@ -118,6 +123,7 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   }
 
   getCampaignList() {
+    this.ngzone.run(_ => {
     this.dashboardService.getCampaignList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.campaign = res
@@ -127,9 +133,11 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
         this.cdf.detectChanges();
       }
     })
+  });
   }
 
   getBacklogList() {
+    this.ngzone.run(_ => {
     this.dashboardService.getBacklogList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.backlog = res;
@@ -139,9 +147,11 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
         this.cdf.detectChanges();
       }
     })
+  });
   }
 
   getLeadAssignList() {
+    this.ngzone.run(_ => {
     this.dashboardService.getLeadAssignList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.assignlead = res;
@@ -151,11 +161,11 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
         this.cdf.detectChanges();
       }
     })
+  });
   }
 
   getFollowupList() {
     this.ngzone.run(_ => {
-
     this.dashboardService.getFollowupList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.followup = res;
@@ -192,7 +202,6 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
         type: 'bar',
         events: {
           click: function (chart, w, e) {
-            // console.log(chart, w, e)
           },
         },
       },
