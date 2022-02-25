@@ -44,9 +44,12 @@ export type ChartOptions = {
   styleUrls: ['./senior-lp-dashboard.component.scss']
 })
 export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("chartAgent") chartAgent: ChartComponent;
+  @ViewChild("chartLead") chartLead: ChartComponent;
+
+  public chartOptionsAgent: Partial<ChartOptions>;
   public chartOptions: Partial<ChartOptions>;
-  data: any = {};
+  data: any;
   authObj: any;
   actForm: FormGroup;
   leadObj : any;
@@ -82,6 +85,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
       this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
         if (res) {
           this.data = res;
+          this.setChartOptions('agent');
           this.cdf.detectChanges();       
         }
       })
@@ -92,7 +96,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.leadObj = res;
-        this.setChartOptions();
+        this.setChartOptions('lead');
         this.cdf.detectChanges();
       }
     })
@@ -114,19 +118,24 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['activity/activity-management-list']);
   }
 
-  setChartOptions(){
-    this.chartOptions = {
+  setChartOptions(type : string){
+    let key =  type == 'lead'?  'chartOptions' : 'chartOptionsAgent';
+    this[key]= {
       series: [
         {
           name: "",
-          data: [this.leadObj.leadWinCount,this.leadObj.leadAssignCount]
+          data: [type == 'lead'? this.leadObj.leadWinCount : this.data.converted ,type == 'lead'? this.leadObj.leadAssignCount
+        : this.data.assigned]
         }
       ],
       chart: {
+        toolbar: {
+          show: false
+        },
         height: 150,
         type: "bar",
         events: {
-          click: function(chart, w, e) {
+          click: function(w, e) {
           }
         }
       },
@@ -157,8 +166,8 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
       },
       xaxis: {
         categories: [
-          ["Converted", this.leadObj.leadWinCount],
-          ["Assigned", this.leadObj.leadAssignCount],
+          ["Converted",type == 'lead'? this.leadObj.leadWinCount : this.data.converted],
+          ["Assigned", type == 'lead'? this.leadObj.leadAssignCount : this.data.assigned],
         ],
         labels: {
           style: {

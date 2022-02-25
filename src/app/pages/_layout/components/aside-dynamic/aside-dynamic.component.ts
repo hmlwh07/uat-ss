@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { MenuDataService } from '../../../../core/menu-data.service';
 import { AuthService } from '../../../../modules/auth';
 import { LayoutService, DynamicAsideMenuService } from '../../../../_metronic/core';
 
@@ -31,6 +32,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     private layout: LayoutService,
     private router: Router,
     private menu: DynamicAsideMenuService,
+    private menuService: MenuDataService,
     private auth: AuthService,
     private cdr: ChangeDetectorRef) { }
 
@@ -62,8 +64,10 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     this.subscriptions.push(routerSubscr);
 
     // menu load
-    const menuSubscr = this.menu.menuConfig$.subscribe(res => {
-      this.menuConfig = res;
+    const menuSubscr = this.menuService.menuData.subscribe(res => {
+      console.log(res, "menu");
+
+      this.menuConfig = { items: res };
       this.cdr.detectChanges();
     });
     this.subscriptions.push(menuSubscr);
@@ -93,7 +97,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
 
     return false;
   }
-  logout(){
+  logout() {
     this.auth.logout();
     document.location.reload();
   }
