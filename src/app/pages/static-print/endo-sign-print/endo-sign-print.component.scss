@@ -1,0 +1,17 @@
+.sign-row {
+  display        : flex;
+  justify-content: space-between;
+  margin-top     : 15px;
+  font-size      : 0.9rem;
+
+  .sign-area {
+    width        : 150px;
+    min-height   : 30px;
+    border-bottom: 1px #000 dashed;
+
+    .sign-img {
+      width: 150px;
+
+    }
+  }
+}

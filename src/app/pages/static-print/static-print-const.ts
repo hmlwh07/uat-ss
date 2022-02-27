@@ -21,4 +21,9 @@ export const STATIS_PINRTS = [
     pageTitle: "Personal Accident Sign",
     type: PageUIType.STATIC,
   },
+  {
+    id: "print_1645941212846",
+    pageTitle: "Endowment Sign",
+    type: PageUIType.STATIC,
+  },
 ]

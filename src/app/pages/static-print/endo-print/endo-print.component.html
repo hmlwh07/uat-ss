@@ -1,0 +1,41 @@
+<div class="addon-print">
+  <div class="title-style left-border-image mt-5 mb-3">Education Life Benefit</div>
+  <table class="tbody-align">
+    <tr>
+      <td class="field-col">
+        End of Policy Year
+      </td>
+      <td class="field-col">
+        Age
+      </td>
+      <td class="field-col">
+        Premium Paid
+      </td>
+      <td class="field-col">
+        Death/PTD Benefit
+      </td>
+      <td class="field-col">
+        Surrender Value
+      </td>
+      <td class="field-col">
+        Policy Loan
+      </td>
+    </tr>
+    <tbody class="tbody-align val-col">
+      <ng-container *ngFor="let item of showDatas;let i = index">
+        <tr>
+          <td class="field-value">{{item.endOfPolicyYear}}</td>
+          <td class="field-value">{{item.age}}</td>
+          <td class="field-value">{{(item.premiumPaid | number) || "-"}}</td>
+          <td class="field-value">{{item.benefit | number}}</td>
+          <td class="field-value">{{(item.surrenderValue | number) || "-"}}</td>
+          <td class="field-value">{{(item.policyLoan | number) || "-"}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<hr class="mb-5">
+<ng-container *ngIf="showDatas.length > 0">
+  <app-endo-grip-print [parentData]="showDatas"></app-endo-grip-print>
+</ng-container>

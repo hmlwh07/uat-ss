@@ -1,0 +1,14 @@
+<!-- <div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Education Life Benefit Illustration</h3>
+    </div>
+  </div>
+  <div class="card-body customer-card-body"> -->
+    <ng-container *ngIf="parentData">
+      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis" [title]="chartOptions.title" [legend]="chartOptions.legend"
+        [dataLabels]="chartOptions.dataLabels" [markers]="chartOptions.markers"></apx-chart>
+    </ng-container>
+  <!-- </div>
+</div> -->

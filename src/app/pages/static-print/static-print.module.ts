@@ -9,12 +9,17 @@ import { FireDetailPrintComponent } from './fire-detail-print/fire-detail-print.
 import { FireRiskPrintComponent } from './fire-risk-print/fire-risk-print.component';
 import { HealthPrintComponent } from './health-print/health-print.component';
 import { PaPrintComponent } from './pa-print/pa-print.component';
+import { EndoPrintComponent } from './endo-print/endo-print.component';
+import { EndoGripPrintComponent } from './endo-griph-print/endo-griph-print.component';
+import { EndoSignPrintComponent } from './endo-sign-print/endo-sign-print.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
-  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent],
-  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent],
+  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent,EndoSignPrintComponent],
+  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent,EndoSignPrintComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    NgApexchartsModule
   ]
 })
 export class StaticPrintModule { }
