@@ -4,7 +4,7 @@ import { BehaviorSubject, map } from "rxjs";
 import { environment } from "../../environments/environment";
 import { BizOperationService } from "./biz.operation.service";
 const API_MENU_URL = `${environment.apiUrl}/menu`
-const ModuleList = ["leads", "fna", "application", "quotation", "activity", "product_definition", "page_group", "exchange_rate","customer"]
+const ModuleList = ["leads", "fna", "application", "quotation", "activity", "product_definition", "page_group", "exchange_rate", "customer"]
 export const defaultAccessObj = {
   view: true,
   create: true,
@@ -31,13 +31,17 @@ export class MenuDataService extends BizOperationService<any, number>{
   getMenusData() {
     this.findAllWithQuery("lan=EN").pipe(map((menus) => {
       return menus.map(menu => {
-        
+
         if (menu.submenu) {
           let checked = menu.submenu.find(x => x.show == true)
           menu.submenu_show = checked ? true : false
         }
-        if(menu.page == "dashboard/senior-lp-dashboard"){
-          menu.submenu_show  = false
+        if (menu.page == "dashboard/senior-lp-dashboard") {
+          menu.submenu_show = false
+        }
+        if (menu.page == "product/products-config") {
+          let index = menu.submenu.findIndex(x => x.page == "product/products-config")
+          menu.submenu[index].page = "product/products-config/list"
         }
         return menu
       })
@@ -59,7 +63,7 @@ export class MenuDataService extends BizOperationService<any, number>{
         ...accessData
       }
     });
-    console.log(data,"pres");
+    console.log(data, "pres");
 
     this.dataAccess.next(data)
   }

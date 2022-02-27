@@ -227,7 +227,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="text-align: right;">
-                        <button type="submit" class="btn btn-primary btn-elevate mx-2">Save</button>
+                        <button type="submit" class="btn btn-primary btn-elevate mx-2" *ngIf="cusAccess.edit">Save</button>
                         <button type="button" class="btn btn-default btn-elevate" (click)="backLocation()">Cancel</button>
                     </div>
                 </form>
