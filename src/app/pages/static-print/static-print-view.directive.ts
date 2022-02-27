@@ -1,7 +1,9 @@
 import { ComponentFactoryResolver, ComponentRef, Directive, Input, OnInit, ViewContainerRef } from "@angular/core";
+import { EducationLifeGripViewComponent } from "../static-page-review/education-life-griph-view/education-life-griph-view.component";
 import { EndoGripComponent } from "../static-pages/endo-griph/endo-griph.component";
 import { AddonPrintComponent } from "./addon-print/addon-print.component";
 import { CoveragePrintComponent } from "./coverage-print/coverage-print.component";
+import { EducationLifePrintComponent } from "./education-life-print/education-life-print.component";
 import { EndoPrintComponent } from "./endo-print/endo-print.component";
 import { EndoSignPrintComponent } from "./endo-sign-print/endo-sign-print.component";
 import { FarmerPrintComponent } from "./farmer-print/farmer-print.component";
@@ -22,6 +24,7 @@ const STATIC_PRINT_COMPONENT = {
   'static_1643116155828': FireRiskPrintComponent,
   'static_1644896661652': EndoPrintComponent,
   'print_1645941212846': EndoSignPrintComponent,
+  'static_1635309151504': EducationLifePrintComponent
 }
 @Directive({
   selector: '[staticPirint]'

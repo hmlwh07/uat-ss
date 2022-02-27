@@ -1,10 +1,10 @@
-import { AfterContentChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { CustomDialogComponent } from '../custom-dialog/custom-dialog.component';
-import { Field, FUNCTION_TYPE } from '../field.interface';
+import { ConfigInput, Field, FUNCTION_TYPE } from '../field.interface';
 import { NrcPopupPage } from '../nrc-popup/nrc-popup.page';
 
 @Component({
@@ -19,6 +19,8 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
   unSub: Subscription[] = []
   editStage: boolean
   isNrc: boolean = false
+  @Input() internalConfig: ConfigInput[] = []
+  
   constructor(
     private globalFun: GlobalFunctionService,
     private modalService: NgbModal
@@ -64,6 +66,8 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
     }
     modalRef.componentInstance.config = this.config
     modalRef.componentInstance.group = this.group
+    modalRef.componentInstance.internalConfig = this.internalConfig
+    
     modalRef.result.then(() => { }, (res) => {
       if (res == 'save') {
         this.doFunction()

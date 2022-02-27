@@ -1,5 +1,5 @@
 <div class="addon-print">
-  <div class="title-style left-border-image mt-5 mb-3">Life Benefit</div>
+  <div class="title-style left-border-image mt-5 mb-3">Education Life Benefit</div>
   <table class="tbody-align">
     <tr>
       <td class="field-col">
@@ -18,7 +18,7 @@
         Surrender Value
       </td>
       <td class="field-col">
-        Policy Loan
+        Maturity Benefit
       </td>
     </tr>
     <tbody class="tbody-align val-col">
@@ -27,9 +27,9 @@
           <td class="field-value">{{item.endOfPolicyYear}}</td>
           <td class="field-value">{{item.age}}</td>
           <td class="field-value">{{(item.premiumPaid | number) || "-"}}</td>
-          <td class="field-value">{{item.benefit | number}}</td>
+          <td class="field-value">{{item.deathBenefit | number}}</td>
           <td class="field-value">{{(item.surrenderValue | number) || "-"}}</td>
-          <td class="field-value">{{(item.policyLoan | number) || "-"}}</td>
+          <td class="field-value">{{(item.maturityBenefit | number) || "-"}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -37,5 +37,5 @@
 </div>
 <hr class="mb-5">
 <ng-container *ngIf="showDatas.length > 0">
-  <app-endo-grip-print [parentData]="showDatas"></app-endo-grip-print>
+  <app-education-life-griph-print [parentData]="showDatas"></app-education-life-griph-print>
 </ng-container>

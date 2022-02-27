@@ -40,9 +40,13 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
         for (let afield of this.config.autoFields) {
           const formControl = this.group.get(afield.value);
           let input = this.internalConfig.find(x => x.name == afield.value)
+          // console.log(input,afield,this.internalConfig);
+          
           if (formControl) {
             if (input) {
               let value = input.input == 'date' ? moment(this.selectedData[afield.field]) : this.selectedData[afield.field]
+              console.log("data",value,input);
+              
               formControl.setValue(value)
             } else
               formControl.setValue(this.selectedData[afield.field])
