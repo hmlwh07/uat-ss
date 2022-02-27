@@ -25,7 +25,6 @@ export class CoveragePrintComponent implements OnInit {
 
   ngOnInit() {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
-    console.log(this.product);
     
     if (this.product.coverages && this.product.coverages.length > 0) {
       this.coverage = {
@@ -37,7 +36,6 @@ export class CoveragePrintComponent implements OnInit {
         let response: any = {};
         if (this.resourcesId) {
           this.coverageQuo.getOne(item.id, this.resourcesId).toPromise().then((response: any) => {
-            console.log(response,item);
             
             if (response) {
               this.coverageData[item.id] = {

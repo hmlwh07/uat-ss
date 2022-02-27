@@ -78,7 +78,6 @@ export class PrintViewBoxComponent implements OnInit {
           this.temConfig.push(formObj as PrintFormat)
           // return formObj as PrintFormat
         }
-        console.log(this.temConfig, this.tempData);
 
       }
       if (this.productService.editData) {
@@ -111,6 +110,9 @@ export class PrintViewBoxComponent implements OnInit {
             }
             else if (col.input == "date") {
               value += this.datePipe.transform(tempData[col.name], "dd/MM/yyyy")
+              if (col.type == "policy") {
+                value += " - " + this.datePipe.transform(tempData[col.endName], "dd/MM/yyyy")
+              }
             } else {
               value += tempData[col.name]
             }

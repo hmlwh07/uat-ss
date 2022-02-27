@@ -207,6 +207,16 @@ export class GlobalFunctionService {
     this.alert.activate("Minimum  Age is 18 years and Maximum Age is 42 years", "Validation")
     return false
   }
+  validDOBHealth(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let dob = activeForm['date_of_birth']
+    let age = Math.ceil(moment().diff(dob, 'years', true));
+    // ENDO_POLICY_TERM
+    if (age >= 6 && age <= 75) {
+      return true
+    }
+    this.alert.activate("Minimum  Age is 6 years and Maximum Age is 75 years", "Validation")
+    return false
+  }
   validDOBEndo(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let dob = activeForm['date_of_birth']
     let age = Math.ceil(moment().diff(dob, 'years', true));

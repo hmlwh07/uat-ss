@@ -63,8 +63,6 @@ export class MenuDataService extends BizOperationService<any, number>{
         ...accessData
       }
     });
-    console.log(data, "pres");
-
     this.dataAccess.next(data)
   }
 
