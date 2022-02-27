@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <button type="button" class="btn btn-default btn-elevate" (click)="backLocation()">Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-elevate mx-2">Save</button>
+                    <button type="submit" class="btn btn-primary btn-elevate mx-2" *ngIf="dataAccess.edit">Save</button>
                 </form>
             </div>
         </div>

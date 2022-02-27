@@ -237,7 +237,7 @@
     </div>
 </div>
 <ng-container *ngIf="!isPopup && oldId">
-    <div class="card card-custom gutter-b">
+    <div class="card card-custom gutter-b" *ngIf="fnaAccess.view">
         <div class="card-header" *ngIf="!isPopup">
             <div class="card-title">
                 <h3 class="card-label left-border-image">FNA</h3>
@@ -268,7 +268,7 @@
 
     </div>
 
-    <div class="card card-custom gutter-b">
+    <div class="card card-custom gutter-b" *ngIf="activityAccess.view">
         <div class="card-header" *ngIf="!isPopup">
             <div class="card-title">
                 <h3 class="card-label left-border-image">Activity</h3>
@@ -297,7 +297,7 @@
         </div>
 
     </div>
-    <div class="card card-custom gutter-b">
+    <div class="card card-custom gutter-b" *ngIf="quoAccess.view">
         <div class="card-header" *ngIf="!isPopup">
             <div class="card-title">
                 <h3 class="card-label left-border-image">Quotation</h3>
@@ -328,7 +328,7 @@
 
     </div>
 
-    <div class="card card-custom gutter-b">
+    <div class="card card-custom gutter-b" *ngIf="policyAccess.view">
         <div class="card-header" *ngIf="!isPopup">
             <div class="card-title">
                 <h3 class="card-label left-border-image">Application</h3>

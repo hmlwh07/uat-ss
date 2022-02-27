@@ -63,7 +63,7 @@ export const ProductCol: TableCol[] = [
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {
-      view: true,
+      // view: true,
       edit: true
     }
   },

@@ -12,6 +12,7 @@ import * as moment from 'moment'
 import { ProductCol, ProductDisplayCol } from './products-table.const';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { Customer } from '../customer-detail/custmer.dto';
+import { defaultAccessObj, MenuDataService } from '../../core/menu-data.service';
 
 @Component({
   selector: 'app-products',
@@ -27,13 +28,18 @@ export class ProductsComponent implements OnInit {
   // selected: number = -1
   unsubscribe: Subscription[] = []
   show: boolean = false
-  constructor(private modalService: NgbModal, private itemService: ProductDataService, private router: Router, private cdRef: ChangeDetectorRef,) { }
+  prodAccess = defaultAccessObj
+
+  constructor(private modalService: NgbModal, private itemService: ProductDataService, private router: Router, private cdRef: ChangeDetectorRef, private menuService: MenuDataService) { }
 
   ngOnInit(): void {
     if (this.type != 'page') {
       this.ELEMENT_COL.splice(8, 1)
       this.displayedColumns.splice(8, 1)
-    }
+    } 
+    // else {
+    //   this.checkPremission()
+    // }
     this.show = true
     this.getProducts()
     // const itemScb = this.itemService.items$.subscribe(data => {
@@ -41,7 +47,16 @@ export class ProductsComponent implements OnInit {
     // })
     // this.unsubscribe.push(itemScb);
   }
-
+  checkPremission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.prodAccess = res['product_definition']
+        if (this.prodAccess.edit) {
+          this.ELEMENT_COL[8].btn.edit = false
+        }
+      }
+    })
+  }
   ngOnDestroy(): void {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
@@ -58,8 +73,8 @@ export class ProductsComponent implements OnInit {
 
   get selected() {
     let prod
-    if(this.matTable){
-       prod = this.matTable.selection.selected[0]
+    if (this.matTable) {
+      prod = this.matTable.selection.selected[0]
     }
     return prod ? prod : { id: 0 }
   }
@@ -87,7 +102,7 @@ export class ProductsComponent implements OnInit {
     if (this.selected.id) {
       this.itemService.findOne(this.selected.id).toPromise().then((res) => {
         // console.log(res);
-        
+
         if (res) {
           this.modalService.dismissAll({ data: res, type: "save" })
         }

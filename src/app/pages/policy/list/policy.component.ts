@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
 import { MaterialTableViewComponent } from '../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CustomerService } from '../../customer-detail/customer.service';
 import { CustomerListComponent } from '../../customer-list/customer-list.component';
@@ -21,20 +22,32 @@ import { PolicyDisplayCol, PolicyCol } from './policy.const';
 export class PolicyComponent implements OnInit, OnDestroy {
   quoList: PolicyDTO[] = []
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService) {
+  policyAccess = defaultAccessObj
+  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService,private menuService: MenuDataService) {
   }
 
 
-  ELEMENT_COL = PolicyCol
+  ELEMENT_COL = JSON.parse(JSON.stringify(PolicyCol))
   displayedColumns = PolicyDisplayCol
   ngOnInit(): void {
-
+    this.checkPremission()
     this.getPolicyList()
 
     // })
   }
   ngOnDestroy() {
     // this.rerender()
+  }
+
+  checkPremission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.policyAccess = res['application']
+        if (!this.policyAccess.edit) {
+          this.ELEMENT_COL[8].btn.edit = false
+        }
+      }
+    })
   }
 
   createOrEdit() {

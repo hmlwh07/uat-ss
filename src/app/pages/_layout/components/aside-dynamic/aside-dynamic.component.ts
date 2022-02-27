@@ -68,6 +68,9 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
       console.log(res, "menu");
 
       this.menuConfig = { items: res };
+      let data = this.menuService.getAccessPremission("Customer")
+      console.log("acc",data);
+      
       this.cdr.detectChanges();
     });
     this.subscriptions.push(menuSubscr);

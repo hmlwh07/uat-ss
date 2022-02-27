@@ -13,6 +13,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../core/is-json';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
+import { MenuDataService } from '../../core/menu-data.service';
 @Component({
   selector: 'app-activity-management-detail',
   templateUrl: './activity-management-detail.component.html',
@@ -40,44 +41,64 @@ export class ActivityManagementDetailComponent implements OnInit {
   relatedType: string
   oldData: any
   leadId: any
+  dataAccess = {
+    view: true,
+    create: true,
+    edit: true,
+    delete: true
+  }
   constructor(
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private activityManageService: ActivityManageService,
     private location: Location,
     private cdf: ChangeDetectorRef,
-    private alertService:AlertService
+    private alertService: AlertService,
+    private menuService: MenuDataService
   ) {
 
   }
 
   ngOnInit(): void {
     // this.loadForm();
+    this.checkPremission()
     this.route.queryParams
-    .subscribe(params => {
-      this.pageStatus = params.pageStatus;
-      if (this.pageStatus != 'create') {
-        this.oldId = params.pageId;
-        this.getOld()
-      } else {
-        this.loadForm();
-        console.log("PARMA", params)
-        this.actForm.controls.assignTo.setValue(params.assignTo)
-        this.actForm.controls.assignName.setValue(params.assignToName)
-        this.actForm.controls.customerId.setValue(params.customerId)
-        this.actForm.controls.customerName.setValue(params.name)
-        if (params.leadId) {
-          //  this.actForm.controls.relatedTo.setValue(params.leadId)
-          //  this.relatedType ='lead'
-          this.leadId = params.leadId
-          this.isLead = params.isLead
+      .subscribe(params => {
+        this.pageStatus = params.pageStatus;
+        if (this.pageStatus != 'create') {
+          this.oldId = params.pageId;
+          this.getOld()
+        } else {
+          this.loadForm();
+          console.log("PARMA", params)
+          this.actForm.controls.assignTo.setValue(params.assignTo)
+          this.actForm.controls.assignName.setValue(params.assignToName)
+          this.actForm.controls.customerId.setValue(params.customerId)
+          this.actForm.controls.customerName.setValue(params.name)
+          if (params.leadId) {
+            //  this.actForm.controls.relatedTo.setValue(params.leadId)
+            //  this.relatedType ='lead'
+            this.leadId = params.leadId
+            this.isLead = params.isLead
+          }
         }
       }
-    }
-    );
+      );
   }
+
+  checkPremission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.dataAccess = res['activity']
+        if (!this.dataAccess.view) {
+          this.location.back()
+        }
+      }
+    })
+  }
+
   ngAfterViewInit() {
-  
+
   }
 
   getOld() {

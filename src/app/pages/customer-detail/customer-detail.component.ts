@@ -14,6 +14,7 @@ import { MasterDataService } from 'src/app/modules/master-data/master-data.servi
 import { AttachmentDownloadService, AttachmentServiceRef, AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { MY_FORMATS } from '../../core/is-json';
+import { defaultAccessObj, MenuDataService } from '../../core/menu-data.service';
 import { ActivityCol, ActivityDisplayCol } from '../activity-management-list/activity-manage.const';
 import { FNAListCol } from '../fna-list/fna.list.const';
 import { CustomInputAlertComponent } from '../form-component/custom-input-alert/custom-input-alert.component';
@@ -123,6 +124,12 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   isMore: boolean = false
   isDetail: boolean = true
   description: string = ""
+  cusAccess = defaultAccessObj
+  activityAccess = defaultAccessObj
+  policyAccess = defaultAccessObj
+  quoAccess = defaultAccessObj
+  attachAccess = defaultAccessObj
+  fnaAccess = defaultAccessObj
   constructor(private fb: FormBuilder,
     private location: Location,
     private masterDataService: MasterDataService,
@@ -135,7 +142,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     private AttachmentUploadService: AttachmentUploadService,
     private CustomerAttachmentService: AttachmentServiceRef,
     private AttachmentDownloadService: AttachmentDownloadService,
-    private alertService:AlertService
+    private alertService:AlertService,
+    private menuService: MenuDataService
   ) {
     this.ACTIVITYdisplayedColumns.splice(8,1)
     this.QuotationdisplayedColumns.splice(7,2)
@@ -165,7 +173,22 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       }
       );
   }
-
+  checkPremission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.cusAccess = res['customer']
+        this.activityAccess = res['activity']
+        this.policyAccess = res['application']
+        this.quoAccess = res['quotation']
+        this.fnaAccess = res['fna']
+        // this.attachAccess= 
+        if (!this.cusAccess.view) {
+          this.location.back()
+        }
+        this.cdf.detectChanges()
+      }
+    })
+  }
 
 
   ngAfterViewInit() {

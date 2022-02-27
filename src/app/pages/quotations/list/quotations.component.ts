@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
 import { MaterialTableViewComponent } from '../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CustomerService } from '../../customer-detail/customer.service';
 import { CustomerListComponent } from '../../customer-list/customer-list.component';
@@ -21,17 +22,34 @@ import { QuoDisplayCol, QuotationCol } from './quotation.const';
 export class QuotationsComponent implements OnInit, OnDestroy {
   quoList: QuotationDTO[] = []
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerService) {
+  quoAccess = defaultAccessObj
+  policyAccess = defaultAccessObj
+  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
   }
 
 
-  ELEMENT_COL = QuotationCol
-  displayedColumns = QuoDisplayCol
+  ELEMENT_COL = JSON.parse(JSON.stringify(QuotationCol))
+  displayedColumns = JSON.parse(JSON.stringify(QuoDisplayCol))
   ngOnInit(): void {
-
+    this.checkPremission()
     this.getQuoList()
 
     // })
+  }
+  checkPremission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.quoAccess = res['quotation']
+        this.policyAccess = res['application']
+        if (!this.quoAccess.edit) {
+          this.ELEMENT_COL[8].btn.edit = false
+        }
+        if (!this.policyAccess.create) {
+          this.ELEMENT_COL.splice(7, 1)
+          this.displayedColumns.splice(7, 1)
+        }
+      }
+    })
   }
   ngOnDestroy() {
     // this.rerender()

@@ -656,13 +656,13 @@
         </form>
 
         <ng-container *ngIf="!isPopup && statusCode>2">
-            <div class="card card-custom gutter-b">
+            <div class="card card-custom gutter-b" *ngIf="fnaAccess.view">
                 <div class="card-header" *ngIf="!isPopup">
                     <div class="card-title">
                         <h3 class="card-label left-border-image">FNA</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer) && fnaAccess.create"
                             class="btn btn-primary btn-circle" (click)="add('FNA')">
                             <span class="flaticon2-plus"></span>
                         </button>
@@ -690,13 +690,13 @@
 
             </div>
 
-            <div class="card card-custom gutter-b">
+            <div class="card card-custom gutter-b" *ngIf="activityAccess.view">
                 <div class="card-header" *ngIf="!isPopup">
                     <div class="card-title">
                         <h3 class="card-label left-border-image">Activity</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer) && activityAccess.create"
                             class="btn btn-primary btn-circle" (click)="add('Activity')">
                             <span class="flaticon2-plus"></span>
                         </button>
@@ -723,13 +723,13 @@
                 </div>
 
             </div>
-            <div class="card card-custom gutter-b">
+            <div class="card card-custom gutter-b" *ngIf="quoAccess.view">
                 <div class="card-header" *ngIf="!isPopup">
                     <div class="card-title">
                         <h3 class="card-label left-border-image">Quotation</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer) && quoAccess.create"
                             class="btn btn-primary btn-circle" (click)="add('Quotation')">
                             <span class="flaticon2-plus"></span>
                         </button>
@@ -758,13 +758,13 @@
 
             </div>
 
-            <div class="card card-custom gutter-b">
+            <div class="card card-custom gutter-b" *ngIf="policyAccess.view">
                 <div class="card-header" *ngIf="!isPopup">
                     <div class="card-title">
                         <h3 class="card-label left-border-image">Application</h3>
                     </div>
                     <div class="card-toolbar">
-                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer)"
+                        <button type="button" *ngIf="statusCode==3 && (isExisting || isProspectCustomer) && policyAccess.create"
                             class="btn btn-primary btn-circle" (click)="add('Application')">
                             <span class="flaticon2-plus"></span>
                         </button>

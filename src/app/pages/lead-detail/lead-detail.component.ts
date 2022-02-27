@@ -52,6 +52,8 @@ import { EducationDto } from "../fna-detail/education/education-manage.dto";
 import { AssectDto } from "../fna-detail/asset/asset-manage.dto";
 import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/product-manage.dto";
 import { map } from 'rxjs/operators';
+import { defaultAccessObj, MenuDataService } from "../../core/menu-data.service";
+
 @Component({
   selector: "app-lead-detail",
   templateUrl: "./lead-detail.component.html",
@@ -179,7 +181,12 @@ export class LeadDetailComponent implements OnInit {
   existingCustomer: { customerId: any; customerName: any; customerDob: any; };
   prospCustomer: { customerId: any; customerName: any; customerDob: any; };
   created: any;
-
+  leadAccess = defaultAccessObj
+  activityAccess = defaultAccessObj
+  policyAccess = defaultAccessObj
+  quoAccess = defaultAccessObj
+  attachAccess = defaultAccessObj
+  fnaAccess = defaultAccessObj
   constructor(
     private fb: FormBuilder,
     private location: Location,
@@ -200,10 +207,12 @@ export class LeadDetailComponent implements OnInit {
     private authService: AuthService,
     private fnaService: FANService,
     private alertService: AlertService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private menuService: MenuDataService
   ) { }
 
   ngOnInit(): void {
+    this.checkPremission()
     this.loadForm();
     this.route.queryParams.subscribe((params) => {
       if (params) {
@@ -221,15 +230,42 @@ export class LeadDetailComponent implements OnInit {
 
     });
 
-  
-
   }
+
+  checkPremission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.leadAccess = res['leads']
+        this.activityAccess = res['activity']
+        this.policyAccess = res['application']
+        this.quoAccess = res['quotation']
+        this.fnaAccess = res['fna']
+        if (!this.fnaAccess.delete) {
+          this.FNAELEMENT_COL[3].btn.delete = false
+        }
+        if (!this.quoAccess.edit) {
+          this.QUOTATION_ELEMENT_COL[8].btn.edit = false
+        }
+        if (!this.policyAccess.edit) {
+          this.APPLICATION_ELEMENT_COL[8].btn.edit = false
+        }
+        console.log(this.QUOTATION_ELEMENT_COL,this.APPLICATION_ELEMENT_COL);
+        
+        // this.attachAccess= 
+        if (!this.leadAccess.view) {
+          this.location.back()
+        }
+        this.cdf.detectChanges()
+      }
+    })
+  }
+
   ngAfterViewInit() {
     console.log('FNAConstant.LEAD_ID', FNAConstant.LEAD_ID)
     this.user = this.authService.currentUserValue;
-   this.getMaster()
-   this.getProduct()
-   this.getLeadQuality()
+    this.getMaster()
+    this.getProduct()
+    this.getLeadQuality()
     if (FNAConstant.LEAD_ID) {
       this.oldId = FNAConstant.LEAD_ID;
       this.getOld();
@@ -237,7 +273,7 @@ export class LeadDetailComponent implements OnInit {
     }
   }
 
-  getMaster(){
+  getMaster() {
     forkJoin([
       this.getChannel(),
       this.getType(),
@@ -246,15 +282,15 @@ export class LeadDetailComponent implements OnInit {
       this.getState(),
       this.getSource(),
       this.getCompany(),
-    ]).toPromise().then((res:any)=>{
+    ]).toPromise().then((res: any) => {
       if (res) {
-       this.channelOption=res[0]
-       this.typeOption=res[1]
-       this.occupationOption=res[2]
-       this.statusOption=res[3]
-       this.stateOption=res[4]
-       this.sourceOption=res[5]
-       this.companyOption=res[6]
+        this.channelOption = res[0]
+        this.typeOption = res[1]
+        this.occupationOption = res[2]
+        this.statusOption = res[3]
+        this.stateOption = res[4]
+        this.sourceOption = res[5]
+        this.companyOption = res[6]
         this.cdf.detectChanges()
       }
     })
@@ -292,7 +328,7 @@ export class LeadDetailComponent implements OnInit {
 
 
   getCompany() {
-    return this.masterDataService.getDataByType("COMPANY_TYPE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return this.masterDataService.getDataByType("COMPANY_TYPE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
     // .toPromise().then((res: any) => {
@@ -307,108 +343,108 @@ export class LeadDetailComponent implements OnInit {
     // });
   }
   getState() {
-   return this.masterDataService
-      .getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return this.masterDataService
+      .getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-      // .toPromise()
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res) {
-      //     this.stateOption = res.map((x) => {
-      //       return { code: x.codeId, value: x.codeValue };
-      //     });
-      //     console.log(this.stateOption);
-      //     this.cdf.detectChanges();
-      //   }
-      // });
+    // .toPromise()
+    // .then((res: any) => {
+    //   console.log(res);
+    //   if (res) {
+    //     this.stateOption = res.map((x) => {
+    //       return { code: x.codeId, value: x.codeValue };
+    //     });
+    //     console.log(this.stateOption);
+    //     this.cdf.detectChanges();
+    //   }
+    // });
   }
   getChannel() {
     return this.masterDataService
-      .getDataByType("LEAD_DISTRIBUTION_CHANNEL").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      .getDataByType("LEAD_DISTRIBUTION_CHANNEL").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-      // .toPromise()
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res) {
-      //     this.channelOption = res.map((x) => {
-      //       return { code: x.codeId, value: x.codeName };
-      //     });
-      //     console.log(this.channelOption);
-      //     this.cdf.detectChanges();
-      //   }
-      // });
+    // .toPromise()
+    // .then((res: any) => {
+    //   console.log(res);
+    //   if (res) {
+    //     this.channelOption = res.map((x) => {
+    //       return { code: x.codeId, value: x.codeName };
+    //     });
+    //     console.log(this.channelOption);
+    //     this.cdf.detectChanges();
+    //   }
+    // });
   }
   getType() {
     return this.masterDataService
-      .getDataByType("LEAD_TYPE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      .getDataByType("LEAD_TYPE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-      // .toPromise()
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res) {
-      //     this.typeOption = res.map((x) => {
-      //       return { code: x.codeId, value: x.codeName };
-      //     });
-      //     console.log(this.typeOption);
-      //     this.cdf.detectChanges();
-      //   }
-      // });
+    // .toPromise()
+    // .then((res: any) => {
+    //   console.log(res);
+    //   if (res) {
+    //     this.typeOption = res.map((x) => {
+    //       return { code: x.codeId, value: x.codeName };
+    //     });
+    //     console.log(this.typeOption);
+    //     this.cdf.detectChanges();
+    //   }
+    // });
   }
   getStatus() {
     return this.masterDataService
-      .getDataByType("LEAD_STATUS").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      .getDataByType("LEAD_STATUS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
 
-      // .toPromise()
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res) {
-      //     this.statusOption = res.map((x) => {
-      //       return { code: x.codeId, value: x.codeName };
-      //     });
-      //     console.log(this.statusOption);
-      //     this.cdf.detectChanges();
-      //   }
-      // });
+    // .toPromise()
+    // .then((res: any) => {
+    //   console.log(res);
+    //   if (res) {
+    //     this.statusOption = res.map((x) => {
+    //       return { code: x.codeId, value: x.codeName };
+    //     });
+    //     console.log(this.statusOption);
+    //     this.cdf.detectChanges();
+    //   }
+    // });
   }
   getSource() {
     return this.masterDataService
-      .getDataByType("LEAD_SOURCE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      .getDataByType("LEAD_SOURCE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-      // .toPromise()
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res) {
-      //     this.sourceOption = res.map((x) => {
-      //       return { code: x.codeId, value: x.codeName };
-      //     });
-      //     console.log(this.sourceOption);
-      //     this.cdf.detectChanges();
-      //   }
-      // });
+    // .toPromise()
+    // .then((res: any) => {
+    //   console.log(res);
+    //   if (res) {
+    //     this.sourceOption = res.map((x) => {
+    //       return { code: x.codeId, value: x.codeName };
+    //     });
+    //     console.log(this.sourceOption);
+    //     this.cdf.detectChanges();
+    //   }
+    // });
   }
 
   getOccupation() {
     return this.masterDataService
-      .getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+      .getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-      // .toPromise()
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res) {
-      //     this.occupationOption = res.map((x) => {
-      //       return { code: x.codeId, value: x.codeName };
-      //     });
-      //     console.log(this.occupationOption);
-      //     this.cdf.detectChanges();
-      //   }
-      // });
+    // .toPromise()
+    // .then((res: any) => {
+    //   console.log(res);
+    //   if (res) {
+    //     this.occupationOption = res.map((x) => {
+    //       return { code: x.codeId, value: x.codeName };
+    //     });
+    //     console.log(this.occupationOption);
+    //     this.cdf.detectChanges();
+    //   }
+    // });
 
   }
   // getmaritialOption() {
@@ -461,7 +497,7 @@ export class LeadDetailComponent implements OnInit {
 
   getLeadQuality() {
     this.LeadDetailService.getLeadQuality()
-    .toPromise()
+      .toPromise()
       .then((res: any) => {
         console.log("getLeadQuality", res)
         if (res) {
@@ -1193,12 +1229,10 @@ export class LeadDetailComponent implements OnInit {
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (res) {
-          console.log("RESSS", res)
           this.description = res.description
 
           this.AttachmentUploadService.save(res.data).toPromise().then((res) => {
             if (res) {
-              console.log("RESFILE", res)
               let postData = {
                 attachmentId: res,
                 description: this.description,
