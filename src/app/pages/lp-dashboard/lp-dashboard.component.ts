@@ -80,21 +80,25 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
     'DEC',
   ];
   currentMonthIndex: number = new Date().getUTCMonth();
-  constructor(private cdf: ChangeDetectorRef,private ngzone: NgZone, private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
+  constructor(private cdf: ChangeDetectorRef, private ngzone: NgZone, private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
     this.route.queryParams.subscribe(async params => {
-
-      this.id = JSON.parse(params.empId);
-      this.loadForm();
+      if (params.empId) {
+        this.id = JSON.parse(params.empId);
+        this.loadForm();
+      } else {
+        this.id = this.auth.currentUserValue.id;
+        this.loadForm();
+      }
     });
   }
 
   ngOnInit() {
-      this.getList();
-      this.getRecentList();
-      this.getCampaignList();
-      this.getFollowupList();
-      this.getBacklogList();
-      this.getLeadAssignList();
+    this.getList();
+    this.getRecentList();
+    this.getCampaignList();
+    this.getFollowupList();
+    this.getBacklogList();
+    this.getLeadAssignList();
   }
 
   loadForm() {
@@ -105,82 +109,82 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
 
   getList() {
     this.ngzone.run(_ => {
-    this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.data = res;
-        this.setChartOptions();
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.data = res;
+          this.setChartOptions();
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
   getRecentList() {
     this.ngzone.run(_ => {
-    this.dashboardService.getRecentList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.recentObj = res;
-        console.log('recentObj',this.recentObj)
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getRecentList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.recentObj = res;
+          console.log('recentObj', this.recentObj)
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
   getCampaignList() {
     this.ngzone.run(_ => {
-    this.dashboardService.getCampaignList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.campaign = res
-        this.campaign.map(c => {
-          this.campaignArray.push(c);
-        })
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getCampaignList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.campaign = res
+          this.campaign.map(c => {
+            this.campaignArray.push(c);
+          })
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
   getBacklogList() {
     this.ngzone.run(_ => {
-    this.dashboardService.getBacklogList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.backlog = res;
-        this.backlog.map(log => {
-          this.backlogArray.push(log);
-        })
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getBacklogList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.backlog = res;
+          this.backlog.map(log => {
+            this.backlogArray.push(log);
+          })
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
   getLeadAssignList() {
     this.ngzone.run(_ => {
-    this.dashboardService.getLeadAssignList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.assignlead = res;
-        this.assignlead.map(log => {
-          this.assignLeadArray.push(log);
-        })
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getLeadAssignList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.assignlead = res;
+          this.assignlead.map(log => {
+            this.assignLeadArray.push(log);
+          })
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
   getFollowupList() {
     this.ngzone.run(_ => {
-    this.dashboardService.getFollowupList(this.actForm.value).toPromise().then((res) => {
-      if (res) {
-        this.followup = res;
-        this.followup.map(log => {
-          this.followUpArray.push(log);
-        })
-        this.cdf.detectChanges();
-      }
-    })
-  });
+      this.dashboardService.getFollowupList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.followup = res;
+          this.followup.map(log => {
+            this.followUpArray.push(log);
+          })
+          this.cdf.detectChanges();
+        }
+      })
+    });
   }
 
 
@@ -195,11 +199,11 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['/sale/application/list'])
   }
 
-  goToCalendar(){
+  goToCalendar() {
     this.router.navigate(['/mycalendar'])
   }
 
-  goToLeadList(){
+  goToLeadList() {
     this.router.navigate(['/lead/lead-list'])
   }
 

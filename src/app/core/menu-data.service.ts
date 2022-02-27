@@ -31,9 +31,13 @@ export class MenuDataService extends BizOperationService<any, number>{
   getMenusData() {
     this.findAllWithQuery("lan=EN").pipe(map((menus) => {
       return menus.map(menu => {
+        
         if (menu.submenu) {
           let checked = menu.submenu.find(x => x.show == true)
           menu.submenu_show = checked ? true : false
+        }
+        if(menu.page == "dashboard/senior-lp-dashboard"){
+          menu.submenu_show  = false
         }
         return menu
       })

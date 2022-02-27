@@ -22,10 +22,10 @@
           </label>
         </div>
       </div>
-      <div id="chart">
-        <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [dataLabels]="chartOptions?.dataLabels"
-          [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis"
-          [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
+      <div id="chart" *ngIf="chartOptionsAgent">
+        <apx-chart [series]="chartOptionsAgent?.series" [chart]="chartOptionsAgent?.chart" [dataLabels]="chartOptionsAgent?.dataLabels"
+          [plotOptions]="chartOptionsAgent?.plotOptions" [yaxis]="chartOptionsAgent?.yaxis" [xaxis]="chartOptionsAgent?.xaxis"
+          [legend]="chartOptionsAgent?.legend" [colors]="chartOptionsAgent?.colors" [grid]="chartOptionsAgent?.grid"></apx-chart>
       </div>
       <div>
         <ng-container *ngFor="let product of data?.yearlyProductPremium">
@@ -92,7 +92,7 @@
           <span class="primary-color">{{ data?.yearlyTotalPremium[0]?.year }} - {{ months[currentMonthIndex] }} </span>
         </div>
       </div>
-      <div id="chart">
+      <div id="chart" *ngIf="chartOptions">
         <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [dataLabels]="chartOptions?.dataLabels"
           [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis"
           [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>

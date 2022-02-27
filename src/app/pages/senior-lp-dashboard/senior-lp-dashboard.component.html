@@ -7,7 +7,7 @@
         </div>
         <div class="my-p-15">
           <label class="text-dark center">{{ data?.agentInfo?.employeeName }}</label><br>
-          <label class="text-dark center">{{  data?.role }}</label>
+          <label class="text-dark center">{{ data?.role }}</label>
         </div>
       </div>
     </div>
@@ -17,17 +17,18 @@
           <h6 class="card-label left-border-image">My Acievement</h6>
         </div>
         <div class="col-10">
-          <label class="primary-color">Premium - 
-            <span *ngIf="data && data.yearlyTotalPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }}</span> 
+          <label class="primary-color">Premium -
+            <span *ngIf="data && data.yearlyTotalPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }}</span>
             <span *ngIf="months && months.length > 0">{{ months[currentMonthIndex] }}</span>
             : {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span>MMk</span>
           </label>
         </div>
       </div>
-      <div id="chartAgent">
-        <apx-chart [series]="chartOptionsAgent?.series" [chart]="chartOptionsAgent?.chart" [dataLabels]="chartOptionsAgent?.dataLabels"
-          [plotOptions]="chartOptionsAgent?.plotOptions" [yaxis]="chartOptionsAgent?.yaxis" [xaxis]="chartOptionsAgent?.xaxis"
-          [legend]="chartOptionsAgent?.legend" [colors]="chartOptionsAgent?.colors" [grid]="chartOptionsAgent?.grid"></apx-chart>
+      <div id="chartAgent" *ngIf="chartOptionsAgent">
+        <apx-chart [series]="chartOptionsAgent?.series" [chart]="chartOptionsAgent?.chart"
+          [dataLabels]="chartOptionsAgent?.dataLabels" [plotOptions]="chartOptionsAgent?.plotOptions"
+          [yaxis]="chartOptionsAgent?.yaxis" [xaxis]="chartOptionsAgent?.xaxis" [legend]="chartOptionsAgent?.legend"
+          [colors]="chartOptionsAgent?.colors" [grid]="chartOptionsAgent?.grid"></apx-chart>
       </div>
       <div *ngIf="data && data.yearlyTotalPremium.length > 0">
         <ng-container *ngFor="let product of data?.yearlyProductPremium">
@@ -52,7 +53,9 @@
       </div>
       <div class="row my-row">
         <div class="col-12">
-          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{ months[currentMonthIndex] }}</span> </span>
+          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{
+            data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{
+              months[currentMonthIndex] }}</span> </span>
         </div>
       </div>
 
@@ -91,10 +94,12 @@
       </div>
       <div class="row my-row">
         <div class="col-12">
-          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{ data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{ months[currentMonthIndex] }}</span> </span>
+          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{
+            data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{
+              months[currentMonthIndex] }}</span> </span>
         </div>
       </div>
-      <div id="chartLead">
+      <div id="chartLead" *ngIf="chartOptions">
         <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [dataLabels]="chartOptions?.dataLabels"
           [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis"
           [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>

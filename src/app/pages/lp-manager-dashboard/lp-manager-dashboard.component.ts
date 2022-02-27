@@ -83,8 +83,13 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.route.queryParams.subscribe(async (params) => {
-      this.id = JSON.parse(params.empId);
-      this.loadForm();
+      if(params.empId){
+        this.id = JSON.parse(params.empId);
+        this.loadForm();
+      }else{
+        this.id = this.auth.currentUserValue.id
+        this.loadForm();
+      }
     });
   }
 
