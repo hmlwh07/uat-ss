@@ -18,7 +18,7 @@ import { MasterDataService } from './modules/master-data/master-data.service';
 import { AuthService } from './modules/auth';
 import { Device } from "@capacitor/device"
 import { App as CapacitorApp } from '@capacitor/app';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { AlertService } from './modules/loading-toast/alert-model/alert.service';
 import { MenuDataService } from './core/menu-data.service';
 
@@ -44,7 +44,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private applicationRef: ApplicationRef,
     private alertCtrl: AlertController,
     private alertService: AlertService,
-    private menuService: MenuDataService
+    private menuService: MenuDataService,
+    private modalCtrl: ModalController
 
   ) {
 
@@ -100,6 +101,10 @@ export class AppComponent implements OnInit, OnDestroy {
           if (!canGoBack) {
             this.confirmExist();
           } else {
+            // this.modalCtrl.getTop().then((res)=>{
+            //   console.log(res);
+              
+            // })
             window.history.back();
           }
         });

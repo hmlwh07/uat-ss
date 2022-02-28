@@ -13,7 +13,7 @@ import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } f
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MY_FORMATS } from 'src/app/core/is-json';
+import { MY_FORMATS, MY_YEAR_FORMATS } from 'src/app/core/is-json';
 
 
 
@@ -40,6 +40,6 @@ import { MY_FORMATS } from 'src/app/core/is-json';
     ]),
   ],
   providers: [DatePipe,{provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-  {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS}]
+  {provide: MAT_DATE_FORMATS, useValue: MY_YEAR_FORMATS}]
 })
 export class ReportByAgentYearlyModule { }

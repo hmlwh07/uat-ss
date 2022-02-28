@@ -802,7 +802,10 @@ kbz-loading {
 #kt_aside {
     background-color: #005f99 !important;
 }
-
+.modal-dialog.modal-xl{
+    max-width: none;
+    width: 80%;
+}
 // .my-customer-alert {
 //     .alert-head {
 //         padding      : 0px;

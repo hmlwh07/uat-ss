@@ -55,7 +55,7 @@ export class AuthService implements OnDestroy {
     this.isLoadingSubject.next(true);
     return this.authHttpService.login(email, password).pipe(
       map((res: any) => {
-        console.log(res);
+        // console.log(res);
         
         let auth = new AuthModel()
         auth.setAuth(res);
@@ -99,7 +99,8 @@ export class AuthService implements OnDestroy {
     // );
     let user: UserModel = new UserModel();
     user.setUser(auth)
-    this.currentUserSubject = new BehaviorSubject<UserModel>(user);
+    // this.currentUserSubject = new BehaviorSubject<UserModel>(user);
+    this.currentUserSubject.next(user)
     return of(user)
   }
 

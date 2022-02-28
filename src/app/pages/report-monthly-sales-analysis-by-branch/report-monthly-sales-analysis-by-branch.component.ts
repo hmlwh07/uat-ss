@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -45,7 +46,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
   displayList = [];
   title: string = 'Monthly Sales Analysis Report';
 
-  constructor(private cdf: ChangeDetectorRef,
+  constructor(private cdf: ChangeDetectorRef, private datePipe: DatePipe,
     public exportService: ReportMonthlySalesAnalysisBranchExportService) { }
 
 
@@ -283,10 +284,10 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     let fromDate = null;
     let toDate = null;
     if (this.createFormGroup.value.fromDate) {
-      fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
+      fromDate = this.datePipe.transform(this.createFormGroup.value.fromDate, 'MM/yyyy');
     }
     if (this.createFormGroup.value.fromDate) {
-      toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
+      toDate = this.datePipe.transform(this.createFormGroup.value.toDate, 'MM/yyyy');
     }
 
     let reportData = {
@@ -464,9 +465,9 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
