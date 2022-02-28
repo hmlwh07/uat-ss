@@ -19,7 +19,7 @@ export class LayoutDynamicDetailComponent implements OnInit {
 
   ngOnInit() { }
 
-  onCreate(){
+  onCreate(text:string){
     
   }
 

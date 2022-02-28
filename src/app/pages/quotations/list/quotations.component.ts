@@ -139,13 +139,15 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   }
 
   createPolicy(item) {
-    this.prodctService.findOne(item.productId).toPromise().then((res) => {
+    forkJoin([this.prodctService.findOne(item.productId),this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
-        this.prodctService.createingProdRef = res
+        this.prodctService.createingProdRef = res[0]
+        this.prodctService.creatingCustomer = res[1]
         this.prodctService.viewType = 'policy'
         this.prodctService.type = 'policy'
         this.prodctService.referenceID = item.id
         this.prodctService.editData = null
+        this.prodctService.creatingLeadId = item.leadId
         this.router.navigateByUrl("/product-form")
       }
     })
