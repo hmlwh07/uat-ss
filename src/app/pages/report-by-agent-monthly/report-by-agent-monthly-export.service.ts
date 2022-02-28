@@ -121,17 +121,17 @@ export class ReportAgentMonthlyExportService extends BizOperationService<any, nu
     }
     reportDate.alignment = { vertical: 'middle', horizontal: 'left' }
 
-     //Reported By:
-     worksheet.mergeCells('G2', 'G2');
-     let reportBy = worksheet.getCell('G2');
-     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
-     reportBy.font = {
-       name: 'Calibri',
-       size: 10,    
-       bold: true
-     }
-     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
-   
+    //Reported By:
+    worksheet.mergeCells('G2', 'G2');
+    let reportBy = worksheet.getCell('G2');
+    reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+    reportBy.font = {
+      name: 'Calibri',
+      size: 10,
+      bold: true
+    }
+    reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
+
 
     // Display search name   
     if (searchValue.length > 0) {
@@ -140,11 +140,11 @@ export class ReportAgentMonthlyExportService extends BizOperationService<any, nu
         let cellIndexValue = null;
         if (searchValue[i].fromDate) {
           cellIndex = 'F1';
-          cellIndexValue = 'From Date: ' + searchValue[i].fromDate;
+          cellIndexValue = 'From Month/Year: ' + searchValue[i].fromDate;
         }
         if (searchValue[i].toDate) {
           cellIndex = 'F2';
-          cellIndexValue = 'To Date: ' + searchValue[i].toDate;
+          cellIndexValue = 'To Month/Year: ' + searchValue[i].toDate;
         }
         if (searchValue[i].companyName) {
           cellIndex = 'L1';

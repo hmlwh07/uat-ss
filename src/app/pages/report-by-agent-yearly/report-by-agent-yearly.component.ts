@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -43,17 +44,17 @@ export class ReportByAgentYearlyComponent implements OnInit {
   isData: boolean = false;
   dataList = [];
   totalDataList = [];
-  title = 'Agent Sales Report';
+  title = 'By Agent Yearly Report';
 
-  constructor(private cdf: ChangeDetectorRef,
+  constructor(private cdf: ChangeDetectorRef, private datePipe: DatePipe,
     public exportService: ReportAgentYearlyExportService) { }
 
 
   ngOnInit(): void {
     this.loadForm();
-    this.getOfficeHirearchy();   
+    this.getOfficeHirearchy();
     this.fromMinDate = null;
-    this.fromMaxDate = null; 
+    this.fromMaxDate = null;
   }
 
   async getOfficeHirearchy() {
@@ -64,7 +65,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     });
   }
 
-  async getAllReports() {  
+  async getAllReports() {
     this.productList = [];
     this.dataList = [];
     if (this.createFormGroup.invalid) {
@@ -130,7 +131,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
       countNo++
-      list.push(countNo, this.dataList[i].cluster, this.dataList[i].channel, 
+      list.push(countNo, this.dataList[i].cluster, this.dataList[i].channel,
         this.dataList[i].agentName, this.dataList[i].agentNo)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(this.dataList[i].productDataList[j].noOfPolicies, this.dataList[i].productDataList[j].totalPremium || 0.00)
@@ -141,10 +142,10 @@ export class ReportByAgentYearlyComponent implements OnInit {
     let fromDate = null;
     let toDate = null;
     if (this.createFormGroup.value.fromDate) {
-      fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
+      fromDate = this.datePipe.transform(this.createFormGroup.value.fromDate, 'yyyy');
     }
     if (this.createFormGroup.value.fromDate) {
-      toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
+      toDate = this.datePipe.transform(this.createFormGroup.value.toDate, 'yyyy');
     }
 
     let reportData = {
@@ -325,9 +326,9 @@ export class ReportByAgentYearlyComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
