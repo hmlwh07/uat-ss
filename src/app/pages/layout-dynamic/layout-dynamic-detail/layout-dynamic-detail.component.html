@@ -1,3 +1,25 @@
-<p>
-  layout-dynamic-detail works!
-</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card card-custom gutter-b">
+      <!-- <div class="card-header" *ngIf="!isPopup">
+        <div class="card-title" style="display: block;">
+         
+        </div>
+        
+      </div> -->
+      <div class="card-body">
+        <h3 class="card-label left-border-image">Create Building List</h3>
+        <hr>
+        <div>
+          <button class="btn btn-primary" (click)="onCreate(layoutData.CARD)">Card</button>
+          <button class="btn btn-primary mx-2" (click)="onCreate(layoutData.ROW)">Row</button>
+          <button class="btn btn-primary" (click)="onCreate(layoutData.COL)">Col</button>
+          <button class="btn btn-primary mx-2" (click)="onCreate(layoutData.BUTTON)">Button</button>
+          <button class="btn btn-primary" (click)="onCreate(layoutData.TITLE)">Title</button>
+          <button class="btn btn-primary ml-2" (click)="onCreate(layoutData.TEXT)">Text</button>
+          <label class="active-lable float-right" style="display: inline-block;">Active Tag: {{activeBlog.unitId}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

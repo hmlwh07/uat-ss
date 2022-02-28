@@ -61,7 +61,7 @@ const routes: Routes = [
       {
         path: 'builder',
         loadChildren: () =>
-          import('./builder/builder.module').then((m) => m.BuilderModule),
+          import('./layout-dynamic/layout-dynamic.module').then((m) => m.LayoutDynamicModule),
       },
       // {
       //   path: 'user-management',
