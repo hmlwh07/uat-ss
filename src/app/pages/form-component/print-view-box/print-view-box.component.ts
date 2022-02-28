@@ -30,6 +30,7 @@ export class PrintViewBoxComponent implements OnInit {
 
   //wait for the component to render completely
   async ngOnInit() {
+    if(this.resourcesId)
     this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productID=" + this.productService.editData.id
     await this.loadingService.activate()
     if (this.config) {
