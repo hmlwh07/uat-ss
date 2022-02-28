@@ -140,11 +140,11 @@ export class ReportMonthlySalesAnalysisBranchExportService extends BizOperationS
         let cellIndexValue = null;
         if (searchValue[i].fromDate) {
           cellIndex = 'F1';
-          cellIndexValue = 'From Date: ' + searchValue[i].fromDate;
+          cellIndexValue = 'From Month/Year: ' + searchValue[i].fromDate;
         }
         if (searchValue[i].toDate) {
           cellIndex = 'F2';
-          cellIndexValue = 'To Date: ' + searchValue[i].toDate;
+          cellIndexValue = 'To Month/Year: ' + searchValue[i].toDate;
         }
         if (searchValue[i].companyName) {
           cellIndex = 'L1';

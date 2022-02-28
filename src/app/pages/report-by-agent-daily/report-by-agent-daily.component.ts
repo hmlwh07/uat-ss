@@ -105,7 +105,7 @@ export class ReportByAgentDailyComponent implements OnInit {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
                   //let totalTargetValue: number = 0;
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
-                    if (this.dataList[i].productDataList[k].headerDateName == this.dataList[i].dynamicList[j].headerDateName) {
+                    if (this.dataList[i].productDataList[k].headerDate == this.dataList[i].dynamicList[j].headerDate) {
                       this.dataList[i].productDataList[k].headerDateName = this.dataList[i].dynamicList[j].headerDateName
                       this.dataList[i].productDataList[k].headerDate = this.dataList[i].dynamicList[j].headerDate
                       this.dataList[i].productDataList[k].headerWeekName = this.dataList[i].dynamicList[j].headerWeekName

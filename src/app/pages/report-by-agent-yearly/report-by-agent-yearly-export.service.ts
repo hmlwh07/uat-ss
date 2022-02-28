@@ -123,11 +123,11 @@ export class ReportAgentYearlyExportService extends BizOperationService<any, num
         let cellIndexValue = null;
         if (searchValue[i].fromDate) {
           cellIndex = 'F1';
-          cellIndexValue = 'From Date: ' + searchValue[i].fromDate;
+          cellIndexValue = 'From Year: ' + searchValue[i].fromDate;
         }
         if (searchValue[i].toDate) {
           cellIndex = 'F2';
-          cellIndexValue = 'To Date: ' + searchValue[i].toDate;
+          cellIndexValue = 'To Year: ' + searchValue[i].toDate;
         }
         if (searchValue[i].companyName) {
           cellIndex = 'L1';

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -46,7 +47,7 @@ export class ReportByAgentMonthlyComponent implements OnInit {
   title: string = 'Monthly Activity Report';
 
 
-  constructor(private cdf: ChangeDetectorRef,
+  constructor(private cdf: ChangeDetectorRef, private datePipe: DatePipe,
     public exportService: ReportAgentMonthlyExportService) { }
 
 
@@ -71,7 +72,7 @@ export class ReportByAgentMonthlyComponent implements OnInit {
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
-      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => { 
+      await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         if (res) {
           if (res.headerColumnList.length > 0) {
             for (var i = 0; i < res.headerColumnList.length; i++) {
@@ -97,7 +98,7 @@ export class ReportByAgentMonthlyComponent implements OnInit {
               if (this.dataList[i].dynamicList) {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
                   //let totalTargetValue: number = 0;
-                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {  
+                  for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].headerMonthName == this.dataList[i].dynamicList[j].headerMonthName) {
                       this.dataList[i].productDataList[k].headerDateName = this.dataList[i].dynamicList[j].headerDateName
                       this.dataList[i].productDataList[k].headerDate = this.dataList[i].dynamicList[j].headerDate
@@ -150,10 +151,10 @@ export class ReportByAgentMonthlyComponent implements OnInit {
     let fromDate = null;
     let toDate = null;
     if (this.createFormGroup.value.fromDate) {
-      fromDate = this.formatDateDDMMYYY(this.createFormGroup.value.fromDate)
+      fromDate = this.datePipe.transform(this.createFormGroup.value.fromDate, 'MM/yyyy');
     }
     if (this.createFormGroup.value.fromDate) {
-      toDate = this.formatDateDDMMYYY(this.createFormGroup.value.toDate)
+      toDate = this.datePipe.transform(this.createFormGroup.value.toDate, 'MM/yyyy');
     }
 
     let reportData = {
@@ -334,9 +335,9 @@ export class ReportByAgentMonthlyComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
