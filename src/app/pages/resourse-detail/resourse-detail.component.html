@@ -15,7 +15,7 @@
             PREMIUM <br>
             <span *ngIf="resourceDetail">{{resourceDetail.premiumView || 0 }}</span>
           </div>
-          <button class="btn btn-outline-primary" style="margin-left: auto;" (click)="viewPrint()">
+          <button class="btn btn-outline-primary" *ngIf="type == 'policy'" style="margin-left: auto;" (click)="viewPrint()">
             <i class="flaticon2-print"></i> Print
           </button>
         </div>

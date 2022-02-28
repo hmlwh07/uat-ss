@@ -43,7 +43,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
   branchDataList: any[];
   isData: boolean = false;
   branchDataForExcel: any[];
-  title: string = '#By Product Branch - Premium';
+  title: string = 'By Product Branch - Premium';
   dataList = [];
   totalDataList = [];
 

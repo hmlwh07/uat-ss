@@ -24,7 +24,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Lead ID</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="leadId" autocomplete="off" [class.is-invalid]="isControlInvalid('leadId')" [class.is-valid]="isControlValid('leadId')" formControlName="leadId" />
+                                    <input type="text" class="form-control form-control-sm " name="leadId"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('leadId')"
+                                        [class.is-valid]="isControlValid('leadId')" formControlName="leadId" />
                                 </div>
                             </div>
                         </div>
@@ -32,7 +34,10 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Lead Name</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="contactName" autocomplete="off" [class.is-invalid]="isControlInvalid('contactName')" [class.is-valid]="isControlValid('contactName')" formControlName="contactName" />
+                                    <input type="text" class="form-control form-control-sm " name="contactName"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('contactName')"
+                                        [class.is-valid]="isControlValid('contactName')"
+                                        formControlName="contactName" />
                                 </div>
                             </div>
                         </div>
@@ -41,7 +46,8 @@
                                 <label class="col-sm-4 col-form-label">Open Date</label>
                                 <div class="col-sm-8">
                                     <div class="input-group ">
-                                        <input matInput class="form-control-sm date-input" formControlName="openDateStr" [matDatepicker]="picker" readonly>
+                                        <input matInput class="form-control-sm date-input" formControlName="openDateStr"
+                                            [matDatepicker]="picker" readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker disabled="false"></mat-datepicker>
 
@@ -49,7 +55,7 @@
                                 </div>
                             </div>
                         </div>
-                    <!-- </div>
+                        <!-- </div>
                     <div class="row"> -->
                         <div class="col-xl-4 col-sm-6">
                             <div class="form-group row">
@@ -58,7 +64,10 @@
                                     <!-- <input type="text" class="form-control form-control-sm " name="productId"
                                         autocomplete="off" [class.is-invalid]="isControlInvalid('productId')"
                                         [class.is-valid]="isControlValid('productId')" formControlName="productId" /> -->
-                                    <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('productId')" [class.is-valid]="isControlValid('productId')" [items]="productOption" bindLabel="value" bindValue="code" formControlName="productId">
+                                    <ng-select class="ng-custom-select"
+                                        [class.is-invalid]="isControlInvalid('productId')"
+                                        [class.is-valid]="isControlValid('productId')" [items]="productOption"
+                                        bindLabel="value" bindValue="code" formControlName="productId">
                                     </ng-select>
                                 </div>
                             </div>
@@ -70,7 +79,10 @@
                                     <!-- <input type="text" class="form-control form-control-sm " name="sourceCode"
                                         autocomplete="off" [class.is-invalid]="isControlInvalid('sourceCode')"
                                         [class.is-valid]="isControlValid('sourceCode')" formControlName="sourceCode" /> -->
-                                    <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('sourceCode')" [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption" bindLabel="value" bindValue="code" formControlName="sourceCode">
+                                    <ng-select class="ng-custom-select"
+                                        [class.is-invalid]="isControlInvalid('sourceCode')"
+                                        [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption"
+                                        bindLabel="value" bindValue="code" formControlName="sourceCode">
                                     </ng-select>
                                 </div>
                             </div>
@@ -79,18 +91,23 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Campaign Name </label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="campaignName" autocomplete="off" [class.is-invalid]="isControlInvalid('campaignName')" [class.is-valid]="isControlValid('campaignName')" formControlName="campaignName" />
+                                    <input type="text" class="form-control form-control-sm " name="campaignName"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('campaignName')"
+                                        [class.is-valid]="isControlValid('campaignName')"
+                                        formControlName="campaignName" />
                                 </div>
                             </div>
                         </div>
-                    <!-- </div>
+                        <!-- </div>
                     <div class="row"> -->
 
                         <div class="col-xl-4 col-sm-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Existing Customer</label>
-                                <div class="col-sm-8" (click)="viewExistingCustomer()" >
-                                    <input type="text" class="form-control form-control-sm " name="existingCustomerName" autocomplete="off" [class.is-invalid]="isControlInvalid('existingCustomerName')" [class.is-valid]="isControlValid('existingCustomerName')"
+                                <div class="col-sm-8" (click)="viewExistingCustomer()">
+                                    <input type="text" class="form-control form-control-sm " name="existingCustomerName"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('existingCustomerName')"
+                                        [class.is-valid]="isControlValid('existingCustomerName')"
                                         formControlName="existingCustomerName" readonly />
                                 </div>
                             </div>
@@ -99,7 +116,10 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Status</label>
                                 <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('statusCode')" [class.is-valid]="isControlValid('statusCode')" [items]="statusOption" bindLabel="value" bindValue="code" formControlName="statusCode">
+                                    <ng-select class="ng-custom-select"
+                                        [class.is-invalid]="isControlInvalid('statusCode')"
+                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
+                                        bindLabel="value" bindValue="code" formControlName="statusCode">
                                     </ng-select>
                                 </div>
                             </div>
@@ -114,9 +134,17 @@
     <div class="col-12">
         <div class="card card-custom gutter-b">
             <div class="card-body customer-card-body" *ngIf="show">
-                <app-material-table-view [data]="LeadList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)" (rowselect)="rowSelected($event)" [selectable]="isPopup">
-                </app-material-table-view>
+                <ng-container *ngIf="isTableView;else cardView">
+                    <app-material-table-view [data]="LeadList" [colum]="ELEMENT_COL"
+                        [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)"
+                        (rowselect)="rowSelected($event)" [selectable]="isPopup">
+                    </app-material-table-view>
+                </ng-container>
+                <ng-template #cardView>
+
+                </ng-template>
             </div>
+
         </div>
     </div>
 </div>

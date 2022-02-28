@@ -89,7 +89,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
                 list.push({ reportMonth: this.productList[j].reportMonth, noOfPolicies: 0, totalPremium: 0 });
               }
               countNo++;
-              this.dataList[i].no = countNo;
+              this.dataList[i].no = countNo; 
               this.dataList[i].productDataList = list;
               if (this.dataList[i].dynamicList) {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
@@ -112,7 +112,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
   }
 
   generateReportExcel() {
-    this.productValues = [];
+    this.productValues = []; 
     this.subHeader = [];
     this.dataExcel = [];
     for (var i = 0; i < this.productList.length; i++) {
@@ -142,10 +142,10 @@ export class ReportByAgentYearlyComponent implements OnInit {
     let fromDate = null;
     let toDate = null;
     if (this.createFormGroup.value.fromDate) {
-      fromDate = this.datePipe.transform(this.createFormGroup.value.fromDate, 'yyyy');
+      fromDate = this.datePipe.transform(this.createFormGroup.value.fromDate, 'MM/yyyy');
     }
     if (this.createFormGroup.value.fromDate) {
-      toDate = this.datePipe.transform(this.createFormGroup.value.toDate, 'yyyy');
+      toDate = this.datePipe.transform(this.createFormGroup.value.toDate, 'MM/yyyy');
     }
 
     let reportData = {

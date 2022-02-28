@@ -80,7 +80,16 @@ export class ReportKeyDriverComponent implements OnInit {
     this.totalPremium = 0;
     this.totalProductDistribution = 0;
     this.totalAverageCaseSize = 0;
-
+    this.keyDriver = null;
+    this.displayDataList = [];
+    this.roundTotalProductDistribution = 0;
+    this.roundTotalAverageCaseSize = 0;
+    this.activeRatio = 0;
+    this.productivity = 0;
+    this.channelProductivity = 0;
+    this.anpCaseSize = 0;
+    this.monthlyCaseSize = 0;
+    
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -383,9 +392,9 @@ export class ReportKeyDriverComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }

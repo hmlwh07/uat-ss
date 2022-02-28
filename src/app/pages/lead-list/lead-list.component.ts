@@ -39,7 +39,7 @@ export class LeadListComponent implements OnInit {
 
   LeadList: any[] = [];
   LeadForm: FormGroup;
-
+  isTableView: boolean = true
   @Output() selectedUser = new EventEmitter();
   @Input() isPopup: boolean = false;
   show: boolean = false
