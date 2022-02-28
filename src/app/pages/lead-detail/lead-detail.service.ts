@@ -35,11 +35,11 @@ export class LeadDetailService extends BizOperationService<Lead, number>{
   getLeadSource() {
     return this.httpClient.get(API_LEAD_SOURCE_URL)
   }
-  getLeadQuality() {
-    return this.httpClient.get(API_LEAD_QUALITY_URL)
+  getLeadQuality(channel:string) {
+    return this.httpClient.get(API_LEAD_QUALITY_URL+"?distributionChannelCode="+channel)
   }
-  getLeadScore(sourceCode) {
-    return this.httpClient.get(API_LEAD_SCORE_URL + "?sourceCode=" + sourceCode)
+  getLeadScore(sourceCode:string,channel:string) {
+    return this.httpClient.get(API_LEAD_SCORE_URL + "?sourceCode=" + sourceCode+"&distributionChannelCode="+channel)
   }
   getValidityPeriod(leadSource, productId) {
     return this.httpClient.get(API_VALIDITY_URL + "?leadSource=" + leadSource + "&" + "productId=" + productId)

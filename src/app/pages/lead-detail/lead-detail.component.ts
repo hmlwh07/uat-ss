@@ -249,8 +249,7 @@ export class LeadDetailComponent implements OnInit {
         if (!this.policyAccess.edit) {
           this.APPLICATION_ELEMENT_COL[8].btn.edit = false
         }
-        console.log(this.QUOTATION_ELEMENT_COL,this.APPLICATION_ELEMENT_COL);
-        
+
         // this.attachAccess= 
         if (!this.leadAccess.view) {
           this.location.back()
@@ -261,11 +260,10 @@ export class LeadDetailComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log('FNAConstant.LEAD_ID', FNAConstant.LEAD_ID)
     this.user = this.authService.currentUserValue;
     this.getMaster()
     this.getProduct()
-    this.getLeadQuality()
+    // this.getLeadQuality()
     if (FNAConstant.LEAD_ID) {
       this.oldId = FNAConstant.LEAD_ID;
       this.getOld();
@@ -483,28 +481,30 @@ export class LeadDetailComponent implements OnInit {
       .getAll()
       .toPromise()
       .then((res: any) => {
-        console.log(res);
         if (res) {
           this.productOption = res.map((x) => {
             return { code: x.id, value: x.name, type: x.type };
           });
           this.cdf.detectChanges();
           this.getProductOption()
-          console.log("PRODUCT=>", this.productOption)
         }
       });
   }
 
   getLeadQuality() {
-    this.LeadDetailService.getLeadQuality()
-      .toPromise()
-      .then((res: any) => {
-        console.log("getLeadQuality", res)
-        if (res) {
-          this.leadQuality = res
-        }
+    let channel = this.leadForm.getRawValue().channelCode
+    if (channel) {
+      this.LeadDetailService.getLeadQuality(channel)
+        .toPromise()
+        .then((res: any) => {
+          if (res) {
+            this.leadQuality = res
+            this.calculateLeadQuality()
+            this.getValidityPeriod()
+          }
 
-      })
+        })
+    }
   }
 
 
@@ -539,11 +539,9 @@ export class LeadDetailComponent implements OnInit {
   getValidityPeriod() {
     let source = this.leadForm.getRawValue().sourceCode
     let product = this.leadForm.getRawValue().productId
-    console.log("getValidityPeriod  product  source", source, product)
     if (source && product) {
       this.LeadDetailService.getValidityPeriod(source, product).toPromise()
         .then((res: any) => {
-          console.log("getValidityPeriod", res)
           if (res.period != null) {
             this.leadForm.controls.validityPeriod.setValue(res.period)
 
@@ -576,9 +574,9 @@ export class LeadDetailComponent implements OnInit {
   }
   calculateScore(code) {
     let source = this.sourceOption.find((p) => p.code == code);
-    if (source) {
-      this.LeadDetailService.getLeadScore(source.code).toPromise().then((res: any) => {
-        console.log("Score==>", res)
+    let channel = this.leadForm.getRawValue().channelCode
+    if (source && channel) {
+      this.LeadDetailService.getLeadScore(source.code, channel).toPromise().then((res: any) => {
         // this.leadForm.controls.score.setValue(res)
         this.sourceScore = res
         this.calculateLeadQuality()
@@ -607,7 +605,6 @@ export class LeadDetailComponent implements OnInit {
     this.leadQuality.forEach(element => {
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
       score += value ? element.score : 0
-      console.log("score==>", score)
     });
     this.leadForm.controls.score.setValue(score)
   }
@@ -617,7 +614,6 @@ export class LeadDetailComponent implements OnInit {
     this.LeadDetailService.findOne(this.oldId)
       .toPromise()
       .then((res) => {
-        console.log("RESSS", res);
         if (res) {
           this.oldData = res;
           if (res.existingCustomerId != 0) {
@@ -634,7 +630,6 @@ export class LeadDetailComponent implements OnInit {
             }
           }
           this.statusCode = parseInt(this.oldData.statusCode)
-          console.log("statusCode", this.statusCode)
           if (this.oldData) {
             if (this.oldData.prospectCustomerId == 0) {
               this.isProspectCustomer = false
@@ -730,7 +725,6 @@ export class LeadDetailComponent implements OnInit {
       reason: reason || ""
     }
     let data = { ...postData, leadId: this.oldId, };
-    console.log(data);
 
     this.LeadDetailService.updateLeadStatus(data, this.oldId)
       .toPromise()
@@ -749,7 +743,6 @@ export class LeadDetailComponent implements OnInit {
         if (res) {
           if (res.type == "save") {
             let campaign = res.data
-            console.log('onDidDismiss =====> ', campaign);
             this.leadForm.controls.campaignName.setValue(campaign.cpmName)
             this.leadForm.controls.campaignNo.setValue(campaign.cpmNumber)
             this.calculateLeadQuality()
@@ -771,7 +764,6 @@ export class LeadDetailComponent implements OnInit {
           if (res.type == "save") {
             let customer = res.data
 
-            console.log('onDidDismiss =====> ', customer);
             if (type == "ref") {
               let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
               this.leadForm.controls.referralCustomerName.setValue(name)
@@ -791,7 +783,6 @@ export class LeadDetailComponent implements OnInit {
         if (res) {
           if (res.type == "save") {
             let customer = res.data
-            console.log('onDidDismiss =====> ', customer);
             if (type == "ref") {
               let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
               this.leadForm.controls.referralCustomerName.setValue(name)
@@ -851,7 +842,6 @@ export class LeadDetailComponent implements OnInit {
         if (res) {
           if (res.type == "save") {
             let customer = res.data
-            console.log('onDidDismiss =====> ', customer);
             this.leadForm.controls.existingCustomerName.setValue("")
             this.leadForm.controls.existingCustomerId.setValue("")
             // let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
@@ -875,11 +865,8 @@ export class LeadDetailComponent implements OnInit {
   loadForm(oldData?) {
     this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
     this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
-    console.log("isExisting==>", this.isExisting)
-    console.log("disabledForm", this.disabledForm)
     this.leadForm = null
     this.cdf.detectChanges()
-    console.log("EXISTING", this.isExisting, "PORSPECT", this.isProspectCustomer)
     this.leadForm = new FormGroup({
       leadId: new FormControl({ value: oldData ? oldData.leadId : '', disabled: true }),
       phoneNo: new FormControl({ value: oldData ? oldData.phoneNo : '', disabled: this.disabledForm }),
@@ -948,11 +935,12 @@ export class LeadDetailComponent implements OnInit {
       ),
       lostReason: new FormControl({ value: oldData ? oldData.lostReason : '', disabled: true }),
     });
-    console.log("FORM", this.leadForm)
     this.cdf.detectChanges()
 
-    if (this.oldData)
+    if (this.oldData) {
+      this.getLeadQuality()
       this.calculateScore(this.oldData.sourceCode)
+    }
 
   }
 
@@ -1013,7 +1001,6 @@ export class LeadDetailComponent implements OnInit {
 
     if (type == 'FNA') {
       this.isFNA = !this.isFNA;
-      console.log('this.isFNA', this.isFNA);
       if (this.isFNA) {
         //this.getAllFNA();
         FNAConstant.LEAD_ID = this.oldId;
@@ -1050,7 +1037,6 @@ export class LeadDetailComponent implements OnInit {
           if (prod.type == 'save') {
             let customerId = this.oldData.existingCustomerId ? this.oldData.existingCustomerId : this.oldData.prospectCustomerId
             this.customerService.findOne(customerId).toPromise().then((res) => {
-              console.log(res);
 
               this.prodctService.creatingCustomer = res
               this.prodctService.createingProd = prod.data
@@ -1105,8 +1091,6 @@ export class LeadDetailComponent implements OnInit {
   }
 
   actionBtn(event, type?) {
-    console.log('actionBtn', event);
-    console.log('actionBtn type', type);
     this.fnaService.fnaUpdateProducts = [];
     if (type == 'FNA') {
       if (event.cmd == 'edit') {
@@ -1241,7 +1225,6 @@ export class LeadDetailComponent implements OnInit {
               }
               this.LeadAttachmentService.save(postData).toPromise().then((res) => {
                 if (res) {
-                  console.log("RESFILE", res)
                   this.getLeadAttachment()
                   // this.getOld()
                 }
@@ -1264,7 +1247,6 @@ export class LeadDetailComponent implements OnInit {
   async getLeadAttachment() {
     this.LeadAttachmentService.getAttachmentListRef(this.oldId, 'LEAD').toPromise().then((res: any) => {
       if (res) {
-        console.log("RESFILE", res)
         this.attachmentList = res
         this.cdf.detectChanges()
         this.attachmentmatTable.reChangeData()
@@ -1276,7 +1258,6 @@ export class LeadDetailComponent implements OnInit {
   getProductOption() {
     let array: any[] = this.productOption || []
     let type = array.filter(x => x.type == this.leadType[this.leadForm.getRawValue().typeCode])
-    console.log("TYPE=>", type, array)
     let index = type.findIndex(x => x.code == this.leadForm.controls["productId"].value)
     if (index < 0 && this.leadForm.controls["productId"].value && type.length > 0)
       this.leadForm.controls["productId"].setValue("");
@@ -1370,7 +1351,6 @@ export class LeadDetailComponent implements OnInit {
     this.fnaService.bgColor = '';
     this.fnaService.fnaUpdateProducts = new Array<any>();
     this.fnaService.fnaTextColor = null;
-    console.log('customer', this.customer);
     let passValue: any;
     if (data) {
       passValue = {
@@ -1407,10 +1387,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   async getAllFNA() {
-    console.log('getAllFNA', this.oldId);
 
     await this.fnaListService.getAll().toPromise().then((res: any) => {
-      console.log('getAllFNA', res);
       this.fnaList = [];
       if (res) {
         this.fnaList = res
