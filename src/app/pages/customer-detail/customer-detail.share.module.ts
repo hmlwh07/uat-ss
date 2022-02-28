@@ -9,6 +9,7 @@ import { CustomerDetailComponent } from './customer-detail.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { FormComponentModule } from '../form-component/form-component.module';
 
 
 
@@ -26,6 +27,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatDatepickerModule,
     MatRadioModule,
     MatInputModule,
+    FormComponentModule
   ]
 })
 export class CustomerDetailShareModule { }

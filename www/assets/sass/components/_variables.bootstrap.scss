@@ -338,19 +338,23 @@ $enable-shadows:                              		true !default;
 //
 // Define the minimum dimensions at which your layout will change,
 // adapting to different screen sizes, for use in media queries.
+// sm: 576px,
+//   md: 768px,
 // lg: 1000px,
 //   xl: 1200px,
 //   xxl: 1400px
-// lg: 1500px,
+// sm: 768px,
+//   md: 1000px,
+//   lg: 1500px,
 //   xl: 1700px,
 //   xxl: 1900px 
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
   md: 768px,
-  lg: 1000px,
-  xl: 1200px,
-  xxl: 1400px // custom breakpoint
+  lg: 1500px,
+  xl: 1700px,
+  xxl: 1900px  // custom breakpoint
 ) !default;
 
 

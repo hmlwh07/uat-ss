@@ -15,9 +15,9 @@ export const DefaultLayoutConfig = {
     breakpoints: {
       sm: 576,
       md: 768,
-      lg: 1000,
-      xl: 1200,
-      xxl: 1400,
+      lg: 1500,
+      xl: 1700,
+      xxl: 1900,
     },
     colors: {
       theme: {

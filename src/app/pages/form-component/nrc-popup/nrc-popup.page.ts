@@ -27,7 +27,7 @@ export class NrcPopupPage implements OnInit {
       "stage": new FormControl(null, [Validators.required]),
       "township": new FormControl(null, [Validators.required]),
       "prefix": new FormControl('N', [Validators.required]),
-      "nrc": new FormControl(null, [Validators.required, Validators.maxLength(6), Validators.minLength(6)]),
+      "nrc": new FormControl(null, [Validators.required, Validators.maxLength(6), Validators.minLength(6),Validators.pattern("[0-9]*")]),
     })
   }
 

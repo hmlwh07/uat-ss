@@ -10,7 +10,7 @@
         <div class="col-sm-3">
           <div class="form-group">
             <label class="form-label">State No</label>
-            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('stage')" placeholder="State No"
+            <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('stage')" placeholder="State No"
               formControlName="stage" (change)="changeStage()">
               <ng-option [value]="'01'">01(Kachin)</ng-option>
               <ng-option [value]="'02'">02(Kayar)</ng-option>
@@ -33,7 +33,7 @@
         <div class="col-sm-3">
           <div class="form-group">
             <label class="form-label">District</label>
-            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('township')" placeholder="District"
+            <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('township')" placeholder="District"
               formControlName="township">
               <ng-container *ngFor="let item of townShip">
                 <ng-option [value]="item">{{item}}</ng-option>
@@ -45,7 +45,7 @@
         <div class="col-sm-3">
           <div class="form-group">
             <label class="form-label">Type</label>
-            <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('prefix')" placeholder="Type"
+            <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('prefix')" placeholder="Type"
               formControlName="prefix">
               <ng-option [value]="'N'">N</ng-option>
               <ng-option [value]="'P'">P</ng-option>
