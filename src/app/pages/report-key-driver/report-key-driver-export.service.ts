@@ -116,17 +116,17 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     }
     reportDate.alignment = { vertical: 'middle', horizontal: 'left' }
 
-     //Reported By:
-     worksheet.mergeCells('G2', 'G2');
-     let reportBy = worksheet.getCell('G2');
-     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
-     reportBy.font = {
-       name: 'Calibri',
-       size: 10,    
-       bold: true
-     }
-     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
-   
+    //Reported By:
+    worksheet.mergeCells('G2', 'G2');
+    let reportBy = worksheet.getCell('G2');
+    reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+    reportBy.font = {
+      name: 'Calibri',
+      size: 10,
+      bold: true
+    }
+    reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
+
     // Display search name   
     if (searchValue.length > 0) {
       for (var i = 0; i < searchValue.length; i++) {
@@ -209,7 +209,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
             center.alignment = { vertical: 'middle', horizontal: 'left' }
           }
         } else {
-          center.alignment = { vertical: 'middle', horizontal: 'right' }   
+          center.alignment = { vertical: 'middle', horizontal: 'right' }
           center.numFmt = '#,##0.00_);(#,##0.00)';
         }
       });
@@ -300,6 +300,11 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
       totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+
+      worksheet.mergeCells('B' + manpowerIndex, 'E' + manpowerIndex);
+      let manPowerMerge = worksheet.getCell('B' + manpowerIndex);
+      manPowerMerge.alignment = { vertical: 'middle', horizontal: 'right' }
+
     }
 
     if (activeManPower != null) {
@@ -323,29 +328,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
       totalCell.numFmt = '#,##0.00_);(#,##0.00)';
-    }
 
-    if (activeManPower != null) {
-      let activeManpowerIndex = data.length + 7
-      let activeManPowerCell = worksheet.getCell('A' + activeManpowerIndex);
-      activeManPowerCell.value = 'Active Manpower';
-      activeManPowerCell.font = {
-        name: 'Calibri',
-        size: 10,
-        bold: false
-      }
-      activeManPowerCell.alignment = { vertical: 'middle', horizontal: 'left' }
-
-      let total = data.length + 7
-      let totalCell = worksheet.getCell('B' + total);
-      totalCell.value = activeManPower;
-      totalCell.font = {
-        name: 'Calibri',
-        size: 10,
-        bold: false
-      }
-      totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
-      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+      worksheet.mergeCells('B' + activeManpowerIndex, 'E' + activeManpowerIndex);
+      let activeManpowerIndexMerge = worksheet.getCell('B' + activeManpowerIndex);
+      activeManpowerIndexMerge.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
     if (activeRatio != null) {
@@ -369,6 +355,11 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
       totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+
+      worksheet.mergeCells('B' + activeRatioIndex, 'E' + activeRatioIndex);
+      let activeRatioMerge = worksheet.getCell('B' + activeRatioIndex);
+      activeRatioMerge.alignment = { vertical: 'middle', horizontal: 'right' }
+
     }
 
     if (productivity != null) {
@@ -392,6 +383,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
       totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+
+      worksheet.mergeCells('B' + productivityndex, 'E' + productivityndex);
+      let productivityMerge = worksheet.getCell('B' + productivityndex);
+      productivityMerge.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
     if (channelProductivity != null) {
@@ -415,6 +410,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
       totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+
+      worksheet.mergeCells('B' + channelProductivityIndex, 'E' + channelProductivityIndex);
+      let channelProductivityMerge = worksheet.getCell('B' + channelProductivityIndex);
+      channelProductivityMerge.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
     if (anpCaseSize != null) {
@@ -438,6 +437,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
       totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+
+      worksheet.mergeCells('B' + anpCaseSizeIndex, 'E' + anpCaseSizeIndex);
+      let anpCaseSizeMerge = worksheet.getCell('B' + anpCaseSizeIndex);
+      anpCaseSizeMerge.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
 
@@ -462,6 +465,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
       totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+
+      worksheet.mergeCells('B' + monthlyCaseSizeIndex, 'E' + monthlyCaseSizeIndex);
+      let monthlyCaseSizeMerge = worksheet.getCell('B' + monthlyCaseSizeIndex);
+      monthlyCaseSizeMerge.alignment = { vertical: 'middle', horizontal: 'right' }
     }
 
     worksheet.columns.forEach(function (column, i) {
