@@ -141,7 +141,20 @@
                     </app-material-table-view>
                 </ng-container>
                 <ng-template #cardView>
-
+                    <ng-container *ngFor="let item of LeadList">
+                        <div class="data-title">
+                            <div class="header-text">
+                                <img src="" alt="">
+                                <label>{{item.productName}}</label>
+                            </div>
+                            <div class="header-action">
+                                <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm"
+                                    (click)="onActionEdit()">
+                                    <span class="flaticon-edit"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </ng-container>
                 </ng-template>
             </div>
 

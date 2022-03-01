@@ -802,10 +802,12 @@ kbz-loading {
 #kt_aside {
     background-color: #005f99 !important;
 }
-.modal-dialog.modal-xl{
+
+.modal-dialog.modal-xl {
     max-width: none;
-    width: 80%;
+    width    : 80%;
 }
+
 // .my-customer-alert {
 //     .alert-head {
 //         padding      : 0px;
@@ -846,3 +848,10 @@ kbz-loading {
 //         font-weight: bold;
 //     }
 // }
+.data-title {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    border-bottom  : 1px solid rgb(218, 217, 217);
+    padding        : 2rem 0px;
+}

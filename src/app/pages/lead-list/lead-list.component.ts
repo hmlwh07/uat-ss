@@ -39,7 +39,7 @@ export class LeadListComponent implements OnInit {
 
   LeadList: any[] = [];
   LeadForm: FormGroup;
-  isTableView: boolean = true
+  isTableView: boolean = false
   @Output() selectedUser = new EventEmitter();
   @Input() isPopup: boolean = false;
   show: boolean = false
@@ -170,7 +170,8 @@ export class LeadListComponent implements OnInit {
           console.log("RES", res)
           this.LeadList = res
           this.cdf.detectChanges();
-          this.matTable.reChangeData();
+          if (this.matTable)
+            this.matTable.reChangeData();
         }
       });
   }
