@@ -144,7 +144,7 @@
                     <ng-container *ngFor="let item of LeadList">
                         <div class="data-title">
                             <div class="header-text">
-                                <img src="" alt="">
+                                <img *ngIf="smallIcon" [src]="DEFAULT_DOWNLOAD_URL+item.smallIcon" alt="">
                                 <label>{{item.productName}}</label>
                             </div>
                             <div class="header-action">

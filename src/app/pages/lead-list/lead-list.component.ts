@@ -21,6 +21,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CustomerListComponent } from "../customer-list/customer-list.component";
 import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
+import { environment } from "../../../environments/environment";
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -46,6 +47,8 @@ export class LeadListComponent implements OnInit {
   statusOption: any[] = []
   sourceOption: any[] = []
   productOption: any[] = []
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+
   constructor(
     private router: Router,
     private cdf: ChangeDetectorRef,
