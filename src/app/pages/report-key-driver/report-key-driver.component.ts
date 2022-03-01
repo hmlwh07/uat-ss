@@ -89,7 +89,7 @@ export class ReportKeyDriverComponent implements OnInit {
     this.channelProductivity = 0;
     this.anpCaseSize = 0;
     this.monthlyCaseSize = 0;
-    
+
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
@@ -114,7 +114,7 @@ export class ReportKeyDriverComponent implements OnInit {
               this.displayDataList.push(obj);
             }
             this.roundTotalProductDistribution = this.totalProductDistribution
-            this.roundTotalProductDistribution = this.totalProductDistribution
+            //this.roundTotalProductDistribution = this.totalProductDistribution
             this.roundTotalAverageCaseSize = this.totalAverageCaseSize
 
             if (this.keyDriver.manPower) {
@@ -152,7 +152,7 @@ export class ReportKeyDriverComponent implements OnInit {
     } else {
       returnValue = 0;
     }
-    this.totalProductDistribution += Number(returnValue);
+    this.totalProductDistribution += Number(Math.round(returnValue));
     return returnValue;
   }
 
@@ -188,7 +188,8 @@ export class ReportKeyDriverComponent implements OnInit {
         this.displayDataList[i].product,
         this.displayDataList[i].newBusinessCase || 0.00,
         this.displayDataList[i].newBusinessPremium || 0.00,
-        this.displayDataList[i].productDistribution || 0.00,
+        Number(Math.round(this.displayDataList[i].productDistribution)) || 0.00,
+        //this.displayDataList[i].productDistribution || 0.00,
         this.displayDataList[i].averageCaseSize || 0.00,
       ]);
     }
