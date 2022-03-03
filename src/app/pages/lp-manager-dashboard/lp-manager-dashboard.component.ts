@@ -17,6 +17,8 @@ import {
   ApexDataLabels,
   ApexPlotOptions,
   ApexGrid,
+  ApexTitleSubtitle,
+  ApexMarkers,
 } from 'ng-apexcharts';
 
 import { DashboardService } from './../senior-lp-dashboard/senior-lp-dashboard.service';
@@ -44,6 +46,17 @@ export type ChartOptions = {
   legend: ApexLegend;
 };
 
+export type ChartOptionsLine = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  title: ApexTitleSubtitle;
+  legend: ApexLegend;
+  dataLabels: ApexDataLabels,
+  markers: ApexMarkers
+};
+
 @Component({
   selector: 'app-lp-manager-dashboard',
   templateUrl: './lp-manager-dashboard.component.html',
@@ -53,7 +66,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("chartAgent") chartAgent: ChartComponent;
   @ViewChild("chartLead") chartLead: ChartComponent;
 
-  public chartOptionsAgent: Partial<ChartOptions>;
+  public chartOptionsAgent: Partial<ChartOptionsLine>;
   public chartOptions: Partial<ChartOptions>;
 
   data: any;
@@ -148,8 +161,9 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
 
   setChartOptions(type : string){
     let key =  type == 'lead'?  'chartOptions' : 'chartOptionsAgent';
-    this[key]= {
-      series: [
+    this[key]= (type == 'lead'? 
+    {
+       series: [
         {
           name: "",
           data: [type == 'lead'? this.leadObj.leadWinCount : this.data.converted ,type == 'lead'? this.leadObj.leadAssignCount
@@ -213,6 +227,71 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
           }
         }
       }
-    };
+    } : 
+    {
+      series: [
+        {
+          name: "Premium Amount",
+          data: [0,100,50,30,20,0],
+          color: "#005f99"
+        }
+      ],
+      chart: {
+        height: 250,
+        type: "line",
+        toolbar: {
+          show: false
+        }
+      },
+      title: {
+        text: "Basic Benefit Illustration",
+        offsetX: 0,
+        offsetY: 10,
+        floating: false,
+        style: {
+          fontSize: "1.1rem",
+          fontFamily: "Roboto"
+        }
+
+      },
+      xaxis: {
+        type: 'category',
+        categories: ["5 in February",'','','','',"19 in 2021"],
+        labels: {
+          style: {
+            fontSize: "1rem",
+            fontFamily: "Roboto"
+          }
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 5,
+        labels: {
+          style: {
+            fontSize: "1rem",
+            fontFamily: "Roboto"
+          }
+        }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true,
+        offsetY: -25,
+        offsetX: -5
+      },
+      dataLabels: {
+        enabled: true,
+        textAnchor: 'middle',
+        offsetX: -10,
+        offsetY: -5,
+        enabledOnSeries: [0]
+      },
+      markers: {
+        size: [5,0,0],
+      }
+    });
   }
 }

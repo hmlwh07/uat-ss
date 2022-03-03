@@ -142,12 +142,16 @@
 }
 
 .my-card-fixed-height {
-  max-height: calc(100vh - 215px);
-  min-height: 443px;
-  overflow-y: auto;
+  @extend .fixed-height;
   background-color: #FFF !important;
   border : 1px solid lightgrey !important;
   margin : 5px;
+}
+
+.fixed-height{
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .primary-color{
@@ -175,4 +179,11 @@
 .campaign-box{
   height: 145px;
   overflow-y: auto;
+}
+
+.my-block{
+  width : 300px;
+  max-height : 250px;
+  float : left;
+  margin-right: 15px;
 }
