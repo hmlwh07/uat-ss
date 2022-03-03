@@ -41,7 +41,9 @@ export class CurrencyExChangeComponent implements OnInit {
       currency: new FormControl('usd'),
     })
   }
-
+  cancel(){
+    this.exchangeForm.reset()
+  }
   getData() {
     // console.log(this.matTable);
 
