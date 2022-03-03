@@ -127,6 +127,12 @@ export class LeadListComponent implements OnInit {
 
 
   }
+
+  updateURL(event: any){
+    if(event){
+      event.target.src = "assets/icon/general_product.svg"
+    }
+  }
   getSource() {
 
     return this.masterDataService

@@ -98,7 +98,7 @@ export class EndoComponent implements OnInit {
         resourceId: this.resourcesId,
         endOfPolicyYear: x,
         age: this.currentAge + i,
-        premiumPaid: this.premimuRateNum >= x ? this.calculatePre(this.currentAge , x) : 0,
+        premiumPaid: this.premimuRateNum >= x ? this.calculatePre(this.currentAge, x) : 0,
         benefit: this.sumInsured,
         surrenderValue: this.calculateSur(x),
         policyLoan: this.calculateSur(x) * 0.9
@@ -206,6 +206,7 @@ export class EndoComponent implements OnInit {
           "resourceDataDTO": {
             "agentId": this.auth.currentUserValue.id || 1,
             "customerId": this.prodService.creatingCustomer.customerId || 1,
+            "leadId": this.prodService.creatingLeadId || 1,
             "policyNumber": null,
             "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
             "premiumView": this.premiumAmt,
