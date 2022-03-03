@@ -1,0 +1,27 @@
+<div class="col-xl-4 col-sm-6" [formGroup]="formInput" *ngIf="formInput">
+    <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Start Date</label>
+        <div class="col-sm-8">
+            <div class="input-group ">
+                <input matInput class="form-control-sm date-input" formControlName="startDate" [matDatepicker]="startDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate disabled="false"></mat-datepicker>
+                <span class="ng-clear-wrapper" (click)="clearDate('startDate')" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xl-4 col-sm-6" [formGroup]="formInput" *ngIf="formInput">
+    <div class="form-group row">
+        <label class="col-sm-4 col-form-label">End Date</label>
+        <div class="col-sm-8">
+            <div class="input-group ">
+                <input matInput class="form-control-sm date-input" formControlName="endDate" [matDatepicker]="endDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                <mat-datepicker #endDate disabled="false"></mat-datepicker>
+                <span class="ng-clear-wrapper" (click)="clearDate('endDate')" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+
+            </div>
+        </div>
+    </div>
+</div>

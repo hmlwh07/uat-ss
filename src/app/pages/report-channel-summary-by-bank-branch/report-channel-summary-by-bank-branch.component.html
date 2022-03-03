@@ -6,16 +6,13 @@
                     <h3 class="card-label left-border-image">{{ title }}</h3>
                 </div>
                 <div class="card-toolbar">
-                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;"
-                        (click)="getAllReports()">
-                        <span class="flaticon2-magnifier-tool"></span>
+                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="getAllReports()">
+                        <span class="flaticon2-magnifier-tool search-tool"></span>
                     </button>
-                    <button type="button" [disabled]="!isHasData" (click)="generateReportExcel()"
-                        class="btn btn-primary ml-2" style="min-width: 50px;">
+                    <button type="button" [disabled]="!isHasData" (click)="generateReportExcel()" class="btn btn-primary ml-2" style="min-width: 50px;">
                         <span class="">Generate</span>
                     </button>
-                    <button type="button" (click)="cancelReport()" class="btn btn-primary ml-2"
-                        style="min-width: 50px;">
+                    <button type="button" (click)="cancelReport()" class="btn btn-primary ml-2" style="min-width: 50px;">
                         <span class="">Cancel</span>
                     </button>
                 </div>
@@ -27,28 +24,22 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">From Date</label>
                                 <div class="col-sm-6 input-date">
-                                    <input type="text" readonly class="form-control form-control-sm"
-                                        formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
-                                        [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
+                                    <input type="text" readonly class="form-control form-control-sm" formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1 disabled="false"></mat-datepicker>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')"
-                                    class="btn btn-primary btn-elevate mx-2">Clear</button>
+                                <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')" class="btn btn-primary btn-elevate mx-2">Clear</button>
                             </div>
                         </div>
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">To Date</label>
                                 <div class="col-sm-6 input-date">
-                                    <input type="text" readonly class="form-control form-control-sm"
-                                        formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
-                                        [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
+                                    <input type="text" readonly class="form-control form-control-sm" formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker disabled="false"></mat-datepicker>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')"
-                                    class="btn btn-primary btn-elevate mx-2">Clear</button>
+                                <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')" class="btn btn-primary btn-elevate mx-2">Clear</button>
                             </div>
                         </div>
                     </div>

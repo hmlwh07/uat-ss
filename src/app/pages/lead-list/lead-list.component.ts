@@ -87,7 +87,8 @@ export class LeadListComponent implements OnInit {
       existingCustomerName: new FormControl({ value: null, disabled: true }),
       contactName: new FormControl(null),
       leadId: new FormControl(null),
-      openDateStr: new FormControl(null),
+      startDate: new FormControl(null),
+      endDate: new FormControl(null),
       productId: new FormControl(null),
       sourceCode: new FormControl(null),
       statusCode: new FormControl(null),
@@ -172,6 +173,8 @@ export class LeadListComponent implements OnInit {
   }
 
   getList() {
+    console.log(this.LeadForm.getRawValue());
+    
     this.LeadListService.getLeadList(this.LeadForm.getRawValue())
       .toPromise()
       .then((res: any) => {
