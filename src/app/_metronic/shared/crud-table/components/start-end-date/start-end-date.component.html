@@ -1,4 +1,4 @@
-<div class="col-xl-4 col-sm-6" [formGroup]="formInput" *ngIf="formInput">
+<div [ngClass]="colClass" ng [formGroup]="formInput" *ngIf="formInput">
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">Start Date</label>
         <div class="col-sm-8">
@@ -11,7 +11,7 @@
         </div>
     </div>
 </div>
-<div class="col-xl-4 col-sm-6" [formGroup]="formInput" *ngIf="formInput">
+<div [ngClass]="colClass" [formGroup]="formInput" *ngIf="formInput">
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">End Date</label>
         <div class="col-sm-8">

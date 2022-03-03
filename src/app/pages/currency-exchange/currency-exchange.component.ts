@@ -37,7 +37,8 @@ export class CurrencyExChangeComponent implements OnInit {
   }
   loadForm(){
     this.exchangeForm = new FormGroup({
-      date: new FormControl(null),
+      startDate: new FormControl(null),
+      endDate:new FormControl(null),
       currency: new FormControl('usd'),
     })
   }
@@ -60,6 +61,9 @@ export class CurrencyExChangeComponent implements OnInit {
       }
     })
 
+  }
+  cancel(){
+    
   }
   addData(){
     const modalRef = this.modalCrl.open(CurrencyAddFormComponent, { size: 'md', backdrop: false });

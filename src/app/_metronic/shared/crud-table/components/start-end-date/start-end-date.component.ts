@@ -15,12 +15,21 @@ import { MY_FORMATS } from 'src/app/core/is-json';
 })
 export class StartEndDateComponent implements OnInit {
 @Input() formInput:FormGroup
+@Input() colClass:any;
   constructor() { }
 
   ngOnInit() {
     console.log("data--> ", this.formInput);
+    this.selectBtn()
   }
   clearDate(type){
     this.formInput.controls[type].setValue(null)
+  }
+  selectBtn(){
+    let date = new Date();
+    let lastMonthDay = new Date(date.setMonth(date.getMonth() - 1))
+    let monthDay = new Date(date.setMonth(date.getMonth() + 1))
+    this.formInput.controls['startDate'].setValue(lastMonthDay.toISOString());
+    this.formInput.controls['endDate'].setValue(monthDay.toISOString());
   }
 }
