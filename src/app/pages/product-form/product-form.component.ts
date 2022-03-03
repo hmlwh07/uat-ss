@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild,NgZone } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { DatePipe, DecimalPipe, Location } from '@angular/common';
 // import { uuid } from 'uuid';
@@ -66,7 +66,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   editData: any
   creatingCustomer: Customer = {}
   creatingLeadId: number = 0
-  constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe) { }
+  constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe,private ngZone:NgZone) { }
 
   async ngOnInit() {
     if ((this.prodService.type == 'policy' && this.prodService.createingProdRef)) {
@@ -681,7 +681,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.activePage -= 1
       this.cdRef.detectChanges();
     } else {
-      this.location.back()
+      this.ngZone.run(() => {
+        this.location.back()
+      })
+      // this.location.back()
     }
   }
 

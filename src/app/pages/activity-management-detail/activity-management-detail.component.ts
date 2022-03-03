@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -54,7 +54,8 @@ export class ActivityManagementDetailComponent implements OnInit {
     private location: Location,
     private cdf: ChangeDetectorRef,
     private alertService: AlertService,
-    private menuService: MenuDataService
+    private menuService: MenuDataService,
+    private ngZone:NgZone
   ) {
 
   }
@@ -269,7 +270,9 @@ export class ActivityManagementDetailComponent implements OnInit {
 
   backLocation() {
     if (this.isLead) {
-      this.location.back()
+      this.ngZone.run(() => {
+        this.location.back()
+      })
     } else {
       this.loadForm(this.oldData)
     }

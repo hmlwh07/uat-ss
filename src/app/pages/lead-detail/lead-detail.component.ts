@@ -218,6 +218,8 @@ export class LeadDetailComponent implements OnInit {
       if (params) {
         this.pageStatus = params.pageStatus;
         if (this.pageStatus != "create") {
+          console.log("<==========>",params);
+          
           this.oldId = params.leadId;
           this.oldSecondaryId = params.pageSecondaryId;
           this.getOld();
@@ -264,11 +266,11 @@ export class LeadDetailComponent implements OnInit {
     this.getMaster()
     this.getProduct()
     // this.getLeadQuality()
-    if (FNAConstant.LEAD_ID) {
-      this.oldId = FNAConstant.LEAD_ID;
-      this.getOld();
-      this.loadForm();
-    }
+    // if (FNAConstant.LEAD_ID) {
+    //   this.oldId = FNAConstant.LEAD_ID;
+    //   this.getOld();
+    //   this.loadForm();
+    // }
   }
 
   getMaster() {
