@@ -20,12 +20,12 @@ export class StartEndDateComponent implements OnInit {
 
   ngOnInit() {
     console.log("data--> ", this.formInput);
-    this.selectBtn()
+    this.getoneMonth()
   }
   clearDate(type){
     this.formInput.controls[type].setValue(null)
   }
-  selectBtn(){
+  getoneMonth(){
     let date = new Date();
     let lastMonthDay = new Date(date.setMonth(date.getMonth() - 1))
     let monthDay = new Date(date.setMonth(date.getMonth() + 1))
