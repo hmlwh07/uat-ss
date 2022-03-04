@@ -14,7 +14,7 @@
     <div class="card card-custom my-card">
       <div class="row my-row my-border-bottom">
         <div class="col-12 my-p-10">
-          <h6 class="card-label primary-color">Premium LP Head</h6>
+          <h6 class="card-label primary-color">{{ data?.role }}</h6>
         </div>
         <div class="col-12">
           <label class="font-18">
@@ -40,47 +40,50 @@
     </div>
   </div>
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-mt-5">
-    <div class="card card-custom my-card-fixed-height">
-      <div class="row my-row">
-        <div class="col-6 my-p-10">
-          <h6 class="card-label primary-color">Sales Performances</h6>
+    <div class="card card-custom ">
+      <div class="my-card-fixed-height">
+        <div class="row my-row">
+          <div class="col-6 my-p-10">
+            <h6 class="card-label primary-color">Sales Performances</h6>
+          </div>
+          <div class="col-6 my-p-10 text-right cursor" (click)="goToSalePolicies()">
+            View All
+          </div>
         </div>
-        <div class="col-6 my-p-10 text-right cursor" (click)="goToSalePolicies()">
-          View All
+        <div class="row my-row">
+          <div class="col-12">
+            <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">
+              <span *ngIf="months && months.length > 0">{{
+                months[currentMonthIndex] }}</span> | Y
+              {{ data?.yearlyTotalPremium[0]?.year }} </span>
+          </div>
         </div>
-      </div>
-      <div class="row my-row">
-        <div class="col-12">
-          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">
-            <span *ngIf="months && months.length > 0">{{
-              months[currentMonthIndex] }}</span>  | Y
-            {{ data?.yearlyTotalPremium[0]?.year }} </span>
-        </div>
-      </div>
 
-      <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
-        <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
-          <div class="my-profile-card my-border-bottom" (click)="goToLPManager(agent)">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
+        <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
+          <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
+            <div class="my-profile-card my-border-bottom" (click)="goToLPManager(agent)">
+              <div class="flex">
                 <div>
-                  <span>{{ agent.name }}</span>
+                  <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
                 </div>
-                <div>
-                  <span>{{ agent.premium | number: '1.0-2' }} MMK</span>
+                <div class="pl-5">
+                  <div>
+                    <span>{{ agent.name }}</span>
+                  </div>
+                  <div>
+                    <span>{{ agent.premium | number: '1.0-2' }} MMK</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-12 my-mt-5">
-    <div class="card card-custom my-card my-block">
+  <div class="w-100"></div>
+  <div class="col-4 my-mt-5">
+    <div class="card card-custom my-card my-block ">
       <div class="row my-row">
         <div class="col-12 my-p-10">
           <h6 class="card-label primary-color">Lead Conversion</h6>
@@ -89,7 +92,7 @@
           <span>{{ data?.agentInfo?.branchName }}</span>
         </div>
         <div class="col-12">
-          <span class="font-18">{{ leadObj.leadWinRate }} %</span>
+          <span class="font-18">{{ leadObj?.leadWinRate }} %</span>
         </div>
       </div>
       <div id="chartLead" *ngIf="chartOptions">
@@ -98,29 +101,28 @@
           [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
       </div>
     </div>
-    <div class="card card-custom my-card my-block">
+  </div>
+  <div class="col-4 my-mt-5">
+
+    <div class="card card-custom my-card my-block ">
       <div class="row my-row">
         <div class="col-12 my-p-10">
           <h6 class="card-label primary-color">Active Agents Today</h6>
         </div>
         <div class="col-12">
-          <span class="font-18">{{ leadObj.todayActiveAgent }}</span>
+          <span class="font-18">{{ todayActiveAgent }}</span>
         </div>
       </div>
       <div id="chartAgent" *ngIf="chartOptionsAgent">
-        <apx-chart
-        [series]="chartOptionsAgent.series"
-        [chart]="chartOptionsAgent.chart"
-        [xaxis]="chartOptionsAgent.xaxis"
-        [yaxis]="chartOptionsAgent.yaxis"
-        [title]="chartOptionsAgent.title"
-        [legend]="chartOptionsAgent.legend"
-        [dataLabels]="chartOptionsAgent.dataLabels"
-        [markers]="chartOptionsAgent.markers"
-      ></apx-chart>
+        <apx-chart [series]="chartOptionsAgent.series" [chart]="chartOptionsAgent.chart"
+          [xaxis]="chartOptionsAgent.xaxis" [yaxis]="chartOptionsAgent.yaxis" [title]="chartOptionsAgent.title"
+          [legend]="chartOptionsAgent.legend" [dataLabels]="chartOptionsAgent.dataLabels"
+          [markers]="chartOptionsAgent.markers"></apx-chart>
       </div>
     </div>
-    <div class="card card-custom my-card my-block">
+  </div>
+  <div class="col-4 my-mt-5">
+    <div class="card card-custom my-card my-block ">
       <div class="row my-row">
         <div class="col-12 my-p-10">
           <h6 class="card-label primary-color">Things To Follow Up Today
@@ -152,3 +154,6 @@
     </div>
   </div>
 </div>
+<!-- my-card my-block
+my-card my-block
+my-card my-block -->

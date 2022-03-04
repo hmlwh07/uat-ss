@@ -146,19 +146,20 @@
   margin : 5px;
 }
 
-.my-card-fixed-height {
-  @extend .fixed-height;
-  background-color: #FFF !important;
-  border : 1px solid lightgrey !important;
-  margin : 5px;
-}
 
 .fixed-height{
-  max-height: 500px;
+  max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
+.my-card-fixed-height {
+  @extend .fixed-height;
+  background-color: #FFF !important;
+  border : 1px solid lightgrey !important;
+  max-height: 600px;
+  margin : 5px;
+}
 .primary-color{
   color       : #005f99 !important;
 }
@@ -181,8 +182,8 @@
 }
 
 .my-block{
-  width : 300px;
+  // width : 300px;
   height : 250px;
-  float : left;
-  margin-right: 15px;
+  // float : left;
+  // margin-right: 15px;
 }

@@ -42,41 +42,43 @@
   </div>
 
   <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 my-mt-5">
-    <div class="card card-custom my-card-fixed-height">
-      <div class="row my-row">
-        <div class="col-6 my-p-10">
-          <h6 class="card-label left-border-image">My Team’s Sales</h6>
+    <div class="card card-custom">
+      <div class="my-card-fixed-height">
+        <div class="row my-row">
+          <div class="col-6 my-p-10">
+            <h6 class="card-label left-border-image">My Team’s Sales</h6>
+          </div>
+          <div class="col-6 my-p-10 text-right cursor" (click)="goToSalePolicies()">
+            View All
+          </div>
         </div>
-        <div class="col-6 my-p-10 text-right cursor" (click)="goToSalePolicies()">
-          View All
+        <div class="row my-row">
+          <div class="col-12">
+            <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{
+              data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{
+                months[currentMonthIndex] }}</span> </span>
+          </div>
         </div>
-      </div>
-      <div class="row my-row">
-        <div class="col-12">
-          <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">{{
-            data?.yearlyTotalPremium[0]?.year }} - <span *ngIf="months && months.length > 0">{{
-              months[currentMonthIndex] }}</span> </span>
-        </div>
-      </div>
 
-      <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
-        <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
-          <div class="my-profile-card my-border-bottom" (click)="goToLPManager(agent)">
-            <div class="flex">
-              <div>
-                <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-              </div>
-              <div class="pl-5">
+        <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
+          <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
+            <div class="my-profile-card my-border-bottom" (click)="goToLPManager(agent)">
+              <div class="flex">
                 <div>
-                  <span>{{ agent.name }}</span>
+                  <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
                 </div>
-                <div>
-                  <span>{{ agent.premium | number: '1.0-2' }} MMK</span>
+                <div class="pl-5">
+                  <div>
+                    <span>{{ agent.name }}</span>
+                  </div>
+                  <div>
+                    <span>{{ agent.premium | number: '1.0-2' }} MMK</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>
@@ -85,7 +87,7 @@
     <div class="card card-custom my-card">
       <div class="row my-row">
         <div class="col-6 my-p-10">
-          <h6 class="card-label left-border-image">My Team’s Activities
+          <h6 class="card-label left-border-image">My Team's Activities
           </h6>
         </div>
         <div class="col-6 my-p-10 text-right cursor" (click)="goToActivities()">

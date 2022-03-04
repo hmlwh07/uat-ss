@@ -17,6 +17,7 @@ import {
 
 import { DashboardService } from './senior-lp-dashboard.service';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
+import { map } from 'rxjs';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -65,7 +66,8 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   data: any;
   authObj: any;
   actForm: FormGroup;
-  leadObj: any;
+  leadObj: any = {};
+  todayActiveAgent = 0
   agentLineChart: any;
   agentLineChartCategories: string[] = [];
   agentLineChartDatas: number[] = [];
@@ -121,14 +123,27 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
 
   getAgentList() {
     this.ngzone.run(_ => {
-      this.agentLineChartCategories = this.agentLineChartDatas = [];
-      this.dashboardService.getAgentList(this.actForm.value).toPromise().then((res) => {
+      // this.agentLineChartCategories = this.agentLineChartDatas = [];
+      this.dashboardService.getAgentList(this.actForm.value).pipe(map((res: any) => {
+        let weeks = []
+        let data = []
+        res.weeklyActiveAgents.map((x) => {
+          weeks.push(x.weekNo)
+          data.push(parseInt(x.noOfActiveAgent))
+        })
+        return { ...res, data, weeks }
+      })).toPromise().then((res: any) => {
+        console.log(res,"res");
+        
         if (res) {
           this.agentLineChart = res;
-          this.agentLineChart.weeklyActiveAgents.map(a => {
-            this.agentLineChartCategories.push(a.weekNo);
-            this.agentLineChartDatas.push(parseInt(a.noOfActiveAgent));
-          })
+          this.todayActiveAgent = res.todayActiveAgent
+          this.agentLineChartCategories = res.weeks
+          this.agentLineChartDatas = res.data
+          // res.weeklyActiveAgents.map(a => {
+          //   this.agentLineChartCategories.push(a.weekNo);
+          //   this.agentLineChartDatas.push(parseInt(a.noOfActiveAgent));
+          // })
           this.setChartOptions('agent');
         }
       })
@@ -152,8 +167,10 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   }
 
   setChartOptions(type: string) {
+    console.log("lof", type);
+
     let key = type == 'lead' ? 'chartOptions' : 'chartOptionsAgent';
-    this[key] = (type == 'lead' ?
+    this[key] = type == 'lead' ?
       {
         series: [
           {
@@ -183,6 +200,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
           "#26a69a",
           "#D10CE8"
         ],
+        
         plotOptions: {
           bar: {
             columnWidth: "20%",
@@ -223,14 +241,17 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
       {
         series: [
           {
-            name: "Premium Amount",
+            name: "",
             data: this.agentLineChartDatas,
             color: "#005f99"
           }
         ],
+        stroke: {
+          curve: 'smooth',
+        },
         chart: {
           height: 190,
-          width : 280,
+          // width : 280,
           type: "line",
           toolbar: {
             show: false
@@ -285,7 +306,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
         markers: {
           size: [5, 0, 0],
         }
-      });
+      };
     this.cdf.detectChanges();
   }
 }

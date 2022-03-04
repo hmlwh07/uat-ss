@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private authService: AuthService, private router: Router, private menuData: MenuDataService,private location: Location) { }
+  constructor(private authService: AuthService, private router: Router, private menuData: MenuDataService, private location: Location) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // return true;
@@ -64,6 +64,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
 
   getAcessAndOther(dashboard, urlData: string, redirect1?: string, redirect2?: string) {
+    if (!dashboard.submenu) {
+      this.router.navigateByUrl("/")
+      return false
+    }
+
     let currentAccess = dashboard.submenu.find(x => x.page == urlData)
     if (!currentAccess.dataAccess.view) {
       if (redirect1) {
