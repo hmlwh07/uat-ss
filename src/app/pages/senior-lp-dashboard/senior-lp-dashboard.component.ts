@@ -65,12 +65,15 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   data: any;
   authObj: any;
   actForm: FormGroup;
-  leadObj : any;
-  currentMonthIndex : number = new Date().getUTCMonth();
-  months = ['JAN','FEB','Mar','APR','MAY','JUL','AUG','SEP','OCT','NOV','DEC'];
+  leadObj: any;
+  agentLineChart: any;
+  agentLineChartCategories: string[] = [];
+  agentLineChartDatas: number[] = [];
+  currentMonthIndex: number = new Date().getUTCMonth();
+  months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
 
-  constructor(private cdf: ChangeDetectorRef,private auth: AuthService, private dashboardService: DashboardService,private router : Router,private ngzone : NgZone
+  constructor(private cdf: ChangeDetectorRef, private auth: AuthService, private dashboardService: DashboardService, private router: Router, private ngzone: NgZone
   ) {
     this.unsub = this.auth.currentUserSubject.subscribe((res) => {
       if (res) {
@@ -85,6 +88,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.getList();
     this.getLeadList();
+    this.getAgentList();
   }
 
   loadForm() {
@@ -94,12 +98,12 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   }
 
   getList() {
-    this.ngzone.run(_=>{
+    this.ngzone.run(_ => {
       this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
         if (res) {
           this.data = res;
           this.setChartOptions('agent');
-          this.cdf.detectChanges();       
+          this.cdf.detectChanges();
         }
       })
     })
@@ -115,12 +119,28 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
+  getAgentList() {
+    this.ngzone.run(_ => {
+      this.agentLineChartCategories = this.agentLineChartDatas = [];
+      this.dashboardService.getAgentList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.agentLineChart = res;
+          this.agentLineChart.weeklyActiveAgents.map(a => {
+            this.agentLineChartCategories.push(a.weekNo);
+            this.agentLineChartDatas.push(parseInt(a.noOfActiveAgent));
+          })
+          this.setChartOptions('agent');
+        }
+      })
+    })
+  }
+
   ngOnDestroy() {
     this.unsub.unsubscribe();
   }
 
   goToLPManager(agent: any) {
-    this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId : agent.empId } })
+    this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId: agent.empId } })
   }
 
   goToSalePolicies() {
@@ -131,139 +151,141 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['activity/activity-management-list']);
   }
 
-  setChartOptions(type : string){
-    let key =  type == 'lead'?  'chartOptions' : 'chartOptionsAgent';
-    this[key]= (type == 'lead'? 
-    {
-       series: [
-        {
-          name: "",
-          data: [type == 'lead'? this.leadObj.leadWinCount : this.data.converted ,type == 'lead'? this.leadObj.leadAssignCount
-        : this.data.assigned]
-        }
-      ],
-      chart: {
-        toolbar: {
+  setChartOptions(type: string) {
+    let key = type == 'lead' ? 'chartOptions' : 'chartOptionsAgent';
+    this[key] = (type == 'lead' ?
+      {
+        series: [
+          {
+            name: "",
+            data: [type == 'lead' ? this.leadObj.leadWinCount : this.data.converted, type == 'lead' ? this.leadObj.leadAssignCount
+              : this.data.assigned]
+          }
+        ],
+        chart: {
+          toolbar: {
+            show: false
+          },
+          height: 150,
+          type: "bar",
+          events: {
+            click: function (w, e) {
+            }
+          }
+        },
+        colors: [
+          "#008FFB",
+          "#00E396",
+          "#FEB019",
+          "#FF4560",
+          "#775DD0",
+          "#546E7A",
+          "#26a69a",
+          "#D10CE8"
+        ],
+        plotOptions: {
+          bar: {
+            columnWidth: "20%",
+            distributed: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
           show: false
         },
-        height: 150,
-        type: "bar",
-        events: {
-          click: function(w, e) {
-          }
-        }
-      },
-      colors: [
-        "#008FFB",
-        "#00E396",
-        "#FEB019",
-        "#FF4560",
-        "#775DD0",
-        "#546E7A",
-        "#26a69a",
-        "#D10CE8"
-      ],
-      plotOptions: {
-        bar: {
-          columnWidth: "20%",
-          distributed: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      legend: {
-        show: false
-      },
-      grid: {
-        show: false
-      },
-      xaxis: {
-        categories: [
-          ["Converted",type == 'lead'? this.leadObj.leadWinCount : this.data.converted],
-          ["Assigned", type == 'lead'? this.leadObj.leadAssignCount : this.data.assigned],
-        ],
-        labels: {
-          style: {
-            colors: [
-              "#008FFB",
-              "#00E396",
-              "#FEB019",
-              "#FF4560",
-              "#775DD0",
-              "#546E7A",
-              "#26a69a",
-              "#D10CE8"
-            ],
-            fontSize: "12px"
-          }
-        }
-      }
-    } : 
-    {
-      series: [
-        {
-          name: "Premium Amount",
-          data: [0,100,50,30,20,0],
-          color: "#005f99"
-        }
-      ],
-      chart: {
-        height: 250,
-        type: "line",
-        toolbar: {
+        grid: {
           show: false
+        },
+        xaxis: {
+          categories: [
+            ["Converted", type == 'lead' ? this.leadObj.leadWinCount : this.data.converted],
+            ["Assigned", type == 'lead' ? this.leadObj.leadAssignCount : this.data.assigned],
+          ],
+          labels: {
+            style: {
+              colors: [
+                "#008FFB",
+                "#00E396",
+                "#FEB019",
+                "#FF4560",
+                "#775DD0",
+                "#546E7A",
+                "#26a69a",
+                "#D10CE8"
+              ],
+              fontSize: "12px"
+            }
+          }
         }
-      },
-      title: {
-        text: "Basic Benefit Illustration",
-        offsetX: 0,
-        offsetY: 10,
-        floating: false,
-        style: {
-          fontSize: "1.1rem",
-          fontFamily: "Roboto"
-        }
+      } :
+      {
+        series: [
+          {
+            name: "Premium Amount",
+            data: this.agentLineChartDatas,
+            color: "#005f99"
+          }
+        ],
+        chart: {
+          height: 190,
+          width : 280,
+          type: "line",
+          toolbar: {
+            show: false
+          }
+        },
+        title: {
+          text: "",
+          offsetX: 0,
+          offsetY: 10,
+          floating: false,
+          style: {
+            fontSize: "1.1rem",
+            fontFamily: "Roboto"
+          }
 
-      },
-      xaxis: {
-        type: 'category',
-        categories: ["5 in February",'','','','',"19 in 2021"],
-        labels: {
-          style: {
-            fontSize: "1rem",
-            fontFamily: "Roboto"
+        },
+        xaxis: {
+          type: 'category',
+          categories: this.agentLineChartCategories,
+          labels: {
+            style: {
+              fontSize: "1rem",
+              fontFamily: "Roboto"
+            }
           }
-        }
-      },
-      yaxis: {
-        min: 0,
-        max: 100,
-        tickAmount: 5,
-        labels: {
-          style: {
-            fontSize: "1rem",
-            fontFamily: "Roboto"
+        },
+        yaxis: {
+          min: 0,
+          max: 100,
+          tickAmount: 5,
+          labels: {
+            style: {
+              fontSize: "1rem",
+              fontFamily: "Roboto"
+            }
           }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          floating: true,
+          offsetY: -25,
+          offsetX: -5
+        },
+        dataLabels: {
+          enabled: true,
+          textAnchor: 'middle',
+          offsetX: -10,
+          offsetY: -5,
+          enabledOnSeries: [0]
+        },
+        markers: {
+          size: [5, 0, 0],
         }
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        floating: true,
-        offsetY: -25,
-        offsetX: -5
-      },
-      dataLabels: {
-        enabled: true,
-        textAnchor: 'middle',
-        offsetX: -10,
-        offsetY: -5,
-        enabledOnSeries: [0]
-      },
-      markers: {
-        size: [5,0,0],
-      }
-    });
+      });
+    this.cdf.detectChanges();
   }
 }
