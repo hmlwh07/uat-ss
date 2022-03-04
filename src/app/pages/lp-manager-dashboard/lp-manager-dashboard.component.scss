@@ -154,7 +154,10 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-
+.prod-icon {
+  width: 40px;
+  margin-right: 10px;
+}
 .my-card-fixed-height {
   @extend .fixed-height;
   background-color: #FFF !important;

@@ -24,6 +24,7 @@ import {
 import { DashboardService } from './../senior-lp-dashboard/senior-lp-dashboard.service';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { map } from 'rxjs';
+import { environment } from '../../../environments/environment';
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
   categories?: any;
@@ -91,6 +92,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
     'DEC',
   ];
   todayActiveAgent: number = 0
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+
   constructor(
     private cdf: ChangeDetectorRef,
     private route: ActivatedRoute,

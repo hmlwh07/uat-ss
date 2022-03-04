@@ -30,7 +30,10 @@
           <div *ngIf="data && data.yearlyTotalPremium.length > 0">
             <ng-container *ngFor="let product of data?.yearlyProductPremium">
               <div class="row my-row my-p-15 my-border-bottom">
-                <div class="col-6">{{ product.productName }}</div>
+                <div class="col-6">
+                  <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
+                  {{ product.productName }}
+                </div>
                 <div class="col-6 text-right">{{ product.premium | number: '1.0-2' }} MMK</div>
               </div>
             </ng-container>

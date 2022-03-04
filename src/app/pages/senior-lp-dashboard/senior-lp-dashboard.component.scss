@@ -1,9 +1,9 @@
 .top-box {
-  color: #B5B5C3;
+  color      : #B5B5C3;
   margin-left: 50px;
 
   span {
-    color: #000;
+    color          : #000;
     //  font-weight: 700;
   }
 }
@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-.user-image{
+.user-image {
   width: 120px;
 }
 
@@ -35,6 +35,7 @@
 .font-14 {
   font-size: 14px !important;
 }
+
 .underline {
   text-decoration: underline;
 }
@@ -53,7 +54,7 @@
 
 .my-card-title {
   justify-content: center;
-  width: 100%;
+  width          : 100%;
 }
 
 .width-100 {
@@ -68,17 +69,17 @@
   text-align: right;
 }
 
-.my-p-15{
+.my-p-15 {
   padding: 40px 15px 15px 15px;
 }
 
-.my-pt-15{
+.my-pt-15 {
   padding-top: 15px;
 }
 
 .my-profile-card {
   padding: 8px 8px 8px 15px;
-  cursor: pointer;
+  cursor : pointer;
 }
 
 .my-border-bottom {
@@ -90,7 +91,7 @@
 }
 
 .my-row {
-  margin-left: 0px !important;
+  margin-left : 0px !important;
   margin-right: 0px !important;
 }
 
@@ -108,11 +109,11 @@
 }
 
 .my-box {
-  width: 150px;
-  height: 150px;
-  color: #FFF;
-  margin-right: 8px;
-  padding : 8px;
+  width        : 150px;
+  height       : 150px;
+  color        : #FFF;
+  margin-right : 8px;
+  padding      : 8px;
   border-radius: 8px;
 }
 
@@ -120,34 +121,36 @@
   @extend .my-box;
   background-color: #00acea;
 }
+
 .box-2 {
   @extend .my-box;
   background-color: #015eab;
 }
+
 .box-3 {
   @extend .my-box;
   background-color: rgb(104, 104, 250);
 }
 
 .container {
-  width: 100%;
+  width     : 100%;
   min-height: 200px;
 }
 
 .fist-panel-container {
-  width: 100%;
+  width : 100%;
   height: 50%;
 }
 
 .my-card {
-  overflow: hidden;
+  overflow        : hidden;
   background-color: #FFF !important;
-  border : 1px solid lightgrey !important;
-  margin : 5px;
+  border          : 1px solid lightgrey !important;
+  margin          : 5px;
 }
 
 
-.fixed-height{
+.fixed-height {
   max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -157,11 +160,17 @@
   @extend .fixed-height;
   background-color: #FFF !important;
   // border : 1px solid lightgrey !important;
-  max-height: 600px;
-  margin : 5px;
+  max-height      : 600px;
+  margin          : 5px;
 }
-.primary-color{
-  color       : #005f99 !important;
+
+.prod-icon {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.primary-color {
+  color: #005f99 !important;
 }
 
 .card-50 {
@@ -170,20 +179,20 @@
 
 #chart {
   max-width: 650px;
-  margin: 35px auto;
+  margin   : 35px auto;
 }
 
-.cursor{
+.cursor {
   cursor: pointer;
 }
 
-.red{
-  color : red !important;
+.red {
+  color: red !important;
 }
 
-.my-block{
+.my-block {
   // width : 300px;
-  height : 250px;
+  height         : 250px;
   // float : left;
   // margin-right: 15px;
 }

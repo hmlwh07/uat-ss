@@ -13,6 +13,7 @@ import {
   ApexPlotOptions,
   ApexGrid,
 } from 'ng-apexcharts';
+import { environment } from '../../../environments/environment';
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
   categories?: any;
@@ -79,6 +80,7 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
     'NOV',
     'DEC',
   ];
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   currentMonthIndex: number = new Date().getUTCMonth();
   constructor(private cdf: ChangeDetectorRef, private ngzone: NgZone, private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
     this.route.queryParams.subscribe(async params => {

@@ -1,9 +1,9 @@
 .top-box {
-  color: #B5B5C3;
+  color      : #B5B5C3;
   margin-left: 50px;
 
   span {
-    color: #000;
+    color          : #000;
     //  font-weight: 700;
   }
 }
@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-.user-image{
+.user-image {
   width: 120px;
 }
 
@@ -31,6 +31,7 @@
 .font-14 {
   font-size: 14px !important;
 }
+
 .underline {
   text-decoration: underline;
 }
@@ -49,7 +50,7 @@
 
 .my-card-title {
   justify-content: center;
-  width: 100%;
+  width          : 100%;
 }
 
 .width-100 {
@@ -64,16 +65,16 @@
   text-align: right;
 }
 
-.my-p-15{
+.my-p-15 {
   padding: 40px 15px 15px 15px;
 }
 
 .my-profile-card {
   padding: 8px 8px 8px 15px;
-  cursor: pointer;
+  cursor : pointer;
 }
 
-.cursor{
+.cursor {
   cursor: pointer;
 }
 
@@ -90,7 +91,7 @@
 }
 
 .my-row {
-  margin-left: 0px !important;
+  margin-left : 0px !important;
   margin-right: 0px !important;
 }
 
@@ -104,42 +105,50 @@
 }
 
 .my-box {
-  width: 100px;
-  height: 100px;
-  color: #FFF;
+  width       : 100px;
+  height      : 100px;
+  color       : #FFF;
   margin-right: 8px;
-  padding : 8px;
+  padding     : 8px;
 }
 
 .box-1 {
   @extend .my-box;
   background-color: yellow;
 }
+
 .box-2 {
   @extend .my-box;
   background-color: orange;
 }
+
 .box-3 {
   @extend .my-box;
   background-color: rgb(104, 104, 250);
 }
 
 .container {
-  width: 100%;
+  width     : 100%;
   min-height: 200px;
 }
 
+.prod-icon {
+  width       : 40px;
+  margin-right: 10px;
+}
+
 .fist-panel-container {
-  width: 100%;
+  width : 100%;
   height: 50%;
 }
 
 .my-card {
-  overflow-y: auto;
+  overflow-y      : auto;
   background-color: #FFF !important;
-  border : 1px solid lightgrey !important;
-  margin : 5px;
+  border          : 1px solid lightgrey !important;
+  margin          : 5px;
 }
+
 .fixed-height {
   max-height: 400px;
   overflow-y: auto;
@@ -153,8 +162,9 @@
   max-height      : 600px;
   margin          : 5px;
 }
-.primary-color{
-  color       : #005f99 !important;
+
+.primary-color {
+  color: #005f99 !important;
 }
 
 .card-50 {
@@ -163,26 +173,26 @@
 
 #chart {
   max-width: 650px;
-  margin: 35px auto;
+  margin   : 35px auto;
 }
 
 //lp-dashboard only
-.lp-dashboard-box-header{
-  padding : 5px;
+.lp-dashboard-box-header {
+  padding: 5px;
 }
 
-.lp-dashboard-box-body{
-  padding-left : 30px;
+.lp-dashboard-box-body {
+  padding-left: 30px;
 }
 
-.campaign-box{
-  height: 145px;
+.campaign-box {
+  height    : 145px;
   overflow-y: auto;
 }
 
-.my-block{
-  width : 100%;
-  max-height : 250px;
-  float : left;
+.my-block {
+  width       : 100%;
+  max-height  : 250px;
+  float       : left;
   margin-right: 15px;
 }
