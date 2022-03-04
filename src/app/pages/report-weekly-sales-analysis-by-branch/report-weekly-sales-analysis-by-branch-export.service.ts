@@ -124,7 +124,7 @@ export class ReportWeeklySalesAnalysisBranchExportService extends BizOperationSe
      //Reported By:
      worksheet.mergeCells('G2', 'G2');
      let reportBy = worksheet.getCell('G2');
-     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.username
+     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.firstName + this.authService.currentUserValue.lastName
      reportBy.font = {
        name: 'Calibri',
        size: 10,    
