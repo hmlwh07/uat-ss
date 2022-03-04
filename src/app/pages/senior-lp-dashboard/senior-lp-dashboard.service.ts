@@ -10,6 +10,7 @@ const API_Campaign_URL = `${environment.apiUrl}/dashboard/today-campaign`;
 const API_Followup_URL = `${environment.apiUrl}/dashboard/follow-up`;
 const API_Backlog_URL = `${environment.apiUrl}/dashboard/backlog`;
 const API_AssignLead_URL = `${environment.apiUrl}/dashboard/assign-lead`;
+const API_Agent_URL = `${environment.apiUrl}/dashboard/sale-active-agent`;
 
 
 @Injectable({
@@ -26,7 +27,6 @@ export class DashboardService extends BizOperationService<any, number>{
       url = url + "empId=" + search.empId + "&"
     } 
     return this.httpClient.get(url)
-
   }
 
   getLeadList(search: any = {}) {
@@ -35,7 +35,6 @@ export class DashboardService extends BizOperationService<any, number>{
       url = url + "empId=" + search.empId + "&"
     } 
     return this.httpClient.get(url)
-
   }
 
   getRecentList(search: any = {}) {
@@ -75,6 +74,14 @@ export class DashboardService extends BizOperationService<any, number>{
 
   getFollowupList(search: any = {}) {
     let url = API_Followup_URL + "?"
+    if (search.empId) {
+      url = url + "empId=" + search.empId + "&"
+    } 
+    return this.httpClient.get(url)
+  }
+
+  getAgentList(search: any = {}) {
+    let url = API_Agent_URL + "?"
     if (search.empId) {
       url = url + "empId=" + search.empId + "&"
     } 

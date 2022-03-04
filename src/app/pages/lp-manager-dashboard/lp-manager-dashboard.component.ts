@@ -68,7 +68,9 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
 
   public chartOptionsAgent: Partial<ChartOptionsLine>;
   public chartOptions: Partial<ChartOptions>;
-
+  agentLineChart : any;
+  agentLineChartCategories : string[]=[];
+  agentLineChartDatas : number[]=[];
   data: any;
   actForm: FormGroup;
   leadObj: any;
@@ -109,6 +111,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.getList();
     this.getLeadList();
+    this.getAgentList();
   }
 
   loadForm() {
@@ -141,6 +144,21 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
           this.cdf.detectChanges();
         }
       });
+  }
+
+  getAgentList() {
+      this.agentLineChartCategories = this.agentLineChartDatas = [];
+      this.dashboardService.getAgentList(this.actForm.value).toPromise().then((res) => {
+        if (res) {
+          this.agentLineChart = res;
+          this.agentLineChart.weeklyActiveAgents.map(a=> {
+            this.agentLineChartCategories.push(a.weekNo);
+            this.agentLineChartDatas.push(parseInt(a.noOfActiveAgent));
+          })
+          this.setChartOptions('agent');
+          this.cdf.detectChanges();
+        }
+      })
   }
 
   ngOnDestroy() {}
@@ -232,19 +250,20 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       series: [
         {
           name: "Premium Amount",
-          data: [0,100,50,30,20,0],
+          data: this.agentLineChartDatas,
           color: "#005f99"
         }
       ],
       chart: {
-        height: 250,
+        height: 190,
+        width : 280,
         type: "line",
         toolbar: {
           show: false
         }
       },
       title: {
-        text: "Basic Benefit Illustration",
+        text: "",
         offsetX: 0,
         offsetY: 10,
         floating: false,
@@ -256,7 +275,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       },
       xaxis: {
         type: 'category',
-        categories: ["5 in February",'','','','',"19 in 2021"],
+        categories: this.agentLineChartCategories,
         labels: {
           style: {
             fontSize: "1rem",
