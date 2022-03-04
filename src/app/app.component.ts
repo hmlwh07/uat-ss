@@ -45,7 +45,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private alertService: AlertService,
     private menuService: MenuDataService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private loadingService:LoadingService
 
   ) {
 

@@ -31,6 +31,12 @@ export class MasterDataService {
       return this.http.get(environment.apiUrl + "/codebook?code_type=" + type + "&lang_cd=EN")
   }
 
+
+  getDataByParent(type: string,parentId?,parentType?){
+    return this.http.get(environment.apiUrl + "/codebook?code_type=" + type + "&parent_id=" + parentId + "&parent_type=" + parentType + "&lang_cd=EN")
+ 
+  }
+
   getMasterValue(data) {
     return this.http.post(environment.apiUrl + "/codebook", data)
   }
