@@ -15,7 +15,7 @@
         <div class="card card-custom my-card">
             <div class="row my-row my-border-bottom">
                 <div class="col-12 my-p-10">
-                    <h6 class="card-label primary-color">Premium LP Head</h6>
+                    <h6 class="card-label primary-color">{{ data?.role }}</h6>
                 </div>
                 <div class="col-12">
                     <label class="font-18">
@@ -80,7 +80,8 @@
             </div>
         </div>
     </div>
-    <div class="col-12 my-mt-5">
+    <div class="w-100"></div>
+    <div class="col-sm-4 my-mt-5">
         <div class="card card-custom my-card my-block">
             <div class="row my-row">
                 <div class="col-12 my-p-10">
@@ -100,6 +101,8 @@
                     [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
             </div>
         </div>
+    </div>
+    <div class="col-sm-4 my-mt-5">
         <div class="card card-custom my-card my-block">
             <div class="row my-row">
                 <div class="col-12 my-p-10">
@@ -116,7 +119,8 @@
                     [dataLabels]="chartOptionsAgent.dataLabels" [markers]="chartOptionsAgent.markers"></apx-chart>
             </div>
         </div>
-        
+    </div>
+    <div class="col-sm-4 my-mt-5">
         <div class="card card-custom my-card my-block">
             <div class="row my-row">
                 <div class="col-12 my-p-10">

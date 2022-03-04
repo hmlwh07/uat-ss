@@ -64,7 +64,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
 
   getAcessAndOther(dashboard, urlData: string, redirect1?: string, redirect2?: string) {
-    if (!dashboard.submenu) {
+    if (!dashboard) {
       this.router.navigateByUrl("/")
       return false
     }

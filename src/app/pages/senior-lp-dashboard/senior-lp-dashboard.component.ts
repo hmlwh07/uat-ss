@@ -133,11 +133,11 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
         })
         return { ...res, data, weeks }
       })).toPromise().then((res: any) => {
-        console.log(res,"res");
+        // console.log(res,"res");
         
         if (res) {
           this.agentLineChart = res;
-          this.todayActiveAgent = res.todayActiveAgent
+          this.todayActiveAgent = res.todayNoOfActiveAgent
           this.agentLineChartCategories = res.weeks
           this.agentLineChartDatas = res.data
           // res.weeklyActiveAgents.map(a => {

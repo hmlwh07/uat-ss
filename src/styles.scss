@@ -377,6 +377,17 @@ app-header.header.header-fixed,
 .card.card-custom,
 .card,
 .card-header {
+    box-shadow         : none;
+    // background-color: rgb(242, 242, 242);
+    border-radius      : 10px;
+    border             : 1px solid #E3E3E3;
+    padding-bottom     : 10px;
+    border-collapse    : collapse;
+}
+
+.card-header {
+    border          : 0px;
+    border-bottom   : 1px solid #E3E3E3;
     box-shadow      : none;
     background-color: rgb(242, 242, 242);
     border-radius   : 13px;
@@ -802,10 +813,12 @@ kbz-loading {
 #kt_aside {
     background-color: #005f99 !important;
 }
-.modal-dialog.modal-xl{
+
+.modal-dialog.modal-xl {
     max-width: none;
-    width: 80%;
+    width    : 80%;
 }
+
 // .my-customer-alert {
 //     .alert-head {
 //         padding      : 0px;
