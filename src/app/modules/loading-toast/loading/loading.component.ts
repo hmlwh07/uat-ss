@@ -21,9 +21,11 @@ export class KBZLoadingComponent implements OnInit {
     constructor(private loadingSerice: LoadingService, private cdf: ChangeDetectorRef) {
         loadingSerice.activate = this.activate.bind(this)
         loadingSerice.deactivate = this.deactivate.bind(this)
+        
     }
 
     ngOnInit() {
+       
         this.loadingHtml = `<div id="loading-wrapper">
         <div id="loading-text">LOADING</div>
         <div id="loading-content"></div>
