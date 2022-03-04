@@ -210,7 +210,11 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
           }
         } else {
           center.alignment = { vertical: 'middle', horizontal: 'right' }
-          center.numFmt = '#,##0.00_);(#,##0.00)';
+          if (index == 4) { 
+            center.numFmt = '0"%"';
+          } else {
+            center.numFmt = '#,##0.00_);(#,##0.00)';
+          }
         }
       });
     }
@@ -263,7 +267,8 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
         bold: true
       }
       totalCell.alignment = { vertical: 'middle', horizontal: 'right' }
-      totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+      //totalCell.numFmt = '#,##0.00_);(#,##0.00)';
+      totalCell.numFmt = '0"%"';
     }
 
     if (roundTotalAverageCaseSize != null) {
