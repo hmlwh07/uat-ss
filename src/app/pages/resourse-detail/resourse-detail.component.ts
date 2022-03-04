@@ -348,12 +348,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
 
   goToList() {
-    if (this.type == 'quotation') {
-      this.productService.createingProd = null;
-      this.productService.editData = null;
-      this.router.navigateByUrl("/sale/quotation/list")
-    } else
-      this.router.navigateByUrl("/sale/application/list")
+    // if (this.type == 'quotation') {
+    //   this.productService.createingProd = null;
+    //   this.productService.editData = null;
+    //   this.router.navigateByUrl("/sale/quotation/list")
+    // } else
+    //   this.router.navigateByUrl("/sale/application/list")
+    this.location.back()
   }
 
   createPolicy() {

@@ -19,8 +19,8 @@ export const ReportAgentDailyIdentityType: any[] = [
     code: "PASSPORT",
     value: "Passport"
   }, {
-    code: "OTHER",
-    value: "Other"
+    code: "OTHERS",
+    value: "Others"
   }
 ]
 

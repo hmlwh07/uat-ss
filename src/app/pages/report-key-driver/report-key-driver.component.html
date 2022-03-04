@@ -189,14 +189,14 @@
                     <td class="text-left">{{ data.product }}</td>
                     <td class="text-right">{{ data.newBusinessCase | number:'1.2-2' }}</td>
                     <td class="text-right">{{ data.newBusinessPremium | number:'1.2-2' }}</td>
-                    <td class="text-right">{{ data.productDistribution | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ data.productDistribution | number:'1.0-0' }} % </td>
                     <td class="text-right">{{ data.averageCaseSize | number:'1.2-2' }}</td>
                 </tr>
                 <tr>
                     <td class="text-left">Total</td>
                     <td class="text-right">{{ totalNewBusinessCase | number:'1.2-2' }}</td>
                     <td class="text-right">{{ totalPremium | number:'1.2-2' }}</td>
-                    <td class="text-right">{{ roundTotalProductDistribution | number:'1.2-2' }}</td>
+                    <td class="text-right">{{ roundTotalProductDistribution | number:'1.0-0' }} %</td>
                     <td class="text-right">{{ roundTotalAverageCaseSize | number:'1.2-2' }}</td>
                 </tr>
                 <tr>

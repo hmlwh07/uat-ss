@@ -17,10 +17,14 @@ import {
   ApexDataLabels,
   ApexPlotOptions,
   ApexGrid,
+  ApexTitleSubtitle,
+  ApexMarkers,
 } from 'ng-apexcharts';
 
 import { DashboardService } from './../senior-lp-dashboard/senior-lp-dashboard.service';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
+import { map } from 'rxjs';
+import { environment } from '../../../environments/environment';
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
   categories?: any;
@@ -44,6 +48,17 @@ export type ChartOptions = {
   legend: ApexLegend;
 };
 
+export type ChartOptionsLine = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  title: ApexTitleSubtitle;
+  legend: ApexLegend;
+  dataLabels: ApexDataLabels,
+  markers: ApexMarkers
+};
+
 @Component({
   selector: 'app-lp-manager-dashboard',
   templateUrl: './lp-manager-dashboard.component.html',
@@ -53,9 +68,11 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   @ViewChild("chartAgent") chartAgent: ChartComponent;
   @ViewChild("chartLead") chartLead: ChartComponent;
 
-  public chartOptionsAgent: Partial<ChartOptions>;
+  public chartOptionsAgent: Partial<ChartOptionsLine>;
   public chartOptions: Partial<ChartOptions>;
-
+  agentLineChart: any;
+  agentLineChartCategories: string[] = [];
+  agentLineChartDatas: number[] = [];
   data: any;
   actForm: FormGroup;
   leadObj: any;
@@ -74,6 +91,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
     'NOV',
     'DEC',
   ];
+  todayActiveAgent: number = 0
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   constructor(
     private cdf: ChangeDetectorRef,
@@ -83,10 +102,10 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.route.queryParams.subscribe(async (params) => {
-      if(params.empId){
+      if (params.empId) {
         this.id = JSON.parse(params.empId);
         this.loadForm();
-      }else{
+      } else {
         this.id = this.auth.currentUserValue.id
         this.loadForm();
       }
@@ -96,6 +115,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.getList();
     this.getLeadList();
+    this.getAgentList();
   }
 
   loadForm() {
@@ -130,7 +150,34 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {}
+  getAgentList() {
+    // this.agentLineChartCategories = this.agentLineChartDatas = [];
+    this.dashboardService.getAgentList(this.actForm.value).pipe(map((res: any) => {
+      let weeks = []
+      let data = []
+      res.weeklyActiveAgents.map((x) => {
+        weeks.push(x.weekNo)
+        data.push(parseInt(x.noOfActiveAgent))
+      })
+      return { ...res, data, weeks }
+    })).toPromise().then((res) => {
+      if (res) {
+        this.agentLineChart = res;
+        this.todayActiveAgent = res.todayNoOfActiveAgent
+        this.agentLineChartCategories = res.weeks
+        this.agentLineChartDatas = res.data
+        // this.agentLineChart = res;
+        // this.agentLineChart.weeklyActiveAgents.map(a=> {
+        //   this.agentLineChartCategories.push(a.weekNo);
+        //   this.agentLineChartDatas.push(parseInt(a.noOfActiveAgent));
+        // })
+        this.setChartOptions('agent');
+        this.cdf.detectChanges();
+      }
+    })
+  }
+
+  ngOnDestroy() { }
 
   goToLPDashboard(agent: any) {
     this.router.navigate(['/dashboard/lp-dashboard'], {
@@ -146,73 +193,140 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['activity/activity-management-list'])
   }
 
-  setChartOptions(type : string){
-    let key =  type == 'lead'?  'chartOptions' : 'chartOptionsAgent';
-    this[key]= {
-      series: [
-        {
-          name: "",
-          data: [type == 'lead'? this.leadObj.leadWinCount : this.data.converted ,type == 'lead'? this.leadObj.leadAssignCount
-        : this.data.assigned]
-        }
-      ],
-      chart: {
-        toolbar: {
+  setChartOptions(type: string) {
+    let key = type == 'lead' ? 'chartOptions' : 'chartOptionsAgent';
+    this[key] = (type == 'lead' ?
+      {
+        series: [
+          {
+            name: "",
+            data: [type == 'lead' ? this.leadObj.leadWinCount : this.data.converted, type == 'lead' ? this.leadObj.leadAssignCount
+              : this.data.assigned]
+          }
+        ],
+        chart: {
+          toolbar: {
+            show: false
+          },
+          height: 150,
+          type: "bar",
+          events: {
+            click: function (w, e) {
+            }
+          }
+        },
+        colors: [
+          "#008FFB",
+          "#00E396",
+          "#FEB019",
+          "#FF4560",
+          "#775DD0",
+          "#546E7A",
+          "#26a69a",
+          "#D10CE8"
+        ],
+        plotOptions: {
+          bar: {
+            columnWidth: "20%",
+            distributed: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        legend: {
           show: false
         },
-        height: 150,
-        type: "bar",
-        events: {
-          click: function(w, e) {
+        grid: {
+          show: false
+        },
+        xaxis: {
+          categories: [
+            ["Converted", type == 'lead' ? this.leadObj.leadWinCount : this.data.converted],
+            ["Assigned", type == 'lead' ? this.leadObj.leadAssignCount : this.data.assigned],
+          ],
+          labels: {
+            style: {
+              colors: [
+                "#008FFB",
+                "#00E396",
+                "#FEB019",
+                "#FF4560",
+                "#775DD0",
+                "#546E7A",
+                "#26a69a",
+                "#D10CE8"
+              ],
+              fontSize: "12px"
+            }
           }
         }
-      },
-      colors: [
-        "#008FFB",
-        "#00E396",
-        "#FEB019",
-        "#FF4560",
-        "#775DD0",
-        "#546E7A",
-        "#26a69a",
-        "#D10CE8"
-      ],
-      plotOptions: {
-        bar: {
-          columnWidth: "20%",
-          distributed: true
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      legend: {
-        show: false
-      },
-      grid: {
-        show: false
-      },
-      xaxis: {
-        categories: [
-          ["Converted",type == 'lead'? this.leadObj.leadWinCount : this.data.converted],
-          ["Assigned", type == 'lead'? this.leadObj.leadAssignCount : this.data.assigned],
+      } :
+      {
+        series: [
+          {
+            name: "Premium Amount",
+            data: this.agentLineChartDatas,
+            color: "#005f99"
+          }
         ],
-        labels: {
-          style: {
-            colors: [
-              "#008FFB",
-              "#00E396",
-              "#FEB019",
-              "#FF4560",
-              "#775DD0",
-              "#546E7A",
-              "#26a69a",
-              "#D10CE8"
-            ],
-            fontSize: "12px"
+        chart: {
+          height: 190,
+          width: 280,
+          type: "line",
+          toolbar: {
+            show: false
           }
+        },
+        title: {
+          text: "",
+          offsetX: 0,
+          offsetY: 10,
+          floating: false,
+          style: {
+            fontSize: "1.1rem",
+            fontFamily: "Roboto"
+          }
+
+        },
+        xaxis: {
+          type: 'category',
+          categories: this.agentLineChartCategories,
+          labels: {
+            style: {
+              fontSize: "1rem",
+              fontFamily: "Roboto"
+            }
+          }
+        },
+        yaxis: {
+          min: 0,
+          max: 100,
+          tickAmount: 5,
+          labels: {
+            style: {
+              fontSize: "1rem",
+              fontFamily: "Roboto"
+            }
+          }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          floating: true,
+          offsetY: -25,
+          offsetX: -5
+        },
+        dataLabels: {
+          enabled: true,
+          textAnchor: 'middle',
+          offsetX: -10,
+          offsetY: -5,
+          enabledOnSeries: [0]
+        },
+        markers: {
+          size: [5, 0, 0],
         }
-      }
-    };
+      });
   }
 }
