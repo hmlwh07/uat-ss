@@ -70,6 +70,10 @@
 }
 
 .my-p-15 {
+  padding: 15px 15px 15px 0px;
+}
+
+.name-card{
   padding: 40px 15px 15px 15px;
 }
 
@@ -180,7 +184,7 @@
 
 //lp-dashboard only
 .lp-dashboard-box-header {
-  padding: 5px;
+  padding: 15px 0px 15px 2px;
 }
 
 .lp-dashboard-box-body {
@@ -198,4 +202,8 @@
   min-height :  160px;
   float       : left;
   margin-right: 15px;
+}
+
+.my-pt-15{
+ padding-top: 15px;
 }

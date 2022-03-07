@@ -5,7 +5,7 @@
         <div class="my-center">
           <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
         </div>
-        <div class="my-p-15">
+        <div class="name-card">
           <label class="text-dark center primary-color font-14">{{ data?.agentInfo?.employeeName }}</label><br>
           <label class="text-dark center">{{ data?.role }}</label>
         </div>
@@ -19,7 +19,7 @@
         <div class="col-12">
           <label class="font-18">
             {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span>MMk</span>
-        </label>
+          </label>
         </div>
       </div>
       <div class="row my-row fixed-height">
@@ -98,30 +98,30 @@
     </div>
   </div>
   <div class="w-100"></div>
-  <div class="col-sm-4 my-mt-5">
+  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 my-mt-5">
     <div class="card card-custom my-card my-block">
       <div class="my-p-10">
         <div><span class="primary-color bold">Things to Follow Up</span></div>
       </div>
 
       <div class="row my-row lp-dashboard-box-header flex">
-        <div class="col-5">Calendar</div>
+        <div class="col-5 bold">Calendar</div>
         <div class="col-5">Today > </div>
         <div class="col-2 underline pointer" (click)="goToCalendar()">All></div>
       </div>
 
       <div *ngIf="followUpArray.length > 0">
         <ng-container *ngFor="let followup of followUpArray  | slice: 0:3">
-          <div class="lp-dashboard-box-body flex my-p-5">
-
-            <div class="col-2"><img src="./assets/images/wine.png" class="user-icon" alt="" />
+          <div class="flex my-p-5">
+            <div class="col-2">
+              <img [src]="getImageURL(followup.activityType)" class="prod-icon" alt="" srcset="">
             </div>
             <div class="col-10">
               <div><span> {{ followup.title }} </span></div>
               <div class="f-11">
                 <span>{{ followup.customerName }}</span>
-                <span class="pl-10">{{ followup.planDate | date:'medium' }} -
-                  {{ followup.dueDate | date:'medium'}}</span>
+                <span class="pl-10">{{ followup.planDate | date:'d MMM, h:mm' }} -
+                  {{ followup.dueDate | date:'d MMM, h:mm'}}</span>
               </div>
             </div>
           </div>
@@ -129,13 +129,13 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4 my-mt-5">
+  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 my-mt-5">
     <div class="card card-custom my-card my-block">
       <div class="my-p-10">
         <div><span class="primary-color bold">Overdue Activities</span></div>
       </div>
       <div class="row my-row lp-dashboard-box-header flex">
-        <div class="col-5">Backlog</div>
+        <div class="col-5 bold">Backlog</div>
         <div class="col-5">Today > </div>
         <div class="col-2 underline pointer" (click)="goToCalendar()">All></div>
       </div>
@@ -143,8 +143,9 @@
       <div *ngIf="backlogArray && backlogArray.length > 0">
 
         <ng-container *ngFor="let log of backlogArray | slice: 0:2">
-          <div class="lp-dashboard-box-body flex my-p-5">
-            <div class="col-2"><img src="./assets/images/medicalrecord.png" class="user-icon" alt="" />
+          <div class="flex my-p-5">
+            <div class="col-2">
+              <img [src]="getImageURL(log.activityType)" class="prod-icon" alt="" srcset="">
             </div>
             <div class="col-10">
               <div><span>{{ log.title }}</span></div>
@@ -158,22 +159,25 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4 my-mt-5">
+  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 my-mt-5">
     <div class="card card-custom my-card my-block">
       <div class="my-p-10">
         <div><span class="primary-color bold">Leads</span></div>
       </div>
       <div class="row my-row lp-dashboard-box-header flex">
-        <div class="col-10">Leads Assigned</div>
+        <div class="col-10 bold">Leads Assigned</div>
         <div class="col-2 underline pointer" (click)="goToLeadList()">All></div>
       </div>
-      <div class="lp-dashboard-box-body flex my-p-5" *ngIf="assignLeadArray && assignLeadArray.length > 0">
+      <div class="flex my-p-5" *ngIf="assignLeadArray && assignLeadArray.length > 0">
         <ng-container *ngFor="let obj of assignLeadArray | slice: 0:1">
-          <div class="my-pl-10">
-            <span>{{ obj.registerUserName }}</span>
+          <div class="col-2">
+            <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
           </div>
-          <div class="my-pl-10">
-            <span class="f-11">Assigned on {{ obj.openDate | date:'shortDate' }} </span>
+          <div class="col-10">
+            <div><span>{{ obj.registerUserName }}</span></div>
+            <div class="f-11">
+              <span class="f-11">Assigned on {{ obj.openDate | date:'shortDate' }} </span>
+            </div>
           </div>
         </ng-container>
       </div>
