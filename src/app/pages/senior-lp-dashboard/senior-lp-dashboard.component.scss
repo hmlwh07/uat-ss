@@ -104,21 +104,17 @@
   padding: 15px 15px 0px 15px;
 }
 
-.my-p-15 {
-  padding: 15px 15px 15px 0px;
-}
-
 .my-box {
   width        : 150px;
   height       : 150px;
   color        : #FFF;
-  margin-right : 8px;
   padding      : 8px;
   border-radius: 8px;
 }
 
 .box-1 {
   @extend .my-box;
+  margin-right : 8px;
   background-color: #00acea;
 }
 
@@ -146,7 +142,6 @@
   overflow        : hidden;
   background-color: #FFF !important;
   border          : 1px solid lightgrey !important;
-  margin          : 5px;
 }
 
 
@@ -160,8 +155,7 @@
   @extend .fixed-height;
   background-color: #FFF !important;
   // border : 1px solid lightgrey !important;
-  max-height      : 600px;
-  margin          : 5px;
+  max-height      : 625px;
 }
 
 .prod-icon {

@@ -299,7 +299,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
           offsetX: -5
         },
         dataLabels: {
-          enabled: true,
+          enabled: false,
           textAnchor: 'middle',
           offsetX: -10,
           offsetY: -5,

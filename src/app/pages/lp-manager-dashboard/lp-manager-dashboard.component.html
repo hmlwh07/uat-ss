@@ -1,6 +1,6 @@
 <div class="row my-row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-mt-5">
-        <div class="card card-custom my-card">
+        <div class="card card-custom my-card gutter-b">
             <div class="flex">
                 <div class="my-center">
                     <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
@@ -12,10 +12,10 @@
                 </div>
             </div>
         </div>
-        <div class="card card-custom my-card">
+        <div class="card card-custom my-card gutter-b">
             <div class="row my-row my-border-bottom">
                 <div class="col-12 my-p-10">
-                    <h6 class="card-label primary-color">{{ data?.role }}</h6>
+                    <h6 class="card-label primary-color">Premium</h6>
                 </div>
                 <div class="col-12">
                     <label class="font-18">
@@ -25,7 +25,7 @@
             </div>
             <div class="row my-row fixed-height">
                 <div class="col-12 my-pt-15">
-                    <label>Products</label>
+                    <h6 class="card-label">Products</h6>
                 </div>
                 <div class="col-12">
                     <div *ngIf="data && data.yearlyTotalPremium.length > 0">
@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-mt-5">
-        <div class="card card-custom my-card-fixed-height">
+        <div class="card card-custom my-card-fixed-height gutter-b">
             <div class="row my-row">
                 <div class="col-6 my-p-10">
                     <h6 class="card-label primary-color">Sales Performances</h6>
