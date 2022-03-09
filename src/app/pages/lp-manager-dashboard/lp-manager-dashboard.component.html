@@ -1,14 +1,14 @@
 <div class="row my-row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-mt-5">
-        <div class="card card-custom my-card gutter-b">
-            <div class="flex">
+        <div class="card card-custom my-card gutter-b" style="padding-top: 10px;padding-bottom: 10px;">
+            <div class="flex" style="align-items: center;">
                 <div class="my-center">
                     <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
                 </div>
                 <div class="name-card">
                     <label class="text-dark center primary-color font-14">{{ data?.agentInfo?.employeeName
                         }}</label><br>
-                    <label class="text-dark center">{{ data?.role }}</label>
+                    <label class="text-dark center text-bold">{{ data?.role }}</label>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                                         srcset="">
                                     {{ product.productName }}
                                 </div>
-                                <div class="col-6 text-right">{{ product.premium | number: '1.0-2' }} MMK</div>
+                                <div class="col-6 text-right text-bold">{{ product.premium | number: '1.0-2' }} MMK</div>
                             </div>
                         </ng-container>
                     </div>
@@ -76,7 +76,7 @@
                                 </div>
 
                             </div>
-                            <div class="text-right" style="margin-left: auto;">
+                            <div class="text-right text-bold" style="margin-left: auto;">
                                 <span>{{ agent.premium | number: '1.0-2' }} MMK</span>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                     <h6 class="card-label primary-color">Lead Conversion</h6>
                 </div>
                 <div class="col-12">
-                    <span>Yangon Branch</span>
+                    <span class="text-bold">{{ data?.agentInfo?.branchName }}</span>
                 </div>
                 <div class="col-12">
                     <span class="font-18">{{ leadObj.leadWinRate }} %</span>
@@ -125,7 +125,35 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4 my-mt-5">
+    <div class="col-4 my-mt-5">
+        <div class="card card-custom my-card my-block ">
+          <div class="row my-row">
+            <div class="col-12 my-p-10">
+              <h6 class="card-label primary-color">Things To Follow Up Today
+              </h6>
+            </div>
+          </div>
+          <div class="row my-row" style="height: 100%;align-items: center;">
+            <div class="col-12 flex" style="justify-content: center;">
+              <div class="box-1 card-box">
+                <div class="my-center"><span>ACTIVITY</span></div>
+                <br>
+                <div class="my-center">
+                  <h5>{{ leadObj.taskToday }}</h5>
+                </div>
+              </div>
+              <div class="box-2 card-box">
+                <div class="my-center"><span>LEADS TODAY</span></div>
+                <br>
+                <div class="my-center">
+                  <h5>{{ leadObj.leadToday }}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- <div class="col-sm-4 my-mt-5">
         <div class="card card-custom my-card my-block">
             <div class="row my-row">
                 <div class="col-12 my-p-10">
@@ -156,4 +184,4 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->

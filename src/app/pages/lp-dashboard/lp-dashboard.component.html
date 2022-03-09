@@ -1,13 +1,13 @@
 <div class="row my-row" *ngIf="data">
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 my-mt-5">
-    <div class="card card-custom my-card gutter-b">
-      <div class="flex">
+    <div class="card card-custom my-card gutter-b" style="padding-top: 10px;padding-bottom: 10px;">
+      <div class="flex" style="align-items: center;">
         <div class="my-center">
           <img src="./assets/images/dashboard-user.png" class="user-image" alt="" />
         </div>
         <div class="name-card">
-          <h6 class="card-label">{{ data?.agentInfo?.employeeName }}</h6><br>
-          <label class="text-dark center">{{ data?.role }}</label>
+          <h6 class="card-label">{{ data?.agentInfo?.employeeName }}</h6>
+          <label class="text-dark center text-bold">{{ data?.role }}</label>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
                   <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
                   {{ product.productName }}
                 </div>
-                <div class="col-6 text-right">{{ product.premium | number: '1.0-2' }} MMK</div>
+                <div class="col-6 text-right text-body">{{ product.premium | number: '1.0-2' }} MMK</div>
               </div>
             </ng-container>
           </div>
@@ -94,8 +94,8 @@
       </div>
       <div *ngIf="campaignArray.length > 0">
         <ng-container *ngFor="let c of campaignArray | slice:0:1">
-          <div class="lp-dashboard-box-body">
-            <div class="bold">- {{ c.campaignName }}</div>
+          <div class="lp-dashboard-box-body mb-5">
+            <div class="bold">{{ c.campaignName }}</div>
             <div>
               <span>{{ c.status }}</span>
             </div>
@@ -158,12 +158,12 @@
       <div *ngIf="backlogArray && backlogArray.length > 0">
 
         <ng-container *ngFor="let log of backlogArray | slice: 0:2">
-          <div class="flex my-p-5">
+          <div class="flex my-p-5 mb-5">
             <div class="col-2">
               <img [src]="getImageURL(log.activityType)" class="prod-icon" alt="" srcset="">
             </div>
             <div class="col-10">
-              <div><span>{{ log.title }}</span></div>
+              <div><span class="bold">{{ log.title }}</span></div>
               <div class="f-11">
                 <span>{{ log.customerName }}</span>
                 <span class="pl-10">Due {{ log.dueDate | date:'mediumDate' }}</span>
@@ -185,19 +185,19 @@
         </div>
         <div class="col-2 underline pointer" (click)="goToLeadList()">All></div>
       </div>
-      <div class="flex my-p-5" *ngIf="assignLeadArray && assignLeadArray.length > 0">
-        <ng-container *ngFor="let obj of assignLeadArray | slice: 0:1">
+      <ng-container *ngFor="let obj of assignLeadArray | slice: 0:1">
+        <div class="flex my-p-5 mb-5" *ngIf="assignLeadArray && assignLeadArray.length > 0">
           <div class="col-2">
             <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
           </div>
           <div class="col-10">
-            <div><span>{{ obj.registerUserName }}</span></div>
+            <div><span style="font-weight: bold;">{{ obj.registerUserName }}</span></div>
             <div class="f-11">
               <span class="f-11">Assigned on {{ obj.openDate | date:'shortDate' }} </span>
             </div>
           </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

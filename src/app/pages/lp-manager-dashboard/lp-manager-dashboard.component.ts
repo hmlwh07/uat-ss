@@ -208,7 +208,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
           toolbar: {
             show: false
           },
-          height: 150,
+          height: 160,
           type: "bar",
           events: {
             click: function (w, e) {
@@ -225,6 +225,17 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
           "#26a69a",
           "#D10CE8"
         ],
+        yaxis:{
+          tickAmount: 5,
+          min: 0,
+          max: type == 'lead' ? this.leadObj.leadAssignCount || 10 : this.data.assigned || 10,
+          labels: {
+            style: {
+              fontSize: "1rem",
+              fontFamily: "Roboto"
+            }
+          }
+        },
         plotOptions: {
           bar: {
             columnWidth: "20%",
@@ -271,7 +282,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
           }
         ],
         chart: {
-          height: 190,
+          height: 160,
           // width: 280,
           type: "line",
           toolbar: {

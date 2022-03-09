@@ -185,7 +185,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
           toolbar: {
             show: false
           },
-          height: 150,
+          height: 160,
           type: "bar",
           events: {
             click: function (w, e) {
@@ -217,6 +217,17 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
         },
         grid: {
           show: true
+        },
+        yaxis:{
+          tickAmount: 5,
+          min: 0,
+          max: type == 'lead' ? this.leadObj.leadAssignCount : this.data.assigned,
+          labels: {
+            style: {
+              fontSize: "1rem",
+              fontFamily: "Roboto"
+            }
+          }
         },
         xaxis: {
           categories: [
@@ -252,8 +263,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
           curve: 'smooth',
         },
         chart: {
-          height: 190,
-          // width : 280,
+          height: 160,
           type: "line",
           toolbar: {
             show: false

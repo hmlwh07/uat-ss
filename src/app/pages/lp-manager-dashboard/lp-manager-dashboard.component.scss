@@ -74,7 +74,7 @@
 }
 
 .name-card{
-  padding: 40px 15px 15px 15px;
+  // padding: 40px 15px 15px 15px;
 }
 
 .my-pt-15 {
@@ -188,11 +188,17 @@
 .my-block {
   // width : 300px;
   width       : 100%;
+  height         : 250px;
   max-height  : 250px;
-  margin-right: 15px;
+  // margin-right: 15px;
 }
 .card-label{
   font-weight: bold;
   color: #005f99 !important;
 }
 
+#chartAgent{
+  position: absolute;
+  bottom: -10px;
+  width: 100%;
+}
