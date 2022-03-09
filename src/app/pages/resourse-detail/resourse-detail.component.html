@@ -15,7 +15,8 @@
             PREMIUM <br>
             <span *ngIf="resourceDetail">{{resourceDetail.premiumView || 0 }}</span>
           </div>
-          <button class="btn btn-outline-primary" *ngIf="type == 'policy'" style="margin-left: auto;" (click)="viewPrint()">
+          <button class="btn btn-outline-primary" *ngIf="type == 'policy'" style="margin-left: auto;"
+            (click)="viewPrint()">
             <i class="flaticon2-print"></i> Print
           </button>
         </div>
@@ -146,9 +147,10 @@
       <div class="card card-custom gutter-b">
         <div class="card-footer">
           <div class="row">
-            <div class="col-sm-6">
+            <div class="{{type == 'quotation' ? 'col-sm-6' : 'col-sm-4'}}">
               <button type="submit" class="btn btn-primary btn-block" (click)="goToList()">
-                Go Back To {{ (type == 'policy' ? "application" : type) | titlecase }} List
+                Go Back
+                <!-- To {{ (type == 'policy' ? "application" : type) | titlecase }} List -->
               </button>
             </div>
             <div class="col-sm-6" *ngIf="type == 'quotation'">
@@ -156,9 +158,14 @@
                 Create New Application
               </button>
             </div>
-            <div class="col-sm-6" *ngIf="type == 'policy'">
+            <div class="col-sm-4" *ngIf="type == 'policy'">
               <button type="submit" class="btn btn-primary btn-block" (click)="createSign()">
                 Create Signature
+              </button>
+            </div>
+            <div class="col-sm-4" *ngIf="type == 'policy'">
+              <button type="submit" class="btn btn-primary btn-block" (click)="submitPolicy()">
+                Submit Application
               </button>
             </div>
           </div>

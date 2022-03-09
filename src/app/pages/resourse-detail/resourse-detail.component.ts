@@ -46,7 +46,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   private formatedData = {}
   printConfig: PrintConfig = {}
   signFileId: any = "";
-  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService,private alertService:AlertService) { }
+  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService, private alertService: AlertService) { }
 
   async ngOnInit() {
     if (!this.productService.createingProd || !this.productService.createingProd.id) {
@@ -404,7 +404,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
               this.alertService.activate('This record was created', 'Success Message');
               this.signFileId = res.data
               this.productService.editData['attachmentId'] = res.data
-            
+
             }
           })
         }
@@ -412,4 +412,11 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     })
   }
 
+  submitPolicy() {
+    this.policyService.submitPolicy(this.resourceDetail.id).toPromise().then((res) => {
+      if (res) {
+        this.alertService.activate('This record was created', 'Success Message');
+      }
+    })
+  }
 }
