@@ -26,7 +26,9 @@ const API_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   providedIn: 'root'
 })
 export class AttachmentDownloadService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient, private file: File, private loadingService: LoadingService, private toastService: KBZToastService, private alertService: AlertService) {
+  constructor(protected httpClient: HttpClient, private file: File, 
+    private loadingService: LoadingService, private toastService: KBZToastService, 
+    private alertService: AlertService) {
     super(httpClient, API_DOWNLOAD_URL);
   }
 

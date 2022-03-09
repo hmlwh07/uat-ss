@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { SurroundingBuildingService } from './models&services/surrounding-building.service';
 import { SurroundingDisplayCol, SURROUNDING_COL } from './models&services/surrounding-list.const';
@@ -17,7 +18,9 @@ export class SurroundingBuildingComponent implements OnInit {
   displayedColumns = JSON.parse(JSON.stringify(SurroundingDisplayCol));
   isPopup: boolean = false
   surrounding: any[] = []
-  constructor(private surroundingBuildingService: SurroundingBuildingService, private modalService: NgbModal, private cdf: ChangeDetectorRef) { }
+  constructor(private surroundingBuildingService: SurroundingBuildingService,
+    private modalService: NgbModal, private cdf: ChangeDetectorRef,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.getList()
@@ -50,16 +53,23 @@ export class SurroundingBuildingComponent implements OnInit {
   onActionView(data, type) {
     console.log("data", data, "type", type)
     if (type == 'delete') {
-      this.surroundingBuildingService.delete(data.id).toPromise()
-        .then((res) => {
-          if (res) {
-            let index = this.surrounding.findIndex(x => x.id == data.id)
-            if (index >= 0) {
-              this.surrounding.splice(index, 1)
-              this.cdf.detectChanges()
-            }
-          }
-        });
+      this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+        if (result) {
+          this.surroundingBuildingService.delete(data.id).toPromise()
+            .then((res) => {
+              if (res) {
+                let index = this.surrounding.findIndex(x => x.id == data.id)
+                if (index >= 0) {
+                  this.surrounding.splice(index, 1)
+                  this.cdf.detectChanges()
+                }
+              }
+            });
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+
+          });
+        }
+      });
     } else {
       this.add(type, data)
     }

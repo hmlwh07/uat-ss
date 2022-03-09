@@ -283,31 +283,37 @@ export class EducationComponent implements OnInit {
   }
 
   async deleteDeleteById() {
-    if (this.educations.length < this.healths.length) {
-      delete this.healths[this.selectedIndex];
-      this.formGroup.controls['dateOfBirth'].setValue('');
-      this.formGroup.controls['childName'].setValue('');
-    }
-
-    if (this.selectedIndexId != 0 && this.educations.length > 1) {
-      await this.fnaEducationService.deleteDeleteById(this.selectedIndexId).toPromise().then((res: any) => {
-        if (res) {
-          this.educations = this.educations.filter(item => item.id !== this.selectedIndexId);
-          this.education = new EducationDto();
-          this.loadForm();
-          let obj = this.educations[this.selectedIndex];
-          if (obj) {
-            this.educations[this.selectedIndex].dateOfBirth = this.formatDateYYYYMMDD(this.educations[this.selectedIndex].dateOfBirth)
-            this.setEducation(this.educations[this.selectedIndex]);
-            this.selectedIndexId = this.educations[this.selectedIndex].id;
-          } else {
-            this.selectedIndexId = 0;
-          }
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+      if (result) {
+        if (this.educations.length < this.healths.length) {
+          delete this.healths[this.selectedIndex];
+          this.formGroup.controls['dateOfBirth'].setValue('');
+          this.formGroup.controls['childName'].setValue('');
         }
-      });
-    }
-    this.checkNextChild();
-    FNAConstant.FNA_DETAIL_LIST = this.educations;
+
+        if (this.selectedIndexId != 0 && this.educations.length > 1) {
+          await this.fnaEducationService.deleteDeleteById(this.selectedIndexId).toPromise().then((res: any) => {
+            if (res) {
+              this.educations = this.educations.filter(item => item.id !== this.selectedIndexId);
+              this.education = new EducationDto();
+              this.loadForm();
+              let obj = this.educations[this.selectedIndex];
+              if (obj) {
+                this.educations[this.selectedIndex].dateOfBirth = this.formatDateYYYYMMDD(this.educations[this.selectedIndex].dateOfBirth)
+                this.setEducation(this.educations[this.selectedIndex]);
+                this.selectedIndexId = this.educations[this.selectedIndex].id;
+              } else {
+                this.selectedIndexId = 0;
+              }
+            }
+          });
+        }
+        this.checkNextChild();
+        FNAConstant.FNA_DETAIL_LIST = this.educations;
+      }
+    });
+
+
   }
 
   updateCommaInput(ev, type) {

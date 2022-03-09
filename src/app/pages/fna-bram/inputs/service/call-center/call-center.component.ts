@@ -45,12 +45,18 @@ export class CallCenterComponent implements OnInit {
   }
 
   delete(id) {
-    this.bramServiceService.deleteBRAMServiceById(id).toPromise().then(async (res: any) => {
-      if (res) {
-        this.getAll()
-        this.alertService.activate('This record was deleted', 'Success Message');
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.bramServiceService.deleteBRAMServiceById(id).toPromise().then(async (res: any) => {
+          if (res) {
+            this.getAll()
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
 
   async getAll() {

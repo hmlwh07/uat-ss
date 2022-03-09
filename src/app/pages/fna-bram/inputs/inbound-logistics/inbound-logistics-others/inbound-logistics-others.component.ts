@@ -44,12 +44,18 @@ export class InboundLogisticsOthersComponent implements OnInit {
   }
 
   delete(id) {
-    this.inboundlogisticsService.deleteInboundlogisticsById(id).toPromise().then(async (res: any) => {
-      if (res) {
-        this.getAll();
-        this.alertService.activate('This record was deleted', 'Success Message');
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.inboundlogisticsService.deleteInboundlogisticsById(id).toPromise().then(async (res: any) => {
+          if (res) {
+            this.getAll();
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
 
   async getAll() {

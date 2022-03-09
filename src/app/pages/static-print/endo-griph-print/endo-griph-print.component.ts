@@ -47,7 +47,8 @@ export class EndoGripPrintComponent implements OnInit {
   @Input() parentData: any
   showDatas: any[] = []
   show: boolean = false
-  constructor(private alertService: AlertService, private globalFun: GlobalFunctionService, private endoPayment: EndoService, private cdf: ChangeDetectorRef) {
+  constructor(private alertService: AlertService, private globalFun: GlobalFunctionService, 
+    private endoPayment: EndoService, private cdf: ChangeDetectorRef) {
     this.chartOptions = {
       series: [
         {

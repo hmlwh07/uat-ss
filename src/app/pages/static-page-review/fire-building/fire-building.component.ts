@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { SurroundingBuildingService } from '../../static-pages/surrounding-building/models&services/surrounding-building.service';
 
 @Component({
@@ -8,8 +9,8 @@ import { SurroundingBuildingService } from '../../static-pages/surrounding-build
 })
 export class FireBuildingComponent implements OnInit {
   @Input() riskId = 0
-  surrounding:any=[]
-  constructor(private SurroundingBuildingService:SurroundingBuildingService) { }
+  surrounding: any = []
+  constructor(private SurroundingBuildingService: SurroundingBuildingService, private alertService: AlertService) { }
 
   ngOnInit(): void {
   }
@@ -17,15 +18,19 @@ export class FireBuildingComponent implements OnInit {
   onActionView(data, type) {
     console.log("data", data, "type", type)
     if (type == 'delete') {
-      this.SurroundingBuildingService.delete(data.id).toPromise()
-        .then((res) => {
-          if (res) {
-            let index = this.surrounding.findIndex(x => x.id == data.id)
-            if (index >= 0) {
-              this.surrounding.splice(index, 1)
-            }
-          }
-        });
-    } 
+      this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+        if (result) {
+          this.SurroundingBuildingService.delete(data.id).toPromise()
+            .then((res) => {
+              if (res) {
+                let index = this.surrounding.findIndex(x => x.id == data.id)
+                if (index >= 0) {
+                  this.surrounding.splice(index, 1)
+                }
+              }
+            });
+        }
+      });
+    }
   }
 }

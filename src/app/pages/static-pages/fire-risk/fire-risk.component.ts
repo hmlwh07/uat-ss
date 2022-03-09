@@ -1,6 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { PolicyDTO } from '../../policy/policy.dto';
 import { Product } from '../../products/models/product.dto';
@@ -26,7 +27,8 @@ export class FireRiskComponent implements OnInit {
     private globalFun: GlobalFunctionService,
     private fireRiskService: FireRiskService,
     private modalService: NgbModal,
-    private cdf: ChangeDetectorRef
+    private cdf: ChangeDetectorRef,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -64,7 +66,7 @@ export class FireRiskComponent implements OnInit {
         if (res.type == "save") {
           // this.surrounding=res.data
           if (detail) {
-            let index = this.listData.findIndex(x=> x.id == detail.id)
+            let index = this.listData.findIndex(x => x.id == detail.id)
             this.listData[index] = res.data
           } else {
             this.listData.push(res.data)
@@ -76,16 +78,23 @@ export class FireRiskComponent implements OnInit {
   }
 
   delete(data) {
-    this.fireRiskService.delete(data.id).toPromise()
-      .then((res) => {
-        if (res) {
-          let index = this.listData.findIndex(x => x.id == data.id)
-          if (index >= 0) {
-            this.listData.splice(index, 1)
-            this.cdf.detectChanges()
-          }
-        }
-      });
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.fireRiskService.delete(data.id).toPromise()
+          .then((res) => {
+            if (res) {
+              let index = this.listData.findIndex(x => x.id == data.id)
+              if (index >= 0) {
+                this.listData.splice(index, 1)
+                this.cdf.detectChanges()
+                this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+                });
+              }
+            }
+          });
+      }
+    });
   }
 
 }
