@@ -75,7 +75,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   agentLineChartDatas: number[] = [];
   data: any;
   actForm: FormGroup;
-  leadObj: any;
+  leadObj: any = {};
   id: any;
   currentMonthIndex: number = new Date().getUTCMonth();
   months = [
@@ -238,7 +238,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
           show: false
         },
         grid: {
-          show: false
+          show: true
         },
         xaxis: {
           categories: [
@@ -272,7 +272,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
         ],
         chart: {
           height: 190,
-          width: 280,
+          // width: 280,
           type: "line",
           toolbar: {
             show: false

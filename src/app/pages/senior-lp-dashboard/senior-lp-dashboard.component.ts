@@ -216,7 +216,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
           show: false
         },
         grid: {
-          show: false
+          show: true
         },
         xaxis: {
           categories: [

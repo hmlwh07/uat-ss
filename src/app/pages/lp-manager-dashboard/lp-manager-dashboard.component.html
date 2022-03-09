@@ -18,8 +18,8 @@
                     <h6 class="card-label primary-color">Premium</h6>
                 </div>
                 <div class="col-12">
-                    <label class="font-18">
-                        {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span>MMk</span>
+                    <label class="text-amt">
+                        {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span><small>MMK</small></span>
                     </label>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="col-12">
                     <div *ngIf="data && data.yearlyTotalPremium.length > 0">
                         <ng-container *ngFor="let product of data?.yearlyProductPremium">
-                            <div class="row my-row my-p-15 my-border-bottom">
+                            <div class="row my-row my-p-15 my-border-bottom" style="align-items: center;">
                                 <div class="col-6">
                                     <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
                                         srcset="">
@@ -66,7 +66,7 @@
             <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
                 <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
                     <div class="my-profile-card my-border-bottom" (click)="goToLPDashboard(agent)">
-                        <div class="flex">
+                        <div class="flex" style="align-items: center;">
                             <div>
                                 <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
                             </div>
@@ -74,7 +74,7 @@
                                 <div>
                                     <span>{{ agent.name }}</span>
                                 </div>
-                                
+
                             </div>
                             <div class="text-right" style="margin-left: auto;">
                                 <span>{{ agent.premium | number: '1.0-2' }} MMK</span>
@@ -138,7 +138,7 @@
 
             <div class="row my-row">
                 <div class="col-12 flex" style="justify-content: center;">
-                    <div class="box-1">
+                    <div class="box-1 card-box">
                         <div class="my-center"><span>ACTIVITY</span></div>
                         <br>
                         <div class="my-center">
@@ -146,11 +146,11 @@
                         </div>
                     </div>
 
-                    <div class="box-2">
+                    <div class="box-2 card-box">
                         <div class="my-center"><span>LEADS TODAY</span></div>
                         <br>
                         <div class="my-center">
-                            <h5>{{ leadObj.taskToday }}</h5>
+                            <h5>{{ leadObj.leadToday }}</h5>
                         </div>
                     </div>
                 </div>

@@ -862,3 +862,14 @@ kbz-loading {
 .card-toolbar>.icon {
     background-color: transparent;
 }
+
+.text-amt {
+    font-size  : 1rem;
+    font-weight: bold;
+}
+
+.card-box {
+    display        : flex;
+    flex-direction : column;
+    justify-content: center;
+}
