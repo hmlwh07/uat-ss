@@ -1,110 +1,130 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card card-custom gutter-b" [class.remove-p]="isPopup">
-            <div class="card-header">
-                <div class="card-title">
-                    <h3 class="card-label left-border-image">Customer List</h3>
-                </div>
-                <div class="card-toolbar">
-                    <button *ngIf="!isPopup" type="button" class="btn btn-primary btn-circle"
-                        (click)="navigateToDetail('create')">
-                        <span class="flaticon2-plus"></span>
-                    </button>
-                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="getList()">
-                        <span class="flaticon2-magnifier-tool"></span>
-                    </button>
-                    <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="cancel()">
-                        <span class="">Cancel</span>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body px-10 py-3">
-                <form action="#" class="form" [formGroup]="customerForm">
-                    <div class="row" style="align-items: center;">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Name</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="name"
-                                        autocomplete="off" [class.is-invalid]="isControlInvalid('name')"
-                                        [class.is-valid]="isControlValid('name')" formControlName="name" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Party Code</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="partyCode"
-                                        autocomplete="off" [class.is-invalid]="isControlInvalid('partyCode')"
-                                        [class.is-valid]="isControlValid('partyCode')" formControlName="partyCode" />
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
-                    <div class="row" style="align-items: center;">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">ID Type</label>
-                                <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm"
-                                        [class.is-invalid]="isControlInvalid('identityType')"
-                                        [class.is-valid]="isControlValid('identityType')" [items]="identityTypeOption"
-                                        bindLabel="value" bindValue="code" formControlName="identityType">
-                                    </ng-select>
+<div>
+    <!-- <div id="drag-1" class="draggable">
+        <p> You can drag one element </p>
+    </div> -->
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">ID No.</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="identityNumber"
-                                        autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
-                                        [class.is-valid]="isControlValid('identityNumber')"
-                                        formControlName="identityNumber" />
-                                </div>
-                            </div>
-                        </div>
+    <!-- <ion-fab class="draggable">
+        <ion-fab-button>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab> -->
+
+    <!-- <div class="draggable"> Drag </div> -->
+
+    <!-- <div id="drag-2" class="draggable">
+    <p> with each pointer </p>
+  </div> -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-custom gutter-b" [class.remove-p]="isPopup">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label left-border-image">Customer List</h3>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Status</label>
-                                <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm"
-                                        [class.is-invalid]="isControlInvalid('statusCode')"
-                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
-                                        bindLabel="value" bindValue="code" formControlName="statusCode">
-                                    </ng-select>
+                    <div class="card-toolbar">
+                        <button *ngIf="!isPopup" type="button" class="btn btn-primary btn-circle"
+                            (click)="navigateToDetail('create')">
+                            <span class="flaticon2-plus"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="getList()">
+                            <span class="flaticon2-magnifier-tool"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="cancel()">
+                            <span class="">Cancel</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body px-10 py-3">
+                    <form action="#" class="form" [formGroup]="customerForm">
+                        <div class="row" style="align-items: center;">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control form-control-sm " name="name"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('name')"
+                                            [class.is-valid]="isControlValid('name')" formControlName="name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Party Code</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control form-control-sm " name="partyCode"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('partyCode')"
+                                            [class.is-valid]="isControlValid('partyCode')"
+                                            formControlName="partyCode" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="align-items: center;">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">ID Type</label>
+                                    <div class="col-sm-8">
+                                        <ng-select class="ng-custom-select ng-custom-select-sm"
+                                            [class.is-invalid]="isControlInvalid('identityType')"
+                                            [class.is-valid]="isControlValid('identityType')"
+                                            [items]="identityTypeOption" bindLabel="value" bindValue="code"
+                                            formControlName="identityType">
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">ID No.</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control form-control-sm " name="identityNumber"
+                                            autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
+                                            [class.is-valid]="isControlValid('identityNumber')"
+                                            formControlName="identityNumber" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Status</label>
+                                    <div class="col-sm-8">
+                                        <ng-select class="ng-custom-select ng-custom-select-sm"
+                                            [class.is-invalid]="isControlInvalid('statusCode')"
+                                            [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
+                                            bindLabel="value" bindValue="code" formControlName="statusCode">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card card-custom gutter-b" [class.remove-p]="isPopup">
-            <div class="card-body customer-card-body" *ngIf="show">
-                <app-material-table-view [data]="customerList" [colum]="ELEMENT_COL"
-                    [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)"
-                    (rowselect)="rowSelected($event)" [selectable]="isPopup">
-                </app-material-table-view>
-            </div>
-            <ng-container *ngIf="isPopup && !isDynamic">
-                <div class="card-footer">
-                    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">Cancel</button>
-                    <button type="button" class="btn btn-primary btn-elevate" (click)="nextProd()"
-                        [disabled]="!selected.customerId">Next</button>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-custom gutter-b" [class.remove-p]="isPopup">
+                <div class="card-body customer-card-body" *ngIf="show">
+                    <app-material-table-view [data]="customerList" [colum]="ELEMENT_COL"
+                        [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)"
+                        (rowselect)="rowSelected($event)" [selectable]="isPopup">
+                    </app-material-table-view>
                 </div>
-            </ng-container>
+                <ng-container *ngIf="isPopup && !isDynamic">
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-light btn-elevate mr-2"
+                            (click)="closeModal()">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-elevate" (click)="nextProd()"
+                            [disabled]="!selected.customerId">Next</button>
+                    </div>
+                </ng-container>
+            </div>
         </div>
     </div>
 </div>
