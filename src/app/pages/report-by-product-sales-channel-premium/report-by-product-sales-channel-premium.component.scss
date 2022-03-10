@@ -19,6 +19,7 @@ table {
         overflow: hidden;
         th,
         td {
+            min-width: 110px;
             text-align: center;
             position: relative;
             border-collapse: unset;
