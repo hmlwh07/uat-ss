@@ -29,7 +29,10 @@ table {
                 float: left;
                 text-align: center;
             }
-           
+        }
+        th:nth-child(1),
+        td:nth-child(1) {
+            min-width: 50px;
         }
     }
 }
@@ -48,7 +51,7 @@ table {
     }
 }
 
-.date-display{
+.date-display {
     width: 100%;
     overflow: hidden;
     span {
@@ -69,13 +72,13 @@ table {
     left: 49%;
 }
 
-.from-date {    
+.from-date {
     button {
         padding: 0;
         position: absolute;
         right: 0;
-        width: auto;      
-        color: #FFFFFF;
+        width: auto;
+        color: #ffffff;
         background-color: #005f99;
         border-color: #005f99;
         height: 35px;
@@ -103,4 +106,3 @@ table {
     text-align: end;
     padding: 0 5px 0 0;
 }
-
