@@ -27,6 +27,7 @@ import { DateAdapter } from '@angular/material/core';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { RouteReuseStrategy } from '@angular/router';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 // #fake-start#
 // #fake-end#
@@ -66,6 +67,12 @@ function appInitializer(authService: AuthService) {
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
   providers: [
