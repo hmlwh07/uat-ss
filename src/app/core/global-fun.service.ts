@@ -50,23 +50,6 @@ export class GlobalFunctionService {
     console.log("fun was called");
     this.testingFunResult.next('value testing')
   }
-  async motorFormValidation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
-    let total = activeForm['total_risk_si']
-    let validAmt = 20000000
-    let excess = activeForm['excess']
-    let currency = activeForm['currency']
-    console.log(validAmt, total);
-
-    if (excess == "T-003" && currency == "mmk") {
-      if (total > validAmt) {
-        return true
-      } else {
-        this.alert.activate("Sum Insured amount should be greater than 20,000,000 MMK to have Excess Discount", "Validation")
-        return false
-      }
-    }
-    return true
-  }
 
 
   async paPremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
@@ -162,14 +145,6 @@ export class GlobalFunctionService {
     return false
   }
 
-  // validDOB(currentValue: string, activeForm: any, option?: any[], form?: boolean, productCode?: string) {
-  //   let dob = activeForm['date_of_birth']
-  //   let age = Math.ceil(moment().diff(dob, 'years', true));
-  //   if(productCode == "SASS01" && age > 67){
-
-  //   }
-  // }
-
   validEndoTerm(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let policy = activeForm['policy_term']
     let arrayTxt = Object.keys(this.tempFormData)
@@ -227,28 +202,6 @@ export class GlobalFunctionService {
     this.alert.activate("Minimum  Age is 10 years and Maximum Age is 60 years", "Validation")
     return false
   }
-
-  motorTotalSi(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
-    let vehicle_si = 0
-    let trailer_one_si = 0
-    let trailer_two_si = 0
-    let trailer_three_si = 0
-    if (activeForm.vehicle_si) {
-      vehicle_si = parseInt(activeForm.vehicle_si)
-    }
-    if (activeForm.trailer_one_si) {
-      trailer_one_si = parseInt(activeForm.trailer_one_si)
-    }
-    if (activeForm.trailer_two_si) {
-      trailer_two_si = parseInt(activeForm.trailer_two_si)
-    }
-    if (activeForm.trailer_three_si) {
-      trailer_three_si = parseInt(activeForm.trailer_three_si)
-    }
-
-    this.motorTotalSiResult.next(vehicle_si + trailer_one_si + trailer_two_si + trailer_three_si)
-  }
-
   farmerPremium(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let sumIn = 0
     let rate = 0.01
@@ -262,6 +215,57 @@ export class GlobalFunctionService {
     return true
   }
 
+  async motorFormValidation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let total = activeForm['m_total_risk_si']
+    let validAmt = 20000000
+    let excess = activeForm['m_excess']
+    let currency = activeForm['m_currency']
+    console.log(validAmt, total);
+
+    if (excess == "T-ED" && currency == "MMK") {
+      if (total > validAmt) {
+        return true
+      } else {
+        this.alert.activate("Sum Insured amount should be greater than 20,000,000 MMK to have Excess Discount", "Validation")
+        return false
+      }
+    }
+    return true
+  }
+
+ 
+
+  // validDOB(currentValue: string, activeForm: any, option?: any[], form?: boolean, productCode?: string) {
+  //   let dob = activeForm['date_of_birth']
+  //   let age = Math.ceil(moment().diff(dob, 'years', true));
+  //   if(productCode == "SASS01" && age > 67){
+
+  //   }
+  // }
+
+
+  motorTotalSi(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let vehicle_si = 0
+    let trailer_one_si = 0
+    let trailer_two_si = 0
+    let trailer_three_si = 0
+    if (activeForm.m_vehicle_si) {
+      vehicle_si = parseInt(activeForm.m_vehicle_si)
+    }
+    if (activeForm.m_trailer_one_si) {
+      trailer_one_si = parseInt(activeForm.m_trailer_one_si)
+    }
+    if (activeForm.m_trailer_two_si) {
+      trailer_two_si = parseInt(activeForm.m_trailer_two_si)
+    }
+    if (activeForm.m_trailer_three_si) {
+      trailer_three_si = parseInt(activeForm.m_trailer_three_si)
+    }
+
+    this.motorTotalSiResult.next(vehicle_si + trailer_one_si + trailer_two_si + trailer_three_si)
+  }
+
+
   getMotorRate(motorDetail) {
     let cc = ""
     let currency = ""
@@ -269,19 +273,19 @@ export class GlobalFunctionService {
     let typeOfCoverage = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
     if (motorDetail) {
-      sumIn = motorDetail['total_risk_si'] || 0
+      sumIn = motorDetail['m_total_risk_si'] || 0
     }
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
     if (motorDetail) {
-      cc = motorDetail['capacity'] || motorDetail['tonnage'] || 0
+      cc = motorDetail['m_capacity'] || motorDetail['m_tonnage'] || 0
     }
     return this.motorService.getOne(currency, sumIn, typeOfCoverage, typeOfVehicle, cc)
   }
@@ -293,19 +297,19 @@ export class GlobalFunctionService {
     let typeOfCoverage = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
     if (motorDetail) {
-      sumIn = motorDetail['total_risk_si'] || 0
+      sumIn = motorDetail['m_total_risk_si'] || 0
     }
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
     if (motorDetail) {
-      cc = motorDetail['capacity'] || motorDetail['tonnage'] || 0
+      cc = motorDetail['m_capacity'] || motorDetail['m_tonnage'] || 0
     }
     return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc)
   }
@@ -331,24 +335,22 @@ export class GlobalFunctionService {
     let typeOfVehicle = ""
     let sumIn = 0
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
     if (motorDetail) {
-      sumIn = motorDetail['total_risk_si'] || 0
+      sumIn = motorDetail['m_total_risk_si'] || 0
     }
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0
-      if (currency == 'mmk' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+      if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
         rate = 0.00065
-      } else if (currency == 'mmk' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+      } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
         rate = 0.00065
-      } else if (currency == 'usd' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
-        rate = 0.00065
-      } else if (typeOfVehicle == "T-003") {
+      } else if (typeOfVehicle == "T-MCC") {
         rate = 0.0005
       }
       return of(sumIn * rate)
@@ -363,21 +365,21 @@ export class GlobalFunctionService {
     let typeOfCoverage = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      windscreen_value = motorDetail['windscreen_value'] || 0
+      windscreen_value = motorDetail['m_windscreen_value'] || 0
     }
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
     let rate = 0.15
-    if (currency == 'mmk' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+    if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
       rate = 0.065
-    } else if (typeOfVehicle == "T-003") {
+    } else if (typeOfVehicle == "T-MCC") {
       rate = 0.05
     }
     return of(windscreen_value * rate)
@@ -387,16 +389,16 @@ export class GlobalFunctionService {
     let currency = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
 
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
     let fixed = 0
-    if (currency == 'usd' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+    if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
       fixed = 20
-    } else if (typeOfVehicle == "T-006") {
+    } else if (typeOfVehicle == "T-MCC") {
       fixed = 20
     }
     return of(fixed)
@@ -408,23 +410,23 @@ export class GlobalFunctionService {
     let typeOfVehicle = ""
     let sumIn = 0
     if (motorDetail) {
-      sumIn = motorDetail['total_risk_si'] || 0
+      sumIn = motorDetail['m_total_risk_si'] || 0
     }
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
 
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
 
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0.00065
-      if (typeOfVehicle == "T-003") {
+      if (typeOfVehicle == "T-MCC") {
         rate = 0.0005
       }
       return of(sumIn * rate)
@@ -439,26 +441,26 @@ export class GlobalFunctionService {
     let typeOfVehicle = ""
     let sumIn = 0
     if (motorDetail) {
-      sumIn = motorDetail['total_risk_si'] || 0
+      sumIn = motorDetail['m_total_risk_si'] || 0
     }
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
 
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0.005
-      if (currency == 'mmk' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+      if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
         rate = 0.00065
-      } else if (currency == 'usd' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+      } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
         rate = 0.00065
-      } else if (typeOfVehicle == "T-003") {
+      } else if (typeOfVehicle == "T-MCC") {
         rate = 0.0005
       }
       return of(sumIn * rate)
@@ -472,24 +474,24 @@ export class GlobalFunctionService {
     let typeOfCoverage = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
 
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
 
     return this.motorOwnDamage(motorDetail).pipe(map(res => {
       if (res > 0) {
         let rate = 0
-        if (currency == 'mmk' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+        if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
           rate = 0.15
-        } else if (currency == 'usd' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+        } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
           rate = 0.15
-        } else if (typeOfVehicle == "T-003") {
+        } else if (typeOfVehicle == "T-MCC") {
           rate = 0.15
         }
         return res * rate
@@ -503,14 +505,14 @@ export class GlobalFunctionService {
     let typeOfCoverage = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
 
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
 
     return this.motorOwnDamage(motorDetail).pipe(map(res => {
@@ -526,14 +528,14 @@ export class GlobalFunctionService {
     let currency = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
 
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_coverage'] || 0
     }
     let fixed = 50
-    if (currency == 'mmk' && (typeOfVehicle != "T-006" && typeOfVehicle != "T-003")) {
+    if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
       fixed = 80000
     }
     // else if (typeOfVehicle == "T-006") {
@@ -559,15 +561,15 @@ export class GlobalFunctionService {
     let typeOfCoverage = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    if (currency == 'usd') {
+    if (currency == 'USD') {
       return true
     }
     // else if (typeOfVehicle == "T-005") {
@@ -581,15 +583,15 @@ export class GlobalFunctionService {
     let typeOfCoverage = ""
     let typeOfVehicle = ""
     if (motorDetail) {
-      currency = motorDetail['currency'] || 0
+      currency = motorDetail['m_currency'] || 0
     }
     if (motorDetail) {
-      typeOfCoverage = motorDetail['coverage_type'] || 0
+      typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    if (typeOfVehicle == "T-006") {
+    if (typeOfVehicle == "TU-MCC") {
       return false
     }
     return true
@@ -598,9 +600,9 @@ export class GlobalFunctionService {
   ifEndorsement(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    if (typeOfVehicle == "T-006" || typeOfVehicle == "T-003") {
+    if (typeOfVehicle == "TU-MCC" || typeOfVehicle == "T-MCC") {
       return false
     }
     return true
@@ -608,9 +610,9 @@ export class GlobalFunctionService {
   ifLuggage(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    if (typeOfVehicle == "T-003") {
+    if (typeOfVehicle == "T-MCC") {
       return false
     }
     return true
@@ -619,9 +621,9 @@ export class GlobalFunctionService {
   ifLiability(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    if (typeOfVehicle == "T-006") {
+    if (typeOfVehicle == "TU-MCC") {
       return true
     }
     return false
@@ -630,9 +632,9 @@ export class GlobalFunctionService {
   ifPaidDriver(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    if (typeOfVehicle == "T-006") {
+    if (typeOfVehicle == "TU-MCC") {
       return true
     }
     return false
@@ -641,9 +643,9 @@ export class GlobalFunctionService {
   ifCrossBorder(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
-      typeOfVehicle = motorDetail['vehicle_type'] || 0
+      typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    if (typeOfVehicle == "T-006" || typeOfVehicle == "T-003") {
+    if (typeOfVehicle == "TU-MCC" || typeOfVehicle == "T-MCC") {
       return false
     }
     return true

@@ -28,6 +28,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AngularFireModule } from '@angular/fire/compat/';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 
 // #fake-start#
 // #fake-end#
@@ -68,12 +70,16 @@ function appInitializer(authService: AuthService) {
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register('combined-sw.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireMessagingModule
+    // provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    // provideMessaging(() => getMessaging())
   ],
   providers: [
     {

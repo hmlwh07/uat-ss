@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "digitalfe-uat": {
+      "hosting": {
+        "app": [
+          "digitalfe-uat"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "digitalfe-uat"
+  }
+}

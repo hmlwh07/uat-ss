@@ -31,3 +31,8 @@ npm-debug.log*
 /plugins
 /.oldPackagejson
 # /www
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

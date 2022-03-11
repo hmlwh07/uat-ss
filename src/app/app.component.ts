@@ -21,6 +21,8 @@ import { App as CapacitorApp } from '@capacitor/app';
 import { AlertController, ModalController } from '@ionic/angular';
 import { AlertService } from './modules/loading-toast/alert-model/alert.service';
 import { MenuDataService } from './core/menu-data.service';
+import { MessagingService } from './messaging.service';
+import { UserTokenService } from './user-token.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -46,8 +48,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private menuService: MenuDataService,
     private modalCtrl: ModalController,
-    private loadingService:LoadingService
-
+    private loadingService: LoadingService,
+    private messagingService: MessagingService,
+    private userTokenService: UserTokenService,
   ) {
 
   }
@@ -65,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
       formObjs: [],
       configPage: []
     };
+    this.requestPermission()
     const itemsData = localStorage.getItem("itemsData")
     this.itemService.loadItems(JSON.parse(itemsData) || productData);
     const routerSubscription = this.router.events.subscribe((event) => {
@@ -104,7 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
           } else {
             // this.modalCtrl.getTop().then((res)=>{
             //   console.log(res);
-              
+
             // })
             window.history.back();
           }
@@ -112,6 +116,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     })
   }
+
   async confirmExist() {
     // this.alertService.activate("Do you want to exit the app?", "App").then((res: any) => {
     //   if (res) {
@@ -142,7 +147,34 @@ export class AppComponent implements OnInit, OnDestroy {
     })
   }
 
+  requestPermission() {
+    this.messagingService.requestPermission().subscribe({
+      next: (token) => {
+        console.log('Permission granted! Save to the server!', token);
+        this.listenForMessages()
+      },
+      error: (error) => { console.error(error); },
+    });
+  }
+
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  listenForMessages() {
+    this.messagingService.getMessages().subscribe(async (msg: any) => {
+      if (msg) {
+        let value = this.messagingService.notiCount.value + 1
+        this.messagingService.notiCount.next(value)
+      }
+    });
+  }
+  updateCutomerToken(token) {
+    this.userTokenService.updateToken(token).toPromise().then(res => {
+      console.log("Token Update", res)
+      if (res) {
+        // console.log(res);
+      }
+    })
   }
 }

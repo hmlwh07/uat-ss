@@ -57,10 +57,7 @@ export class AddonPageComponent implements OnInit {
   }
   fireOptionData = {
     "FRAD008": [
-      { "code": "T-001", "value": "Building" },
-      { "code": "T-002", "value": "Furniture" },
-      { "code": "T-003", "value": "Machine" },
-      { "code": "T-004", "value": "Goods/Stocks" },
+      { "code": "T-001", "value": "Building,Furniture,Machine,Goods/Stocks" },
       { "code": "T-005", "value": "Water Damage for Goods/Stocks" },
     ],
     "FRAD010": [
@@ -121,7 +118,7 @@ export class AddonPageComponent implements OnInit {
           this.getGlobalFun(item.unitStr, 'addOnsData', item.id, 'unit', item)
         }
         if (item.premium) {
-          if (item.code == "cross_addon" && this.addOnsData[item.id].checked) {
+          if (item.code == "CROSSBRDR" && this.addOnsData[item.id].checked) {
 
           } else {
             this.getGlobalFun(item.premiumStr, 'addOnsData', item.id, 'premium', item)
@@ -166,7 +163,7 @@ export class AddonPageComponent implements OnInit {
         this.unsubscribe.push(unsub)
       } else {
         if (funName) {
-          // if (addon.code == "cross_addon" && this.product.code == "PLMO02" && subKey == "premium") {
+          // if (addon.code == "CROSSBRDR" && this.product.code == "PLMO02" && subKey == "premium") {
           //   this[mainObj][mainKey][subKey] = this.calcuCross() * 0.15
           // }else{
           this[mainObj][mainKey][subKey] = funName
@@ -237,17 +234,17 @@ export class AddonPageComponent implements OnInit {
   }
 
   changeOption(addon: AddOn) {
-    if (addon.code != "cross_addon" && this.product.code == "PLMO02") {
-      let cross = this.product.addOns.find(x => x.code == "cross_addon")
+    if (addon.code != "CROSSBRDR" && this.product.code == "PLMO02") {
+      let cross = this.product.addOns.find(x => x.code == "CROSSBRDR")
       if (this.addOnsData[cross.id].checked) {
         let tempPre = this.calcuCross()
         this.addOnsData[cross.id]['premium'] = tempPre * 0.15
       }
-    } else if (this.addOnsData[addon.id].checked && addon.code == "cross_addon") {
+    } else if (this.addOnsData[addon.id].checked && addon.code == "CROSSBRDR") {
       let tempPre = this.calcuCross()
       this.addOnsData[addon.id]['premium'] = tempPre * 0.15
     }
-    else if (!this.addOnsData[addon.id].checked && addon.code == "cross_addon") {
+    else if (!this.addOnsData[addon.id].checked && addon.code == "CROSSBRDR") {
       this.addOnsData[addon.id]['premium'] = 0
     }
   }
@@ -259,7 +256,7 @@ export class AddonPageComponent implements OnInit {
   calcuCross() {
     let tempPre = 0
     for (let addon of this.product.addOns) {
-      if (this.addOnsData[addon.id].checked && addon.code != "cross_addon") {
+      if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
       }
     }
@@ -268,13 +265,13 @@ export class AddonPageComponent implements OnInit {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     // let crossPre = tempPre * 0.15
-    let currency: string = this.parentData ? this.parentData.currency : 'mmk'
+    let currency: string = this.parentData ? this.parentData.currency : 'MMK'
     let excessAmt = 0
     if (this.parentData) {
-      let excess = this.parentData['excess']
-      if (excess == "T-002" && currency == "mmk") {
+      let excess = this.parentData['m_excess']
+      if (excess == "T-NILEX" && currency == "MMK") {
         excessAmt = 50000
-      } else if (excess == "T-005") {
+      } else if (excess == "TU-NILEX") {
         excessAmt = 25
       }
     }
@@ -293,26 +290,26 @@ export class AddonPageComponent implements OnInit {
     for (let cov of coverageData) {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
-    let currency: string = this.parentData ? this.parentData.currency : 'mmk'
+    let currency: string = this.parentData ? this.parentData.currency : 'MMK'
     let discount = 0
     if (this.parentData) {
-      let excess = this.parentData['excess']
+      let excess = this.parentData['m_excess']
       let excess_discount = this.parentData['excess_discount']
-      if (excess == "T-002" && currency == "mmk") {
+      if (excess == "T-NILEX" && currency == "MMK") {
         discount = -50000
-      } else if (excess == "T-005") {
+      } else if (excess == "TU-NILEX") {
         discount = -25
-      } else if (excess == "T-003" && currency == "mmk") {
-        if (excess_discount == "T-001") {
+      } else if (excess == "T-ED" && currency == "MMK") {
+        if (excess_discount == "T-EXD1") {
           discount = 50000
-        } else if (excess_discount == "T-002") {
+        } else if (excess_discount == "T-EXD2") {
           discount = 70000
-        } else if (excess_discount == "T-003") {
+        } else if (excess_discount == "T-EXD3") {
           discount = 100000
         }
       }
     }
-    let stumd = currency == "mmk" ? 100 : 1
+    let stumd = currency == "MMK" ? 100 : 1
     let preAMT = (tempPre - discount) + stumd
     this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
