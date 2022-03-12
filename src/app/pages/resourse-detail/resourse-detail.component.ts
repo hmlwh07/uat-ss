@@ -49,6 +49,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService, private alertService: AlertService) { }
 
   async ngOnInit() {
+    
     if (!this.productService.createingProd || !this.productService.createingProd.id) {
       this.location.back()
     } else {
@@ -61,6 +62,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         return
       }
       let pageUI: ProductPages = JSON.parse(this.item.config);
+      console.log(this.resourceDetail);
 
       if (this.productService.previewType == 'quotation') {
         this.pageOrder = pageUI.quotation || []

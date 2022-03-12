@@ -39,7 +39,10 @@ export class MessagingService {
 
 
   getMessages() {
-    return this.afMessaging.messages;
+    return this.afMessaging.messages
+    // .subscribe((res)=>{
+    //   res.data.
+    // });
   }
 
   deleteToken() {

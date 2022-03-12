@@ -11,7 +11,7 @@ export class UserTokenService {
 
 
   updateToken(token: string) {
-    return this.http.put(API_TOKEN_URL + "?firebaseToken=" + token, {})
+    return this.http.post(API_TOKEN_URL + "?firebaseToken=" + token, {})
   }
 
 }

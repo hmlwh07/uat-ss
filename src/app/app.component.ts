@@ -23,6 +23,7 @@ import { AlertService } from './modules/loading-toast/alert-model/alert.service'
 import { MenuDataService } from './core/menu-data.service';
 import { MessagingService } from './messaging.service';
 import { UserTokenService } from './user-token.service';
+import { KBZToastService } from './modules/loading-toast/toast/kbz-toast.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -33,13 +34,14 @@ import { UserTokenService } from './user-token.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-
+  private userToken = ""
+  private user = null
   constructor(
     private splashScreenService: SplashScreenService,
     private router: Router,
     private tableService: TableExtendedService,
     private itemService: ProductsService,
-    private kbzToast: LoadingService,
+    private kbzToast: KBZToastService,
     private master: MasterDataService,
     private authService: AuthService,
     private zone: NgZone,
@@ -95,7 +97,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.unsubscribe.push(routerSubscription);
     let unsub = this.authService.currentUserSubject.subscribe((res) => {
       if (res) {
+        this.user = res
         this.menuService.getMenusData()
+        if (this.userToken)
+          this.updateCutomerToken(this.userToken)
         // this.master.getType()
       }
     })
@@ -151,6 +156,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.messagingService.requestPermission().subscribe({
       next: (token) => {
         console.log('Permission granted! Save to the server!', token);
+        if (this.user) {
+          this.updateCutomerToken(token)
+        }
         this.listenForMessages()
       },
       error: (error) => { console.error(error); },
@@ -164,6 +172,7 @@ export class AppComponent implements OnInit, OnDestroy {
   listenForMessages() {
     this.messagingService.getMessages().subscribe(async (msg: any) => {
       if (msg) {
+        this.kbzToast.activate(msg.data.message, 'success')
         let value = this.messagingService.notiCount.value + 1
         this.messagingService.notiCount.next(value)
       }

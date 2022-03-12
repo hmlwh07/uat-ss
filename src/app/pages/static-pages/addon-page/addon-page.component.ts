@@ -155,7 +155,7 @@ export class AddonPageComponent implements OnInit {
 
     if (this.product.code == "PLMO02" && subKey == "premium") {
       if (this.globalFun[funName]) {
-        let parentValueObj = addon.code == "uid_md_007" ? this.getParnet('motor_driver') : this.parentData
+        let parentValueObj = addon.code == "PAIDDRIVER" ? this.getParnet('motor_driver') : this.parentData
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
           this.cdRef.detectChanges();
@@ -265,7 +265,7 @@ export class AddonPageComponent implements OnInit {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     // let crossPre = tempPre * 0.15
-    let currency: string = this.parentData ? this.parentData.currency : 'MMK'
+    let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let excessAmt = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']
@@ -290,7 +290,7 @@ export class AddonPageComponent implements OnInit {
     for (let cov of coverageData) {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
-    let currency: string = this.parentData ? this.parentData.currency : 'MMK'
+    let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']

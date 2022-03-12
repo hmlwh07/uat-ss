@@ -163,8 +163,9 @@
                 Create Signature
               </button>
             </div>
-            <div class="col-sm-4" *ngIf="type == 'policy'">
-              <button type="submit" class="btn btn-primary btn-block" (click)="submitPolicy()">
+            <div class="col-sm-4" *ngIf="type == 'policy' ">
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="resourceDetail.status == 'submitted'"
+                (click)="submitPolicy()">
                 Submit Application
               </button>
             </div>
