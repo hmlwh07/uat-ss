@@ -15,6 +15,15 @@
             PREMIUM <br>
             <span *ngIf="resourceDetail">{{resourceDetail.premiumView || 0 }}</span>
           </div>
+          <div class="top-box">
+            Application Status <br>
+            <span *ngIf="resourceDetail">{{(resourceDetail.status == "in_progress" ? "In Progress" :
+              resourceDetail.status) | titlecase }}</span>
+          </div>
+          <div class="top-box">
+            TCS Status <br>
+            <span *ngIf="resourceDetail">{{ resourceDetail.apiStatus | titlecase }}</span>
+          </div>
           <button class="btn btn-outline-primary" *ngIf="type == 'policy'" style="margin-left: auto;"
             (click)="viewPrint()">
             <i class="flaticon2-print"></i> Print
@@ -164,7 +173,8 @@
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy' ">
-              <button type="submit" class="btn btn-primary btn-block" [disabled]="resourceDetail.status == 'submitted'"
+              <!-- [disabled]="resourceDetail.status == 'submitted'" -->
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="resourceDetail.apiStatus == 'sending'"
                 (click)="submitPolicy()">
                 Submit Application
               </button>

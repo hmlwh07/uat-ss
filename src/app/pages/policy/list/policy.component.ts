@@ -83,6 +83,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
   getPolicyList() {
     this.policyService.findAll().toPromise().then((res) => {
       if (res) {
+        console.log(res);
+        
         this.quoList = res
         this.cdRef.detectChanges()
         this.matTable.reChangeData()

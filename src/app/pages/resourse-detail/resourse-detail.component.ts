@@ -417,7 +417,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   submitPolicy() {
     this.policyService.submitPolicy(this.resourceDetail.id).toPromise().then((res) => {
       if (res) {
-        this.alertService.activate('This record was created', 'Success Message');
+        this.alertService.activate('This record was submitted', 'Success Message');
+        this.resourceDetail.apiStatus = 'sending'
+        this.resourceDetail.status = 'submitted'
       }
     })
   }

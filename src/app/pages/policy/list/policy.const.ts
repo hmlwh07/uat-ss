@@ -38,6 +38,12 @@ export const PolicyCol: TableCol[] = [
     isStatus: true
   },
   {
+    title: "Api Status",
+    type: COLTYPE.FEILD,
+    field: "apiStatus",
+    isStatus: true
+  },
+  {
     title: "Date",
     type: COLTYPE.FEILD,
     field: "createdAt",
@@ -47,7 +53,7 @@ export const PolicyCol: TableCol[] = [
     title: "Actions",
     type: COLTYPE.ACTION,
     field: "actions",
-    btn:{
+    btn: {
       view: true,
       edit: true
     }
@@ -61,6 +67,7 @@ export const PolicyDisplayCol: string[] = [
   "agentFirstName",
   "premium",
   "status",
+  "apiStatus",
   "createdAt",
   "actions",
 ]

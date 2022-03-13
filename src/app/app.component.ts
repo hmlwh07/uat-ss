@@ -24,6 +24,7 @@ import { MenuDataService } from './core/menu-data.service';
 import { MessagingService } from './messaging.service';
 import { UserTokenService } from './user-token.service';
 import { KBZToastService } from './modules/loading-toast/toast/kbz-toast.service';
+import { AlertComponet } from './modules/loading-toast/alert-model/alert.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -172,7 +173,9 @@ export class AppComponent implements OnInit, OnDestroy {
   listenForMessages() {
     this.messagingService.getMessages().subscribe(async (msg: any) => {
       if (msg) {
-        this.kbzToast.activate(msg.data.message, 'success')
+        console.log(msg);
+        this.alertService.activate(msg.notification.body, msg.notification.title)
+        // this.kbzToast.activate(msg.notification.title, 'success')
         let value = this.messagingService.notiCount.value + 1
         this.messagingService.notiCount.next(value)
       }
