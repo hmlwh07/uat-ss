@@ -49,13 +49,14 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService, private alertService: AlertService) { }
 
   async ngOnInit() {
-    
+
     if (!this.productService.createingProd || !this.productService.createingProd.id) {
       this.location.back()
     } else {
       this.item = this.productService.createingProd
       this.type = this.productService.previewType
       this.resourceDetail = this.productService.editData
+      this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       if (!this.resourceDetail) {
         this.location.back()
@@ -420,6 +421,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.alertService.activate('This record was submitted', 'Success Message');
         this.resourceDetail.apiStatus = 'sending'
         this.resourceDetail.status = 'submitted'
+        this.cdf.detectChanges()
       }
     })
   }
