@@ -154,6 +154,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   requestPermission() {
+    console.log("request Noti Token");
+    
     this.messagingService.requestPermission().subscribe({
       next: (token) => {
         console.log('Permission granted! Save to the server!', token);
