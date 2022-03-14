@@ -51,6 +51,7 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
     "approved": "primary",
     "cancel": "danger",
     "submitted": "success",
+    "success": "success",
     "sending": "info",
     "fail": "danger",
   }

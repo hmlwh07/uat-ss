@@ -148,7 +148,6 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
   listenValid() {
 
     this.unSub[1] = this.globalFun.paPolicyValidationResult.subscribe((res: any) => {
-
       if (res) {
         let dateType;
         this.valid.value = res.validationValue
@@ -165,10 +164,10 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
           toDate = moment(this.group.controls[this.config.name].value).add(res.validationValue, dateType)
         } else {
           toDate = moment().add(res.validationValue, dateType)
-          this.group.controls[this.config.name].setValue(moment().format('YYYY-MM-DD'))
+          this.group.controls[this.config.name].setValue(moment())
         }
-        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-        this.group.controls[this.config.endName].setValue(toDate.format('YYYY-MM-DD'))
+        this.toMaxDate = toDate.format('YYYY-MM-DD')
+        this.group.controls[this.config.endName].setValue(toDate)
       }
     })
   }
@@ -177,8 +176,8 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
     let value = this.group.controls[this.config.name].value
     if (value && this.valid.value) {
       let toDate = moment(this.group.controls[this.config.name].value).add(this.valid.value, this.valid.type)
-      this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-      this.group.controls[this.config.endName].setValue(toDate.format('YYYY-MM-DD'))
+      this.toMaxDate = toDate.format('YYYY-MM-DD')
+      this.group.controls[this.config.endName].setValue(toDate)
     }
   }
 
