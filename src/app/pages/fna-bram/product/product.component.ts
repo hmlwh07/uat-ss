@@ -396,13 +396,16 @@ export class ProductComponent implements OnInit {
         }
         this.updateCommaInput(grandDiscount, 'discount');
       }
+
       this.dataSource = this.originalData.reduce((current, next) => {
         next.product.forEach(b => {
+
+
           current.push({
             packageOffer: next.packageOffer, input: next.input, product: b.product, policies: b.policies,
-            sa: this.fnaService.mathRoundTo(b.sa, 2),
-            annualRate: this.fnaService.mathRoundTo(b.annualRate, 2),
-            monthlyRate: this.fnaService.mathRoundTo(b.monthlyRate, 2), action: b.action
+            sa: this.fnaService.currencyFormat(Number(b.sa)),
+            annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
+            monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)), action: b.action
           })
         });
         return current;
@@ -501,9 +504,9 @@ export class ProductComponent implements OnInit {
       next.product.forEach(b => {
         current.push({
           packageOffer: next.packageOffer, product: b.product, input: next.input, policies: b.policies,
-          sa: this.fnaService.mathRoundTo(b.sa, 2),
-          annualRate: this.fnaService.mathRoundTo(b.annualRate, 2),
-          monthlyRate: this.fnaService.mathRoundTo(b.monthlyRate, 2), action: b.action
+          sa: this.fnaService.currencyFormat(Number(b.sa)),
+          annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
+          monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)), action: b.action
         })
       });
       return current;
@@ -554,9 +557,9 @@ export class ProductComponent implements OnInit {
         { content: 'High Priority', rowSpan: this.productList.highRisk.length, styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
         { content: this.productList.highRisk[i].product || '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
         { content: this.productList.highRisk[i].policies || '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
-        { content: this.productList.highRisk[i].sa ? this.fnaService.mathRoundTo(this.productList.highRisk[i].sa, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
-        { content: this.productList.highRisk[i].annualRate ? this.fnaService.mathRoundTo(this.productList.highRisk[i].annualRate, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
-        { content: this.productList.highRisk[i].monthlyRate ? this.fnaService.mathRoundTo(this.productList.highRisk[i].monthlyRate, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } }
+        { content: this.productList.highRisk[i].sa ? this.fnaService.currencyFormat(Number(this.productList.highRisk[i].sa)) : '0.00', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
+        { content: this.productList.highRisk[i].annualRate ? this.fnaService.currencyFormat(Number(this.productList.highRisk[i].annualRate)) : '0.00', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } },
+        { content: this.productList.highRisk[i].monthlyRate ? this.fnaService.currencyFormat(Number(this.productList.highRisk[i].monthlyRate)) : '0.00', styles: { halign: 'center', valign: 'middle', fillColor: '#FF0000' } }
       ]
       if (i > 0) {
         obj.splice(0, 1);
@@ -569,9 +572,9 @@ export class ProductComponent implements OnInit {
       { content: '', styles: { halign: 'center', valign: 'middle' } },
       { content: 'Total', styles: { halign: 'center', valign: 'middle' } },
       { content: highPolicies, styles: { halign: 'center', valign: 'middle' } },
-      { content: highSa ? this.fnaService.mathRoundTo(highSa, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-      { content: highAnnualRate ? this.fnaService.mathRoundTo(highAnnualRate, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-      { content: highMonthlyRate ? this.fnaService.mathRoundTo(highMonthlyRate, 2) : '', styles: { halign: 'center', valign: 'middle' } }
+      { content: highSa ? this.fnaService.currencyFormat(Number(highSa)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+      { content: highAnnualRate ? this.fnaService.currencyFormat(Number(highAnnualRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+      { content: highMonthlyRate ? this.fnaService.currencyFormat(Number(highMonthlyRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } }
     ]
 
     let highPercent: string = '';
@@ -600,8 +603,8 @@ export class ProductComponent implements OnInit {
       { content: 'Discount (%)', styles: { halign: 'center', valign: 'middle' } },
       { content: highPercent, styles: { halign: 'center', valign: 'middle' } },
       { content: 'Premium after discount:', styles: { halign: 'center', valign: 'middle' } },
-      { content: highAnnualPercentageRate ? this.fnaService.mathRoundTo(this.highAnnualPercentageRate, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-      { content: highMonthlyPercentageRate ? this.fnaService.mathRoundTo(this.highMonthlyPercentageRate, 2) : '', styles: { halign: 'center', valign: 'middle' } }
+      { content: highAnnualPercentageRate ? this.fnaService.currencyFormat(Number(this.highAnnualPercentageRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+      { content: highMonthlyPercentageRate ? this.fnaService.currencyFormat(Number(this.highMonthlyPercentageRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } }
     ]
 
     if (list.length == this.productList.highRisk.length) {
@@ -640,9 +643,9 @@ export class ProductComponent implements OnInit {
         { content: 'Less Priority', rowSpan: this.productList.lessRisk.length, styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
         { content: this.productList.lessRisk[i].product || '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
         { content: this.productList.lessRisk[i].policies || '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
-        { content: this.productList.lessRisk[i].sa ? this.fnaService.mathRoundTo(this.productList.lessRisk[i].sa, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
-        { content: this.productList.lessRisk[i].annualRate ? this.fnaService.mathRoundTo(this.productList.lessRisk[i].annualRate, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
-        { content: this.productList.lessRisk[i].monthlyRate ? this.fnaService.mathRoundTo(this.productList.lessRisk[i].monthlyRate, 2) : '', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } }
+        { content: this.productList.lessRisk[i].sa ? this.fnaService.currencyFormat(Number(this.productList.lessRisk[i].sa)) : '0.00', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
+        { content: this.productList.lessRisk[i].annualRate ? this.fnaService.currencyFormat(Number(this.productList.lessRisk[i].annualRate)) : '0.00', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } },
+        { content: this.productList.lessRisk[i].monthlyRate ? this.fnaService.currencyFormat(Number(this.productList.lessRisk[i].monthlyRate)) : '0.00', styles: { halign: 'center', valign: 'middle', fillColor: [241, 196, 15] } }
       ]
       if (i > 0) {
         obj.splice(0, 1);
@@ -654,9 +657,9 @@ export class ProductComponent implements OnInit {
       { content: '', styles: { halign: 'center', valign: 'middle' } },
       { content: 'Total', styles: { halign: 'center', valign: 'middle' } },
       { content: lessPolicies, styles: { halign: 'center', valign: 'middle' } },
-      { content: lessSa ? this.fnaService.mathRoundTo(lessSa, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-      { content: lessAnnualRate ? this.fnaService.mathRoundTo(lessAnnualRate, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-      { content: lessMonthlyRate ? this.fnaService.mathRoundTo(lessMonthlyRate, 2) : '', styles: { halign: 'center', valign: 'middle' } }
+      { content: lessSa ? this.fnaService.currencyFormat(Number(lessSa)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+      { content: lessAnnualRate ? this.fnaService.currencyFormat(Number(lessAnnualRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+      { content: lessMonthlyRate ? this.fnaService.currencyFormat(Number(lessMonthlyRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } }
     ]
 
     if (this.productList.lessRisk.length > 0) {
@@ -696,9 +699,9 @@ export class ProductComponent implements OnInit {
           { content: packageName, styles: { halign: 'center', valign: 'middle' } },
           { content: this.grantTotalList[i].product, styles: { halign: 'center', valign: 'middle' } },
           { content: this.grantTotalList[i].grantPolicies || '', styles: { halign: 'center', valign: 'middle' } },
-          { content: this.grantTotalList[i].grantSa ? this.fnaService.mathRoundTo(this.grantTotalList[i].grantSa, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-          { content: this.grantTotalList[i].grantAnnualRate ? this.fnaService.mathRoundTo(this.grantTotalList[i].grantAnnualRate, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-          { content: this.grantTotalList[i].grantMonthlyRate ? this.fnaService.mathRoundTo(this.grantTotalList[i].grantMonthlyRate, 2) : '', styles: { halign: 'center', valign: 'middle' } }
+          { content: this.grantTotalList[i].grantSa ? this.fnaService.currencyFormat(Number(this.grantTotalList[i].grantSa)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.grantTotalList[i].grantAnnualRate ? this.fnaService.currencyFormat(Number(this.grantTotalList[i].grantAnnualRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.grantTotalList[i].grantMonthlyRate ? this.fnaService.currencyFormat(Number(this.grantTotalList[i].grantMonthlyRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } }
         ];
         list.push(grantTotal);
       }
@@ -706,9 +709,9 @@ export class ProductComponent implements OnInit {
         { content: '', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Total', styles: { halign: 'center', valign: 'middle' } },
         { content: grantPolicies || '', styles: { halign: 'center', valign: 'middle' } },
-        { content: grantSa ? this.fnaService.mathRoundTo(grantSa, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-        { content: grantAnnualRate ? this.fnaService.mathRoundTo(grantAnnualRate, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-        { content: grantMonthlyRate ? this.fnaService.mathRoundTo(grantMonthlyRate, 2) : '', styles: { halign: 'center', valign: 'middle' } }
+        { content: grantSa ? this.fnaService.currencyFormat(Number(grantSa)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+        { content: grantAnnualRate ? this.fnaService.currencyFormat(Number(grantAnnualRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+        { content: grantMonthlyRate ? this.fnaService.currencyFormat(Number(grantMonthlyRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } }
       ];
       list.push(grantTotal);
 
@@ -738,8 +741,8 @@ export class ProductComponent implements OnInit {
         { content: 'Discount (%)', styles: { halign: 'center', valign: 'middle' } },
         { content: grantPercent, styles: { halign: 'center', valign: 'middle' } },
         { content: 'Premium after discount:', styles: { halign: 'center', valign: 'middle' } },
-        { content: grantAnnualPercentageRate ? this.fnaService.mathRoundTo(this.grantAnnualPercentageRate, 2) : '', styles: { halign: 'center', valign: 'middle' } },
-        { content: grantMonthlyPercentageRate ? this.fnaService.mathRoundTo(this.grantMonthlyPercentageRate, 2) : '', styles: { halign: 'center', valign: 'middle' } }
+        { content: grantAnnualPercentageRate ? this.fnaService.currencyFormat(Number(this.grantAnnualPercentageRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } },
+        { content: grantMonthlyPercentageRate ? this.fnaService.currencyFormat(Number(this.grantMonthlyPercentageRate)) : '0.00', styles: { halign: 'center', valign: 'middle' } }
       ]
       list.push(highRiskPercent);
     }

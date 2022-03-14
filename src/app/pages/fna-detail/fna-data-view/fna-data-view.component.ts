@@ -15,6 +15,7 @@ export class FnaDataViewComponent implements OnInit {
   fnaData: any;
   spouseProtection = true;
   title: string = null;
+  estimatedMonthlyIncome: string;
 
   constructor(public modal: NgbActiveModal, private fnaService: FANService) {
 
@@ -23,11 +24,17 @@ export class FnaDataViewComponent implements OnInit {
   ngOnInit(): void {
     if (this.type == 'Income' || this.type == "RetirementSaving") {
       this.fnaData = FNAConstant.FNA_DETAIL_OBJ;
+      console.log('numberFormat', this.fnaData);
       if (this.type == "RetirementSaving") {
         this.title = 'Retirement Savings';
       } else {
         this.title = null;
       }
+      if (this.type == 'Income') {
+        console.log('numberFormat', this.mathRoundTo(Number(this.fnaData.estimatedMonthlyIncome), 2));
+        this.estimatedMonthlyIncome = this.mathRoundTo(this.fnaData.estimatedMonthlyIncome, 2)
+      }
+
     } else {
       this.fnaViews = FNAConstant.FNA_DETAIL_LIST;
       if (this.type == 'Health') {
@@ -64,6 +71,11 @@ export class FnaDataViewComponent implements OnInit {
     const factor = 10 ** places;
     return (Math.round(num * factor) / factor).toLocaleString();
   };
+
+  numberFormat(val, decimalPlaces) {
+    var multiplier = Math.pow(10, decimalPlaces);
+    return (Math.round(val * multiplier) / multiplier).toFixed(decimalPlaces);
+  }
 
   formatDateYYYYMMDD(date) {
     var d = new Date(date.split("/").reverse().join("/")),

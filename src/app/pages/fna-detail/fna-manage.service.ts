@@ -162,6 +162,15 @@ export class FANService extends BizOperationService<any, number>{
     return (Math.round(num * factor) / factor).toLocaleString();
   };
 
+  numberFormat(val, decimalPlaces) {
+    var multiplier = Math.pow(10, decimalPlaces);
+    return (Math.round(val * multiplier) / multiplier).toFixed(decimalPlaces);
+  }
+
+  currencyFormat(num) {
+    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+  }
+
   getNumber(str) {
     var arr = str.split('');
     var out = new Array();
