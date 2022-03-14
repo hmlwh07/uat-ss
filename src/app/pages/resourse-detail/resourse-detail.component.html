@@ -174,7 +174,8 @@
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy' ">
               <!-- [disabled]="resourceDetail.status == 'submitted'" -->
-              <button type="submit" class="btn btn-primary btn-block" [disabled]="resourceDetail.apiStatus == 'sending'"
+              <button type="submit" class="btn btn-primary btn-block"
+                [disabled]="resourceDetail.apiStatus == 'sending' || resourceDetail.apiStatus == 'success'"
                 (click)="submitPolicy()">
                 Submit Application
               </button>
