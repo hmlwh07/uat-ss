@@ -158,7 +158,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.pageOrder[index].controls = page.controls
 
         this.pageDataService.getDetail(page.tableName, oldData.id, page.id, true, page.controls).toPromise().then((res: any[]) => {
-
+          console.log(page.controls);
+          console.log(res);
+          
           if (res) {
             let temp = page.pageType == 'form' ? {} : []
             for (const data of res) {
@@ -166,6 +168,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
               for (const item of data.data) {
                 if (item.column != 'id' && item.column != 'created_at' && item.column != 'updated_at')
                   tmpObj[item.column] = item.value
+                  if(item.valueCode){
+                    tmpObj[item.column+"Code"] = item.valueCode
+                  }
               }
               if (Array.isArray(temp)) {
                 temp.push(tmpObj)
