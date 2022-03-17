@@ -21,6 +21,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CustomerListComponent } from "../customer-list/customer-list.component";
 import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
+import { environment } from "../../../environments/environment";
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -46,6 +47,8 @@ export class LeadListComponent implements OnInit {
   statusOption: any[] = []
   sourceOption: any[] = []
   productOption: any[] = []
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+
   constructor(
     private router: Router,
     private cdf: ChangeDetectorRef,
@@ -84,7 +87,8 @@ export class LeadListComponent implements OnInit {
       existingCustomerName: new FormControl({ value: null, disabled: true }),
       contactName: new FormControl(null),
       leadId: new FormControl(null),
-      openDateStr: new FormControl(null),
+      startDate: new FormControl(null),
+      endDate: new FormControl(null),
       productId: new FormControl(null),
       sourceCode: new FormControl(null),
       statusCode: new FormControl(null),
@@ -122,6 +126,12 @@ export class LeadListComponent implements OnInit {
     //   });
 
 
+  }
+
+  updateURL(event: any){
+    if(event){
+      event.target.src = "assets/icon/general_product.svg"
+    }
   }
   getSource() {
 
@@ -163,6 +173,8 @@ export class LeadListComponent implements OnInit {
   }
 
   getList() {
+    console.log(this.LeadForm.getRawValue());
+    
     this.LeadListService.getLeadList(this.LeadForm.getRawValue())
       .toPromise()
       .then((res: any) => {
@@ -170,7 +182,8 @@ export class LeadListComponent implements OnInit {
           console.log("RES", res)
           this.LeadList = res
           this.cdf.detectChanges();
-          this.matTable.reChangeData();
+          if (this.matTable)
+            this.matTable.reChangeData();
         }
       });
   }
@@ -203,6 +216,9 @@ export class LeadListComponent implements OnInit {
     if (event.cmd == "view") {
       this.navigateToDetail("view", event.data.leadId, event.data.individualId);
     }
+  }
+  onActionEdit(){
+    
   }
 
   viewExistingCustomer() {

@@ -218,8 +218,8 @@ export class LeadDetailComponent implements OnInit {
       if (params) {
         this.pageStatus = params.pageStatus;
         if (this.pageStatus != "create") {
-          console.log("<==========>",params);
-          
+          console.log("<==========>", params);
+
           this.oldId = params.leadId;
           this.oldSecondaryId = params.pageSecondaryId;
           this.getOld();
@@ -574,11 +574,18 @@ export class LeadDetailComponent implements OnInit {
       this.router.navigate(["/activity/activity-management-detail"], { queryParams: { pageStatus: 'edit', pageId: event.data.activityNo } })
     }
   }
-  calculateScore(code) {
-    let source = this.sourceOption.find((p) => p.code == code);
+  calculateScore(code?, data?) {
+
+    let sourceCode;
+    if (data) {
+      sourceCode = data
+    } else {
+      let source = this.sourceOption.find((p) => p.code == code);
+      sourceCode=source.code
+    }
     let channel = this.leadForm.getRawValue().channelCode
-    if (source && channel) {
-      this.LeadDetailService.getLeadScore(source.code, channel).toPromise().then((res: any) => {
+    if (sourceCode && channel) {
+      this.LeadDetailService.getLeadScore(sourceCode, channel).toPromise().then((res: any) => {
         // this.leadForm.controls.score.setValue(res)
         this.sourceScore = res
         this.calculateLeadQuality()
@@ -901,7 +908,7 @@ export class LeadDetailComponent implements OnInit {
       identityType: new FormControl({ value: oldData ? oldData.identityType : '', disabled: true }),
       sourceCode: new FormControl({ value: oldData ? oldData.sourceCode : '', disabled: this.disabledForm }),
       campaignNo: new FormControl({ value: oldData ? oldData.campaignNo : '', disabled: this.disabledForm }),
-      identityNumber: new FormControl({ value: oldData ? oldData.identityNumber : '', disabled: true }),
+      identityNumber: new FormControl({ value: oldData ? oldData.nrcValue : '', disabled: true }),
       existingCustomerName: new FormControl(
         { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }
       ),
@@ -941,7 +948,7 @@ export class LeadDetailComponent implements OnInit {
 
     if (this.oldData) {
       this.getLeadQuality()
-      this.calculateScore(this.oldData.sourceCode)
+      this.calculateScore(null,this.oldData.sourceCode)
     }
 
   }
@@ -1140,6 +1147,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.referenceID = item.id
         this.prodctService.editData = null
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.referenceStatus = item.status
         this.router.navigateByUrl("/product-form")
       }
     })

@@ -12,7 +12,7 @@ import { StaticActionType, StaticPageAction } from '../static-field.interface';
 import { PageDataService } from "../../product-form/page-data.service"
 import { IsJsonString } from '../../../core/is-json';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
-import { FirePageID, FireRiskID } from '../static-pages.data';
+import { AddonpageID, FirePageID, FireRiskID } from '../static-pages.data';
 @Component({
   selector: 'app-addon-page',
   templateUrl: './addon-page.component.html',

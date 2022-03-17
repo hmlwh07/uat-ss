@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -24,7 +25,10 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   quoAccess = defaultAccessObj
   policyAccess = defaultAccessObj
+  quotationForm: FormGroup
+  isTeam: boolean = false
   constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
+    this.loadForm()
   }
 
 
@@ -35,6 +39,16 @@ export class QuotationsComponent implements OnInit, OnDestroy {
     this.getQuoList()
 
     // })
+  }
+  loadForm() {
+    let date = new Date();
+    let lastMonthDay = new Date(date.setMonth(date.getMonth() - 1))
+    let monthDay = new Date(date.setMonth(date.getMonth() + 1))
+    this.quotationForm = new FormGroup({
+      startDate: new FormControl(lastMonthDay),
+      endDate: new FormControl(monthDay),
+      isTeam: new FormControl(this.isTeam)
+    })
   }
   checkPremission() {
     this.menuService.dataAccess.subscribe((res) => {
@@ -54,7 +68,21 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // this.rerender()
   }
+  cancel() {
 
+  }
+  changeView(type) {
+    if (type == 'team') {
+      this.isTeam = true
+    }
+    else {
+      this.isTeam = false
+
+    }
+    this.quotationForm.controls.isTeam.setValue(this.isTeam)
+    this.cdRef.detectChanges()
+    this.getQuoList()
+  }
   createOrEdit() {
     const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = 'modal'
@@ -87,7 +115,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
 
 
   getQuoList() {
-    this.quoService.findAll().toPromise().then((res) => {
+    this.quoService.getQuoList(this.quotationForm.getRawValue()).toPromise().then((res: any) => {
       if (res) {
         this.quoList = res
         this.cdRef.detectChanges()
@@ -139,7 +167,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   }
 
   createPolicy(item) {
-    forkJoin([this.prodctService.findOne(item.productId),this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
+    forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
         this.prodctService.createingProdRef = res[0]
         this.prodctService.creatingCustomer = res[1]
