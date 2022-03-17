@@ -1140,6 +1140,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.referenceID = item.id
         this.prodctService.editData = null
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.referenceStatus = item.status
         this.router.navigateByUrl("/product-form")
       }
     })
