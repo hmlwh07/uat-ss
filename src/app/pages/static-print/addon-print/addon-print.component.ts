@@ -10,6 +10,7 @@ import { ProductDataService } from '../../products/services/products-data.servic
 })
 export class AddonPrintComponent implements OnInit {
   @Input() resourcesId?: string
+  @Input() optionId?: string
   addOnData = {}
   addon = {
     sumInsured: false,
@@ -23,6 +24,7 @@ export class AddonPrintComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.optionId = this.optionId ? this.optionId : this.resourcesId
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
     if (this.product.addOns && this.product.addOns.length > 0) {
       this.addon = {
@@ -34,7 +36,7 @@ export class AddonPrintComponent implements OnInit {
         // let response: any = {};
         try {
           if (this.resourcesId) {
-            this.addonQuo.getOne(item.id, this.resourcesId).toPromise().then((response: any) => {
+            this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response: any) => {
               if (response) {
                 this.addOnData[item.id] = {
                   sum: response ? response.sumInsured || 0 : 0,

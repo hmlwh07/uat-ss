@@ -13,13 +13,13 @@ export class CoverageQuoService extends BizOperationService<QuoAddon, number>{
   constructor(protected httpClient: HttpClient) {
     super(httpClient, API_COVERAGE_URL);
   }
-  getOne(id:number,quo: string){
-    return this.httpClient.get(API_COVERAGE_URL+"/"+id+"/"+quo)
+  getOne(id: number, quo: string, optionId: string) {
+    return this.httpClient.get(API_COVERAGE_URL + "/" + id + "/" + quo + "/" + optionId)
   }
-  deleteAll(quo: any) {
-    return this.httpClient.delete(API_COVERAGE_URL + "/quotation/" + quo)
+  deleteAll(quo: any, optionId: string) {
+    return this.httpClient.delete(API_COVERAGE_URL + "/quotation/" + quo + "/" + optionId)
   }
   getAllById(postData: any) {
-    return this.httpClient.post(API_COVERAGE_URL +"s", postData)
+    return this.httpClient.post(API_COVERAGE_URL + "s", postData)
   }
 }

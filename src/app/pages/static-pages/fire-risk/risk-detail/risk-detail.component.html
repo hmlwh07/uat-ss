@@ -5,228 +5,29 @@
             <!-- <small style="text-decoration: underline;cursor: pointer;" *ngIf="oldData"
                 (click)="viewOther('form')">(View
                 Other Building)</small> -->
-            <small style="text-decoration: underline;cursor: pointer;" *ngIf="viewPage != 'form'" (click)="viewOther('other')">(View
-                Risk Detail)</small>
+            <!-- <small style="text-decoration: underline;cursor: pointer;" *ngIf="viewPage != 'form'" (click)="viewOther('other')">(View
+                Risk Detail)</small> -->
         </div>
 
     </div>
-    <ng-container *ngIf="viewPage == 'form';else OtherBuilding">
-        <form action="#" class="form" [formGroup]="fireRiskform" (ngSubmit)="createRisk()">
-            <div class="overlay overlay-block cursor-default modal-body">
-
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Building Description</label>
-                            <div class="col-md-6">
-                                <textarea type="text" class="form-control form-control-sm " name="buildingDescription" autocomplete="off" [class.is-invalid]="isControlInvalid('buildingDescription')" [class.is-valid]="isControlValid('buildingDescription')" formControlName="buildingDescription"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Type of Building</label>
-                            <div class="col-md-6">
-                                <ng-select class="ng-custom-select" (change)="calcuRate('child')" [class.is-invalid]="isControlInvalid('typeOfBuilding')" [class.is-valid]="isControlValid('typeOfBuilding')" [items]="typeOfBuildingOption" bindLabel="value" bindValue="code" formControlName="typeOfBuilding">
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
+    <div class="overlay overlay-block cursor-default modal-body">
+        <div class="toggle-box">
+            <div class="toggle-header">
+                <h3 class="left-border-image">Risk Detail</h3>
+                <div class="tool-box">
+                    <button type="button" *ngIf="activeBox=='DETAIL'" class="icon" (click)="toggleAccordion('DETAIL')">
+                        <span class="flaticon2-back"></span>
+                    </button>
+                    <button type="button" *ngIf="activeBox!='DETAIL'" class="icon ml-2"
+                        (click)="toggleAccordion('DETAIL')">
+                        <span class="flaticon2-down"></span>
+                    </button>
                 </div>
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Occupation of Building</label>
-                            <div class="col-md-6">
-                                <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('occupationOfBuilding')" (change)="calcuRate()" [class.is-valid]="isControlValid('occupationOfBuilding')" [items]="occupationOfBuildingOption" bindLabel="value" bindValue="code"
-                                    formControlName="occupationOfBuilding">
-                                </ng-select>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Building Class</label>
-                            <div class="col-md-6">
-                                <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('buildingClass')" [class.is-valid]="isControlValid('buildingClass')" [items]="buildingClassOption" (change)="calcuRate()" bindLabel="value" bindValue="code" formControlName="buildingClass">
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Construction of Roof</label>
-                            <div class="col-md-6">
-                                <!-- <input type="number" class="form-control form-control-sm " name="constructionOfRoof"
-                                autocomplete="off" [class.is-invalid]="isControlInvalid('constructionOfRoof')"
-                                [class.is-valid]="isControlValid('constructionOfRoof')"
-                                formControlName="constructionOfRoof" /> -->
-                                <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('constructionOfRoof')" [class.is-valid]="isControlValid('constructionOfRoof')" [items]="roofOption" bindLabel="value" bindValue="code" formControlName="constructionOfRoof">
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Construction of Walls</label>
-                            <div class="col-md-6">
-                                <!-- <input type="number" class="form-control form-control-sm " name="constructionOfWall"
-                                autocomplete="off" [class.is-invalid]="isControlInvalid('constructionOfWall')"
-                                [class.is-valid]="isControlValid('constructionOfWall')"
-                                formControlName="constructionOfWall" /> -->
-                                <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('constructionOfWall')" [class.is-valid]="isControlValid('constructionOfWall')" [items]="wallOption" bindLabel="value" bindValue="code" formControlName="constructionOfWall">
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-                <!--  -->
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Construction of Floor</label>
-                            <div class="col-md-6">
-                                <!-- <input type="number" class="form-control form-control-sm " name="constructionOfFloor"
-                                autocomplete="off" [class.is-invalid]="isControlInvalid('constructionOfFloor')"
-                                [class.is-valid]="isControlValid('constructionOfFloor')"
-                                formControlName="constructionOfFloor" /> -->
-                                <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('constructionOfFloor')" [class.is-valid]="isControlValid('constructionOfFloor')" [items]="floorClassOption" bindLabel="value" bindValue="code" formControlName="constructionOfFloor">
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">No. of Story of Building</label>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control form-control-sm " name="storyOfBuilding" autocomplete="off" [class.is-invalid]="isControlInvalid('storyOfBuilding')" [class.is-valid]="isControlValid('storyOfBuilding')" formControlName="storyOfBuilding" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-                <!--  -->
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Length in Feet</label>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control form-control-sm " name="length" autocomplete="off" [class.is-invalid]="isControlInvalid('length')" [class.is-valid]="isControlValid('length')" formControlName="length" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Height in Feet</label>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control form-control-sm " name="height" autocomplete="off" [class.is-invalid]="isControlInvalid('height')" (change)="calcuSquare()" [class.is-valid]="isControlValid('height')" formControlName="height" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-                <!--  -->
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Width in Feet</label>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control form-control-sm " name="width" autocomplete="off" [class.is-invalid]="isControlInvalid('width')" [class.is-valid]="isControlValid('width')" formControlName="width" (change)="calcuSquare()" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Total Square in Feet</label>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control form-control-sm " name="totalSquareFoot" autocomplete="off" [class.is-invalid]="isControlInvalid('totalSquareFoot')" [class.is-valid]="isControlValid('totalSquareFoot')" formControlName="totalSquareFoot" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-                <!--  -->
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Year of Construction</label>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control form-control-sm " name="yearOfConstruction" autocomplete="off" [class.is-invalid]="isControlInvalid('yearOfConstruction')" [class.is-valid]="isControlValid('yearOfConstruction')" formControlName="yearOfConstruction"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Special Decoration</label>
-                            <div class="col-md-6">
-                                <!-- <input type="number" class="form-control form-control-sm " name="specialDecoration"
-                                autocomplete="off" [class.is-invalid]="isControlInvalid('specialDecoration')"
-                                [class.is-valid]="isControlValid('specialDecoration')"
-                                formControlName="specialDecoration" /> -->
-                                <mat-radio-group formControlName="specialDecoration" class="col-8">
-                                    <mat-radio-button class="mx-1" [value]="true">Yes
-                                    </mat-radio-button>
-                                    <mat-radio-button class="mx-1" [value]="false">No
-                                    </mat-radio-button>
-                                </mat-radio-group>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="align-items: center">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Proposed Sum Insured</label>
-                            <div class="col-md-6">
-                                <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " name="sumInsure" autocomplete="off" [class.is-invalid]="isControlInvalid('sumInsure')" [class.is-valid]="isControlValid('sumInsure')"
-                                    formControlName="sumInsure" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Proposed Stock Value</label>
-                            <div class="col-md-6">
-                                <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " name="proposeStockValue" autocomplete="off" [class.is-invalid]="isControlInvalid('proposeStockValue')"
-                                    [class.is-valid]="isControlValid('proposeStockValue')" formControlName="proposeStockValue" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="col-md-6">
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label">Special Decoration</label>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control form-control-sm " name="premiumRate"
-                                autocomplete="off" [class.is-invalid]="isControlInvalid('premiumRate')"
-                                [class.is-valid]="isControlValid('premiumRate')" formControlName="premiumRate" />
-                        </div>
-                    </div>
-                </div> -->
-                </div>
-                <!--  -->
+            </div>
+            <div class="toggle-body" [ngClass]="activeBox=='DETAIL' ? 'active' : 'inactive'">
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button>
-                <button type="submit" class="btn btn-primary btn-elevate">Save</button>
-            </div>
-        </form>
-    </ng-container>
-    <ng-template #OtherBuilding>
-        <div class="overlay overlay-block cursor-default modal-body">
-            <app-surrounding-building [riskId]="oldData.id"></app-surrounding-building>
-            <app-calculated-building [riskId]="oldData.id" [default]="buildingSi" (totalEvent)="changeTotal($event)">
-            </app-calculated-building>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button>
-            <button type="button" class="btn btn-primary btn-elevate" (click)="calPremimun()">Save</button>
-        </div>
-    </ng-template>
+    </div>
+
 </div>

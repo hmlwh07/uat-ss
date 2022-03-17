@@ -41,6 +41,7 @@ export class RiskDetailComponent implements OnInit {
   fireContentSi: number = 0
   firePlatSi: number = 0
   fireStockSi: number = 0
+  activeBox: string = "DETAIL"
   constructor(private modalService: NgbModal, public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private fireRiskService: FireRiskService, private auth: AuthService, private PremiumRateService: PremiumRateService, private prodService: ProductDataService, private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService, private firebuildingService: SurroundingBuildingService) { }
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class RiskDetailComponent implements OnInit {
       this.loadForm()
     } else {
       this.loadForm(this.oldData)
-      if(this.oldData.id){
+      if (this.oldData.id) {
         this.getFirePlant()
         this.getFireStock()
         this.getFireContent()
@@ -227,7 +228,7 @@ export class RiskDetailComponent implements OnInit {
     let postData = {
       ...this.oldData,
       ...data,
-      id:this.oldData.id,
+      id: this.oldData.id,
       buildingSi: this.buildingSi,
       riskSi: this.riskSi,
       resourceData: {
@@ -324,18 +325,18 @@ export class RiskDetailComponent implements OnInit {
       let rate = pae2.limitedPae
       value = pae > rate ? rate : pae
     }
-    
+
     this.buildingSi = value * this.oldData.totalSquareFoot
     if (this.otherSi == 0) {
       this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
     }
     this.riskSi = this.otherSi + this.buildingSi
-    
+
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi
       this.oldData.riskSi = this.riskSi
     }
-    
+
   }
 
   changeTotal(total) {
@@ -344,7 +345,7 @@ export class RiskDetailComponent implements OnInit {
   }
 
   async calPremimun() {
-    console.log("rateData,rate1,rate2,",this.oldData);
+    console.log("rateData,rate1,rate2,", this.oldData);
     if (this.oldData.id) {
       if (this.productDetail.policyType == 'T-001') {
         await this.calBuildingSi()
@@ -406,6 +407,10 @@ export class RiskDetailComponent implements OnInit {
       }
     })
 
+  }
+
+  toggleAccordion(type: string) {
+    this.activeBox = type == this.activeBox ? "" : type
   }
 
 

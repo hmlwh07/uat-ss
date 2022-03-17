@@ -5,14 +5,13 @@ import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { PolicyDTO } from '../../policy/policy.dto';
 import { AddOn, Product, ProductPages } from '../../products/models/product.dto';
 import { AddOnQuoService } from '../../products/services/add-on-quo.service';
-import { CoverageQuoService } from '../../products/services/coverage-quo.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { QuotationDTO } from '../../quotations/quotation.dto';
 import { StaticActionType, StaticPageAction } from '../static-field.interface';
 import { PageDataService } from "../../product-form/page-data.service"
 import { IsJsonString } from '../../../core/is-json';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
-import { AddonpageID, FirePageID, FireRiskID } from '../static-pages.data';
+import { FirePageID, FireRiskID } from '../static-pages.data';
 @Component({
   selector: 'app-addon-page',
   templateUrl: './addon-page.component.html',
@@ -23,6 +22,8 @@ export class AddonPageComponent implements OnInit {
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
+  @Input() optionId: string
+
   addOns = {
     isSum: false,
     isUnit: false,
@@ -71,6 +72,7 @@ export class AddonPageComponent implements OnInit {
 
   async ngOnInit() {
     this.refID = this.prodService.referenceID
+    this.optionId = this.optionId ? this.optionId : this.resourcesId
     if (this.product.code == "PLMO02") {
       this.parentData = this.getParnet()
     }
@@ -84,11 +86,13 @@ export class AddonPageComponent implements OnInit {
       let callAddon = true
       let postData = {
         quotationNo: this.resourcesId,
-        addOnIds: this.product.addOns.map(x => { return x.id })
+        addOnIds: this.product.addOns.map(x => { return x.id }),
+        optionalKey : this.optionId
       }
       let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
       if (results.length == 0) {
         postData.quotationNo = this.refID
+        postData.optionalKey = this.refID
         results = await this.addOnQuoService.getAllById(postData).toPromise()
       }
       for (const item of this.product.addOns) {
@@ -190,7 +194,8 @@ export class AddonPageComponent implements OnInit {
   async nextPage() {
     const quoService = this.addOnQuoService
     const posDataArray = this.addOnsData
-    await quoService.deleteAll(this.resourcesId).toPromise()
+    await quoService.deleteAll(this.resourcesId,this.optionId).toPromise()
+    this.globalFun.tempFormData['addon_1634010770155'] = []
     for (let addon of this.product.addOns) {
       if (posDataArray[addon.id].checked) {
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
@@ -202,10 +207,12 @@ export class AddonPageComponent implements OnInit {
             addonId: addon.id,
             quotationNo: this.resourcesId,
             option: option,
+            optionalKey : this.optionId,
             sumInsured: (sum).replace(',', '').replace('MMK', '').replace('USD', ''),
             unit: (unit).replace(',', '').replace('MMK', '').replace('USD', ''),
             premium: (premium).replace(',', '').replace('MMK', '').replace('USD', ''),
           }
+          this.globalFun.tempFormData['addon_1634010770155'].push(postData)
           let res = await quoService.save(postData).toPromise()
         } catch (error) {
           // console.log(error);

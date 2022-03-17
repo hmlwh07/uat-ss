@@ -20,6 +20,7 @@ export class CoveragePageComponent implements OnInit {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string
+  @Input() optionId: string
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   coverage = {
     isSum: false,
@@ -35,6 +36,7 @@ export class CoveragePageComponent implements OnInit {
 
   async ngOnInit() {
     this.refID = this.prodService.referenceID
+    this.optionId = this.optionId ? this.optionId : this.resourcesId
     if (this.product.code == "PLMO02") {
       this.parentData = this.getParnet()
     }
@@ -47,11 +49,13 @@ export class CoveragePageComponent implements OnInit {
       }
       let postData = {
         quotationNo: this.editData.id,
-        coverageIds: this.product.coverages.map(x => { return x.id })
+        coverageIds: this.product.coverages.map(x => { return x.id }),
+        optionalKey: this.optionId
       }
       let results: any = await this.coverageQuoService.getAllById(postData).toPromise()
       if (results.length == 0) {
         postData.quotationNo = this.refID
+        postData.optionalKey = this.refID
         results = await this.coverageQuoService.getAllById(postData).toPromise()
       }
       for (const item of this.product.coverages) {
@@ -122,11 +126,14 @@ export class CoveragePageComponent implements OnInit {
 
     // }
     this.globalFun.tempFormData['coverage_1634010995936'] = []
+    if (this.resourcesId && this.optionId)
+      await this.coverageQuoService.deleteAll(this.resourcesId, this.optionId)
     for (let cov of this.product.coverages) {
       try {
         let postData = {
           coverageId: cov.id,
           quotationNo: this.resourcesId,
+          optionalKey: this.optionId,
           sumInsured: ((posDataArray[cov.id].sum || "") + "").replace(',', '').replace('MMK', '').replace('USD', ''),
           unit: ((posDataArray[cov.id].unit || "") + "").replace(',', '').replace('MMK', '').replace('USD', ''),
           premium: ((posDataArray[cov.id].premium || "") + "").replace(',', '').replace('MMK', '').replace('USD', ''),

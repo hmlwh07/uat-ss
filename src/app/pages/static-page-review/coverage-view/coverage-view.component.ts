@@ -12,6 +12,7 @@ const CoverageViewID = "coverage_1634010995936"
 export class CoverageViewComponent implements OnInit {
   @Input() product: Product
   @Input() resourcesId?: string
+  @Input()  optionId?: string
   coverage = {
     sumInsured: false,
     unit: false,
@@ -24,6 +25,7 @@ export class CoverageViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.optionId = this.optionId ? this.optionId : this.resourcesId
     if (this.product.coverages && this.product.coverages.length > 0) {
       
       this.coverage = {
@@ -34,7 +36,7 @@ export class CoverageViewComponent implements OnInit {
       for (const item of this.product.coverages) {
         let response: any = {};
         if (this.resourcesId) {
-          this.coverageQuo.getOne(item.id, this.resourcesId).toPromise().then((response: any) => {
+          this.coverageQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response: any) => {
             if (response) {
               this.coverageData[item.id] = {
                 sum: response ? response.sumInsured || 0 : 0,
@@ -60,7 +62,7 @@ export class CoverageViewComponent implements OnInit {
         let response: any = {};
         try {
           if (this.resourcesId) {
-            response = await this.coverageQuo.getOne(item.id, this.resourcesId).toPromise().catch(e=>e)
+            response = await this.coverageQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().catch(e=>e)
           }
         } catch (error) {
 

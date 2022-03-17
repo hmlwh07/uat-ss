@@ -12,6 +12,8 @@ const AddonViewID = "addon_1634010770155"
 export class AddonViewComponent implements OnInit {
   @Input() product: Product
   @Input() resourcesId?: string
+  @Input()  optionId?: string
+
   addOnData = {}
   addon = {
     sumInsured: false,
@@ -39,6 +41,7 @@ export class AddonViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.optionId = this.optionId ? this.optionId : this.resourcesId
     if (this.product.addOns && this.product.addOns.length > 0) {
       this.addon = {
         sumInsured: this.product.addOns[0].sumInsured,
@@ -49,7 +52,7 @@ export class AddonViewComponent implements OnInit {
         // let response: any = {};
         try {
           if (this.resourcesId) {
-            this.addonQuo.getOne(item.id, this.resourcesId).toPromise().then((response:any) => {
+            this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response:any) => {
               if (response) {
                 this.addOnData[item.id] = {
                   sum: response ? response.sumInsured || 0 : 0,
@@ -79,7 +82,7 @@ export class AddonViewComponent implements OnInit {
         let response: any = {};
         try {
           if (this.resourcesId) {
-            response = await this.addonQuo.getOne(item.id, this.resourcesId).toPromise()
+            response = await this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise()
           }
         } catch (error) {
 
