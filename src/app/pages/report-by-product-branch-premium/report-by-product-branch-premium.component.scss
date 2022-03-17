@@ -19,6 +19,7 @@ table {
         overflow: hidden;
         th,
         td {
+            min-width: 110px;
             text-align: center;
             position: relative;
             border-collapse: unset;
@@ -28,7 +29,10 @@ table {
                 float: left;
                 text-align: center;
             }
-           
+        }
+        th:nth-child(1),
+        td:nth-child(1) {
+            min-width: 50px;
         }
     }
 }
