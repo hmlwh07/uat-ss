@@ -16,6 +16,12 @@ export class CustomerListService {
       url = url + "name=" + search.name + "&"
     } if (search.partyCode) {
       url = url + "partyCode=" + search.partyCode + "&"
+    } 
+    if (search.startDate) {
+      url = url + "startDate=" + search.startDate + "&"
+    } 
+    if (search.endDate) {
+      url = url + "endDate=" + search.endDate + "&"
     } if (search.statusCode) {
       url = url + "statusCode=" + search.statusCode + "&"
     } if (search.identityType) {

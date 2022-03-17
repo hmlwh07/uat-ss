@@ -44,9 +44,8 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
           
           if (formControl) {
             if (input) {
-              let value = input.input == 'date' ? moment(this.selectedData[afield.field]) : this.selectedData[afield.field]
-              console.log("data",value,input);
               
+              let value = input.input == 'date' ? moment(this.selectedData[afield.field]) : this.selectedData[afield.field]
               formControl.setValue(value)
             } else
               formControl.setValue(this.selectedData[afield.field])

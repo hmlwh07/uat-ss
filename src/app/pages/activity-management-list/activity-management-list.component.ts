@@ -69,12 +69,17 @@ export class ActivityManagementListComponent implements OnInit {
   ngAfterViewInit() {
     this.getList()
   }
+  cancel(){
+    
+  }
 
   loadForm() {
     this.actForm = new FormGroup({
       "type": new FormControl(""),
       "title": new FormControl(null),
       "status": new FormControl(""),
+      startDate:new FormControl(null),
+      endDate:new FormControl(null)
     })
   }
 

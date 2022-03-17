@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -21,9 +22,12 @@ import { PolicyDisplayCol, PolicyCol } from './policy.const';
 })
 export class PolicyComponent implements OnInit, OnDestroy {
   quoList: PolicyDTO[] = []
+  policyForm:FormGroup
+  isTeam:boolean=false
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   policyAccess = defaultAccessObj
   constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService,private menuService: MenuDataService) {
+  this.loadForm()
   }
 
 
@@ -35,10 +39,34 @@ export class PolicyComponent implements OnInit, OnDestroy {
 
     // })
   }
+  loadForm(){
+    let date = new Date();
+    let lastMonthDay = new Date(date.setMonth(date.getMonth() - 1))
+    let monthDay = new Date(date.setMonth(date.getMonth() + 1))
+    this.policyForm = new FormGroup({
+      startDate:new FormControl(lastMonthDay),
+      endDate:new FormControl(monthDay),
+      isTeam:new FormControl(this.isTeam)
+    })
+  }
   ngOnDestroy() {
     // this.rerender()
   }
+  cancel(){
 
+  }
+  changeView(type) {
+    if (type == 'team') {
+      this.isTeam = true
+    }
+    else {
+      this.isTeam = false
+
+    }
+    this.policyForm.controls.isTeam.setValue(this.isTeam)
+    this.cdRef.detectChanges()
+    this.getPolicyList()
+  }
   checkPremission() {
     this.menuService.dataAccess.subscribe((res) => {
       if (res) {
@@ -81,7 +109,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
 
 
   getPolicyList() {
-    this.policyService.findAll().toPromise().then((res) => {
+    this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res:any) => {
       if (res) {
         this.quoList = res
         this.cdRef.detectChanges()

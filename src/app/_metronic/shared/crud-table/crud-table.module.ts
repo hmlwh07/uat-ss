@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { NgPagination } from './components/paginator/ng-pagination/ng-pagination.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { SortConfigModalComponent } from '../../../pages/form-component/sort-config-modal/sort-config-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -15,11 +15,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { StylePaginatorDirective } from './components/material-table-view/custom-paginator.directive';
+import { StartEndDateComponent } from './components/start-end-date/start-end-date.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { RemoveHost } from './components/start-end-date/remove-host.directive';
 
 @NgModule({
-  declarations: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective],
-  imports: [CommonModule, FormsModule, InlineSVGModule, DragDropModule,MatTableModule,MatPaginatorModule,MatSortModule,OverlayModule,],
-  exports: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective],
+  declarations: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective,StartEndDateComponent,RemoveHost],
+  imports: [CommonModule, FormsModule, InlineSVGModule, DragDropModule,MatTableModule,MatPaginatorModule,MatSortModule,OverlayModule,MatDatepickerModule,ReactiveFormsModule],
+  exports: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective,StartEndDateComponent,RemoveHost],
   entryComponents: [SortConfigModalComponent]
 })
 export class CRUDTableModule { }
