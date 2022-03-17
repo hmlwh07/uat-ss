@@ -112,6 +112,7 @@ export const EducationLifeID = "static_1635309151504"
 export const EducationLifeGRAPID = "static_1635392848894"
 export const EndowmentID = "static_1644896661652"
 export const EndowmentGRAPID = "static_1644896804675"
+export const AddOnID = ""
 
 
 export enum PaymentFrequency {
