@@ -616,6 +616,7 @@ export class LeadDetailComponent implements OnInit {
     this.LeadDetailService.findOne(this.oldId)
       .toPromise()
       .then((res) => {
+        console.log('lead detail =====> ', res);
         if (res) {
           this.oldData = res;
           if (res.existingCustomerId != 0) {
@@ -1377,6 +1378,9 @@ export class LeadDetailComponent implements OnInit {
         type: data.type,
         pageStatus: 'edit'
       }
+
+      console.log('passValue', passValue);
+
       if (this.oldId != null && this.oldId != '' && this.oldId != undefined &&
         this.customer.customerId != null && this.customer.customerId != '') {
         if (data.fnaType == 'LPP') {

@@ -23,7 +23,7 @@ export class FnaBramComponent implements OnInit {
       if (data.res) {
         this.passValueData = data.res;
         console.log('passValueData', this.passValueData);
-        this.passValueData.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValueData.createdAt)), 'dd/MM/yyyy');
+        //this.passValueData.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValueData.createdAt)), 'dd/MM/yyyy');
         this.fnaId = data.res.fnaId;
         this.customerId = data.res.customerId;
         this.customerName = data.res.customerName;

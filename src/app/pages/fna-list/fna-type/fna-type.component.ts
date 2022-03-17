@@ -36,7 +36,7 @@ export class FnaTypeComponent implements OnInit {
         highDiscount: 0,
         id: 0,
         conductedBy: this.conductedBy,
-        createdAt: new Date(),
+        createdAt: this.formatDateDDMMYYY(new Date()),
         createdBy: this.user.id,
         createdByName: this.user.username,
         updatedAt: new Date(),
@@ -79,6 +79,18 @@ export class FnaTypeComponent implements OnInit {
       }
     });
     this.modal.dismiss(reqBody)
+  }
+
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
   }
 
 
