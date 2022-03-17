@@ -31,22 +31,22 @@
     <!-- End date  -->
     <!-- Policy Duration -->
     <div class="row" style="align-items: center;">
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Policy Duration</label>
+                <div class="col-2">
+                    <input type="text" name="policyDuration" formControlName="policyDuration" class="form-control form-control-sm" (change)="doValid()">
 
-        <div class="col-sm-4">
-            <label class="col-form-label">Policy Duration</label>
-        </div>
-        <div class="col-sm-2">
-            <div class="col-2">
-                <input type="text" name="policyDuration" formControlName="policyDuration" class="form-control form-control-sm" (change)="doValid()">
+                </div>
+                <div class="col-4">
+                    <ng-select class="ng-custom-select" (change)="updateValidation()" [items]="durtaionOption" bindLabel="value" bindValue="code" formControlName="durationType">
+                    </ng-select>
+                    <app-print-error [control]="controls.policyDuration" [validValue]="validValue"></app-print-error>
+                </div>
 
             </div>
-            <div class="col-2">
-                <ng-select class="ng-custom-select" (change)="updateValidation()" [items]="durtaionOption" bindLabel="value" bindValue="code" formControlName="durationType">
-                </ng-select>
-            </div>
-            <app-print-error [control]="controls.policyDuration" [validValue]="validValue"></app-print-error>
-        </div>
 
+        </div>
         <!-- /Policy Duration -->
         <!-- Policy Type -->
         <div class="col-sm-6">
