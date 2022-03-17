@@ -55,6 +55,9 @@
 </div>
 <div *ngIf="!isData" style="color: gray; text-align: center;"> There is no data </div>
 <div class="btn-next">
-    <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
-        (click)="fnaSwitchEvent('inputs')">Next</button>
+    <div>
+        <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 " (click)="backToDetail()">Back</button>
+        <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
+            (click)="fnaSwitchEvent('inputs')">Next</button>
+    </div>
 </div>
