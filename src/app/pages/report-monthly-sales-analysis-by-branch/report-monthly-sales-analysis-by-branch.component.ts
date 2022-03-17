@@ -179,8 +179,11 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Appointments (Online)' && obj.monthlyActualTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentOnline, obj.monthlyActualTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyActualTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds, obj.monthlyActualTotalLead)
+    if (activityName == 'Needs (LPP & BRAM complete)') {
+      calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds,
+        obj.monthlyActualTotalAppointmentFaceToFace +
+        obj.monthlyActualTotalAppointmentOnline +
+        obj.monthlyActualTotalAppointmentPhone)
     }
     if (activityName == 'Solutions' && obj.monthlyActualTotalNeeds != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyActualTotalNeeds)
@@ -209,7 +212,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalAppointmentOnline, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyTargetTotalLead != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyActualTotalNeeds, obj.monthlyTargetTotalLead)
+      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalNeeds, obj.monthlyTargetTotalLead)
     }
     if (activityName == 'Solutions' && obj.monthlyTargetTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyActualTotalSolutions, obj.monthlyTargetTotalLead)
@@ -237,8 +240,11 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Appointments (Online)' && obj.monthlyTargetTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyTargetTotalAppointmentOnline, obj.monthlyTargetTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.monthlyTargetTotalNeeds != 0) {
-      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalNeeds, obj.monthlyTargetTotalNeeds)
+    if (activityName == 'Needs (LPP & BRAM complete)') {
+      calculatedValue = this.calculateDivision(obj.monthlyTargetTotalNeeds,
+        obj.monthlyTargetTotalAppointmentFaceToFace +
+        obj.monthlyTargetTotalAppointmentOnline +
+        obj.monthlyTargetTotalAppointmentPhone)
     }
     if (activityName == 'Solutions' && obj.monthlyTargetTotalNeeds != 0) {
       calculatedValue = this.calculateDivision(obj.monthlyTargetSolutions, obj.monthlyTargetTotalNeeds)
