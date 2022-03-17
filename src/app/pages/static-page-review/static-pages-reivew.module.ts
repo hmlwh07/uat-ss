@@ -20,6 +20,10 @@ import { FirePageViewComponent } from './fire-page-view/fire-page-view.component
 import { NgxCurrencyModule } from 'ngx-currency';
 import { EndoGripViewComponent } from './endo-griph-view/endo-griph-view.component';
 import { EndoViewComponent } from './endo-view/endo-view.component';
+import { MotorAddonComponent } from '../static-pages/motor-addon/motor-addon.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MotorAddonViewComponent } from './motor-addon-view/motor-addon-view.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 @NgModule({
   declarations: [
     StaticPageViewDirective,
@@ -35,6 +39,7 @@ import { EndoViewComponent } from './endo-view/endo-view.component';
     FirePageViewComponent,
     EndoGripViewComponent,
     EndoViewComponent,
+    MotorAddonViewComponent,
   ],
   exports: [
     StaticPageViewDirective,
@@ -48,6 +53,7 @@ import { EndoViewComponent } from './endo-view/endo-view.component';
     FireRiskViewComponent,
     EndoGripViewComponent,
     EndoViewComponent,
+    MotorAddonViewComponent,
   ],
   imports: [
     CommonModule,
@@ -56,7 +62,9 @@ import { EndoViewComponent } from './endo-view/endo-view.component';
     ReactiveFormsModule,
     NgbModalModule,
     MatRadioModule,
+    MatDatepickerModule,
     NgbDatepickerModule,
+    MatSlideToggleModule,
     NgApexchartsModule,
     NgSelectModule,
     NgxCurrencyModule
