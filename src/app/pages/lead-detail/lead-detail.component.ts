@@ -907,7 +907,7 @@ export class LeadDetailComponent implements OnInit {
       identityType: new FormControl({ value: oldData ? oldData.identityType : '', disabled: true }),
       sourceCode: new FormControl({ value: oldData ? oldData.sourceCode : '', disabled: this.disabledForm }),
       campaignNo: new FormControl({ value: oldData ? oldData.campaignNo : '', disabled: this.disabledForm }),
-      identityNumber: new FormControl({ value: oldData ? oldData.identityNumber : '', disabled: true }),
+      identityNumber: new FormControl({ value: oldData ? oldData.nrcValue : '', disabled: true }),
       existingCustomerName: new FormControl(
         { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }
       ),
@@ -1146,6 +1146,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.referenceID = item.id
         this.prodctService.editData = null
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.referenceStatus = item.status
         this.router.navigateByUrl("/product-form")
       }
     })
