@@ -82,6 +82,21 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   ];
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   currentMonthIndex: number = new Date().getUTCMonth();
+
+  icons = [
+    {
+      activityType : 'Face to Face',
+      image : "./assets/images/group_chat_color-01.svg"
+    },
+    {
+      activityType : 'Online',
+      image : "./assets/images/world_color-01.svg"
+    },
+    {
+      activityType : 'Phone Call',
+      image : "./assets/images/phone_color-01.svg"
+    },
+  ];
   constructor(private cdf: ChangeDetectorRef, private ngzone: NgZone, private route: ActivatedRoute, public auth: AuthService, private dashboardService: DashboardService, private router: Router) {
     this.route.queryParams.subscribe(async params => {
       if (params.empId) {
@@ -103,6 +118,10 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
     this.getLeadAssignList();
   }
 
+  getImageURL(type){
+    let index = this.icons.findIndex(i=> i.activityType == type);
+    return this.icons[index].image;
+  }
   loadForm() {
     this.actForm = new FormGroup({
       "empId": new FormControl(this.id)
