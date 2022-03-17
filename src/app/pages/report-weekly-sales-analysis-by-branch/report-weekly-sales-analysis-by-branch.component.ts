@@ -177,8 +177,11 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Appointments (Online)' && obj.weeklyActualTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentOnline, obj.weeklyActualTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.weeklyActualTotalNeeds != 0) {
-      calculatedValue = this.calculateDivision(obj.weeklyActualTotalNeeds, obj.weeklyActualTotalNeeds)
+    if (activityName == 'Needs (LPP & BRAM complete)') {
+      calculatedValue = this.calculateDivision(obj.weeklyActualTotalNeeds,
+        obj.weeklyActualTotalAppointmentFaceToFace +
+        obj.weeklyActualTotalAppointmentOnline +
+        obj.weeklyActualTotalAppointmentPhone)
     }
     if (activityName == 'Solutions' && obj.weeklyActualTotalNeeds != 0) {
       calculatedValue = this.calculateDivision(obj.weeklyActualTotalSolutions, obj.weeklyActualTotalNeeds)
@@ -235,8 +238,11 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Appointments (Online)' && obj.weeklyTargetTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.weeklyActualTotalAppointmentOnline, obj.weeklyTargetTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.weeklyTargetSolutions != 0) {
-      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalNeeds, obj.weeklyTargetSolutions)
+    if (activityName == 'Needs (LPP & BRAM complete)') {
+      calculatedValue = this.calculateDivision(obj.weeklyTargetTotalNeeds,
+        obj.weeklyTargetTotalAppointmentFaceToFace +
+        obj.weeklyTargetTotalAppointmentOnline +
+        obj.weeklyTargetTotalAppointmentPhone)
     }
     if (activityName == 'Solutions' && obj.weeklyTargetTotalNeeds != 0) {
       calculatedValue = this.calculateDivision(obj.weeklyTargetSolutions, obj.weeklyTargetTotalNeeds)
@@ -463,9 +469,9 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
