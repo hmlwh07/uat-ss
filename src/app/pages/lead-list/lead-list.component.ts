@@ -217,6 +217,9 @@ export class LeadListComponent implements OnInit {
       this.navigateToDetail("view", event.data.leadId, event.data.individualId);
     }
   }
+  onActionEdit(){
+    
+  }
 
   viewExistingCustomer() {
     let modalRef;
