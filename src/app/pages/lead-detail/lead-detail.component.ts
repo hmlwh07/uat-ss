@@ -574,17 +574,18 @@ export class LeadDetailComponent implements OnInit {
       this.router.navigate(["/activity/activity-management-detail"], { queryParams: { pageStatus: 'edit', pageId: event.data.activityNo } })
     }
   }
-  calculateScore(code?, oldData?) {
+  calculateScore(code?, data?) {
 
-    let source;
-    if (oldData) {
-      source = oldData
+    let sourceCode;
+    if (data) {
+      sourceCode = data
     } else {
-      source = this.sourceOption.find((p) => p.code == code);
+      let source = this.sourceOption.find((p) => p.code == code);
+      sourceCode=source.code
     }
     let channel = this.leadForm.getRawValue().channelCode
-    if (source && channel) {
-      this.LeadDetailService.getLeadScore(source.code, channel).toPromise().then((res: any) => {
+    if (sourceCode && channel) {
+      this.LeadDetailService.getLeadScore(sourceCode, channel).toPromise().then((res: any) => {
         // this.leadForm.controls.score.setValue(res)
         this.sourceScore = res
         this.calculateLeadQuality()
