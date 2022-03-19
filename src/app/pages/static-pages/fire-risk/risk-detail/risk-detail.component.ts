@@ -6,7 +6,10 @@ import { AuthService } from 'src/app/modules/auth';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { GlobalFunctionService } from '../../../../core/global-fun.service';
 import { validateAllFields } from '../../../../core/valid-all-feild';
+import { PolicyDTO } from '../../../policy/policy.dto';
+import { Product } from '../../../products/models/product.dto';
 import { ProductDataService } from '../../../products/services/products-data.service';
+import { QuotationDTO } from '../../../quotations/quotation.dto';
 import { FirePageID } from '../../static-pages.data';
 import { PremiumRateService } from '../../surrounding-building/models&services/premium-rate-service';
 import { SurroundingBuildingService } from '../../surrounding-building/models&services/surrounding-building.service';
@@ -19,6 +22,8 @@ import { FireRiskService } from '../models&services/fire-risk.service';
   styleUrls: ['./risk-detail.component.scss']
 })
 export class RiskDetailComponent implements OnInit {
+  @Input() product: Product
+  @Input() editData: QuotationDTO | PolicyDTO
   fireRiskform: FormGroup;
   typeOfBuildingOption: any = []
   occupationOfBuildingOption: any[] = []
@@ -42,6 +47,9 @@ export class RiskDetailComponent implements OnInit {
   firePlatSi: number = 0
   fireStockSi: number = 0
   activeBox: string = "DETAIL"
+  step1Com: boolean = false
+  step2Com: boolean = false
+  step3Com: boolean = false
   constructor(private modalService: NgbModal, public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private fireRiskService: FireRiskService, private auth: AuthService, private PremiumRateService: PremiumRateService, private prodService: ProductDataService, private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService, private firebuildingService: SurroundingBuildingService) { }
 
   ngOnInit(): void {
@@ -209,6 +217,8 @@ export class RiskDetailComponent implements OnInit {
     this.buildingSi = oldData ? oldData.buildingSi : 0
     let occupationOfBuilding = this.fireRiskform.value.occupationOfBuilding
     let typeOfBuilding = this.fireRiskform.value.typeOfBuilding
+    if (oldData)
+      this.step1Com = oldData.id ? true : false
     if (occupationOfBuilding && typeOfBuilding && this.occupationOfBuildingOptions.length > 0) {
       this.occupationOfBuildingOption = this.occupationOfBuildingOptions.filter(x => x.parent == typeOfBuilding)
       let index = this.occupationOfBuildingOption.findIndex(x => x.code == occupationOfBuilding)
@@ -224,6 +234,7 @@ export class RiskDetailComponent implements OnInit {
       return true
     }
     let data = this.fireRiskform.getRawValue();
+    this.step1Com = true
     // this.calBuildingSi()
     let postData = {
       ...this.oldData,
@@ -310,6 +321,8 @@ export class RiskDetailComponent implements OnInit {
     }
   }
   async calBuildingSi() {
+    console.log("enter SI");
+
     this.buildingSi = 0
     let pae = this.oldData.sumInsure / this.oldData.totalSquareFoot
     let postData = {
@@ -344,10 +357,10 @@ export class RiskDetailComponent implements OnInit {
     this.otherSi = total
   }
 
-  async calPremimun() {
+  async calPremimun(close: boolean = true) {
     console.log("rateData,rate1,rate2,", this.oldData);
     if (this.oldData.id) {
-      if (this.productDetail.policyType == 'T-001') {
+      if (this.productDetail.policyType == 'T-NM') {
         await this.calBuildingSi()
       } else {
         this.riskSi = this.oldData.proposeStockValue
@@ -371,7 +384,7 @@ export class RiskDetailComponent implements OnInit {
         }
       }
       this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100))
-      this.createRisk(true)
+      this.createRisk(close)
     } else {
       this.modal.dismiss()
     }
@@ -412,6 +425,16 @@ export class RiskDetailComponent implements OnInit {
   toggleAccordion(type: string) {
     this.activeBox = type == this.activeBox ? "" : type
   }
+  step2Done() {
+    this.activeBox = "ADDON"
+    this.step2Com = true
+    this.calPremimun(false)
+  }
 
+  step3Done() {
+    this.activeBox = ""
+    this.step3Com = true
+    this.calPremimun()
+  }
 
 }

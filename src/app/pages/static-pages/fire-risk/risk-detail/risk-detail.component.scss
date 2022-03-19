@@ -1,13 +1,41 @@
-.toggle-header {
-  display        : flex;
-  width          : 100%;
-  justify-content: space-evenly;
-  border-bottom  : 1px solid #E3E3E3;
+.toggle-box {
+  padding-bottom: 1.75rem;
+  .toggle-header {
+    display        : flex;
+    width          : 100%;
+    justify-content: space-between;
+    border-bottom  : 1px solid #E3E3E3;
 
-  .tool-box {
-    display: inline-block;
+    .tool-box {
+      display: inline-block;
+
+      button.icon {
+        background: transparent;
+        font-size : 1.5rem;
+      }
+    }
   }
-}
-.form-footer{
-  text-align: right;
+
+  .toggle-body {
+    transition: 1s all;
+    padding: 0.5rem;
+    
+  }
+  .toggle-body.active {
+    display   : block;
+    height    : auto;
+    visibility: visible;
+  }
+
+  .toggle-body.inactive {
+    display   : none;
+    visibility: hidden;
+    overflow: hidden;
+  }
+
+  .toggle-body .form-footer {
+    text-align: right;
+    padding: 0.9rem 0px;
+    border-bottom: 1px solid #E3E3E3;
+  }
 }

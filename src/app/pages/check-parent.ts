@@ -5,8 +5,6 @@ export function checkVaidDep(dependency: InputDependency, group: FormGroup | any
   let parentVal = group instanceof  FormGroup ? group.getRawValue() : group.value
   let parentData = parentVal[dependency.parentName]
   let parentData2 = parentVal[dependency.parentName+"Code"]
-  console.log(parentData2);
-  
   if (dependency.show) {
     if (dependency.isArray) {
       return (dependency.value as string[]).includes(parentData) || (dependency.value as string[]).includes(parentData2)

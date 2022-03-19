@@ -23,6 +23,7 @@ export class AddonPageComponent implements OnInit {
   @Input() resourcesId: string
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
+  @Input() fireAdd: boolean = false
 
   addOns = {
     isSum: false,
@@ -37,35 +38,47 @@ export class AddonPageComponent implements OnInit {
   parentData: any = {}
   isLoading = true
   fireAddonRate = {
-    "FRAD009": 0.1,
-    "FRAD004": 0.1,
-    "FRAD010-T-001": 0.25,
-    "FRAD010-T-002": 0.5,
-    "FRAD010-T-003": 0.75,
-    "FRAD010-T-004": 1,
-    "FRAD008-T-001": 0.2,
-    "FRAD008-T-002": 0.2,
-    "FRAD008-T-003": 0.2,
-    "FRAD008-T-004": 0.2,
-    "FRAD008-T-005": 0.25,
-    "FRAD011": 0.1,
-    "FRAD002": 0.1,
-    "FRAD006": 0.1,
-    "FRAD003": 0.1,
-    "FRAD001": 0.06,
-    "FRAD007": 0.08,
-    "FRAD005": 0.1,
+    "FLOOD": 0.1,
+    "SUBLSLD": 0.1,
+    "BURGLARY-T-C1": 0.25,
+    "BURGLARY-T-C2": 0.5,
+    "BURGLARY-T-C3": 0.75,
+    "BURGLARY-T-C4": 1,
+    "STHTC-T-001": 0.2,
+    "STHTC-T-002": 0.2,
+    "STHTC-T-003": 0.2,
+    "STHTC-T-004": 0.2,
+    "STHTC-T-005": 0.25,
+    "WARRISK": 0.1,
+    "ACD": 0.1,
+    "EXPLOSION": 0.1,
+    "IMPD": 0.1,
+    "RSMD": 0.06,
+    "SPONTCOMB": 0.08,
+    "EQ": 0.1,
+    "Fire": 0.1,
   }
+  //   RSMD
+  // ACD
+  // IMPD
+  // SUBLSLD
+  // EQ
+  // EXPLOSION
+  // SPONTCOMB
+  // STHTC
+  // FLOOD
+  // BURGLARY
+  // WARRISK
   fireOptionData = {
-    "FRAD008": [
-      { "code": "T-001", "value": "Building,Furniture,Machine,Goods/Stocks" },
-      { "code": "T-005", "value": "Water Damage for Goods/Stocks" },
+    "STHTC": [
+      { "code": "T-BFMGS", "value": "Building,Furniture,Machine,Goods/Stocks" },
+      { "code": "T-WDGS", "value": "Water Damage for Goods/Stocks" },
     ],
-    "FRAD010": [
-      { "code": "T-001", "value": "First Class Building" },
-      { "code": "T-002", "value": "Second Class Building" },
-      { "code": "T-003", "value": "Third Class Building" },
-      { "code": "T-004", "value": "Fourth Class Building" },
+    "BURGLARY": [
+      { "code": "T-C1", "value": "First Class Building" },
+      { "code": "T-C2", "value": "Second Class Building" },
+      { "code": "T-C3", "value": "Third Class Building" },
+      { "code": "T-C4", "value": "Fourth Class Building" },
     ]
   }
   constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe, private pageDataService: PageDataService, private loadingService: LoadingService) { }
@@ -87,7 +100,7 @@ export class AddonPageComponent implements OnInit {
       let postData = {
         quotationNo: this.resourcesId,
         addOnIds: this.product.addOns.map(x => { return x.id }),
-        optionalKey : this.optionId
+        optionalKey: this.optionId
       }
       let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
       if (results.length == 0) {
@@ -194,8 +207,12 @@ export class AddonPageComponent implements OnInit {
   async nextPage() {
     const quoService = this.addOnQuoService
     const posDataArray = this.addOnsData
-    await quoService.deleteAll(this.resourcesId,this.optionId).toPromise()
-    this.globalFun.tempFormData['addon_1634010770155'] = []
+    await quoService.deleteAll(this.resourcesId, this.optionId).toPromise()
+    if (this.product.code == "CLFR01") {
+      this.globalFun.tempFormData['addon_1634010770155' + this.optionId] = []
+    } else {
+      this.globalFun.tempFormData['addon_1634010770155'] = []
+    }
     for (let addon of this.product.addOns) {
       if (posDataArray[addon.id].checked) {
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
@@ -207,12 +224,16 @@ export class AddonPageComponent implements OnInit {
             addonId: addon.id,
             quotationNo: this.resourcesId,
             option: option,
-            optionalKey : this.optionId,
+            optionalKey: this.optionId,
             sumInsured: (sum).replace(',', '').replace('MMK', '').replace('USD', ''),
             unit: (unit).replace(',', '').replace('MMK', '').replace('USD', ''),
             premium: (premium).replace(',', '').replace('MMK', '').replace('USD', ''),
           }
-          this.globalFun.tempFormData['addon_1634010770155'].push(postData)
+          if (this.product.code == "CLFR01") {
+            this.globalFun.tempFormData['addon_1634010770155' + this.optionId].push(postData)
+          } else {
+            this.globalFun.tempFormData['addon_1634010770155'].push(postData)
+          }
           let res = await quoService.save(postData).toPromise()
         } catch (error) {
           // console.log(error);
@@ -225,7 +246,7 @@ export class AddonPageComponent implements OnInit {
       await this.savePremimun().toPromise()
     }
     if (this.product.code == "CLFR01") {
-      await this.savePremimunFire().toPromise()
+      // await this.savePremimunFire().toPromise()
     }
     console.log("end");
 
@@ -326,7 +347,7 @@ export class AddonPageComponent implements OnInit {
   caluFirePremimun() {
     let parentData1 = this.globalFun.tempFormData[FireRiskID]
     let parentData2 = this.globalFun.tempFormData[FirePageID]
-    let precent = parentData2.policyType == "T-001" ? 1 : 0.75
+    let precent = parentData2.policyType == "T-NM" ? 1 : 0.75
     let premiumTotal = 0
     for (let element of parentData1) {
       premiumTotal += this.globalFun.calculateDecimal(element.premium)
@@ -385,7 +406,7 @@ export class AddonPageComponent implements OnInit {
 
   rateByValue(addon: any) {
     let rate = 0
-    if (addon.code == "FRAD010" || addon.code == "FRAD008") {
+    if (addon.code == "BURGLARY" || addon.code == "STHTC") {
       let keyId = addon.code + "-" + this.addOnsData[addon.id].option
       rate = this.fireAddonRate[keyId] || 0
     } else {
@@ -402,7 +423,7 @@ export class AddonPageComponent implements OnInit {
     }
     if (rate > 0 && totalRisk > 0) {
       let amt = totalRisk * (rate / 100)
-      if (addon.code == "FRAD010") {
+      if (addon.code == "BURGLARY") {
         let dis = amt * 0.1
         amt = amt - dis
       }

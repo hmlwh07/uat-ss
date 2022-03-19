@@ -81,7 +81,7 @@ export class FirePageComponent implements OnInit {
       startDate: [null, Validators.compose([Validators.required])],
       endDate: [null, Validators.compose([Validators.required])],
       policyType: ['T-001', Validators.compose([Validators.required])],
-      policyDuration: [null, Validators.compose([Validators.required, Validators.max(365)])],
+      policyDuration: [null, Validators.compose([Validators.required, Validators.max(30)])],
       currency: ['T-001', Validators.compose([Validators.required])],
       durationType: ['D', Validators.compose([Validators.required])]
     })
@@ -94,16 +94,16 @@ export class FirePageComponent implements OnInit {
 
     if (type == 'D') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.max(365)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.max(30)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
-      this.validValue = 365
+      this.validValue = 30
       this.doValid()
     }
     else if (type == 'F') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.max(12)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.max(11)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
-      this.validValue = 12
+      this.validValue = 11
       this.doValid()
     } else {
       this.staticForm.controls.policyDuration.clearValidators()

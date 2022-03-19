@@ -34,7 +34,8 @@
           <td *ngIf="product.code == 'CLFR01'" style="text-align: left;">
             <ng-container *ngIf="addon.code == 'FRAD010' || addon.code == 'FRAD008' ">
               <ng-select class="ng-custom-select" [items]="fireOptionData[addon.code]" bindLabel="value"
-                bindValue="code" (change)="rechangeOption(addon)" [(ngModel)]="addOnsData[addon.id].option" [clearable]="false"></ng-select>
+                bindValue="code" (change)="rechangeOption(addon)" [(ngModel)]="addOnsData[addon.id].option"
+                [clearable]="false"></ng-select>
             </ng-container>
           </td>
           <td *ngIf="addon.sumInsured">
@@ -75,11 +76,14 @@
   </tbody>
 </table>
 <hr>
-<div class="row">
+<div class="row" *ngIf="!fireAdd">
   <div class="col-sm-6 mx-auto">
     <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
   </div>
   <div class="col-sm-6 mx-auto">
     <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
   </div>
+</div>
+<div *ngIf="fireAdd" style="text-align: right;">
+  <button class="btn btn-primary" (click)="nextPage()"> Save </button>
 </div>
