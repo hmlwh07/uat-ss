@@ -1,94 +1,97 @@
 <form action="" [formGroup]="staticForm">
-  <!-- Start date -->
-  <div class="row" style="align-items: center;">
-    <div class="col-sm-6">
-      <div class="form-group row">
-        <label class="col-sm-4 col-form-label ">Policy Effective Date</label>
+    <!-- Start date -->
+    <div class="row" style="align-items: center;">
         <div class="col-sm-6">
-          <div class="input-group">
-            <input matInput class="form-control-sm date-input" formControlName="startDate" [min]="fromMinDate" [max]="fromMaxDate"
-              [matDatepicker]="picker" readonly (dateChange)="doValid()">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker disabled="false"></mat-datepicker>
-            <app-print-error [control]="controls.startDate"></app-print-error>
-          </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label ">Policy Effective Date</label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input matInput class="form-control-sm date-input" formControlName="startDate" [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker" readonly (dateChange)="doValid()">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                        <app-print-error [control]="controls.startDate"></app-print-error>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group row">
-        <label class="col-sm-4 col-form-label ">-</label>
         <div class="col-sm-6">
-          <div class="input-group">
-            <input matInput class="form-control-sm date-input" formControlName="endDate" [min]="toMinDate" [max]="toMaxDate"
-              [matDatepicker]="picker2" readonly>
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2 disabled="true"></mat-datepicker>
-            <app-print-error [control]="controls.endDate"></app-print-error>
-          </div>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label ">-</label>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input matInput class="form-control-sm date-input" formControlName="endDate" [min]="toMinDate" [max]="toMaxDate" [matDatepicker]="picker2" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2 disabled="true"></mat-datepicker>
+                        <app-print-error [control]="controls.endDate"></app-print-error>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- End date  -->
-  <!-- Policy Duration -->
-  <div class="row" style="align-items: center;">
-    <div class="col-md-6">
-      <div class="form-group row">
-        <label class="col-4 col-form-label">Policy Duration</label>
-        <div class="col-6">
-          <input type="text" name="policyDuration" formControlName="policyDuration" class="form-control form-control-sm"
-            (change)="doValid()">
-          <app-print-error [control]="controls.policyDuration"></app-print-error>
-        </div>
-        <div class="col-2"></div>
-      </div>
-    </div>
-    <!-- /Policy Duration -->
-    <!-- Policy Type -->
-    <div class="col-sm-6">
-      <section class="example-section">
-        <div class="form-group row">
-          <label class="col-4">Policy Type</label>
-          <mat-radio-group formControlName="policyType" class="col-8">
-            <mat-radio-button class="mx-1" [value]="'T-001'">Normal
-            </mat-radio-button>
-            <mat-radio-button class="mx-1" [value]="'T-002'">Declaration
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-      </section>
-    </div>
-    <!-- Policy Type -->
+    <!-- End date  -->
+    <!-- Policy Duration -->
+    <div class="row" style="align-items: center;">
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Policy Duration</label>
+                <div class="col-2">
+                    <input type="text" name="policyDuration" formControlName="policyDuration" class="form-control form-control-sm" (change)="doValid()">
 
-  </div>
+                </div>
+                <div class="col-4">
+                    <ng-select class="ng-custom-select" (change)="updateValidation()" [items]="durtaionOption" bindLabel="value" bindValue="code" formControlName="durationType">
+                    </ng-select>
+                    <app-print-error [control]="controls.policyDuration" [validValue]="validValue"></app-print-error>
+                </div>
 
-  <div class="row">
-    <!--  currency -->
-    <div class="col-sm-6">
-      <section class="example-section">
-        <div class="form-group row">
-          <label class="col-4">Currency</label>
-          <mat-radio-group formControlName="currency" class="col-8">
-            <mat-radio-button class="mx-1" [value]="'MMK'">MMK
-            </mat-radio-button>
-            <mat-radio-button class="mx-1" [value]="'USD'">USD
-            </mat-radio-button>
-          </mat-radio-group>
+            </div>
+
         </div>
-      </section>
-    </div>
-    <!--  currency -->
+        <!-- /Policy Duration -->
+        <!-- Policy Type -->
+        <div class="col-sm-6">
+            <section class="example-section">
+                <div class="form-group row">
+                    <label class="col-4">Policy Type</label>
+                    <mat-radio-group formControlName="policyType" class="col-8">
+                        <mat-radio-button class="mx-1" [value]="'T-001'">Normal
+                        </mat-radio-button>
+                        <mat-radio-button class="mx-1" [value]="'T-002'">Declaration
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </section>
+        </div>
+        <!-- Policy Type -->
 
-  </div>
+    </div>
+
+    <div class="row">
+        <!--  currency -->
+        <div class="col-sm-6">
+            <section class="example-section">
+                <div class="form-group row">
+                    <label class="col-4">Currency</label>
+                    <mat-radio-group formControlName="currency" class="col-8">
+                        <mat-radio-button class="mx-1" [value]="'MMK'">MMK
+                        </mat-radio-button>
+                        <mat-radio-button class="mx-1" [value]="'USD'">USD
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </section>
+        </div>
+        <!--  currency -->
+
+    </div>
 </form>
 <div class="row mt-3">
-  <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
-  </div>
-  <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
-  </div>
+    <div class="col-sm-6 mx-auto">
+        <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+    </div>
+    <div class="col-sm-6 mx-auto">
+        <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+    </div>
 </div>
 
 <!--  "Health Insurance"

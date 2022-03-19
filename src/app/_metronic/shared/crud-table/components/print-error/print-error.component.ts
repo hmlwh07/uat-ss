@@ -16,11 +16,16 @@ import { InputValidation } from "../../../../../pages/form-component/field.inter
 export class PrintError {
   @Input("control") control: any;
   @Input() valid: InputValidation[] = [];
+  @Input() validValue:any
   constructor() { 
+      
   }
 
 
   getMsg(type: string) {
+    if(type=='max'){
+      return `"Max ${this.validValue} is allowed"`
+    }
     if (this.valid.length > 0)
       return this.valid.find(x => x.type == type).message
     else{

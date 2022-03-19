@@ -46,12 +46,24 @@ export class FirePageComponent implements OnInit {
   fromMaxDate = null
   dobMinDate = null
   dobMaxDate = null
+  validValue: number = 365
   options: any[] = []
   options2: any[] = []
   addOns: any = {}
   options3: any[] = []
   oldData: any
   options4: any[] = []
+  durtaionOption: any = [
+    {
+      code: 'D', value: 'Days'
+    },
+    {
+      code: 'F', value: 'Months'
+    },
+    {
+      code: 'G', value: 'Years'
+    },
+  ]
   private editId: number
   refID: string
   constructor(
@@ -71,10 +83,36 @@ export class FirePageComponent implements OnInit {
       policyType: ['T-001', Validators.compose([Validators.required])],
       policyDuration: [null, Validators.compose([Validators.required, Validators.max(365)])],
       currency: ['T-001', Validators.compose([Validators.required])],
+      durationType: ['D', Validators.compose([Validators.required])]
     })
     this.options3 = Array.from({ length: 10 }, (_, i) => i + 1)
   }
 
+  updateValidation() {
+
+    let type = this.staticForm.value.durationType
+
+    if (type == 'D') {
+      this.staticForm.controls.policyDuration.clearValidators()
+      this.staticForm.controls.policyDuration.setValidators([Validators.max(365)])
+      this.staticForm.controls.policyDuration.updateValueAndValidity()
+      this.validValue = 365
+      this.doValid()
+    }
+    else if (type == 'F') {
+      this.staticForm.controls.policyDuration.clearValidators()
+      this.staticForm.controls.policyDuration.setValidators([Validators.max(12)])
+      this.staticForm.controls.policyDuration.updateValueAndValidity()
+      this.validValue = 12
+      this.doValid()
+    } else {
+      this.staticForm.controls.policyDuration.clearValidators()
+      this.staticForm.controls.policyDuration.setValidators([Validators.max(1)])
+      this.staticForm.controls.policyDuration.updateValueAndValidity()
+      this.validValue = 1
+      this.doValid()
+    }
+  }
   async ngOnInit() {
 
     this.options = this.product.coverages
@@ -93,6 +131,7 @@ export class FirePageComponent implements OnInit {
     // this.dobMinDate = { year: parseInt(dobMinDate.format('YYYY')), month: parseInt(dobMinDate.format('M')), day: parseInt(dobMinDate.format('D')) };
     // if (this.prodService.editData || this.refID)
     this.getOldData()
+    this.updateValidation()
     // this.getAddOn()
     // for (const item of this.product.addOns) {
     //   let response: any = null;
@@ -111,9 +150,17 @@ export class FirePageComponent implements OnInit {
   doValid() {
     let value = this.staticForm.controls['startDate'].value
     let duration = this.staticForm.controls['policyDuration'].value
-    if (value && duration) {
+    let type = this.staticForm.controls['durationType'].value
+    if (value && duration && type == 'D') {
       let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'days')
-      this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+      // this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+      this.staticForm.controls['endDate'].setValue(toDate)
+    } else if (value && duration && type == 'F') {
+      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'month')
+      this.staticForm.controls['endDate'].setValue(toDate)
+    }
+    else {
+      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'year')
       this.staticForm.controls['endDate'].setValue(toDate)
     }
   }
