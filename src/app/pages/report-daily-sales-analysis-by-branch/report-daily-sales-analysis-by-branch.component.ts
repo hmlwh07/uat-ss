@@ -177,8 +177,11 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Appointments (Online)' && obj.dailyActualTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentOnline, obj.dailyActualTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.dailyActualTotalAppointmentOnline != 0) {
-      calculatedValue = this.calculateDivision(obj.dailyActualTotalNeeds, obj.dailyActualTotalAppointmentOnline)
+    if (activityName == 'Needs (LPP & BRAM complete)') {
+      calculatedValue = this.calculateDivision(obj.dailyActualTotalNeeds,
+        obj.dailyActualTotalAppointmentFaceToFace +
+        obj.dailyActualTotalAppointmentOnline +
+        obj.dailyActualTotalAppointmentPhone)
     }
     if (activityName == 'Solutions' && obj.dailyActualTotalNeeds != 0) {
       calculatedValue = this.calculateDivision(obj.dailyActualTotalSolutions, obj.dailyActualTotalNeeds)
@@ -235,8 +238,11 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     if (activityName == 'Appointments (Online)' && obj.dailyTargetTotalLead != 0) {
       calculatedValue = this.calculateDivision(obj.dailyActualTotalAppointmentOnline, obj.dailyTargetTotalLead)
     }
-    if (activityName == 'Needs (LPP & BRAM complete)' && obj.dailyActualTotalAppointmentOnline != 0) {
-      calculatedValue = this.calculateDivision(obj.dailyTargetTotalNeeds, obj.dailyActualTotalAppointmentOnline)
+    if (activityName == 'Needs (LPP & BRAM complete)') {
+      calculatedValue = this.calculateDivision(obj.dailyTargetTotalNeeds,
+        obj.dailyTargetTotalAppointmentFaceToFace +
+        obj.dailyTargetTotalAppointmentOnline +
+        obj.dailyTargetTotalAppointmentPhone)
     }
     if (activityName == 'Solutions' && obj.dailyTargetTotalNeeds != 0) {
       calculatedValue = this.calculateDivision(obj.dailyTargetSolutions, obj.dailyTargetTotalNeeds)
@@ -464,9 +470,9 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }

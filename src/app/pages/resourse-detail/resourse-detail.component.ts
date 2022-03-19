@@ -294,7 +294,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       if (data[col.name]) {
         if ((data[col.name] + "").length > 0) {
           let value = ""
-          if (col.type == "input" && col.subType == "number") {
+          if (col.type == "input" && col.subType == "currency") {
             return this.numberPipe.transform(data[col.name])
           }
           if (col.type == "date") {

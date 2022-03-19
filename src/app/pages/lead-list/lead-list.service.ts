@@ -22,9 +22,12 @@ export class LeadListService {
     }
     if (search.contactName) {
       url = url + "contactName=" + search.contactName + "&"
-    } if (search.openDateStr) {
-      url = url + "openDateStr=" + moment(search.openDateStr).format("YYYY-MM-DD") + "&"
-    } if (search.productId) {
+    } if (search.startDate) {
+      url = url + "startDate=" + moment(search.openDateStr).format("YYYY-MM-DD") + "&"
+    } 
+    if (search.endDate) {
+      url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
+    }if (search.productId) {
       url = url + "productId=" + search.productId + "&"
     } 
     if (search.sourceCode) {
