@@ -59,7 +59,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                         if (typeof error.error == 'string') {
                             this.alertService.activate("Internal Server error!", "Error Message")
                         } else {
-                            this.alertService.activate(error.error.payload || "Internal Server error!", 'Error Message');
+                            this.alertService.activate(error.error.payload || error.error.message || "Internal Server error!", 'Error Message');
                             if(error.error.code == "403"){
                                 this.authService.logout()
                                 document.location.reload();

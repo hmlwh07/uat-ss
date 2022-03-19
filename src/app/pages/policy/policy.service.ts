@@ -27,6 +27,7 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     if (search.endDate) {
       url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
     }
+    return this.httpClient.get(url)
   }
 
   updateAttachment(resId: string, attId: any) {
