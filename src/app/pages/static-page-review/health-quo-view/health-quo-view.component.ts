@@ -52,7 +52,7 @@ export class HealthQuoViewComponent implements OnInit {
     this.product.addOns.forEach(async (addon) => {
       let response: any = {};
       try {
-        response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId).toPromise()
+        response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId,this.tempResourcesId).toPromise()
         if (response) {
           this.showData.push({ keyName: addon.description, value: response.sumInsured })
         }
@@ -66,7 +66,7 @@ export class HealthQuoViewComponent implements OnInit {
     this.product.coverages.forEach(async (coverage) => {
       let response: any = {};
       try {
-        response = await this.coverageQuoService.getOne(coverage.id, this.tempResourcesId).toPromise()
+        response = await this.coverageQuoService.getOne(coverage.id, this.tempResourcesId,this.tempResourcesId).toPromise()
         if (response) {
           this.showData.unshift({ keyName: coverage.description, value: response.sumInsured })
         }

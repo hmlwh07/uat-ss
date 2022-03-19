@@ -322,7 +322,7 @@ export class SimplePagePolicyComponent implements OnInit {
         unit: null,
         premium: null,
       }
-      return this.coverageQuoService.deleteAll(this.resourcesId).pipe(switchMap((x: any) => {
+      return this.coverageQuoService.deleteAll(this.resourcesId,this.resourcesId).pipe(switchMap((x: any) => {
         // console.log(x, "cov");
         return this.coverageQuoService.save(postData)
       }))
@@ -343,7 +343,7 @@ export class SimplePagePolicyComponent implements OnInit {
       for (const item of this.product.addOns) {
         let response: any = {};
         try {
-          response = await this.addOnQuoService.getOne(item.id, resId).toPromise()
+          response = await this.addOnQuoService.getOne(item.id, resId,resId).toPromise()
         } catch (error) {
         }
         if (response) {
@@ -398,7 +398,7 @@ export class SimplePagePolicyComponent implements OnInit {
 
   saveAddOn() {
 
-    return this.addOnQuoService.deleteAll(this.resourcesId).pipe(mergeMap((x: any) => {
+    return this.addOnQuoService.deleteAll(this.resourcesId,this.resourcesId).pipe(mergeMap((x: any) => {
       // return this.coverageQuoService.save(postData)
       return forkJoin(this.options2.map(option => {
         if (this.addOns[option.id + 'opt']) {
