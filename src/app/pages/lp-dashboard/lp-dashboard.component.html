@@ -131,8 +131,9 @@
               <div><span class="bold"> {{ followup.title }} </span></div>
               <div class="f-11">
                 <span>{{ followup.customerName }}</span>
-                <span class="pl-10">{{ followup.planDate | date:'mediumDate' }} -
-                  {{ followup.dueDate | date:'mediumDate'}}</span>
+                <!-- <span class="pl-10">{{ followup.planDate | date:'mediumDate' }} -
+                  {{ followup.dueDate | date:'mediumDate'}}</span> -->
+                <span class="pl-10">Due {{ followup.dueDate | date:'mediumDate' }}</span>
               </div>
             </div>
           </div>
