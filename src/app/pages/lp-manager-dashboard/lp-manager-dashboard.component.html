@@ -6,8 +6,10 @@
                     <img src="./assets/images/user_profile-01.svg" class="user-image" alt="" />
                 </div>
                 <div class="name-card">
-                    <label class="text-dark center primary-color font-14">{{ data?.agentInfo?.employeeName
-                        }}</label><br>
+                    <h6 class="card-label primary-color" style="padding: 0px;margin: 0px;">{{ data?.agentInfo?.employeeName
+                    }}</h6>
+                    <!-- <label class="text-dark center primary-color font-14">{{ data?.agentInfo?.employeeName
+                        }}</label><br> -->
                     <label class="text-dark center text-bold">{{ data?.role }}</label>
                 </div>
             </div>
@@ -115,7 +117,7 @@
                     <h6 class="card-label primary-color">Active Agents Today</h6>
                 </div>
                 <div class="col-12">
-                    <span class="font-18">{{ leadObj.todayActiveAgent }}</span>
+                    <span class="font-18">{{ todayActiveAgent }}</span>
                 </div>
             </div>
             <div id="chartAgent" *ngIf="chartOptionsAgent">

@@ -162,6 +162,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       })
       return { ...res, data, weeks }
     })).toPromise().then((res) => {
+      console.log(res);
+      
       if (res) {
         this.agentLineChart = res;
         this.todayActiveAgent = res.todayNoOfActiveAgent
@@ -198,6 +200,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
 
   setChartOptions(type: string) {
     let key = type == 'lead' ? 'chartOptions' : 'chartOptionsAgent';
+    let maxAg = Math.max(...this.agentLineChartDatas)
     this[key] = (type == 'lead' ?
       {
         series: [
@@ -315,7 +318,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
         },
         yaxis: {
           min: 0,
-          max: Math.max(...this.agentLineChartDatas) || 10,
+          max: maxAg > 10 ? maxAg : 10,
           tickAmount: 5,
           labels: {
             style: {
