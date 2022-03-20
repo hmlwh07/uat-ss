@@ -21,7 +21,7 @@ export class QuotationService extends BizOperationService<QuotationDTO, number>{
     url = url + "isTeam=" + team + "&"
 
     if (search.startDate) {
-      url = url + "startDate=" + moment(search.openDateStr).format("YYYY-MM-DD") + "&"
+      url = url + "startDate=" + moment(search.startDate).format("YYYY-MM-DD") + "&"
     }
     if (search.endDate) {
       url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"

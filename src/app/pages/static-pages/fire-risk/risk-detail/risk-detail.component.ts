@@ -228,13 +228,17 @@ export class RiskDetailComponent implements OnInit {
     }
   }
 
-  createRisk(closeModal?: boolean) {
+  createRisk(closeModal?: boolean, loop?: boolean) {
     if (this.fireRiskform.invalid) {
       validateAllFields(this.fireRiskform)
       return true
     }
     let data = this.fireRiskform.getRawValue();
     this.step1Com = true
+    loop
+    if (!closeModal && !loop) {
+      this.activeBox = "BUILDING"
+    }
     // this.calBuildingSi()
     let postData = {
       ...this.oldData,
@@ -265,6 +269,9 @@ export class RiskDetailComponent implements OnInit {
           if (res) {
             this.oldData = { ...postData }
             this.viewPage = "other"
+            if (!loop) {
+              this.calPremimun(false)
+            }
             if (closeModal)
               this.modalService.dismissAll({ data: postData, type: "save" })
           }
@@ -277,6 +284,9 @@ export class RiskDetailComponent implements OnInit {
             postData.id = res
             this.oldData = { ...postData }
             this.viewPage = "other"
+            if (!loop) {
+              this.calPremimun(false)
+            }
             if (closeModal)
               this.modal.dismiss({ data: postData, type: "save" })
           }
@@ -336,7 +346,8 @@ export class RiskDetailComponent implements OnInit {
     let value = pae
     if (pae2) {
       let rate = pae2.limitedPae
-      value = pae > rate ? rate : pae
+      // testing
+      value = pae < rate ? rate : pae
     }
 
     this.buildingSi = value * this.oldData.totalSquareFoot
@@ -384,7 +395,7 @@ export class RiskDetailComponent implements OnInit {
         }
       }
       this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100))
-      this.createRisk(close)
+      this.createRisk(close, true)
     } else {
       this.modal.dismiss()
     }
@@ -426,8 +437,8 @@ export class RiskDetailComponent implements OnInit {
     this.activeBox = type == this.activeBox ? "" : type
   }
   step2Done() {
-    this.activeBox = "ADDON"
     this.step2Com = true
+    this.activeBox = "ADDON"
     this.calPremimun(false)
   }
 

@@ -295,14 +295,17 @@
             </div>
             <ng-container *ngIf="step1Com">
                 <div class="toggle-body" [ngClass]="activeBox=='BUILDING' ? 'active' : 'inactive'">
-                    <app-surrounding-building [riskId]="oldData.id"></app-surrounding-building>
-                    <app-calculated-building [riskId]="oldData.id" [default]="buildingSi"
-                        (totalEvent)="changeTotal($event)">
-                    </app-calculated-building>
-                    <div class="form-footer">
-                        <!-- <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button> -->
-                        <button type="submit" class="btn btn-primary btn-elevate" (click)="step2Done()">Next</button>
-                    </div>
+                    <ng-container *ngIf="oldData.id">
+                        <app-surrounding-building [riskId]="oldData.id"></app-surrounding-building>
+                        <app-calculated-building [riskId]="oldData.id" [default]="buildingSi"
+                            (totalEvent)="changeTotal($event)">
+                        </app-calculated-building>
+                        <div class="form-footer">
+                            <!-- <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button> -->
+                            <button type="submit" class="btn btn-primary btn-elevate"
+                                (click)="step2Done()">Next</button>
+                        </div>
+                    </ng-container>
                 </div>
             </ng-container>
 
@@ -324,7 +327,8 @@
             </div>
             <ng-container *ngIf="step2Com">
                 <div class="toggle-body" [ngClass]="activeBox=='ADDON' ? 'active' : 'inactive'">
-                    <app-addon-page [product]="product" [optionId]="oldData.id" [editData]="editData" [resourcesId]="resourcesId" [fireAdd]="true" (actionEvent)="step3Done()"></app-addon-page>
+                    <app-addon-page [product]="product" [optionId]="oldData.id" [editData]="editData"
+                        [resourcesId]="resourcesId" [fireAdd]="true" (actionEvent)="step3Done()"></app-addon-page>
                 </div>
             </ng-container>
         </div>

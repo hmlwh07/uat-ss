@@ -83,14 +83,14 @@ export class FirePageComponent implements OnInit {
       policyType: ['T-001', Validators.compose([Validators.required])],
       policyDuration: [null, Validators.compose([Validators.required, Validators.max(30)])],
       currency: ['T-001', Validators.compose([Validators.required])],
-      durationType: ['D', Validators.compose([Validators.required])]
+      policyUnit: ['D', Validators.compose([Validators.required])]
     })
     this.options3 = Array.from({ length: 10 }, (_, i) => i + 1)
   }
 
   updateValidation() {
 
-    let type = this.staticForm.value.durationType
+    let type = this.staticForm.value.policyUnit
 
     if (type == 'D') {
       this.staticForm.controls.policyDuration.clearValidators()
@@ -150,7 +150,7 @@ export class FirePageComponent implements OnInit {
   doValid() {
     let value = this.staticForm.controls['startDate'].value
     let duration = this.staticForm.controls['policyDuration'].value
-    let type = this.staticForm.controls['durationType'].value
+    let type = this.staticForm.controls['policyUnit'].value
     if (value && duration && type == 'D') {
       let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'days')
       // this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
@@ -222,6 +222,7 @@ export class FirePageComponent implements OnInit {
       policyType: formValue.policyType,
       policyDuration: formValue.policyDuration,
       currency: formValue.currency,
+      policyUnit: formValue.policyUnit,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,

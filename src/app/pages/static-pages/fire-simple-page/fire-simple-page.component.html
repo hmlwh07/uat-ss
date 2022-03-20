@@ -39,7 +39,7 @@
 
                 </div>
                 <div class="col-4">
-                    <ng-select class="ng-custom-select" (change)="updateValidation()" [items]="durtaionOption" bindLabel="value" bindValue="code" formControlName="durationType">
+                    <ng-select class="ng-custom-select" (change)="updateValidation()" [items]="durtaionOption" bindLabel="value" bindValue="code" formControlName="policyUnit">
                     </ng-select>
                     <app-print-error [control]="controls.policyDuration" [validValue]="validValue"></app-print-error>
                 </div>

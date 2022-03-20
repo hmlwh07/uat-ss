@@ -44,11 +44,11 @@ export class AddonPageComponent implements OnInit {
     "BURGLARY-T-C2": 0.5,
     "BURGLARY-T-C3": 0.75,
     "BURGLARY-T-C4": 1,
-    "STHTC-T-001": 0.2,
+    "STHTC-T-BFMGS": 0.2,
     "STHTC-T-002": 0.2,
     "STHTC-T-003": 0.2,
     "STHTC-T-004": 0.2,
-    "STHTC-T-005": 0.25,
+    "STHTC-T-WDGS": 0.25,
     "WARRISK": 0.1,
     "ACD": 0.1,
     "EXPLOSION": 0.1,
@@ -417,9 +417,11 @@ export class AddonPageComponent implements OnInit {
 
     let totalRisk = 0
     if (parentData) {
-      parentData.forEach(element => {
-        totalRisk += parseFloat(element.riskSi)
-      });
+      // parentData.forEach(element => {
+      //   totalRisk += parseFloat(element.riskSi)
+      // });
+      let parent = parentData.find(x => x.id == this.optionId)
+      totalRisk += parent ? parent.riskSi : 0
     }
     if (rate > 0 && totalRisk > 0) {
       let amt = totalRisk * (rate / 100)
