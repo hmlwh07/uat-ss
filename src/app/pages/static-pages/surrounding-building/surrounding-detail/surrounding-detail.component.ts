@@ -52,7 +52,7 @@ export class SurroundingDetailComponent implements OnInit {
   }
   getBuildingType() {
     this.masterDataService
-      .getDataByType("BUILDING_TYPE")
+      .getDataByType("TYPE_OF_BUILDING")
       .toPromise()
       .then((res: any) => {
         console.log(res);
@@ -68,7 +68,7 @@ export class SurroundingDetailComponent implements OnInit {
 
   getBuildingOccupation() {
     this.masterDataService
-      .getDataByType("BUILDING_OCCUPATION")
+      .getDataByType("OCCUPATION_OF_BUILDING")
       .toPromise()
       .then((res: any) => {
         if (res) {

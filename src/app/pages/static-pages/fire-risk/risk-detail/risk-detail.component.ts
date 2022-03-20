@@ -87,7 +87,7 @@ export class RiskDetailComponent implements OnInit {
 
   getBuildingType() {
     this.masterDataService
-      .getDataByType("BUILDING_TYPE").pipe(map(x => this.getFormatOpt(x)))
+      .getDataByType("TYPE_OF_BUILDING").pipe(map(x => this.getFormatOpt(x)))
       .toPromise()
       .then((res: any) => {
         if (res) {
@@ -99,7 +99,7 @@ export class RiskDetailComponent implements OnInit {
 
   getRoof() {
     this.masterDataService
-      .getDataByType("CONSTRUCTION_ROOF").pipe(map(x => this.getFormatOpt(x)))
+      .getDataByType("CONTRUCTION_OF_ROOF").pipe(map(x => this.getFormatOpt(x)))
       .toPromise()
       .then((res: any) => {
         if (res) {
@@ -111,7 +111,7 @@ export class RiskDetailComponent implements OnInit {
 
   getWall() {
     this.masterDataService
-      .getDataByType("CONSTRUCTION_WALL").pipe(map(x => this.getFormatOpt(x)))
+      .getDataByType("CONTRUCTION_OF_WALLS").pipe(map(x => this.getFormatOpt(x)))
       .toPromise()
       .then((res: any) => {
         if (res) {
@@ -123,7 +123,7 @@ export class RiskDetailComponent implements OnInit {
 
   getFloor() {
     this.masterDataService
-      .getDataByType("CONSTRUCTION_FLOOR").pipe(map(x => this.getFormatOpt(x)))
+      .getDataByType("CONTRUCTION_OF_FLOOR").pipe(map(x => this.getFormatOpt(x)))
       .toPromise()
       .then((res: any) => {
         if (res) {
@@ -135,7 +135,7 @@ export class RiskDetailComponent implements OnInit {
 
   getBuildingOccupation() {
     this.masterDataService
-      .getDataByType("BUILDING_OCCUPATION").pipe(map(x => this.getFormatOpt(x)))
+      .getDataByType("OCCUPATION_OF_BUILDING").pipe(map(x => this.getFormatOpt(x)))
       .toPromise()
       .then((res: any) => {
         if (res) {
