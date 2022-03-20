@@ -38,7 +38,7 @@ export const PolicyCol: TableCol[] = [
     isStatus: true
   },
   {
-    title: "Api Status",
+    title: "Submission Status",
     type: COLTYPE.FEILD,
     field: "apiStatus",
     isStatus: true
