@@ -128,11 +128,11 @@
               <img [src]="getImageURL(followup.activityType)" class="prod-icon" alt="" srcset="">
             </div>
             <div class="col-10">
-              <div><span> {{ followup.title }} </span></div>
+              <div><span class="bold"˝> {{ followup.title }} </span></div>
               <div class="f-11">
-                <span class="bold">{{ followup.customerName }}</span>
-                <span class="pl-10">{{ followup.planDate | date:'d MMM, h:mm' }} -
-                  {{ followup.dueDate | date:'d MMM, h:mm'}}</span>
+                <span>{{ followup.customerName }}</span>
+                <span class="pl-10">{{ followup.planDate | date:'mediumDate' }} -
+                  {{ followup.dueDate | date:'mediumDate'}}</span>
               </div>
             </div>
           </div>
