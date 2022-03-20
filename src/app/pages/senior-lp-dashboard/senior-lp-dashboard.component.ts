@@ -73,6 +73,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   agentLineChartCategories: string[] = [];
   agentLineChartDatas: number[] = [];
   currentMonthIndex: number = new Date().getUTCMonth();
+  currentYear: number = new Date().getUTCFullYear();
   months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;

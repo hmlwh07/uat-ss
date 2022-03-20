@@ -78,6 +78,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   leadObj: any = {};
   id: any;
   currentMonthIndex: number = new Date().getUTCMonth();
+  currentYear: number = new Date().getUTCFullYear();
   months = [
     'JAN',
     'FEB',
