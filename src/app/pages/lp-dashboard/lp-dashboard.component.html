@@ -29,7 +29,7 @@
         <div class="col-12">
           <div *ngIf="data && data.yearlyTotalPremium.length > 0">
             <ng-container *ngFor="let product of data?.yearlyProductPremium">
-              <div class="row my-row my-p-15 my-border-bottom">
+              <div class="row my-row my-p-15 my-border-bottom" *ngIf="product.premium > 0">
                 <div class="col-6">
                   <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
                   {{ product.productName }}
@@ -130,7 +130,7 @@
             <div class="col-10">
               <div><span> {{ followup.title }} </span></div>
               <div class="f-11">
-                <span>{{ followup.customerName }}</span>
+                <span class="bold">{{ followup.customerName }}</span>
                 <span class="pl-10">{{ followup.planDate | date:'d MMM, h:mm' }} -
                   {{ followup.dueDate | date:'d MMM, h:mm'}}</span>
               </div>

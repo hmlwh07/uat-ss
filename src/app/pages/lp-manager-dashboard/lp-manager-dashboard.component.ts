@@ -172,6 +172,8 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
         //   this.agentLineChartCategories.push(a.weekNo);
         //   this.agentLineChartDatas.push(parseInt(a.noOfActiveAgent));
         // })
+        // res.data.reduce((acc, shot) => acc = acc > shot.amount ? acc : shot.amount, 0);
+        let max = Math.max(...this.agentLineChartDatas)
         this.setChartOptions('agent');
         this.cdf.detectChanges();
       }
@@ -226,7 +228,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
           "#26a69a",
           "#D10CE8"
         ],
-        yaxis:{
+        yaxis: {
           tickAmount: 5,
           min: 0,
           max: type == 'lead' ? this.leadObj.leadAssignCount || 10 : this.data.assigned || 10,
@@ -277,7 +279,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       {
         series: [
           {
-            name: "Premium Amount",
+            name: "",
             data: this.agentLineChartDatas,
             color: "#005f99"
           }
@@ -313,7 +315,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
         },
         yaxis: {
           min: 0,
-          max: 100,
+          max: Math.max(...this.agentLineChartDatas) || 10,
           tickAmount: 5,
           labels: {
             style: {

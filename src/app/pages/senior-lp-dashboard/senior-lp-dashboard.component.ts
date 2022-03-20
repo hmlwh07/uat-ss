@@ -137,7 +137,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
         return { ...res, data, weeks }
       })).toPromise().then((res: any) => {
         // console.log(res,"res");
-        
+
         if (res) {
           this.agentLineChart = res;
           this.todayActiveAgent = res.todayNoOfActiveAgent
@@ -173,6 +173,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     console.log("lof", type);
 
     let key = type == 'lead' ? 'chartOptions' : 'chartOptionsAgent';
+    let maxAg = Math.max(...this.agentLineChartDatas)
     this[key] = type == 'lead' ?
       {
         series: [
@@ -203,7 +204,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
           "#26a69a",
           "#D10CE8"
         ],
-        
+
         plotOptions: {
           bar: {
             columnWidth: "20%",
@@ -219,7 +220,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
         grid: {
           show: true
         },
-        yaxis:{
+        yaxis: {
           tickAmount: 5,
           min: 0,
           max: type == 'lead' ? this.leadObj.leadAssignCount : this.data.assigned,
@@ -293,7 +294,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
         },
         yaxis: {
           min: 0,
-          max: 100,
+          max: maxAg > 10 ? maxAg : 10,
           tickAmount: 5,
           labels: {
             style: {
