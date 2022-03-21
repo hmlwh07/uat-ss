@@ -213,6 +213,7 @@ export class RetirementComponent implements OnInit {
   }
 
   viewAll() {
+    console.log('fnaRetirementSaving', this.fnaService.fnaRetirementSaving);
     if (this.fnaService.fnaRetirementSaving) {
       this.fnaService.openModal('RetirementSaving');
     }

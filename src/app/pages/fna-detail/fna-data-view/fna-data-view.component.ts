@@ -33,6 +33,8 @@ export class FnaDataViewComponent implements OnInit {
       if (this.type == 'Income') {
         console.log('numberFormat', this.mathRoundTo(Number(this.fnaData.estimatedMonthlyIncome), 2));
         this.estimatedMonthlyIncome = this.mathRoundTo(this.fnaData.estimatedMonthlyIncome, 2)
+      } else {
+        this.fnaData.dateOfBirth = this.formatDateMMDDYYYY(new Date(this.fnaData.dateOfBirth));
       }
 
     } else {
@@ -110,7 +112,7 @@ export class FnaDataViewComponent implements OnInit {
       month = '0' + month;
     if (day.length < 2)
       day = '0' + day;
-    return [month, day, year].join('/');
+    return [day, month, year].join('/');
   }
 
 
