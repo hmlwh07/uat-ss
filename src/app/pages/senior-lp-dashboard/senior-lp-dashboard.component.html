@@ -33,7 +33,7 @@
         <div class="col-12">
           <div *ngIf="data && data.yearlyTotalPremium.length > 0">
             <ng-container *ngFor="let product of data?.yearlyProductPremium">
-              <div class="row my-row my-p-15 my-border-bottom" style="align-items: center;">
+              <div class="row my-row my-p-15 my-border-bottom" style="align-items: center;" *ngIf="product.premium > 0">
                 <div class="col-6">
                   <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
                   {{ product.productName }}
@@ -59,10 +59,14 @@
         </div>
         <div class="row my-row">
           <div class="col-12">
-            <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">
+            <!-- <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">
               <span *ngIf="months && months.length > 0">{{
                 months[currentMonthIndex] }}</span> | Y
-              {{ data?.yearlyTotalPremium[0]?.year }} </span>
+              {{ data?.yearlyTotalPremium[0]?.year }} </span> -->
+            <span class="primary-color">
+              <span>{{ months[currentMonthIndex] }}</span> | Y
+              {{ currentYear }}
+            </span>
           </div>
         </div>
 
