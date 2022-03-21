@@ -75,7 +75,11 @@ export class FireRiskComponent implements OnInit {
             let index = this.listData.findIndex(x => x.id == detail.id)
             this.listData[index] = res.data
           } else {
-            this.listData.push(res.data)
+            let index = this.listData.findIndex(x => x.id == res.data.id)
+            if (index >= 0)
+              this.listData[index] = res.data
+            else
+              this.listData.push(res.data)
           }
           this.cdf.detectChanges()
         }

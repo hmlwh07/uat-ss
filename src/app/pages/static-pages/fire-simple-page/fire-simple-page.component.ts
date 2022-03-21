@@ -94,20 +94,20 @@ export class FirePageComponent implements OnInit {
 
     if (type == 'D') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.max(30)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required,Validators.max(30)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
       this.validValue = 30
       this.doValid()
     }
     else if (type == 'F') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.max(11)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required,Validators.max(11)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
       this.validValue = 11
       this.doValid()
     } else {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.max(1)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required,Validators.max(1)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
       this.validValue = 1
       this.doValid()

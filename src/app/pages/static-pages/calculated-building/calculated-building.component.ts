@@ -22,9 +22,9 @@ export class CalculatedBuildingComponent implements OnInit {
   totalPlant: number = 0
   totalStock: number = 0
   tableData: any = []
-  contentsData: any = []
-  plantData: any = []
-  stockData: any = []
+  contentsData: any[] = []
+  plantData: any[] = []
+  stockData: any[] = []
   totalSI: number = 0
   productDetail: any = {}
   @Input() riskId = 1
@@ -228,7 +228,7 @@ export class CalculatedBuildingComponent implements OnInit {
   toggleChange(type) {
     if (type == 'contents') {
       this.isContents = this.isContents
-      if (!this.isContents && this.contentsData.lenght > 0) {
+      if (!this.isContents && this.contentsData.length > 0) {
         for (let data of this.contentsData) {
           this.deleteFireContent(data.id)
         }
@@ -236,7 +236,7 @@ export class CalculatedBuildingComponent implements OnInit {
     }
     if (type == 'plants') {
       this.isPlant = this.isPlant
-      if (!this.isPlant && this.plantData.lenght > 0) {
+      if (!this.isPlant && this.plantData.length > 0) {
         for (let data of this.plantData) {
           this.deleteFirePlant(data.id)
         }
@@ -244,7 +244,7 @@ export class CalculatedBuildingComponent implements OnInit {
     }
     if (type == 'stock') {
       this.isStock = this.isStock
-      if (!this.isStock && this.stockData.lenght > 0) {
+      if (!this.isStock && this.stockData.length > 0) {
         for (let data of this.stockData) {
           this.deleteFireStock(data.id)
         }

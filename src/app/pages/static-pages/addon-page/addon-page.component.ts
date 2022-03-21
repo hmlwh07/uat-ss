@@ -75,10 +75,10 @@ export class AddonPageComponent implements OnInit {
       { "code": "T-WDGS", "value": "Water Damage for Goods/Stocks" },
     ],
     "BURGLARY": [
-      { "code": "T-C1", "value": "First Class Building" },
-      { "code": "T-C2", "value": "Second Class Building" },
-      { "code": "T-C3", "value": "Third Class Building" },
-      { "code": "T-C4", "value": "Fourth Class Building" },
+      { "code": "T-C1", "value": "Class 1" },
+      { "code": "T-C2", "value": "Class 2" },
+      { "code": "T-C3", "value": "Class 3" },
+      { "code": "T-C4", "value": "Class 4" },
     ]
   }
   constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe, private pageDataService: PageDataService, private loadingService: LoadingService) { }
@@ -125,7 +125,12 @@ export class AddonPageComponent implements OnInit {
           sum: response ? response.sumInsured || 0 : 0,
           unit: response ? response.unit || 0 : 0,
           premium: response ? response.premium || 0 : 0,
-          option: response ? response.option || "T-001" : "T-001",
+          option: response ? response.option || "" : "",
+        }
+        if (item.code == "STHTC" && this.addOnsData[item.id].option == "") {
+          this.addOnsData[item.id].option = "T-BFMGS"
+        } else if (item.code == "BURGLARY" && this.addOnsData[item.id].option == "") {
+          this.addOnsData[item.id].option = "T-C1"
         }
 
         if (item.sumInsured) {
