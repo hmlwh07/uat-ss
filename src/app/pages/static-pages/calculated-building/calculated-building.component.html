@@ -14,10 +14,12 @@
                 <label class="col-sm-6  left-border-image">Contents including FFF</label>
             </div>
             <div class="col-sm-2">
-                <mat-slide-toggle [(ngModel)]="isContents" [color]="primary" class="toggle ft-right" (change)="toggleChange('contents')"></mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isContents" [color]="primary" class="toggle ft-right"
+                    (change)="toggleChange('contents')"></mat-slide-toggle>
             </div>
             <div class="col-sm-2">
-                <button type="button" class="btn btn-primary btn-sm mx-2 ft-right" (click)="add('contents',null,'Add')">Add</button>
+                <button type="button" class="btn btn-primary btn-sm mx-2 ft-right"
+                    (click)="add('contents',null,'Add')">Add</button>
             </div>
         </div>
 
@@ -41,10 +43,12 @@
                 <label class="col-sm-6  left-border-image">Plant and Machinery</label>
             </div>
             <div class="col-sm-2">
-                <mat-slide-toggle [(ngModel)]="isPlant" [color]="primary" class="toggle ft-right" (change)="toggleChange('plants')"></mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isPlant" [color]="primary" class="toggle ft-right"
+                    (change)="toggleChange('plants')"></mat-slide-toggle>
             </div>
             <div class="col-sm-2">
-                <button type="button" class="btn btn-primary btn-sm mx-2 ft-right" (click)="add('plants',null,'Add')">Add</button>
+                <button type="button" class="btn btn-primary btn-sm mx-2 ft-right"
+                    (click)="add('plants',null,'Add')">Add</button>
             </div>
         </div>
 
@@ -68,18 +72,30 @@
                 <label class="col-sm-6 left-border-image">Stock</label>
             </div>
             <div class="col-sm-2">
-                <mat-slide-toggle [(ngModel)]="isStock" [color]="primary" class="toggle ft-right" (change)="toggleChange('stock')"></mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isStock" [color]="primary" class="toggle ft-right"
+                    (change)="toggleChange('stock')"></mat-slide-toggle>
             </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-primary btn-sm mx-2 ft-right" (click)="add('stock',null,'Add')">Add</button>
+            <div class="col-sm-2" *ngIf="stockData.length > 0">
+                <button type="button" class="btn btn-primary btn-sm mx-2 ft-right"
+                    (click)="add('stock',null,'Add')">Add</button>
             </div>
         </div>
 
         <div *ngIf="isStock && stockData">
             <app-tables [stock]="true" [tableData]="stockData" (emitter)="actionBtn($event)"></app-tables>
             <div class="row" style="align-items: center;">
-
-                <div class="col-sm-12">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label">Proposed Stock Value</label>
+                        <div class="col-md-8">
+                            <input type="tel" currencyMask
+                                [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+                                class="form-control form-control-sm " name="proposeStockValue" autocomplete="off"
+                                [value]="stockData.length > 0 ? stockData[0].agreedSi : 0" [disabled]="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
                     <label class="col-sm-12 col-form-label tx-right">Total Sum Insured for Stock
                         <span style="margin-left: 29px;">{{totalStock | number}}</span>
                     </label>

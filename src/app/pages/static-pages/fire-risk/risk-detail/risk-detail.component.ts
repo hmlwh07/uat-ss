@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { PolicyDTO } from '../../../policy/policy.dto';
 import { Product } from '../../../products/models/product.dto';
 import { ProductDataService } from '../../../products/services/products-data.service';
 import { QuotationDTO } from '../../../quotations/quotation.dto';
+import { CalculatedBuildingComponent } from '../../calculated-building/calculated-building.component';
 import { FirePageID, FireRiskID } from '../../static-pages.data';
 import { PremiumRateService } from '../../surrounding-building/models&services/premium-rate-service';
 import { SurroundingBuildingService } from '../../surrounding-building/models&services/surrounding-building.service';
@@ -24,6 +25,7 @@ import { FireRiskService } from '../models&services/fire-risk.service';
 export class RiskDetailComponent implements OnInit {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
+  @ViewChild(CalculatedBuildingComponent) stockTemp: CalculatedBuildingComponent
   fireRiskform: FormGroup;
   typeOfBuildingOption: any = []
   occupationOfBuildingOption: any[] = []
@@ -403,7 +405,7 @@ export class RiskDetailComponent implements OnInit {
       if (this.productDetail.policyType == 'T-NM') {
         await this.calBuildingSi()
       } else {
-        this.riskSi = this.oldData.proposeStockValue
+        this.riskSi = this.oldData.proposeStockValue || 0
         this.oldData.riskSi = this.riskSi
       }
       let rateData = 0
@@ -468,6 +470,9 @@ export class RiskDetailComponent implements OnInit {
   step2Done() {
     this.step2Com = true
     this.activeBox = "ADDON"
+    let stockVal = this.stockTemp.stockData
+    if (stockVal.length > 0)
+      this.oldData.proposeStockValue = this.oldData[0].agreedSi
     this.calPremimun(false)
   }
 
