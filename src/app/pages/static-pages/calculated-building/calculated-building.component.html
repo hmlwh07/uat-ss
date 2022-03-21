@@ -6,8 +6,8 @@
         </div> -->
 
     </div>
-    <hr *ngIf="productDetail.policyType == 'T-001' ">
-    <div class="px5 py5" *ngIf="productDetail.policyType == 'T-001' ">
+    <hr *ngIf="productDetail.policyType == 'T-NM' ">
+    <div class="px5 py5" *ngIf="productDetail.policyType == 'T-NM' ">
         <div class="row" style="align-items: center;">
 
             <div class="col-sm-8">
@@ -35,8 +35,8 @@
             </div>
         </div>
     </div>
-    <hr *ngIf="productDetail.policyType == 'T-001'">
-    <div *ngIf="productDetail.policyType == 'T-001'">
+    <hr *ngIf="productDetail.policyType == 'T-NM'">
+    <div *ngIf="productDetail.policyType == 'T-NM'">
         <div class="row" style="align-items: center;">
 
             <div class="col-sm-8">
@@ -75,7 +75,7 @@
                 <mat-slide-toggle [(ngModel)]="isStock" [color]="primary" class="toggle ft-right"
                     (change)="toggleChange('stock')"></mat-slide-toggle>
             </div>
-            <div class="col-sm-2" *ngIf="stockData.length > 0">
+            <div class="col-sm-2" *ngIf="stockData.length == 0">
                 <button type="button" class="btn btn-primary btn-sm mx-2 ft-right"
                     (click)="add('stock',null,'Add')">Add</button>
             </div>
