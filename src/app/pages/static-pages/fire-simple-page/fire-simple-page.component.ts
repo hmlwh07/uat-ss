@@ -103,7 +103,7 @@ export class FirePageComponent implements OnInit {
       this.staticForm.controls.policyDuration.clearValidators()
       this.staticForm.controls.policyDuration.setValidators([Validators.max(11)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
-      this.validValue = 12
+      this.validValue = 11
       this.doValid()
     } else {
       this.staticForm.controls.policyDuration.clearValidators()
