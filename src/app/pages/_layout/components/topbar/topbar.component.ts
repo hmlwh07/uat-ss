@@ -11,6 +11,7 @@ import KTLayoutQuickPanel from '../../../../../assets/js/layout/extended/quick-p
 import KTLayoutQuickUser from '../../../../../assets/js/layout/extended/quick-user';
 import KTLayoutHeaderTopbar from '../../../../../assets/js/layout/base/header-topbar';
 import { KTUtil } from '../../../../../assets/js/components/util';
+import { NotificationService } from 'src/app/_metronic/partials/layout/extras/dropdown-inner/notifications-dropdown-inner/notification.service';
 
 @Component({
   selector: 'app-topbar',
@@ -19,6 +20,7 @@ import { KTUtil } from '../../../../../assets/js/components/util';
 })
 export class TopbarComponent implements OnInit, AfterViewInit {
   user$: Observable<UserModel>;
+  noti: any = []
   // tobbar extras
   extraSearchDisplay: boolean;
   extrasSearchLayout: 'offcanvas' | 'dropdown';
@@ -32,8 +34,8 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   extrasLanguagesDisplay: boolean;
   extrasUserDisplay: boolean;
   extrasUserLayout: 'offcanvas' | 'dropdown';
-  currentUser:UserModel = new UserModel()
-  constructor(private layout: LayoutService, private auth: AuthService) {
+  currentUser: UserModel = new UserModel()
+  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService) {
     this.user$ = this.auth.currentUserSubject.asObservable();
   }
 
@@ -63,8 +65,9 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     this.extrasQuickPanelDisplay = this.layout.getProp(
       'extras.quickPanel.display'
     );
-    this.user$.subscribe(res=>{
+    this.user$.subscribe(res => {
       this.currentUser = res
+      this.getList()
     })
   }
 
@@ -111,4 +114,17 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       KTLayoutHeaderTopbar.init('kt_header_mobile_topbar_toggle');
     });
   }
+  getList() {
+    console.log(this.currentUser);
+    
+    this.notificationService.getById(this.currentUser.username).toPromise()
+      .then(async (res: any) => {
+        console.log("RES", res)
+        if (res) {
+          this.noti = res
+        }
+      });
+
+  }
 }
+
