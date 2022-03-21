@@ -221,7 +221,7 @@ export class RiskDetailComponent implements OnInit {
       storyOfBuilding: new FormControl(oldData ? oldData.storyOfBuilding : "", Validators.required),
       sumInsure: new FormControl(oldData ? oldData.sumInsure : ""),
       totalSquareFoot: new FormControl(oldData ? oldData.totalSquareFoot : "", Validators.required),
-      yearOfConstruction: new FormControl(oldData ? oldData.yearOfConstruction : "", Validators.required),
+      yearOfConstruction: new FormControl(oldData ? oldData.yearOfConstruction : "", [Validators.required, Validators.max(9999)]),
       // proposeStockValue: new FormControl(oldData ? oldData.proposeStockValue : 0),
       buildingSi: new FormControl(oldData ? oldData.buildingSi : 0),
       riskSi: new FormControl(oldData ? oldData.riskSi : 0),
