@@ -125,7 +125,12 @@ export class AddonPageComponent implements OnInit {
           sum: response ? response.sumInsured || 0 : 0,
           unit: response ? response.unit || 0 : 0,
           premium: response ? response.premium || 0 : 0,
-          option: response ? response.option || "T-001" : "T-001",
+          option: response ? response.option || "" : "",
+        }
+        if (item.code == "STHTC" && this.addOnsData[item.id].option == "") {
+          this.addOnsData[item.id].option = "T-BFMGS"
+        } else if (item.code == "BURGLARY" && this.addOnsData[item.id].option == "") {
+          this.addOnsData[item.id].option = "T-C1"
         }
 
         if (item.sumInsured) {

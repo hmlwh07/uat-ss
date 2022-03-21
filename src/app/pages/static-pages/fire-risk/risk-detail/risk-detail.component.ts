@@ -10,7 +10,7 @@ import { PolicyDTO } from '../../../policy/policy.dto';
 import { Product } from '../../../products/models/product.dto';
 import { ProductDataService } from '../../../products/services/products-data.service';
 import { QuotationDTO } from '../../../quotations/quotation.dto';
-import { FirePageID } from '../../static-pages.data';
+import { FirePageID, FireRiskID } from '../../static-pages.data';
 import { PremiumRateService } from '../../surrounding-building/models&services/premium-rate-service';
 import { SurroundingBuildingService } from '../../surrounding-building/models&services/surrounding-building.service';
 import { FireRiskRateService } from '../models&services/fire-risk-rate.service';
@@ -191,25 +191,38 @@ export class RiskDetailComponent implements OnInit {
     //     Validators.required
     // Validators.required
     // Validators.required
+    //     Below fields should be mandatory according to the core system.
+    // 1. Building description
+    // 2. Type of Building
+    // 3. Occupation of Building
+    // 4. Building Class
+    // 5. Construction of Roof
+    // 6. Construction of Wall
+    // 7. Construction of Floor
+    // 8. No of Story of Building
+    // 9. Year of Construction
+    // 10. Total square in Feet
+    // 11. Special Decoration
+
     this.fireRiskform = new FormGroup({
       buildingClass: new FormControl(oldData ? oldData.buildingClass : "", Validators.required),
-      buildingDescription: new FormControl(oldData ? oldData.buildingDescription : ""),
+      buildingDescription: new FormControl(oldData ? oldData.buildingDescription : "", Validators.required),
       // id: new FormControl(oldData ? oldData.id : ""),
       occupationOfBuilding: new FormControl(oldData ? oldData.occupationOfBuilding : "", Validators.required),
       typeOfBuilding: new FormControl(oldData ? oldData.typeOfBuilding : "", Validators.required),
-      constructionOfFloor: new FormControl(oldData ? oldData.constructionOfFloor : "",),
-      constructionOfRoof: new FormControl(oldData ? oldData.constructionOfRoof : "",),
-      constructionOfWall: new FormControl(oldData ? oldData.constructionOfWall : "",),
-      height: new FormControl(oldData ? oldData.height : ""),
-      length: new FormControl(oldData ? oldData.length : ""),
-      width: new FormControl(oldData ? oldData.width : ""),
+      constructionOfFloor: new FormControl(oldData ? oldData.constructionOfFloor : "", Validators.required),
+      constructionOfRoof: new FormControl(oldData ? oldData.constructionOfRoof : "", Validators.required),
+      constructionOfWall: new FormControl(oldData ? oldData.constructionOfWall : "", Validators.required),
+      height: new FormControl(oldData ? oldData.height : "", Validators.required),
+      length: new FormControl(oldData ? oldData.length : "", Validators.required),
+      width: new FormControl(oldData ? oldData.width : "", Validators.required),
       rate: new FormControl(oldData ? oldData.rate : ""),
-      specialDecoration: new FormControl(oldData ? oldData.specialDecoration : ""),
-      storyOfBuilding: new FormControl(oldData ? oldData.storyOfBuilding : ""),
+      specialDecoration: new FormControl(oldData ? oldData.specialDecoration : "", Validators.required),
+      storyOfBuilding: new FormControl(oldData ? oldData.storyOfBuilding : "", Validators.required),
       sumInsure: new FormControl(oldData ? oldData.sumInsure : ""),
-      totalSquareFoot: new FormControl(oldData ? oldData.totalSquareFoot : ""),
-      yearOfConstruction: new FormControl(oldData ? oldData.yearOfConstruction : ""),
-      proposeStockValue: new FormControl(oldData ? oldData.proposeStockValue : 0),
+      totalSquareFoot: new FormControl(oldData ? oldData.totalSquareFoot : "", Validators.required),
+      yearOfConstruction: new FormControl(oldData ? oldData.yearOfConstruction : "", Validators.required),
+      // proposeStockValue: new FormControl(oldData ? oldData.proposeStockValue : 0),
       buildingSi: new FormControl(oldData ? oldData.buildingSi : 0),
       riskSi: new FormControl(oldData ? oldData.riskSi : 0),
     })
@@ -269,6 +282,17 @@ export class RiskDetailComponent implements OnInit {
           if (res) {
             this.oldData = { ...postData }
             this.viewPage = "other"
+            if (this.globalService.tempFormData[FireRiskID]) {
+              // this.globalService.tempFormData[FireRiskID].push(this.oldData)
+              let index = this.globalService.tempFormData[FireRiskID].findIndex(x => x.id == this.oldData.id)
+              if (index < 0) {
+                this.globalService.tempFormData[FireRiskID].push(this.oldData)
+              } else {
+                this.globalService.tempFormData[FireRiskID][index] = this.oldData
+              }
+            } else {
+              this.globalService.tempFormData[FireRiskID] = [this.oldData]
+            }
             if (!loop) {
               this.calPremimun(false)
             }
@@ -284,6 +308,11 @@ export class RiskDetailComponent implements OnInit {
             postData.id = res
             this.oldData = { ...postData }
             this.viewPage = "other"
+            if (this.globalService.tempFormData[FireRiskID]) {
+              this.globalService.tempFormData[FireRiskID].push(this.oldData)
+            } else {
+              this.globalService.tempFormData[FireRiskID] = [this.oldData]
+            }
             if (!loop) {
               this.calPremimun(false)
             }
@@ -324,7 +353,7 @@ export class RiskDetailComponent implements OnInit {
 
   calcuSquare() {
     let width = this.fireRiskform.controls['width'].value
-    let height = this.fireRiskform.controls['height'].value
+    let height = this.fireRiskform.controls['length'].value
     if (width * height) {
       let square = width * height
       this.fireRiskform.controls['totalSquareFoot'].setValue(square)

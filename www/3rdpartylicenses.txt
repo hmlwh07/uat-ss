@@ -32,12 +32,9 @@ MIT
 @angular/core
 MIT
 
-<<<<<<< HEAD
 @angular/fire
 MIT
 
-=======
->>>>>>> develop
 @angular/forms
 MIT
 
@@ -100,12 +97,9 @@ MIT
 @angular/router
 MIT
 
-<<<<<<< HEAD
 @angular/service-worker
 MIT
 
-=======
->>>>>>> develop
 @awesome-cordova-plugins/core
 MIT
 
@@ -246,7 +240,6 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-<<<<<<< HEAD
 @firebase/analytics
 Apache-2.0
 
@@ -277,8 +270,6 @@ Apache-2.0
 @firebase/util
 Apache-2.0
 
-=======
->>>>>>> develop
 @ionic/angular
 MIT
 
@@ -1082,7 +1073,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   [1]: http://eligrey.com
 
 
-<<<<<<< HEAD
 firebase/analytics
 
 firebase/app
@@ -1095,8 +1085,6 @@ firebase/messaging
 
 firebase/remote-config
 
-=======
->>>>>>> develop
 flatpickr
 MIT
 The MIT License (MIT)
@@ -1180,7 +1168,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-<<<<<<< HEAD
 idb
 ISC
 ISC License (ISC)
@@ -1191,8 +1178,6 @@ Permission to use, copy, modify, and/or distribute this software for any purpose
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
-=======
->>>>>>> develop
 ionic-loader
 
 isarray
@@ -1272,7 +1257,6 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-<<<<<<< HEAD
 localforage
 Apache-2.0
                                  Apache License
@@ -1478,8 +1462,6 @@ Apache-2.0
    limitations under the License.
 
 
-=======
->>>>>>> develop
 moment
 MIT
 Copyright (c) JS Foundation and other contributors
