@@ -46,7 +46,7 @@ table {
     }
 }
 
-.date-display{
+.date-display {
     width: 100%;
     overflow: hidden;
     span {
@@ -57,7 +57,7 @@ table {
     }
 }
 
-.date-display{
+.date-display {
     width: 100%;
     overflow: hidden;
     span {
@@ -67,7 +67,6 @@ table {
         display: block;
     }
 }
-
 
 .right-border-transform {
     width: 1px;
@@ -112,4 +111,8 @@ table {
 .text-right {
     text-align: end;
     padding: 0 5px 0 0;
+}
+
+.card {
+    overflow: visible !important;
 }
