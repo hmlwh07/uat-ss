@@ -60,7 +60,7 @@
             <div class="lp-dashboard-box-body">
               <div class="bold">{{ q.productName }}</div>
               <div><span> {{ q.customerName }} </span>
-                <span class="pl-10">{{ q.status }}</span>
+                <span class="pl-10">{{ q.status == "in_progress" ? "In Progress" : (q.status | titlecase) }}</span>
               </div>
             </div>
           </ng-container>
@@ -76,7 +76,7 @@
             <div class="lp-dashboard-box-body">
               <div class="bold">{{ p.productName }}</div>
               <div><span> {{ p.customerName }} </span>
-                <span class="pl-10">{{ p.status }}</span>
+                <span class="pl-10">{{ p.status == "in_progress" ? "In Progress" : (p.status | titlecase) }}</span>
               </div>
             </div>
           </ng-container>
