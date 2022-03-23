@@ -1,3 +1,9 @@
 .scroll {
     overflow: auto!important;
 }
+
+.drop {
+    max-height: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
