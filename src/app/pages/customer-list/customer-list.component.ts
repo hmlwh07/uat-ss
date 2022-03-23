@@ -37,7 +37,7 @@ export class CustomerListComponent implements OnInit {
   customerForm: FormGroup;
   @Output() selectedUser = new EventEmitter();
   @Input() isPopup: boolean = false
-  @Input() party: boolean = false
+  @Input() party: boolean = true
   @Input() isDynamic: boolean = false
   show: boolean = false
   constructor(private router: Router, private cdf: ChangeDetectorRef, private customerListService: CustomerListService, private modalService: NgbModal) {
