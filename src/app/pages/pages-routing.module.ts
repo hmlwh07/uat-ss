@@ -113,6 +113,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'customer/prospect-list',
+        loadChildren: () =>
+          import('./prospect-customer-list/prospect-customer-list.module').then(
+            (m) => m.ProspectCustomerListModule
+          ),
+      },
+      
+      {
         path: 'customer/customer-detail',
         loadChildren: () =>
           import('./customer-detail/customer-detail.module').then(
