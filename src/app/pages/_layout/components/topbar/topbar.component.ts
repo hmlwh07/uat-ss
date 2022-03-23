@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LayoutService } from '../../../../_metronic/core';
 import { AuthService } from '../../../../modules/auth/_services/auth.service';
@@ -12,6 +12,7 @@ import KTLayoutQuickUser from '../../../../../assets/js/layout/extended/quick-us
 import KTLayoutHeaderTopbar from '../../../../../assets/js/layout/base/header-topbar';
 import { KTUtil } from '../../../../../assets/js/components/util';
 import { NotificationService } from 'src/app/_metronic/partials/layout/extras/dropdown-inner/notifications-dropdown-inner/notification.service';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-topbar',
@@ -38,7 +39,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService) {
     this.user$ = this.auth.currentUserSubject.asObservable();
   }
-
+  @ViewChild(NgbDropdown) myDrop: NgbDropdown
   ngOnInit(): void {
     // topbar extras
     this.extraSearchDisplay = this.layout.getProp('extras.search.display');
@@ -67,7 +68,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     );
     this.user$.subscribe(res => {
       this.currentUser = res
-      this.getList()
+      this.getNotiList()
     })
   }
 
@@ -114,9 +115,9 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       KTLayoutHeaderTopbar.init('kt_header_mobile_topbar_toggle');
     });
   }
-  getList() {
+  getNotiList() {
     console.log(this.currentUser);
-    
+
     this.notificationService.getById(this.currentUser.username).toPromise()
       .then(async (res: any) => {
         console.log("RES", res)
@@ -125,6 +126,12 @@ export class TopbarComponent implements OnInit, AfterViewInit {
         }
       });
 
+  }
+  closeDropDown(event) {
+    console.log(event);
+    if (event) {
+      this.myDrop.close()
+    }
   }
 }
 
