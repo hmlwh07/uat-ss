@@ -14,7 +14,7 @@
                                     class="table-img">
                             </ng-container>
                             <ng-container *ngIf="item.amtFormat">
-                                {{(element[item.field] > 0 ? (element[item.field] | number) : '0')}}
+                                {{(element[item.field] > 0 ? (element[item.field] | number: '1.2-2') : '0')}}
                             </ng-container>
                             <ng-container *ngIf="item.isAttachment">
                                 {{element[item.field]}}
@@ -79,7 +79,7 @@
                         </td>
                         <ng-container *ngIf="calField.includes(item.field) && calTotal; else footer">
                             <td mat-footer-cell *matFooterCellDef style="padding: 0 10px;">{{ (totalAmount[item.field]
-                                || '') | number }}</td>
+                                || '') | number: '1.2-2' }}</td>
                         </ng-container>
 
                         <ng-template #footer>
