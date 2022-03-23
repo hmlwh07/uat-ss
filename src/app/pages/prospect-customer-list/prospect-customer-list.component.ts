@@ -14,7 +14,7 @@ import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/co
 @Component({
   selector: 'app-prospect-customer-list',
   templateUrl: './prospect-customer-list.component.html',
-  styleUrls: ['./prospect-customer-list.component.scss'],
+  styleUrls: ['./../customer-list/customer-list.component.scss'],
   providers: [
     { provide: NgbDateAdapter, useClass: CustomAdapter },
     { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
