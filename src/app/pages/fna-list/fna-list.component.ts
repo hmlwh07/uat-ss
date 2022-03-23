@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/modules/auth';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FANService } from '../fna-detail/fna-manage.service';
 import { FANListService } from './fna-list-manage.service';
@@ -22,14 +23,15 @@ export class FnaListComponent implements OnInit {
   indexObj: any;
 
   constructor(private cdf: ChangeDetectorRef, private router: Router, private fnaService: FANService,
-    private fnaListService: FANListService, private authService: AuthService, private modalService: NgbModal) { }
+    private fnaListService: FANListService, private authService: AuthService,
+    private modalService: NgbModal, private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
     this.getAllFNA();
   }
 
-  async actionBtn(event) {   
+  async actionBtn(event) {
     this.fnaService.fnaUpdateProducts = [];
     if (event.cmd == 'edit') {
       this.indexObj = event.data;
@@ -49,14 +51,14 @@ export class FnaListComponent implements OnInit {
           this.router.navigate(["/fna/fna-bram"], { queryParams: { passValue: JSON.stringify({ res }) } })
         }
 
-        if (res.fnaType == "LPP") {         
+        if (res.fnaType == "LPP") {
           this.router.navigate(["/fna/fna-detail"], { queryParams: { passValue: JSON.stringify(res) } })
         }
       }
     });
   }
 
-  async createOrEdit(data, id?: string) {   
+  async createOrEdit(data, id?: string) {
     let passValue: any;
     if (this.indexObj) {
       passValue = {
@@ -70,12 +72,12 @@ export class FnaListComponent implements OnInit {
         pageStatus: data
       }
     }
-    if(this.indexObj.fnaType == "BRAM"){
+    if (this.indexObj.fnaType == "BRAM") {
       this.router.navigate(["/fna/fna-bram"], { queryParams: { passValue: JSON.stringify(passValue) } })
-    }else{
+    } else {
       this.router.navigate(["/fna/fna-detail"], { queryParams: { passValue: JSON.stringify(passValue) } })
     }
-  
+
   }
 
   async getAllFNA() {
@@ -94,11 +96,18 @@ export class FnaListComponent implements OnInit {
   }
 
   async delete(id) {
-    await this.fnaListService.delete(id).toPromise().then(async (res: any) => {
-      this.fnaList = this.fnaList.filter(data =>
-        data.id !== id);
-      this.cdf.detectChanges();
-      this.matTable.reChangeData();
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+      if (result) {
+        await this.fnaListService.delete(id).toPromise().then(async (res: any) => {
+          this.fnaList = this.fnaList.filter(data =>
+            data.id !== id);
+          this.cdf.detectChanges();
+          this.matTable.reChangeData();
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+          });
+        });
+      }
     });
   }
 

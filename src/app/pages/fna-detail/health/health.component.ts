@@ -497,18 +497,22 @@ export class HealthComponent implements OnInit {
 
   async deleteHealthById() {
     if (this.selectedIndexId != 0) {
-      await this.fnaHealthManageService.deleteHealthById(this.selectedIndexId).toPromise().then(async (res: any) => {
-        if (res) {
-          this.tempChildList = this.tempChildList.filter(item => item.id !== this.selectedIndexId);
-          this.healthDto = new HealthDto;
-          this.loadForm();
-          let obj = this.tempChildList[this.selectedIndex];
-          if (obj) {
-            this.selectedIndexId = this.tempChildList[this.selectedIndex].id;
-            this.setChildInsurance(this.tempChildList[this.selectedIndex]);
-          } else {
-            this.selectedIndexId = 0;
-          }
+      this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+        if (result) {
+          await this.fnaHealthManageService.deleteHealthById(this.selectedIndexId).toPromise().then(async (res: any) => {
+            if (res) {
+              this.tempChildList = this.tempChildList.filter(item => item.id !== this.selectedIndexId);
+              this.healthDto = new HealthDto;
+              this.loadForm();
+              let obj = this.tempChildList[this.selectedIndex];
+              if (obj) {
+                this.selectedIndexId = this.tempChildList[this.selectedIndex].id;
+                this.setChildInsurance(this.tempChildList[this.selectedIndex]);
+              } else {
+                this.selectedIndexId = 0;
+              }
+            }
+          });
         }
       });
     }

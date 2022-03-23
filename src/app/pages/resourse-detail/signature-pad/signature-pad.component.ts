@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { SignaturePad } from "angular2-signaturepad";
+import { AlertService } from "src/app/modules/loading-toast/alert-model/alert.service";
 import { AttachmentUploadService } from '../../../_metronic/core/services/attachment-data.service';
 
 
@@ -17,7 +18,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
     'canvasHeight': 300
   };
 
-  constructor(public modal: NgbActiveModal,private fileUpload: AttachmentUploadService) { }
+  constructor(public modal: NgbActiveModal,private fileUpload: AttachmentUploadService, private alertService: AlertService) { }
 
   ngOnInit(): void {
 
@@ -48,5 +49,13 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
         this.modal.dismiss({ data: res, type: 'save' })
       }
     })
+  }
+
+  deleteEditModal() {
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
   }
 }

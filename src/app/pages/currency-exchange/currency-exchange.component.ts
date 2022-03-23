@@ -15,7 +15,7 @@ import { CurrencyCol, CurrencyDisplayCol } from './currency.const';
   styleUrls: ['./currency-exchange.component.scss'],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
 export class CurrencyExChangeComponent implements OnInit {
@@ -23,19 +23,20 @@ export class CurrencyExChangeComponent implements OnInit {
   currencyList: CurrencyExchange[] = []
   ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyCol))
   displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
-  exchangeForm:FormGroup
-  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef, private modalCrl: NgbModal,private alertService:AlertService) {
+  exchangeForm: FormGroup
+  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef, 
+    private modalCrl: NgbModal, private alertService: AlertService) {
 
   }
 
   ngOnInit() {
     this.loadForm()
   }
-  ngAfterViewInit(){
-   
+  ngAfterViewInit() {
+
     this.getData()
   }
-  loadForm(){
+  loadForm() {
     this.exchangeForm = new FormGroup({
       startDate: new FormControl(null),
       endDate:new FormControl(null),
@@ -65,8 +66,7 @@ export class CurrencyExChangeComponent implements OnInit {
     })
 
   }
-  
-  addData(){
+  addData() {
     const modalRef = this.modalCrl.open(CurrencyAddFormComponent, { size: 'md', backdrop: false });
     modalRef.componentInstance.isModal = true
     modalRef.result.then(() => { }, (res) => {
@@ -90,7 +90,7 @@ export class CurrencyExChangeComponent implements OnInit {
   }
 
   updateData(postData: any) {
-    console.log('UPDATE',postData);
+    console.log('UPDATE', postData);
     this.currencyService.update(postData.id, postData).toPromise().then((res: any) => {
       if (res) {
         this.getData()
@@ -106,7 +106,7 @@ export class CurrencyExChangeComponent implements OnInit {
     modalRef.componentInstance.isModal = true
     modalRef.componentInstance.isEdit = true
     modalRef.result.then(() => { }, (res) => {
-      
+
       if (res) {
         if (res.cmd == 'save') {
           this.updateData(res.data)
@@ -123,16 +123,23 @@ export class CurrencyExChangeComponent implements OnInit {
       this.deleleData(event.data.id)
     }
   }
+
   deleleData(id) {
-    this.currencyService.delete(id).toPromise().then((res) => {
-      if (res) {
-        let index = this.currencyList.findIndex(x => x.id == id)
-        if (index >= 0) {
-          this.currencyList.splice(index, 1)
-          this.matTable.reChangeData()
-          this.alertService.activate('This record was deleted', 'Success Message');
-        }
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.currencyService.delete(id).toPromise().then((res) => {
+          if (res) {
+            let index = this.currencyList.findIndex(x => x.id == id)
+            if (index >= 0) {
+              this.currencyList.splice(index, 1)
+              this.matTable.reChangeData()
+              this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+
+              });
+            }
+          }
+        })
       }
-    })
+    });
   }
 }

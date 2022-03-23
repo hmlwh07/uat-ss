@@ -27,7 +27,10 @@ export class HealthQuoViewComponent implements OnInit {
   totalL: number = 0
   tempResourcesId: string = ""
   tempSchedule: any[] = []
-  constructor(private globalFun: GlobalFunctionService, private alertService: AlertService, private addOnQuoService: AddOnQuoService, private coverageQuoService: CoverageQuoService, private healthPayService: HealthPaymentService, private cdf: ChangeDetectorRef, private prodService: ProductDataService) { }
+  constructor(private globalFun: GlobalFunctionService, private alertService: AlertService, 
+    private addOnQuoService: AddOnQuoService, private coverageQuoService: CoverageQuoService, 
+    private healthPayService: HealthPaymentService, private cdf: ChangeDetectorRef, 
+    private prodService: ProductDataService) { }
 
   ngOnInit(): void {
     this.refID = this.prodService.referenceID

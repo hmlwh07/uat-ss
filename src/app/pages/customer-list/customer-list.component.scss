@@ -8,3 +8,16 @@
 .form-group.row{
   align-items: center;
 }
+
+.draggable {
+  //width: 40px;
+  //height: 40px;
+  //background-color: #29e;
+  color: white;
+  border-radius: 50%;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  position: absolute;
+  z-index: 999;
+}

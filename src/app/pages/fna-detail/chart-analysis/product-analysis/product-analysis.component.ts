@@ -24,7 +24,9 @@ export class ProductAnalysisComponent implements OnInit {
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   fnaProducts = [];
   products = [];
-  constructor(private fnaService: FANService, private fnaProductService: FANProductService, private alertService: AlertService, private prodctService: ProductDataService, private customerService: CustomerService, private router: Router) { }
+  constructor(private fnaService: FANService, private fnaProductService: FANProductService, 
+    private alertService: AlertService, private prodctService: ProductDataService, 
+    private customerService: CustomerService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.fnaService.fnaProduct) {

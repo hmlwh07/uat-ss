@@ -50,7 +50,23 @@ export class CustomerListComponent implements OnInit {
       this.displayedColumns.splice(9, 1)
     }
     this.show = true
-    
+    const position = { x: 0, y: 0 }
+    const interact = require('interactjs')
+    interact('.draggable').draggable({
+      listeners: {
+        start(event) {
+          console.log(event.type, event.target)
+        },
+        move(event) {
+          position.x += event.dx
+          position.y += event.dy
+
+          event.target.style.transform =
+            `translate(${position.x}px, ${position.y}px)`
+        },
+      }
+    })
+
   }
   ngAfterViewInit() {
     this.getList();

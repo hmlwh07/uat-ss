@@ -46,7 +46,7 @@ export class FnaDetailComponent implements OnInit {
   fnaHealths = [];
   fnaRetirementSaving = null;
   fnaProduct = [];
-  passValue = { customerName: '', customerDob: '', conductedBy: '', createdAt: '', createdByName: '',leadId: ""  };
+  passValue = { customerName: '', customerDob: '', conductedBy: '', createdAt: '', createdByName: '', leadId: "" };
   percentageText: number = 0;
   totalPercentageText: string = '';
   fnaTextColor: number;
@@ -69,10 +69,11 @@ export class FnaDetailComponent implements OnInit {
       this.aboutLLP = this.oldId;
       if (data.pageStatus != 'create') {
         if (this.oldId) {
-          await this.getFNAById();
+          await this.getFNAById(); 
         }
       }
-      this.passValue.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValue.createdAt)), 'dd/MM/yyyy');
+      //console.log('createdAt', this.passValue.createdAt);
+      // this.passValue.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValue.createdAt)), 'dd/MM/yyyy');
     }
     );
 

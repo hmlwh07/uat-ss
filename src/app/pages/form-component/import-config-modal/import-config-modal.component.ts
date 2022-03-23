@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { FormUIService } from '../../dashboard/services/form-ui.service';
 import { BtnConfig, ConfigInput } from '../field.interface';
 
@@ -19,7 +20,9 @@ export class ImportConfigModalComponent implements OnInit, OnDestroy {
   selectedRow: number
   private subscriptions: Subscription[] = [];
   constructor(
-    private fb: FormBuilder, public modal: NgbActiveModal, private uiService: FormUIService, private cdRef: ChangeDetectorRef
+    private fb: FormBuilder, public modal: NgbActiveModal,
+    private uiService: FormUIService, private cdRef: ChangeDetectorRef,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +55,14 @@ export class ImportConfigModalComponent implements OnInit, OnDestroy {
   }
 
   delete(index: number) {
-    this.showData.splice(index, 1)
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.showData.splice(index, 1)
+        this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+        });
+      }
+    });
   }
 
 }

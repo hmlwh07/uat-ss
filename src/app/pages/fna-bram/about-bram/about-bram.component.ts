@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { MaterialTableViewComponent } from '../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { TechnologyComponent } from '../inputs/technology/technology.component';
 import { OutputsService } from '../outputs/outputs.manage.service';
@@ -76,7 +77,8 @@ export class AboutBramComponent implements OnInit {
   displayedColumns1 = ['name', 'dataList'];
   spans = [];
 
-  constructor(private cdf: ChangeDetectorRef, private outputsService: OutputsService) {
+  constructor(private cdf: ChangeDetectorRef, private outputsService: OutputsService,
+    private navController: NavController) {
 
   }
 
@@ -196,6 +198,10 @@ export class AboutBramComponent implements OnInit {
 
     this.cdf.detectChanges();
 
+  }
+
+  backToDetail() {
+    this.navController.back();
   }
 
 }

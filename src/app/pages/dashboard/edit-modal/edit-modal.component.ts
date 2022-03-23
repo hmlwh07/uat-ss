@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { FormUIService } from '../services/form-ui.service';
 
 
@@ -20,7 +21,7 @@ export class EditModalComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   constructor(
     public modal: NgbActiveModal,
-    private uiService: FormUIService
+    private uiService: FormUIService, private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -42,5 +43,13 @@ export class EditModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sb => sb.unsubscribe());
+  }
+
+  deleteEditModal() {
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
   }
 }

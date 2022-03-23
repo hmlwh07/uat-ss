@@ -15,7 +15,7 @@ import { Subscription } from "rxjs";
             {{message}}
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+        <button type="button" *ngIf= "title == 'Warning Message' " class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
             Cancel
         </button>
         <button type="submit" class="btn btn-primary btn-elevate" (click)="closeSuccess()">Ok</button>

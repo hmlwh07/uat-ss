@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, OperatorFunction, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { validateAllFields } from '../../../core/valid-all-feild';
 import { MasterDataService } from '../../../modules/master-data/master-data.service';
 import { BtnConfig, ConfigInput, InputBoxType, InputType, OptionValue, ValidationType } from '../field.interface';
@@ -37,7 +38,7 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder, public modal: NgbActiveModal,
-    private masterData: MasterDataService
+    private masterData: MasterDataService, private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -389,7 +390,7 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
     this.activePage = active
   }
 
-  changeDataType(event:any) {
+  changeDataType(event: any) {
     if (this.formGroup.value.master == 'true') {
       this.formGroup.controls.valueField.setValidators([Validators.required, Validators.nullValidator]);
       this.formGroup.controls.showField.setValidators([Validators.required, Validators.nullValidator]);
@@ -435,11 +436,18 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
   }
 
   delete(index: number) {
-    let delVal = this.optionData[index].value
-    if (delVal == this.formGroup.value.value) {
-      this.formGroup.controls['value'].setValue("")
-    }
-    this.optionData.splice(index, 1)
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        let delVal = this.optionData[index].value
+        if (delVal == this.formGroup.value.value) {
+          this.formGroup.controls['value'].setValue("")
+        }
+        this.optionData.splice(index, 1);
+        this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+
+        });
+      }
+    });
   }
 
   submit() {
@@ -447,6 +455,12 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
     this.optformGroup.reset()
   }
 
-
+  deleteEditModal() {
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
+  }
 
 }

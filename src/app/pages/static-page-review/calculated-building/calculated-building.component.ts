@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { FireContentService, FirePLantService, FireStockService } from '../../static-pages/calculated-building/services/calculated-building-service';
 
 @Component({
@@ -17,7 +18,9 @@ export class CalculatedBuildingComponent implements OnInit {
   totalContent: number = 0
   totalPlant: number = 0
   totalStock: number = 0
-  constructor(private FireContentService: FireContentService, private FirePLantService: FirePLantService, private FireStockService: FireStockService, private cdf: ChangeDetectorRef) {
+  constructor(private FireContentService: FireContentService,
+    private FirePLantService: FirePLantService, private FireStockService: FireStockService,
+    private cdf: ChangeDetectorRef, private alertService: AlertService) {
 
   }
 
@@ -94,25 +97,48 @@ export class CalculatedBuildingComponent implements OnInit {
 
 
   deleteFireContent(id) {
-    this.FireContentService.delete(id).toPromise().then((res: any) => {
-      if (res) {
-        this.getFireContent()
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.FireContentService.delete(id).toPromise().then((res: any) => {
+          if (res) {
+            this.getFireContent()
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
+
   deleteFirePlant(id) {
-    this.FirePLantService.delete(id).toPromise().then((res: any) => {
-      if (res) {
-        this.getFirePlant()
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.FirePLantService.delete(id).toPromise().then((res: any) => {
+          if (res) {
+            this.getFirePlant()
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
+
   deleteFireStock(id) {
-    this.FireStockService.delete(id).toPromise().then((res: any) => {
-      if (res) {
-        this.getFireStock()
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.FireStockService.delete(id).toPromise().then((res: any) => {
+          if (res) {
+            this.getFireStock()
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
 
 

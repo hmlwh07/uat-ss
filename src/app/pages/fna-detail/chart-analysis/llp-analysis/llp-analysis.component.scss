@@ -313,6 +313,20 @@
     width: 100%;
     overflow: hidden;
     margin: 47px 0 0 0;
+    div {
+        width: 250px;
+        margin: 0 auto;
+        overflow: hidden;
+        button {
+            max-width: 110px;
+            min-width: 100px;
+            float: left;
+        }
+
+        button:nth-child(2) {
+            float: right;
+        }
+    }
 }
 
 .inactive-freedon-left {
@@ -514,8 +528,6 @@
     margin: 0 auto;
 }
 
-
-
 @media screen and (min-width: 320px) and (max-width: 460px) {
     .chart {
         width: 265px;
@@ -526,7 +538,7 @@
         .investment {
             height: 90px;
             .lpp-icon {
-                top: 28px; 
+                top: 28px;
             }
             a {
                 top: 65px;
@@ -858,9 +870,9 @@
     }
 }
 
-button{
+button {
     color: #fff;
-    label{
+    label {
         margin: 0;
     }
 }

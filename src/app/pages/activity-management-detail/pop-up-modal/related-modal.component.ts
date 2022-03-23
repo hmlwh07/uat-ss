@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { map } from "rxjs/operators";
+import { AlertService } from "src/app/modules/loading-toast/alert-model/alert.service";
 import { MaterialTableViewComponent } from "../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component";
 import { PolicyService } from "../../policy/policy.service";
 import { QuotationService } from "../../quotations/quotation.service";
@@ -29,7 +30,9 @@ export class RelatedModalCompoent implements OnInit {
   type: string = "customer"
   dataList: any[] = []
   selectedName: string
-  constructor(public modal: NgbActiveModal, private quotService: QuotationService, private policyService: PolicyService, private customerService: CustomerListService, private employeeService: EmployeeListService,private cdf: ChangeDetectorRef) {
+  constructor(public modal: NgbActiveModal, private quotService: QuotationService, 
+    private policyService: PolicyService, private customerService: CustomerListService, 
+    private employeeService: EmployeeListService,private cdf: ChangeDetectorRef, private alertService: AlertService) {
   }
 
   ngOnInit() {
@@ -97,6 +100,14 @@ export class RelatedModalCompoent implements OnInit {
 
   actionBtn(event){
 
+  }
+
+  deleteEditModal() {
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
   }
 
 

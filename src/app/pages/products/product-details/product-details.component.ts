@@ -29,6 +29,7 @@ import { environment } from '../../../../environments/environment';
 import { EditSourceModalComponent } from '../edit-source-modal/edit-source-modal.component';
 import { ValidityPeriodService } from '../services/validity-period.service';
 import { getFileReader } from '../../../core/get-file-reader';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 
 @Component({
   selector: 'app-product-details',
@@ -102,7 +103,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       key: "insurer_name"
     }
   ]
-  constructor(private itemService: ProductDataService, private location: Location, private modalService: NgbModal, private fb: FormBuilder, private cdRef: ChangeDetectorRef, private coverageService: CoverageDataService, private addOnService: AddOnDataService, private productUI: ProductUIService, private prodDel: ProductUIDeleteService, private fileUpload: AttachmentUploadService, private loading: LoadingService, private validityPeriodService: ValidityPeriodService) {
+  constructor(private itemService: ProductDataService, private location: Location,
+    private modalService: NgbModal, private fb: FormBuilder, private cdRef: ChangeDetectorRef,
+    private coverageService: CoverageDataService, private addOnService: AddOnDataService,
+    private productUI: ProductUIService, private prodDel: ProductUIDeleteService,
+    private fileUpload: AttachmentUploadService, private loading: LoadingService,
+    private validityPeriodService: ValidityPeriodService, private alertService: AlertService) {
 
   }
 
@@ -306,21 +312,25 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   delete(type: string, id: number, index: number) {
-    const optionService = type == 'coverage' ? this.coverageService : this.addOnService
-
-    optionService.delete(id).toPromise().then(res => {
-      if (res) {
-        if (type == 'coverage') {
-          (this.product.coverages as []).splice(index, 1)
-        }
-        else {
-          (this.product.addOns as []).splice(index, 1)
-        }
-        this.cdRef.detectChanges()
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        const optionService = type == 'coverage' ? this.coverageService : this.addOnService
+        optionService.delete(id).toPromise().then(res => {
+          if (res) {
+            if (type == 'coverage') {
+              (this.product.coverages as []).splice(index, 1)
+            }
+            else {
+              (this.product.addOns as []).splice(index, 1)
+            }
+            this.cdRef.detectChanges();
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        });
       }
     });
-
-
   }
 
   changePayment(type: string) {
@@ -402,28 +412,37 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   async reChangeUI(type: string, data: any[]) {
-    await this.prodDel.deleteMany("type=" + type + "&productId=" + this.product.id).toPromise()
-    let success = []
-    for (let index = 0; index < data.length; index++) {
-      try {
-        const postData = {
-          "productId": this.product.id,
-          "type": type,
-          "dyProductID": data[index].dyProductID
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+      if (result) {
+        await this.prodDel.deleteMany("type=" + type + "&productId=" + this.product.id).toPromise()
+        let success = []
+        for (let index = 0; index < data.length; index++) {
+          try {
+            const postData = {
+              "productId": this.product.id,
+              "type": type,
+              "dyProductID": data[index].dyProductID
+            }
+            let res = await this.productUI.save(postData).toPromise();
+            if (res)
+              success.push({ id: res, ...postData, dynamicProduct: data[index] })
+          } catch (error) {
+
+          }
+
         }
-        let res = await this.productUI.save(postData).toPromise();
-        if (res)
-          success.push({ id: res, ...postData, dynamicProduct: data[index] })
-      } catch (error) {
+        //console.log(success,type);
 
+        this.product[type + "_ui"] = success
+        this.product[type + "_input"] = {}
+        this.pageReorder(type);
+        this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+        });
       }
+    });
 
-    }
-    //console.log(success,type);
 
-    this.product[type + "_ui"] = success
-    this.product[type + "_input"] = {}
-    this.pageReorder(type)
   }
 
   configInputDetail(type: string, page) {
@@ -762,15 +781,19 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   deleteLead(id: number, index: number) {
-
-    this.validityPeriodService.delete(id).toPromise().then(res => {
-      if (res) {
-        (this.leadSources as []).splice(index, 1)
-        this.cdRef.detectChanges()
+    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.validityPeriodService.delete(id).toPromise().then(res => {
+          if (res) {
+            (this.leadSources as []).splice(index, 1)
+            this.cdRef.detectChanges()
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        });
       }
     });
-
-
   }
 
 }
