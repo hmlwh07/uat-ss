@@ -361,7 +361,7 @@ export class RiskDetailComponent implements OnInit {
       this.fireRiskform.controls['totalSquareFoot'].setValue(square)
     }
   }
-  async calBuildingSi() {
+   calBuildingSi() {
     console.log("enter SI");
 
     this.buildingSi = 0
@@ -373,15 +373,15 @@ export class RiskDetailComponent implements OnInit {
       "wallCd": this.oldData.constructionOfWall,
       "year": this.oldData.yearOfConstruction,
     }
-    let pae2: any = await this.fireRiskRate.getMany(postData).toPromise()
-    let value = pae
-    if (pae2) {
-      let rate = pae2.limitedPae
-      // testing
-      value = pae < rate ? rate : pae
-    }
+    // let pae2: any = await this.fireRiskRate.getMany(postData).toPromise()
+    // let value = pae
+    // if (pae2) {
+    //   let rate = pae2.limitedPae
+    //   // testing
+    //   value = pae < rate ? rate : pae
+    // }
 
-    this.buildingSi = value * this.oldData.totalSquareFoot
+    this.buildingSi = this.oldData.sumInsure
     if (this.otherSi == 0) {
       this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
     }
