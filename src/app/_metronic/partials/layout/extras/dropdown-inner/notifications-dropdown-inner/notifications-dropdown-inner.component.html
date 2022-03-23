@@ -18,8 +18,11 @@
       
         <div class="navi-item" (click)="navDetail(noti)">
           <div class="navi-link ">
-            <div class="navi-icon mr-2 ">
-              <i class="flaticon2-line-chart text-success "></i>
+            <div class="navi-icon mr-2 " *ngIf="noti.notificationStatus">
+              <i class="flaticon2-bell text-success "></i>
+            </div>
+            <div class="navi-icon mr-2 " *ngIf="!noti.notificationStatus">
+              <i class="flaticon2-bell text-danger "></i>
             </div>
             <div class="navi-text ">
               <div class="font-weight-bold ">

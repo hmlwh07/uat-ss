@@ -24,6 +24,7 @@ export class NotificationsDropdownInnerComponent implements OnInit {
   constructor(private layout: LayoutService, private notificationService: NotificationService, private auth: AuthService,private prodctService:ProductDataService,private router:Router) { }
 
   async ngOnInit() {
+    
     this.extrasNotificationsDropdownStyle = this.layout.getProp(
       'extras.notifications.dropdown.style'
     );
