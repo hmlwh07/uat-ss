@@ -88,8 +88,8 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
           this.fromMaxDate = toDate.format('YYYY-MM-DD')
           let defVal = this.group.controls[this.config.name].value
           // if (moment(defVal) > moment(this.fromMaxDate)) {
-            // this.alert.activate(iterator.message, "Validation")
-            // this.group.controls[this.config.name].setValue(null)
+          // this.alert.activate(iterator.message, "Validation")
+          // this.group.controls[this.config.name].setValue(null)
           // }
           // this.fromMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
         }
@@ -161,12 +161,12 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
         this.valid.type = dateType;
         let toDate;
         if (this.group.controls[this.config.name].value) {
-          toDate = moment(this.group.controls[this.config.name].value).add(res.validationValue, dateType)
+          toDate = moment(this.group.controls[this.config.name].value).add(res.validationValue, dateType).subtract(1, 'days')
         } else {
-          toDate = moment().add(res.validationValue, dateType)
+          toDate = moment().add(res.validationValue, dateType).subtract(1, 'days')
           this.group.controls[this.config.name].setValue(moment())
         }
-        this.toMaxDate = toDate.format('YYYY-MM-DD')
+        this.toMaxDate = toDate.subtract(1, 'days').format('YYYY-MM-DD')
         this.group.controls[this.config.endName].setValue(toDate)
       }
     })
@@ -175,7 +175,7 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
   doValid() {
     let value = this.group.controls[this.config.name].value
     if (value && this.valid.value) {
-      let toDate = moment(this.group.controls[this.config.name].value).add(this.valid.value, this.valid.type)
+      let toDate = moment(this.group.controls[this.config.name].value).add(this.valid.value, this.valid.type).subtract(1, 'days')
       this.toMaxDate = toDate.format('YYYY-MM-DD')
       this.group.controls[this.config.endName].setValue(toDate)
     }
