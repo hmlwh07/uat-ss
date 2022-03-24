@@ -55,18 +55,18 @@ export class GlobalFunctionService {
   async paPremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     //console.log("call paPremiumCalculation",activeForm);
     let currency = ""
-    // let term = "0"
+    let term = "0"
     let sumIn = 0
     if (form)
       if (!this.sumInsuredValidation("form", activeForm, [], true)) {
         return false
       }
 
-    // if (activeForm.pa_policy_term) {
-    //   term = activeForm.pa_policy_term
-    // } else if (this.tempFormData['pa_product_detail']) {
-    //   term = this.tempFormData['pa_product_detail']['pa_policy_term'] || 0
-    // }
+    if (activeForm.pa_policy_term) {
+      term = activeForm.pa_policy_term
+    } else if (this.tempFormData['pa_product_detail']) {
+      term = this.tempFormData['pa_product_detail']['pa_policy_term'] || 0
+    }
 
     if (activeForm.sum_insured) {
       sumIn = activeForm.sum_insured
@@ -76,18 +76,17 @@ export class GlobalFunctionService {
     }
 
     let fector = 1
-    let getMonth = 12
-    // if (term == '001') {
-    //   fector = 1 / 4
-    //   getMonth = 3
-    // } else if (term == '002') {
-    //   fector = 1 / 2
-    //   getMonth = 6
-    // }
+    if (term == '001') {
+      fector = 1 / 4
+      // getMonth = 3
+    } else if (term == '002') {
+      fector = 1 / 2
+      // getMonth = 6
+    }
     // let exChange = await this.getRate(currency)
     // if (exChange < 0) return false
     let stumDuty = currency == "MMK" ? 100 : 1
-    let result = this.calculateDecimal((sumIn * (0.7 / 100)) / getMonth) + stumDuty
+    let result = this.calculateDecimal((sumIn * (0.7 / 100)) * fector) + stumDuty
     // if()
     this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency + " / month")
     return true
