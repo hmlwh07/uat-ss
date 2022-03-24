@@ -233,7 +233,7 @@ export class GlobalFunctionService {
     return true
   }
 
- 
+
 
   // validDOB(currentValue: string, activeForm: any, option?: any[], form?: boolean, productCode?: string) {
   //   let dob = activeForm['date_of_birth']
@@ -705,6 +705,19 @@ export class GlobalFunctionService {
       }
     } else {
       this.normalCoverageResult.next(currentValue)
+    }
+  }
+
+  validSharePercent(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let oldData = option ? option : []
+    let currentPercent = parseFloat(activeForm.share)
+    let total = oldData.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
+    let tempTotal = currentPercent + total
+    if (tempTotal > 100) {
+      this.alert.activate("Total Share Pervent can't over 100%", "Validation")
+      return false
+    } else {
+      return true
     }
   }
 

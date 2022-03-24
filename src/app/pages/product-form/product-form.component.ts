@@ -452,6 +452,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         } else {
           formData = res.formData
           this.tempData[page.tableName + page.id][isTable] = { ...formData, refId: res.refId }
+          this.globalFun.tempFormData = this.tempData
           this.cdRef.detectChanges();
         }
       }
@@ -529,6 +530,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           } else {
             this.tempData[page.tableName + page.id] = [{ ...formData, refId: res[0].refId }]
           }
+          this.globalFun.tempFormData = this.tempData
           this.cdRef.detectChanges()
         } else {
           this.tempData[page.tableName + page.id] = { ...formData, refId: res[0].refId, pageId: page.id }
@@ -559,8 +561,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   newData(editData?: any, index?: number) {
     const activeForm = this.formData[this.activePage];
     const modalRef = this.modalService.open(FormViewModalComponent, { size: 'xl' });
-    modalRef.componentInstance.controls = this.formData[this.activePage].controls
-    modalRef.componentInstance.pageName = this.formData[this.activePage].pageTitle
+    modalRef.componentInstance.controls = activeForm.controls
+    modalRef.componentInstance.pageName = activeForm.pageTitle
+    modalRef.componentInstance.activateForm = activeForm
     modalRef.componentInstance.oldData = index >= 0 ? editData : {}
     modalRef.result.then(() => { }, (res) => {
       if (res) {
