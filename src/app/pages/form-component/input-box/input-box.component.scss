@@ -1,0 +1,19 @@
+.currency-tag {
+  position      : absolute;
+  right         : 5px;
+  font-size     : 0.9rem;
+  text-transform: uppercase;
+  top           : 50%;
+  transform     : translateY(-50%);
+}
+
+[class*="col-"] .currency-tag{
+  right         : 20px;
+}
+
+.currency-input-tag {
+  padding-right: 35px;
+}
+.currency-group{
+  position: relative;
+}

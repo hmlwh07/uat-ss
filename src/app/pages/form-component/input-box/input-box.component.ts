@@ -9,32 +9,42 @@ import { Field, FUNCTION_TYPE } from '../field.interface';
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss']
 })
-export class InputBoxComponent implements Field,OnInit, OnDestroy {
-  
+export class InputBoxComponent implements Field, OnInit, OnDestroy {
+
   group: FormGroup;
   config: any
   unSub: Subscription[] = []
+  currencyType = "MMK"
   constructor(
     private globalFun: GlobalFunctionService
   ) { }
 
   ngOnInit() {
     this.listenFunData();
+    if (this.config.type == 'currency') {
+      this.unSub[1] = this.globalFun.currenyValueObs.subscribe((res) => {
+        if (this.currencyType != res) {
+          this.currencyType = res
+        }
+      })
+    }
   }
 
-   
+
 
   ngOnDestroy() {
     this.unSub.forEach((sb) => sb.unsubscribe());
   }
 
   doFunction() {
-    
+
     if (this.config.isFun) {
       if (this.config.inpFunction.type == FUNCTION_TYPE.TRIGGER) {
-        this.globalFun[this.config.inpFunction.funName](this.group.getRawValue()[this.config.name],this.group.getRawValue())
+        this.globalFun[this.config.inpFunction.funName](this.group.getRawValue()[this.config.name], this.group.getRawValue())
       }
     }
+
+
   }
 
   listenFunData() {

@@ -23,6 +23,7 @@ export class GlobalFunctionService {
   paPolicyValidationResult = new BehaviorSubject(null)
   halfOfSumInsuredResult = new BehaviorSubject(null)
   snakeSumInsuredResult = new BehaviorSubject(null)
+  currenyValueObs = new BehaviorSubject("MMK")
   tempFormData = {}
   exChange: number = 1650
 
@@ -88,7 +89,7 @@ export class GlobalFunctionService {
     let stumDuty = currency == "MMK" ? 100 : 1
     let result = this.calculateDecimal((sumIn * (0.7 / 100)) * fector) + stumDuty
     // if()
-    this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency + " / month")
+    this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency)
     return true
   }
   snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean) {

@@ -209,7 +209,8 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
       isHideView: [this.config.isHideView || false],
       policyterm: [this.config.policyterm || false],
       tableTitle: [this.config.tableTitle || ""],
-      party: [this.config.party || false]
+      party: [this.config.party || false],
+      isCurrency: [this.config.isCurrency || false]
     });
     if (this.input == InputBoxType.INPUT || this.input == InputBoxType.FILE || this.input == InputBoxType.DIALOG || this.input == InputBoxType.DATE) {
       let def = this.input == InputBoxType.DATE ? this.config.type || "date" : this.config.type || "";
