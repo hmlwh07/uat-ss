@@ -23,6 +23,7 @@ export class GlobalFunctionService {
   paPolicyValidationResult = new BehaviorSubject(null)
   halfOfSumInsuredResult = new BehaviorSubject(null)
   snakeSumInsuredResult = new BehaviorSubject(null)
+  currenyValueObs = new BehaviorSubject("MMK")
   tempFormData = {}
   exChange: number = 1650
 
@@ -55,18 +56,18 @@ export class GlobalFunctionService {
   async paPremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     //console.log("call paPremiumCalculation",activeForm);
     let currency = ""
-    // let term = "0"
+    let term = "0"
     let sumIn = 0
     if (form)
       if (!this.sumInsuredValidation("form", activeForm, [], true)) {
         return false
       }
 
-    // if (activeForm.pa_policy_term) {
-    //   term = activeForm.pa_policy_term
-    // } else if (this.tempFormData['pa_product_detail']) {
-    //   term = this.tempFormData['pa_product_detail']['pa_policy_term'] || 0
-    // }
+    if (activeForm.pa_policy_term) {
+      term = activeForm.pa_policy_term
+    } else if (this.tempFormData['pa_product_detail']) {
+      term = this.tempFormData['pa_product_detail']['pa_policy_term'] || 0
+    }
 
     if (activeForm.sum_insured) {
       sumIn = activeForm.sum_insured
@@ -76,20 +77,19 @@ export class GlobalFunctionService {
     }
 
     let fector = 1
-    let getMonth = 12
-    // if (term == '001') {
-    //   fector = 1 / 4
-    //   getMonth = 3
-    // } else if (term == '002') {
-    //   fector = 1 / 2
-    //   getMonth = 6
-    // }
+    if (term == '001') {
+      fector = 1 / 4
+      // getMonth = 3
+    } else if (term == '002') {
+      fector = 1 / 2
+      // getMonth = 6
+    }
     // let exChange = await this.getRate(currency)
     // if (exChange < 0) return false
     let stumDuty = currency == "MMK" ? 100 : 1
-    let result = this.calculateDecimal((sumIn * (0.7 / 100)) / getMonth) + stumDuty
+    let result = this.calculateDecimal((sumIn * (0.7 / 100)) * fector) + stumDuty
     // if()
-    this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency + " / month")
+    this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency)
     return true
   }
   snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
@@ -233,7 +233,7 @@ export class GlobalFunctionService {
     return true
   }
 
- 
+
 
   // validDOB(currentValue: string, activeForm: any, option?: any[], form?: boolean, productCode?: string) {
   //   let dob = activeForm['date_of_birth']
@@ -705,6 +705,19 @@ export class GlobalFunctionService {
       }
     } else {
       this.normalCoverageResult.next(currentValue)
+    }
+  }
+
+  validSharePercent(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let oldData = option ? option : []
+    let currentPercent = parseFloat(activeForm.share)
+    let total = oldData.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
+    let tempTotal = currentPercent + total
+    if (tempTotal > 100) {
+      this.alert.activate("Total Share Pervent can't over 100%", "Validation")
+      return false
+    } else {
+      return true
     }
   }
 

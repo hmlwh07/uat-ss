@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { DynamicFormComponent } from '../dynamic-form.component';
+import { FromGroupData } from '../field.interface';
 
 
 @Component({
@@ -16,25 +18,30 @@ export class FormViewModalComponent implements OnInit, OnDestroy {
   pageName: string
   controls: any[]
   oldData: any = {}
+  activateForm: FromGroupData
   stage: boolean = false
   constructor(
-    private fb: FormBuilder, public modal: NgbActiveModal
+    private fb: FormBuilder, public modal: NgbActiveModal,
+    private globalFun: GlobalFunctionService
   ) { }
 
   ngOnInit(): void {
     // this.dynForm.reCreateFrom()
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
 
   }
 
-  save(){
+  save() {
     let submited = this.dynForm.handleSubmit()
-      if(!submited) return false
-  }  
+    if (!submited) return false
+  }
 
-  saveTemp(data){
-    this.modal.dismiss({ data: data, type: 'save' })
+  async saveTemp(data) {
+    let page = this.activateForm
+    let fun = await this.globalFun[page.function]("", data, this.globalFun.tempFormData[page.tableName + page.id], true);
+    if (fun)
+      this.modal.dismiss({ data: data, type: 'save' })
   }
 
 }

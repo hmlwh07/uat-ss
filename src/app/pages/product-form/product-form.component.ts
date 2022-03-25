@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild,NgZone } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, NgZone } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { DatePipe, DecimalPipe, Location } from '@angular/common';
 // import { uuid } from 'uuid';
@@ -66,7 +66,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   editData: any
   creatingCustomer: Customer = {}
   creatingLeadId: number = 0
-  constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe,private ngZone:NgZone) { }
+  constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private ngZone: NgZone) { }
 
   async ngOnInit() {
     if ((this.prodService.type == 'policy' && this.prodService.createingProdRef)) {
@@ -452,6 +452,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         } else {
           formData = res.formData
           this.tempData[page.tableName + page.id][isTable] = { ...formData, refId: res.refId }
+          this.globalFun.tempFormData = this.tempData
           this.cdRef.detectChanges();
         }
       }
@@ -529,6 +530,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           } else {
             this.tempData[page.tableName + page.id] = [{ ...formData, refId: res[0].refId }]
           }
+          this.globalFun.tempFormData = this.tempData
           this.cdRef.detectChanges()
         } else {
           this.tempData[page.tableName + page.id] = { ...formData, refId: res[0].refId, pageId: page.id }
@@ -559,8 +561,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   newData(editData?: any, index?: number) {
     const activeForm = this.formData[this.activePage];
     const modalRef = this.modalService.open(FormViewModalComponent, { size: 'xl' });
-    modalRef.componentInstance.controls = this.formData[this.activePage].controls
-    modalRef.componentInstance.pageName = this.formData[this.activePage].pageTitle
+    modalRef.componentInstance.controls = activeForm.controls
+    modalRef.componentInstance.pageName = activeForm.pageTitle
+    modalRef.componentInstance.activateForm = activeForm
     modalRef.componentInstance.oldData = index >= 0 ? editData : {}
     modalRef.result.then(() => { }, (res) => {
       if (res) {
@@ -625,6 +628,14 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     //   }
     // }
+    let activeValue = this.formData[this.activePage]
+    if (activeValue.pageType == 'table') {
+      if (!this.tempData[activeValue.tableName + activeValue.id]) {
+        return false
+      } else if (this.tempData[activeValue.tableName + activeValue.id].length > 0) {
+        return false
+      }
+    }
     if (this.pageOrder.length > index + 1) {
       this.updateDataStatus()
       this.activePage += 1

@@ -49,6 +49,7 @@ export interface ConfigInput {
   isFun?: boolean
   inpFunction?: InputFunction
   isHideView?: boolean
+  isCurrency?: boolean
   policyterm?: boolean
   tableTitle?: string
   party?: boolean

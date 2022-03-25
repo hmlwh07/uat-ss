@@ -437,6 +437,15 @@
             </ng-template>
           </div>
           <!-- Text -->
+          <div class="col-md-3" *ngIf="input == 'radio' ">
+            <label>Select Radio Type</label>
+            <select class="form-control form-control-sm" name="isCurrency"
+              [class.is-invalid]="isControlInvalid('isCurrency')" formControlName="isCurrency">
+              <!-- <option value="">Select Input Type</option> -->
+              <option value="true">Currency Box</option>
+              <option value="false">Noraml Select</option>
+            </select>
+          </div>
         </div>
         <div class="form-group row" *ngIf="input == 'select' || input == 'checkbox' || input == 'radio'"
           style="align-items: center;">
