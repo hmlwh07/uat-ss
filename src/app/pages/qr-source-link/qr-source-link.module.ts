@@ -6,10 +6,10 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponentModule } from '../form-component/form-component.module';
 import { StaticPagesModule } from '../static-pages/static-pages.module';
-import { QRCodeComponent } from 'angularx-qrcode';
+import { QrSourceLinkComponent } from './qr-source-link.component';
 
 @NgModule({
-  declarations: [QRCodeComponent],
+  declarations: [QrSourceLinkComponent],
   imports: [
     CommonModule,
     InlineSVGModule,
@@ -20,7 +20,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
     RouterModule.forChild([
       {
         path: '',
-        component: QRCodeComponent,
+        component: QrSourceLinkComponent,
       },
     ]),
   ],
