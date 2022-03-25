@@ -8,7 +8,8 @@
     }
 }
 
-h3, h4 {
+h3,
+h4 {
     font-size: 0.9rem;
 }
 
@@ -16,7 +17,7 @@ h3, h4 {
     float: left;
 }
 
-.col-4{
+.col-4 {
     padding-left: 26px;
     span {
         color: red;
@@ -25,16 +26,17 @@ h3, h4 {
     }
 }
 
-.delete{
+.delete {
     display: inline-block;
     color: #005f99 !important;
     text-decoration: underline;
     font-size: 0.9rem;
 }
 
-button{
+button {
     width: 120px;
 }
 
-
-
+.sub-title {
+    color: #005f99 !important;
+}

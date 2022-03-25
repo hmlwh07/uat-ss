@@ -32,6 +32,7 @@ h4 {
     color: #005f99 !important;
     text-decoration: underline;
     font-size: 0.9rem;
+    min-width: 70px;
 }
 
 button{
@@ -40,6 +41,10 @@ button{
 
 .error-message{
     color: red;
+}
+
+.sub-title {
+    color: #005f99 !important;
 }
 
 

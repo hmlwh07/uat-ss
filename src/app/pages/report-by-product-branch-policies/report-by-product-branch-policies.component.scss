@@ -13,7 +13,8 @@
 table {
     overflow: hidden;
     width: 100%;
-    border-collapse: unset;
+    border: 1px solid #e3e3e3;
+    border-collapse: collapse;
     tr {
         width: 100%;
         overflow: hidden;
@@ -22,7 +23,8 @@ table {
             min-width: 110px;
             text-align: center;
             position: relative;
-            border-collapse: unset;
+            border: 1px solid #e3e3e3;
+            border-collapse: collapse;
             span {
                 width: 50%;
                 display: block;
@@ -65,7 +67,7 @@ table {
 .right-border-transform {
     width: 1px;
     height: 100%;
-    background-color: #000;
+    background-color: #e3e3e3;
     transform: rotate(0deg);
     position: absolute;
     top: 0;

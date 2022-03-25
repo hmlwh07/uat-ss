@@ -150,7 +150,15 @@ export class InputDataDialogComponent implements OnInit {
       this.formGroup.controls['valueLaksText'].setValue('');
       this.formGroup.controls['valueLaksText'].setValue('');
     } else {
-      this.formGroup.controls['valueLaksText'].setValue(num.toLocaleString());
+      if (this.type == "Warehouse") {
+        if (num <= 999999999) {
+          this.formGroup.controls['valueLaksText'].setValue(num.toLocaleString());
+        } else {
+          this.formGroup.controls['valueLaksText'].setValue("");
+        }
+      } else {
+        this.formGroup.controls['valueLaksText'].setValue(num.toLocaleString());
+      }
     }
   }
 
