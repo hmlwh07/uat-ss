@@ -581,7 +581,7 @@ export class LeadDetailComponent implements OnInit {
       sourceCode = data
     } else {
       let source = this.sourceOption.find((p) => p.code == code);
-      sourceCode=source.code
+      sourceCode = source.code
     }
     let channel = this.leadForm.getRawValue().channelCode
     if (sourceCode && channel) {
@@ -948,13 +948,35 @@ export class LeadDetailComponent implements OnInit {
 
     if (this.oldData) {
       this.getLeadQuality()
-      this.calculateScore(null,this.oldData.sourceCode)
+      this.calculateScore(null, this.oldData.sourceCode)
     }
 
   }
 
   backLocation() {
     this.loadForm(this.oldData);
+  }
+  clearDate(key) {
+    if (key == 'referralCustomerName') {
+      this.leadForm.controls[key].setValue(null)
+      this.leadForm.controls['referralCustomerId'].setValue(null)
+
+    }
+    if (key == 'existingCustomerName') {
+      this.leadForm.controls[key].setValue(null)
+      this.leadForm.controls['existingCustomerId'].setValue(null)
+
+    }
+    if (key == 'campaignName' || key == 'campaignNo') {
+      this.leadForm.controls['campaignName'].setValue(null)
+      this.leadForm.controls['campaignNo'].setValue(null)
+
+    }
+    if (key == 'prospectCustomer') {
+      this.leadForm.controls['prospectCustomer'].setValue(null)
+      this.leadForm.controls['prospectCustomerId'].setValue(null)
+      this.isAddProspect = false
+    }
   }
 
   createLead() {

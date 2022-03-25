@@ -7,16 +7,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm">
-                                Related to <br>
-                                {{actForm.controls.relatedTo.value}}
+                                Related to <br> {{actForm.controls.relatedTo.value}}
                             </div>
                             <div class="col-sm">
-                                Owner <br>
-                                {{actForm.controls.assignName.value}}
+                                Owner <br> {{actForm.controls.assignName.value}}
                             </div>
                             <div class="col-sm">
-                                Status <br>
-                                {{activityStatus[actForm.controls.status.value]}}
+                                Status <br> {{activityStatus[actForm.controls.status.value]}}
                             </div>
                             <div class="col-sm">
                                 Date <br>
@@ -25,7 +22,7 @@
                                 </ng-container>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
                 <!-- end: Table -->
@@ -45,18 +42,14 @@
                         <div class="col-sm-12" *ngIf="pageStatus == 'edit'">
                             <div class="form-group">
                                 <label class="form-label">Activity No.</label>
-                                <input type="text" class="form-control form-control-sm" name="activityNo"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('activityNo')"
-                                    [class.is-valid]="isControlValid('activityNo')" formControlName="activityNo" />
+                                <input type="text" class="form-control form-control-sm" name="activityNo" autocomplete="off" [class.is-invalid]="isControlInvalid('activityNo')" [class.is-valid]="isControlValid('activityNo')" formControlName="activityNo" />
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Activity Type</label>
-                                <select class="form-control form-control-sm" name="actType" autocomplete="off"
-                                    [class.is-invalid]="isControlInvalid('activityType')"
-                                    [class.is-valid]="isControlValid('activityType')" formControlName="activityType">
+                                <select class="form-control form-control-sm" name="actType" autocomplete="off" [class.is-invalid]="isControlInvalid('activityType')" [class.is-valid]="isControlValid('activityType')" formControlName="activityType">
                                     <option value="">Select Activity Type</option>
                                     <option value="{{item}}" *ngFor="let item of activityType">{{item}}</option>
                                 </select>
@@ -69,20 +62,15 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Activity Title</label>
-                                <input type="text" class="form-control form-control-sm" name="actTitle"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('activityTitle')"
-                                    [class.is-valid]="isControlValid('activityTitle')"
-                                    formControlName="activityTitle" />
+                                <input type="text" class="form-control form-control-sm" name="actTitle" autocomplete="off" [class.is-invalid]="isControlInvalid('activityTitle')" [class.is-valid]="isControlValid('activityTitle')" formControlName="activityTitle" />
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="form-label">Activity Description</label>
-                                <textarea name="" rows="4" class="form-control form-control-sm" name="actDesc"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('activityDescription')"
-                                    [class.is-valid]="isControlValid('activityDescription')"
-                                    formControlName="activityDescription" style="resize: false;"></textarea>
+                                <textarea name="" rows="4" class="form-control form-control-sm" name="actDesc" autocomplete="off" [class.is-invalid]="isControlInvalid('activityDescription')" [class.is-valid]="isControlValid('activityDescription')" formControlName="activityDescription"
+                                    style="resize: false;"></textarea>
                             </div>
                         </div>
 
@@ -91,8 +79,7 @@
                                 <label class="form-label">Planned Date </label>
                                 <div class="input-group ">
 
-                                    <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                        formControlName="planDateStr" [matDatepicker]="planDateStr" readonly>
+                                    <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="planDateStr" [matDatepicker]="planDateStr" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="planDateStr"></mat-datepicker-toggle>
                                     <mat-datepicker #planDateStr disabled="false"></mat-datepicker>
 
@@ -104,8 +91,7 @@
                             <div class="form-group">
                                 <label class="form-label">Actual Date</label>
                                 <div class="input-group ">
-                                    <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                        formControlName="actualDateStr" [matDatepicker]="actualDateStr" readonly>
+                                    <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="actualDateStr" [matDatepicker]="actualDateStr" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="actualDateStr"></mat-datepicker-toggle>
                                     <mat-datepicker #actualDateStr disabled="false"></mat-datepicker>
                                 </div>
@@ -116,8 +102,7 @@
                             <div class="form-group">
                                 <label class="form-label">Due Date</label>
                                 <div class="input-group ">
-                                    <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                        formControlName="dueDateStr" [matDatepicker]="dueDateStr" readonly>
+                                    <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="dueDateStr" [matDatepicker]="dueDateStr" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="dueDateStr"></mat-datepicker-toggle>
                                     <mat-datepicker #dueDateStr disabled="false"></mat-datepicker>
                                 </div>
@@ -127,35 +112,30 @@
                         <div class="col-sm-4">
                             <div class="form-group" (click)="openModal('quotation')">
                                 <label class="form-label">Related To</label>
-                                <input type="text" class="form-control form-control-sm" name="relatedTo"
-                                    autocomplete="off" formControlName="relatedTo" />
+                                <input type="text" class="form-control form-control-sm" name="relatedTo" autocomplete="off" formControlName="relatedTo" />
+                                <span class="ng-clear-wrapper" (click)="clearDate('relatedTo');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group" (click)="viewCustomer()">
                                 <label class="form-label">Customer Name</label>
-                                <input type="text" class="form-control form-control-sm" name="customerName"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('customerId')"
-                                    [class.is-valid]="isControlValid('customerId')" formControlName="customerName" />
+                                <input type="text" class="form-control form-control-sm" name="customerName" autocomplete="off" [class.is-invalid]="isControlInvalid('customerId')" [class.is-valid]="isControlValid('customerId')" formControlName="customerName" />
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group" (click)="viewAgent('agent')">
                                 <label class="form-label">Assign To</label>
-                                <input type="text" class="form-control form-control-sm" name="assignName"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('assignTo')"
-                                    [class.is-valid]="isControlValid('assignTo')" formControlName="assignName" />
+                                <input type="text" class="form-control form-control-sm" name="assignName" autocomplete="off" [class.is-invalid]="isControlInvalid('assignTo')" [class.is-valid]="isControlValid('assignTo')" formControlName="assignName" />
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="form-label">Status</label>
-                                <select class="form-control form-control-sm" name="status" autocomplete="off"
-                                    [class.is-invalid]="isControlInvalid('status')"
-                                    [class.is-valid]="isControlValid('status')" formControlName="status">
+                                <select class="form-control form-control-sm" name="status" autocomplete="off" [class.is-invalid]="isControlInvalid('status')" [class.is-valid]="isControlValid('status')" formControlName="status">
                                     <option value="01">Open</option>
                                     <option value="02">Complete</option>
                                     <option value="03">Cancel</option>

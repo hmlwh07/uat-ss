@@ -101,6 +101,9 @@ export class ActivityManagementDetailComponent implements OnInit {
   ngAfterViewInit() {
 
   }
+  clearDate(key){
+    this.actForm.controls[key].setValue(null)
+  }
 
   getOld() {
     this.activityManageService.findOne(this.oldId).toPromise().then((res) => {

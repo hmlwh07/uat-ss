@@ -220,6 +220,14 @@ export class LeadListComponent implements OnInit {
   onActionEdit(){
     
   }
+  clearDate(key){
+    this.LeadForm.controls[key].setValue(null)
+    if(key=='existingCustomerName'){
+      this.LeadForm.controls[key].setValue(null)
+      this.LeadForm.controls['existingCustomerId'].setValue(null)
+
+    }
+  }
 
   viewExistingCustomer() {
     let modalRef;

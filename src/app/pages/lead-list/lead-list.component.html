@@ -76,6 +76,8 @@
                                 <div class="col-sm-8" (click)="viewExistingCustomer()">
                                     <input type="text" class="form-control form-control-sm " name="existingCustomerName" autocomplete="off" [class.is-invalid]="isControlInvalid('existingCustomerName')" [class.is-valid]="isControlValid('existingCustomerName')" formControlName="existingCustomerName"
                                         readonly />
+                                    <span class="ng-clear-wrapper" (click)="clearDate('existingCustomerName');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+
                                 </div>
                             </div>
                         </div>
@@ -95,6 +97,8 @@
                                 <label class="col-sm-4 col-form-label">Campaign Name </label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control form-control-sm " name="campaignName" autocomplete="off" [class.is-invalid]="isControlInvalid('campaignName')" [class.is-valid]="isControlValid('campaignName')" formControlName="campaignName" />
+                                    <span class="ng-clear-wrapper" (click)="clearDate('campaignName');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+
                                 </div>
                             </div>
                         </div>
@@ -122,7 +126,7 @@
                                 <ng-template #defaultImg>
                                     <img class="prod-logo" src="assets/icon/general_product.svg">
                                 </ng-template>
-                                    <label>{{item.productName}}</label>
+                                <label>{{item.productName}}</label>
                             </div>
                             <div class="header-action">
                                 <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm" (click)="onActionEdit()">
