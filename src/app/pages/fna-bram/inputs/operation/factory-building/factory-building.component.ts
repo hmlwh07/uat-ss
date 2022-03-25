@@ -45,7 +45,7 @@ export class FactoryBuildingComponent implements OnInit {
   }
 
   delete(id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.operationService.deleteOperationById(id).toPromise().then(async (res: any) => {
           if (res) {

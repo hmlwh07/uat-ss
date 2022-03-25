@@ -55,7 +55,7 @@ export class ImportConfigModalComponent implements OnInit, OnDestroy {
   }
 
   delete(index: number) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.showData.splice(index, 1)
         this.alertService.activate('This record was deleted', 'Success Message').then(result => {

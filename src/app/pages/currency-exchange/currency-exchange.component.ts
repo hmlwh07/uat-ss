@@ -125,7 +125,7 @@ export class CurrencyExChangeComponent implements OnInit {
   }
 
   deleleData(id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.currencyService.delete(id).toPromise().then((res) => {
           if (res) {

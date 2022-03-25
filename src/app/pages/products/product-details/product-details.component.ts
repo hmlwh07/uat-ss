@@ -312,7 +312,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   delete(type: string, id: number, index: number) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         const optionService = type == 'coverage' ? this.coverageService : this.addOnService
         optionService.delete(id).toPromise().then(res => {
@@ -412,7 +412,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   async reChangeUI(type: string, data: any[]) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
       if (result) {
         await this.prodDel.deleteMany("type=" + type + "&productId=" + this.product.id).toPromise()
         let success = []
@@ -781,7 +781,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   deleteLead(id: number, index: number) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.validityPeriodService.delete(id).toPromise().then(res => {
           if (res) {

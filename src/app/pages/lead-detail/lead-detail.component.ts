@@ -1129,7 +1129,7 @@ export class LeadDetailComponent implements OnInit {
         this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
       }
       if (event.cmd == 'delete') {
-        this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+        this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
           if (result) {
             this.LeadAttachmentService.delete(event.data.id).toPromise().then((res) => {
               // if (res) {
@@ -1425,7 +1425,7 @@ export class LeadDetailComponent implements OnInit {
   }
 
   async deleteFNA(id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
       if (result) {
         await this.fnaListService.delete(id).toPromise().then(async (res: any) => {
           this.fnaList = this.fnaList.filter(data =>
