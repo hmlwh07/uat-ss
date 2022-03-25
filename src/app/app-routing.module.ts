@@ -15,6 +15,7 @@ export const routes: Routes = [
   },
   {
     path: 'qr-source-link',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/qr-source-link/qr-source-link.module').then((m) => m.QrModule),
   },

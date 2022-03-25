@@ -5,7 +5,7 @@ import { UserModel } from '../_models/user.model';
 import { AuthModel } from '../_models/auth.model';
 import { AuthHTTPService } from './auth-http';
 import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
+import { Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +40,7 @@ export class AuthService implements OnDestroy {
 
   constructor(
     private authHttpService: AuthHTTPService,
-    private router: Router
+    private router: Router,
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserModel>(undefined);
@@ -56,7 +56,7 @@ export class AuthService implements OnDestroy {
     return this.authHttpService.login(email, password).pipe(
       map((res: any) => {
         // console.log(res);
-        
+
         let auth = new AuthModel()
         auth.setAuth(res);
         const result = this.setAuthFromLocalStorage(auth);
@@ -73,8 +73,9 @@ export class AuthService implements OnDestroy {
 
   logout() {
     localStorage.removeItem(this.authLocalStorageToken);
+    let url = `${this.router.url}`;
     this.router.navigate(['/auth/login'], {
-      queryParams: {},
+      queryParams: { redirectTo: url },
       replaceUrl: true
     });
   }
