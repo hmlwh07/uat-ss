@@ -22,6 +22,7 @@ import { CustomerListComponent } from "../customer-list/customer-list.component"
 import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
 import { environment } from "../../../environments/environment";
+import { LanguagesService } from "src/app/modules/languages/languages.service";
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -55,7 +56,8 @@ export class LeadListComponent implements OnInit {
     private LeadListService: LeadListService,
     private masterDataService: MasterDataService,
     private productService: ProductDataService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private translate:LanguagesService
   ) {
     this.loadForm();
   }

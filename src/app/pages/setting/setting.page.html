@@ -1,0 +1,21 @@
+<div class="screen-padding pt-l">
+    <ion-row class="mb-n">
+        <ion-col size="12">
+            <h3 class="card-label left-border-image">{{'FORM.change' | translate}}</h3>
+        </ion-col>
+    </ion-row>
+    <ion-radio-group [(ngModel)]="languageData" (ionChange)="changeLang()">
+        <ion-row class="mt-l">
+            <ion-col size="12" style="display: flex;align-items: center;">
+                <ion-radio value="mm"></ion-radio>
+                <ion-label class="setting-label">{{'FORM.mm' | translate}}</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="mt-l">
+            <ion-col size="12" style="display: flex;align-items: center;">
+                <ion-radio value="en"></ion-radio>
+                <ion-label class="setting-label">{{'FORM.en' | translate}}</ion-label>
+            </ion-col>
+        </ion-row>
+    </ion-radio-group>
+</div>

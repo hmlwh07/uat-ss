@@ -208,6 +208,15 @@ export const DynamicAsideMenuConfig = {
       show: true,
     },
     {
+      title: 'Setting',
+      root: true,
+      icon: 'flaticon-lock',
+      svg: './assets/media/svg/icons/Design/Layers.svg',
+      page: '/setting',
+      bullet: 'dot',
+      show: true,
+    },
+    {
       title: 'Report',
       root: true,
       icon: 'flaticon-line-graph',
@@ -296,18 +305,11 @@ export const DynamicAsideMenuConfig = {
           title: 'Key Driver Report',
           page: '/report/report-key-driver',
           show: true
-        }
+        },
+       
       ]
     },
-    {
-      title: 'Setting',
-      root: true,
-      icon: 'flaticon-cogwheel-1',
-      svg: './assets/media/svg/icons/Design/Layers.svg',
-      page: '/report',
-      bullet: 'dot',
-      show: true
-    },
+   
 
     // {
     //   title: 'Page Group',

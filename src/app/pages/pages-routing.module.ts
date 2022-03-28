@@ -291,6 +291,10 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'setting',
+        loadChildren: () => import('./setting/setting.module').then( m => m.SettingPageModule)
+      },
+      {
         path: '',
         redirectTo: '/product/page-group',
         pathMatch: 'full',
@@ -301,6 +305,8 @@ const routes: Routes = [
       },
     ],
   },
+ 
+
 ];
 
 @NgModule({
