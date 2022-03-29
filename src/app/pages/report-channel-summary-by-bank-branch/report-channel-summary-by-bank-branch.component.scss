@@ -13,7 +13,8 @@
 table {
     overflow: hidden;
     width: 100%;
-    border-collapse: unset;
+    border: 1px solid #e3e3e3;
+    border-collapse: collapse;
     tr {
         width: 100%;
         overflow: hidden;
@@ -21,14 +22,14 @@ table {
         td {
             text-align: center;
             position: relative;
-            border-collapse: unset;
+            border: 1px solid #e3e3e3;
+            border-collapse: collapse;
             span {
                 width: 50%;
                 display: block;
                 float: left;
                 text-align: center;
             }
-           
         }
     }
 }
@@ -47,7 +48,7 @@ table {
     }
 }
 
-.date-display{
+.date-display {
     width: 100%;
     overflow: hidden;
     span {
@@ -61,26 +62,26 @@ table {
 .right-border-transform {
     width: 1px;
     height: 100%;
-    background-color: #000;
+    background-color: #e3e3e3;
     transform: rotate(0deg);
     position: absolute;
     top: 0;
     left: 49%;
 }
 
-.data{
-    td:nth-child(1){
+.data {
+    td:nth-child(1) {
         text-align: left !important;
     }
 }
 
-.from-date {    
+.from-date {
     button {
         padding: 0;
         position: absolute;
         right: 0;
-        width: auto;      
-        color: #FFFFFF;
+        width: auto;
+        color: #ffffff;
         background-color: #005f99;
         border-color: #005f99;
         height: 35px;
@@ -100,7 +101,6 @@ table {
     }
 }
 
-  
 .text-left {
     text-align: left !important;
 }
@@ -109,8 +109,3 @@ table {
     text-align: end;
     padding: 0 5px 0 0;
 }
-
-.card {
-    overflow: visible !important;
-}
-
