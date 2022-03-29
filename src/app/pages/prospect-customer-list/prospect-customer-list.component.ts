@@ -1,20 +1,20 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
-import { CustomerCol, CustomerDisplayCol, IdentityType, Status } from './customer-list.const';
-import { CustomerListService } from './customer-list.service';
+import { CustomerCol, CustomerDisplayCol, IdentityType, Status } from './../customer-list/customer-list.const';
+import { CustomerListService } from './../customer-list/customer-list.service';
 
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomDateParserFormatter } from '../../_metronic/core';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../core/is-json';
+import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 
 @Component({
-  selector: 'app-customer-list',
-  templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.scss'],
+  selector: 'app-prospect-customer-list',
+  templateUrl: './prospect-customer-list.component.html',
+  styleUrls: ['./../customer-list/customer-list.component.scss'],
   providers: [
     { provide: NgbDateAdapter, useClass: CustomAdapter },
     { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
@@ -23,7 +23,7 @@ import { MY_FORMATS } from '../../core/is-json';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class CustomerListComponent implements OnInit {
+export class ProspectCustomerListComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
 
   ELEMENT_COL = JSON.parse(JSON.stringify(CustomerCol))
@@ -37,7 +37,7 @@ export class CustomerListComponent implements OnInit {
   customerForm: FormGroup;
   @Output() selectedUser = new EventEmitter();
   @Input() isPopup: boolean = false
-  @Input() party: boolean = true
+  @Input() party: boolean = false
   @Input() isDynamic: boolean = false
   show: boolean = false
   constructor(private router: Router, private cdf: ChangeDetectorRef, private customerListService: CustomerListService, private modalService: NgbModal) {

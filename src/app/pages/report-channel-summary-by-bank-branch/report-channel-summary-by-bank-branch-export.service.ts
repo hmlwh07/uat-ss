@@ -214,6 +214,7 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
         dataCell.alignment = { vertical: 'middle', horizontal: 'left' }
       }else{
         dataCell.numFmt = '#,##0.00_);(#,##0.00)';
+        dataCell.alignment = { vertical: 'middle', horizontal: 'right' }
       }
     }
 
@@ -231,6 +232,7 @@ export class ReportChannelSummaryBankBranchExportService extends BizOperationSer
         dataCell.alignment = { vertical: 'middle', horizontal: 'left' }
       }else{
         dataCell.numFmt = '#,##0.00_);(#,##0.00)';
+        dataCell.alignment = { vertical: 'middle', horizontal: 'right' }
       }
 
     }
