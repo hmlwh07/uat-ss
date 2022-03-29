@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Party Code</label>
                                 <div class="col-sm-8">
@@ -46,6 +46,18 @@
                                 </div>
                             </div>
 
+                        </div> -->
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Status</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm"
+                                        [class.is-invalid]="isControlInvalid('statusCode')"
+                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
+                                        bindLabel="value" bindValue="code" formControlName="statusCode">
+                                    </ng-select>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -63,20 +75,20 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">ID No.</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control form-control-sm " name="identityNumber"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
-                                    [class.is-valid]="isControlValid('identityNumber')"
-                                    formControlName="identityNumber" />
+                        <!-- </div> -->
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">ID No.</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm " name="identityNumber"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
+                                        [class.is-valid]="isControlValid('identityNumber')"
+                                        formControlName="identityNumber" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- </div> -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Status</label>
@@ -89,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>

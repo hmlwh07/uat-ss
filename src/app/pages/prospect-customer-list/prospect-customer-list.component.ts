@@ -49,6 +49,8 @@ export class ProspectCustomerListComponent implements OnInit {
       this.ELEMENT_COL.splice(9, 1)
       this.displayedColumns.splice(9, 1)
     }
+    this.ELEMENT_COL.splice(3, 1)
+    this.displayedColumns.splice(3, 1)
     this.show = true
   }
   ngAfterViewInit() {

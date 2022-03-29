@@ -32,7 +32,6 @@ export class CustomerListService {
     // if (popup) {
       url = url + "isPartyCode=" + party
     // }
-    console.log(url);
     return this.httpClient.get(url)
   }
 }
