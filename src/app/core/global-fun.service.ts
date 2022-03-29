@@ -714,7 +714,7 @@ export class GlobalFunctionService {
     let total = oldData.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
     let tempTotal = currentPercent + total
     if (tempTotal > 100) {
-      this.alert.activate("Total Share Pervent can't over 100%", "Validation")
+      this.alert.activate("Total Share Percent can't over 100%", "Validation")
       return false
     } else {
       return true

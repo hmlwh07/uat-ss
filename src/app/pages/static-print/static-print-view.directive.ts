@@ -10,8 +10,10 @@ import { FarmerPrintComponent } from "./farmer-print/farmer-print.component";
 import { FireDetailPrintComponent } from "./fire-detail-print/fire-detail-print.component";
 import { FireRiskPrintComponent } from "./fire-risk-print/fire-risk-print.component";
 import { HealthPrintComponent } from "./health-print/health-print.component";
+import { HealthQuoPrintComponent } from "./health-quo-print/health-quo-print.component";
 import { MoterPrintComponent } from "./moter-print/moter-print.component";
 import { PaPrintComponent } from "./pa-print/pa-print.component";
+import { SimplePagePrintComponent } from "./simple-page-print/simple-page-print.component";
 
 const STATIC_PRINT_COMPONENT = {
   'print_1638594148571': MoterPrintComponent,
@@ -24,7 +26,9 @@ const STATIC_PRINT_COMPONENT = {
   'static_1643116155828': FireRiskPrintComponent,
   'static_1644896661652': EndoPrintComponent,
   'print_1645941212846': EndoSignPrintComponent,
-  'static_1635309151504': EducationLifePrintComponent
+  'static_1635309151504': EducationLifePrintComponent,
+  'static_1634018514043': SimplePagePrintComponent,
+  'static_1635218894755': HealthQuoPrintComponent,
 }
 @Directive({
   selector: '[staticPirint]'

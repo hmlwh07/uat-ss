@@ -11,11 +11,11 @@ import { HealthPaymentService } from '../../static-pages/health-quo/models&servi
 import { StaticActionType, StaticPageAction } from '../../static-pages/static-field.interface';
 
 @Component({
-  selector: 'app-health-quo-view',
-  templateUrl: './health-quo-view.component.html',
-  styleUrls: ['./health-quo-view.component.scss']
+  selector: 'app-health-quo-print',
+  templateUrl: './health-quo-print.component.html',
+  styleUrls: ['./health-quo-print.component.scss']
 })
-export class HealthQuoViewComponent implements OnInit {
+export class HealthQuoPrintComponent implements OnInit {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string

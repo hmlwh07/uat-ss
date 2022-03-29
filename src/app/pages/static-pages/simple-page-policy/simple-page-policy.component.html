@@ -74,9 +74,9 @@
             <!-- *ngFor="let item of options" {{item.premiumStr}} -->
             <!-- <mat-radio-button class="mx-1" *ngFor="let item of options" [value]="item.id"> {{item.premiumStr}}
             </mat-radio-button> -->
-            <mat-radio-button class="mx-1" [value]="'Health Insurance'">Health Insurance
+            <mat-radio-button class="mx-1" [value]="'HEALTH'">Health Insurance
             </mat-radio-button>
-            <mat-radio-button class="mx-1" *ngIf="currentAge < 61" [value]="'Critical illness'">Critical illness
+            <mat-radio-button class="mx-1" *ngIf="currentAge < 61" [value]="'CRTILLNESS'">Critical illness
             </mat-radio-button>
           </mat-radio-group>
         </div>
@@ -111,8 +111,8 @@
         <div class="col-6">
           <select name="payment_frequency" formControlName="paymentFrequency" class="form-control form-control-sm">
             <option [value]="null">Please Select Payment Frequency</option>
-            <option value="lump">Lump Sum</option>
-            <option value="semi_annually">Semi-Annually</option>
+            <option value="L">Lump Sum</option>
+            <option value="S">Semi-Annually</option>
           </select>
           <app-print-error [control]="controls.paymentFrequency"></app-print-error>
 

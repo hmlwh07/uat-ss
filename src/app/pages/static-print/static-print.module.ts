@@ -15,10 +15,12 @@ import { EndoSignPrintComponent } from './endo-sign-print/endo-sign-print.compon
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { EducationLifeGripPrintComponent } from './education-life-griph-print/education-life-griph-print.component';
 import { EducationLifePrintComponent } from './education-life-print/education-life-print.component';
+import { SimplePagePrintComponent } from './simple-page-print/simple-page-print.component';
+import { HealthQuoPrintComponent } from './health-quo-print/health-quo-print.component';
 
 @NgModule({
-  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent,EndoSignPrintComponent,EducationLifeGripPrintComponent,EducationLifePrintComponent],
-  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent,EndoSignPrintComponent,EducationLifeGripPrintComponent,EducationLifePrintComponent],
+  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent],
+  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent],
   imports: [
     CommonModule,
     NgApexchartsModule

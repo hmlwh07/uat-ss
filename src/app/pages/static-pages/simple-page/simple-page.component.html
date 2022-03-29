@@ -37,10 +37,10 @@
       <section class="example-section">
         <div class="form-group row">
           <label class="col-4">Basic Cover</label>
-          <mat-radio-group formControlName="basicCoverId" class="col-8" >
-            <mat-radio-button class="mx-1" [value]="'Health Insurance'">Health Insurance
+          <mat-radio-group formControlName="basicCoverId" class="col-8" (change)="radioChange($event)" >
+            <mat-radio-button class="mx-1" [value]="'HEALTH'">Health Insurance
             </mat-radio-button>
-            <mat-radio-button class="mx-1" [value]="'Critical illness'">Critical Illness
+            <mat-radio-button class="mx-1" [value]="'CRTILLNESS'">Critical Illness
             </mat-radio-button>
           </mat-radio-group>
         </div>
@@ -74,8 +74,8 @@
         <div class="col-6">
           <select name="payment_frequency" formControlName="paymentFrequency" class="form-control form-control-sm">
             <option [value]="null">Please Select Payment Frequency</option>
-            <option value="lump">Lump Sum</option>
-            <option value="semi_annually">Semi-Annually</option>
+            <option value="L">Lump Sum</option>
+            <option value="S">Semi-Annually</option>
           </select>
           <app-print-error [control]="controls.paymentFrequency"></app-print-error>
 
@@ -100,7 +100,7 @@
     <!--  Payment Frequency -->
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="controls.basicCoverId.value == 'CRTILLNESS'">
     <!--  Medical Card No -->
     <div class="col-6">
       <div class="form-group row">
@@ -113,7 +113,7 @@
     <!--  Payment Frequency -->
   </div>
   <!-- <hr> value="{{item.id}}">-->
-  <ng-container *ngIf="controls.basicCoverId.value == 'Health Insurance'">
+  <ng-container *ngIf="controls.basicCoverId.value == 'HEALTH'">
     <div class="row mt-5">
       <div class="col-12">
         <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding: 20px 0px;">Optional Cover</h5>

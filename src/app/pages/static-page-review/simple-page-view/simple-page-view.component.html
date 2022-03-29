@@ -16,7 +16,7 @@
       </li>
       <li class="list-group-item">
         Basic Cover :
-        <span> {{showData.basicCoverId | titlecase}}</span>
+        <span> {{showData.basicCoverId == "HEALTH" ? "Health Insurance" : "Critical Illness"}}</span>
       </li>
       <li class="list-group-item">
         Date of Birth :
@@ -24,7 +24,7 @@
       </li>
       <li class="list-group-item">
         Payment Frequency :
-        <span> {{showData.paymentFrequency == 'lump' ? "Lump Sum" : "Semi-Annually"}}</span>
+        <span> {{showData.paymentFrequency == 'L' ? "Lump Sum" : "Semi-Annually"}}</span>
       </li>
       <li class="list-group-item">
         Sum Insured of Main Cover :

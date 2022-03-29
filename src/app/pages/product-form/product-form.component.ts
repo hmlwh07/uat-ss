@@ -632,7 +632,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     if (activeValue.pageType == 'table') {
       if (!this.tempData[activeValue.tableName + activeValue.id]) {
         return false
-      } else if (this.tempData[activeValue.tableName + activeValue.id].length > 0) {
+      } else if (this.tempData[activeValue.tableName + activeValue.id].length == 0) {
         return false
       }
     }

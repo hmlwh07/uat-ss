@@ -58,6 +58,7 @@ export class SimplePageComponent implements OnInit {
   parentData: any
   currentAge = 0
   dob: string = ""
+  private addValid: boolean = false
   constructor(
     private fb: FormBuilder,
     private prodService: ProductDataService,
@@ -73,7 +74,7 @@ export class SimplePageComponent implements OnInit {
       insuranceStartDate: [null, Validators.compose([Validators.required])],
       insuranceEndDate: [null, Validators.compose([Validators.required])],
       dateOfBirth: [null],
-      basicCoverId: ['Health Insurance', Validators.compose([Validators.required])],
+      basicCoverId: ['HEALTH', Validators.compose([Validators.required])],
       paymentFrequency: [null, Validators.compose([Validators.required])],
       sumInsuredMainCover: [null, Validators.compose([Validators.required])],
       medicalCardNo: [null],
@@ -115,12 +116,32 @@ export class SimplePageComponent implements OnInit {
     //   this.addOns[item.id + 'opt'] = response ? response.sumInsured || 0 : 0
     // }
   }
-  getParent(){
+  radioChange(event) {
+    if (this.staticForm.value.basicCoverId == "CRTILLNESS") {
+      if (this.currentAge < 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+        this.alertService.activate("Medical check up is required", "Warning")
+      }
+      if (this.addValid) {
+        this.addValid = false
+        this.staticForm.get('medicalCardNo').clearValidators();
+        this.staticForm.get('medicalCardNo').updateValueAndValidity();
+      }
+    } else {
+      if (this.currentAge < 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+        this.staticForm.get('medicalCardNo').setValidators([Validators.required]);
+        this.staticForm.get('medicalCardNo').updateValueAndValidity();
+        this.addValid = true
+      }
+    }
+
+  }
+
+  getParent() {
     if (IsJsonString(this.product.config)) {
       let pageUI: ProductPages = JSON.parse(this.product.config);
       // console.log("pageUI",pageUI);
       let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
-      
+
       let parent = pageOrder.find(page => page.tableName == "life_insured_health")
 
       if (parent) {
@@ -149,8 +170,9 @@ export class SimplePageComponent implements OnInit {
   doValid() {
     let value = this.staticForm.controls['insuranceStartDate'].value
     if (value) {
-      let toDate = moment(this.staticForm.controls['insuranceStartDate'].value).add(1, 'years')
-      this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+      let toDate = moment(this.staticForm.controls['insuranceStartDate'].value).add(1, 'years').subtract(1, "days")
+      // this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+      this.toMaxDate = toDate.format('YYYY-MM-DD')
       this.staticForm.controls['insuranceEndDate'].setValue(toDate.format('YYYY-MM-DD'))
     }
   }
@@ -209,11 +231,11 @@ export class SimplePageComponent implements OnInit {
 
   saveData(id?) {
     const formValue = this.staticForm.value
-    let coverd = this.product.coverages.find(x => x.description == formValue.basicCoverId)
-    if (!coverd) {
-      this.alertService.activate("This page cann't to save because there is not match coverage in product detail. Please configuration the product detail", "Warning")
-      return false
-    }
+    // let coverd = this.product.coverages.find(x => x.description == formValue.basicCoverId)
+    // if (!coverd) {
+    //   this.alertService.activate("This page cann't to save because there is not match coverage in product detail. Please configuration the product detail", "Warning")
+    //   return false
+    // }
     let postData = {
       basicCoverId: formValue.basicCoverId,
       id: id || null,
@@ -262,7 +284,7 @@ export class SimplePageComponent implements OnInit {
   }
 
   async saveCoverAddon() {
-    await this.saveCoverage().toPromise()
+    // await this.saveCoverage().toPromise()
     await this.saveAddOn().toPromise()
     // return forkJoin(this.saveCoverage(), this.saveAddOn())
   }
@@ -271,8 +293,6 @@ export class SimplePageComponent implements OnInit {
   // }))
   getOldData(dataget: boolean = false) {
     // let dataget = false
-    console.log(this.resourcesId);
-
     if (this.resourcesId || this.refID) {
       let resId = dataget ? this.refID : (this.resourcesId || this.refID)
       if (!resId) return false
@@ -318,7 +338,7 @@ export class SimplePageComponent implements OnInit {
         unit: null,
         premium: null,
       }
-      return this.coverageQuoService.deleteAll(this.resourcesId,this.resourcesId).pipe(switchMap((x: any) => {
+      return this.coverageQuoService.deleteAll(this.resourcesId, this.resourcesId).pipe(switchMap((x: any) => {
         // console.log(x, "cov");
         return this.coverageQuoService.save(postData)
       }))
@@ -339,7 +359,7 @@ export class SimplePageComponent implements OnInit {
       for (const item of this.product.addOns) {
         let response: any = {};
         try {
-          response = await this.addOnQuoService.getOne(item.id, resId,resId).toPromise()
+          response = await this.addOnQuoService.getOne(item.id, resId, resId).toPromise()
         } catch (error) {
         }
         if (response) {
@@ -363,14 +383,15 @@ export class SimplePageComponent implements OnInit {
 
   saveAddOn() {
     const formValue = this.staticForm.value
-    return this.addOnQuoService.deleteAll(this.resourcesId,this.resourcesId).pipe(mergeMap((x: any) => {
+    return this.addOnQuoService.deleteAll(this.resourcesId, this.resourcesId).pipe(mergeMap((x: any) => {
       // return this.coverageQuoService.save(postData)
       return forkJoin(this.options2.map(option => {
-        if (formValue.basicCoverId == "Health Insurance") {
+        if (formValue.basicCoverId == "HEALTH") {
           if (this.addOns[option.id + 'opt']) {
             let postData = {
               addonId: option.id,
               quotationNo: this.resourcesId,
+              optionalKey: this.resourcesId,
               sumInsured: this.addOns[option.id + 'value'],
               unit: null,
               premium: null,
