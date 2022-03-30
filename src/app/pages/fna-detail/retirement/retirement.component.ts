@@ -74,7 +74,7 @@ export class RetirementComponent implements OnInit {
       createdAt: new FormControl(this.retirementDto.createdAt || ''),
       updatedAt: new FormControl(this.retirementDto.updatedAt || '')
     });
-    this.formGroup.controls['fnaId'].setValue(Number(this.fnaId));
+    this.formGroup.controls['fnaId'].setValue(this.fnaId);
   }
 
   getRetirement() {

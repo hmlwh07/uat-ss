@@ -1,7 +1,7 @@
 export class InputDataDto {
   id?: number;
   description?: string;
-  fnaId?: number;
+  fnaId?: string;
   productId?: number;
   riskCode?: string;
   type?: string;

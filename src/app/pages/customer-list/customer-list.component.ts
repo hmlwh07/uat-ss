@@ -90,6 +90,8 @@ export class CustomerListComponent implements OnInit {
     this.customerListService.getCustomerList(this.customerForm.value, this.party, check).toPromise().then((res: any) => {
       if (res) {
         this.customerList = res
+        console.log("customerList", this.customerList);
+
         this.cdf.detectChanges()
         if (this.matTable)
           this.matTable.reChangeData()

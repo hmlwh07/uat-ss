@@ -104,7 +104,7 @@ export class HealthComponent implements OnInit {
       name: new FormControl(this.healthDto.name || ''),
       updatedAt: new FormControl(this.healthDto.updatedAt || '')
     });
-    this.formGroup.controls['fnaId'].setValue(Number(this.fnaId));
+    this.formGroup.controls['fnaId'].setValue(this.fnaId);
     this.cdf.detectChanges()
   }
 

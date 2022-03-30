@@ -34,6 +34,8 @@ export class IncomeComponent implements OnInit {
     private fnaIncomeManageService: FANIncomeManageService, public fnaService: FANService) { }
 
   ngOnInit(): void {
+    console.log('IncomeComponent', this.fnaId);
+    
     this.loadForm();
     if (this.fnaService.fnaIncome) {
       FNAConstant.FNA_DETAIL_OBJ = this.fnaService.fnaIncome;
@@ -55,7 +57,7 @@ export class IncomeComponent implements OnInit {
       createdAt: [this.income.createdAt, Validators.compose([])],
       updatedAt: [this.income.updatedAt, Validators.compose([])]
     });
-    this.formGroup.controls['fnaId'].setValue(Number(this.fnaId));
+    this.formGroup.controls['fnaId'].setValue(this.fnaId);
     this.cdf.detectChanges()
   }
 
@@ -97,6 +99,8 @@ export class IncomeComponent implements OnInit {
   }
 
   async saveFNAIncome() {
+    console.log('saveFNAIncome', this.formGroup.value);
+
     if (this.formGroup.invalid) {
       validateAllFields(this.formGroup);
     } else {

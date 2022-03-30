@@ -87,7 +87,7 @@ export class EducationComponent implements OnInit {
       sumAssured: new FormControl(this.educationDto.sumAssured || null, [Validators.required, Validators.nullValidator]),
       updatedAt: new FormControl(this.educationDto.updatedAt),
     });
-    this.formGroup.controls['fnaId'].setValue(Number(this.fnaId));
+    this.formGroup.controls['fnaId'].setValue(this.fnaId);
     this.cdf.detectChanges()
   }
 

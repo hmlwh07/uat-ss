@@ -75,6 +75,8 @@ export class FnaTypeComponent implements OnInit {
 
     await this.fnaService.saveFNA(reqBody).toPromise().then(res => {
       if (res) {
+        console.log('chooseFNA', res);
+
         reqBody.fnaId = res;
       }
     });
