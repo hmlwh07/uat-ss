@@ -79,13 +79,12 @@
 <div class="row">
   <div class="col-12">
     <div class="card card-custom gutter-b data">
-
-      <!-- <div class="card-body customer-card-body">
-        <div *ngFor="let customer of customerList; let i = index" class="data-list">
+      <div class="card-body customer-card-body">
+        <div *ngFor="let activity of activityList; let i = index" class="data-list">
           <div class="data-header">
               <div class="col-6">
-                  <img src="../../../assets/images/customer/custoner_list.svg" alt="customer" />
-                  <label> {{ customer.partyCode }} </label>
+                  <img src="../../../assets/images/activity/activity-list-01.svg" alt="activity" />
+                  <label> {{ activity.activityNo }} </label>
               </div>
               <div class="col-6">
                   <div class="actions">
@@ -95,25 +94,24 @@
           </div>
           <div class="data-content row">
               <div class="col-4">
-                  <label *ngIf="customer.name"> {{ customer.name }}</label>
-                  <label *ngIf="customer.fatherName"> {{ customer.fatherName }} </label>
-                  <label *ngIf="customer.identityNumber"> {{ customer.identityNumber }} </label>
+                  <label *ngIf="activity.activityTitle"> {{ activity.activityTitle }}</label>
+                  <label *ngIf="activity.assignName"> Assign to: {{ activity.assignName }} </label>
               </div>
               <div class="col-4">
-                  <label *ngIf="customer.dateOfBirth"> {{ customer.dateOfBirth | date:'DD/MMM/YYYY' }} </label>
-                  <label *ngIf="customer.statusValue"> {{ customer.statusValue }} </label>
+                  <label *ngIf="activity.dueDate"> {{ activity.dueDate | date:'DD/MMM/YYYY' }} </label>
+                  <label *ngIf="activity.status"> {{ activity.status }} </label>
               </div>
               <div class="col-4">
-                  <label> ID Type: <span>{{ customer.identityType }}</span> </label>
+                  <label> Activity Type: <span>{{ activity.activityType }}</span> </label>
               </div>
           </div>
-      </div> -->
+      </div>
 
 
         <!-- begin:Table -->
-        <app-material-table-view [data]="activityList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
+        <!-- <app-material-table-view [data]="activityList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
           (emitter)="actionBtn($event)">
-        </app-material-table-view>
+        </app-material-table-view> --> 
         <!-- <div class="table-responsive angular-bootstrap-table">
           <table class="table table-head-custom table-vertical-center">
             <thead>
