@@ -53,7 +53,7 @@ export class EditButtonModalComponent implements OnInit, OnDestroy {
 
   deleteEditModal() {
     console.log('deleteEditModal',);
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.modal.dismiss({ type: 'delete' });
       }

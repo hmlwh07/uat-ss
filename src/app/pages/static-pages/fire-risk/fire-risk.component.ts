@@ -78,7 +78,7 @@ export class FireRiskComponent implements OnInit {
   }
 
   delete(data) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.fireRiskService.delete(data.id).toPromise()
           .then((res) => {

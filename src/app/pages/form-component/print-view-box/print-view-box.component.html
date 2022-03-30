@@ -7,7 +7,7 @@
     </div>
     <div class="product-name">{{product.name | titlecase}} Proposal</div>
     <div class="qr" *ngIf="qrLocation">
-      <qrcode [qrdata]="qrLocation" [width]="50" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+      <qrcode [qrdata]="qrLocation" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
     </div>
   </div>
   <div class="product-detail">

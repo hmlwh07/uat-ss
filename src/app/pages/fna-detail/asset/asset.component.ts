@@ -183,7 +183,7 @@ export class AssetComponent implements OnInit {
   }
 
   async deleteAsset() {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
       if (result) {
         let deleteIndex = [];
         if (this.assectDto.id) {

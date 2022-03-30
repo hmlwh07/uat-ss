@@ -704,7 +704,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   deleteData(index, data) {
-    this.alert.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alert.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         let activeForm = this.formData[this.activePage]
         this.pageDataService.deleteData(activeForm.tableName, data.refId, activeForm.id).toPromise().then((res) => {

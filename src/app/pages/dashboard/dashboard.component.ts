@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   delete(index, id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.uiService.delete(id).toPromise().then(res => {
           if (res)

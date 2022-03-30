@@ -283,7 +283,7 @@ export class EducationComponent implements OnInit {
   }
 
   async deleteDeleteById() {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
       if (result) {
         if (this.educations.length < this.healths.length) {
           delete this.healths[this.selectedIndex];

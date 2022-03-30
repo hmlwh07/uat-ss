@@ -497,7 +497,7 @@ export class HealthComponent implements OnInit {
 
   async deleteHealthById() {
     if (this.selectedIndexId != 0) {
-      this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+      this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
         if (result) {
           await this.fnaHealthManageService.deleteHealthById(this.selectedIndexId).toPromise().then(async (res: any) => {
             if (res) {

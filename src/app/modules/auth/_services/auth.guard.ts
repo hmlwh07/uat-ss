@@ -7,15 +7,25 @@ import {
   RouterStateSnapshot,
   CanActivateChild,
   UrlTree,
+  CanLoad,
+  Route,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MenuDataService } from '../../../core/menu-data.service';
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate, CanActivateChild {
+export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(private authService: AuthService, private router: Router, private menuData: MenuDataService, private location: Location) { }
-
+  canLoad(route: Route) {
+    const authCheck = this.authService.currentUserValue ? true : false
+    if (authCheck) {
+      return true;
+    }
+    let url = `/${route.path}`;    
+    this.router.navigate(['/login'], { queryParams: { redirectTo: url } });
+    return authCheck;
+  }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // return true;
     const currentUser = this.authService.currentUserValue;
@@ -34,9 +44,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
       return true;
     }
-
+    
     // not logged in so redirect to login page with the return url
-    this.authService.logout();
+    this.authService.logout(state.url);
     return false;
   }
 
@@ -57,8 +67,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
       return true;
     }
-
-    this.authService.logout();
+    
+    this.authService.logout(state.url);
     return false;
   }
 

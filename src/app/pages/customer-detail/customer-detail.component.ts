@@ -553,7 +553,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
     }
     if (event.cmd == 'delete') {
-      this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
         if (result) {
           this.CustomerAttachmentService.delete(event.data.id).toPromise().then(res => {
             if (res) {

@@ -96,7 +96,7 @@ export class FnaListComponent implements OnInit {
   }
 
   async delete(id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(async result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
       if (result) {
         await this.fnaListService.delete(id).toPromise().then(async (res: any) => {
           this.fnaList = this.fnaList.filter(data =>

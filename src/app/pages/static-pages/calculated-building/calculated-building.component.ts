@@ -210,7 +210,7 @@ export class CalculatedBuildingComponent implements OnInit {
   }
 
   deleteFireContent(id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       if (result) {
         this.FireContentService.delete(id).toPromise().then((res: any) => {
           if (res) {
@@ -224,7 +224,7 @@ export class CalculatedBuildingComponent implements OnInit {
     });
   }
   deleteFirePlant(id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       this.FirePLantService.delete(id).toPromise().then((res: any) => {
         if (res) {
           this.getFirePlant()
@@ -236,7 +236,7 @@ export class CalculatedBuildingComponent implements OnInit {
     });
   }
   deleteFireStock(id) {
-    this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
       this.FireStockService.delete(id).toPromise().then((res: any) => {
         if (res) {
           this.getFireStock()

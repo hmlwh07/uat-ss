@@ -53,7 +53,7 @@ export class SurroundingBuildingComponent implements OnInit {
   onActionView(data, type) {
     console.log("data", data, "type", type)
     if (type == 'delete') {
-      this.alertService.activate('Are you sure you want to delete?', 'Warning Message').then(result => {
+      this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
         if (result) {
           this.surroundingBuildingService.delete(data.id).toPromise()
             .then((res) => {
