@@ -40,10 +40,10 @@ export class FormViewModalComponent implements OnInit, OnDestroy {
   async saveTemp(data) {
     let page = this.activateForm
     if (page.function) {
-      let fun = await this.globalFun[page.function]("", data, this.globalFun.tempFormData[page.tableName + page.id], true);
+      let fun = await this.globalFun[page.function]("", { ...data, id: this.oldData.id || 0 }, this.globalFun.tempFormData[page.tableName + page.id], true);
       if (fun)
         this.modal.dismiss({ data: data, type: 'save' })
-    }else{
+    } else {
       this.modal.dismiss({ data: data, type: 'save' })
     }
   }
