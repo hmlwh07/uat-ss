@@ -87,6 +87,7 @@ export class ActivityManagementListComponent implements OnInit {
   getList() {
     this.activityService.getActivityList(this.actForm.value).toPromise().then((res: any) => {
       if (res) {
+        
         this.activityList = res
         this.cdf.detectChanges()
         this.matTable.reChangeData()

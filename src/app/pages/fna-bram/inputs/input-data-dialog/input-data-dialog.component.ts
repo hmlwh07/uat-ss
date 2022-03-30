@@ -24,7 +24,7 @@ import { HUMAN_RESOURCES, INBOUND_LOGISTICS, MANAGEMENT_INFRASTRUCTURE, MARKETIN
   styleUrls: ['./input-data-dialog.component.scss']
 })
 export class InputDataDialogComponent implements OnInit {
-  fnaId: number = null;
+  fnaId: string = null;
   type: string = null;
   menuType: string = null;
   data: any;

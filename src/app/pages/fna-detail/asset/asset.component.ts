@@ -168,7 +168,7 @@ export class AssetComponent implements OnInit {
       createdAt: new FormControl(this.assectDto.createdAt || ''),
       updatedAt: new FormControl(this.assectDto.updatedAt || '')
     });
-    this.formGroup.controls['fnaId'].setValue(Number(this.fnaId));
+    this.formGroup.controls['fnaId'].setValue(this.fnaId);
     this.cdf.detectChanges();
   }
 
