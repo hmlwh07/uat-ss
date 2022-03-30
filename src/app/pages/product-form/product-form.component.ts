@@ -538,6 +538,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             this.tempData['policyholder_1641795142279'] = { ...formData, refId: res[0].refId, pageId: page.id }
           if (this.pageOrder.length > this.activePage + 1) {
             if (this.formData[this.activePage + 1].controls) {
+              console.log(this.tempData,this.formData);
+              
               this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
             }
             this.activePage += 1
