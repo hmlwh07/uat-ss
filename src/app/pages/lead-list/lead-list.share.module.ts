@@ -14,7 +14,6 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 
 
-
 @NgModule({
   declarations: [LeadListComponent],
   exports: [LeadListComponent],

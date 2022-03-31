@@ -1,0 +1,27 @@
+<div class="example-preview" *ngIf="data.length > 0">
+    <app-listing-lead></app-listing-lead>
+    <div class="pager">
+        <div class="pager_atom">
+            <span>Items per page:</span>
+            <button mat-button [matMenuTriggerFor]="menu"></button>
+            <mat-menu #clickmenu="matMenu">
+                <button mat-menu-item 
+                        *ngFor="let item of pageSizeArray" 
+                        (click)="clickMenuItem(item)">
+                  <!-- <mat-icon>{{ item.menuIcon }}</mat-icon> -->
+                  <span> {{ item.pageNo }}</span>
+                </button>
+            </mat-menu>
+        </div>
+        <div class="pager_atom"></div>
+        <div class="pager_atom"></div>
+        <div class="pager_atom"></div>
+        <div class="pager_atom"></div>
+        <div class="pager_atom"></div>
+        <div class="pager_atom"></div>
+        <div class="pager_atom"></div>
+    </div>
+</div>
+<div class="text-center" *ngIf="data.length == 0">
+    <span style="color: gray;">There is no data</span>
+</div>

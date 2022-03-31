@@ -109,8 +109,10 @@
         <div class="card card-custom gutter-b">
             <div class="card-body customer-card-body" *ngIf="show">
                 <ng-container *ngIf="isTableView;else cardView">
-                    <app-material-table-view [data]="LeadList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)" (rowselect)="rowSelected($event)" [selectable]="isPopup">
-                    </app-material-table-view>
+                    <!-- <app-material-table-view [data]="LeadList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)" (rowselect)="rowSelected($event)" [selectable]="isPopup">
+                    </app-material-table-view> -->
+                    <app-pager [data]="LeadList" formType="lead"  (responsePager)="reponseFromPager($event)">
+                    </app-pager>
                 </ng-container>
                 <ng-template #cardView>
                     <ng-container *ngFor="let item of LeadList">

@@ -8,6 +8,7 @@ import { LeadListShareModule } from './lead-list.share.module';
 import { RouterModule } from '@angular/router';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { StaticPagesModule } from './../static-pages/static-pages.module';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     InlineSVGModule,
     CRUDTableModule,
+    StaticPagesModule,
     NgbDatepickerModule,
     LeadListShareModule,
     NgSelectModule,

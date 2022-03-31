@@ -10,19 +10,18 @@ import {
 import { FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MaterialTableViewComponent } from "src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component";
-import { LeadCol, LeadDisplayCol } from "./lead-list.const";
-import { LeadListService } from "./lead-list.service";
+import { LeadCol, LeadDisplayCol } from "../../../pages/lead-list/lead-list.const";
+import { LeadListService } from "../../../pages/lead-list/lead-list.service";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from "@angular/material-moment-adapter";
-import { MasterDataService } from "../../modules/master-data/master-data.service";
-import { ProductDataService } from "../products/services/products-data.service";
-import { MY_FORMATS } from "../../core/is-json";
+import { MasterDataService } from "../../../modules/master-data/master-data.service";
+import { ProductDataService } from "../../../pages/products/services/products-data.service";
+import { MY_FORMATS } from "../../../core/is-json";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { CustomerListComponent } from "../customer-list/customer-list.component";
+import { CustomerListComponent } from "../../customer-list/customer-list.component";
 import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
-import { environment } from "../../../environments/environment";
-import {ListingsPagerComponent} from './../static-pages/pager/pager.component';
+import { environment } from "../../../../environments/environment";
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -259,9 +258,5 @@ export class LeadListComponent implements OnInit {
   isControlTouched(controlName): boolean {
     const control = this.LeadForm.controls[controlName];
     return control.dirty || control.touched;
-  }
-
-  reponseFromPager(event){
-    console.log('event',event)
   }
 }
