@@ -344,6 +344,7 @@ export class SimplePageComponent implements OnInit {
       let postData = {
         coverageId: coverd.id,
         quotationNo: this.resourcesId,
+        optionalKey: this.resourcesId,
         sumInsured: value,
         unit: null,
         premium: null,
