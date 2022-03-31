@@ -209,7 +209,7 @@ export class SimplePagePolicyComponent implements OnInit {
 
   saveData(id?) {
     const formValue = this.staticForm.getRawValue()
-    let coverd = this.product.coverages.find(x => x.description == formValue.basicCoverId)
+    let coverd = this.product.coverages.find(x => x.code == formValue.basicCoverId)
     if (!coverd) {
       this.alertService.activate("This page cann't to save because there is not match coverage in product detail. Please configuration the product detail", "Warning")
       return false

@@ -119,20 +119,20 @@ export class HealthQuoComponent implements OnInit {
       if (this.parentData.addOns[addon.id + "opt"]) {
         let value = this.parentData.addOns[addon.id + "value"]
         i += 1
-        this.healthRateService.getOne(age, addon.description).toPromise().then((res: any) => {
+        this.healthRateService.getOne(age, addon.code).toPromise().then((res: any) => {
           // console.log(res);
 
           if (res) {
             if (this.parentData.paymentFrequency == 'L') {
               let pre = res.lumpSum * value
               this.totalP = this.totalP + pre
-              this.schedule.push({ premium: pre, coverage: addon.description, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
             } else {
               let pre = res.semiAnnual * value
               this.totalP = this.totalP + pre
               this.totalP = this.totalP + pre
-              this.schedule.push({ premium: pre, coverage: addon.description, sumInsured: value, levy: 0 })
-              this.schedule.push({ premium: pre, coverage: addon.description, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
             }
           }
           if (i == this.product.addOns.length) {
