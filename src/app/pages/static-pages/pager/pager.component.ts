@@ -66,5 +66,4 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   pageLast(){
     
   }
-
 }
