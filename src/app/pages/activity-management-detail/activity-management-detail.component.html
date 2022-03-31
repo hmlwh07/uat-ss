@@ -7,16 +7,16 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm">
-                                Related to <br> {{actForm.controls.relatedTo.value}}
+                                {{"FORM.related_to" | translate}} <br> {{actForm.controls.relatedTo.value}}
                             </div>
                             <div class="col-sm">
-                                Owner <br> {{actForm.controls.assignName.value}}
+                                {{"FORM.owner" | translate}} <br> {{actForm.controls.assignName.value}}
                             </div>
                             <div class="col-sm">
-                                Status <br> {{activityStatus[actForm.controls.status.value]}}
+                                {{"FORM.status" | translate}} <br> {{activityStatus[actForm.controls.status.value]}}
                             </div>
                             <div class="col-sm">
-                                Date <br>
+                                {{"FORM.date" | translate}} <br>
                                 <ng-container *ngIf="actForm.controls.planDateStr.value">
                                     {{actForm.controls.planDateStr.value | date: "dd-MM-YYYY"}}
                                 </ng-container>
@@ -41,14 +41,14 @@
 
                         <div class="col-sm-12" *ngIf="pageStatus == 'edit'">
                             <div class="form-group">
-                                <label class="form-label">Activity No.</label>
+                                <label class="form-label">{{"FORM.act_no" | translate}}</label>
                                 <input type="text" class="form-control form-control-sm" name="activityNo" autocomplete="off" [class.is-invalid]="isControlInvalid('activityNo')" [class.is-valid]="isControlValid('activityNo')" formControlName="activityNo" />
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="form-label">Activity Type</label>
+                                <label class="form-label">{{"FORM.act_type" | translate}}</label>
                                 <select class="form-control form-control-sm" name="actType" autocomplete="off" [class.is-invalid]="isControlInvalid('activityType')" [class.is-valid]="isControlValid('activityType')" formControlName="activityType">
                                     <option value="">Select Activity Type</option>
                                     <option value="{{item}}" *ngFor="let item of activityType">{{item}}</option>
@@ -61,14 +61,14 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="form-label">Activity Title</label>
+                                <label class="form-label">{{"FORM.act_title" | translate}}</label>
                                 <input type="text" class="form-control form-control-sm" name="actTitle" autocomplete="off" [class.is-invalid]="isControlInvalid('activityTitle')" [class.is-valid]="isControlValid('activityTitle')" formControlName="activityTitle" />
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="form-label">Activity Description</label>
+                                <label class="form-label">{{"FORM.act_desc" | translate}}</label>
                                 <textarea name="" rows="4" class="form-control form-control-sm" name="actDesc" autocomplete="off" [class.is-invalid]="isControlInvalid('activityDescription')" [class.is-valid]="isControlValid('activityDescription')" formControlName="activityDescription"
                                     style="resize: false;"></textarea>
                             </div>
@@ -76,7 +76,7 @@
 
                         <div class="col-sm-4">
                             <div class="form-group ">
-                                <label class="form-label">Planned Date </label>
+                                <label class="form-label">{{"FORM.plan_date" | translate}} </label>
                                 <div class="input-group ">
 
                                     <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="planDateStr" [matDatepicker]="planDateStr" readonly>
@@ -89,7 +89,7 @@
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="form-label">Actual Date</label>
+                                <label class="form-label">{{"FORM.act_date" | translate}}</label>
                                 <div class="input-group ">
                                     <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="actualDateStr" [matDatepicker]="actualDateStr" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="actualDateStr"></mat-datepicker-toggle>
@@ -100,7 +100,7 @@
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label class="form-label">Due Date</label>
+                                <label class="form-label">{{"FORM.due_date" | translate}}</label>
                                 <div class="input-group ">
                                     <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="dueDateStr" [matDatepicker]="dueDateStr" readonly>
                                     <mat-datepicker-toggle matSuffix [for]="dueDateStr"></mat-datepicker-toggle>
@@ -111,7 +111,7 @@
 
                         <div class="col-sm-4">
                             <div class="form-group" (click)="openModal('quotation')">
-                                <label class="form-label">Related To</label>
+                                <label class="form-label">{{"FORM.related_to" | translate}}</label>
                                 <input type="text" class="form-control form-control-sm" name="relatedTo" autocomplete="off" formControlName="relatedTo" />
                                 <span class="ng-clear-wrapper" (click)="clearDate('relatedTo');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
 
@@ -120,21 +120,21 @@
 
                         <div class="col-sm-4">
                             <div class="form-group" (click)="viewCustomer()">
-                                <label class="form-label">Customer Name</label>
+                                <label class="form-label">{{"FORM.customer_name" | translate}}</label>
                                 <input type="text" class="form-control form-control-sm" name="customerName" autocomplete="off" [class.is-invalid]="isControlInvalid('customerId')" [class.is-valid]="isControlValid('customerId')" formControlName="customerName" />
                             </div>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group" (click)="viewAgent('agent')">
-                                <label class="form-label">Assign To</label>
+                                <label class="form-label">{{"FORM.assign_to" | translate}}</label>
                                 <input type="text" class="form-control form-control-sm" name="assignName" autocomplete="off" [class.is-invalid]="isControlInvalid('assignTo')" [class.is-valid]="isControlValid('assignTo')" formControlName="assignName" />
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="form-label">Status</label>
+                                <label class="form-label">{{"FORM.status" | translate}}</label>
                                 <select class="form-control form-control-sm" name="status" autocomplete="off" [class.is-invalid]="isControlInvalid('status')" [class.is-valid]="isControlValid('status')" formControlName="status">
                                     <option value="01">Open</option>
                                     <option value="02">Complete</option>
@@ -143,8 +143,8 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-default btn-elevate" (click)="backLocation()">Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-elevate mx-2" *ngIf="dataAccess.edit">Save</button>
+                    <button type="button" class="btn btn-default btn-elevate" (click)="backLocation()">{{"FORM.cancel" | translate}}</button>
+                    <button type="submit" class="btn btn-primary btn-elevate mx-2" *ngIf="dataAccess.edit">{{"FORM.save" | translate}}</button>
                 </form>
             </div>
         </div>

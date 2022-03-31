@@ -1,204 +1,203 @@
 <div class="row" *ngIf="data">
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div class="card card-custom my-card gutter-b">
-      <div class="flex" style="align-items: center;">
-        <div class="my-center">
-          <img src="./assets/images/user_profile-01.svg" class="user-image" alt="" />
-        </div>
-        <div class="name-card">
-          <h6 class="card-label">{{ data?.agentInfo?.employeeName }}</h6>
-          <label class="text-dark center text-bold">{{ data?.role }}</label>
-        </div>
-      </div>
-    </div>
-    <div class="card card-custom my-card gutter-b">
-      <div class="row my-row my-border-bottom">
-        <div class="col-12 my-p-10">
-          <h6 class="card-label primary-color">Premium</h6>
-        </div>
-        <div class="col-12">
-          <label class="text-amt">
-            {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span><small>MMK</small></span>
-          </label>
-        </div>
-      </div>
-      <div class="row my-row fixed-height">
-        <div class="col-12 my-pt-15">
-          <h6 class="card-label">Products</h6>
-        </div>
-        <div class="col-12">
-          <div *ngIf="data && data.yearlyTotalPremium.length > 0">
-            <ng-container *ngFor="let product of data?.yearlyProductPremium">
-              <div class="row my-row my-p-15 my-border-bottom" *ngIf="product.premium > 0">
-                <div class="col-6">
-                  <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
-                  {{ product.productName }}
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card card-custom my-card gutter-b">
+            <div class="flex" style="align-items: center;">
+                <div class="my-center">
+                    <img src="./assets/images/user_profile-01.svg" class="user-image" alt="" />
                 </div>
-                <div class="col-6 text-right text-body">{{ product.premium | number: '1.0-2' }} MMK</div>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div class="card card-custom my-card my-card-fixed-height gutter-b">
-      <div class="my-p-10">
-        <h6 class="card-label">Recent Operations</h6>
-      </div>
-      <div>
-        <div class="row my-row lp-dashboard-box-header flex bold">
-          <div class="col-10">
-            <h6 class="card-label" style="font-size: 0.9rem;">Quotes</h6>
-          </div>
-          <div class="col-2 underline pointer" (click)="goToSaleQuotation()">All></div>
-        </div>
-
-        <div *ngIf="recentObj && recentObj.quotations && recentObj.quotations.length > 0">
-          <ng-container *ngFor="let q of recentObj?.quotations | slice:0:1">
-            <div class="lp-dashboard-box-body">
-              <div class="bold">{{ q.productName }}</div>
-              <div><span> {{ q.customerName }} </span>
-                <span class="pl-10">{{ q.status }}</span>
-              </div>
+                <div class="name-card">
+                    <h6 class="card-label">{{ data?.agentInfo?.employeeName }}</h6>
+                    <label class="text-dark center text-bold">{{ data?.role }}</label>
+                </div>
             </div>
-          </ng-container>
         </div>
-        <div class="row my-row lp-dashboard-box-header flex bold">
-          <div class="col-10">
-            <h6 class="card-label" style="font-size: 0.9rem;">Policies</h6>
-          </div>
-          <div class="col-2 underline pointer" (click)="goToSalePolicies()">All></div>
-        </div>
-        <div *ngIf="recentObj && recentObj.policies && recentObj.policies.length > 0">
-          <ng-container *ngFor="let p of recentObj?.policies  | slice: 0:1">
-            <div class="lp-dashboard-box-body">
-              <div class="bold">{{ p.productName }}</div>
-              <div><span> {{ p.customerName }} </span>
-                <span class="pl-10">{{ p.status }}</span>
-              </div>
+        <div class="card card-custom my-card gutter-b">
+            <div class="row my-row my-border-bottom">
+                <div class="col-12 my-p-10">
+                    <h6 class="card-label primary-color">{{"FORM.premium" | translate}}</h6>
+                </div>
+                <div class="col-12">
+                    <label class="text-amt">
+            {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span><small>{{"FORM.mmk" | translate}}</small></span>
+          </label>
+                </div>
             </div>
-          </ng-container>
+            <div class="row my-row fixed-height">
+                <div class="col-12 my-pt-15">
+                    <h6 class="card-label">{{"FORM.products" | translate}}</h6>
+                </div>
+                <div class="col-12">
+                    <div *ngIf="data && data.yearlyTotalPremium.length > 0">
+                        <ng-container *ngFor="let product of data?.yearlyProductPremium">
+                            <div class="row my-row my-p-15 my-border-bottom" *ngIf="product.premium > 0">
+                                <div class="col-6">
+                                    <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset=""> {{ product.productName }}
+                                </div>
+                                <div class="col-6 text-right text-body">{{ product.premium | number: '1.0-2' }} MMK</div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="card card-custom my-card my-card-fixed-height gutter-b">
-
-      <div class="row my-row lp-dashboard-box-header flex bold">
-        <div class="col-10">
-          <!-- Campaign for Today -->
-          <h6 class="card-label">Campaign for Today</h6>
-
-        </div>
-      </div>
-      <div *ngIf="campaignArray.length > 0">
-        <ng-container *ngFor="let c of campaignArray | slice:0:1">
-          <div class="lp-dashboard-box-body mb-5">
-            <div class="bold">{{ c.campaignName }}</div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card card-custom my-card my-card-fixed-height gutter-b">
+            <div class="my-p-10">
+                <h6 class="card-label">{{"FORM.recent_operation" | translate}}</h6>
+            </div>
             <div>
-              <span>{{ c.status }}</span>
+                <div class="row my-row lp-dashboard-box-header flex bold">
+                    <div class="col-10">
+                        <h6 class="card-label" style="font-size: 0.9rem;">{{"FORM.quotes" | translate}}</h6>
+                    </div>
+                    <div class="col-2 underline pointer" (click)="goToSaleQuotation()">{{"FORM.all" | translate}}></div>
+                </div>
+
+                <div *ngIf="recentObj && recentObj.quotations && recentObj.quotations.length > 0">
+                    <ng-container *ngFor="let q of recentObj?.quotations | slice:0:1">
+                        <div class="lp-dashboard-box-body">
+                            <div class="bold">{{ q.productName }}</div>
+                            <div><span> {{ q.customerName }} </span>
+                                <span class="pl-10">{{ q.status }}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="row my-row lp-dashboard-box-header flex bold">
+                    <div class="col-10">
+                        <h6 class="card-label" style="font-size: 0.9rem;">{{"FORM.policies" | translate}}</h6>
+                    </div>
+                    <div class="col-2 underline pointer" (click)="goToSalePolicies()">{{"FORM.all" | translate}}></div>
+                </div>
+                <div *ngIf="recentObj && recentObj.policies && recentObj.policies.length > 0">
+                    <ng-container *ngFor="let p of recentObj?.policies  | slice: 0:1">
+                        <div class="lp-dashboard-box-body">
+                            <div class="bold">{{ p.productName }}</div>
+                            <div><span> {{ p.customerName }} </span>
+                                <span class="pl-10">{{ p.status }}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
             </div>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-  </div>
-  <div class="w-100"></div>
-  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-    <div class="card card-custom my-card my-block">
-      <div class="my-p-10">
-        <h6 class="card-label">Things to Follow Up</h6>
-
-        <!-- <div><span class="primary-color bold">Things to Follow Up</span></div> -->
-      </div>
-
-      <div class="row my-row lp-dashboard-box-header flex">
-        <div class="col-5 bold">
-          <h6 class="card-label" style="font-size: 0.9rem;">Calendar</h6>
         </div>
-        <div class="col-5">Today > </div>
-        <div class="col-2 underline pointer" (click)="goToCalendar()">All></div>
-      </div>
+        <div class="card card-custom my-card my-card-fixed-height gutter-b">
 
-      <div *ngIf="followUpArray.length > 0">
-        <ng-container *ngFor="let followup of followUpArray  | slice: 0:3">
-          <div class="flex my-p-5 mb-5">
-            <div class="col-2">
-              <img [src]="getImageURL(followup.activityType)" class="prod-icon" alt="" srcset="">
+            <div class="row my-row lp-dashboard-box-header flex bold">
+                <div class="col-10">
+                    <!-- Campaign for Today -->
+                    <h6 class="card-label">{{"FORM.campaign_for_today" | translate}}</h6>
+
+                </div>
             </div>
-            <div class="col-10">
-              <div><span class="bold"> {{ followup.title }} </span></div>
-              <div class="f-11">
-                <span>{{ followup.customerName }}</span>
-                <!-- <span class="pl-10">{{ followup.planDate | date:'mediumDate' }} -
+            <div *ngIf="campaignArray.length > 0">
+                <ng-container *ngFor="let c of campaignArray | slice:0:1">
+                    <div class="lp-dashboard-box-body mb-5">
+                        <div class="bold">{{ c.campaignName }}</div>
+                        <div>
+                            <span>{{ c.status }}</span>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+        <div class="card card-custom my-card my-block">
+            <div class="my-p-10">
+                <h6 class="card-label">{{"FORM.things_to_follow_up" | translate}}</h6>
+
+                <!-- <div><span class="primary-color bold">Things to Follow Up</span></div> -->
+            </div>
+
+            <div class="row my-row lp-dashboard-box-header flex">
+                <div class="col-5 bold">
+                    <h6 class="card-label" style="font-size: 0.9rem;">{{"FORM.calendar" | translate}}</h6>
+                </div>
+                <div class="col-5">{{"FORM.today" | translate}} > </div>
+                <div class="col-2 underline pointer" (click)="goToCalendar()">{{"FORM.all" | translate}}></div>
+            </div>
+
+            <div *ngIf="followUpArray.length > 0">
+                <ng-container *ngFor="let followup of followUpArray  | slice: 0:3">
+                    <div class="flex my-p-5 mb-5">
+                        <div class="col-2">
+                            <img [src]="getImageURL(followup.activityType)" class="prod-icon" alt="" srcset="">
+                        </div>
+                        <div class="col-10">
+                            <div><span class="bold"> {{ followup.title }} </span></div>
+                            <div class="f-11">
+                                <span>{{ followup.customerName }}</span>
+                                <!-- <span class="pl-10">{{ followup.planDate | date:'mediumDate' }} -
                   {{ followup.dueDate | date:'mediumDate'}}</span> -->
-                <span class="pl-10">Due {{ followup.dueDate | date:'mediumDate' }}</span>
-              </div>
+                                <span class="pl-10">Due {{ followup.dueDate | date:'mediumDate' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-    <div class="card card-custom my-card my-block">
-      <div class="my-p-10">
-        <h6 class="card-label">Overdue Activities</h6>
-        <!-- <div><span class="primary-color bold">Overdue Activities</span></div> -->
-      </div>
-      <div class="row my-row lp-dashboard-box-header flex">
-        <div class="col-5 bold">
-          <h6 class="card-label" style="font-size: 0.9rem;">Backlog</h6>
         </div>
-
-        <div class="col-5">Today > </div>
-        <div class="col-2 underline pointer" (click)="goToCalendar()">All></div>
-      </div>
-
-      <div *ngIf="backlogArray && backlogArray.length > 0">
-
-        <ng-container *ngFor="let log of backlogArray | slice: 0:2">
-          <div class="flex my-p-5 mb-5">
-            <div class="col-2">
-              <img [src]="getImageURL(log.activityType)" class="prod-icon" alt="" srcset="">
-            </div>
-            <div class="col-10">
-              <div><span class="bold">{{ log.title }}</span></div>
-              <div class="f-11">
-                <span>{{ log.customerName }}</span>
-                <span class="pl-10">Due {{ log.dueDate | date:'mediumDate' }}</span>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-      </div>
     </div>
-  </div>
-  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-    <div class="card card-custom my-card my-block">
-      <div class="my-p-10">
-        <h6 class="card-label">Leads</h6>
-      </div>
-      <div class="row my-row lp-dashboard-box-header flex">
-        <div class="col-10 bold">
-          <h6 class="card-label" style="font-size: 0.9rem;">Leads Assigned</h6>
-        </div>
-        <div class="col-2 underline pointer" (click)="goToLeadList()">All></div>
-      </div>
-      <ng-container *ngFor="let obj of assignLeadArray | slice: 0:1">
-        <div class="flex my-p-5 mb-5" *ngIf="assignLeadArray && assignLeadArray.length > 0">
-          <div class="col-2">
-            <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
-          </div>
-          <div class="col-10">
-            <div><span style="font-weight: bold;">{{ obj.registerUserName }}</span></div>
-            <div class="f-11">
-              <span class="f-11">Assigned on {{ obj.openDate | date:'shortDate' }} </span>
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+        <div class="card card-custom my-card my-block">
+            <div class="my-p-10">
+                <h6 class="card-label">{{"FORM.overdue" | translate}}</h6>
+                <!-- <div><span class="primary-color bold">Overdue Activities</span></div> -->
             </div>
-          </div>
+            <div class="row my-row lp-dashboard-box-header flex">
+                <div class="col-5 bold">
+                    <h6 class="card-label" style="font-size: 0.9rem;">{{"FORM.backlog" | translate}}</h6>
+                </div>
+
+                <div class="col-5">{{"FORM.today" | translate}} > </div>
+                <div class="col-2 underline pointer" (click)="goToCalendar()">All></div>
+            </div>
+
+            <div *ngIf="backlogArray && backlogArray.length > 0">
+
+                <ng-container *ngFor="let log of backlogArray | slice: 0:2">
+                    <div class="flex my-p-5 mb-5">
+                        <div class="col-2">
+                            <img [src]="getImageURL(log.activityType)" class="prod-icon" alt="" srcset="">
+                        </div>
+                        <div class="col-10">
+                            <div><span class="bold">{{ log.title }}</span></div>
+                            <div class="f-11">
+                                <span>{{ log.customerName }}</span>
+                                <span class="pl-10">Due {{ log.dueDate | date:'mediumDate' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
         </div>
-      </ng-container>
     </div>
-  </div>
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+        <div class="card card-custom my-card my-block">
+            <div class="my-p-10">
+                <h6 class="card-label">{{"FORM.lead" | translate}}</h6>
+            </div>
+            <div class="row my-row lp-dashboard-box-header flex">
+                <div class="col-10 bold">
+                    <h6 class="card-label" style="font-size: 0.9rem;">{{"FORM.lead_assigned" | translate}}</h6>
+                </div>
+                <div class="col-2 underline pointer" (click)="goToLeadList()">{{"FORM.all" | translate}}></div>
+            </div>
+            <ng-container *ngFor="let obj of assignLeadArray | slice: 0:1">
+                <div class="flex my-p-5 mb-5" *ngIf="assignLeadArray && assignLeadArray.length > 0">
+                    <div class="col-2">
+                        <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
+                    </div>
+                    <div class="col-10">
+                        <div><span style="font-weight: bold;">{{ obj.registerUserName }}</span></div>
+                        <div class="f-11">
+                            <span class="f-11">{{"FORM.assigned_on" | translate}} {{ obj.openDate | date:'shortDate' }} </span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
 </div>

@@ -3,7 +3,7 @@
         <div class="card card-custom gutter-b">
             <div class="card-header">
                 <div class="card-title">
-                    <h3 class="card-label left-border-image">Activity Management List</h3>
+                    <h3 class="card-label left-border-image">{{"FORM.act_list" | translate}}</h3>
                 </div>
                 <div class="card-toolbar">
                     <!-- <button type="button" class="btn btn-primary btn-circle" (click)="navigateToDetail('create')">
@@ -24,7 +24,7 @@
                         <app-start-end-date [formInput]="actForm" remove-host [colClass]="'col-md-4'"></app-start-end-date>
                         <div class="col-md-4">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Status</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
                                 <div class="col-sm-8">
 
                                     <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('status')" [class.is-valid]="isControlValid('status')" [items]="statusOption" bindLabel="value" bindValue="code" formControlName="status">
@@ -38,7 +38,7 @@
                     <div class="row" style="align-items: center;">
                         <div class="col-md-4">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label ">Activity Type</label>
+                                <label class="col-sm-4 col-form-label ">{{"FORM.act_type" | translate}}</label>
                                 <div class="col-sm-8">
                                     <!-- <select class="form-control form-control-sm " name="type" autocomplete="off"
                     [class.is-invalid]="isControlInvalid('type')" [class.is-valid]="isControlValid('type')"
@@ -54,7 +54,7 @@
                         <div class="col-md-4">
 
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Activity Title</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.act_title" | translate}}</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control form-control-sm " name="title" autocomplete="off" [class.is-invalid]="isControlInvalid('title')" [class.is-valid]="isControlValid('title')" formControlName="title" />
                                 </div>

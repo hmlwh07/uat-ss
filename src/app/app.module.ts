@@ -30,6 +30,9 @@ import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularFireModule } from '@angular/fire/compat/';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { LanguagesService } from './modules/languages/languages.service';
+import { TranslatePipe } from './modules/languages/translate.pipe';
+import { LanguageModule } from './modules/languages/languages.modules';
 
 // #fake-start#
 // #fake-end#
@@ -62,6 +65,7 @@ function appInitializer(authService: AuthService) {
     AlertModelModule,
     OverlayModule,
     MatTooltipModule,
+    LanguageModule,
     MatSelectModule,
     NgSelectModule,
     CalendarModule,
@@ -89,6 +93,7 @@ function appInitializer(authService: AuthService) {
       deps: [AuthService],
     },
     File,
+    LanguagesService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
     {
       provide: HIGHLIGHT_OPTIONS,

@@ -5,7 +5,7 @@
             <div class="card card-custom gutter-b">
                 <div class="card-header" *ngIf="!isPopup">
                     <div class="card-title">
-                        <h3 class="card-label left-border-image">Lead Detail</h3>
+                        <h3 class="card-label left-border-image">{{"FORM.lead_detail" | translate}}</h3>
                     </div>
                     <div class="card-toolbar">
                         <button type="button" *ngIf="isDetail" class="icon" (click)="toggleAccordion('Detail')">
@@ -21,7 +21,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Lead ID</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.lead_id" | translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm " name="leadId" autocomplete="off" [class.is-invalid]="isControlInvalid('leadId')" [class.is-valid]="isControlValid('leadId')" formControlName="leadId" />
                                     </div>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Phone Number</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.phone_number" | translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" (change)="calculateLeadQuality()" name="phoneNo" autocomplete="off" [class.is-invalid]="isControlInvalid('phoneNo')" [class.is-valid]="isControlValid('phoneNo')" formControlName="phoneNo" />
                                     </div>
@@ -41,7 +41,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Subject</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.subject" | translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name="subject" autocomplete="off" [class.is-invalid]="isControlInvalid('subject')" [class.is-valid]="isControlValid('subject')" formControlName="subject" />
                                     </div>
@@ -50,7 +50,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Open Date</label>
+                                    <label class="col-sm-4 col-form-label">  {{"FORM.open_date" | translate}}</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
                                             <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="openedDate" [matDatepicker]="openDate" readonly>
@@ -67,7 +67,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Contact</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.contact" | translate}}</label>
                                     <div class="col-sm-8">
 
                                         <input type="text" class="form-control form-control-sm" name="contactName" autocomplete="off" [class.is-invalid]="isControlInvalid('contactName')" [class.is-valid]="isControlValid('contactName')" formControlName="contactName" />
@@ -77,7 +77,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Activation Date</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.act_date" | translate}}</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
                                             <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="activationDate" [matDatepicker]="activitionDate" readonly>
@@ -95,7 +95,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Preferred Contact</label>
+                                    <label class="col-sm-2 col-form-label">{{"FORM.precontact" | translate}}</label>
                                     <div class="col-sm-10 checkgroup">
                                         <div class="check-input">
                                             <label class="col-form-label">SMS</label>
@@ -117,7 +117,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Type</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.type" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" (change)="calculateLeadQuality('typeCode')" [class.is-invalid]="isControlInvalid('typeCode')" [class.is-valid]="isControlValid('typeCode')" [items]="typeOption" bindLabel="value" bindValue="code" formControlName="typeCode">
                                         </ng-select>
@@ -126,10 +126,11 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Closed Date</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.close_date" | translate}}</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
-                                            <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="closedDate" [matDatepicker]="closeDate" readonly>
+                                            <input matInput class="form-con
+                                            trol-sm date-input" style="width: 100%;" formControlName="closedDate" [matDatepicker]="closeDate" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="closeDate"></mat-datepicker-toggle>
                                             <mat-datepicker #closeDate disabled="true"></mat-datepicker>
 
@@ -142,7 +143,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Status</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" [readonly]="true" [class.is-invalid]="isControlInvalid('statusCode')" [class.is-valid]="isControlValid('statusCode')" [items]="statusOption" bindLabel="value" bindValue="code" formControlName="statusCode">
                                         </ng-select>
@@ -152,7 +153,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Expiration Date</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.exp_date" | translate}}</label>
                                     <div class="col-sm-8">
                                         <div class="input-group ">
                                             <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="expirationDate" [matDatepicker]="expDate">
@@ -167,7 +168,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Occupation</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.occupation" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('occupationCode')" [class.is-valid]="isControlValid('occupationCode')" [items]="occupationOption" bindLabel="value" bindValue="code" formControlName="occupationCode">
                                         </ng-select>
@@ -176,7 +177,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Company</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.company" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('companyCode')" [class.is-valid]="isControlValid('companyCode')" [items]="companyOption" bindLabel="value" bindValue="code" formControlName="companyCode">
                                         </ng-select>
@@ -189,7 +190,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">State</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')" [class.is-invalid]="isControlInvalid('stateCode')" [class.is-valid]="isControlValid('stateCode')" [items]="stateOption" bindLabel="value" bindValue="code" formControlName="stateCode">
                                         </ng-select>
@@ -198,7 +199,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">District</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.district" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" (change)="calculateLeadQuality('district')" [class.is-invalid]="isControlInvalid('districtCode')" [class.is-valid]="isControlValid('districtCode')" [items]="distinctOption" bindLabel="value" bindValue="code" formControlName="districtCode">
                                         </ng-select>
@@ -210,7 +211,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Township</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" (change)="calculateLeadQuality()" [class.is-invalid]="isControlInvalid('townshipCode')" [class.is-valid]="isControlValid('townshipCode')" [items]="townshipOption" bindLabel="value" bindValue="code" formControlName="townshipCode">
                                         </ng-select>
@@ -219,7 +220,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Validity Period</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.validity_period" | translate}}</label>
 
                                     <div class="col-sm-8">
                                         <div class="input-group ">
@@ -235,7 +236,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Distribution Channel</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.distribution_channel" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" (change)="calculateLeadQuality()" [class.is-invalid]="isControlInvalid('channelCode')" [class.is-valid]="isControlValid('channelCode')" [items]="channelOption" bindLabel="value" bindValue="code" formControlName="channelCode">
                                         </ng-select>
@@ -245,7 +246,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Assign To</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.assign_to" | translate}}</label>
                                     <div class="col-sm-8">
                                         <!-- <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('assignTo')" [class.is-valid]="isControlValid('assignTo')" [items]="assignToOption" bindLabel="value" bindValue="code" formControlName="assignTo">
                                         </ng-select> -->
@@ -258,7 +259,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Product</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.product" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" (change)="calculateLeadQuality('product')" [class.is-invalid]="isControlInvalid('productId')" [class.is-valid]="isControlValid('productId')" [items]="productOption2" bindLabel="value" bindValue="code" formControlName="productId">
                                         </ng-select>
@@ -267,7 +268,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Email</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.email" | translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name="email" autocomplete="off" [class.is-invalid]="isControlInvalid('email')" [class.is-valid]="isControlValid('email')" formControlName="email" />
                                     </div>
@@ -278,7 +279,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Campaign Name</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.campaign_name" | translate}}</label>
                                     <div class="col-sm-8" (click)="viewCampaignList()">
                                         <input type="text" class="form-control form-control-sm " (change)="calculateLeadQuality()" name="campaignName" readonly autocomplete="off" formControlName="campaignName" />
                                         <span class="ng-clear-wrapper" (click)="clearDate('campaignName');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
@@ -288,7 +289,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Identity Type</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.identity_type" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('identityType')" [class.is-valid]="isControlValid('identityType')" [items]="identityTypeOption" bindLabel="value" bindValue="code" formControlName="identityType">
                                         </ng-select>
@@ -300,7 +301,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Campaign ID</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.campaign_id" | translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control form-control-sm" name="campaignNo" autocomplete="off" [class.is-invalid]="isControlInvalid('campaignNo')" [class.is-valid]="isControlValid('campaignNo')" formControlName="campaignNo" />
                                         <span class="ng-clear-wrapper" (click)="clearDate('campaignNo');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
@@ -311,7 +312,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">NRC/FRC/Passport</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.nrc_frc_passport" | translate}}</label>
                                     <div class="col-sm-8">
                                         <input type="text" *ngIf="leadForm.get('identityType').value == 'NRC'" class="form-control form-control-sm " name="identityNumber" autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')" (click)="openNRCModal()" [class.is-valid]="isControlValid('identityNumber')"
                                             formControlName="identityNumber" readonly />
@@ -325,7 +326,7 @@
                         <div class="row" style="align-items: center">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Source</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.source" | translate}}</label>
                                     <div class="col-sm-8">
                                         <ng-select class="ng-custom-select" (change)="calculateScore(leadForm.value.sourceCode,null)" [class.is-invalid]="isControlInvalid('sourceCode')" [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption" bindLabel="value" bindValue="code"
                                             formControlName="sourceCode">
@@ -336,7 +337,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Existing Customer</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.existing_customer" | translate}}</label>
                                     <div class="col-sm-8">
                                         <!-- <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('existingCustomerName')"  [class.is-valid]="isControlValid('existingCustomerName')" [items]="existingOption" bindLabel="value" bindValue="code" formControlName="existingCustomerName">
                                             </ng-select>  (click)="viewExistingCustomer()"  -->
@@ -353,7 +354,7 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Referral Customer</label>
+                                    <label class="col-sm-4 col-form-label">{{"FORM.referral_customer" | translate}}</label>
                                     <div class="col-sm-8" (click)="viewExistingCustomer('ref')">
                                         <input type="text" class="form-control form-control-sm" name="referralCustomerName" readonly autocomplete="off" [class.is-invalid]="isControlInvalid('referralCustomerName')" [class.is-valid]="isControlValid('referralCustomerName')" readonly formControlName="referralCustomerName"
                                         />
@@ -365,7 +366,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h3 class="card-label left-border-image">More Detail</h3>
+                    <h3 class="card-label left-border-image">{{"FORM.more_detail" | translate}}</h3>
 
                     <div class="row" style="align-items: center">
                         <div class="col-sm-12">
@@ -373,7 +374,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label">Estimated Money Income</label>
+                                        <label class="col-sm-5 col-form-label">{{"FORM.estimate_m_income" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control form-control-sm" name="monthlyIncome" autocomplete="off" [class.is-invalid]="isControlInvalid('monthlyIncome')" [class.is-valid]="isControlValid('monthlyIncome')" formControlName="monthlyIncome" />
                                         </div>
@@ -381,7 +382,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label">Facebook Acc</label>
+                                        <label class="col-sm-5 col-form-label">{{"FORM.facebook_acc" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control form-control-sm" name="facebookAcc" autocomplete="off" [class.is-invalid]="isControlInvalid('facebookAcc')" [class.is-valid]="isControlValid('facebookAcc')" formControlName="facebookAcc" />
                                         </div>
@@ -393,7 +394,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label">Marital Status</label>
+                                        <label class="col-sm-5 col-form-label">{{"FORM.martial_status" | translate}}</label>
                                         <div class="col-sm-7">
                                             <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('maritalStatus')" [class.is-valid]="isControlValid('maritalStatus')" [items]="maritialOption" bindLabel="value" bindValue="code" formControlName="maritalStatus">
                                             </ng-select>
@@ -402,8 +403,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">Customer Financial Plan/Goal(in Next
-                                            6-12 months)</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.financial_plan" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control form-control-sm" name="financialPlan" autocomplete="off" [class.is-invalid]="isControlInvalid('financialPlan')" [class.is-valid]="isControlValid('financialPlan')" formControlName="financialPlan" />
                                         </div>
@@ -414,7 +414,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">No. of Children</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.no_childern" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="number" class="form-control form-control-sm" name="numberOfChildren" autocomplete="off" [class.is-invalid]="isControlInvalid('numberOfChildren')" [class.is-valid]="isControlValid('numberOfChildren')" formControlName="numberOfChildren" />
                                         </div>
@@ -422,7 +422,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">Existing Insurance Coverage</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.existing_insurance_coverage" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control form-control-sm" name="existingInsuranceCoverage" autocomplete="off" [class.is-invalid]="isControlInvalid('existingInsuranceCoverage')" [class.is-valid]="isControlValid('existingInsuranceCoverage')" formControlName="existingInsuranceCoverage"
                                             />
@@ -434,7 +434,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">Existing Insurance Plan</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.existing_insurance_plan" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control form-control-sm" name="existingInsurancePlan" autocomplete="off" [class.is-invalid]="isControlInvalid('existingInsurancePlan')" [class.is-valid]="isControlValid('existingInsurancePlan')" formControlName="existingInsurancePlan"
                                             />
@@ -443,7 +443,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">Score</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.score" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control form-control-sm" name="score" autocomplete="off" [class.is-invalid]="isControlInvalid('score')" [class.is-valid]="isControlValid('score')" formControlName="score" readonly />
                                         </div>
@@ -454,7 +454,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">Asset (If Any)</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.asset" | translate}}</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control form-control-sm" name="asset" autocomplete="off" [class.is-invalid]="isControlInvalid('asset')" [class.is-valid]="isControlValid('asset')" formControlName="asset" />
                                         </div>
@@ -462,7 +462,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">Prospect Customer</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.prospect_customer" | translate}}</label>
                                         <div class="col-sm-5" (click)="viewExistingCustomer('prosp')">
                                             <input type="text" readonly class="form-control form-control-sm " name="prospectCustomer" autocomplete="off" formControlName="prospectCustomer" />
                                             <span class="ng-clear-wrapper" (click)="clearDate('prospectCustomer');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
@@ -480,7 +480,7 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5  col-form-label">Lost Reason</label>
+                                        <label class="col-sm-5  col-form-label">{{"FORM.lost_reason" | translate}}</label>
                                         <div class="col-sm-7">
                                             <textarea type="text" readonly class="form-control form-control-sm" name="lostReason" autocomplete="off" formControlName="lostReason"></textarea>
                                         </div>
@@ -488,7 +488,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-5 col-form-label">Reject Reason</label>
+                                        <label class="col-sm-5 col-form-label">{{"FORM.reject_reaosn" | translate}}</label>
                                         <div class="col-sm-7">
                                             <textarea type="text" readonly class="form-control form-control-sm" name="reason" autocomplete="off" formControlName="reason"></textarea>
                                         </div>
@@ -507,34 +507,34 @@
                             </div> -->
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='02'">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('03')">
-                                    <span class="">Approve</span>
+                                    <span class="">{{"FORM.btn_approve" | translate}}</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='02' ">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('04')">
-                                    <span class="">Reject</span>
+                                    <span class="">{{"FORM.btn_reject" | translate}}</span>
                                 </button>
                             </div>
                             <!-- <div class="col-sm-8" *ngIf="leadForm.value.statusCode=='03'">isValidWin
                             </div> -->
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03' && applicationList.length > 0">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('05')">
-                                    <span class="">Win</span>
+                                    <span class="">{{"FORM.btn_win" | translate}}</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03'">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('06')">
-                                    <span class="">Lost</span>
+                                    <span class="">{{"FORM.btn_lost" | translate}}</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode =='03'">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('save')">
-                                    <span class="">Save</span>
+                                    <span class="">{{"FORM.btn_save" | translate}}</span>
                                 </button>
                             </div>
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode =='03'">
                                 <button type="button" class="btn btn-sm btn-secondary ml-2" style="width: 100%;" (click)="updateLeadStatus('cancel')">
-                                    <span class="">Cancel</span>
+                                    <span class="">{{"FORM.btn_cancel" | translate}}</span>
                                 </button>
                             </div>
                         </div>

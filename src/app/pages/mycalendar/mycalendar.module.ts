@@ -11,6 +11,7 @@ import { CalendarModule,DateAdapter } from 'angular-calendar';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ActivityManagementListModule } from '../activity-management-list/activity-management-list.module';
+import { EventListComponent } from './event-list/event-list.component';
 @NgModule({
  imports: [
     CommonModule,
@@ -32,6 +33,7 @@ import { ActivityManagementListModule } from '../activity-management-list/activi
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-  ]
+  ],
+  declarations:[EventListComponent]
 })
 export class MyCalendarModule { }

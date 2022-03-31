@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { UserModel } from '../_models/user.model';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LanguagesService } from '../../languages/languages.service';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private translate:LanguagesService
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in

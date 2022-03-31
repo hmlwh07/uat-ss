@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -18,6 +19,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     InlineSVGModule,
     CRUDTableModule,
     NgSelectModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',

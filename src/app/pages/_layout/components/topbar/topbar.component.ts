@@ -13,12 +13,25 @@ import KTLayoutHeaderTopbar from '../../../../../assets/js/layout/base/header-to
 import { KTUtil } from '../../../../../assets/js/components/util';
 import { NotificationService } from 'src/app/_metronic/partials/layout/extras/dropdown-inner/notifications-dropdown-inner/notification.service';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { LanguagesService } from 'src/app/modules/languages/languages.service';
+
+
+
+interface LanguageFlag {
+  lang: string;
+  name: string;
+  flag: string;
+  active?: boolean;
+}
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
+
+
+
 export class TopbarComponent implements OnInit, AfterViewInit {
   user$: Observable<UserModel>;
   noti: any = []
@@ -36,11 +49,33 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   extrasUserDisplay: boolean;
   extrasUserLayout: 'offcanvas' | 'dropdown';
   currentUser: UserModel = new UserModel()
-  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService) {
+  languageData: string = 'en'
+  language: LanguageFlag;
+  languages: LanguageFlag[] = [
+    {
+      lang: 'en',
+      name: 'English',
+      flag: './assets/media/svg/flags/012-uk.svg',
+    },
+
+    {
+      lang: 'mm',
+      name: 'Myanmar',
+      flag: './assets/media/svg/flags/058-myanmar.svg',
+    },
+  ];
+  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService, private lang:LanguagesService) {
     this.user$ = this.auth.currentUserSubject.asObservable();
   }
   @ViewChild(NgbDropdown) myDrop: NgbDropdown
+  @ViewChild(NgbDropdown) myLanguageDrop: NgbDropdown
   ngOnInit(): void {
+    let lang=this.lang.getSelectedLanguage()
+    if(lang=='mm'){
+      this.language = this.languages[1]
+    }else{
+      this.language=this.languages[0]
+    }
     // topbar extras
     this.extraSearchDisplay = this.layout.getProp('extras.search.display');
     this.extrasSearchLayout = this.layout.getProp('extras.search.layout');
@@ -126,6 +161,15 @@ export class TopbarComponent implements OnInit, AfterViewInit {
         }
       });
 
+  }
+  getLanguage(event) {
+    if (event == 'mm') {
+      this.language = this.languages[1]
+      this.myLanguageDrop.close()
+    } else {
+      this.language = this.languages[0]
+      this.myLanguageDrop.close()
+    }
   }
   closeDropDown(event) {
     console.log(event);

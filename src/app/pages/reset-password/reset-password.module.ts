@@ -9,6 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ResetPasswordComponent } from './reset-password.component';
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { OtpModalComponent } from './otp-modal/otp-modal.component';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [ResetPasswordComponent, OtpModalComponent],
@@ -19,6 +20,7 @@ import { OtpModalComponent } from './otp-modal/otp-modal.component';
     NgbModalModule,
     NgbModule,
     MatDatepickerModule,
+    LanguageModule,
     FormComponentModule,
     NgxOtpInputModule,
     CRUDTableModule,

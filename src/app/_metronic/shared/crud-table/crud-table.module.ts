@@ -18,10 +18,11 @@ import { StylePaginatorDirective } from './components/material-table-view/custom
 import { StartEndDateComponent } from './components/start-end-date/start-end-date.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RemoveHost } from './components/start-end-date/remove-host.directive';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective,StartEndDateComponent,RemoveHost],
-  imports: [CommonModule, FormsModule, InlineSVGModule, DragDropModule,MatTableModule,MatPaginatorModule,MatSortModule,OverlayModule,MatDatepickerModule,ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, InlineSVGModule, DragDropModule,MatTableModule,MatPaginatorModule,MatSortModule,OverlayModule,MatDatepickerModule,ReactiveFormsModule,LanguageModule],
   exports: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective,StartEndDateComponent,RemoveHost],
   entryComponents: [SortConfigModalComponent]
 })

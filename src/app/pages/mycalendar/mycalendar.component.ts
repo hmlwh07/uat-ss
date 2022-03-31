@@ -5,6 +5,8 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 import { Subject } from 'rxjs';
 import { ActivityManageService } from '../activity-management-list/activity-manage.service';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { EventListComponent } from './event-list/event-list.component';
 
 const colors: any = {
   red: {
@@ -71,6 +73,7 @@ export class MycalendarComponent implements OnInit {
   modalData: {
     action: string;
     event: CalendarEvent;
+    
   };
 
   actions: CalendarEventAction[] = [
@@ -114,7 +117,7 @@ export class MycalendarComponent implements OnInit {
   activeDayIsOpen: boolean = false;
 
 
-  constructor(private modal: NgbModal, private activityService: ActivityManageService, private router: Router) {
+  constructor(private modal: NgbModal, private activityService: ActivityManageService, private router: Router,private modalCrl:NgbModal) {
   }
 
   ngOnInit(): void {
@@ -146,6 +149,7 @@ export class MycalendarComponent implements OnInit {
             start: new Date(data.planDate),
             end:  new Date(data.planDate),
             title: data.activityTitle + "( " + data.activityType + " )",
+            type:data.activityType ,
             color: actColor,
             meta: data.activityNo,
             actions: this.actions,
@@ -162,15 +166,25 @@ export class MycalendarComponent implements OnInit {
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === false) ||
         events.length === 0
       ) {
         this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true;
+        this.activeDayIsOpen = false;
       }
       this.viewDate = date;
     }
+    const modalRef = this.modalCrl.open(EventListComponent, { size: 'sm', backdrop: true });
+    modalRef.componentInstance.isModal = true
+    modalRef.componentInstance.data = events
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        
+      }
+    })
+    console.log("day",date,"events",events);
+    
   }
 
   eventTimesChanged({

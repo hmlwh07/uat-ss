@@ -1,165 +1,160 @@
 <div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div class="card card-custom my-card gutter-b">
-      <div class="flex" style="align-items: center;">
-        <div class="my-center">
-          <img src="./assets/images/user_profile-01.svg" class="user-image" alt="" />
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card card-custom my-card gutter-b">
+            <div class="flex" style="align-items: center;">
+                <div class="my-center">
+                    <img src="./assets/images/user_profile-01.svg" class="user-image" alt="" />
+                </div>
+                <div class="name-card">
+                    <h6 class="card-label primary-color" style="padding: 0px;margin: 0px;">{{ data?.agentInfo?.employeeName }}
+                    </h6>
+                    <label class="text-dark text-bold">{{ data?.role }}</label>
+                </div>
+            </div>
         </div>
-        <div class="name-card">
-          <h6 class="card-label primary-color" style="padding: 0px;margin: 0px;">{{ data?.agentInfo?.employeeName }}
-          </h6>
-          <label class="text-dark text-bold">{{ data?.role }}</label>
-        </div>
-      </div>
-    </div>
-    <div class="card my-card card-custom my-card gutter-b">
-      <div class="row my-row my-border-bottom">
-        <div class="col-12 my-p-10">
-          <h6 class="card-label primary-color">Premium</h6>
-        </div>
-        <div class="col-12">
-          <label class="text-amt">
-            {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span><small>MMK</small></span>
+        <div class="card my-card card-custom my-card gutter-b">
+            <div class="row my-row my-border-bottom">
+                <div class="col-12 my-p-10">
+                    <h6 class="card-label primary-color">{{"FORM.premium" | translate}}</h6>
+                </div>
+                <div class="col-12">
+                    <label class="text-amt">
+            {{ data?.agentInfo?.totalPremium | number: '1.0-2' }} <span><small>{{"FORM.mmk" | translate}}</small></span>
           </label>
-        </div>
-      </div>
-      <div class="row my-row fixed-height">
-        <!-- <div class="col-12 my-pt-15">
+                </div>
+            </div>
+            <div class="row my-row fixed-height">
+                <!-- <div class="col-12 my-pt-15">
           <label>Products</label>
         </div> -->
-        <div class="col-12 my-pt-15">
-          <h6 class="card-label primary-color">Products</h6>
-        </div>
-        <div class="col-12">
-          <div *ngIf="data && data.yearlyTotalPremium.length > 0">
-            <ng-container *ngFor="let product of data?.yearlyProductPremium">
-              <div class="row my-row my-p-15 my-border-bottom" style="align-items: center;" *ngIf="product.premium > 0">
-                <div class="col-6">
-                  <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
-                  {{ product.productName }}
+                <div class="col-12 my-pt-15">
+                    <h6 class="card-label primary-color">{{"FORM.products" | translate}}</h6>
                 </div>
-                <div class="col-6 text-right text-bold">{{ product.premium | number: '1.0-2' }} MMK</div>
-              </div>
-            </ng-container>
-          </div>
+                <div class="col-12">
+                    <div *ngIf="data && data.yearlyTotalPremium.length > 0">
+                        <ng-container *ngFor="let product of data?.yearlyProductPremium">
+                            <div class="row my-row my-p-15 my-border-bottom" style="align-items: center;" *ngIf="product.premium > 0">
+                                <div class="col-6">
+                                    <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset=""> {{ product.productName }}
+                                </div>
+                                <div class="col-6 text-right text-bold">{{ product.premium | number: '1.0-2' }} {{"FORM.mmk" | translate}}</div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div class="card card-custom gutter-b">
-      <div class="my-card-fixed-height">
-        <div class="row my-row">
-          <div class="col-6 my-p-10">
-            <h6 class="card-label primary-color">Sales Performances</h6>
-          </div>
-          <div class="col-6 my-p-10 text-right cursor" (click)="goToSalePolicies()">
-            View All
-          </div>
-        </div>
-        <div class="row my-row">
-          <div class="col-12">
-            <!-- <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card card-custom gutter-b">
+            <div class="my-card-fixed-height">
+                <div class="row my-row">
+                    <div class="col-6 my-p-10">
+                        <h6 class="card-label primary-color">{{"FORM.sale_performance" | translate}}</h6>
+                    </div>
+                    <div class="col-6 my-p-10 text-right cursor" (click)="goToSalePolicies()">
+                        {{"FORM.view_all" | translate}}
+                    </div>
+                </div>
+                <div class="row my-row">
+                    <div class="col-12">
+                        <!-- <span class="primary-color" *ngIf="data && data.yearlyTotalPremium.length > 0">
               <span *ngIf="months && months.length > 0">{{
                 months[currentMonthIndex] }}</span> | Y
               {{ data?.yearlyTotalPremium[0]?.year }} </span> -->
-            <span class="primary-color">
-              <span>{{ months[currentMonthIndex] }}</span> | Y
-              {{ currentYear }}
-            </span>
-          </div>
-        </div>
+                        <span class="primary-color">
+              <span>{{ months[currentMonthIndex] }}</span> | Y {{ currentYear }}
+                        </span>
+                    </div>
+                </div>
 
-        <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
-          <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
-            <div class="my-profile-card my-border-bottom" (click)="goToLPManager(agent)">
-              <div class="flex" style="align-items: center;">
-                <div>
-                  <img src="./assets/images/user_profile-01.svg" class="user-icon" alt="" />
+                <div class="width-100" *ngIf="data && data.subAgentMonthlySale.length > 0">
+                    <ng-container *ngFor="let agent of data?.subAgentMonthlySale">
+                        <div class="my-profile-card my-border-bottom" (click)="goToLPManager(agent)">
+                            <div class="flex" style="align-items: center;">
+                                <div>
+                                    <img src="./assets/images/user_profile-01.svg" class="user-icon" alt="" />
+                                </div>
+                                <div class="pl-5">
+                                    <div>
+                                        <span>{{ agent.name }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right text-bold" style="margin-left: auto;">
+                                    <span>{{ agent.premium | number: '1.0-2' }} {{"FORM.mmk" | translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
-                <div class="pl-5">
-                  <div>
-                    <span>{{ agent.name }}</span>
-                  </div>
-                </div>
-                <div class="text-right text-bold" style="margin-left: auto;">
-                  <span>{{ agent.premium | number: '1.0-2' }} MMK</span>
-                </div>
-              </div>
             </div>
-          </ng-container>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="w-100"></div>
-  <div class="col-4">
-    <div class="card card-custom my-card my-block ">
-      <div class="row my-row">
-        <div class="col-12 my-p-10">
-          <h6 class="card-label primary-color">Lead Conversion</h6>
+    <div class="w-100"></div>
+    <div class="col-4">
+        <div class="card card-custom my-card my-block ">
+            <div class="row my-row">
+                <div class="col-12 my-p-10">
+                    <h6 class="card-label primary-color">{{"FORM.lead_conversion" | translate}}</h6>
+                </div>
+                <div class="col-12">
+                    <span class="text-bold">{{ data?.agentInfo?.branchName }}</span>
+                </div>
+                <div class="col-12">
+                    <span class="font-18">{{ leadObj?.leadWinRate }} %</span>
+                </div>
+            </div>
+            <div id="chartLead" *ngIf="chartOptions">
+                <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [dataLabels]="chartOptions?.dataLabels" [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis" [legend]="chartOptions?.legend" [colors]="chartOptions?.colors"
+                    [grid]="chartOptions?.grid"></apx-chart>
+            </div>
         </div>
-        <div class="col-12">
-          <span class="text-bold">{{ data?.agentInfo?.branchName }}</span>
-        </div>
-        <div class="col-12">
-          <span class="font-18">{{ leadObj?.leadWinRate }} %</span>
-        </div>
-      </div>
-      <div id="chartLead" *ngIf="chartOptions">
-        <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [dataLabels]="chartOptions?.dataLabels"
-          [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis"
-          [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
-      </div>
     </div>
-  </div>
-  <div class="col-4">
+    <div class="col-4">
 
-    <div class="card card-custom my-card my-block ">
-      <div class="row my-row">
-        <div class="col-12 my-p-10">
-          <h6 class="card-label primary-color">Active Agents Today</h6>
-        </div>
-        <div class="col-12">
-          <span class="font-18">{{ todayActiveAgent }}</span>
-        </div>
-      </div>
-      <div id="chartAgent" *ngIf="chartOptionsAgent">
-        <apx-chart [series]="chartOptionsAgent.series" [chart]="chartOptionsAgent.chart"
-          [xaxis]="chartOptionsAgent.xaxis" [yaxis]="chartOptionsAgent.yaxis" [title]="chartOptionsAgent.title"
-          [legend]="chartOptionsAgent.legend" [dataLabels]="chartOptionsAgent.dataLabels"
-          [markers]="chartOptionsAgent.markers"></apx-chart>
-      </div>
-    </div>
-  </div>
-  <div class="col-4">
-    <div class="card card-custom my-card my-block ">
-      <div class="row my-row">
-        <div class="col-12 my-p-10">
-          <h6 class="card-label primary-color">Things To Follow Up Today
-          </h6>
-        </div>
-      </div>
-      <div class="row my-row" style="height: 100%;align-items: center;">
-        <div class="col-12 flex" style="justify-content: center;">
-          <div class="box-1 card-box">
-            <div class="my-center"><span>ACTIVITY</span></div>
-            <br>
-            <div class="my-center">
-              <h5>{{ leadObj.taskToday }}</h5>
+        <div class="card card-custom my-card my-block ">
+            <div class="row my-row">
+                <div class="col-12 my-p-10">
+                    <h6 class="card-label primary-color">{{"FORM.active_agent_today" | translate}}</h6>
+                </div>
+                <div class="col-12">
+                    <span class="font-18">{{ todayActiveAgent }}</span>
+                </div>
             </div>
-          </div>
-          <div class="box-2 card-box">
-            <div class="my-center"><span>LEADS TODAY</span></div>
-            <br>
-            <div class="my-center">
-              <h5>{{ leadObj.leadToday }}</h5>
+            <div id="chartAgent" *ngIf="chartOptionsAgent">
+                <apx-chart [series]="chartOptionsAgent.series" [chart]="chartOptionsAgent.chart" [xaxis]="chartOptionsAgent.xaxis" [yaxis]="chartOptionsAgent.yaxis" [title]="chartOptionsAgent.title" [legend]="chartOptionsAgent.legend" [dataLabels]="chartOptionsAgent.dataLabels"
+                    [markers]="chartOptionsAgent.markers"></apx-chart>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="col-4">
+        <div class="card card-custom my-card my-block ">
+            <div class="row my-row">
+                <div class="col-12 my-p-10">
+                    <h6 class="card-label primary-color">{{"FORM.things_to_follow_up" | translate}}
+                    </h6>
+                </div>
+            </div>
+            <div class="row my-row" style="height: 100%;align-items: center;">
+                <div class="col-12 flex" style="justify-content: center;">
+                    <div class="box-1 card-box">
+                        <div class="my-center"><span>{{"FORM.activity" | translate}}</span></div>
+                        <br>
+                        <div class="my-center">
+                            <h5>{{ leadObj.taskToday }}</h5>
+                        </div>
+                    </div>
+                    <div class="box-2 card-box">
+                        <div class="my-center"><span>{{"FORM.lead_today" | translate}}</span></div>
+                        <br>
+                        <div class="my-center">
+                            <h5>{{ leadObj.leadToday }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- my-card my-block
 my-card my-block

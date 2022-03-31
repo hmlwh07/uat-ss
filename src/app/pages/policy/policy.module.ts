@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { ProductsModule } from '../products/products.module';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { PolicyPageComponent } from './policy-page.component';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { PolicyPageComponent } from './policy-page.component';
     ReactiveFormsModule,
     NgbModalModule,
     ProductsModule,
+    LanguageModule,
     CRUDTableModule,
     RouterModule.forChild([
       {

@@ -1,6 +1,6 @@
 <div [ngClass]="colClass" ng [formGroup]="formInput" *ngIf="formInput">
     <div class="form-group row">
-        <label class="col-sm-4 col-form-label">Start Date</label>
+        <label class="col-sm-4 col-form-label">{{"FORM.start_date" | translate}}</label>
         <div class="col-sm-8">
             <div class="input-group ">
                 <input matInput class="form-control-sm date-input" formControlName="startDate" [matDatepicker]="startDate" readonly>
@@ -13,7 +13,7 @@
 </div>
 <div [ngClass]="colClass" [formGroup]="formInput" *ngIf="formInput">
     <div class="form-group row">
-        <label class="col-sm-4 col-form-label">End Date</label>
+        <label class="col-sm-4 col-form-label">{{"FORM.end_date" | translate}}</label>
         <div class="col-sm-8">
             <div class="input-group ">
                 <input matInput class="form-control-sm date-input" formControlName="endDate" [matDatepicker]="endDate" readonly>

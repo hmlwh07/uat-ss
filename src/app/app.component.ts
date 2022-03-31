@@ -25,7 +25,9 @@ import { MessagingService } from './messaging.service';
 import { UserTokenService } from './user-token.service';
 import { KBZToastService } from './modules/loading-toast/toast/kbz-toast.service';
 import { AlertComponet } from './modules/loading-toast/alert-model/alert.component';
-
+import { locale as enLang } from './modules/languages/vocabs/en';
+import { locale as mmLang } from './modules/languages/vocabs/mm';
+import { LanguagesService } from './modules/languages/languages.service';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-root',
@@ -54,8 +56,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private messagingService: MessagingService,
     private userTokenService: UserTokenService,
+    private langageService:LanguagesService
   ) {
-
+    this.langageService.loadTranslations(
+      enLang,
+      mmLang
+    )
   }
   @HostListener('window:unload', ['$event'])
   beforeUnloadHandler(event) {

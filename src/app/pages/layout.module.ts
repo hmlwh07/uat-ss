@@ -46,6 +46,8 @@ import { ReportKeyDriverComponent } from './report-key-driver/report-key-driver.
 import { ReportCommonSearchComponent } from './report-common-search/report-common-search.component';
 import { CalendarModule } from 'angular-calendar';
 import { MycalendarComponent } from './mycalendar/mycalendar.component';
+import { LanguageModule } from '../modules/languages/languages.modules';
+import { LanguagesService } from '../modules/languages/languages.service';
 
 @NgModule({
   declarations: [
@@ -105,6 +107,7 @@ import { MycalendarComponent } from './mycalendar/mycalendar.component';
     NgbDropdownModule,
     NgbProgressbarModule,
     CoreModule,
+    LanguageModule,
     SubheaderModule,
     FormsModule,
     ReactiveFormsModule,

@@ -9,6 +9,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LogoutComponent } from './logout/logout.component';
 import { AuthComponent } from './auth.component';
 import { StaticPagesModule } from '../../pages/static-pages/static-pages.module';
+import { LanguagesService } from '../languages/languages.service';
+import { LanguageModule } from '../languages/languages.modules';
 
 @NgModule({
   declarations: [
@@ -22,8 +24,9 @@ import { StaticPagesModule } from '../../pages/static-pages/static-pages.module'
     CommonModule,
     AuthRoutingModule,
     FormsModule,
+    LanguageModule,
     ReactiveFormsModule,
     HttpClientModule,
-  ]
+  ],
 })
 export class AuthModule {}

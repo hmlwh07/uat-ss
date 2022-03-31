@@ -15,6 +15,7 @@ import { FormComponentModule } from '../form-component/form-component.module';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { CampaignListComponent } from './campaign-list/campaign-list.component';
 import { LeadDetailShareModule } from './lead-detail.share.module';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 @NgModule({
   imports: [
     CommonModule,
@@ -30,6 +31,7 @@ import { LeadDetailShareModule } from './lead-detail.share.module';
     MatTabsModule,
     LeadDetailShareModule,
     MatInputModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',

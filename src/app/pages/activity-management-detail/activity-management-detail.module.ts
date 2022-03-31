@@ -11,6 +11,7 @@ import { CustomerListShareModule } from '../customer-list/customer-list.share.mo
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
     NgSelectModule,
     NgbModalModule,
     CustomerListShareModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',
