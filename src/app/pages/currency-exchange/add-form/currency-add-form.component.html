@@ -1,14 +1,14 @@
 <div class="card card-custom gutter-b">
     <div class="card-header">
         <div class="card-title">
-            <h3 class="card-label">{{ isEdit ? 'Edit' : 'Create' }} Currency Exchange</h3>
+            <h3 class="card-label">{{ isEdit ? 'Edit' : 'Create' }} {{"FORM.currency_exchange" | translate}}</h3>
         </div>
     </div>
     <div class="card-body">
         <form action="#" class="form form-label-right" [formGroup]="formGroup" (ngSubmit)="saveData()">
             <!-- type -->
             <div class="form-group ">
-                <label class="form-label">Date</label>
+                <label class="form-label">{{"FORM.date" | translate}}</label>
                 <div class="input-group ">
                     <input matInput class="form-control form-control-sm date-input" placeholder="Date" formControlName="date" [matDatepicker]="picker" readonly>
                     <mat-datepicker-toggle matSuffix [for]="picker" style="z-index: 99999;"></mat-datepicker-toggle>
@@ -18,7 +18,7 @@
             </div>
 
             <div class="form-group ">
-                <label class="form-label">Currency</label>
+                <label class="form-label">{{"FORM.currency" | translate}}</label>
                 <select class="form-control form-control-sm " name="title" placeholder="Currency Type" autocomplete="off" [class.is-invalid]="isControlInvalid('type')" [class.is-valid]="isControlValid('type')" formControlName="type">
           <option value="usd">USD</option>
           <!-- <option *ngFor="let item of currencyType" value="{{item}}">{{item | uppercase}}</option> -->
@@ -29,14 +29,14 @@
 
             <!-- Amount -->
             <div class="form-group ">
-                <label class="form-label">Rate</label>
+                <label class="form-label">{{"FORM.rate" | translate}}</label>
                 <input type="number" class="form-control form-control-sm " name="amount" placeholder="Rate" autocomplete="off" [class.is-invalid]="isControlInvalid('amount')" [class.is-valid]="isControlValid('amount')" formControlName="amount">
 
             </div>
             <!-- Amount -->
             <div class="form-group ">
-                <button type="button" *ngIf="isModal" class="btn btn-default" (click)="modal.dismissAll()">Close</button>
-                <button type="submit" class="btn btn-primary mx-2">Save</button>
+                <button type="button" *ngIf="isModal" class="btn btn-default" (click)="modal.dismissAll()">{{"FORM.btn_close" | translate}}</button>
+                <button type="submit" class="btn btn-primary mx-2">{{"FORM.btn_save" | translate}}</button>
             </div>
         </form>
     </div>

@@ -31,7 +31,7 @@ export class CurrencyExChangeComponent implements OnInit {
   ngOnInit() {
     this.loadForm()
   }
-  ngAfterViewInit(){
+  ngAfterViewInit(){  
    
     this.getData()
   }

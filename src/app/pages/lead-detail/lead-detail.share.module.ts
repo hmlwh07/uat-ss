@@ -13,6 +13,7 @@ import { CampaignListComponent } from './campaign-list/campaign-list.component';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { ProductShareModule } from '../products/products-share.module';
 import { CustomerDetailShareModule } from '../customer-detail/customer-detail.share.module';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -32,6 +33,7 @@ import { CustomerDetailShareModule } from '../customer-detail/customer-detail.sh
     ProductShareModule,
     CustomerDetailShareModule,
     MatRadioModule,
+    LanguageModule,
     MatInputModule,
   ]
 })

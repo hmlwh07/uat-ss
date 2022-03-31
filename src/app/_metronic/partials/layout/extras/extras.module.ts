@@ -20,6 +20,7 @@ import { UserOffcanvasComponent } from './offcanvas/user-offcanvas/user-offcanva
 import { CoreModule } from '../../../core';
 import { ScrollTopComponent } from './scroll-top/scroll-top.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { LanguageSelectorComponent } from './dropdown-inner/language-selector/language-selector.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -34,6 +35,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     UserDropdownInnerComponent,
     SearchOffcanvasComponent,
     SearchResultComponent,
+    LanguageSelectorComponent,
     NotificationsOffcanvasComponent,
     QuickActionsOffcanvasComponent,
     CartOffcanvasComponent,
@@ -41,6 +43,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     UserOffcanvasComponent,
     ScrollTopComponent,
     ToolbarComponent,
+    
   ],
   imports: [CommonModule, InlineSVGModule, PerfectScrollbarModule, CoreModule, RouterModule],
   providers: [
@@ -56,6 +59,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CartDropdownInnerComponent,
     UserDropdownInnerComponent,
     SearchOffcanvasComponent,
+    LanguageSelectorComponent,
     NotificationsOffcanvasComponent,
     QuickActionsOffcanvasComponent,
     CartOffcanvasComponent,

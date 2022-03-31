@@ -7,6 +7,7 @@ import { FormComponentModule } from '../form-component/form-component.module';
 import { RouterModule } from '@angular/router';
 import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [LpDashboardComponent],
@@ -17,6 +18,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     NgbModalModule,
     FormComponentModule,
     StaticPagesViewModule,
+    LanguageModule,
     NgApexchartsModule,
     RouterModule.forChild([
       {

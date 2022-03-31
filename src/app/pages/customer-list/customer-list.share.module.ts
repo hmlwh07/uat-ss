@@ -6,6 +6,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { CustomerListComponent } from './customer-list.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -19,6 +20,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     InlineSVGModule,
     CRUDTableModule,
     NgSelectModule,
+    LanguageModule,
   ]
 })
 export class CustomerListShareModule { }

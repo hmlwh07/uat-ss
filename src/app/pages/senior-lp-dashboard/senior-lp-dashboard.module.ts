@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew.module';
 import { ColumnChartModule } from './../_column-chart/column-chart.component.module';
 import { NgApexchartsModule } from "ng-apexcharts";
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [SeniorLpDashboardComponent],
@@ -20,6 +21,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     StaticPagesViewModule,
     ColumnChartModule,
     NgApexchartsModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',

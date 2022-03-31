@@ -22,6 +22,23 @@
     <!--end::Notifications-->
 </ng-container>
 
+
+
+<ng-container *ngIf="extrasLanguagesDisplay">
+    <div class="dropdown" ngbDropdown #myLanguageDrop="ngbDropdown" placement="bottom-right">
+        <!--begin::Toggle-->
+        <div ngbDropdownToggle class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
+            <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
+                <img class="h-25px w-25px rounded" [src]="language?.flag" alt="language" />
+            </div>
+        </div>
+
+        <div ngbDropdownMenu class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg p-0">
+            <app-language-selector style="margin-top: 10px;" [data]="languages" (emitter)="getLanguage($event)"></app-language-selector>
+        </div>
+    </div>
+</ng-container>
+
 <ng-container *ngIf="user$ | async as _user">
     <div ngbDropdown class="dropdown" placement="bottom-right">
         <div class="topbar-item" ngbDropdownToggle data-offset="0px,0px">

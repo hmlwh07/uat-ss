@@ -53,6 +53,7 @@ import { AssectDto } from "../fna-detail/asset/asset-manage.dto";
 import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/product-manage.dto";
 import { map } from 'rxjs/operators';
 import { defaultAccessObj, MenuDataService } from "../../core/menu-data.service";
+import { LanguagesService } from "src/app/modules/languages/languages.service";
 
 @Component({
   selector: "app-lead-detail",
@@ -208,6 +209,7 @@ export class LeadDetailComponent implements OnInit {
     private fnaService: FANService,
     private alertService: AlertService,
     private ngZone: NgZone,
+    
     private menuService: MenuDataService
   ) { }
 

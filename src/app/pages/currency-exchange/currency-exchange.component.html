@@ -3,7 +3,7 @@
         <div class="card card-custom" style="margin-bottom: 15px;">
             <div class="card-header">
                 <div class="card-title">
-                    <h3 class="card-label left-border-image">Exchange Rate</h3>
+                    <h3 class="card-label left-border-image">{{"FORM.exchange_rate" | translate}}</h3>
                 </div>
                 <div class="card-toolbar">
                     <button type="button" class="btn btn-primary btn-circle" style="margin-right: 1rem;" (click)="addData()">
@@ -14,7 +14,7 @@
                     </button> -->
                     <span class="flaticon2-magnifier-tool search-tool" (click)="getData()"></span>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="cancel()">
-                        <span class="">Cancel</span>
+                        <span class="">{{"FORM.btn_cancel" | translate}}</span>
                         </button>
                 </div>
                 <!-- <app-currency-add-form (formSubmit)="saveData($event)" [isModal]="false"></app-currency-add-form> -->
@@ -26,7 +26,7 @@
                         <app-start-end-date [formInput]="exchangeForm" remove-host [colClass]="'col-sm-4'"></app-start-end-date>
                         <div class="col-sm-4">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Currency</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.currency" | translate}}</label>
                                 <div class="col-sm-8">
                                     <select class="form-control form-control-sm" name="title" placeholder="Currency Type" autocomplete="off" formControlName="currency">
                                         <option value="usd">USD</option>
@@ -35,9 +35,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <!-- <div class="col-sm-4">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Date</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.date" | translate}}</label>
                                 <div class="col-sm-8">
                                     <div class="input-group ">
                                         <input matInput class="form-control form-control-sm date-input" formControlName="date" [matDatepicker]="picker" readonly>
@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </div>

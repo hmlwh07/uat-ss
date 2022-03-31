@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormComponentModule } from '../form-component/form-component.module';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -27,6 +28,7 @@ import { FormComponentModule } from '../form-component/form-component.module';
     MatDatepickerModule,
     MatRadioModule,
     MatInputModule,
+    LanguageModule,
     FormComponentModule
   ]
 })
