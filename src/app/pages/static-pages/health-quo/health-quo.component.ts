@@ -42,7 +42,7 @@ export class HealthQuoComponent implements OnInit {
       this.showData.push({ keyName: this.parentData.basicCoverId, value: this.parentData.sumInsuredMainCover })
       // for (let addon of this.product.addOns) {
       // }
-      if (this.parentData.addOns && this.parentData.basicCoverId != "Critical illness") {
+      if (this.parentData.addOns && this.parentData.basicCoverId != "CRTILLNESS") {
         this.product.addOns.forEach(addon => {
           if (this.parentData.addOns[addon.id + "opt"]) {
             this.showData.push({ keyName: addon.description, value: this.parentData.addOns[addon.id + "value"] })
@@ -60,12 +60,12 @@ export class HealthQuoComponent implements OnInit {
     this.totalP = 0
     this.totalL = 0
     let firstTimeValue = 300
-    let doCount = this.parentData.paymentFrequency == 'lump' ? 1 : 2
+    let doCount = this.parentData.paymentFrequency == 'L' ? 1 : 2
     let age = Math.ceil(moment().diff(this.parentData.dateOfBirth, 'years', true));
     this.healthRateService.getOne(age, this.parentData.basicCoverId).toPromise().then((res: any) => {
 
       if (res) {
-        if (this.parentData.paymentFrequency == 'lump') {
+        if (this.parentData.paymentFrequency == 'L') {
           let pre = res.lumpSum * this.parentData.sumInsuredMainCover
           let levy = firstTimeValue * this.parentData.sumInsuredMainCover
           this.totalP = this.totalP + pre
@@ -84,7 +84,7 @@ export class HealthQuoComponent implements OnInit {
         }
         let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
         if (this.schedule.length > 0) {
-          if (this.schedule[0].paymentTerm == "lump") {
+          if (this.schedule[0].paymentTerm == "L") {
             this.tempSchedule = [
               { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
             ]
@@ -98,7 +98,7 @@ export class HealthQuoComponent implements OnInit {
         }
         this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / month"
         this.globalFun.paPremiumResult.next(this.premiumAmt)
-        if (this.parentData.basicCoverId == "Critical illness") {
+        if (this.parentData.basicCoverId == "CRTILLNESS") {
           this.cdf.detectChanges()
         }
         else
@@ -123,7 +123,7 @@ export class HealthQuoComponent implements OnInit {
           // console.log(res);
 
           if (res) {
-            if (this.parentData.paymentFrequency == 'lump') {
+            if (this.parentData.paymentFrequency == 'L') {
               let pre = res.lumpSum * value
               this.totalP = this.totalP + pre
               this.schedule.push({ premium: pre, coverage: addon.description, sumInsured: value, levy: 0 })

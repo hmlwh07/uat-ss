@@ -19,7 +19,7 @@ export class StartEndDateComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("data--> ", this.formInput);
+    // console.log("data--> ", this.formInput);
     this.getoneMonth()
   }
   clearDate(type){

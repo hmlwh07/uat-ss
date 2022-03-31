@@ -1,0 +1,119 @@
+<!-- <div class="card card-custom gutter-b">
+  <div class="card-body customer-card-body">
+    <table class="table table-bordered mt-5">
+      <thead class="tbody-align">
+        <tr>
+          <th>
+            Coverages/Benefit
+          </th>
+          <th>
+            Sum Insured
+          </th>
+        </tr>
+      </thead>
+      <tbody class="tbody-align">
+        <tr *ngFor="let item of showData">
+          <td>{{item.keyName}}</td>
+          <td>{{item.value}} Units</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Payment Schedules :</h3>
+    </div>
+  </div>
+  <div class="card-body customer-card-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>
+            No. of Installment
+          </th>
+          <th style="text-align: right;">
+            Premium
+          </th>
+          <th style="text-align: right;">
+            Levy
+          </th>
+          <th style="text-align: right;">
+            Total
+          </th>
+        </tr>
+      </thead>
+      <tbody class="tbody-align">
+        <tr *ngFor="let item of tempSchedule;let i =index">
+          <td>{{i+1}}</td>
+          <td>{{item.premium | number}}</td>
+          <td>{{item.levy | number}}</td>
+          <td>{{(item.premium + item.levy) | number}}</td>
+        </tr>
+      </tbody>
+      <tfoot class="tbody-align">
+        <tr>
+          <td><b>Total</b></td>
+          <td>{{totalP | number}}</td>
+          <td>{{totalL | number}}</td>
+          <td>{{(totalP+totalL) | number}}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div> -->
+
+
+<div class="addon-print">
+  <div class="title-style left-border-image mt-5 mb-3">Optional Coverage Detail</div>
+  <table class="tbody-align">
+    <tr>
+      <td class="field-col">
+        Coverages/Benefit
+      </td>
+      <td class="field-col">
+        Unit
+      </td>
+    </tr>
+    <tbody class="tbody-align val-col">
+      <ng-container *ngFor="let item of showData;">
+        <tr>
+          <td class="field-value">{{item.keyName}}</td>
+          <td class="field-value">{{item.value}} Units</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div class="title-style left-border-image mt-5 mb-3">Payment Schedules</div>
+  <table class="tbody-align">
+    <tr>
+      <td class="field-col">
+        No. of Installment
+      </td>
+      <td class="field-col">
+        Premium
+      </td>
+      <td class="field-col">
+        Levy
+      </td>
+      <td class="field-col">
+        Total
+      </td>
+    </tr>
+    <tbody class="tbody-align val-col">
+      <!-- <ng-container *ngFor="let item of showData;"> -->
+
+      <tr *ngFor="let item of tempSchedule;let i =index">
+        <td class="field-value">{{i+1}}</td>
+        <td class="field-value">{{item.premium | number}}</td>
+        <td class="field-value">{{item.levy | number}}</td>
+        <td class="field-value">{{(item.premium + item.levy) | number}}</td>
+      </tr>
+      <!-- </ng-container> -->
+    </tbody>
+  </table>
+</div>

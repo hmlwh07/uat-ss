@@ -10,7 +10,6 @@ import { AddonViewComponent } from './addon-view/addon-view.component';
 import { CoverageViewComponent } from './coverage-view/coverage-view.component';
 import { EducationLifeGripViewComponent } from './education-life-griph-view/education-life-griph-view.component';
 import { EducationLifeViewComponent } from './education-life-view/education-life-view.component';
-import { HealthQuoViewComponent } from './health-quo-view/health-quo-view.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FireBuildingComponent } from './fire-building/fire-building.component';
 import { CalculatedBuildingComponent } from './calculated-building/calculated-building.component';
@@ -24,6 +23,7 @@ import { MotorAddonComponent } from '../static-pages/motor-addon/motor-addon.com
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MotorAddonViewComponent } from './motor-addon-view/motor-addon-view.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { HealthQuoViewComponent } from './health-quo-view/health-quo-view.component';
 @NgModule({
   declarations: [
     StaticPageViewDirective,
