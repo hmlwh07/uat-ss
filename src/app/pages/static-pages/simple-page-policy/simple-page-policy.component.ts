@@ -365,7 +365,7 @@ export class SimplePagePolicyComponent implements OnInit {
   }
 
   async saveCoverAddon() {
-    // await this.saveCoverage().toPromise()
+    await this.saveCoverage().toPromise()
     await this.saveAddOn().toPromise()
     // return forkJoin(this.saveCoverage(), this.saveAddOn())
   }

@@ -44,7 +44,7 @@ export class MenuDataService extends BizOperationService<any, number>{
           let index = menu.submenu.findIndex(x => x.page == "product/products-config")
           menu.submenu[index].page = "product/products-config/list"
         }
-        console.log('MENU==>',menu);
+        // console.log('MENU==>',menu);
         
         return menu
       })

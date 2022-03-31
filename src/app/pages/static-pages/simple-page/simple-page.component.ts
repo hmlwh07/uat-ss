@@ -99,9 +99,15 @@ export class SimplePageComponent implements OnInit {
     // this.dobMinDate = dobMinDate.format('YYYY-MM-DD')
     // this.dobMinDate = { year: parseInt(dobMinDate.format('YYYY')), month: parseInt(dobMinDate.format('M')), day: parseInt(dobMinDate.format('D')) };
     // if (this.prodService.editData || this.refID)
+
     this.parentData = this.getParent()
-    this.dob = this.parentData['date_of_birth']
-    this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
+    
+    if (!this.parentData) {
+      this.alertService.activate("This page cann't to save because there is no parent Data. Please configuration the product detail", "Warning")
+    } else {
+      this.dob = this.parentData['date_of_birth']
+      this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
+    }
     this.getOldData()
     // this.getAddOn()
     // for (const item of this.product.addOns) {
@@ -141,9 +147,11 @@ export class SimplePageComponent implements OnInit {
       let pageUI: ProductPages = JSON.parse(this.product.config);
       // console.log("pageUI",pageUI);
       let pageOrder = this.prodService.type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
+      // console.log(pageOrder);
 
       let parent = pageOrder.find(page => page.tableName == "life_insured_health")
-
+      console.log(this.globalFun.tempFormData,parent);
+      
       if (parent) {
         return this.globalFun.tempFormData[parent.tableName + parent.id] || null
       }
@@ -231,11 +239,11 @@ export class SimplePageComponent implements OnInit {
 
   saveData(id?) {
     const formValue = this.staticForm.value
-    // let coverd = this.product.coverages.find(x => x.description == formValue.basicCoverId)
-    // if (!coverd) {
-    //   this.alertService.activate("This page cann't to save because there is not match coverage in product detail. Please configuration the product detail", "Warning")
-    //   return false
-    // }
+    let coverd = this.product.coverages.find(x => x.code == formValue.basicCoverId)
+    if (!coverd) {
+      this.alertService.activate("This page cann't to save because there is not match coverage in product detail. Please configuration the product detail", "Warning")
+      return false
+    }
     let postData = {
       basicCoverId: formValue.basicCoverId,
       id: id || null,
@@ -266,6 +274,8 @@ export class SimplePageComponent implements OnInit {
           this.editId = res.id
           this.resourcesId = res.resourceId
           this.saveCoverAddon()
+          // console.log(postData);
+
           this.globalFun.tempFormData[HealthPageID] = { id: res.id, ...postData, addOns: this.addOns }
           this.actionEvent.emit({ type: StaticActionType.NEXT, data: { ...res } })
         }
@@ -284,7 +294,7 @@ export class SimplePageComponent implements OnInit {
   }
 
   async saveCoverAddon() {
-    // await this.saveCoverage().toPromise()
+    await this.saveCoverage().toPromise()
     await this.saveAddOn().toPromise()
     // return forkJoin(this.saveCoverage(), this.saveAddOn())
   }
