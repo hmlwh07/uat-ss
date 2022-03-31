@@ -9,7 +9,13 @@
         <ng-container *ngFor="let event of data">
             <div class="row" style="margin: 10px 0px;">
                 <div class="col" (click)="navigateToDetail('edit',event.meta)">
-                    <label><span style="margin-right: 5px;"  [ngClass]="event.type"></span>{{event.title}}</label>
+                    <div class="card card-custom" [ngClass]="event.type">
+                        <div style="  text-align: center;">
+                            <label style="margin-top: 20px;">{{event.title}} </label>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
         </ng-container>
