@@ -33,6 +33,8 @@ import { EndoComponent } from './endo/endo.component';
 import { MotorAddonComponent } from './motor-addon/motor-addon.component';
 import { TravelComponent } from './travel-page/travel-page.component';
 import { TravelRiskDetailComponent } from './travel-page/travel-risk-detail/travel-risk-detail.component';
+import { InlineSVGModule } from 'ng-inline-svg';
+import { FormComponentModule } from '../form-component/form-component.module';
 @NgModule({
   declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,MotorAddonComponent,TravelComponent,TravelRiskDetailComponent],
   exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,MotorAddonComponent,TravelComponent,TravelRiskDetailComponent],
@@ -47,11 +49,13 @@ import { TravelRiskDetailComponent } from './travel-page/travel-risk-detail/trav
     NgSelectModule,
     MatSlideToggleModule,
     NgApexchartsModule,
+    InlineSVGModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    FormComponentModule
   ]
 })
 export class StaticPagesModule { }

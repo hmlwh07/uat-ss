@@ -7,12 +7,13 @@ import { PageUI, Product } from '../../../products/models/product.dto';
   styleUrls: ['./travel-risk-detail.component.scss']
 })
 export class TravelRiskDetailComponent implements OnInit {
-  @Input() pageOrder: PageUI[] = []
+  @Input() list: any[] = []
   @Input() product: Product
   @Input() editData: any = {}
   @Input() resourcesId?: string
   @Input() premiumAmt: string
   tempData = {}
+  tableReform:any[] = []
   constructor() { }
   ngOnInit(): void {
 
@@ -36,5 +37,9 @@ export class TravelRiskDetailComponent implements OnInit {
   saveTemp(event) {
 
   }
+  getOtherData(col,item){
+
+  }
+
 
 }
