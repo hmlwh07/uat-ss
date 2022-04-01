@@ -32,7 +32,10 @@ export class HealthQuoComponent implements OnInit {
   parentData: any
   totalP: number = 0
   totalL: number = 0
-  constructor(private globalFun: GlobalFunctionService, private alertService: AlertService, private healthRateService: HealthRateService, private healthPayService: HealthPaymentService, private cdf: ChangeDetectorRef, private auth: AuthService, private prodService: ProductDataService, private numberPipe: DecimalPipe) { }
+  constructor(private globalFun: GlobalFunctionService, private alertService: AlertService, 
+    private healthRateService: HealthRateService, private healthPayService: HealthPaymentService, 
+    private cdf: ChangeDetectorRef, private auth: AuthService, private prodService: ProductDataService, 
+    private numberPipe: DecimalPipe) { }
 
   ngOnInit(): void {
     this.parentData = this.globalFun.tempFormData[HealthPageID]

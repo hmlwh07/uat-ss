@@ -712,13 +712,20 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   deleteData(index, data) {
-    let activeForm = this.formData[this.activePage]
-    this.pageDataService.deleteData(activeForm.tableName, data.refId, activeForm.id).toPromise().then((res) => {
-      if (res) {
-        this.tempData[activeForm.tableName + activeForm.id].splice(index, 1)
-        this.cdRef.detectChanges();
+    this.alert.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        let activeForm = this.formData[this.activePage]
+        this.pageDataService.deleteData(activeForm.tableName, data.refId, activeForm.id).toPromise().then((res) => {
+          if (res) {
+            this.tempData[activeForm.tableName + activeForm.id].splice(index, 1)
+            this.cdRef.detectChanges();
+            this.alert.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });   
   }
 
 

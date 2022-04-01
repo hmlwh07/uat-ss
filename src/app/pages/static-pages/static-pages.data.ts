@@ -86,7 +86,23 @@ export const STATIC_PAGES = [
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"
-  },
+  },{
+    id: 'static_1648784270432',
+    type: PageUIType.STATIC,
+    pageTitle: "Addon",
+    showLabel: "Motor Addons",
+    pageType: 'form',
+    tableName: 'static',
+    pageIcon: "fa-briefcase"
+  },{
+    id: 'static_1648784270356',
+    type: PageUIType.STATIC,
+    pageTitle: "Tavel Risk",
+    showLabel: "Tavel Risk",
+    pageType: 'form',
+    tableName: 'static',
+    pageIcon: "fa-briefcase"
+  }
 ]
 
 export const STATIC_PRINTS = [
@@ -112,7 +128,8 @@ export const EducationLifeID = "static_1635309151504"
 export const EducationLifeGRAPID = "static_1635392848894"
 export const EndowmentID = "static_1644896661652"
 export const EndowmentGRAPID = "static_1644896804675"
-export const AddOnID = ""
+export const AddOnID = "static_1648784270432"
+export const TRAVELID = "static_1648784270356"
 
 
 export enum PaymentFrequency {

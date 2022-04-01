@@ -10,6 +10,7 @@ import { EndoComponent } from "./endo/endo.component";
 import { FireRiskComponent } from "./fire-risk/fire-risk.component";
 import { FirePageComponent } from "./fire-simple-page/fire-simple-page.component";
 import { HealthQuoComponent } from "./health-quo/health-quo.component";
+import { MotorAddonComponent } from "./motor-addon/motor-addon.component";
 import { SimplePagePolicyComponent } from "./simple-page-policy/simple-page-policy.component";
 import { SimplePageComponent } from "./simple-page/simple-page.component";
 import { StaticField, StaticPageAction } from "./static-field.interface";
@@ -27,7 +28,8 @@ const STATIC_COMPONENT = {
   'static_1643116155828': FireRiskComponent,
   'static_1644896661652': EndoComponent,
   'static_1644896804675': EndoGripComponent,
-  'static_1648784270356': TravelComponent
+  'static_1648784270356': TravelComponent,
+  'static_1648784270432': MotorAddonComponent
 }
 @Directive({
   selector: '[staticPage]'

@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/modules/auth';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { FireRiskService } from '../fire-risk/models&services/fire-risk.service';
 import { FirePageID } from '../static-pages.data';
@@ -29,7 +30,11 @@ export class CalculatedBuildingComponent implements OnInit {
   productDetail: any = {}
   @Input() riskId = 1
   @Output() totalEvent = new EventEmitter<number>()
-  constructor(private FireContentService: FireContentService, private FirePLantService: FirePLantService, private FireStockService: FireStockService, private modal: NgbModal, private auth: AuthService, private cdf: ChangeDetectorRef, private globalService: GlobalFunctionService, private riskService: FireRiskService) { }
+  constructor(private FireContentService: FireContentService,
+    private FirePLantService: FirePLantService, private FireStockService: FireStockService,
+    private modal: NgbModal, private auth: AuthService, private cdf: ChangeDetectorRef,
+    private globalService: GlobalFunctionService, private riskService: FireRiskService,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.getFireContent()
@@ -52,23 +57,23 @@ export class CalculatedBuildingComponent implements OnInit {
     }
     if (event.cmd == "edit") {
       if (event.tbtype == "content") {
-        this.add('contents', event.data,"Edit")
+        this.add('contents', event.data, "Edit")
       }
       if (event.tbtype == "plant") {
-        this.add('plants', event.data,"Edit")
+        this.add('plants', event.data, "Edit")
       }
       if (event.tbtype == "stock") {
-        this.add('stock', event.data,"Edit")
+        this.add('stock', event.data, "Edit")
       }
     }
 
   }
-  add(type, data?,pageType?) {
+  add(type, data?, pageType?) {
     if (type == "contents") {
       let modalRef;
       modalRef = this.modal.open(AddCalculatedBuildingComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = "Contents including FFF"
-      modalRef.componentInstance.pageType=pageType
+      modalRef.componentInstance.pageType = pageType
       modalRef.componentInstance.riskId = this.riskId
       modalRef.componentInstance.data = data
       modalRef.result.then(() => { }, (res) => {
@@ -93,7 +98,7 @@ export class CalculatedBuildingComponent implements OnInit {
       let modalRef;
       modalRef = this.modal.open(AddCalculatedBuildingComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = "Plant and Machinery"
-      modalRef.componentInstance.pageType=pageType
+      modalRef.componentInstance.pageType = pageType
       modalRef.componentInstance.riskId = this.riskId
       modalRef.componentInstance.data = data
       modalRef.result.then(() => { }, (res) => {
@@ -118,7 +123,7 @@ export class CalculatedBuildingComponent implements OnInit {
       let modalRef;
       modalRef = this.modal.open(AddCalculatedBuildingComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = "Stock"
-      modalRef.componentInstance.pageType=pageType
+      modalRef.componentInstance.pageType = pageType
       modalRef.componentInstance.riskId = this.riskId
       modalRef.componentInstance.data = data
       modalRef.componentInstance.isStock = true
@@ -126,7 +131,7 @@ export class CalculatedBuildingComponent implements OnInit {
         if (res) {
           console.log("RESSSS", res)
           if (res.type == "save") {
-            let postData = { ...res.data, createdBy: this.auth.currentUserValue.id,description:res.data.itemDescription }
+            let postData = { ...res.data, createdBy: this.auth.currentUserValue.id, description: res.data.itemDescription }
             console.log("postData", postData)
             this.FireStockService.save(postData).toPromise().then((res: any) => {
               if (res) {
@@ -188,7 +193,7 @@ export class CalculatedBuildingComponent implements OnInit {
         this.stockData = res
         if (this.stockData.length > 0) {
           this.isStock = true
-          this.totalStock =0
+          this.totalStock = 0
           for (let data of this.stockData) {
             this.totalStock += parseInt(data.stockValue)
           }
@@ -205,25 +210,42 @@ export class CalculatedBuildingComponent implements OnInit {
   }
 
   deleteFireContent(id) {
-    this.FireContentService.delete(id).toPromise().then((res: any) => {
-      if (res) {
-        this.getFireContent()
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.FireContentService.delete(id).toPromise().then((res: any) => {
+          if (res) {
+            this.getFireContent()
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
   deleteFirePlant(id) {
-    this.FirePLantService.delete(id).toPromise().then((res: any) => {
-      if (res) {
-        this.getFirePlant()
-      }
-    })
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      this.FirePLantService.delete(id).toPromise().then((res: any) => {
+        if (res) {
+          this.getFirePlant()
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+          });
+        }
+      });
+    });
   }
   deleteFireStock(id) {
-    this.FireStockService.delete(id).toPromise().then((res: any) => {
-      if (res) {
-        this.getFireStock()
-      }
-    })
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      this.FireStockService.delete(id).toPromise().then((res: any) => {
+        if (res) {
+          this.getFireStock()
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+          });
+        }
+      })
+    });
   }
   toggleChange(type) {
     if (type == 'contents') {

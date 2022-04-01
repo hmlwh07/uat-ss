@@ -625,6 +625,7 @@ export class LeadDetailComponent implements OnInit {
     this.LeadDetailService.findOne(this.oldId)
       .toPromise()
       .then((res) => {
+        console.log('lead detail =====> ', res);
         if (res) {
           this.oldData = res;
           if (res.existingCustomerId != 0) {
@@ -1152,11 +1153,18 @@ export class LeadDetailComponent implements OnInit {
         this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
       }
       if (event.cmd == 'delete') {
-        this.LeadAttachmentService.delete(event.data.id).toPromise().then((res) => {
-          // if (res) {
-          this.getLeadAttachment()
-          // }
-        })
+        this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+          if (result) {
+            this.LeadAttachmentService.delete(event.data.id).toPromise().then((res) => {
+              // if (res) {
+              this.getLeadAttachment();
+              this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+              });
+              // }
+            })
+          }
+        });
       }
     }
   }
@@ -1402,6 +1410,9 @@ export class LeadDetailComponent implements OnInit {
         type: data.type,
         pageStatus: 'edit'
       }
+
+      console.log('passValue', passValue);
+
       if (this.oldId != null && this.oldId != '' && this.oldId != undefined &&
         this.customer.customerId != null && this.customer.customerId != '') {
         if (data.fnaType == 'LPP') {
@@ -1438,16 +1449,18 @@ export class LeadDetailComponent implements OnInit {
   }
 
   async deleteFNA(id) {
-    await this.fnaListService.delete(id).toPromise().then(async (res: any) => {
-      this.fnaList = this.fnaList.filter(data =>
-        data.id !== id);
-      this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-        // this.fnaList = [];
-        // this.getAllFNA();
-
-      });
-      this.cdf.detectChanges();
-      this.fnamatTable.reChangeData();
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
+      if (result) {
+        await this.fnaListService.delete(id).toPromise().then(async (res: any) => {
+          this.fnaList = this.fnaList.filter(data =>
+            data.id !== id);
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+            console.log('deleteFNA', result);
+          });
+          this.cdf.detectChanges();
+          this.fnamatTable.reChangeData();
+        });
+      }
     });
 
     this.fnaService.fnaUpdateProducts = [];
