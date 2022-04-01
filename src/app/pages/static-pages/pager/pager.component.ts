@@ -121,7 +121,8 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   prepareCalDataRows(pageBtn : number){
     this.selectedPageBtn = pageBtn;
     let tempStart = (this.selectedPageBtn - 1) * this.selectedPageSize;
-    let tempEnd = (this.selectedPageBtn * this.selectedPageSize) - 1;
+    let tempEnd = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.sourceData.length? 
+    (this.selectedPageBtn * this.selectedPageSize) - 1 : this.sourceData.length-1;
     this.calDataRows(tempStart,tempEnd);
   }
 
