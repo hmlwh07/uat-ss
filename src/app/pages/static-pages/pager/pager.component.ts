@@ -72,13 +72,13 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   }
 
   pageIncreased(){
-    this.selectedPageBtn = this.selectedPageBtn + 1;
+    this.selectedPageBtn =  this.selectedPageBtn == this.no_of_pages ? this.no_of_pages : this.selectedPageBtn + 1;
     this.prepareCalDataRows(this.selectedPageBtn);
     this.calPageBtn();
   }
 
   pageDecresed(){
-    this.selectedPageBtn = this.selectedPageBtn - 1;
+    this.selectedPageBtn =  this.selectedPageBtn == 1 ? 1 : this.selectedPageBtn - 1;
     this.prepareCalDataRows(this.selectedPageBtn);
     this.calPageBtn();
   }
