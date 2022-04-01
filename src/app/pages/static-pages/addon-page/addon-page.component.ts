@@ -69,6 +69,7 @@ export class AddonPageComponent implements OnInit {
   // FLOOD
   // BURGLARY
   // WARRISK
+  addOnList:any[] = []
   fireOptionData = {
     "STHTC": [
       { "code": "T-BFMGS", "value": "Building,Furniture,Machine,Goods/Stocks" },
@@ -89,17 +90,18 @@ export class AddonPageComponent implements OnInit {
     if (this.product.code == "PLMO02") {
       this.parentData = this.getParnet()
     }
-    if (this.product.addOns && this.product.addOns.length > 0) {
+    this.addOnList = this.product.addOns.filter(x => x.code != "MED" && x.code != "CROSSBRDR" )
+    if (this.addOnList && this.addOnList.length > 0) {
       await this.loadingService.activate()
       this.addOns = {
-        isSum: this.product.addOns[0].sumInsured,
-        isUnit: this.product.addOns[0].unit,
-        isPremium: this.product.addOns[0].premium,
+        isSum: this.addOnList[0].sumInsured,
+        isUnit: this.addOnList[0].unit,
+        isPremium: this.addOnList[0].premium,
       }
       let callAddon = true
       let postData = {
         quotationNo: this.resourcesId,
-        addOnIds: this.product.addOns.map(x => { return x.id }),
+        addOnIds: this.addOnList.map(x => { return x.id }),
         optionalKey: this.optionId
       }
       let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
@@ -108,7 +110,7 @@ export class AddonPageComponent implements OnInit {
         postData.optionalKey = this.refID
         results = await this.addOnQuoService.getAllById(postData).toPromise()
       }
-      for (const item of this.product.addOns) {
+      for (const item of this.addOnList) {
         item['show'] = true
         if (item.validationFun) {
           item['show'] = this.globalFun[item.validationFun] ? this.globalFun[item.validationFun](this.parentData) : true
@@ -149,7 +151,7 @@ export class AddonPageComponent implements OnInit {
         // }
       }
       // if (callAddon && this.editData && this.refID) {
-      //   for (const item of this.product.addOns) {
+      //   for (const item of this.addOnList) {
       //     let response: any = null;
       //     try {
       //       response = await this.addOnQuoService.getOne(item.id, this.refID).toPromise()
@@ -218,7 +220,7 @@ export class AddonPageComponent implements OnInit {
     } else {
       this.globalFun.tempFormData['addon_1634010770155'] = []
     }
-    for (let addon of this.product.addOns) {
+    for (let addon of this.addOnList) {
       if (posDataArray[addon.id].checked) {
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
@@ -268,7 +270,7 @@ export class AddonPageComponent implements OnInit {
 
   changeOption(addon: AddOn) {
     if (addon.code != "CROSSBRDR" && this.product.code == "PLMO02") {
-      let cross = this.product.addOns.find(x => x.code == "CROSSBRDR")
+      let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
       if (this.addOnsData[cross.id].checked) {
         let tempPre = this.calcuCross()
         this.addOnsData[cross.id]['premium'] = tempPre * 0.15
@@ -288,7 +290,7 @@ export class AddonPageComponent implements OnInit {
 
   calcuCross() {
     let tempPre = 0
-    for (let addon of this.product.addOns) {
+    for (let addon of this.addOnList) {
       if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
       }
@@ -314,7 +316,7 @@ export class AddonPageComponent implements OnInit {
 
   caluMotorPremimun() {
     let tempPre = 0
-    for (let addon of this.product.addOns) {
+    for (let addon of this.addOnList) {
       if (this.addOnsData[addon.id].checked) {
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
       }
@@ -363,7 +365,7 @@ export class AddonPageComponent implements OnInit {
     // });
     const posDataArray = this.addOnsData
     let addOnPre = 0
-    for (let addon of this.product.addOns) {
+    for (let addon of this.addOnList) {
       if (posDataArray[addon.id].checked) {
         addOnPre += this.globalFun.calculateDecimal(posDataArray[addon.id]['premium'])
       }
