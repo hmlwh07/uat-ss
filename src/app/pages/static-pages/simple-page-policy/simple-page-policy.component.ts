@@ -318,6 +318,7 @@ export class SimplePagePolicyComponent implements OnInit {
       let postData = {
         coverageId: coverd.id,
         quotationNo: this.resourcesId,
+        optionalKey: this.resourcesId,
         sumInsured: value,
         unit: null,
         premium: null,
@@ -365,7 +366,7 @@ export class SimplePagePolicyComponent implements OnInit {
   }
 
   async saveCoverAddon() {
-    // await this.saveCoverage().toPromise()
+    await this.saveCoverage().toPromise()
     await this.saveAddOn().toPromise()
     // return forkJoin(this.saveCoverage(), this.saveAddOn())
   }

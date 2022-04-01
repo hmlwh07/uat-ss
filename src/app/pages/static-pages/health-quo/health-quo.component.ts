@@ -120,7 +120,6 @@ export class HealthQuoComponent implements OnInit {
         let value = this.parentData.addOns[addon.id + "value"]
         i += 1
         this.healthRateService.getOne(age, addon.code).toPromise().then((res: any) => {
-          // console.log(res);
 
           if (res) {
             if (this.parentData.paymentFrequency == 'L') {

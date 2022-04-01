@@ -276,9 +276,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         } else {
           this.tempData[activeForm.tableName + activeForm.id] = [data]
         }
+        this.globalFun.tempFormData = this.tempData
         this.cdRef.detectChanges()
       } else {
         this.tempData[activeForm.tableName + activeForm.id] = data
+        this.globalFun.tempFormData = this.tempData
         this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
         this.activePage += 1
         if (this.formData[this.activePage].pageType == 'table') {
@@ -286,7 +288,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         }
         this.cdRef.detectChanges();
       }
-      this.globalFun.tempFormData = this.tempData
     }
   }
 
@@ -438,9 +439,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             this.tempData['policyholder_1641795142279'] = { ...formData, refId: res.refId }
           if (this.pageOrder.length > this.activePage + 1) {
             this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
+            this.globalFun.tempFormData = this.tempData
             this.activePage += 1
             this.cdRef.detectChanges();
-            this.globalFun.tempFormData = this.tempData
             if (this.formData[this.activePage].pageType == 'table') {
               this.reFormatTable(this.formData[this.activePage].controls)
             }
@@ -538,13 +539,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             this.tempData['policyholder_1641795142279'] = { ...formData, refId: res[0].refId, pageId: page.id }
           if (this.pageOrder.length > this.activePage + 1) {
             if (this.formData[this.activePage + 1].controls) {
-              console.log(this.tempData,this.formData);
-              
+              console.log(this.tempData, this.formData);
+
               this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
             }
+            this.globalFun.tempFormData = this.tempData
             this.activePage += 1
             this.cdRef.detectChanges();
-            this.globalFun.tempFormData = this.tempData
             if (this.formData[this.activePage].pageType == 'table') {
               this.reFormatTable(this.formData[this.activePage].controls)
             }
