@@ -12,6 +12,7 @@ export class TravelComponent implements OnInit {
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId?: string
   @Input() premiumAmt: string
+  listData: any[] = []
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   constructor() { }
 
@@ -19,6 +20,17 @@ export class TravelComponent implements OnInit {
 
   }
 
-  
+  newData(type, item?:any) {
+
+  }
+  delete(index) {
+
+  }
+
+  nextPage(){
+
+  }
+
+  backPage(){}
 
 }

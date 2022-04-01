@@ -13,9 +13,28 @@ export class TravelRiskDetailComponent implements OnInit {
   @Input() resourcesId?: string
   @Input() premiumAmt: string
   tempData = {}
-  constructor(){}
+  constructor() { }
   ngOnInit(): void {
-    
+
+  }
+
+  calPremimun() {
+
+  }
+
+  newData(index?, item?) {
+
+  }
+  deleteData(index, item) {
+
+  }
+
+  download(col, item) {
+
+  }
+
+  saveTemp(event) {
+
   }
 
 }
