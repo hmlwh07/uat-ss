@@ -6,11 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ActivityDataListComponent } from './activity-data-list/activity-data-list.component';
 
 
 
 @NgModule({
-  declarations: [ActivityManagementListComponent],
+  declarations: [ActivityManagementListComponent, ActivityDataListComponent],
   imports: [
     CommonModule,
     FormsModule,

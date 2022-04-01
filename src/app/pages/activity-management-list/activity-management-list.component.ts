@@ -86,7 +86,7 @@ export class ActivityManagementListComponent implements OnInit {
 
         this.activityList = res
         this.cdf.detectChanges()
-        this.matTable.reChangeData()
+       // this.matTable.reChangeData()
       }
     })
   }

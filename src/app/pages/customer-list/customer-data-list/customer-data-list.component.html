@@ -1,0 +1,29 @@
+<div *ngFor="let customer of customerList; let i = index"  class="data-list">
+  <div class="data-header">
+    <div class="col-6">
+      <img src="../../../assets/images/customer/custoner_list.svg" alt="customer" />
+      <label> {{ customer.partyCode }} </label>
+    </div>
+    <div class="col-6">
+      <section class="icon-group">
+        <div class="actions">
+          <img src="../../../assets/images/edit-01.svg" (click)="navigateToDetail(customer)" alt="edit" />
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="data-content row">
+    <div class="col-4">
+      <label *ngIf="customer.name"> {{ customer.name }}</label>
+      <label *ngIf="customer.fatherName"> {{ customer.fatherName }} </label>
+      <label *ngIf="customer.identityNumber"> {{ customer.identityNumber }} </label>
+    </div>
+    <div class="col-4">
+      <label *ngIf="customer.dateOfBirth"> {{ customer.dateOfBirth | date:'DD/MMM/YYYY' }} </label>
+      <label *ngIf="customer.statusValue"> {{ customer.statusValue }} </label>
+    </div>
+    <div class="col-4">
+      <label> ID Type: <span>{{ customer.identityType }}</span> </label>
+    </div>
+  </div>
+</div>

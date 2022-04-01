@@ -1,0 +1,32 @@
+<div *ngFor="let lead of leadList; let i = index" class="data-list">
+  <div class="data-header">
+      <div class="col-6">
+          <img src="../../../assets/images/activity/activity-list-01.svg" alt="activity" />
+          <label> {{ lead.leadId }} </label>
+      </div>
+      <div class="col-6">
+          <section class="icon-group">
+              <div class="actions">
+                  <img src="../../../assets/images/view-01.svg" (click)="actionBtn(lead, 'view' )" alt="View" />                                  
+              </div>
+              <div class="actions">
+                  <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(lead, 'edit' )" alt="edit" />
+              </div>
+          </section>
+      </div>
+  </div>
+  <div class="data-content row">
+      <div class="col-4">
+          <label *ngIf="lead.contactName"> {{ lead.contactName }}</label>
+          <label *ngIf="lead.productName">{{ lead.productName }} </label>
+          <label *ngIf="lead.email">{{ lead.email }}, {{ lead.phoneNo }}</label>
+      </div>
+      <div class="col-4">
+          <label *ngIf="lead.openedDate"> {{ lead.openedDate | date:'DD/MMM/YYYY' }} </label>
+          <label *ngIf="lead.statusCode"> {{ lead.statusCode }} </label>
+      </div>
+      <div class="col-4">
+          <label> Score : <span>{{ lead.score }}</span> </label>
+      </div>
+  </div>
+</div>

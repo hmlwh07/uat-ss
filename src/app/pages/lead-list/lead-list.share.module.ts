@@ -12,11 +12,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { StaticPagesModule } from '../static-pages/static-pages.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
+import { LeadDataListComponent } from './lead-data-list/lead-data-list.component';
 
 
 
 @NgModule({
-  declarations: [LeadListComponent],
+  declarations: [LeadListComponent, LeadDataListComponent],
   exports: [LeadListComponent],
   imports: [
     CommonModule,

@@ -76,16 +76,23 @@
         div:nth-child(2) {
           padding: 0;
           float: right;
-          .actions {
-            width: 35px;
-            height: 30px;
-            border-radius: 5px;
-            background: #005f99;
-            float: right;
-            margin-right: 35%;
-            img {
-              width: 17px;
-              margin: 2px 10px;
+          .icon-group {
+            width: 100px !important;
+            overflow: hidden;
+            margin-left: 61%;
+            .actions {
+              width: 35px;
+              height: 30px;
+              border-radius: 5px;
+              background: #005f99;
+              float: left;
+              margin-right: 15px;
+              cursor: pointer;
+              img {
+                width: 17px;
+                height: 17px;
+                margin: 6px 9px;
+              }
             }
           }
         }

@@ -132,9 +132,11 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <div class="card card-custom gutter-b">
+        <div class="card card-custom gutter-b data">
             <div class="card-body customer-card-body" *ngIf="show">
-                <ng-container *ngIf="isTableView;else cardView">
+                <app-lead-data-list [leadList]="LeadList"></app-lead-data-list>
+
+                <!-- <ng-container *ngIf="isTableView;else cardView">
                     <app-material-table-view [data]="LeadList" [colum]="ELEMENT_COL"
                         [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)"
                         (rowselect)="rowSelected($event)" [selectable]="isPopup">
@@ -142,7 +144,7 @@
                 </ng-container>
                 <ng-template #cardView>
 
-                </ng-template>
+                </ng-template> -->
             </div>
 
         </div>

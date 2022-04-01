@@ -170,7 +170,7 @@ export class LeadListComponent implements OnInit {
           console.log("RES", res)
           this.LeadList = res
           this.cdf.detectChanges();
-          this.matTable.reChangeData();
+         // this.matTable.reChangeData();
         }
       });
   }

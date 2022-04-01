@@ -112,37 +112,14 @@
             <div class="card card-custom gutter-b data" [class.remove-p]="isPopup">
 
                 <div class="card-body customer-card-body">
-                    <div *ngFor="let customer of customerList; let i = index" class="data-list">
-                      <div class="data-header">
-                          <div class="col-6">
-                            <img src="../../../assets/images/customer/custoner_list.svg" alt="customer" />
-                            <label> {{ customer.partyCode }} </label>
-                          </div>
-                          <div class="col-6">
-                              <div class="actions">
-                                  <img src="../../../assets/images/edit-01.svg" alt="edit" />
-                              </div>
-                          </div>
-                      </div>
-                      <div class="data-content row">
-                        <div class="col-4">
-                            <label *ngIf="customer.name"> {{ customer.name }}</label>
-                            <label *ngIf="customer.fatherName"> {{ customer.fatherName }} </label>
-                            <label *ngIf="customer.identityNumber"> {{ customer.identityNumber }} </label>
-                        </div>
-                        <div class="col-4">
-                            <label *ngIf="customer.dateOfBirth"> {{ customer.dateOfBirth | date:'DD/MMM/YYYY' }} </label>
-                            <label *ngIf="customer.statusValue"> {{ customer.statusValue }} </label>
-                        </div>
-                        <div class="col-4">
-                            <label> ID Type: <span>{{ customer.identityType }}</span> </label>
-                        </div>
-                      </div>
-                  </div>
 
-               
+                    <app-customer-data-list [customerList]="customerList"> </app-customer-data-list>
 
-                <!-- <div class="card-body customer-card-body" *ngIf="show">
+                    
+
+
+
+                    <!-- <div class="card-body customer-card-body" *ngIf="show">
                     <app-material-table-view [data]="customerList" [colum]="ELEMENT_COL"
                         [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)"
                         (rowselect)="rowSelected($event)" [selectable]="isPopup">
@@ -156,7 +133,7 @@
                             [disabled]="!selected.customerId">Next</button>
                     </div>
                 </ng-container> -->
+                </div>
             </div>
         </div>
     </div>
-</div>
