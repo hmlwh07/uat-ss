@@ -100,7 +100,7 @@ export class FireRiskComponent implements OnInit {
                 this.listData.splice(index, 1)
                 this.cdf.detectChanges()
                 this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-           
+
                 });
               }
             }
@@ -118,9 +118,10 @@ export class FireRiskComponent implements OnInit {
     for (let element of parentData1) {
       premiumTotal += this.globalFun.calculateDecimal(element.premium)
       const posDataArray = this.globalFun.tempFormData['addon_1634010770155' + element.id]
-      for (let addon of posDataArray) {
-        addOnPre += this.globalFun.calculateDecimal(addon['premium'])
-      }
+      if (posDataArray)
+        for (let addon of posDataArray) {
+          addOnPre += this.globalFun.calculateDecimal(addon['premium'])
+        }
     }
     // parentData2.forEach(element => {
     //   premiumTotal += parseFloat(element.premium)
