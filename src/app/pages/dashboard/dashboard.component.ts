@@ -12,6 +12,7 @@ import { EditModalComponent } from './edit-modal/edit-modal.component';
 import { COLTYPE, TableCol } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto';
 import { FormUiCol, FormUiDisplayCol } from './models/form-ui.const';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 
 export interface FromObj {
   id: string
@@ -55,7 +56,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
     { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
   ];
-  constructor(private router: Router, private uiService: FormUIService, private modalService: NgbModal, private cdRef: ChangeDetectorRef) { }
+  constructor(private router: Router, private uiService: FormUIService,
+    private modalService: NgbModal, private cdRef: ChangeDetectorRef,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.getList()
@@ -76,13 +79,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   delete(index, id) {
-    this.uiService.delete(id).toPromise().then(res => {
-      if (res)
-        this.forms.splice(index, 1)
-
-      this.cdRef.detectChanges()
-      this.matTable.reChangeData()
-    })
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.uiService.delete(id).toPromise().then(res => {
+          if (res)
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+          });
+            this.forms.splice(index, 1)
+          this.cdRef.detectChanges()
+          this.matTable.reChangeData()
+        })
+      }
+    });
   }
 
   edit(index: number, data: FormUI = {}) {
@@ -137,7 +146,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.uiService.save(postData).toPromise().then(res => {
       if (res) {
         // console.log(res);
-        
+
         this.uiService.selectedForm = res
         this.router.navigateByUrl("/config-layout")
         // this.getList()

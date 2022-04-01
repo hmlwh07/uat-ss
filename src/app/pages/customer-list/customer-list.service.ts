@@ -29,10 +29,9 @@ export class CustomerListService {
     } if (search.identityNumber) {
       url = url + "identityNumber=" + search.identityNumber + "&"
     }
-    if (popup) {
+    // if (popup) {
       url = url + "isPartyCode=" + party
-    }
-    console.log(url);
+    // }
     return this.httpClient.get(url)
   }
 }

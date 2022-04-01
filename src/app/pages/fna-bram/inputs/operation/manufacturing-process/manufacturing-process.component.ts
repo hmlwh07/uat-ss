@@ -46,12 +46,18 @@ export class ManufacturingProcessComponent implements OnInit {
   }
 
   delete(id) {
-    this.operationService.deleteOperationById(id).toPromise().then(async (res: any) => {
-      if (res) {
-        this.getAll()
-        this.alertService.activate('This record was deleted', 'Success Message');
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.operationService.deleteOperationById(id).toPromise().then(async (res: any) => {
+          if (res) {
+            this.getAll()
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
 
   async getAll() {

@@ -13,7 +13,8 @@
 table {
     overflow: hidden;
     width: 100%;
-    border-collapse: unset;
+    border: 1px solid #E3E3E3;
+    border-collapse: collapse;
     tr {
         width: 100%;
         overflow: hidden;
@@ -21,7 +22,8 @@ table {
         td {
             text-align: center;
             position: relative;
-            border-collapse: unset;
+            border: 1px solid #E3E3E3;
+            border-collapse: collapse;
             span {
                 width: 50%;
                 display: block;
@@ -61,7 +63,7 @@ table {
 .right-border-transform {
     width: 1px;
     height: 100%;
-    background-color: #000;
+    background-color: #E3E3E3;
     transform: rotate(0deg);
     position: absolute;
     top: 0;
@@ -101,5 +103,9 @@ table {
 .text-right {
     text-align: end;
     padding: 0 5px 0 0;
+}
+
+.card {
+    overflow: visible !important;
 }
 

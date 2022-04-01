@@ -1,0 +1,50 @@
+<div class="form-group">
+  <button type="button" class="btn btn-primary mx-2" (click)="newData('add')">Add New Data</button>
+</div>
+<div class="table-responsive angular-bootstrap-table">
+  <table class="table table-head-custom table-vertical-center">
+      <thead>
+          <tr>
+              <th>Risk No</th>
+              <th>Travel Plan</th>
+              <th>Insured Unit</th>
+              <th>Travel Duration</th>
+              <th>No. Of Traveller</th>
+              <th>Total Unit</th>
+              <th>Traveller Name</th>
+              <th>Premium</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+          <ng-container *ngFor="let item of listData;let i = index">
+              <tr>
+                <td>Risk No</td>
+                <td>Travel Plan</td>
+                <td>Insured Unit</td>
+                <td>Travel Duration</td>
+                <td>No. Of Traveller</td>
+                <td>Total Unit</td>
+                <td>Traveller Name</td>
+                <td>Premium</td>
+                  <td>
+                      <a title="Edit" class="btn btn-primary btn-cus btn-sm mx-1" (click)="newData('edit',item)">
+                          <span class="flaticon-edit"></span>
+                      </a>
+                      <a title="Delete" class="btn btn-danger btn-cus btn-sm mx-1" (click)="delete(i)">
+                          <span class="flaticon-delete"></span>
+                      </a>
+                  </td>
+              </tr>
+          </ng-container>
+      </tbody>
+  </table>
+</div>
+<div class="row mt-3">
+  <div class="col-sm-6 mx-auto">
+      <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+  </div>
+  <div class="col-sm-6 mx-auto">
+      <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+  </div>
+</div>

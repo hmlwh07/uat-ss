@@ -37,7 +37,7 @@ export class CustomerListComponent implements OnInit {
   customerForm: FormGroup;
   @Output() selectedUser = new EventEmitter();
   @Input() isPopup: boolean = false
-  @Input() party: boolean = false
+  @Input() party: boolean = true
   @Input() isDynamic: boolean = false
   show: boolean = false
   constructor(private router: Router, private cdf: ChangeDetectorRef, private customerListService: CustomerListService, private modalService: NgbModal) {
@@ -50,7 +50,6 @@ export class CustomerListComponent implements OnInit {
       this.displayedColumns.splice(9, 1)
     }
     this.show = true
-    
   }
   ngAfterViewInit() {
     this.getList();
@@ -76,6 +75,8 @@ export class CustomerListComponent implements OnInit {
     this.customerListService.getCustomerList(this.customerForm.value, this.party, check).toPromise().then((res: any) => {
       if (res) {
         this.customerList = res
+        console.log("customerList", this.customerList);
+
         this.cdf.detectChanges()
         if (this.matTable)
           this.matTable.reChangeData()

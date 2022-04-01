@@ -24,7 +24,7 @@ import { HUMAN_RESOURCES, INBOUND_LOGISTICS, MANAGEMENT_INFRASTRUCTURE, MARKETIN
   styleUrls: ['./input-data-dialog.component.scss']
 })
 export class InputDataDialogComponent implements OnInit {
-  fnaId: number = null;
+  fnaId: string = null;
   type: string = null;
   menuType: string = null;
   data: any;
@@ -150,7 +150,15 @@ export class InputDataDialogComponent implements OnInit {
       this.formGroup.controls['valueLaksText'].setValue('');
       this.formGroup.controls['valueLaksText'].setValue('');
     } else {
-      this.formGroup.controls['valueLaksText'].setValue(num.toLocaleString());
+      if (this.type == "Warehouse") {
+        if (num <= 999999999) {
+          this.formGroup.controls['valueLaksText'].setValue(num.toLocaleString());
+        } else {
+          this.formGroup.controls['valueLaksText'].setValue("");
+        }
+      } else {
+        this.formGroup.controls['valueLaksText'].setValue(num.toLocaleString());
+      }
     }
   }
 

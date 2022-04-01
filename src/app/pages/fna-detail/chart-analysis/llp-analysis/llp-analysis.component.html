@@ -26,7 +26,7 @@
                 <img *ngIf="freedom.length == 0" class="freedom" src="./assets/images/default/freedom-01.svg"
                     alt="freedom" />
             </div>
-            <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' }">Freedom</a>
+            <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' } " style="text-decoration: none;">Freedom</a>
         </div>
         <div>
             <div class="investment-1" [ngStyle]="{'background':freedom.length? '#16384d' : '#aaaaaa' }">
@@ -109,7 +109,11 @@
 </div>
 
 <div class="btn-next">
-    <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
-        (click)="fnaSwitchEvent('product')"><label>Save &
-            Next</label></button>
+    <div>
+        <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
+            (click)="backToDetail()"><label>Back</label></button>
+        <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
+            (click)="fnaSwitchEvent('product')"><label>Save &
+                Next</label></button>
+    </div>
 </div>

@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@ang
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { environment } from '../../../../environments/environment';
 import { getFileReader } from '../../../core/get-file-reader';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
@@ -42,7 +43,8 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
     private fb: FormBuilder, public modal: NgbActiveModal,
     private productService: ProductDataService,
     private fileUpload: AttachmentUploadService,
-    private loading: LoadingService
+    private loading: LoadingService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -174,6 +176,14 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
         };
       }
     }
+  }
+
+  deleteEditModal() {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
   }
 
 }

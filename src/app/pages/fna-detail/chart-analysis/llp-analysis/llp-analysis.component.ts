@@ -7,6 +7,8 @@ import { HealthDto } from '../../health/health-manage.dto';
 import { EducationDto } from '../../education/education-manage.dto';
 import { AssectDto } from '../../asset/asset-manage.dto';
 import { ProductDto } from '../product-analysis/product-manage.dto';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-llp-analysis',
@@ -36,7 +38,8 @@ export class LlpAnalysisComponent implements OnInit {
   fnaTextColor: number;
   isValue: boolean = false;
 
-  constructor(private fnaService: FANService, private cdf: ChangeDetectorRef, private modalService: NgbModal) { }
+  constructor(private fnaService: FANService, private cdf: ChangeDetectorRef, 
+    private modalService: NgbModal, private navController: NavController) { }
 
   ngOnInit(): void {
     this.oldId = this.aboutLLP;
@@ -188,6 +191,10 @@ export class LlpAnalysisComponent implements OnInit {
     let s = new Set(arr);
     let it = s.values();
     return Array.from(it);
+  }
+
+  backToDetail() {
+    this.navController.back();
   }
 
 }

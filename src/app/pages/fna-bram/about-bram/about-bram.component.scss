@@ -49,6 +49,27 @@
     }
 }
 
+.btn-next {
+    width: 100%;
+    overflow: hidden;
+    margin: 47px 0 0 0;
+    div {
+        width: 250px;
+        margin: 0 auto;
+        overflow: hidden;
+        margin-bottom: 15px;
+        button {
+            max-width: 110px;
+            min-width: 100px;
+            float: left;
+        }
+
+        button:nth-child(2) {
+            float: right;
+        }
+    }
+}
+
 
 // .high {
 //     background: red;

@@ -3,7 +3,7 @@ import { AlertService } from '../../../../../../app/modules/loading-toast/alert-
 import { FANService } from '../../../../../../app/pages/fna-detail/fna-manage.service';
 import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { FNABRAMInputService } from '../../../inputs.manage.service';
-import {  MANAGEMENT_INFRASTRUCTURE } from '../../input-data-dialog/input.data.enum';
+import { MANAGEMENT_INFRASTRUCTURE } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
 import { ManagementInfrastructureService } from '../management-infrastructure.manage.service';
 import { DISPLAY_COL, ELEMENT_COL } from './fix-asset-management.const';
@@ -19,7 +19,7 @@ export class FixAssetManagementComponent implements OnInit {
   @Input() fnaId: any = null;
 
   ELEMENT_COL = ELEMENT_COL;
-  DISPLAY_COL = DISPLAY_COL; 
+  DISPLAY_COL = DISPLAY_COL;
   dataList = [];
   data: any;
 
@@ -45,12 +45,18 @@ export class FixAssetManagementComponent implements OnInit {
   }
 
   delete(id) {
-    this.managementInfrastructureService.deleteManagementInfrastructureById(id).toPromise().then(async (res: any) => {
-      if (res) {
-        this.getAll();
-        this.alertService.activate('This record was deleted', 'Success Message');
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.managementInfrastructureService.deleteManagementInfrastructureById(id).toPromise().then(async (res: any) => {
+          if (res) {
+            this.getAll();
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
 
   async getAll() {

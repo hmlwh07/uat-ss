@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { BtnConfig } from '../field.interface';
 
 
@@ -20,7 +21,7 @@ export class EditButtonModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
   private subscriptions: Subscription[] = [];
   constructor(
-    private fb: FormBuilder, public modal: NgbActiveModal
+    private fb: FormBuilder, public modal: NgbActiveModal, private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +49,15 @@ export class EditButtonModalComponent implements OnInit, OnDestroy {
       this.config = {...this.formGroup.value,fill: this.formGroup.value.fill == 'true' ? true : false }
       this.modal.dismiss({data:this.config,type:'save'})
     }
+  }
+
+  deleteEditModal() {
+    console.log('deleteEditModal',);
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
   }
 
 

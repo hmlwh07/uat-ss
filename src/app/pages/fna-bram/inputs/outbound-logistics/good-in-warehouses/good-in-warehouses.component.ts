@@ -45,12 +45,18 @@ export class GoodInWarehousesComponent implements OnInit {
   }
 
   delete(id) {
-    this.outboundLogisticsService.deleteOutboundLogisticsById(id).toPromise().then(async (res: any) => {
-      if (res) {
-        this.getAll();
-        this.alertService.activate('This record was deleted', 'Success Message');
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.outboundLogisticsService.deleteOutboundLogisticsById(id).toPromise().then(async (res: any) => {
+          if (res) {
+            this.getAll();
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
 
   async getAll() {

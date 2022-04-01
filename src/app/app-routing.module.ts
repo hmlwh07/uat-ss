@@ -14,6 +14,12 @@ export const routes: Routes = [
       import('./modules/errors/errors.module').then((m) => m.ErrorsModule),
   },
   {
+    path: 'qr-source-link',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./pages/qr-source-link/qr-source-link.module').then((m) => m.QrModule),
+  },
+  {
     path: '',
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],

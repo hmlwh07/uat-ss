@@ -100,7 +100,7 @@ export class AssetComponent implements OnInit {
           id: this.fnaId,
           products: this.products
         }
-        
+
         await this.fnaService.updateFNAProduct(reqBody).toPromise().then((res: any) => {
           if (res) {
 
@@ -168,7 +168,7 @@ export class AssetComponent implements OnInit {
       createdAt: new FormControl(this.assectDto.createdAt || ''),
       updatedAt: new FormControl(this.assectDto.updatedAt || '')
     });
-    this.formGroup.controls['fnaId'].setValue(Number(this.fnaId));
+    this.formGroup.controls['fnaId'].setValue(this.fnaId);
     this.cdf.detectChanges();
   }
 
@@ -183,52 +183,58 @@ export class AssetComponent implements OnInit {
   }
 
   async deleteAsset() {
-    let deleteIndex = [];
-    if (this.assectDto.id) {
-      await this.fnaAssetService.deleteAssetById(this.assectDto.id).toPromise().then(async (res: any) => {
-        if (res) {
-          if (this.formGroup.value.assetType == 'motor' || this.formGroup.value.assetType == 'building') {
-            if (this.formGroup.value.assetType == 'motor') {
-              deleteIndex = this.assects.filter(item => item.assetType == 'motor');
-              if (deleteIndex.length == 1) {
-                this.products = this.products.filter(item => item !== this.fnaService.getFNAProduct('Asset', 'Motor')[0]);
-              }
-            }
-            if (this.formGroup.value.assetType == 'building') {
-              deleteIndex = this.assects.filter(item => item.assetType == 'building');
-              if (deleteIndex.length == 1) {
-                this.products = this.products.filter(item => item !== this.fnaService.getFNAProduct('Asset', 'Fire')[0]);
-              }
-            }
-
-            if (deleteIndex.length == 1) {
-              this.products = this.removeDuplicates(this.products);
-              this.fnaService.fnaUpdateProducts.concat(this.products);
-
-              let reqBody = {
-                customerId: this.customerId,
-                fnaType: "LPP",
-                grandDiscount: 0,
-                highDiscount: 0,
-                id: this.fnaId,
-                products: this.products
-              }
-
-
-              await this.fnaService.updateFNAProduct(reqBody).toPromise().then((res: any) => {
-                if (res) {
-
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
+      if (result) {
+        let deleteIndex = [];
+        if (this.assectDto.id) {
+          await this.fnaAssetService.deleteAssetById(this.assectDto.id).toPromise().then(async (res: any) => {
+            if (res) {
+              if (this.formGroup.value.assetType == 'motor' || this.formGroup.value.assetType == 'building') {
+                if (this.formGroup.value.assetType == 'motor') {
+                  deleteIndex = this.assects.filter(item => item.assetType == 'motor');
+                  if (deleteIndex.length == 1) {
+                    this.products = this.products.filter(item => item !== this.fnaService.getFNAProduct('Asset', 'Motor')[0]);
+                  }
                 }
-              });
+                if (this.formGroup.value.assetType == 'building') {
+                  deleteIndex = this.assects.filter(item => item.assetType == 'building');
+                  if (deleteIndex.length == 1) {
+                    this.products = this.products.filter(item => item !== this.fnaService.getFNAProduct('Asset', 'Fire')[0]);
+                  }
+                }
+
+                if (deleteIndex.length == 1) {
+                  this.products = this.removeDuplicates(this.products);
+                  this.fnaService.fnaUpdateProducts.concat(this.products);
+
+                  let reqBody = {
+                    customerId: this.customerId,
+                    fnaType: "LPP",
+                    grandDiscount: 0,
+                    highDiscount: 0,
+                    id: this.fnaId,
+                    products: this.products
+                  }
+
+
+                  await this.fnaService.updateFNAProduct(reqBody).toPromise().then((res: any) => {
+                    if (res) {
+
+                    }
+                  });
+                }
+              }
+              this.assects = this.assects.filter(item => item.id !== this.assectDto.id);
+              this.getAllAsset();
             }
-          }
-          this.assects = this.assects.filter(item => item.id !== this.assectDto.id);
-          this.getAllAsset();
+          });
+          this.checkNextChild();
+          FNAConstant.FNA_DETAIL_LIST = this.assects;
         }
-      });
-      this.checkNextChild();
-      FNAConstant.FNA_DETAIL_LIST = this.assects;
-    }
+      }
+    });
+
+
   }
 
   updateCommaInput(ev) {

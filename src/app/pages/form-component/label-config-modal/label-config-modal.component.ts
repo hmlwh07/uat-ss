@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { BtnConfig } from '../field.interface';
 
 
@@ -31,7 +32,7 @@ export class LabelConfigModalComponent implements OnInit, OnDestroy {
   fontOpt: string[] = ["bold", "normal"]
   private subscriptions: Subscription[] = [];
   constructor(
-    private fb: FormBuilder, public modal: NgbActiveModal
+    private fb: FormBuilder, public modal: NgbActiveModal, private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -88,5 +89,13 @@ export class LabelConfigModalComponent implements OnInit, OnDestroy {
   isControlTouched(controlName): boolean {
     const control = this.formGroup.controls[controlName];
     return control.dirty || control.touched;
+  }
+
+  deleteEditModal() {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
   }
 }

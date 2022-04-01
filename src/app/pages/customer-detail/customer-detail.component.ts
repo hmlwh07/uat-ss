@@ -6,7 +6,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import { forkJoin,catchError, of } from 'rxjs';
+import { forkJoin, catchError, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
@@ -142,17 +142,17 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     private AttachmentUploadService: AttachmentUploadService,
     private CustomerAttachmentService: AttachmentServiceRef,
     private AttachmentDownloadService: AttachmentDownloadService,
-    private alertService:AlertService,
+    private alertService: AlertService,
     private menuService: MenuDataService
   ) {
-    this.ACTIVITYdisplayedColumns.splice(8,1)
-    this.QuotationdisplayedColumns.splice(7,2)
-    this.ApplicationdisplayedColumns.splice(7,1)
+    this.ACTIVITYdisplayedColumns.splice(8, 1)
+    this.QuotationdisplayedColumns.splice(7, 2)
+    this.ApplicationdisplayedColumns.splice(7, 1)
   }
 
   ngOnInit(): void {
-   
-    
+
+
     this.loadForm();
     this.route.queryParams
       .subscribe(params => {
@@ -192,14 +192,14 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit() {
-   this.getMaster()
+    this.getMaster()
   }
 
   getNationality() {
-    return this.masterDataService.getDataByType("NATIONALITY").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return this.masterDataService.getDataByType("NATIONALITY").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
-    
+
     // .toPromise().then((res: any) => {
     //   if (res) {
     //     this.nationalityOption = res
@@ -208,7 +208,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     // });
   }
 
-  getMaster(){
+  getMaster() {
     forkJoin([
       this.getTitle(),
       this.getGender(),
@@ -216,7 +216,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       this.getStatus(),
       this.getState(),
       this.getNationality(),
-    ]).toPromise().then((res:any)=>{
+    ]).toPromise().then((res: any) => {
       if (res) {
         this.titleOption = res[0]
         this.genderOption = res[1]
@@ -230,7 +230,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   getTitle() {
-    return this.masterDataService.getDataByType("TITLE").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return this.masterDataService.getDataByType("TITLE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
     // .toPromise().then((res: any) => {
@@ -242,23 +242,23 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   getGender() {
-   return this.masterDataService.getDataByType("TB_GENDER").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
-    return of([])
-  }))
-   
-  //  .toPromise().then((res: any) => {
-  //     if (res) {
-  //       this.genderOption = res
-  //       this.cdf.detectChanges()
-  //     }
-  //   })
+    return this.masterDataService.getDataByType("TB_GENDER").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
+
+    //  .toPromise().then((res: any) => {
+    //     if (res) {
+    //       this.genderOption = res
+    //       this.cdf.detectChanges()
+    //     }
+    //   })
   }
 
   getOccupation() {
-    return this.masterDataService.getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return this.masterDataService.getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
-    
+
     // .toPromise().then((res: any) => {
     //   if (res) {
     //     this.occupationOption = res
@@ -268,10 +268,10 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   getStatus() {
-    return this.masterDataService.getDataByType("CUST_STATUS").pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return this.masterDataService.getDataByType("CUST_STATUS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
-    
+
     // .toPromise().then((res: any) => {
     //   if (res) {
     //     this.statusOption = res
@@ -288,10 +288,10 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   getState() {
-    return this.masterDataService.getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)),catchError(e=> {
+    return this.masterDataService.getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
-    
+
     // .toPromise().then((res: any) => {
     //   if (res) {
     //     this.stateOption = res
@@ -304,21 +304,21 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
   getDistrict(parentId: string) {
     this.masterDataService.getAddressDataByType("DISTRICT", parentId).pipe(map(x => this.getFormatOpt(x)))
-    .toPromise().then((res: any) => {
-      if (res) {
-        this.districtOption = res
-        this.cdf.detectChanges()
-      }
-    });
+      .toPromise().then((res: any) => {
+        if (res) {
+          this.districtOption = res
+          this.cdf.detectChanges()
+        }
+      });
   }
   getTownship(parentId: string) {
     this.masterDataService.getAddressDataByType("TOWNSHIP", parentId).pipe(map(x => this.getFormatOpt(x)))
-    .toPromise().then((res: any) => {
-      if (res) {
-        this.townshipOption = res
-        this.cdf.detectChanges()
-      }
-    });
+      .toPromise().then((res: any) => {
+        if (res) {
+          this.townshipOption = res
+          this.cdf.detectChanges()
+        }
+      });
   }
 
   getOld() {
@@ -553,11 +553,18 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       this.AttachmentDownloadService.getDownload(event.data.id, event.data.fileName)
     }
     if (event.cmd == 'delete') {
-      this.CustomerAttachmentService.delete(event.data.id).toPromise().then(res=>{
-        if(res){
-          this.getCustomerAttachment()
+      this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+        if (result) {
+          this.CustomerAttachmentService.delete(event.data.id).toPromise().then(res => {
+            if (res) {
+              this.getCustomerAttachment();
+              this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+
+              });
+            }
+          })
         }
-      })
+      });
     }
 
   }

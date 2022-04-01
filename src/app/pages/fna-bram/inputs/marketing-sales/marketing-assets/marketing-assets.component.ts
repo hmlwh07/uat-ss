@@ -45,12 +45,18 @@ export class MarketingAssetsComponent implements OnInit {
   }
 
   delete(id) {
-    this.marketingSalesService.deleteMarketingSalesById(id).toPromise().then(async (res: any) => {
-      if (res) {
-        this.getAll();
-        this.alertService.activate('This record was deleted', 'Success Message');
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.marketingSalesService.deleteMarketingSalesById(id).toPromise().then(async (res: any) => {
+          if (res) {
+            this.getAll();
+            this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+           
+            });
+          }
+        })
       }
-    })
+    });
   }
 
   async getAll() {
@@ -64,7 +70,7 @@ export class MarketingAssetsComponent implements OnInit {
           this.dataList[i].valueLaks = this.fnaService.mathRoundTo(this.dataList[i].valueLaks, 2);
         }
         this.cdf.detectChanges();
-        this.matTable.reChangeData(); 
+        this.matTable.reChangeData();
       } else {
         this.dataList = [];
         this.cdf.detectChanges();

@@ -13,6 +13,7 @@ import { HealthQuoComponent } from "./health-quo/health-quo.component";
 import { SimplePagePolicyComponent } from "./simple-page-policy/simple-page-policy.component";
 import { SimplePageComponent } from "./simple-page/simple-page.component";
 import { StaticField, StaticPageAction } from "./static-field.interface";
+import { TravelComponent } from "./travel-page/travel-page.component";
 // import { STATIC_COMPONENT } from "./static-pages.data";
 const STATIC_COMPONENT = {
   'addon_1634010770155': AddonPageComponent,
@@ -26,6 +27,7 @@ const STATIC_COMPONENT = {
   'static_1643116155828': FireRiskComponent,
   'static_1644896661652': EndoComponent,
   'static_1644896804675': EndoGripComponent,
+  'static_1648784270356': TravelComponent
 }
 @Directive({
   selector: '[staticPage]'

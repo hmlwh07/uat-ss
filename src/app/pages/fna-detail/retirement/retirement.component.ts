@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { FNAConstant } from '../fna-constant';
@@ -23,12 +24,17 @@ export class RetirementComponent implements OnInit {
   retirementDto: RetirementDto = new RetirementDto();
   currentIncome: any = null;
   isCalculate: boolean = false;
+  toMaxDate: { year: number; month: number; day: number; };
+  fromMinDate = null
+  fromMaxDate = new Date();
 
   constructor(private fb: FormBuilder, private cdf: ChangeDetectorRef, private alertService: AlertService,
     private fnaRetirementService: FANRetirementService, public fnaService: FANService) { }
 
   ngOnInit(): void {
     this.loadForm();
+    console.log('customerDob', this.customerDob);
+
     if (this.fnaService.fnaIncome) {
       this.currentIncome = this.fnaService.fnaIncome.estimatedMonthlyIncome;
     }
@@ -39,7 +45,12 @@ export class RetirementComponent implements OnInit {
       this.setRetirement(this.fnaService.fnaRetirementSaving);
     } else {
       if (this.customerDob) {
-        this.formGroup.controls['dateOfBirth'].setValue(this.formatDateDDMMYYY(new Date(this.customerDob)));
+       
+        //console.log('formatDateDDMMYYY ', this.doValid('dateOfBirth'));
+        this.formGroup.controls['dateOfBirth'].setValue(this.customerDob)
+        this.doValid('dateOfBirth')
+
+       // this.formGroup.controls['dateOfBirth'].setValue(this.formatDateDDMMYYY(new Date(this.customerDob)));
       }
     }
   }
@@ -63,7 +74,7 @@ export class RetirementComponent implements OnInit {
       createdAt: new FormControl(this.retirementDto.createdAt || ''),
       updatedAt: new FormControl(this.retirementDto.updatedAt || '')
     });
-    this.formGroup.controls['fnaId'].setValue(Number(this.fnaId));
+    this.formGroup.controls['fnaId'].setValue(this.fnaId);
   }
 
   getRetirement() {
@@ -87,7 +98,7 @@ export class RetirementComponent implements OnInit {
 
   setRetirement(data) {
     if (data.dateOfBirth) {
-      data.dateOfBirth = this.formatDateDDMMYYY(this.formatDateYYYYMMDD(data.dateOfBirth));
+      data.dateOfBirth = data.dateOfBirth
     }
     this.formGroup.controls['dateOfBirth'].setValue(data.dateOfBirth);
     this.formGroup.controls['fnaId'].setValue(data.fnaId);
@@ -147,8 +158,10 @@ export class RetirementComponent implements OnInit {
 
 
   calculate() {
+    console.log('calculate', this.formGroup.value.dateOfBirth);
+
     this.isCalculate = true;
-    let diffAge = (this.formGroup.value.retirementAge - this.calculate_age(new Date(this.formGroup.value.dateOfBirth.split("/").reverse().join("/"))));
+    let diffAge = (this.formGroup.value.retirementAge - this.calculate_age(new Date(this.formGroup.value.dateOfBirth.split("-").reverse().join("-"))));
     let percent = 1 + (5 / 100);
     let double: any = Number(this.fnaService.mathRoundTo(this.currentIncome, 2).replace(/,/g, ''))
     let retirementIncome = double * percent ^ diffAge;
@@ -200,8 +213,22 @@ export class RetirementComponent implements OnInit {
   }
 
   viewAll() {
+    console.log('fnaRetirementSaving', this.fnaService.fnaRetirementSaving);
     if (this.fnaService.fnaRetirementSaving) {
       this.fnaService.openModal('RetirementSaving');
+    }
+  }
+
+  doValid(type) { 
+    console.log('doValid', type);
+
+    if (type == 'dateOfBirth') {
+      let value = this.formGroup.controls['dateOfBirth'].value;
+      if (value) {
+        let toDate = moment(this.formGroup.controls['dateOfBirth'].value).add(0, 'years')
+        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
+        this.formGroup.controls['dateOfBirth'].setValue(toDate.format('YYYY-MM-DD'))
+      }
     }
   }
 

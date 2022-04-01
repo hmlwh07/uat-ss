@@ -46,7 +46,8 @@ export class EducationLifeGripPrintComponent implements OnInit {
   @Input() parentData: any
   showDatas: any[] = []
   show: boolean = false
-  constructor(private alertService: AlertService, private globalFun: GlobalFunctionService, private eduPayment: EduPaymentService, private cdf: ChangeDetectorRef) {
+  constructor(private alertService: AlertService, private globalFun: GlobalFunctionService, 
+    private eduPayment: EduPaymentService, private cdf: ChangeDetectorRef) {
     this.chartOptions = {
       series: [
         {

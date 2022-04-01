@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, OperatorFunction, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from '../../../modules/master-data/master-data.service';
 import { AddOnDataService } from '../services/add-on-data.service';
 import { CoverageDataService } from '../services/coverage-data.service';
@@ -34,7 +35,8 @@ export class CoverageModalComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private coverageService: CoverageDataService,
     private addOnService: AddOnDataService,
-    private masterData: MasterDataService
+    private masterData: MasterDataService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -153,5 +155,13 @@ export class CoverageModalComponent implements OnInit, OnDestroy {
     }
     this.cdr.detectChanges()
     this.formGroup.updateValueAndValidity();
+  }
+
+  deleteEditModal() {
+    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        this.modal.dismiss({ type: 'delete' });
+      }
+    });
   }
 }

@@ -339,7 +339,7 @@ export class SimplePageComponent implements OnInit {
   saveCoverage(): Observable<any> {
     let basicCoverId = this.staticForm.controls.basicCoverId.value
     let value = this.staticForm.controls.sumInsuredMainCover.value
-    let coverd = this.product.coverages.find(x => x.description == basicCoverId)
+    let coverd = this.product.coverages.find(x => x.code == basicCoverId)
     if (coverd) {
       let postData = {
         coverageId: coverd.id,

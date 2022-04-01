@@ -21,6 +21,7 @@ import { LabelConfigModalComponent } from '../form-component/label-config-modal/
 import { TableAPIService } from './table.service';
 import { ColAPIService } from './col.service';
 import { EditModalComponent } from '../dashboard/edit-modal/edit-modal.component';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 
 @Component({
   selector: 'app-page-config',
@@ -98,6 +99,7 @@ export class PageConfigComponent implements OnInit, OnDestroy {
     private location: Location,
     private modalService: NgbModal,
     private cdRef: ChangeDetectorRef,
+    private alertService: AlertService
   ) {
 
   }
@@ -157,6 +159,9 @@ export class PageConfigComponent implements OnInit, OnDestroy {
           }
         } else if (res.type == 'delete') {
           this.configPage.fromGroup[pageIndex].buttons.splice(id, 1)
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+
+          });
         }
         this.cdRef.detectChanges();
       }
@@ -214,6 +219,9 @@ export class PageConfigComponent implements OnInit, OnDestroy {
           }
         } else if (res.type == 'delete') {
           this.configPage.fromGroup[pageIndex].controls.splice(id, 1)
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+
+          });
         }
         this.dynForm.reCreateFrom()
         this.cdRef.detectChanges();
@@ -248,7 +256,7 @@ export class PageConfigComponent implements OnInit, OnDestroy {
   async updateCol(tableName: string, control: ConfigInput,) {
     //control.input == 'input' && control.type == 'number' ? 'integer' :
     console.log(typeof control.party);
-    
+
     let postData = {
       tableName: tableName,
       cols: [
@@ -298,6 +306,9 @@ export class PageConfigComponent implements OnInit, OnDestroy {
         } else if (res.type == 'delete') {
           this.configPage.fromGroup[pageIndex].controls.splice(id, 1)
           this.dynForm.newFormCreate(this.configPage.fromGroup[pageIndex].controls)
+          this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+
+          });
         }
         this.saveForm(true)
         this.cdRef.detectChanges();
@@ -381,7 +392,7 @@ export class PageConfigComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.function = this.configPage.fromGroup[pageIndex].function
     modalRef.componentInstance.party = this.configPage.fromGroup[pageIndex].party
     modalRef.componentInstance.unitCode = this.configPage.fromGroup[pageIndex].unitCode
-    
+
     const editAble = this.configPage.fromGroup[pageIndex].tableName ? true : false
     modalRef.result.then(() => { }, (res) => {
       if (res) {
