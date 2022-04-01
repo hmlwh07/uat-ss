@@ -23,25 +23,33 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   @Input() sourceData: any[] = [];
   @Input() formType: any[] = [];
   
+  displayBtnCount = 3;
   pageSizeArray = [5,10,15];
   selectedPageSize = 5;
-  sourceDataLength = 0;
-  no_of_pages = 0;
-  viewData = [];
+  no_of_pages;
   viewPageButtonArray = [];
   responseData = [];
+  selectedPageBtn;
+
+  startPageIndex;
+  endPageIndex;
+
   constructor(private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.sourceDataLength = this.sourceData.length;
-    this.no_of_pages = this.sourceData.length / this.selectedPageSize;
-    this.setPageBtnArray(0);
+    console.log('sourceData',this.sourceData)
+    if(this.sourceData.length > 0)
+    this.prepareBtnArray();
   }
 
-  setPageBtnArray(start : number){
-    for(let i=0;i<this.selectedPageSize;i++){
-      this.viewPageButtonArray.push(start+i);
-    }
+  prepareBtnArray(){
+    this.no_of_pages = this.sourceData.length % this.selectedPageSize == 0? 
+    Math.floor(this.sourceData.length / this.selectedPageSize) :
+    Math.floor(this.sourceData.length / this.selectedPageSize) + 1;
+    console.log('this.no_of_pages',this.no_of_pages)
+    this.selectedPageBtn = this.startPageIndex = 1;
+    this.endPageIndex = (this.startPageIndex + this.displayBtnCount) - 1;
+    this.setPageBtnArray();
   }
 
   ngAfterViewInit() {
@@ -52,18 +60,78 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
     this.response.unsubscribe();
   }
 
-  pageIncreased(){
+  clickMenuItem(pageSize : number){
+    this.selectedPageSize = pageSize;
+    this.prepareBtnArray();
+  }
 
+  pageBtnClicked(btn : number){
+    this.selectedPageBtn = btn;
+    this.calPageBtn();
+    this.prepareCalDataRows(this.selectedPageBtn);
+  }
+
+  pageIncreased(){
+    this.selectedPageBtn = this.selectedPageBtn + 1;
+    this.prepareCalDataRows(this.selectedPageBtn);
+    this.calPageBtn();
   }
 
   pageDecresed(){
-    
+    this.selectedPageBtn = this.selectedPageBtn - 1;
+    this.prepareCalDataRows(this.selectedPageBtn);
+    this.calPageBtn();
   }
 
   pageFirst(){
-
+    this.selectedPageBtn = 1;
+    this.prepareCalDataRows(this.selectedPageBtn);
+    this.calPageBtn();
   }
+
   pageLast(){
-    
+    this.selectedPageBtn = this.no_of_pages;
+    this.prepareCalDataRows(this.selectedPageBtn);
+    this.calPageBtn();
+  }
+
+  calPageBtn(){
+    let remainder = this.selectedPageBtn % this.displayBtnCount;
+    if(remainder == 0){
+      this.startPageIndex = (this.selectedPageBtn - this.displayBtnCount) + 1;
+      this.endPageIndex = ((this.startPageIndex + this.displayBtnCount) - 1) < this.no_of_pages?
+      (this.startPageIndex + this.displayBtnCount) - 1 : this.no_of_pages;
+    }else if(remainder > 0){
+      this.startPageIndex = (this.selectedPageBtn - remainder) + 1;
+      this.endPageIndex = ((this.startPageIndex + this.displayBtnCount) - 1) < this.no_of_pages?
+      (this.startPageIndex + this.displayBtnCount) - 1 : this.no_of_pages;
+    }
+    this.setPageBtnArray();
+  }
+
+  setPageBtnArray(){
+    this.viewPageButtonArray = [];
+    for(let i=0;i<this.displayBtnCount;i++){
+      if(this.startPageIndex+i <= this.no_of_pages)this.viewPageButtonArray.push(this.startPageIndex+i);
+    }
+    this.cdf.detectChanges();
+    this.prepareCalDataRows(this.selectedPageBtn);
+  }
+
+  prepareCalDataRows(pageBtn : number){
+    this.selectedPageBtn = pageBtn;
+    let tempStart = (this.selectedPageBtn - 1) * this.selectedPageSize;
+    let tempEnd = (this.selectedPageBtn * this.selectedPageSize) - 1;
+    this.calDataRows(tempStart,tempEnd);
+  }
+
+  calDataRows(start : number,end : number){
+    this.responseData = [];
+    let count = end < ((start+this.selectedPageSize) - 1) ? (end - start + 1) : this.selectedPageSize;
+    console.log('count',count);
+    for(let i=0;i<count;i++){
+      if(start+i <= end)this.responseData.push(this.sourceData[start+i]);
+    }
+    this.response.emit(this.responseData);
   }
 }

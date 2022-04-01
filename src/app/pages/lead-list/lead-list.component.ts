@@ -175,18 +175,19 @@ export class LeadListComponent implements OnInit {
 
   getList() {
     console.log(this.LeadForm.getRawValue());
-    
-    this.LeadListService.getLeadList(this.LeadForm.getRawValue())
-      .toPromise()
-      .then((res: any) => {
-        if (res) {
-          console.log("RES", res)
-          this.LeadList = res
-          this.cdf.detectChanges();
-          if (this.matTable)
-            this.matTable.reChangeData();
-        }
-      });
+    this.LeadList = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+
+    // this.LeadListService.getLeadList(this.LeadForm.getRawValue())
+    //   .toPromise()
+    //   .then((res: any) => {
+    //     if (res) {
+    //       console.log("RES", res)
+    //       this.LeadList = res
+    //       this.cdf.detectChanges();
+    //       if (this.matTable)
+    //         this.matTable.reChangeData();
+    //     }
+    //   });
   }
   getFormatOpt(res) {
     return res.map(x => {

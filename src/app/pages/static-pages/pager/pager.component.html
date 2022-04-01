@@ -1,27 +1,49 @@
-<div class="example-preview" *ngIf="data.length > 0">
-    <app-listing-lead></app-listing-lead>
+<div class="example-preview" *ngIf="sourceData.length > 0">
     <div class="pager">
-        <div class="pager_atom">
-            <span>Items per page:</span>
-            <button mat-button [matMenuTriggerFor]="menu"></button>
-            <mat-menu #clickmenu="matMenu">
-                <button mat-menu-item 
-                        *ngFor="let item of pageSizeArray" 
-                        (click)="clickMenuItem(item)">
-                  <!-- <mat-icon>{{ item.menuIcon }}</mat-icon> -->
-                  <span> {{ item.pageNo }}</span>
-                </button>
-            </mat-menu>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12 right">
+                <div class="pager_atom mt_10">
+                    <span>Items per page:</span>
+        
+                    <button mat-button [matMenuTriggerFor]="menu">{{ selectedPageSize }} &nbsp;
+                        <img src="./assets/images/._down_arrow-01" alt="" />
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngFor="let pagesize of pageSizeArray" (click)="clickMenuItem(pagesize)">
+                            <span> {{ pagesize }}</span></button>
+                    </mat-menu>
+                </div>
+        
+                <div class="pager_atom mt_10">
+                    <span>{{ startPageIndex }} – {{ endPageIndex }} of {{ no_of_pages }}</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 pager_btn_wrapper">
+                <div class="mr_15 mt_10" (click)="pageFirst()">
+                    |< <img class="pager_icon" src="./../../../../assets/images/._chevron-double-left.svg" alt="" />
+                </div>
+    
+                <div class="mr_15 mt_10" (click)="pageDecresed()">
+                    < <img class="pager_icon" src="./assets/images/._double_arrow_left-01.svg" alt="" />
+                </div>
+    
+                <div *ngFor="let btn of viewPageButtonArray">
+                    <div [ngClass]="selectedPageBtn == btn? 'pager_primary_btn_selected mr_15' : 'pager_primary_btn mr_15'"
+                        (click)="pageBtnClicked(btn)">
+                        <span class="pager_display">{{ btn }}</span>
+                    </div>
+                </div>
+    
+                <div class="mr_15 mt_10" (click)="pageIncreased()">
+                    >
+                    <img class="pager_icon" src="./assets/images/._chevron-double-right.svg" alt="" />
+                </div>
+                <div class="mr_15 mt_10" (click)="pageLast()">
+                    >|
+                    <img class="pager_icon" src="./assets/images/._double_arrow_right-01.svg" alt="" />
+                </div>
+            </div>
         </div>
-        <div class="pager_atom"></div>
-        <div class="pager_atom"></div>
-        <div class="pager_atom"></div>
-        <div class="pager_atom"></div>
-        <div class="pager_atom"></div>
-        <div class="pager_atom"></div>
-        <div class="pager_atom"></div>
+
     </div>
-</div>
-<div class="text-center" *ngIf="data.length == 0">
-    <span style="color: gray;">There is no data</span>
 </div>
