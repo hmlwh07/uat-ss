@@ -1,0 +1,74 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
+            Travel
+        </div>
+
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body">
+        <ng-container *ngFor="let item of list"></ng-container>
+        <ng-container *ngIf="pageOrder.type == 'dyn' ">
+            <ng-container *ngIf="pageOrder.pageType != 'table' ">
+                <dynamic-form #dynForm
+                    [tempData]="tempData[pageOrder.tableName+pageOrder.id] || {}"
+                    [config]="pageOrder.controls" (submit)="saveTemp($event)" [editStage]="false">
+                </dynamic-form>
+            </ng-container>
+            <ng-container *ngIf="pageOrder.pageType == 'table' ">
+                <div class="form-group">
+                    <!-- <button type="button" class="btn btn-default" (click)="reset()">Reset Data</button> -->
+                    <button type="button" class="btn btn-primary mx-2" (click)="newData()">Add New Data</button>
+                </div>
+                <hr>
+                <div class="table-responsive angular-bootstrap-table">
+                    <table class="table table-head-custom table-vertical-center">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <ng-container *ngFor="let item of tableReform">
+                                    <th>{{item.title}}</th>
+                                </ng-container>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="tempData[pageOrder.tableName+pageOrder.id]">
+                                <tr
+                                    *ngFor="let item of tempData[pageOrder.tableName+pageOrder.id];let i = index">
+                                    <td>{{i+1}}</td>
+                                    <ng-container *ngFor="let control of tableReform">
+
+                                        <td *ngIf="control.type != 'file'">{{ getOtherData(control.cols,item) }}</td>
+                                        <td *ngIf="control.type == 'file'">
+                                            <a href="javascript:;" (click)="download(control.cols,item)">
+                                                {{getOtherData(control.cols,item)}}
+                                            </a>
+                                        </td>
+                                    </ng-container>
+                                    <td style="white-space: nowrap;">
+                                        <a title="Edit Data" class="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
+                                            (click)="newData(item,i)">
+                                            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'"
+                                                [cacheSVG]="true" class="svg-icon svg-icon-md svg-icon-primary">
+                                            </span>
+                                        </a>
+                                        <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                                            (click)="deleteData(i,item)">
+                                            <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                                                [cacheSVG]="true" class="svg-icon svg-icon-md svg-icon-danger">
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button>
+        <button type="button" class="btn btn-primary btn-elevate" (click)="calPremimun()">Save</button>
+    </div>
+</div>

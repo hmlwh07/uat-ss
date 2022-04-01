@@ -12,7 +12,7 @@ export interface StaticField {
 }
 
 export interface StaticPageAction {
-  type: StaticActionType,
+  type?: StaticActionType,
   data?: any
 }
 
