@@ -45,6 +45,10 @@ export class FireRiskComponent implements OnInit {
     }
   }
   backPage() {
+    if (this.listData.length > 0) {
+      this.globalFun.tempFormData[FireRiskID] = this.listData
+      this.savePremimunFire()
+    }
     this.actionEvent.emit({ type: StaticActionType.PREV })
   }
 

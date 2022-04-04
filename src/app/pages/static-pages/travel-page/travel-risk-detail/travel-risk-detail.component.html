@@ -6,70 +6,158 @@
 
     </div>
     <div class="overlay overlay-block cursor-default modal-body">
-        <ng-container *ngFor="let pageOrder of list">
-            <ng-container *ngIf="pageOrder.type == 'dyn' ">
-                <ng-container *ngIf="pageOrder.pageType != 'table' ">
-                    <dynamic-form #dynForm [tempData]="tempData[pageOrder.tableName+pageOrder.id] || {}"
-                        [config]="pageOrder.controls" (submit)="saveTemp($event)" [editStage]="false">
+        <div class="toggle-box">
+            <div class="toggle-header">
+                <h4 class="left-border-image">{{prodDetailForm.pageTitle}}</h4>
+                <div class="tool-box">
+                    <button type="button" *ngIf="activeBox=='DETAIL'" class="icon" (click)="toggleAccordion('DETAIL')">
+                        <span class="flaticon2-back"></span>
+                    </button>
+                    <button type="button" *ngIf="activeBox!='DETAIL'" class="icon ml-2"
+                        (click)="toggleAccordion('DETAIL')">
+                        <span class="flaticon2-down"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="toggle-body" [ngClass]="activeBox=='DETAIL' ? 'active' : 'inactive'">
+                <dynamic-form #dynForm [tempData]="tempData['travelDetal'] || {}" [config]="prodDetailForm.controls"
+                    (submit)="saveDetailTemp($event)" [editStage]="false">
+                </dynamic-form>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary btn-elevate" (click)="saveData(dynForm,prodDetailForm)">Next</button>
+                </div>
+            </div>
+
+            <!--  -->
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-header">
+                <h4 class="left-border-image">{{travelerForm.pageTitle}}</h4>
+                <div class="tool-box">
+                    <button type="button" [disabled]="!stepData.step1" *ngIf="activeBox=='TRAVELER'" class="icon"
+                        (click)="toggleAccordion('TRAVELER')">
+                        <span class="flaticon2-back"></span>
+                    </button>
+                    <button type="button" [disabled]="!stepData.step1" *ngIf="activeBox!='TRAVELER'" class="icon ml-2"
+                        (click)="toggleAccordion('TRAVELER')">
+                        <span class="flaticon2-down"></span>
+                    </button>
+                </div>
+            </div>
+            <ng-container *ngIf="stepData.step1">
+                <div class="toggle-body" [ngClass]="activeBox=='TRAVELER' ? 'active' : 'inactive'">
+                    <dynamic-form #dynFormTraveler [tempData]="tempData['traveler'] || {}"
+                        [config]="travelerForm.controls" (submit)="saveTravelerTemp($event)" [editStage]="false">
                     </dynamic-form>
-                </ng-container>
-                <ng-container *ngIf="pageOrder.pageType == 'table' ">
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-elevate"
+                            (click)="saveData(dynFormTraveler,travelerForm)">Next</button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-header">
+                <h4 class="left-border-image">{{benefiForm.pageTitle}}</h4>
+                <div class="tool-box">
+                    <button type="button" [disabled]="!stepData.step2" *ngIf="activeBox=='BENEFI'" class="icon"
+                        (click)="toggleAccordion('BENEFI')">
+                        <span class="flaticon2-back"></span>
+                    </button>
+                    <button type="button" [disabled]="!stepData.step2" *ngIf="activeBox!='BENEFI'" class="icon ml-2"
+                        (click)="toggleAccordion('BENEFI')">
+                        <span class="flaticon2-down"></span>
+                    </button>
+                </div>
+            </div>
+            <ng-container *ngIf="stepData.step2">
+                <div class="toggle-body" [ngClass]="activeBox=='BENEFI' ? 'active' : 'inactive'">
                     <div class="form-group">
                         <!-- <button type="button" class="btn btn-default" (click)="reset()">Reset Data</button> -->
                         <button type="button" class="btn btn-primary mx-2" (click)="newData()">Add New Data</button>
-                    </div>
-                    <hr>
-                    <div class="table-responsive angular-bootstrap-table">
+                      </div>
+                      <hr>
+                      <div class="table-responsive angular-bootstrap-table">
                         <table class="table table-head-custom table-vertical-center">
-                            <thead>
-                                <tr>
-                                    <th>NO</th>
-                                    <ng-container *ngFor="let item of tableReform">
-                                        <th>{{item.title}}</th>
-                                    </ng-container>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container *ngIf="tempData[pageOrder.tableName+pageOrder.id]">
-                                    <tr *ngFor="let item of tempData[pageOrder.tableName+pageOrder.id];let i = index">
-                                        <td>{{i+1}}</td>
-                                        <ng-container *ngFor="let control of tableReform">
-
-                                            <td *ngIf="control.type != 'file'">{{ getOtherData(control.cols,item) }}
-                                            </td>
-                                            <td *ngIf="control.type == 'file'">
-                                                <a href="javascript:;" (click)="download(control.cols,item)">
-                                                    {{getOtherData(control.cols,item)}}
-                                                </a>
-                                            </td>
-                                        </ng-container>
-                                        <td style="white-space: nowrap;">
-                                            <a title="Edit Data"
-                                                class="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
-                                                (click)="newData(i,item)">
-                                                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'"
-                                                    [cacheSVG]="true" class="svg-icon svg-icon-md svg-icon-primary">
-                                                </span>
-                                            </a>
-                                            <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
-                                                (click)="deleteData(i,item)">
-                                                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
-                                                    [cacheSVG]="true" class="svg-icon svg-icon-md svg-icon-danger">
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                          <thead>
+                            <tr>
+                              <th>NO</th>
+                              <ng-container *ngFor="let item of tableReform">
+                                <th>{{item.title}}</th>
+                              </ng-container>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-container *ngIf="tempData['benefi']">
+                              <tr
+                                *ngFor="let item of tempData['benefi'];let i = index">
+                                <td>{{i+1}}</td>
+                                <ng-container *ngFor="let control of tableReform">
+      
+                                  <td *ngIf="control.type != 'file'">{{ getOtherData(control.cols,item) }}</td>
+                                  <td *ngIf="control.type == 'file'">
+                                    <a href="javascript:;" (click)="download(control.cols,item)">
+                                      {{getOtherData(control.cols,item)}}
+                                    </a>
+                                  </td>
                                 </ng-container>
-                            </tbody>
+                                <td style="white-space: nowrap;">
+                                  <a title="Edit Data" class="btn btn-icon btn-light btn-hover-danger btn-sm mx-1"
+                                    (click)="newData(item,i)">
+                                    <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" [cacheSVG]="true"
+                                      class="svg-icon svg-icon-md svg-icon-primary">
+                                    </span>
+                                  </a>
+                                  <a title="Delete UI" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                                    (click)="deleteData(i,item)">
+                                    <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" [cacheSVG]="true"
+                                      class="svg-icon svg-icon-md svg-icon-danger">
+                                    </span>
+                                  </a>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
                         </table>
+                      </div>
+                      <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-elevate"
+                            (click)="nextCover()">Next</button>
                     </div>
-                </ng-container>
+                </div>
             </ng-container>
-        </ng-container>
+        </div>
+
+        <div class="toggle-box">
+            <div class="toggle-header">
+                <h4 class="left-border-image">Cover Details</h4>
+                <div class="tool-box">
+                    <button type="button" [disabled]="!stepData.step3" *ngIf="activeBox=='COVER'" class="icon"
+                        (click)="toggleAccordion('COVER')">
+                        <span class="flaticon2-back"></span>
+                    </button>
+                    <button type="button" [disabled]="!stepData.step3" *ngIf="activeBox!='COVER'" class="icon ml-2"
+                        (click)="toggleAccordion('COVER')">
+                        <span class="flaticon2-down"></span>
+                    </button>
+                </div>
+            </div>
+            <ng-container *ngIf="stepData.step3">
+                <div class="toggle-body" [ngClass]="activeBox=='COVER' ? 'active' : 'inactive'">
+                    <app-addon-page [product]="product" [optionId]="oldData.id" [editData]="editData"
+                        [resourcesId]="resourceId" [fireAdd]="true" (actionEvent)="coverDone()"></app-addon-page>
+                </div>
+            </ng-container>
+        </div>
+
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button>
-        <button type="button" class="btn btn-primary btn-elevate" (click)="calPremimun()">Save</button>
+        <button type="button" class="btn btn-light btn-elevate mr-2" [disabled]="validCancel"
+            (click)="calPremimun()">Cancel</button>
+        <button type="button" class="btn btn-primary btn-elevate" [disabled]="!stepData.step4"
+            (click)="calPremimun()">Save</button>
     </div>
 </div>

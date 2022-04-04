@@ -1,5 +1,17 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map, of, switchMap } from 'rxjs';
+import { GlobalFunctionService } from '../../../../core/global-fun.service';
+import { AuthService } from '../../../../modules/auth';
+import { MasterDataService } from '../../../../modules/master-data/master-data.service';
+import { CustomerService } from '../../../customer-detail/customer.service';
+import { DynamicFormComponent } from '../../../form-component/dynamic-form.component';
+import { FromGroupData } from '../../../form-component/field.interface';
+import { FormViewModalComponent } from '../../../form-component/form-view-modal/form-view-modal.component';
+import { PageDataService } from '../../../product-form/page-data.service';
 import { PageUI, Product } from '../../../products/models/product.dto';
+import { ProductDataService } from '../../../products/services/products-data.service';
 
 @Component({
   selector: 'app-travel-risk-detail',
@@ -10,11 +22,48 @@ export class TravelRiskDetailComponent implements OnInit {
   @Input() list: any[] = []
   @Input() product: Product
   @Input() editData: any = {}
-  @Input() resourcesId?: string
+  @Input() oldData: any = {}
+  @Input() resourceId?: string
+  @Input() referenceID?: string
   @Input() premiumAmt: string
-  tempData = {}
-  tableReform:any[] = []
-  constructor() { }
+  @Input() prodDetailForm: PageUI
+  @Input() travelerForm: PageUI
+  @Input() benefiForm: PageUI
+  @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
+  @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
+  @Input() tempData: any = {
+    travelDetal: null,
+    traveler: null,
+    benefi: [],
+    cover: []
+  }
+  stepData = {
+    step1: false,
+    step2: false,
+    step3: false,
+    step4: false
+  }
+  tableReform: any[] = []
+
+  activeBox: string = 'DETAIL'
+  constructor(
+    private globalFun: GlobalFunctionService,
+    private numberPipe: DecimalPipe,
+    private pageDataService: PageDataService,
+    private prodService: ProductDataService,
+    private datePipe: DatePipe,
+    private masterServer: MasterDataService,
+    private auth: AuthService,
+    private cdRef: ChangeDetectorRef,
+    private modalService: NgbModal
+  ) { }
+
+  get validCancel() {
+    let tep = this.stepData.step1 || this.stepData.step2 || this.stepData.step3 || this.stepData.step4 ? true : false
+    let tep2 = this.stepData.step1 && this.stepData.step2 && this.stepData.step3 && this.stepData.step4 ? false : true
+    return tep && tep2
+    this.benefiForm.pageTitle
+  }
   ngOnInit(): void {
 
   }
@@ -23,9 +72,19 @@ export class TravelRiskDetailComponent implements OnInit {
 
   }
 
-  newData(index?, item?) {
+  nextCover() {
+    this.stepData.step3 = true
+    this.activeBox = "COVER"
+  }
+
+  coverDone(){
 
   }
+
+  toggleAccordion(type: string) {
+    this.activeBox = type == this.activeBox ? "" : type
+  }
+
   deleteData(index, item) {
 
   }
@@ -33,12 +92,300 @@ export class TravelRiskDetailComponent implements OnInit {
   download(col, item) {
 
   }
+  //   travelDetal
+  // traveler
+  // benefi
 
-  saveTemp(event) {
+  newData(editData?: any, index?: number) {
+    const activeForm = this.benefiForm;
+    const modalRef = this.modalService.open(FormViewModalComponent, { size: 'xl' });
+    modalRef.componentInstance.controls = activeForm.controls
+    modalRef.componentInstance.pageName = activeForm.pageTitle
+    modalRef.componentInstance.activateForm = activeForm
+    modalRef.componentInstance.oldData = index >= 0 ? editData : {}
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        if (res.data && res.type == 'save') {
+          if (index >= 0) {
+            this.updateDataAPI(activeForm, res.data, this.tempData['benefi'][index].refId, index, "benefi")
+          } else {
+            this.saveDataAPI(activeForm, res.data, "benefi")
+          }
+        }
+      }
+    })
+  }
+
+  saveTravelerTemp(event) {
+    if (this.travelerForm.pageType == "form" && this.tempData['traveler']) {
+      if (this.tempData['traveler'].refId)
+        this.updateDataAPI(this.travelerForm, event, this.tempData['traveler'].refId, -1, "traveler")
+      else
+        this.saveDataAPI(this.travelerForm, event, 'traveler')
+    } else
+      this.saveDataAPI(this.travelerForm, event, 'traveler')
+  }
+
+  saveDetailTemp(event) {
+    if (this.prodDetailForm.pageType == "form" && this.tempData['travelDetal']) {
+      if (this.tempData['travelDetal'].refId)
+        this.updateDataAPI(this.prodDetailForm, event, this.tempData['travelDetal'].refId)
+      else
+        this.saveDataAPI(this.prodDetailForm, event)
+    } else
+      this.saveDataAPI(this.prodDetailForm, event)
+  }
+
+
+  checkMasterValue(res: any, column, otherResponse: any) {
+    // otherResponse =  ? otherResponse[0]['formData'] = res : 
+    if (Array.isArray(otherResponse)) {
+      otherResponse[0]['formData'] = res
+    } else {
+      otherResponse['formData'] = res
+    }
+    let tempMasterObj = Object.keys(res).filter(x => (res[x] + "").includes("T-"))
+    if (tempMasterObj.length > 0) {
+      let masterObj = tempMasterObj.map(x => {
+        let columnName = column.find(col => col.name == x)
+        if (columnName.masterData) {
+          return {
+            "codeId": res[x],
+            "codeType": columnName.masterData,
+            "langCd": "EN"
+          }
+        }
+      })
+      let postData = {
+        "codeBookRequest": masterObj
+      }
+      let returnObj = res
+      return this.masterServer.getMasterValue(postData).pipe(map((masterValues: any) => {
+        tempMasterObj.forEach(x => {
+          let colName = column.find(col => col.name == x)
+          let index = masterValues.findIndex(master => master.codeId == returnObj[x] && colName.masterData == master.codeType)
+          if (index >= 0) {
+            returnObj[x + "Value"] = masterValues[index].codeName
+          }
+        })
+        if (Array.isArray(otherResponse)) {
+          otherResponse[0]['formData'] = returnObj
+        } else {
+          otherResponse['formData'] = returnObj
+        }
+        return otherResponse
+      }))
+    }
+    return of(otherResponse)
+  }
+
+  async saveData(formGp, activeForm) {
+    if (activeForm.function) {
+      let fun = await this.globalFun[activeForm.function]("", formGp.form.getRawValue(), [], true);
+      if (!fun) {
+        return false
+      }
+    }
+    let submited = formGp.handleSubmit()
+    if (!submited) return false
+  }
+ 
+  saveDataAPI(page: FromGroupData, formData: any, type: string = "travelDetal") {
+    this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
+    let postData = {
+      productId: this.product.id,
+      type: this.prodService.viewType,
+      tableName: page.tableName,
+      resourceId: this.product,
+      agentId: this.auth.currentUserValue.id || 1,
+      quotationId: this.referenceID,
+      pageId: page.id,
+      customerId: this.prodService.creatingCustomer.customerId,
+      leadId: this.prodService.creatingLeadId || null,
+      premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+      premiumView: this.premiumAmt,
+      policyNumber: null,
+      party: page.party || false,
+      pageData: [
+        {
+          data: []
+        }
+      ]
+    }
+    for (const [key, value] of Object.entries(formData)) {
+      let input = page.controls.find(x => x.name == key)
+      let valueData = value
+      if (input) {
+        valueData = input.input == "input" && input.type == 'number' ? Number(value) : value
+        if (Array.isArray(valueData)) {
+          valueData = valueData.join("#-#")
+          if (!(valueData as string).includes("#-#")) {
+            valueData += "#+#"
+          }
+        }
+      }
+      postData.pageData[0].data.push({
+        "column": key,
+        "value": valueData,
+        "party": input ? input.party || false : false
+      })
+
+    }
+    this.pageDataService.save(postData).pipe(switchMap((data: any) => {
+      if (page.pageType == 'table') {
+        return this.checkMasterValue(formData, page.controls, data)
+      }
+      return of(data)
+    })).toPromise().then((res) => {
+
+      if (res) {
+
+        if (!this.resourceId)
+          this.resourceId = res[0].resourceId;
+        if (page.pageType == 'table') {
+          formData = res[0].formData
+          if (this.tempData[type]) {
+            (this.tempData[type] as any[]).push({ ...formData, refId: res[0].refId, pageId: page.id });
+          } else {
+            this.tempData[type] = [{ ...formData, refId: res[0].refId }]
+          }
+          this.globalFun.tempFormData = this.tempData
+          this.cdRef.detectChanges()
+        } else {
+          this.tempData[type] = { ...formData, refId: res[0].refId, pageId: page.id }
+          if (type == "travelDetal") {
+            this.stepData.step1 = true
+            this.activeBox = "TRAVELER"
+          }
+          if (type == "traveler") {
+            this.stepData.step2 = true
+            this.activeBox = "BENEFI"
+          }
+          // if (this.pageOrder.length > this.activePage + 1) {
+          //   if (this.formData[this.activePage + 1].controls) {
+          //     console.log(this.tempData, this.formData);
+
+          //     this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
+          //   }
+          //   this.globalFun.tempFormData = this.tempData
+          //   this.activePage += 1
+          //   this.cdRef.detectChanges();
+          //   if (this.formData[this.activePage].pageType == 'table') {
+          //     this.reFormatTable(this.formData[this.activePage].controls)
+          //   }
+          // } else {
+          //   this.globalFun.tempFormData = this.tempData
+          //   this.goReusltPage()
+          // }
+        }
+
+      }
+
+    })
 
   }
-  getOtherData(col,item){
 
+  updateDataAPI(page: FromGroupData, formData: any, refId: number, isTable: number = -1, type: string = "travelDetal") {
+    this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
+    let postData = {
+      productId: this.prodService.createingProd.id,
+      type: this.prodService.viewType,
+      tableName: page.tableName,
+      resourceId: this.resourceId,
+      refId: refId,
+      customerId: this.prodService.creatingCustomer.customerId,
+      quotationId: this.referenceID,
+      agentId: this.auth.currentUserValue.id || 1,
+      premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+      premiumView: this.premiumAmt,
+      policyNumber: null,
+      pageId: page.id,
+      leadId: this.prodService.creatingLeadId || null,
+      party: page.party || false,
+      data: [
+
+      ]
+    }
+    for (const [key, value] of Object.entries(formData)) {
+      let input = page.controls.find(x => x.name == key)
+      let valueData = value
+      if (input) {
+        valueData = input.input == "input" && input.type == 'number' ? Number(value) : value
+        if (Array.isArray(valueData)) {
+          valueData = valueData.join("#-#");
+          if (!(valueData as string).includes("#-#")) {
+            valueData += "#+#"
+          }
+        }
+      }
+      // if (input) {
+      //   postData.data.push({
+      //     "column": key,
+      //     "value": input.input == "input" && input.type == 'number' ? Number(value) : value
+      //   })
+      // } else {
+      postData.data.push({
+        "column": key,
+        "value": valueData,
+        "party": input ? input.party || false : false
+      })
+      // }
+    }
+    this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
+      if (page.pageType == 'table') {
+        return this.checkMasterValue(formData, page.controls, data)
+      }
+      return of(data)
+    })).toPromise().then((res) => {
+
+      if (res) {
+        if (isTable < 0) {
+          this.tempData[type] = { ...formData, refId: res.refId }
+          if (type == "travelDetal") {
+            this.stepData.step1 = true
+            this.activeBox = "TRAVELER"
+          }
+          if (type == "traveler") {
+            this.stepData.step2 = true
+            this.activeBox = "BENEFI"
+          }
+        } else {
+          formData = res.formData
+          this.tempData[type][isTable] = { ...formData, refId: res.refId }
+          this.globalFun.tempFormData = this.tempData
+          this.cdRef.detectChanges();
+        }
+      }
+    })
+
+  }
+
+  getCoverData() {
+
+  }
+
+  getOtherData(cols: any[], data: any) {
+
+    for (let col of cols) {
+      if (data[col.name]) {
+        if ((data[col.name] + "").length > 0) {
+          let value = ""
+          if (col.type == "input" && col.subType == "currency") {
+            return this.numberPipe.transform(data[col.name])
+          }
+          if (col.type == "date") {
+            return this.datePipe.transform(data[col.name], "dd/MM/yyyy")
+          }
+          if (col.options.length > 0) {
+            let valueData = col.options.find(x => x.value == data[col.name])
+            if (valueData) {
+              return valueData.text
+            }
+          }
+          return data[col.name]
+        }
+      }
+    }
   }
 
 
