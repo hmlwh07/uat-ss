@@ -1,3 +1,5 @@
+import { BtnConfig, ConfigInput } from "../../form-component/field.interface"
+
 export interface Product {
   id?: number
   name?: string
@@ -100,7 +102,9 @@ export interface PageUI {
   tableName?: string,
   function?: string
   party?: boolean
-  unitCode?: string
+  unitCode?: string,
+  controls?: ConfigInput[]
+  buttons?: BtnConfig[]
 }
 
 export enum PageUIType {

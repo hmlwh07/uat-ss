@@ -66,6 +66,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   editData: any
   creatingCustomer: Customer = {}
   creatingLeadId: number = 0
+  travelFormss: PageUI[] = []
   constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private ngZone: NgZone) { }
 
   async ngOnInit() {
@@ -180,6 +181,36 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           return JSON.parse(x.dynamicProduct.config)
       })
       let counter = 0
+      let checkTravel = this.pageOrder.findIndex(x => x.id == 'static_1648784270356')
+      if (checkTravel) {
+        this.travelFormss = []
+        let checkProd = this.pageOrder.findIndex(x => x.unitCode == 'travel_detail_0001')
+        if (checkProd >= 0) {
+          let prodDetail = this.findPageValue(tempFormData, this.pageOrder[checkProd].id)
+          let data: PageUI = { ...this.pageOrder[checkProd], controls: prodDetail.controls, buttons: prodDetail.buttons }
+          this.pageOrder.splice(checkProd, 1)
+          this.travelFormss.push(data)
+        }
+        let checkTraveler = this.pageOrder.findIndex(x => x.unitCode == 'traveler_0002')
+        if (checkTraveler >= 0) {
+          let traveler = this.findPageValue(tempFormData, this.pageOrder[checkTraveler].id)
+          let data: PageUI = { ...this.pageOrder[checkTraveler], controls: traveler.controls, buttons: traveler.buttons }
+          this.pageOrder.splice(checkTraveler, 1)
+          this.travelFormss.push(data)
+        }
+        let checkBeneficiary = this.pageOrder.findIndex(x => x.unitCode == 'trave_benefi_0003')
+        if (checkBeneficiary >= 0) {
+          let benefi = this.findPageValue(tempFormData, this.pageOrder[checkBeneficiary].id)
+          let data: PageUI = { ...this.pageOrder[checkTraveler], controls: benefi.controls, buttons: benefi.buttons }
+          this.pageOrder.splice(checkBeneficiary, 1)
+          this.travelFormss.push(data)
+        }
+        let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
+        if (checkCoverage >= 0) {
+          this.travelFormss.push(this.pageOrder[checkCoverage])
+          this.pageOrder.splice(checkCoverage, 1)
+        }
+      }
       this.pageOrder.forEach((page, index) => {
         counter += 1
         if (page.id == 'addon' && this.item.addOns.length < 1) {
@@ -720,12 +751,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             this.tempData[activeForm.tableName + activeForm.id].splice(index, 1)
             this.cdRef.detectChanges();
             this.alert.activate('This record was deleted', 'Success Message').then(result => {
-           
+
             });
           }
         })
       }
-    });   
+    });
   }
 
 

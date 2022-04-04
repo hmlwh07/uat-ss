@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, EventEmitter, Input, OnInit, Output, Renderer2, ViewContainerRef } from "@angular/core";
 import { PolicyDTO } from "../policy/policy.dto";
-import { Product } from "../products/models/product.dto";
+import { PageUI, Product } from "../products/models/product.dto";
 import { QuotationDTO } from "../quotations/quotation.dto";
 import { AddonPageComponent } from "./addon-page/addon-page.component";
 import { CoveragePageComponent } from "./coverage-page/coverage-page.component";
@@ -39,8 +39,10 @@ export class StaticPageDirective implements StaticField, OnInit {
   @Input() compId: string
   @Input() product: Product
   @Input() resourcesId: string
+  @Input() referenceID: string
   @Input() premiumAmt?: string
   @Input() editData: QuotationDTO | PolicyDTO
+  @Input() travelForm: PageUI[] = []
   @Output() eventOut = new EventEmitter<StaticPageAction>();
 
   component: ComponentRef<StaticField>;
@@ -60,7 +62,9 @@ export class StaticPageDirective implements StaticField, OnInit {
     this.component.instance.product = this.product
     this.component.instance.editData = this.editData
     this.component.instance.resourcesId = this.resourcesId
+    this.component.instance.referenceID = this.referenceID
     this.component.instance.premiumAmt = this.premiumAmt
+    this.component.instance.travelForm = this.travelForm
 
     this.component.instance.actionEvent.subscribe((res) => {
       this.eventOut.emit(res)
