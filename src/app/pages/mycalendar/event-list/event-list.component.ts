@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class EventListComponent implements OnInit {
   @Input() data: any = []
+  @Input() day=new Date()
   constructor(private router: Router,private modalCrl:NgbModal) { }
 
   ngOnInit() { }
