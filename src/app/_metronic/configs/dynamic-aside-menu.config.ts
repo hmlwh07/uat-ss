@@ -41,7 +41,7 @@ export const DynamicAsideMenuConfig = {
           //     page: '/fna/fna-detail',
           //   },
           //   {
-          //     title: 'FNA BRAM',
+          //     title: 'FNA BPM',
           //     page: '/fna/fna-bram',
           //   }
           // ]
@@ -51,7 +51,7 @@ export const DynamicAsideMenuConfig = {
           page: '/fna/fna-detail',
         },
         {
-          title: 'FNA BRAM',
+          title: 'FNA BPM',
           page: '/fna/fna-bram',
         }
         // {
@@ -59,7 +59,7 @@ export const DynamicAsideMenuConfig = {
         //   page: '/fna/fna-detail',
         // },
         // {
-        //   title: 'FNA BRAM',
+        //   title: 'FNA BPM',
         //   page: '/fna/fna-bram',
         // }
       ]
@@ -82,7 +82,7 @@ export const DynamicAsideMenuConfig = {
     //       page: '/fna/fna-detail',
     //     },
     //     {
-    //       title: 'FNA BRAM',
+    //       title: 'FNA BPM',
     //       page: '/fna/fna-bram',
     //     },
     //   ]

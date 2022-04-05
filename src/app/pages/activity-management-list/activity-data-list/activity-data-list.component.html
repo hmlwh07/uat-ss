@@ -19,9 +19,9 @@
     </div>
     <div class="col-4">
       <label *ngIf="activity.dueDate"> {{ activity.dueDate | date:'dd/MM/YYYY' }} </label>
-      <label *ngIf="activity.status == '01' "> Open </label>
-      <label *ngIf="activity.status == '02' " style="color: #005f99 !important; "> Complete </label>
-      <label *ngIf="activity.status == '03' " style="color: red !important;"> Cancel </label>
+      <label *ngIf="activity.status == '01' " style="color: #FF8100 !important; "> Open </label>
+      <label *ngIf="activity.status == '02' " style="color: #005EAA !important; "> Complete </label>
+      <label *ngIf="activity.status == '03' " style="color: #00ACEA !important;"> Cancel </label>
     </div>
     <div class="col-4">
       <label> Activity Type: <span>{{ activity.activityType }}</span> </label>

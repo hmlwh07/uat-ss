@@ -1,4 +1,4 @@
-<div *ngFor="let customer of customerList; let i = index"  class="data-list">
+<div *ngFor="let customer of customerList; let i = index" class="data-list">
   <div class="data-header">
     <div class="col-6">
       <img src="../../../assets/images/customer/custoner_list.svg" alt="customer" />
@@ -19,8 +19,9 @@
       <label *ngIf="customer.identityNumber"> {{ customer.identityNumber }} </label>
     </div>
     <div class="col-4">
-      <label *ngIf="customer.dateOfBirth"> {{ customer.dateOfBirth | date:'DD/MMM/YYYY' }} </label>
-      <label *ngIf="customer.statusValue"> {{ customer.statusValue }} </label>
+      <label *ngIf="customer.dateOfBirth"> {{ customer.dateOfBirth | date:'dd/MM/YYYY' }} </label>
+      <label *ngIf="customer.statusCode == 'A' " style="color: #FF8100 !important;"> Active </label>
+      <label *ngIf="customer.statusCode != 'A' " style="color: #005EAA !important;"> InActive </label>
     </div>
     <div class="col-4">
       <label> ID Type: <span>{{ customer.identityType }}</span> </label>

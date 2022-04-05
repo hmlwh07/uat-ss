@@ -21,8 +21,7 @@ export class FnaBramComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       let data = JSON.parse(params.passValue);
       if (data.res) {
-        this.passValueData = data.res;
-        console.log('passValueData', this.passValueData);
+        this.passValueData = data.res;      
         //this.passValueData.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValueData.createdAt)), 'dd/MM/yyyy');
         this.fnaId = data.res.fnaId;
         this.customerId = data.res.customerId;

@@ -9,7 +9,7 @@
         div {
             label {
                 overflow: hidden;
-                color: #7f7f7f;
+                color: #7f7f7f; 
             }
             label:first-child {
                 width: 35%;
@@ -21,7 +21,7 @@
                 text-align: left;
             }
         }
-        div:first-child {
+        div:nth-child(3) {
             label:last-child {
                 color: #ff8100;
             }
@@ -206,7 +206,7 @@
     .financial-grid {
         border-right: none;
         label {
-            width: 20% !important;
+            width: 25% !important;
         }
     }
     .fna-progress {
