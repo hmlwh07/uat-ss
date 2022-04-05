@@ -391,7 +391,8 @@ export class SimplePagePolicyComponent implements OnInit {
           "premiumView": this.premiumAmt,
           "productId": this.product.id,
           "quotationId": this.prodService.referenceID,
-          "type": this.prodService.type
+          "type": this.prodService.type,
+          leadId: this.prodService.creatingLeadId
         },
       }
       return this.healthPayService.save(postData)

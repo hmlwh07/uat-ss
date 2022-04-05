@@ -29,6 +29,7 @@ export class TravelRiskDetailComponent implements OnInit {
   @Input() prodDetailForm: PageUI
   @Input() travelerForm: PageUI
   @Input() benefiForm: PageUI
+  @Input() riskId: number
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
   @Input() tempData: any = {
@@ -77,7 +78,7 @@ export class TravelRiskDetailComponent implements OnInit {
     this.activeBox = "COVER"
   }
 
-  coverDone(){
+  coverDone() {
 
   }
 
@@ -189,7 +190,7 @@ export class TravelRiskDetailComponent implements OnInit {
     let submited = formGp.handleSubmit()
     if (!submited) return false
   }
- 
+
   saveDataAPI(page: FromGroupData, formData: any, type: string = "travelDetal") {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
@@ -230,6 +231,13 @@ export class TravelRiskDetailComponent implements OnInit {
         "party": input ? input.party || false : false
       })
 
+    }
+    if (type != "travelDetal") {
+      postData.pageData[0].data.push({
+        "column": 'risk_no',
+        "value": this.riskId,
+        "party": false
+      })
     }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
       if (page.pageType == 'table') {
@@ -361,6 +369,14 @@ export class TravelRiskDetailComponent implements OnInit {
   }
 
   getCoverData() {
+
+  }
+
+  saveTravelRisk() {
+
+  }
+
+  updateTravelRisk() {
 
   }
 

@@ -146,12 +146,12 @@ export class TravelComponent implements OnInit {
     modalRef.componentInstance.benefiForm = this.requiredForm.benefi
     modalRef.componentInstance.tableReform = this.tableReform
     if (detail) {
-      let travel = this.tempData['travelDetal'].find(x => x.riskId == detail.riskId)
+      let travel = this.tempData['travelDetal'].find(x => x.id == detail.riskId)
       let traveler = this.tempData['traveler'].find(x => x.riskId == detail.riskId)
       let benefi = this.tempData['benefi'].filter(x => x.riskId == detail.riskId)
       modalRef.componentInstance.tempData = {
-        travelDetal: travel,
-        traveler: traveler,
+        travelDetal: travel || {},
+        traveler: traveler || {},
         benefi: benefi || [],
       }
     }
@@ -246,6 +246,7 @@ export class TravelComponent implements OnInit {
             }
             for (const data of res) {
               let tmpObj = {}
+              // tmpObj['risk_id'] = ""
               for (const item of data.data) {
                 if (item.column == 'id' && !skipId) {
                   tmpObj['refId'] = item.value

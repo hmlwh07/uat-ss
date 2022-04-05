@@ -164,7 +164,8 @@ export class HealthQuoComponent implements OnInit {
           "premiumView": this.premiumAmt,
           "productId": this.product.id,
           "quotationId": this.prodService.referenceID,
-          "type": this.prodService.type
+          "type": this.prodService.type,
+          "leadId": this.prodService.creatingLeadId
         },
         "resourceId": this.resourcesId,
         "requests": []
