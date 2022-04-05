@@ -136,14 +136,18 @@ export class MycalendarComponent implements OnInit {
         this.activityList = res
         this.EventData = this.activityList.map((data) => {
           let actColor
+          let icon
           if (data.activityType == 'Face to Face') {
             actColor = colors.Face
+            icon="flaticon-users-1"
           }
           else if (data.activityType == 'Online') {
             actColor = colors.Online
+            icon="flaticon-chat"
           }
           else if (data.activityType == 'Phone Call') {
             actColor = colors.Phone
+            icon="flaticon2-phone"
           }
           return {
             start: new Date(data.planDate),
@@ -151,6 +155,7 @@ export class MycalendarComponent implements OnInit {
             title: data.activityTitle + "( " + data.activityType + " )",
             type:data.activityType ,
             color: actColor,
+            icon:icon,
             meta: data.activityNo,
             actions: this.actions,
           }
@@ -178,6 +183,7 @@ export class MycalendarComponent implements OnInit {
     const modalRef = this.modalCrl.open(EventListComponent, { size: 'sm', backdrop: true });
     modalRef.componentInstance.isModal = true
     modalRef.componentInstance.data = events
+    modalRef.componentInstance.day = date
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         
