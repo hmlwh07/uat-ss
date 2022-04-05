@@ -19,9 +19,9 @@ import { environment } from '../../../../environments/environment';
 
 export class ListingsPagerComponent implements OnInit, AfterViewInit {
 
-  @Output('responsePager') response = new EventEmitter()
+  @Output('activePage') activePage = new EventEmitter()
   @Input() sourceData: any[] = [];
-  @Input() formType: any[] = [];
+  @Input() formType;
   
   displayBtnCount = 3;
   pageSizeArray = [5,10,15];
@@ -37,7 +37,6 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   constructor(private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log('sourceData',this.sourceData)
     if(this.sourceData.length > 0)
     this.prepareBtnArray();
   }
@@ -46,7 +45,6 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
     this.no_of_pages = this.sourceData.length % this.selectedPageSize == 0? 
     Math.floor(this.sourceData.length / this.selectedPageSize) :
     Math.floor(this.sourceData.length / this.selectedPageSize) + 1;
-    console.log('this.no_of_pages',this.no_of_pages)
     this.selectedPageBtn = this.startPageIndex = 1;
     this.endPageIndex = (this.startPageIndex + this.displayBtnCount) - 1;
     this.setPageBtnArray();
@@ -57,7 +55,7 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.response.unsubscribe();
+    this.activePage.unsubscribe();
   }
 
   clickMenuItem(pageSize : number){
@@ -129,10 +127,9 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   calDataRows(start : number,end : number){
     this.responseData = [];
     let count = end < ((start+this.selectedPageSize) - 1) ? (end - start + 1) : this.selectedPageSize;
-    console.log('count',count);
     for(let i=0;i<count;i++){
       if(start+i <= end)this.responseData.push(this.sourceData[start+i]);
     }
-    this.response.emit(this.responseData);
+    this.activePage.emit(this.selectedPageBtn);
   }
 }

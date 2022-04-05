@@ -113,8 +113,8 @@
                     </app-material-table-view>
                 </ng-container> -->
                 <ng-container *ngIf="isTableView;else cardView">
-                    <app-pager *ngIf="LeadList.length > 0" [sourceData]="LeadList" formType="lead"  (responsePager)="reponseFromPager($event)">
-                    </app-pager>
+                    <app-common-list *ngIf="LeadList.length > 0" [data]="LeadList" formType="lead"  (responseListings)="reponseFromListing($event)">
+                    </app-common-list>
                 </ng-container>
                 <ng-template #cardView>
                     <ng-container *ngFor="let item of LeadList">

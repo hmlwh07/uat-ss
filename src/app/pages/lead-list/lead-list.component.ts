@@ -262,7 +262,7 @@ export class LeadListComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-  reponseFromPager(event){
+  reponseFromListing(event){
     console.log('event',event)
   }
 }

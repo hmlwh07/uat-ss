@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListingsPagerComponent } from './pager.component';
+import { CommonListingComponent } from './common-list.component';
 
-describe('ListingsPagerComponent', () => {
-  let component: ListingsPagerComponent;
-  let fixture: ComponentFixture<ListingsPagerComponent>;
+describe('CommonListingComponent', () => {
+  let component: CommonListingComponent;
+  let fixture: ComponentFixture<CommonListingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListingsPagerComponent ]
+      declarations: [ CommonListingComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ListingsPagerComponent);
+    fixture = TestBed.createComponent(CommonListingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
