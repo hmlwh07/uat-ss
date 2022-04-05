@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import * as moment from "moment";
 import { environment } from "../../../environments/environment";
 
 const API_CUSTOMER_URL = `${environment.apiUrl}/customer`;
@@ -18,10 +19,10 @@ export class CustomerListService {
       url = url + "partyCode=" + search.partyCode + "&"
     } 
     if (search.startDate) {
-      url = url + "startDate=" + search.startDate + "&"
+      url = url + "startDate=" + moment(search.startDate).format("YYYY-MM-DD") + "&"
     } 
     if (search.endDate) {
-      url = url + "endDate=" + search.endDate + "&"
+      url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
     } if (search.statusCode) {
       url = url + "statusCode=" + search.statusCode + "&"
     } if (search.identityType) {

@@ -76,7 +76,7 @@
             </mat-radio-button> -->
             <mat-radio-button class="mx-1" [value]="'HEALTH'">Health Insurance
             </mat-radio-button>
-            <mat-radio-button class="mx-1" *ngIf="currentAge < 61" [value]="'CRTILLNESS'">Critical illness
+            <mat-radio-button class="mx-1" *ngIf="currentAge < 61" [value]="'CRTILLNESS'">Critical Illness
             </mat-radio-button>
           </mat-radio-group>
         </div>
@@ -176,10 +176,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of tempArray">
-          <td>{{item.plan}}</td>
+          <td>{{item.plan | titlecase}}</td>
           <td>{{item.sumInsured}} Unit{{item.sumInsured > 1 ? "s":""}}</td>
-          <td>{{item.coverage}}</td>
-          <td>{{policyTerm[item.paymentTerm] || item.paymentTerm}}</td>
+          <td>{{item.coverage == "HEALTH" ? "Health" : item.coverage == "TRMTS" ? "Medical treatments in clinic or
+            hospital" : "Surgery and Miscarriage"}}</td>
+          <td>{{(policyTerm[item.paymentTerm] || item.paymentTerm) != "S" ? "Lump Sum" : "Semi-Annually"}}</td>
           <td>{{item.premium | number}} </td>
         </tr>
       </tbody>

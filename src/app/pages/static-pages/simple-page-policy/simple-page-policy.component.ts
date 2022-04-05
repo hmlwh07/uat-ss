@@ -287,6 +287,7 @@ export class SimplePagePolicyComponent implements OnInit {
           this.totalResult.unit += x.sumInsured
           this.totalResult.premium += x.premium
         })
+        console.log(this.totalResult,"Total");
         this.optionArray = this.optionArray.sort((a, b) => (a.coverage > b.coverage ? 1 : -1))
         this.tempArray = this.optionArray.filter((thing, index, self) =>
           index === self.findIndex((t) => (
