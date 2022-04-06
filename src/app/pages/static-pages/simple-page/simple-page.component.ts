@@ -124,7 +124,7 @@ export class SimplePageComponent implements OnInit {
   }
   radioChange(event) {
     if (this.staticForm.value.basicCoverId == "CRTILLNESS") {
-      if (this.currentAge < 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+      if (this.currentAge > 50 && this.staticForm.value.sumInsuredMainCover > 4) {
         this.alertService.activate("Medical check up is required", "Warning")
       }
       if (this.addValid) {
@@ -187,8 +187,8 @@ export class SimplePageComponent implements OnInit {
 
   getUnitOption() {
     let leng = this.controls.sumInsuredMainCover.value
-    if (this.staticForm.value.basicCoverId == "CRTILLNESS") {
-      if (this.currentAge < 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+    if (this.staticForm.value.basicCoverId == "< >") {
+      if (this.currentAge > 50 && this.staticForm.value.sumInsuredMainCover > 4) {
         this.alertService.activate("Medical check up is required", "Warning")
       }
     }
