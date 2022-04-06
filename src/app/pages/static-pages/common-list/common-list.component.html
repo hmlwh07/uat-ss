@@ -1,3 +1,7 @@
+<!-- <ng-container *ngFor="">
+    <div></div>
+</ng-container> -->
+
 <div class="example-preview" *ngIf="data.length > 0">
     <app-pager *ngIf="data.length > 0" [sourceData]="data" formType="lead"  (activePage)="reponseFromPager($event)">
     </app-pager>
