@@ -11,8 +11,8 @@ import { ProductDataService } from "../../products/services/products-data.servic
 import { QuotationDTO } from "../../quotations/quotation.dto";
 import { StaticActionType, StaticPageAction } from "../static-field.interface";
 import { TRAVELID } from "../static-pages.data";
+import { TravelRiskService } from "./models&services/travel-risk.service";
 import { TravelRiskDetailComponent } from "./travel-risk-detail/travel-risk-detail.component";
-import { TravelRiskService } from "./travel-risk.service";
 
 @Component({
   templateUrl: "./travel-page.component.html",
@@ -146,11 +146,11 @@ export class TravelComponent implements OnInit {
     modalRef.componentInstance.benefiForm = this.requiredForm.benefi
     modalRef.componentInstance.tableReform = this.tableReform
     if (detail) {
-      let travel = this.tempData['travelDetal'].find(x => x.id == detail.riskId)
+      let travel = this.tempData['travelDetail'].find(x => x.id == detail.riskId)
       let traveler = this.tempData['traveler'].find(x => x.riskId == detail.riskId)
       let benefi = this.tempData['benefi'].filter(x => x.riskId == detail.riskId)
       modalRef.componentInstance.tempData = {
-        travelDetal: travel || {},
+        travelDetail: travel || {},
         traveler: traveler || {},
         benefi: benefi || [],
       }
@@ -265,7 +265,7 @@ export class TravelComponent implements OnInit {
                 temp.push(tmpObj)
               }
             };
-            let valKey = "travelDetal"
+            let valKey = "travelDetail"
             if (element.unitCode == "traveler_0002")
               valKey = 'traveler'
             if (element.unitCode == "trave_benefi_0003")

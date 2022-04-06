@@ -30,10 +30,11 @@ export class TravelRiskDetailComponent implements OnInit {
   @Input() travelerForm: PageUI
   @Input() benefiForm: PageUI
   @Input() riskId: number
+  @Input() sumInsured: number
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
   @Input() tempData: any = {
-    travelDetal: null,
+    travelDetail: null,
     traveler: null,
     benefi: [],
     cover: []
@@ -45,7 +46,7 @@ export class TravelRiskDetailComponent implements OnInit {
     step4: false
   }
   tableReform: any[] = []
-
+  premium: number = 0
   activeBox: string = 'DETAIL'
   constructor(
     private globalFun: GlobalFunctionService,
@@ -93,7 +94,7 @@ export class TravelRiskDetailComponent implements OnInit {
   download(col, item) {
 
   }
-  //   travelDetal
+  //   travelDetail
   // traveler
   // benefi
 
@@ -128,9 +129,9 @@ export class TravelRiskDetailComponent implements OnInit {
   }
 
   saveDetailTemp(event) {
-    if (this.prodDetailForm.pageType == "form" && this.tempData['travelDetal']) {
-      if (this.tempData['travelDetal'].refId)
-        this.updateDataAPI(this.prodDetailForm, event, this.tempData['travelDetal'].refId)
+    if (this.prodDetailForm.pageType == "form" && this.tempData['travelDetail']) {
+      if (this.tempData['travelDetail'].refId)
+        this.updateDataAPI(this.prodDetailForm, event, this.tempData['travelDetail'].refId)
       else
         this.saveDataAPI(this.prodDetailForm, event)
     } else
@@ -191,7 +192,7 @@ export class TravelRiskDetailComponent implements OnInit {
     if (!submited) return false
   }
 
-  saveDataAPI(page: FromGroupData, formData: any, type: string = "travelDetal") {
+  saveDataAPI(page: FromGroupData, formData: any, type: string = "travelDetail") {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.product.id,
@@ -232,7 +233,7 @@ export class TravelRiskDetailComponent implements OnInit {
       })
 
     }
-    if (type != "travelDetal") {
+    if (type != "travelDetail") {
       postData.pageData[0].data.push({
         "column": 'risk_no',
         "value": this.riskId,
@@ -261,7 +262,8 @@ export class TravelRiskDetailComponent implements OnInit {
           this.cdRef.detectChanges()
         } else {
           this.tempData[type] = { ...formData, refId: res[0].refId, pageId: page.id }
-          if (type == "travelDetal") {
+          if (type == "travelDetail") {
+            this.riskId = res[0].refId
             this.stepData.step1 = true
             this.activeBox = "TRAVELER"
           }
@@ -293,7 +295,7 @@ export class TravelRiskDetailComponent implements OnInit {
 
   }
 
-  updateDataAPI(page: FromGroupData, formData: any, refId: number, isTable: number = -1, type: string = "travelDetal") {
+  updateDataAPI(page: FromGroupData, formData: any, refId: number, isTable: number = -1, type: string = "travelDetail") {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.prodService.createingProd.id,
@@ -349,7 +351,7 @@ export class TravelRiskDetailComponent implements OnInit {
       if (res) {
         if (isTable < 0) {
           this.tempData[type] = { ...formData, refId: res.refId }
-          if (type == "travelDetal") {
+          if (type == "travelDetail") {
             this.stepData.step1 = true
             this.activeBox = "TRAVELER"
           }
@@ -372,8 +374,32 @@ export class TravelRiskDetailComponent implements OnInit {
 
   }
 
-  saveTravelRisk() {
 
+
+  saveTravelRisk() {
+    let postData = {
+      insuredUnit: this.tempData['travelDetail'].insured_unit,
+      noOfTraveller: this.tempData['traveler'].no_of_traveller,
+      premium: this.premium,
+      resourceId: this.resourceId,
+      totalUnit: parseInt(this.tempData['travelDetail'].insured_unit) * parseInt(this.tempData['traveler'].no_of_traveller),
+      travelDuration: this.tempData['travelDetail'].travel_duration,
+      travelPlan: this.tempData['travelDetail'].travel_plan,
+      travellerName: this.tempData['traveler'].traveler_name,
+      sumInsured: this.sumInsured,
+      riskId: this.tempData['travelDetail'].insured_unit,
+      resourceData: {
+        agentId: this.auth.currentUserValue.id || 1,
+        customerId: this.prodService.creatingCustomer.customerId || 1,
+        policyNumber: null,
+        premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+        premiumView: this.premiumAmt,
+        productId: this.prodService.createingProd.id,
+        quotationId: this.prodService.referenceID,
+        leadId: this.prodService.creatingLeadId || null,
+        type: this.prodService.type
+      },
+    }
   }
 
   updateTravelRisk() {

@@ -23,6 +23,7 @@ export class GlobalFunctionService {
   paPolicyValidationResult = new BehaviorSubject(null)
   halfOfSumInsuredResult = new BehaviorSubject(null)
   snakeSumInsuredResult = new BehaviorSubject(null)
+  travelPremiumResult = new BehaviorSubject(null)
   currenyValueObs = new BehaviorSubject("MMK")
   tempFormData = {}
   exChange: number = 1650
@@ -776,7 +777,7 @@ export class GlobalFunctionService {
       searchData = plan == 'T-INBOUND' ? IN_BOUND : OUT_BOUND
       let premium = searchData.find(x => x.travel_duration == duration && x.travel_unit == unit)
       if (premium) {
-        this.paPremiumResult.next(this.numberPipe.transform(premium.rate) + " MMK")
+        this.travelPremiumResult.next(this.numberPipe.transform(premium.rate) + " MMK")
       }
 
     }
