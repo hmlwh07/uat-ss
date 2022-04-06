@@ -498,7 +498,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.prodService.previewType = this.type
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
 
-    this.prodService.editData = { id: this.resourceId, premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "", premiumView: this.premiumAmt, agentFirstName: this.auth.currentUserValue.firstName, agentLastName: this.auth.currentUserValue.lastName }
+    this.prodService.editData = { id: this.resourceId, premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "", premiumView: this.premiumAmt, agentFirstName: this.auth.currentUserValue.firstName, agentLastName: this.auth.currentUserValue.lastName, leadId: this.creatingLeadId }
     this.router.navigateByUrl("/resourse-detail")
   }
 
