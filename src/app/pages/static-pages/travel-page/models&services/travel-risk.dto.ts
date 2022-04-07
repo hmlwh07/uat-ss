@@ -2,19 +2,19 @@ import { ResourceDataDTO } from "../../simple-page/models&services/health-produc
 
 export interface TravelRiskDTO {
   id?: number
-  createdAt: string,
+  createdAt?: string,
   createdBy?: string,
   insuredUnit?: string,
   noOfTraveller?: string,
-  premium?: string,
+  premium?: number,
   resourceData?: ResourceDataDTO,
   resourceId?: string,
-  totalUnit?: 0,
+  totalUnit?: number,
   travelDuration?: string,
   travelPlan?: string,
   travellerName?: string,
-  riskId: string,
-  sumInsured: string,
+  riskId?: string,
+  sumInsured: number,
   updatedAt?: string,
   updatedBy?: string
 }

@@ -17,11 +17,13 @@ export interface HealthProductDetailDTO {
 
 export interface ResourceDataDTO {
   agentId?: number
-  cutomerId?: number
+  customerId?: number
   policyNumber?: string
   premium?: string
+  premiumView?: string
   productId?: number
   quotationId?: string
+  leadId: string
   status?: string
   type?: string
 }

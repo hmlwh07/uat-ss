@@ -65,7 +65,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   detailInput: any = {}
   editData: any
   creatingCustomer: Customer = {}
-  creatingLeadId: number = 0
+  creatingLeadId: string = ""
   travelFormss: PageUI[] = []
   constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private ngZone: NgZone) { }
 
@@ -98,7 +98,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.prodService.creatingLeadId = 0
+    this.prodService.creatingLeadId = "0"
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
     // this.prodService.editData = null
   }

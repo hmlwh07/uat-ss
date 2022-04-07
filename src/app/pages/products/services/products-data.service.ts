@@ -21,7 +21,7 @@ export class ProductDataService extends BizOperationService<Product, number>{
   previewType: string
   resultData: any
   referenceID: string = null
-  creatingLeadId: number = 0
+  creatingLeadId: string = "0"
   referenceStatus: string = null
   constructor(protected httpClient: HttpClient) {
     super(httpClient, API_PRODUCT_URL);

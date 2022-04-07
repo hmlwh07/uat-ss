@@ -15,6 +15,7 @@ import { TravelRiskService } from "./models&services/travel-risk.service";
 import { TravelRiskDetailComponent } from "./travel-risk-detail/travel-risk-detail.component";
 
 @Component({
+  selector: 'app-travel-risk',
   templateUrl: "./travel-page.component.html",
 })
 export class TravelComponent implements OnInit {

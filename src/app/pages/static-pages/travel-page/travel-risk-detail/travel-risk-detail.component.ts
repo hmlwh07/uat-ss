@@ -1,6 +1,6 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, of, switchMap } from 'rxjs';
 import { GlobalFunctionService } from '../../../../core/global-fun.service';
 import { AuthService } from '../../../../modules/auth';
@@ -12,6 +12,8 @@ import { FormViewModalComponent } from '../../../form-component/form-view-modal/
 import { PageDataService } from '../../../product-form/page-data.service';
 import { PageUI, Product } from '../../../products/models/product.dto';
 import { ProductDataService } from '../../../products/services/products-data.service';
+import { TravelRiskDTO } from '../models&services/travel-risk.dto';
+import { TravelRiskService } from '../models&services/travel-risk.service';
 
 @Component({
   selector: 'app-travel-risk-detail',
@@ -57,7 +59,9 @@ export class TravelRiskDetailComponent implements OnInit {
     private masterServer: MasterDataService,
     private auth: AuthService,
     private cdRef: ChangeDetectorRef,
-    private modalService: NgbModal
+    private travelRikService: TravelRiskService,
+    private modalService: NgbModal,
+    private ngModal: NgbActiveModal
   ) { }
 
   get validCancel() {
@@ -377,7 +381,7 @@ export class TravelRiskDetailComponent implements OnInit {
 
 
   saveTravelRisk() {
-    let postData = {
+    let postData: TravelRiskDTO = {
       insuredUnit: this.tempData['travelDetail'].insured_unit,
       noOfTraveller: this.tempData['traveler'].no_of_traveller,
       premium: this.premium,
@@ -387,10 +391,10 @@ export class TravelRiskDetailComponent implements OnInit {
       travelPlan: this.tempData['travelDetail'].travel_plan,
       travellerName: this.tempData['traveler'].traveler_name,
       sumInsured: this.sumInsured,
-      riskId: this.tempData['travelDetail'].insured_unit,
+      riskId: this.tempData['travelDetail'].refId,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
-        customerId: this.prodService.creatingCustomer.customerId || 1,
+        customerId: this.prodService.creatingCustomer.customerId,
         policyNumber: null,
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
@@ -400,6 +404,11 @@ export class TravelRiskDetailComponent implements OnInit {
         type: this.prodService.type
       },
     }
+    this.travelRikService.save(postData).toPromise().then((result: any) => {
+      if (result) {
+        this.ngModal.close({ type: "save", data: { ...postData, id: result.id } })
+      }
+    })
   }
 
   updateTravelRisk() {

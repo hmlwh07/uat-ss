@@ -24,6 +24,7 @@ export class GlobalFunctionService {
   halfOfSumInsuredResult = new BehaviorSubject(null)
   snakeSumInsuredResult = new BehaviorSubject(null)
   travelPremiumResult = new BehaviorSubject(null)
+  totalTravelUnitResult = new BehaviorSubject(null)
   currenyValueObs = new BehaviorSubject("MMK")
   tempFormData = {}
   exChange: number = 1650
@@ -783,6 +784,19 @@ export class GlobalFunctionService {
     }
     return true
     // travel_duration
+  }
+
+  totalTravelUnit(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+    let noTraveler = 1
+    let insuredUnit = 0
+    if (activeForm['no_of_traveler']) {
+      noTraveler = parseInt(activeForm['no_of_traveler'])
+    }
+    if (activeForm['insured_unit']) {
+      insuredUnit = parseInt(activeForm['insuredUnit'].replace("T-", ""))
+    }
+    let total = noTraveler * insuredUnit
+    this.totalTravelUnitResult.next(total)
   }
 
   calculateDecimal(value: any) {
