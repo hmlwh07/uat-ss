@@ -7,6 +7,7 @@ import { ActivityManageService } from '../activity-management-list/activity-mana
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { EventListComponent } from './event-list/event-list.component';
+import { LoadingService } from 'src/app/modules/loading-toast/loading/loading.service';
 
 const colors: any = {
   red: {
@@ -30,16 +31,16 @@ const colors: any = {
     secondary: '#3dc2ff',
   },
   Face: {
-    primary: '#3880ff',
-    secondary: '#3880ff',
+    primary: '#00acea',
+    secondary: '#00acea',
   },
   Online: {
-    primary: '#ffc409',
-    secondary: '#ffc409',
+    primary: '#fe8100',
+    secondary: '#fe8100',
   },
   Phone: {
-    primary: '#2dd36f',
-    secondary: '#2dd36f',
+    primary: '#015eab',
+    secondary: '#015eab',
   },
 };
 
@@ -117,7 +118,7 @@ export class MycalendarComponent implements OnInit {
   activeDayIsOpen: boolean = false;
 
 
-  constructor(private modal: NgbModal, private activityService: ActivityManageService, private router: Router,private modalCrl:NgbModal) {
+  constructor(private loadingService:LoadingService,  private modal: NgbModal, private activityService: ActivityManageService, private router: Router,private modalCrl:NgbModal) {
   }
 
   ngOnInit(): void {
@@ -132,22 +133,27 @@ export class MycalendarComponent implements OnInit {
     }
     this.activityService.getActivityList(postData).subscribe((res: any) => {
       if (res) {
+        this.loadingService.activate()
         console.log("RES", res)
         this.activityList = res
         this.EventData = this.activityList.map((data) => {
           let actColor
           let icon
+          let border
           if (data.activityType == 'Face to Face') {
             actColor = colors.Face
-            icon="flaticon-users-1"
+            icon="./assets/images/group_chat_color-01.svg"
+          
           }
           else if (data.activityType == 'Online') {
             actColor = colors.Online
-            icon="flaticon-chat"
+            icon="./assets/images/world_color-01.svg"
+          
           }
           else if (data.activityType == 'Phone Call') {
             actColor = colors.Phone
-            icon="flaticon2-phone"
+            icon="./assets/images/phone_color-01.svg"
+       
           }
           return {
             start: new Date(data.planDate),
@@ -164,6 +170,7 @@ export class MycalendarComponent implements OnInit {
         this.events = this.EventData
         this.eventNumber = this.events.length
         this.refresh.next();
+        this.loadingService.deactivate()
       }
     })
   }
