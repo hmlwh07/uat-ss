@@ -20,7 +20,9 @@ import { environment } from '../../../../environments/environment';
 export class ChildComponent{
     @Input() data: any;
     @Output('actionResponse') actionResponse = new EventEmitter();
-    constructor(private cdf: ChangeDetectorRef) { }
+    constructor(private cdf: ChangeDetectorRef) {
+        console.log('data',this.data)
+     }
     emitAction(action : string){
         this.actionResponse.emit({action : action, data : this.data});
     }

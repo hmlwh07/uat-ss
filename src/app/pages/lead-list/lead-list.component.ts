@@ -22,7 +22,7 @@ import { CustomerListComponent } from "../customer-list/customer-list.component"
 import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
 import { environment } from "../../../environments/environment";
-import {ListingsPagerComponent} from './../static-pages/pager/pager.component';
+import { ListingsPagerComponent } from './../static-pages/pager/pager.component';
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -129,8 +129,8 @@ export class LeadListComponent implements OnInit {
 
   }
 
-  updateURL(event: any){
-    if(event){
+  updateURL(event: any) {
+    if (event) {
       event.target.src = "assets/icon/general_product.svg"
     }
   }
@@ -175,7 +175,11 @@ export class LeadListComponent implements OnInit {
 
   getList() {
     console.log(this.LeadForm.getRawValue());
-    this.LeadList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    this.LeadList = [{ productName: 'Z' }, { productName: 'J' },
+    { productName: 'T' },
+    { productName: 'Y' },
+    { productName: 'B' },
+    { productName: 'A' }]
 
     // this.LeadListService.getLeadList(this.LeadForm.getRawValue())
     //   .toPromise()
@@ -219,8 +223,8 @@ export class LeadListComponent implements OnInit {
       this.navigateToDetail("view", event.data.leadId, event.data.individualId);
     }
   }
-  onActionEdit(){
-    
+  onActionEdit() {
+
   }
 
   viewExistingCustomer() {
@@ -262,7 +266,7 @@ export class LeadListComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-  reponseFromListing(event){
-    console.log('event',event)
+  reponseFromListing(event) {
+    console.log('event', event)
   }
 }

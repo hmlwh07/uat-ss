@@ -12,38 +12,28 @@ import { environment } from '../../../../environments/environment';
 
 import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
-  name: 'listing'
+  name: 'Listing'
 })
 
 export class ListingPipe implements PipeTransform {
-  transform(items: [], direction: string, col: string, order: string) {
-
-    let sortedItems = [];
-    sortedItems = direction === 'asc' ?
-      this.sortAscending(items, col, order) :
-      this.sortDescending(items, col, order)
+  transform(items: [],sort : any) {
+    if (!items || !sort || sort.direction) {
+      return items;
+    }else{
+      let sortedItems = [];
+      sortedItems = sortedItems.sort((n1,n2) => {
+        if (n1[sort.col] > n2[sort.col]) {
+            return 1;
+        }
+    
+        if (n1[sort.col] < n2[sort.col]) {
+            return -1;
+        }
+    
+        return 0;
+    });
     return sortedItems;
-  }
-
-  sortAscending(items, column, type) {
-    return [...items.sort(function (a: any, b: any) {
-      if (type === 'string') {
-        if (a[column].toUpperCase() < b[column].toUpperCase()) return -1;
-      }
-      else {
-        return a[column] - b[column];
-      }
-    })]
-  }
-  sortDescending(items, column, type) {
-    return [...items.sort(function (a: any, b: any) {
-      if (type === 'string') {
-        if (a[column].toUpperCase() > b[column].toUpperCase()) return -1;
-      }
-      else {
-        return b[column] - a[column];
-      }
-    })]
+    }
   }
 }
 
@@ -65,16 +55,18 @@ export class CommonListingComponent implements OnInit, AfterViewInit {
   @Input() data: any[] = [];
   @Input() type: any;  // form type
   @Input() colField: any; // col field
-  @Input() order: any; //ascending,descending
+  @Input() order: string = 'asc' //ascending,descending
 
   selectedPageSize;
   selectedPageBtn;
 
   start;
   end;
+  listingargs;
   constructor(private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.listingargs = { direction: this.order, col : this.colField };
     console.log('sourceData', this.data)
   }
 

@@ -134,7 +134,7 @@
                 </ng-container> -->
                 <ng-container *ngIf="isTableView;else cardView">
                     <app-common-list *ngIf="LeadList.length > 0" [data]="LeadList" [formType]="lead"
-                        colField="productName" order="ascending" (responseListings)="reponseFromListing($event)">
+                        [colField]="productName" [order]="asc" (responseListings)="reponseFromListing($event)">
                     </app-common-list>
                 </ng-container>
                 <ng-template #cardView>
