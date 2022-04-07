@@ -145,7 +145,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
   handleUpload(event,small: boolean = false) {
     if (event) {
       const file = event.target.files[0];
-      console.log(file);
+      // console.log(file);
       const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {

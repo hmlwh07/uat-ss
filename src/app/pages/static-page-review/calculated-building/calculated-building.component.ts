@@ -47,7 +47,7 @@ export class CalculatedBuildingComponent implements OnInit {
 
   getFireContent() {
     this.FireContentService.findAll().toPromise().then((res: any) => {
-      console.log("getFireContent-RESSS", res)
+      // console.log("getFireContent-RESSS", res)
       if (res) {
         this.contentData = res
 
@@ -65,7 +65,7 @@ export class CalculatedBuildingComponent implements OnInit {
   getFirePlant() {
     this.FirePLantService.findAll().toPromise().then((res: any) => {
       if (res) {
-        console.log("getFirePlant-RESSS", res)
+        // console.log("getFirePlant-RESSS", res)
         this.plantData = res
         if (this.plantData.length > 0) {
           for (let data of this.plantData) {
@@ -81,7 +81,7 @@ export class CalculatedBuildingComponent implements OnInit {
   getFireStock() {
     this.FireStockService.findAll().toPromise().then((res: any) => {
       if (res) {
-        console.log("getFireStock-RESSS", res)
+        // console.log("getFireStock-RESSS", res)
         this.stockData = res
         if (this.stockData.length > 0) {
           for (let data of this.stockData) {

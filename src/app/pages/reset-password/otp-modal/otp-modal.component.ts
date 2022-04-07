@@ -56,7 +56,7 @@ export class OtpModalComponent implements OnInit {
     this.OTPService.findAll().toPromise()
       .then((res: any) => {
         if (res.status) {
-          console.log("requestOtp", res)
+          // console.log("requestOtp", res)
           this.verifyToken = res.token
         }
       }
@@ -69,11 +69,11 @@ export class OtpModalComponent implements OnInit {
     let postData={otp,token}
     this.VerifyOTPService.save(postData).toPromise()
       .then((res: any) => {
-        console.log("verifyOTP", res)
+        // console.log("verifyOTP", res)
         if (res.status) {
           this.isSubmitted=false
           this.verifyOTPToken = res.token
-          console.log("verifyOTP", res)
+          // console.log("verifyOTP", res)
           this.resetPassword()
         }
       }
@@ -86,7 +86,7 @@ export class OtpModalComponent implements OnInit {
     }
     this.resetPasswordService.save(postData).toPromise()
       .then((res: any) => {
-        console.log("resetPassword", res)
+        // console.log("resetPassword", res)
         if (res.status) {
           this.modal.dismiss(res.status)
         }
@@ -98,7 +98,7 @@ export class OtpModalComponent implements OnInit {
   }
   handeOtpChange(event) {
     this.optCode = event
-     console.log("optCode",  this.optCode)
+    //  console.log("optCode",  this.optCode)
   }
   handleFillEvent(event) {
 

@@ -43,7 +43,7 @@ export class NrcPopupPage implements OnInit {
       this.getType()
     ]).toPromise().then((res: any) => {
       if (res) {
-        console.log(res);
+        // console.log(res);
         
         this.stageOption = res[0]
         this.typeOption = res[1]
@@ -63,7 +63,7 @@ export class NrcPopupPage implements OnInit {
       .getDataByParent("NRC_TOWNSHIP", parentId, "NRC_REGION")
       .toPromise()
       .then((res: any) => {
-        console.log(res);
+        // console.log(res);
 
         if (res) {
           this.townshipOption = res.map((x) => {
@@ -104,7 +104,7 @@ export class NrcPopupPage implements OnInit {
 
   changeStage() {
     let value = this.nrcForm.value.stage
-    console.log(value);
+    // console.log(value);
 
     if (value) {
       let stage = this.stageOption.find((p) => p.value == value);

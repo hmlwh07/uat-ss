@@ -170,7 +170,7 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   }
 
   setChartOptions(type: string) {
-    console.log("lof", type);
+    // console.log("lof", type);
 
     let key = type == 'lead' ? 'chartOptions' : 'chartOptionsAgent';
     let maxAg = Math.max(...this.agentLineChartDatas)

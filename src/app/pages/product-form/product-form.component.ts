@@ -182,35 +182,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       })
       let counter = 0
       let checkTravel = this.pageOrder.findIndex(x => x.id == 'static_1648784270356')
-      if (checkTravel) {
-        this.travelFormss = []
-        let checkProd = this.pageOrder.findIndex(x => x.unitCode == 'travel_detail_0001')
-        if (checkProd >= 0) {
-          let prodDetail = this.findPageValue(tempFormData, this.pageOrder[checkProd].id)
-          let data: PageUI = { ...this.pageOrder[checkProd], controls: prodDetail.controls, buttons: prodDetail.buttons }
-          this.pageOrder.splice(checkProd, 1)
-          this.travelFormss.push(data)
-        }
-        let checkTraveler = this.pageOrder.findIndex(x => x.unitCode == 'traveler_0002')
-        if (checkTraveler >= 0) {
-          let traveler = this.findPageValue(tempFormData, this.pageOrder[checkTraveler].id)
-          let data: PageUI = { ...this.pageOrder[checkTraveler], controls: traveler.controls, buttons: traveler.buttons }
-          this.pageOrder.splice(checkTraveler, 1)
-          this.travelFormss.push(data)
-        }
-        let checkBeneficiary = this.pageOrder.findIndex(x => x.unitCode == 'trave_benefi_0003')
-        if (checkBeneficiary >= 0) {
-          let benefi = this.findPageValue(tempFormData, this.pageOrder[checkBeneficiary].id)
-          let data: PageUI = { ...this.pageOrder[checkTraveler], controls: benefi.controls, buttons: benefi.buttons }
-          this.pageOrder.splice(checkBeneficiary, 1)
-          this.travelFormss.push(data)
-        }
-        let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
-        if (checkCoverage >= 0) {
-          this.travelFormss.push(this.pageOrder[checkCoverage])
-          this.pageOrder.splice(checkCoverage, 1)
-        }
-      }
+
+
       this.pageOrder.forEach((page, index) => {
         counter += 1
         if (page.id == 'addon' && this.item.addOns.length < 1) {
@@ -239,6 +212,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             this.pageOrder[index].pageType = pageData.pageType
             this.pageOrder[index].pageIcon = pageData.pageIcon
             this.pageOrder[index].tableName = pageData.tableName
+            this.pageOrder[index].unitCode = pageData.unitCode
             if (!this.prodService.editData && !this.referenceID && pageData.unitCode == "policyholder_1641795142279") {
               this.mapPartyCustomer(pageData)
             }
@@ -258,6 +232,35 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         }
 
       })
+      if (checkTravel >= 0) {
+        this.travelFormss = []
+        let checkProd = this.pageOrder.findIndex(x => x.unitCode == 'travel_detail_0001')
+        if (checkProd >= 0) {
+          let prodDetail = this.findPageValue(tempFormData, this.pageOrder[checkProd].id)
+          let data: PageUI = { ...this.pageOrder[checkProd], function: prodDetail.function, controls: prodDetail.controls, buttons: prodDetail.buttons }
+          this.pageOrder.splice(checkProd, 1)
+          this.travelFormss.push(data)
+        }
+        let checkTraveler = this.pageOrder.findIndex(x => x.unitCode == 'traveler_0002')
+        if (checkTraveler >= 0) {
+          let traveler = this.findPageValue(tempFormData, this.pageOrder[checkTraveler].id)
+          let data: PageUI = { ...this.pageOrder[checkTraveler], function: traveler.function, controls: traveler.controls, buttons: traveler.buttons }
+          this.pageOrder.splice(checkTraveler, 1)
+          this.travelFormss.push(data)
+        }
+        let checkBeneficiary = this.pageOrder.findIndex(x => x.unitCode == "trave_benefi_0003")
+        if (checkBeneficiary >= 0) {
+          let benefi = this.findPageValue(tempFormData, this.pageOrder[checkBeneficiary].id)
+          let data: PageUI = { ...this.pageOrder[checkBeneficiary], function: benefi.function, controls: benefi.controls, buttons: benefi.buttons }
+          this.pageOrder.splice(checkBeneficiary, 1)
+          this.travelFormss.push(data)
+        }
+        let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
+        if (checkCoverage >= 0) {
+          this.travelFormss.push(this.pageOrder[checkCoverage])
+          this.pageOrder.splice(checkCoverage, 1)
+        }
+      }
 
     }
   }
@@ -570,7 +573,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
             this.tempData['policyholder_1641795142279'] = { ...formData, refId: res[0].refId, pageId: page.id }
           if (this.pageOrder.length > this.activePage + 1) {
             if (this.formData[this.activePage + 1].controls) {
-              console.log(this.tempData, this.formData);
+              // console.log(this.tempData, this.formData);
 
               this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
             }

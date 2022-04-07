@@ -151,11 +151,11 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     });
   }
   getNotiList() {
-    console.log(this.currentUser);
+    // console.log(this.currentUser);
 
     this.notificationService.getById(this.currentUser.username).toPromise()
       .then(async (res: any) => {
-        console.log("RES", res)
+        // console.log("RES", res)
         if (res) {
           this.noti = res
         }
@@ -172,7 +172,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     }
   }
   closeDropDown(event) {
-    console.log(event);
+    // console.log(event);
     if (event) {
       this.myDrop.close()
     }

@@ -41,13 +41,13 @@ export class ResetPasswordComponent implements OnInit {
     if (this.resetForm.valid && this.isMatch) {
       this.verifyPasswordService.save(this.resetForm.value).toPromise()
         .then((res: any) => {
-          console.log("requestAuth",res)
+          // console.log("requestAuth",res)
           if(res){
             let modalRef;
             modalRef = this.modal.open(OtpModalComponent, { size: 'lg', backdrop: false });
             modalRef.componentInstance.data = this.resetForm.value
             modalRef.result.then(() => { }, (res) => {
-              console.log(res)
+              // console.log(res)
               if (res) {
                 this.resetForm.reset()
               }
@@ -105,7 +105,7 @@ export class ResetPasswordComponent implements OnInit {
     const newPassword = this.resetForm.controls[newPass];
     const comfirmPassword = this.resetForm.controls[confirmNewPassword];
 
-    console.log(newPassword.value, comfirmPassword.value)
+    // console.log(newPassword.value, comfirmPassword.value)
 
     if (newPassword.value == comfirmPassword.value) {
       this.isMatch = true

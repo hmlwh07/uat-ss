@@ -220,7 +220,7 @@ export class LeadDetailComponent implements OnInit {
       if (params) {
         this.pageStatus = params.pageStatus;
         if (this.pageStatus != "create") {
-          console.log("<==========>", params);
+          // console.log("<==========>", params);
 
           this.oldId = params.leadId;
           this.oldSecondaryId = params.pageSecondaryId;
@@ -625,7 +625,7 @@ export class LeadDetailComponent implements OnInit {
     this.LeadDetailService.findOne(this.oldId)
       .toPromise()
       .then((res) => {
-        console.log('lead detail =====> ', res);
+        // console.log('lead detail =====> ', res);
         if (res) {
           this.oldData = res;
           if (res.existingCustomerId != 0) {
@@ -1365,7 +1365,7 @@ export class LeadDetailComponent implements OnInit {
         if (res) {
           res.customerDob = this.customer.customerDob;
           if (res.fnaType == "BRAM") {
-            console.log('BRAM ==========> ', res);
+            // console.log('BRAM ==========> ', res);
             this.router.navigate(["/fna/fna-bram"], {
               queryParams: { passValue: JSON.stringify({ res }) }
             })
@@ -1411,7 +1411,7 @@ export class LeadDetailComponent implements OnInit {
         pageStatus: 'edit'
       }
 
-      console.log('passValue', passValue);
+      // console.log('passValue', passValue);
 
       if (this.oldId != null && this.oldId != '' && this.oldId != undefined &&
         this.customer.customerId != null && this.customer.customerId != '') {
@@ -1455,7 +1455,7 @@ export class LeadDetailComponent implements OnInit {
           this.fnaList = this.fnaList.filter(data =>
             data.id !== id);
           this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-            console.log('deleteFNA', result);
+            // console.log('deleteFNA', result);
           });
           this.cdf.detectChanges();
           this.fnamatTable.reChangeData();

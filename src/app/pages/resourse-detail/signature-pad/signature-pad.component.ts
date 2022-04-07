@@ -32,7 +32,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
     this.signaturePad.clear()
   }
   saveSign() {
-    console.log(this.signaturePad.toDataURL());
+    // console.log(this.signaturePad.toDataURL());
     let base64 = this.signaturePad.toDataURL().toString().split(",")[1];
     var sizeInBytes = 4 * Math.ceil((base64.length / 3)) * 0.5624896334383812;
     let data = {

@@ -71,7 +71,7 @@ export class ActivityManagementDetailComponent implements OnInit {
           this.getOld()
         } else {
           this.loadForm();
-          console.log("PARMA", params)
+          // console.log("PARMA", params)
           this.actForm.controls.assignTo.setValue(params.assignTo)
           this.actForm.controls.assignName.setValue(params.assignToName)
           this.actForm.controls.customerId.setValue(params.customerId)
@@ -153,7 +153,7 @@ export class ActivityManagementDetailComponent implements OnInit {
       if (res) {
         if (res.type == 'save') {
           this.relatedType = (res.data + "").includes("QUO") ? 'quotation' : 'policy'
-          console.log(' this.relatedType', this.relatedType)
+          // console.log(' this.relatedType', this.relatedType)
           controlInp.setValue(res.data)
 
         }
@@ -165,7 +165,7 @@ export class ActivityManagementDetailComponent implements OnInit {
     if (!this.isLead) {
       let controlInp;
       if (type == "agent") controlInp = this.actForm.controls['assignTo']
-      console.log(type, this.isLead)
+      // console.log(type, this.isLead)
 
       const modalRef = this.modalService.open(RelatedModalCompoent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = type
@@ -174,7 +174,7 @@ export class ActivityManagementDetailComponent implements OnInit {
         if (res) {
           if (res.type == 'save') {
             if (type == "agent") {
-              console.log('onDidDismiss =====> ', res);
+              // console.log('onDidDismiss =====> ', res);
               this.actForm.controls['assignTo'].setValue(res.data)
               this.actForm.controls['assignName'].setValue(res.dataName)
             }
@@ -193,7 +193,7 @@ export class ActivityManagementDetailComponent implements OnInit {
         if (res) {
           if (res.type == "save") {
             let customer = res.data
-            console.log('onDidDismiss =====> ', customer);
+            // console.log('onDidDismiss =====> ', customer);
             let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
             this.actForm.controls.customerId.setValue(customer.customerId)
             this.actForm.controls.customerName.setValue(name)

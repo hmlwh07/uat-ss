@@ -25,6 +25,7 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
         this.getOptions()
       }
     }
+    this.listenFunData()
   }
 
 

@@ -18,7 +18,7 @@ export class EditPrintUIModalComponent implements OnInit {
 
   }
   ngOnInit() {
-    console.log(this.colConfig);
+    // console.log(this.colConfig);
     
     this.colForm = this.fb.group({
       "size": [this.colConfig.size || false, Validators.compose([Validators.required, Validators.min(1), , Validators.max(12)])],

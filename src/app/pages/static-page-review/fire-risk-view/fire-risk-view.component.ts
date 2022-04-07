@@ -31,7 +31,7 @@ export class FireRiskViewComponent implements OnInit {
 
   getRiskList() {
     this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
-      console.log(res);
+      // console.log(res);
       
       if (res) {
         this.listData = res

@@ -12,6 +12,7 @@ import { FirePageViewComponent } from "./fire-page-view/fire-page-view.component
 import { FireRiskViewComponent } from "./fire-risk-view/fire-risk-view.component";
 import { HealthQuoViewComponent } from "./health-quo-view/health-quo-view.component";
 import { SimplePageViewComponent } from "./simple-page-view/simple-page-view.component";
+import { TravelViewComponent } from "./travel-page-view/travel-page-view.component";
 // import { STATIC_VIEW_COMPONENT } from "./static-pages-reivew.data";
 const STATIC_VIEW_COMPONENT = {
   'static_1634018514043': SimplePageViewComponent,
@@ -25,6 +26,7 @@ const STATIC_VIEW_COMPONENT = {
   'static_1643116155828': FireRiskViewComponent,
   'static_1644896661652': EndoViewComponent,
   'static_1644896804675': EndoGripViewComponent,
+  'static_1648784270356': TravelViewComponent
   // ''
 }
 @Directive({

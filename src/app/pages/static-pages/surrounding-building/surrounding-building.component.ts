@@ -41,7 +41,7 @@ export class SurroundingBuildingComponent implements OnInit {
     modalRef.componentInstance.oldData = data
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        console.log("RESSSS", res)
+        // console.log("RESSSS", res)
         if (res.type == "save") {
           // this.surrounding=res.data
           this.surrounding.push(res.data)
@@ -51,7 +51,7 @@ export class SurroundingBuildingComponent implements OnInit {
     })
   }
   onActionView(data, type) {
-    console.log("data", data, "type", type)
+    // console.log("data", data, "type", type)
     if (type == 'delete') {
       this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
         if (result) {

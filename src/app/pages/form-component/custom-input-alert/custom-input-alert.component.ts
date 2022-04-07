@@ -45,7 +45,7 @@ export class CustomInputAlertComponent implements OnInit {
   async importDocument(event) {
     if (event) {
       const file = event.target.files[0];
-      console.log(file);
+      // console.log(file);
       const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {

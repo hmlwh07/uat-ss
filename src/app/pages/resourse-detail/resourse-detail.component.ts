@@ -63,7 +63,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         return
       }
       let pageUI: ProductPages = JSON.parse(this.item.config);
-      console.log(this.resourceDetail);
+      // console.log(this.resourceDetail);
 
       if (this.productService.previewType == 'quotation') {
         this.pageOrder = pageUI.quotation || []
@@ -85,7 +85,29 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.item = this.productService.createingProd
       this.getDetail(tempFormData)
       // }
-
+      let checkTravel = this.pageOrder.findIndex(x => x.id == 'static_1648784270356')
+      // console.log(checkTravel);
+      
+      if (checkTravel >= 0) {
+        let checkProd = this.pageOrder.findIndex(x => x.tableName == "travel_detail")
+        if (checkProd >= 0) {
+          this.pageOrder.splice(checkProd, 1)
+        }
+        let checkTraveler = this.pageOrder.findIndex(x => x.tableName == "traveler_detail")
+        if (checkTraveler >= 0) {
+          this.pageOrder.splice(checkTraveler, 1)
+        }
+        let checkBeneficiary = this.pageOrder.findIndex(x => x.tableName == "trave_beneficiary")
+        if (checkBeneficiary >= 0) {
+          this.pageOrder.splice(checkBeneficiary, 1)
+        }
+        let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
+        if (checkCoverage >= 0) {
+          this.pageOrder.splice(checkCoverage, 1)
+        }
+      }
+      // console.log(this.pageOrder);
+      
       // if (this.item.coverages && this.item.coverages.length > 0) {
       //   this.coverage = {
       //     sumInsured: this.item.coverages[0].sumInsured,
@@ -158,9 +180,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.pageOrder[index].controls = page.controls
 
         this.pageDataService.getDetail(page.tableName, oldData.id, page.id, true, page.controls).toPromise().then((res: any[]) => {
-          console.log(page.controls);
-          console.log(res);
-          
           if (res) {
             let temp = page.pageType == 'form' ? {} : []
             for (const data of res) {
@@ -168,9 +187,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
               for (const item of data.data) {
                 if (item.column != 'id' && item.column != 'created_at' && item.column != 'updated_at')
                   tmpObj[item.column] = item.value
-                  if(item.valueCode){
-                    tmpObj[item.column+"Code"] = item.valueCode
-                  }
+                if (item.valueCode) {
+                  tmpObj[item.column + "Code"] = item.valueCode
+                }
               }
               if (Array.isArray(temp)) {
                 temp.push(tmpObj)

@@ -166,7 +166,7 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
           toDate = moment().add(res.validationValue, dateType).subtract(1, 'days')
           this.group.controls[this.config.name].setValue(moment())
         }
-        this.toMaxDate = toDate.subtract(1, 'days').format('YYYY-MM-DD')
+        this.toMaxDate = toDate.format('YYYY-MM-DD')
         this.group.controls[this.config.endName].setValue(toDate)
       }
     })

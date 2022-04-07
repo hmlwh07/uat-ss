@@ -134,7 +134,7 @@ export class MycalendarComponent implements OnInit {
     this.activityService.getActivityList(postData).subscribe((res: any) => {
       if (res) {
         this.loadingService.activate()
-        console.log("RES", res)
+        // console.log("RES", res)
         this.activityList = res
         this.EventData = this.activityList.map((data) => {
           let actColor
@@ -166,7 +166,7 @@ export class MycalendarComponent implements OnInit {
             actions: this.actions,
           }
         })
-        console.log(" this.EventData", this.EventData)
+        // console.log(" this.EventData", this.EventData)
         this.events = this.EventData
         this.eventNumber = this.events.length
         this.refresh.next();
@@ -196,7 +196,7 @@ export class MycalendarComponent implements OnInit {
         
       }
     })
-    console.log("day",date,"events",events);
+    // console.log("day",date,"events",events);
     
   }
 

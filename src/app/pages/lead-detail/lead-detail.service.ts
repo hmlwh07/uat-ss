@@ -29,7 +29,7 @@ export class LeadDetailService extends BizOperationService<Lead, number>{
     } if (search.cpmName) {
       url = url + "cpmName=" + search.cpmName + "&"
     }
-    console.log(url);
+    // console.log(url);
     return this.httpClient.get(url)
   }
   getLeadSource() {

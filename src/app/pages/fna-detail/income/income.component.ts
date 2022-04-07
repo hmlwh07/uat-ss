@@ -34,7 +34,7 @@ export class IncomeComponent implements OnInit {
     private fnaIncomeManageService: FANIncomeManageService, public fnaService: FANService) { }
 
   ngOnInit(): void {
-    console.log('IncomeComponent', this.fnaId);
+    // console.log('IncomeComponent', this.fnaId);
     
     this.loadForm();
     if (this.fnaService.fnaIncome) {
@@ -99,7 +99,7 @@ export class IncomeComponent implements OnInit {
   }
 
   async saveFNAIncome() {
-    console.log('saveFNAIncome', this.formGroup.value);
+    // console.log('saveFNAIncome', this.formGroup.value);
 
     if (this.formGroup.invalid) {
       validateAllFields(this.formGroup);

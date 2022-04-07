@@ -40,7 +40,7 @@ export class FANService extends BizOperationService<any, number>{
 
 
   updateFNAProduct(data) {
-    console.log('updateFNAProduct', data);
+    // console.log('updateFNAProduct', data);
     return this.httpClient.put(API_ADDON_URL, data);
   }
 
@@ -186,7 +186,7 @@ export class FANService extends BizOperationService<any, number>{
     const modalRef = this.modalService.open(FnaDataViewComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type;
     modalRef.result.then(() => { }, (res) => {
-      console.log('openModal', res);
+      // console.log('openModal', res);
       if (res) {
 
       }

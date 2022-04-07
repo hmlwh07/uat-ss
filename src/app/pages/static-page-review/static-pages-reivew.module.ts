@@ -24,6 +24,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MotorAddonViewComponent } from './motor-addon-view/motor-addon-view.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HealthQuoViewComponent } from './health-quo-view/health-quo-view.component';
+import { TravelViewComponent } from './travel-page-view/travel-page-view.component';
 @NgModule({
   declarations: [
     StaticPageViewDirective,
@@ -40,6 +41,7 @@ import { HealthQuoViewComponent } from './health-quo-view/health-quo-view.compon
     EndoGripViewComponent,
     EndoViewComponent,
     MotorAddonViewComponent,
+    TravelViewComponent
   ],
   exports: [
     StaticPageViewDirective,
@@ -54,6 +56,7 @@ import { HealthQuoViewComponent } from './health-quo-view/health-quo-view.compon
     EndoGripViewComponent,
     EndoViewComponent,
     MotorAddonViewComponent,
+    TravelViewComponent
   ],
   imports: [
     CommonModule,

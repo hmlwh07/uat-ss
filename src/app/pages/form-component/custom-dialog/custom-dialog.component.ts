@@ -57,7 +57,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
   }
 
   selectedUser(event) {
-    console.log(event);
+    // console.log(event);
     this.selectedData = event
     // this.modal.close( this.selectedData)
   }

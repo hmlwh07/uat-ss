@@ -324,7 +324,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   getOld() {
     this.customerService.findOne(this.oldId).toPromise().then((res) => {
       if (res) {
-        console.log("RESSSS", res)
+        // console.log("RESSSS", res)
         this.oldData = res
         // this.fnaList= this.oldData.fna
         this.activityList = this.oldData.activities != null ? this.oldData.activities : []
@@ -422,7 +422,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   doCustomer() {
-    console.log(this.customerForm.invalid);
+    // console.log(this.customerForm.invalid);
     if (this.customerForm.invalid) {
       validateAllFields(this.customerForm)
       return true
@@ -446,7 +446,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   create(postData) {
     let data = { ...postData, customerId: null, individualId: null };
     this.customerService.save(data).toPromise().then((res) => {
-      console.log("RESSS", res)
+      // console.log("RESSS", res)
       if (res) {
         if (this.isPopup) {
           let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
@@ -576,12 +576,12 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.oldId = this.oldId
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        console.log("RESSS", res)
+        // console.log("RESSS", res)
         this.description = res.description
 
         this.AttachmentUploadService.save(res.data).toPromise().then((res) => {
           if (res) {
-            console.log("RESFILE", res)
+            // console.log("RESFILE", res)
             let postData = {
               attachmentId: res,
               description: this.description,
@@ -590,7 +590,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
             }
             this.CustomerAttachmentService.save(postData).toPromise().then((res) => {
               if (res) {
-                console.log("RESFILE", res)
+                // console.log("RESFILE", res)
                 this.getCustomerAttachment()
               }
 
@@ -613,7 +613,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   async getCustomerAttachment() {
     this.CustomerAttachmentService.getAttachmentListRef(this.oldId, 'CUST').toPromise().then((res: any) => {
       if (res) {
-        console.log("RESFILE", res)
+        // console.log("RESFILE", res)
         this.attachmentList = res
         this.attachmentmatTable.reChangeData()
         this.cdf.detectChanges()

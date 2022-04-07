@@ -61,9 +61,10 @@ export class TravelComponent implements OnInit {
     if (this.prodService.editData) {
       this.resourcesId = this.prodService.editData.id
       this.getOldData(this.prodService.editData)
-    } else if (this.referenceID) {
-      this.getOldData({ id: this.referenceID }, true)
     }
+    // else if (this.referenceID) {
+    //   this.getOldData({ id: this.referenceID }, true)
+    // }
     // if (this.formData[this.activePage].pageType == 'table') {
     if (this.requiredForm.benefi)
       this.reFormatTable(this.requiredForm.benefi.controls)
@@ -147,19 +148,20 @@ export class TravelComponent implements OnInit {
     modalRef.componentInstance.benefiForm = this.requiredForm.benefi
     modalRef.componentInstance.tableReform = this.tableReform
     if (detail) {
-      let travel = this.tempData['travelDetail'].find(x => x.id == detail.riskId)
-      let traveler = this.tempData['traveler'].find(x => x.riskId == detail.riskId)
-      let benefi = this.tempData['benefi'].filter(x => x.riskId == detail.riskId)
+      let travel = this.tempData['travelDetail'].find(x => x.refId == detail.riskId)
+      let traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
+      let benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
       modalRef.componentInstance.tempData = {
         travelDetail: travel || {},
         traveler: traveler || {},
         benefi: benefi || [],
       }
+
     }
 
     modalRef.result.then(() => { }, (res) => {
+
       if (res) {
-        console.log("RESSSS", res)
         if (res.type == "save") {
           // this.surrounding=res.data
           if (detail) {
@@ -172,10 +174,34 @@ export class TravelComponent implements OnInit {
             else
               this.listData.push(res.data)
           }
+          this.changeTravelDetail(res.detail)
+          this.changeTraveler(res.traveler)
+          this.changeBenefi(res.benefi, res.detail.refId)
           this.cdf.detectChanges()
         }
       }
     })
+  }
+
+  changeTravelDetail(data) {
+    let index = this.tempData['travelDetail'].findIndex(x => x.refId == data.refId)
+    if (index < 0) {
+      this.tempData['travelDetail'].push(data)
+    } else {
+      this.tempData['travelDetail'][index] = data
+    }
+  }
+  changeTraveler(data) {
+    let index = this.tempData['traveler'].findIndex(x => x.refId == data.refId)
+    if (index < 0) {
+      this.tempData['traveler'].push(data)
+    } else {
+      this.tempData['traveler'][index] = data
+    }
+  }
+  changeBenefi(data, refId) {
+    let filtered = this.tempData['benefi'].filter(x => x.risk_id != refId)
+    this.tempData['benefi'] = [...filtered, ...data]
   }
 
   delete(index) {
@@ -198,8 +224,9 @@ export class TravelComponent implements OnInit {
   nextPage() {
     if (this.listData.length > 0) {
       this.globalFun.tempFormData[TRAVELID] = this.listData
-      this.savePremimunFire()
-      this.actionEvent.emit({ type: StaticActionType.NEXT })
+      this.savePremimunFire().toPromise().then(res=>{
+        this.actionEvent.emit({ type: StaticActionType.NEXT })
+      })
     }
   }
 
@@ -215,7 +242,16 @@ export class TravelComponent implements OnInit {
   }
 
   caluPremimun() {
-    return 0
+    let amt = this.listData.reduce(function (sum, current) {
+      return sum + current.premium;
+    }, 0)
+    this.premiumAmt = this.numberPipe.transform(amt) + " MMK"
+    this.globalFun.paPremiumResult.next(this.premiumAmt)
+    return this.premiumAmt
+  }
+
+  replaceT(stringVal: string){
+    return stringVal.replace("T-","").replace("TU-","")
   }
 
   backPage() {
@@ -229,6 +265,7 @@ export class TravelComponent implements OnInit {
 
   getOldData(oldData: QuotationDTO, isRef?: boolean) {
     let counter = 0
+
     this.travelForm.forEach((element) => {
 
       counter += 1
@@ -240,11 +277,6 @@ export class TravelComponent implements OnInit {
           if (res && res.length > 0) {
             let temp = []
             let skipId = isRef
-            let trgi = false
-            if (res.length == 0 && this.prodService.viewType == 'policy' && oldData.quotationId) {
-              res = await this.pageDataService.getDetail(element.tableName, oldData.quotationId, element.id, view, element.controls, true).toPromise()
-              skipId = true
-            }
             for (const data of res) {
               let tmpObj = {}
               // tmpObj['risk_id'] = ""

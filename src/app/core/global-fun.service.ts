@@ -25,6 +25,7 @@ export class GlobalFunctionService {
   snakeSumInsuredResult = new BehaviorSubject(null)
   travelPremiumResult = new BehaviorSubject(null)
   totalTravelUnitResult = new BehaviorSubject(null)
+  travelPlanResult = new BehaviorSubject(null)
   currenyValueObs = new BehaviorSubject("MMK")
   tempFormData = {}
   exChange: number = 1650
@@ -50,7 +51,6 @@ export class GlobalFunctionService {
   }
 
   testingFun() {
-    console.log("fun was called");
     this.testingFunResult.next('value testing')
   }
 
@@ -118,7 +118,6 @@ export class GlobalFunctionService {
   }
 
   sumInsuredValidation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
-    console.log("call sumInsuredValidation", activeForm, form);
     let currency = ""
     let sumIn = 0
     if (activeForm.currency) {
@@ -222,7 +221,6 @@ export class GlobalFunctionService {
     let validAmt = 20000000
     let excess = activeForm['m_excess']
     let currency = activeForm['m_currency']
-    console.log(validAmt, total);
 
     if (excess == "T-ED" && currency == "MMK") {
       if (total > validAmt) {
@@ -675,7 +673,6 @@ export class GlobalFunctionService {
   }
 
   paCoverage(currentValue: string, activeForm: any, option?: any[]) {
-    console.log("call paCoverage");
     let sumIn = 0
     let currency = ""
     if (activeForm.currency) {
@@ -697,6 +694,10 @@ export class GlobalFunctionService {
     if (valid) {
       this.paPolicyValidationResult.next(valid)
     }
+  }
+
+  travelPlan(currentValue: string, activeForm: any, options?: any[]) {
+    this.travelPlanResult.next(currentValue)
   }
 
   normalCoverage(currentValue: string, activeForm: any, options?: any[]) {
@@ -776,9 +777,9 @@ export class GlobalFunctionService {
 
     if (plan && duration && unit) {
       searchData = plan == 'T-INBOUND' ? IN_BOUND : OUT_BOUND
-      let premium = searchData.find(x => x.travel_duration == duration && x.travel_unit == unit)
+      let premium = searchData.find(x => (x.travel_duration + "").toLowerCase() == duration.toLowerCase() && x.travel_unit.toLowerCase() == unit.toLowerCase())
       if (premium) {
-        this.travelPremiumResult.next(this.numberPipe.transform(premium.rate) + " MMK")
+        this.travelPremiumResult.next(premium.rate)
       }
 
     }
@@ -786,16 +787,22 @@ export class GlobalFunctionService {
     // travel_duration
   }
 
-  totalTravelUnit(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
+  totalTravelUnit(currentValue: string, activeForm: any, options?: any[], form?: boolean) {
     let noTraveler = 1
     let insuredUnit = 0
     if (activeForm['no_of_traveler']) {
       noTraveler = parseInt(activeForm['no_of_traveler'])
     }
     if (activeForm['insured_unit']) {
-      insuredUnit = parseInt(activeForm['insuredUnit'].replace("T-", ""))
+      insuredUnit = parseInt(activeForm['insured_unit'].replace("T-", ""))
     }
     let total = noTraveler * insuredUnit
+    if (options) {
+      let valid = options.find(x => x.codeId == activeForm['insured_unit'])
+      if (valid) {
+        this.normalCoverageResult.next(valid.codeName)
+      }
+    }
     this.totalTravelUnitResult.next(total)
   }
 

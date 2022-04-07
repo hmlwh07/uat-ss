@@ -34,8 +34,8 @@ export class ReportCommonSearchComponent implements OnInit {
   }     
 
   async changeOptions(ev: null, type) {
-    console.log('ev =====> ', ev);
-    console.log('type =====> ', type);
+    // console.log('ev =====> ', ev);
+    // console.log('type =====> ', type);
     if (type == 'agent') {
       if (ev) {
         this.selectOptions.companies.push({ id: 1, companyName: 'companyName 1', agentId: 1 });

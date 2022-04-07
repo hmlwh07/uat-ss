@@ -24,14 +24,14 @@ export class FnaDataViewComponent implements OnInit {
   ngOnInit(): void {
     if (this.type == 'Income' || this.type == "RetirementSaving") {
       this.fnaData = FNAConstant.FNA_DETAIL_OBJ;
-      console.log('numberFormat', this.fnaData);
+      // console.log('numberFormat', this.fnaData);
       if (this.type == "RetirementSaving") {
         this.title = 'Retirement Savings';
       } else {
         this.title = null;
       }
       if (this.type == 'Income') {
-        console.log('numberFormat', this.mathRoundTo(Number(this.fnaData.estimatedMonthlyIncome), 2));
+        // console.log('numberFormat', this.mathRoundTo(Number(this.fnaData.estimatedMonthlyIncome), 2));
         this.estimatedMonthlyIncome = this.mathRoundTo(this.fnaData.estimatedMonthlyIncome, 2)
       } else {
         this.fnaData.dateOfBirth = this.formatDateMMDDYYYY(new Date(this.fnaData.dateOfBirth));

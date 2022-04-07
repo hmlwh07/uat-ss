@@ -1,0 +1,35 @@
+<div class="card card-custom gutter-b">
+    <div class="card-body customer-card-body">
+        <div class="table-responsive angular-bootstrap-table mt-5">
+            <table class="table table-head-custom table-vertical-center">
+                <thead>
+                    <tr>
+                        <th>Risk No</th>
+                        <th>Travel Plan</th>
+                        <th>Insured Unit</th>
+                        <th>Travel Duration</th>
+                        <th>No. Of Traveller</th>
+                        <th>Total Unit</th>
+                        <th>Traveller Name</th>
+                        <th>Premium</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of listData;let i = index">
+                        <tr>
+                            <td>{{item.riskId}}</td>
+                            <td>{{replaceT(item.travelPlan) | titlecase}}</td>
+                            <td>{{replaceT(item.insuredUnit) | titlecase}}</td>
+                            <td>{{replaceT(item.travelDuration) | titlecase}}</td>
+                            <td>{{item.noOfTraveller}}</td>
+                            <td>{{item.totalUnit}}</td>
+                            <td>{{item.travellerName}}</td>
+                            <td>{{item.premium | number}}</td>
+                           
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

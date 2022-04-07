@@ -255,8 +255,6 @@ export class PageConfigComponent implements OnInit, OnDestroy {
   }
   async updateCol(tableName: string, control: ConfigInput,) {
     //control.input == 'input' && control.type == 'number' ? 'integer' :
-    console.log(typeof control.party);
-
     let postData = {
       tableName: tableName,
       cols: [

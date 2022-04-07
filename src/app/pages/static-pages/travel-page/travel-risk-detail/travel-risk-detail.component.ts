@@ -68,14 +68,20 @@ export class TravelRiskDetailComponent implements OnInit {
     let tep = this.stepData.step1 || this.stepData.step2 || this.stepData.step3 || this.stepData.step4 ? true : false
     let tep2 = this.stepData.step1 && this.stepData.step2 && this.stepData.step3 && this.stepData.step4 ? false : true
     return tep && tep2
-    this.benefiForm.pageTitle
   }
   ngOnInit(): void {
+    this.globalFun.travelPremiumResult.subscribe(res => {
+      this.premium = res
+    })
 
   }
 
   calPremimun() {
-
+    if (this.oldData.id) {
+      this.updateTravelRisk()
+    } else {
+      this.saveTravelRisk()
+    }
   }
 
   nextCover() {
@@ -84,7 +90,8 @@ export class TravelRiskDetailComponent implements OnInit {
   }
 
   coverDone() {
-
+    this.stepData.step4 = true
+    this.activeBox = "COVER"
   }
 
   toggleAccordion(type: string) {
@@ -202,7 +209,7 @@ export class TravelRiskDetailComponent implements OnInit {
       productId: this.product.id,
       type: this.prodService.viewType,
       tableName: page.tableName,
-      resourceId: this.product,
+      resourceId: this.resourceId,
       agentId: this.auth.currentUserValue.id || 1,
       quotationId: this.referenceID,
       pageId: page.id,
@@ -239,7 +246,7 @@ export class TravelRiskDetailComponent implements OnInit {
     }
     if (type != "travelDetail") {
       postData.pageData[0].data.push({
-        "column": 'risk_no',
+        "column": 'risk_id',
         "value": this.riskId,
         "party": false
       })
@@ -277,7 +284,6 @@ export class TravelRiskDetailComponent implements OnInit {
           }
           // if (this.pageOrder.length > this.activePage + 1) {
           //   if (this.formData[this.activePage + 1].controls) {
-          //     console.log(this.tempData, this.formData);
 
           //     this.dynForm.newFormCreate(this.formData[this.activePage + 1].controls, this.tempData[this.formData[this.activePage + 1].tableName + this.formData[this.activePage + 1].id])
           //   }
@@ -383,14 +389,14 @@ export class TravelRiskDetailComponent implements OnInit {
   saveTravelRisk() {
     let postData: TravelRiskDTO = {
       insuredUnit: this.tempData['travelDetail'].insured_unit,
-      noOfTraveller: this.tempData['traveler'].no_of_traveller,
+      noOfTraveller: this.tempData['travelDetail'].no_of_traveler,
       premium: this.premium,
       resourceId: this.resourceId,
-      totalUnit: parseInt(this.tempData['travelDetail'].insured_unit) * parseInt(this.tempData['traveler'].no_of_traveller),
+      totalUnit: parseInt(this.tempData['travelDetail'].travel_unit),
       travelDuration: this.tempData['travelDetail'].travel_duration,
       travelPlan: this.tempData['travelDetail'].travel_plan,
       travellerName: this.tempData['traveler'].traveler_name,
-      sumInsured: this.sumInsured,
+      sumInsured: 0,
       riskId: this.tempData['travelDetail'].refId,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
@@ -406,13 +412,51 @@ export class TravelRiskDetailComponent implements OnInit {
     }
     this.travelRikService.save(postData).toPromise().then((result: any) => {
       if (result) {
-        this.ngModal.close({ type: "save", data: { ...postData, id: result.id } })
+        this.ngModal.dismiss({
+          type: "save", data: { ...postData, id: result.id },
+          detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
+          benefi: this.tempData['benefi'],
+          // coverage: this.tempData['coverage']
+        })
       }
     })
   }
 
   updateTravelRisk() {
-
+    let postData: TravelRiskDTO = {
+      id: this.oldData.id,
+      insuredUnit: this.tempData['travelDetail'].insured_unit,
+      noOfTraveller: this.tempData['travelDetail'].no_of_traveler,
+      premium: this.premium,
+      resourceId: this.resourceId,
+      totalUnit: parseInt(this.tempData['travelDetail'].travel_unit),
+      travelDuration: this.tempData['travelDetail'].travel_duration,
+      travelPlan: this.tempData['travelDetail'].travel_plan,
+      travellerName: this.tempData['traveler'].traveler_name,
+      sumInsured: 0,
+      riskId: this.tempData['travelDetail'].refId,
+      resourceData: {
+        agentId: this.auth.currentUserValue.id || 1,
+        customerId: this.prodService.creatingCustomer.customerId,
+        policyNumber: null,
+        premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+        premiumView: this.premiumAmt,
+        productId: this.prodService.createingProd.id,
+        quotationId: this.prodService.referenceID,
+        leadId: this.prodService.creatingLeadId || null,
+        type: this.prodService.type
+      },
+    }
+    this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
+      if (result) {
+        this.ngModal.dismiss({
+          type: "save", data: { ...postData, id: result.id },
+          detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
+          benefi: this.tempData['benefi'],
+          // coverage: this.tempData['coverage']
+        })
+      }
+    })
   }
 
   getOtherData(cols: any[], data: any) {

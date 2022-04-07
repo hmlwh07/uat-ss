@@ -148,7 +148,7 @@ export class ProductComponent implements OnInit {
     let nameList = []
     //472
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('getAllProductRec', res);
+      // console.log('getAllProductRec', res);
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
         this.isData = true;
@@ -862,7 +862,7 @@ export class ProductComponent implements OnInit {
       170, this.totalHeight + 155);
     doc.text("previous, Questions not answered shall be filtered out automatically",
       170, this.totalHeight + 165);
-    console.log('DOC =====> ', doc);
+    // console.log('DOC =====> ', doc);
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });

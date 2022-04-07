@@ -60,7 +60,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
         directory: Directory.Documents,
         recursive: false,
       });
-      console.log("folder ", ret);
+      // console.log("folder ", ret);
       this.createFile(fileName, res)
     } catch (e) {
       this.createFile(fileName, res)

@@ -33,7 +33,7 @@ export class RetirementComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadForm();
-    console.log('customerDob', this.customerDob);
+    // console.log('customerDob', this.customerDob);
 
     if (this.fnaService.fnaIncome) {
       this.currentIncome = this.fnaService.fnaIncome.estimatedMonthlyIncome;
@@ -158,7 +158,7 @@ export class RetirementComponent implements OnInit {
 
 
   calculate() {
-    console.log('calculate', this.formGroup.value.dateOfBirth);
+    // console.log('calculate', this.formGroup.value.dateOfBirth);
 
     this.isCalculate = true;
     let diffAge = (this.formGroup.value.retirementAge - this.calculate_age(new Date(this.formGroup.value.dateOfBirth.split("-").reverse().join("-"))));
@@ -213,14 +213,14 @@ export class RetirementComponent implements OnInit {
   }
 
   viewAll() {
-    console.log('fnaRetirementSaving', this.fnaService.fnaRetirementSaving);
+    // console.log('fnaRetirementSaving', this.fnaService.fnaRetirementSaving);
     if (this.fnaService.fnaRetirementSaving) {
       this.fnaService.openModal('RetirementSaving');
     }
   }
 
   doValid(type) { 
-    console.log('doValid', type);
+    // console.log('doValid', type);
 
     if (type == 'dateOfBirth') {
       let value = this.formGroup.controls['dateOfBirth'].value;

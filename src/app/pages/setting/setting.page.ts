@@ -20,7 +20,7 @@ export class SettingPage implements OnInit {
 
   changeLang() {
     this.langService.setLanguage(this.languageData)
-    console.log(this.languageData);
+    // console.log(this.languageData);
     this.cdf.detectChanges()
   }
 

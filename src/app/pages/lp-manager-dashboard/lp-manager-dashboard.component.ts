@@ -162,7 +162,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
       })
       return { ...res, data, weeks }
     })).toPromise().then((res) => {
-      console.log(res);
+      // console.log(res);
       
       if (res) {
         this.agentLineChart = res;

@@ -48,7 +48,7 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
   handleUpload(event) {
     if (event) {
       const file = event.target.files[0];
-      console.log(file);
+      // console.log(file);
       const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {

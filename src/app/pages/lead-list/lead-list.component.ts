@@ -175,13 +175,13 @@ export class LeadListComponent implements OnInit {
   }
 
   getList() {
-    console.log(this.LeadForm.getRawValue());
+    // console.log(this.LeadForm.getRawValue());
     
     this.LeadListService.getLeadList(this.LeadForm.getRawValue())
       .toPromise()
       .then((res: any) => {
         if (res) {
-          console.log("RES", res)
+          // console.log("RES", res)
           this.LeadList = res
           this.cdf.detectChanges();
           if (this.matTable)
@@ -239,7 +239,7 @@ export class LeadListComponent implements OnInit {
       if (res) {
         if (res.type == "save") {
           let customer = res.data
-          console.log('onDidDismiss =====> ', customer);
+          // console.log('onDidDismiss =====> ', customer);
           this.LeadForm.controls.existingCustomerId.setValue(customer.customerId)
           this.LeadForm.controls.existingCustomerName.setValue(customer.name)
         }

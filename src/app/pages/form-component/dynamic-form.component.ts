@@ -132,7 +132,6 @@ export class DynamicFormComponent implements OnInit {
   newFormCreate(controls, temp?: any) {
     
     let tempControls = JSON.parse(JSON.stringify(controls))
-    console.log(controls,temp);
     // console.log(controls);
     this.internalConfig = tempControls
     const group = this.fb.group({});

@@ -30,7 +30,7 @@ export class CurrencyExchangeService extends BizOperationService<CurrencyExchang
     // if (search.currency) {
     //   url = url + "currency=" + search.currency + "&"
     // }
-    console.log(url);
+    // console.log(url);
     return this.httpClient.get(url)
   }
 }

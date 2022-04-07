@@ -69,7 +69,7 @@ export class LlpAnalysisComponent implements OnInit {
     this.fnaService.fnaUpdateProducts = new Array<any>();
     this.fnaService.fnaTextColor = null;
     await this.fnaService.findOne(this.oldId).toPromise().then(res => {
-      console.log('getFNAById llp', res);
+      // console.log('getFNAById llp', res);
       if (res) {
         if (res.fnaAssets.length > 0 && res.fnaEducations.length &&
           res.fnaHealths.length > 0 && res.fnaIncome != null &&

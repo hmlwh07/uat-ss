@@ -40,12 +40,12 @@ export class SurroundingDetailComponent implements OnInit {
       .getDataByType("BUILDING_CLASS")
       .toPromise()
       .then((res: any) => {
-        console.log(res);
+        //console.log(res);
         if (res) {
           this.buildingClassOption = res.map((x) => {
             return { code: x.codeId, value: x.codeName };
           });
-          console.log(this.buildingClassOption);
+          //console.log(this.buildingClassOption);
           this.cdf.detectChanges();
         }
       });
@@ -55,12 +55,12 @@ export class SurroundingDetailComponent implements OnInit {
       .getDataByType("TYPE_OF_BUILDING")
       .toPromise()
       .then((res: any) => {
-        console.log(res);
+        //console.log(res);
         if (res) {
           this.typeOfBuildingOption = res.map((x) => {
             return { code: x.codeId, value: x.codeName };
           });
-          console.log(this.typeOfBuildingOption);
+          //console.log(this.typeOfBuildingOption);
           this.cdf.detectChanges();
         }
       });

@@ -61,7 +61,7 @@ export class FnaDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(async params => {
       let data = JSON.parse(params.passValue);
-      console.log('data', data);
+      // console.log('data', data);
 
       this.passValue = data;
       this.oldId = data.fnaId;
@@ -110,7 +110,7 @@ export class FnaDetailComponent implements OnInit {
     this.fnaService.fnaUpdateProducts = new Array<any>();
     this.fnaService.fnaTextColor = null;
     await this.fnaService.findOne(this.oldId).toPromise().then(res => {
-      console.log('getFNAById', res);
+      // console.log('getFNAById', res);
 
       if (res) {
         if (res.fnaAssets.length > 0 && res.fnaEducations.length &&

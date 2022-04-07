@@ -255,7 +255,7 @@ export class AddonPageComponent implements OnInit {
     if (this.product.code == "CLFR01") {
       // await this.savePremimunFire().toPromise()
     }
-    console.log("end");
+    // console.log("end");
 
     this.actionEvent.emit({ type: StaticActionType.NEXT })
   }
@@ -420,7 +420,7 @@ export class AddonPageComponent implements OnInit {
       rate = this.fireAddonRate[addon.code] || 0
     }
     let parentData = this.globalFun.tempFormData[FireRiskID]
-    console.log(parentData);
+    // console.log(parentData);
 
     let totalRisk = 0
     if (parentData) {

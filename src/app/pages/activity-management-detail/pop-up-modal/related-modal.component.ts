@@ -78,7 +78,7 @@ export class RelatedModalCompoent implements OnInit {
     })).toPromise().then((res: any) => {
       if (res)
         this.dataList = res
-        console.log("customer",  this.dataList)
+        // console.log("customer",  this.dataList)
         this.cdf.detectChanges()
         this.matTable.reChangeData()
       })

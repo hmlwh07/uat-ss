@@ -36,7 +36,7 @@ export class LeadListService {
     if (search.statusCode) {
       url = url + "statusCode=" + search.statusCode + "&"
     } 
-    console.log(url);
+    // console.log(url);
     return this.httpClient.get(url)
   }
 }

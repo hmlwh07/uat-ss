@@ -43,7 +43,7 @@ export class CalculatedBuildingComponent implements OnInit {
     this.productDetail = this.globalService.tempFormData[FirePageID] || {}
   }
   actionBtn(event) {
-    console.log(event)
+    // //console.log(event)
     if (event.cmd == "delete") {
       if (event.tbtype == "content") {
         this.deleteFireContent(event.data.id)
@@ -78,13 +78,13 @@ export class CalculatedBuildingComponent implements OnInit {
       modalRef.componentInstance.data = data
       modalRef.result.then(() => { }, (res) => {
         if (res) {
-          console.log("RESSSS", res)
+          //console.log("RESSSS", res)
           if (res.type == "save") {
             let postData = { ...res.data, createdBy: this.auth.currentUserValue.id }
-            console.log("postData", postData)
+            //console.log("postData", postData)
             this.FireContentService.save(postData).toPromise().then((res: any) => {
               if (res) {
-                console.log("getFireContent-RESSS", res)
+                //console.log("getFireContent-RESSS", res)
                 this.getFireContent()
                 this.contentsData.push({ ...postData, id: res })
                 this.cdf.detectChanges()
@@ -103,13 +103,13 @@ export class CalculatedBuildingComponent implements OnInit {
       modalRef.componentInstance.data = data
       modalRef.result.then(() => { }, (res) => {
         if (res) {
-          console.log("RESSSS", res)
+          //console.log("RESSSS", res)
           if (res.type == "save") {
             let postData = { ...res.data, createdBy: this.auth.currentUserValue.id }
-            console.log("postData", postData)
+            //console.log("postData", postData)
             this.FirePLantService.save(postData).toPromise().then((res: any) => {
               if (res) {
-                console.log("getFirePlant-RESSS", res)
+                //console.log("getFirePlant-RESSS", res)
                 this.getFirePlant()
                 this.plantData.push({ ...postData, id: res })
                 this.cdf.detectChanges()
@@ -129,13 +129,13 @@ export class CalculatedBuildingComponent implements OnInit {
       modalRef.componentInstance.isStock = true
       modalRef.result.then(() => { }, (res) => {
         if (res) {
-          console.log("RESSSS", res)
+          //console.log("RESSSS", res)
           if (res.type == "save") {
             let postData = { ...res.data, createdBy: this.auth.currentUserValue.id, description: res.data.itemDescription }
-            console.log("postData", postData)
+            //console.log("postData", postData)
             this.FireStockService.save(postData).toPromise().then((res: any) => {
               if (res) {
-                console.log("getFirePlant-RESSS", res)
+                //console.log("getFirePlant-RESSS", res)
                 this.getFireStock()
                 this.stockData.push({ ...postData, id: res })
                 this.cdf.detectChanges()
@@ -149,7 +149,7 @@ export class CalculatedBuildingComponent implements OnInit {
 
   getFireContent() {
     this.riskService.getContent(this.riskId).toPromise().then((res: any) => {
-      console.log("getFireContent-RESSS", res)
+      //console.log("getFireContent-RESSS", res)
       if (res) {
         this.contentsData = res
 
@@ -157,7 +157,7 @@ export class CalculatedBuildingComponent implements OnInit {
           this.isContents = true
           this.totalContent = 0
           for (let data of this.contentsData) {
-            console.log("TSET", this.totalContent);
+            //console.log("TSET", this.totalContent);
 
             this.totalContent += parseInt(data.totalValue)
           }
@@ -170,7 +170,7 @@ export class CalculatedBuildingComponent implements OnInit {
   getFirePlant() {
     this.riskService.getPlant(this.riskId).toPromise().then((res: any) => {
       if (res) {
-        console.log("getFirePlant-RESSS", res)
+        //console.log("getFirePlant-RESSS", res)
         this.plantData = res
         if (this.plantData.length > 0) {
           this.isPlant = true
@@ -189,7 +189,7 @@ export class CalculatedBuildingComponent implements OnInit {
   getFireStock() {
     this.riskService.getStock(this.riskId).toPromise().then((res: any) => {
       if (res) {
-        console.log("getFireStock-RESSS", res)
+        //console.log("getFireStock-RESSS", res)
         this.stockData = res
         if (this.stockData.length > 0) {
           this.isStock = true

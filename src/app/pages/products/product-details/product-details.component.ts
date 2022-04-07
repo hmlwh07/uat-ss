@@ -412,7 +412,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   async reChangeUI(type: string, data: any[]) {
-    this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(async result => {
+    this.alertService.activate('Are you sure want to change UI?', 'Warning Message').then(async result => {
       if (result) {
         await this.prodDel.deleteMany("type=" + type + "&productId=" + this.product.id).toPromise()
         let success = []
@@ -712,7 +712,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   handleUpload(event, small: boolean = false) {
     if (event) {
       const file = event.target.files[0];
-      console.log(file);
+      // console.log(file);
       const reader = getFileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {

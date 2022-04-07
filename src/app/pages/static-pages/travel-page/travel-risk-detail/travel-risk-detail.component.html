@@ -6,7 +6,7 @@
 
     </div>
     <div class="overlay overlay-block cursor-default modal-body">
-        <div class="toggle-box">
+        <div class="toggle-box" *ngIf="prodDetailForm">
             <div class="toggle-header">
                 <h4 class="left-border-image">{{prodDetailForm.pageTitle}}</h4>
                 <div class="tool-box">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="toggle-body" [ngClass]="activeBox=='DETAIL' ? 'active' : 'inactive'">
-                <dynamic-form #dynForm [tempData]="tempData['travelDetal'] || {}" [config]="prodDetailForm.controls"
+                <dynamic-form #dynForm [tempData]="tempData['travelDetail'] || {}" [config]="prodDetailForm.controls"
                     (submit)="saveDetailTemp($event)" [editStage]="false">
                 </dynamic-form>
                 <div class="form-footer">
@@ -31,7 +31,7 @@
             <!--  -->
         </div>
 
-        <div class="toggle-box">
+        <div class="toggle-box" *ngIf="travelerForm">
             <div class="toggle-header">
                 <h4 class="left-border-image">{{travelerForm.pageTitle}}</h4>
                 <div class="tool-box">
@@ -58,7 +58,7 @@
             </ng-container>
         </div>
 
-        <div class="toggle-box">
+        <div class="toggle-box" *ngIf="benefiForm">
             <div class="toggle-header">
                 <h4 class="left-border-image">{{benefiForm.pageTitle}}</h4>
                 <div class="tool-box">
@@ -147,8 +147,8 @@
             </div>
             <ng-container *ngIf="stepData.step3">
                 <div class="toggle-body" [ngClass]="activeBox=='COVER' ? 'active' : 'inactive'">
-                    <app-addon-page [product]="product" [optionId]="oldData.id" [editData]="editData"
-                        [resourcesId]="resourceId" [fireAdd]="true" (actionEvent)="coverDone()"></app-addon-page>
+                    <app-coverage-page [product]="product" [optionId]="oldData.id" [editData]="editData"
+                        [resourcesId]="resourceId"(actionEvent)="coverDone()"></app-coverage-page>
                 </div>
             </ng-container>
         </div>

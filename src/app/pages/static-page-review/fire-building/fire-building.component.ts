@@ -16,7 +16,7 @@ export class FireBuildingComponent implements OnInit {
   }
 
   onActionView(data, type) {
-    console.log("data", data, "type", type)
+    // console.log("data", data, "type", type)
     if (type == 'delete') {
       this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
         if (result) {
