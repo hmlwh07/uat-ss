@@ -1,26 +1,66 @@
 .Open {
-    background-color: #3dc2ff;
-    color: white;
+    background-color: #addef5;
+    color: black;
 }
 
 .Face {
-    background-color: #3880ff;
-    color: white;
+    background-color: #e5f6fd;
+    color: black;
+    border-left: 7px solid #00acea;
 }
 
 .Online {
-    background-color: #ffc409;
-    color: white;
+    background-color: #fff1e4;
+    color: black;
+    border-left: 7px solid #fe8100;
 }
 
 .Phone {
-    background-color: #2dd36f;
-    color: white;
+    background-color: #e5eef7;
+    color: black;
+    border-left: 7px solid #015eab;
 }
 
 .icon {
     font-size: 1.5rem;
     position: absolute;
-    left: 5px;
-    top: 10px;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.prod-icon {
+    width: 1.5rem;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.card.card-custom,
+.card,
+.card-header {
+    box-shadow: none;
+    border-radius: 10px;
+    border-collapse: collapse;
+}
+
+.event-modal-body {
+    padding: 0px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.cal-day-badge {
+    background-color: #1e90ff;
+    color: #fff;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+}
+
+.ver-center {
+    top: 50%;
+    transform: translateY(-50%);
 }

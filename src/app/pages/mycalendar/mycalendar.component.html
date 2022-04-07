@@ -5,12 +5,18 @@
         </div>
 
     </div>
-    <div class="col-6">
+    <div class="col-6" style="align-items: center;  justify-content: flex-end;">
         <!-- <div class="btn btn-primary " mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
             Previous
         </div> -->
-        <div class="btn btn-sm btn-primary " style="text-align: right; float: right;" mwlCalendarToday [(viewDate)]="viewDate">
-            <label style="font-size: 1rem;">Today</label>
+        <div class="row cal">
+
+            <div mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" style="margin-right: 5px;"> <span class="flaticon2-back icon"></span></div>
+            <div mwlCalendarToday [(viewDate)]="viewDate">
+                <label style="font-size: 1rem;">Today</label>
+            </div>
+            <div mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" style="margin-left: 5px;">
+                <span class="flaticon2-next icon"></span></div>
         </div>
     </div>
 </div>

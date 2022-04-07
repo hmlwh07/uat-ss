@@ -1,35 +1,42 @@
 <div class="modal-content">
     <div class="modal-header">
-        <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
-            Activity List ( {{ day| date : "dd/MM/yyyy" }} )
+        <div class="cal-day-badge" *ngIf="data.length > 0">
+            <span>{{ data.length }}
+            </span>
+        </div>
+        <div class="modal-title h5 text-right text-bold" id="example-modal-sizes-title-lg">
+            {{ day| date : "EE d" }}
         </div>
     </div>
+    <div class="modal-body event-modal-body">
 
-    <div *ngIf="data.length>0">
-        <ng-container *ngFor="let event of data">
-            <div class="row" style="margin: 10px 0px;">
+        <div *ngIf="data.length>0">
+            <ng-container *ngFor="let event of data">
+                <div class="row" style="margin: 10px 0px;">
 
-                <div class="col" (click)="navigateToDetail('edit',event.meta)">
+                    <div class="col" (click)="navigateToDetail('edit',event.meta)">
 
-                    <div class="card card-custom" [ngClass]="event.type">
-                        <div style="  text-align: center;">
-                            <i [class]="event.icon" class="icon"></i>
-                            <label style="margin-top: 20px;">{{event.title}} </label>
+                        <div class="card card-custom" [ngClass]="event.type">
+
+                            <div style="text-align: center;">
+                                <img [src]="event.icon" class="prod-icon" alt="" srcset="">
+                                <label style="margin-top: 20px;">{{event.title}} </label>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
-        </ng-container>
-    </div>
+            </ng-container>
+        </div>
 
-    <div *ngIf="data.length==0">
-        <ng-container>
-            <div class="row" style="margin: 10px 0px;">
-                <div class="col">
-                    <label>There is no activity today </label>
+        <div *ngIf="data.length==0">
+            <ng-container>
+                <div class="row" style="margin: 10px 0px;">
+                    <div class="col">
+                        <label>There is no activity today </label>
+                    </div>
                 </div>
-            </div>
-        </ng-container>
+            </ng-container>
+        </div>
     </div>
-
 </div>
