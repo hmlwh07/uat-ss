@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of showData">
-      <td>{{item.keyName}}</td>
+      <td>{{item.keyName == "HEALTH" ? "Health" : "Critical Illness"}}</td>
       <td>{{item.value}} Units</td>
     </tr>
   </tbody>

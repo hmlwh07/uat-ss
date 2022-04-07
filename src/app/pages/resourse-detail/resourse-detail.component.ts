@@ -371,6 +371,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     this.productService.type = 'policy'
     this.productService.referenceID = this.resourceDetail.id
     this.productService.referenceStatus = this.resourceDetail.status
+    this.productService.creatingLeadId = this.resourceDetail.leadId
     this.productService.editData = null
     this.router.navigateByUrl("/product-form")
   }

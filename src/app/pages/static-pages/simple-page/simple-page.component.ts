@@ -101,7 +101,7 @@ export class SimplePageComponent implements OnInit {
     // if (this.prodService.editData || this.refID)
 
     this.parentData = this.getParent()
-    
+
     if (!this.parentData) {
       this.alertService.activate("This page cann't to save because there is no parent Data. Please configuration the product detail", "Warning")
     } else {
@@ -124,18 +124,18 @@ export class SimplePageComponent implements OnInit {
   }
   radioChange(event) {
     if (this.staticForm.value.basicCoverId == "CRTILLNESS") {
-      if (this.currentAge < 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+      if (this.currentAge > 50 && this.staticForm.value.sumInsuredMainCover > 4) {
         this.alertService.activate("Medical check up is required", "Warning")
       }
       if (this.addValid) {
         this.addValid = false
-        this.staticForm.get('medicalCardNo').clearValidators();
+        this.staticForm.get('medicalCardNo').setValidators([Validators.required]);
         this.staticForm.get('medicalCardNo').updateValueAndValidity();
       }
     } else {
+      this.staticForm.get('medicalCardNo').clearValidators();
+      this.staticForm.get('medicalCardNo').updateValueAndValidity();
       if (this.currentAge < 50 && this.staticForm.value.sumInsuredMainCover > 4) {
-        this.staticForm.get('medicalCardNo').setValidators([Validators.required]);
-        this.staticForm.get('medicalCardNo').updateValueAndValidity();
         this.addValid = true
       }
     }
@@ -150,8 +150,8 @@ export class SimplePageComponent implements OnInit {
       // console.log(pageOrder);
 
       let parent = pageOrder.find(page => page.tableName == "life_insured_health")
-      console.log(this.globalFun.tempFormData,parent);
-      
+      console.log(this.globalFun.tempFormData, parent);
+
       if (parent) {
         return this.globalFun.tempFormData[parent.tableName + parent.id] || null
       }
@@ -187,6 +187,11 @@ export class SimplePageComponent implements OnInit {
 
   getUnitOption() {
     let leng = this.controls.sumInsuredMainCover.value
+    if (this.staticForm.value.basicCoverId == "< >") {
+      if (this.currentAge > 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+        this.alertService.activate("Medical check up is required", "Warning")
+      }
+    }
     if (leng != this.options4.length) {
       this.options4 = Array.from({ length: leng }, (_, i) => i + 1)
       for (let addon of this.options2) {
