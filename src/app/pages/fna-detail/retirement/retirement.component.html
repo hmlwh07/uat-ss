@@ -27,9 +27,9 @@
 
                             <input type="text" readonly class="form-control form-control-sm date-input"
                                 formControlName="dateOfBirth" [min]="fromMinDate" [max]="fromMaxDate"
-                                [matDatepicker]="picker" (dateChange)="doValid('dateOfBirth')">
+                                [matDatepicker]="picker12" (dateChange)="doValid('dateOfBirth')">
                             <mat-datepicker-toggle matSuffix [for]="picker12"></mat-datepicker-toggle>
-                            <mat-datepicker #picker disabled="false"></mat-datepicker>
+                            <mat-datepicker #picker12 disabled="false"></mat-datepicker>
                         </div>
                     </div>
                 </div>
