@@ -1,5 +1,5 @@
-<ng-container *ngFor="let atom of data | Listing:listingargs ">
-    <!-- | Listing:'asc':colField | slice:start:end -->
+<ng-container *ngFor="let atom of data  ">
+    <!-- | Listing:'asc':colField | slice:start:end | Listing:listingargs-->
     <div>
         <app-child [data]="atom" (actionResponse)="reponseFromAtom($event)"></app-child>
     </div>
