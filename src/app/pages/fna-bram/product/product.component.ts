@@ -858,7 +858,7 @@ export class ProductComponent implements OnInit {
     doc.setFontSize(10).setFont('Roboto', 'normal', 'bold');
     doc.text("Details", 10, this.totalHeight + 135);
     doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
-    doc.text("This section reflect the BRAM questionnaire, in same format as",
+    doc.text("This section reflect the BPM questionnaire, in same format as",
       170, this.totalHeight + 155);
     doc.text("previous, Questions not answered shall be filtered out automatically",
       170, this.totalHeight + 165);
