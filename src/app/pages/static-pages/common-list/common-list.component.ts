@@ -10,6 +10,44 @@ import { StylePaginatorDirective } from '../../../_metronic/shared/crud-table/co
 import { PRODUCT_STATUS } from './../../products/models/product.dto';
 import { environment } from '../../../../environments/environment';
 
+import { Pipe, PipeTransform } from '@angular/core';
+@Pipe({
+  name: 'listing'
+})
+
+export class ListingPipe implements PipeTransform {
+  transform(items: [], direction: string, col: string, order: string) {
+
+    let sortedItems = [];
+    sortedItems = direction === 'asc' ?
+      this.sortAscending(items, col, order) :
+      this.sortDescending(items, col, order)
+    return sortedItems;
+  }
+
+  sortAscending(items, column, type) {
+    return [...items.sort(function (a: any, b: any) {
+      if (type === 'string') {
+        if (a[column].toUpperCase() < b[column].toUpperCase()) return -1;
+      }
+      else {
+        return a[column] - b[column];
+      }
+    })]
+  }
+  sortDescending(items, column, type) {
+    return [...items.sort(function (a: any, b: any) {
+      if (type === 'string') {
+        if (a[column].toUpperCase() > b[column].toUpperCase()) return -1;
+      }
+      else {
+        return b[column] - a[column];
+      }
+    })]
+  }
+}
+
+
 @Component({
   selector: 'app-common-list',
   templateUrl: './common-list.component.html',
@@ -29,28 +67,33 @@ export class CommonListingComponent implements OnInit, AfterViewInit {
   @Input() colField: any; // col field
   @Input() order: any; //ascending,descending
 
-  displayBtnCount = 3;
-  pageSizeArray = [5,10,15];
-  selectedPageSize = 5;
-  no_of_pages;
-  viewPageButtonArray = [];
-  responseData = [];
+  selectedPageSize;
   selectedPageBtn;
 
-  startPageIndex;
-  endPageIndex;
-
+  start;
+  end;
   constructor(private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log('sourceData',this.data)
+    console.log('sourceData', this.data)
   }
 
   ngAfterViewInit() {
     this.cdf.detectChanges();
   }
 
-  reponseFromPager(event){
-    console.log('listing...event..activePage',event)
+  reponseFromPager(event) {
+    console.log('listing...event..activePage', event)
+    this.selectedPageBtn = event.activePage;
+    this.selectedPageSize = event.pageSize;
+    this.start = (this.selectedPageBtn - 1) * this.selectedPageSize;
+    this.end = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.data.length ?
+      (this.selectedPageBtn * this.selectedPageSize) : this.data.length;
+
+      console.log('start',this.start,'end',this.end)
+  }
+
+  reponseFromAtom(obj){
+    console.log('reponseFromAtom ...',obj)
   }
 }

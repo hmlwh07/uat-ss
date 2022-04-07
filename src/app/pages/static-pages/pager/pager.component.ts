@@ -99,7 +99,7 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
       if (this.startPageIndex + i <= this.no_of_pages) this.viewPageButtonArray.push(this.startPageIndex + i);
     }
     this.cdf.detectChanges();
-    this.prepareCalDataRows(this.selectedPageBtn);
+    this.activePage.emit({activePage : this.selectedPageBtn,pageSize : this.selectedPageSize});
   }
 
   calPageBtn() {
@@ -134,6 +134,5 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < count; i++) {
       if (start + i <= end) this.responseData.push(this.sourceData[start + i]);
     }
-    this.activePage.emit(this.selectedPageBtn);
   }
 }

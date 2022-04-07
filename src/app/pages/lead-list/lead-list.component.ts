@@ -175,7 +175,7 @@ export class LeadListComponent implements OnInit {
 
   getList() {
     console.log(this.LeadForm.getRawValue());
-    this.LeadList = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    this.LeadList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 
     // this.LeadListService.getLeadList(this.LeadForm.getRawValue())
     //   .toPromise()

@@ -30,15 +30,16 @@ import { RiskDetailComponent } from './fire-risk/risk-detail/risk-detail.compone
 import { NgxCurrencyModule } from 'ngx-currency';
 import { EndoGripComponent } from './endo-griph/endo-griph.component';
 import { EndoComponent } from './endo/endo.component';
-
+import { ChildComponent } from './common-list/child.component';
 //listings
 import {ListingsPagerComponent} from './pager/pager.component';
-import { CommonListingComponent} from './common-list/common-list.component';
+import { CommonListingComponent,ListingPipe} from './common-list/common-list.component';
 import {ListingsLeadListComponent } from './listings/lead/listings-lead-list.component';
 import {MatMenuModule} from '@angular/material/menu';
+
 @NgModule({
-  declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,ListingsPagerComponent,ListingsLeadListComponent,CommonListingComponent],
-  exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,ListingsPagerComponent,ListingsLeadListComponent,CommonListingComponent],
+  declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,ListingsPagerComponent,ListingsLeadListComponent,CommonListingComponent,ListingPipe,ChildComponent],
+  exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,ListingsPagerComponent,ListingsLeadListComponent,CommonListingComponent,ListingPipe,ChildComponent],
   imports: [
     CommonModule,
     FormsModule,
