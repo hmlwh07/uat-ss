@@ -52,6 +52,8 @@ export class FnaDetailComponent implements OnInit {
   fnaTextColor: number;
   isValue: boolean;
   customerId: any;
+  leadId: any;
+  fnaId: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -62,7 +64,8 @@ export class FnaDetailComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       let data = JSON.parse(params.passValue);
       console.log('data', data);
-
+      this.leadId = data.leadId;
+      this.fnaId = data.fnaId
       this.passValue = data;
       this.oldId = data.fnaId;
       this.customerId = data.customerId;

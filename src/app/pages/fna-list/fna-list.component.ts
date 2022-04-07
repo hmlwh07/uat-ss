@@ -47,7 +47,7 @@ export class FnaListComponent implements OnInit {
     modalRef.componentInstance.type = 'modal'
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        if (res.fnaType == "BRAM") {
+        if (res.fnaType == "BPM") {
           this.router.navigate(["/fna/fna-bram"], { queryParams: { passValue: JSON.stringify({ res }) } })
         }
 
@@ -72,7 +72,7 @@ export class FnaListComponent implements OnInit {
         pageStatus: data
       }
     }
-    if (this.indexObj.fnaType == "BRAM") {
+    if (this.indexObj.fnaType == "BPM") {
       this.router.navigate(["/fna/fna-bram"], { queryParams: { passValue: JSON.stringify(passValue) } })
     } else {
       this.router.navigate(["/fna/fna-detail"], { queryParams: { passValue: JSON.stringify(passValue) } })

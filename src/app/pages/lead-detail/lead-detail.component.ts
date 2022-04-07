@@ -1340,8 +1340,8 @@ export class LeadDetailComponent implements OnInit {
       modalRef.result.then(() => { }, (res) => {
         if (res) {
           res.customerDob = this.customer.customerDob;
-          if (res.fnaType == "BRAM") {
-            console.log('BRAM ==========> ', res);
+          if (res.fnaType == "BPM") {
+            console.log('BPM ==========> ', res);
             this.router.navigate(["/fna/fna-bram"], {
               queryParams: { passValue: JSON.stringify({ res }) }
             })
@@ -1382,6 +1382,7 @@ export class LeadDetailComponent implements OnInit {
         customerName: this.customer.customerName,
         customerDob: this.customer.customerDob,
         updatedAt: data.updatedAt,
+        leadId: this.oldId,
         fnaId: data.id,
         type: data.type,
         pageStatus: 'edit'
