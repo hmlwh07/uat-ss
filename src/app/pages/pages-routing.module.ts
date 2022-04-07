@@ -300,7 +300,11 @@ const routes: Routes = [
         redirectTo: 'error/404',
       },
     ],
+  },  {
+    path: 'sales',
+    loadChildren: () => import('./sales/sales.module').then( m => m.SalesPageModule)
   },
+
 ];
 
 @NgModule({

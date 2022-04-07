@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
 import { MaterialTableViewComponent } from '../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CustomerService } from '../../customer-detail/customer.service';
@@ -22,7 +23,9 @@ import { PolicyDisplayCol, PolicyCol } from './policy.const';
 export class PolicyComponent implements OnInit, OnDestroy {
   quoList: PolicyDTO[] = []
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  policyAccess = defaultAccessObj
+  policyAccess = defaultAccessObj;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  
   constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService,private menuService: MenuDataService) {
   }
 
@@ -83,7 +86,14 @@ export class PolicyComponent implements OnInit, OnDestroy {
   getPolicyList() {
     this.policyService.findAll().toPromise().then((res) => {
       if (res) {
+        console.log('getPolicyList', res);
+
         this.quoList = res
+        for (var i = 0; i < this.quoList.length; i++) {
+          if (this.quoList[i].icon) {
+            this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '/' + this.quoList[i].icon
+          }
+        }
         this.cdRef.detectChanges()
         this.matTable.reChangeData()
         // })
