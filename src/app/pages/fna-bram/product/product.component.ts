@@ -907,7 +907,7 @@ export class ProductComponent implements OnInit {
   async updatePercentage(type?) {
     let reqBody = {
       customerId: this.passValueData.customerId,
-      fnaType: "BRAM",
+      fnaType: "BPM",
       grandDiscount: this.grantPercent,
       highDiscount: this.highPercent,
       id: this.passValueData.fnaId,
