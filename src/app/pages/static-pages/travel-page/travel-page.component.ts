@@ -161,11 +161,10 @@ export class TravelComponent implements OnInit {
     }
 
     modalRef.result.then(() => { }, (res) => {
-
       if (res) {
         if (res.type == "save") {
           // this.surrounding=res.data
-          this.ngZone.run(() => {
+          // this.ngZone.run(() => {
             if (detail) {
               let index = this.listData.findIndex(x => x.id == detail.id)
               this.listData[index] = res.data
@@ -176,9 +175,8 @@ export class TravelComponent implements OnInit {
               else
                 this.listData.push(res.data)
             }
-          })
-
-          // this.cdf.detectChanges()
+          // })
+          this.cdf.detectChanges()
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
           this.changeBenefi(res.benefi, res.detail.refId)

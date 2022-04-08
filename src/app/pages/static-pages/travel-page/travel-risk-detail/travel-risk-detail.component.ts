@@ -413,7 +413,7 @@ export class TravelRiskDetailComponent implements OnInit {
     this.travelRikService.save(postData).toPromise().then((result: any) => {
       if (result) {
         this.ngModal.dismiss({
-          type: "save", data: { ...postData, id: result.id },
+          type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
           benefi: this.tempData['benefi'],
           // coverage: this.tempData['coverage']
@@ -450,7 +450,7 @@ export class TravelRiskDetailComponent implements OnInit {
     this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
       if (result) {
         this.ngModal.dismiss({
-          type: "save", data: { ...postData, id: result.id },
+          type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
           benefi: this.tempData['benefi'],
           // coverage: this.tempData['coverage']
