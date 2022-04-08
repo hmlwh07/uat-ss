@@ -763,6 +763,7 @@ export class GlobalFunctionService {
     let plan = ''
     let duration = ''
     let unit = ''
+    let travelNo = 1
     if (activeForm.travel_plan) {
       plan = activeForm.travel_plan
     }
@@ -774,12 +775,16 @@ export class GlobalFunctionService {
     if (activeForm.insured_unit) {
       unit = activeForm.insured_unit
     }
+    if (activeForm.no_of_traveler) {
+      travelNo = activeForm.no_of_traveler
+    }
 
     if (plan && duration && unit) {
       searchData = plan == 'T-INBOUND' ? IN_BOUND : OUT_BOUND
       let premium = searchData.find(x => (x.travel_duration + "").toLowerCase() == duration.toLowerCase() && x.travel_unit.toLowerCase() == unit.toLowerCase())
       if (premium) {
-        this.travelPremiumResult.next(premium.rate)
+        let prem = parseInt(premium.rate) * travelNo
+        this.travelPremiumResult.next(prem)
       }
 
     }

@@ -436,7 +436,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         this.product[type + "_ui"] = success
         this.product[type + "_input"] = {}
         this.pageReorder(type);
-        this.alertService.activate('This record was deleted', 'Success Message').then(result => {
+        this.alertService.activate('This record was changed', 'Success Message').then(result => {
            
         });
       }
