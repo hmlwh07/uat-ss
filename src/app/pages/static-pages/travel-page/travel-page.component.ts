@@ -1,5 +1,5 @@
 import { DecimalPipe } from "@angular/common";
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnInit, Output } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { GlobalFunctionService } from "../../../core/global-fun.service";
 import { AlertService } from "../../../modules/loading-toast/alert-model/alert.service";
@@ -42,7 +42,8 @@ export class TravelComponent implements OnInit {
     private numberPipe: DecimalPipe,
     private pageDataService: PageDataService,
     private prodService: ProductDataService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit(): void {
@@ -164,20 +165,23 @@ export class TravelComponent implements OnInit {
       if (res) {
         if (res.type == "save") {
           // this.surrounding=res.data
-          if (detail) {
-            let index = this.listData.findIndex(x => x.id == detail.id)
-            this.listData[index] = res.data
-          } else {
-            let index = this.listData.findIndex(x => x.id == res.data.id)
-            if (index >= 0)
+          this.ngZone.run(() => {
+            if (detail) {
+              let index = this.listData.findIndex(x => x.id == detail.id)
               this.listData[index] = res.data
-            else
-              this.listData.push(res.data)
-          }
+            } else {
+              let index = this.listData.findIndex(x => x.id == res.data.id)
+              if (index >= 0)
+                this.listData[index] = res.data
+              else
+                this.listData.push(res.data)
+            }
+          })
+
+          // this.cdf.detectChanges()
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
           this.changeBenefi(res.benefi, res.detail.refId)
-          this.cdf.detectChanges()
         }
       }
     })
@@ -224,7 +228,7 @@ export class TravelComponent implements OnInit {
   nextPage() {
     if (this.listData.length > 0) {
       this.globalFun.tempFormData[TRAVELID] = this.listData
-      this.savePremimunFire().toPromise().then(res=>{
+      this.savePremimunFire().toPromise().then(res => {
         this.actionEvent.emit({ type: StaticActionType.NEXT })
       })
     }
@@ -250,8 +254,8 @@ export class TravelComponent implements OnInit {
     return this.premiumAmt
   }
 
-  replaceT(stringVal: string){
-    return stringVal.replace("T-","").replace("TU-","")
+  replaceT(stringVal: string) {
+    return stringVal.replace("T-", "").replace("TU-", "")
   }
 
   backPage() {
