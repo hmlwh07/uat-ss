@@ -152,6 +152,7 @@ export class TravelComponent implements OnInit {
       let travel = this.tempData['travelDetail'].find(x => x.refId == detail.riskId)
       let traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
       let benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
+      this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
       modalRef.componentInstance.tempData = {
         travelDetail: travel || {},
         traveler: traveler || {},
@@ -165,16 +166,16 @@ export class TravelComponent implements OnInit {
         if (res.type == "save") {
           // this.surrounding=res.data
           // this.ngZone.run(() => {
-            if (detail) {
-              let index = this.listData.findIndex(x => x.id == detail.id)
+          if (detail) {
+            let index = this.listData.findIndex(x => x.id == detail.id)
+            this.listData[index] = res.data
+          } else {
+            let index = this.listData.findIndex(x => x.id == res.data.id)
+            if (index >= 0)
               this.listData[index] = res.data
-            } else {
-              let index = this.listData.findIndex(x => x.id == res.data.id)
-              if (index >= 0)
-                this.listData[index] = res.data
-              else
-                this.listData.push(res.data)
-            }
+            else
+              this.listData.push(res.data)
+          }
           // })
           this.cdf.detectChanges()
           this.changeTravelDetail(res.detail)
@@ -245,7 +246,7 @@ export class TravelComponent implements OnInit {
 
   caluPremimun() {
     let amt = this.listData.reduce(function (sum, current) {
-      return sum + current.premium;
+      return sum + parseInt(current.premium);
     }, 0)
     this.premiumAmt = this.numberPipe.transform(amt) + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)

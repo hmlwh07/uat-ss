@@ -4,6 +4,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, of, switchMap } from 'rxjs';
 import { GlobalFunctionService } from '../../../../core/global-fun.service';
 import { AuthService } from '../../../../modules/auth';
+import { AlertService } from '../../../../modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from '../../../../modules/master-data/master-data.service';
 import { CustomerService } from '../../../customer-detail/customer.service';
 import { DynamicFormComponent } from '../../../form-component/dynamic-form.component';
@@ -61,6 +62,7 @@ export class TravelRiskDetailComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private travelRikService: TravelRiskService,
     private modalService: NgbModal,
+    private alert: AlertService,
     private ngModal: NgbActiveModal
   ) { }
 
@@ -98,8 +100,21 @@ export class TravelRiskDetailComponent implements OnInit {
     this.activeBox = type == this.activeBox ? "" : type
   }
 
-  deleteData(index, item) {
+  deleteData(index, data) {
+    this.alert.activate('Are you sure want to delete?', 'Warning Message').then(result => {
+      if (result) {
+        // let activeForm = this.formData[this.activePage]
+        this.pageDataService.deleteData(this.benefiForm.tableName, data.refId, this.benefiForm.id).toPromise().then((res) => {
+          if (res) {
+            this.tempData['benefi'].splice(index, 1)
+            this.cdRef.detectChanges();
+            this.alert.activate('This record was deleted', 'Success Message').then(result => {
 
+            });
+          }
+        })
+      }
+    });
   }
 
   download(col, item) {
