@@ -748,6 +748,7 @@ export class ProductComponent implements OnInit {
     }
 
 
+    let height = 0;
     var doc = new jsPDF('p', 'pt', 'a4');
     doc.setFontSize(11).setFont('Roboto', 'normal', 'bold');
     doc.text("Quotation Form", 270, 15);
@@ -846,6 +847,10 @@ export class ProductComponent implements OnInit {
           HookData.cell.styles.fillColor = [255, 193, 51];
         }
       },
+     
+      didDrawPage: (d) => {
+        height = d.cursor.y;
+      },
     })
 
     if (this.tableHeight) {
@@ -856,12 +861,12 @@ export class ProductComponent implements OnInit {
 
 
     doc.setFontSize(10).setFont('Roboto', 'normal', 'bold');
-    doc.text("Details", 10, this.totalHeight + 135);
+    doc.text("Details", 10, height + 30);
     doc.setFontSize(10).setFont('Roboto', 'normal', 'normal');
     doc.text("This section reflect the BPM questionnaire, in same format as",
-      170, this.totalHeight + 155);
+      170, height + 40);
     doc.text("previous, Questions not answered shall be filtered out automatically",
-      170, this.totalHeight + 165);
+      170, height + 50);
     console.log('DOC =====> ', doc);
 
     if (this.platform.is('android') || this.platform.is('ios')) {
