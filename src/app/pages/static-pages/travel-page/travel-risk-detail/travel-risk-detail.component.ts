@@ -130,6 +130,7 @@ export class TravelRiskDetailComponent implements OnInit {
     modalRef.componentInstance.controls = activeForm.controls
     modalRef.componentInstance.pageName = activeForm.pageTitle
     modalRef.componentInstance.activateForm = activeForm
+    modalRef.componentInstance.benefiArray = this.tempData['benefi']
     modalRef.componentInstance.oldData = index >= 0 ? editData : {}
     modalRef.result.then(() => { }, (res) => {
       if (res) {

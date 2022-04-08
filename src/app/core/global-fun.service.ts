@@ -715,13 +715,11 @@ export class GlobalFunctionService {
     let oldData = option ? JSON.parse(JSON.stringify(option)) : []
     let currentPercent = parseFloat(activeForm.share)
     if (activeForm.refId) {
-      let index = oldData.findIndex(x => x.refId = activeForm.refId)
+      let index = oldData.findIndex(x => x.refId == activeForm.refId)
       if (index >= 0)
         oldData.splice(index, 1)
     }
-    if (activeForm.risk_id) {
-      oldData = oldData.filter(x => x.risk_id == activeForm.risk_id)
-    }
+    // console.log(oldData,activeForm);
     let total = oldData.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
     let tempTotal = currentPercent + total
     if (tempTotal > 100) {
