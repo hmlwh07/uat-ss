@@ -79,10 +79,10 @@ export class GlobalFunctionService {
     }
 
     let fector = 1
-    if (term == '001') {
+    if (term == 'T-001') {
       fector = 1 / 4
       // getMonth = 3
-    } else if (term == '002') {
+    } else if (term == 'T-002') {
       fector = 1 / 2
       // getMonth = 6
     }
