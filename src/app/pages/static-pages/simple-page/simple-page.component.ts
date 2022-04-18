@@ -187,7 +187,7 @@ export class SimplePageComponent implements OnInit {
 
   getUnitOption() {
     let leng = this.controls.sumInsuredMainCover.value
-    if (this.staticForm.value.basicCoverId == "< >") {
+    if (this.staticForm.value.basicCoverId == "CRTILLNESS") {
       if (this.currentAge > 50 && this.staticForm.value.sumInsuredMainCover > 4) {
         this.alertService.activate("Medical check up is required", "Warning")
       }
@@ -243,6 +243,7 @@ export class SimplePageComponent implements OnInit {
   }
 
   saveData(id?) {
+    if(this.staticForm.invalid) return false
     const formValue = this.staticForm.value
     let coverd = this.product.coverages.find(x => x.code == formValue.basicCoverId)
     if (!coverd) {
