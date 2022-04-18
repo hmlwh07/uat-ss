@@ -1,0 +1,30 @@
+<div *ngFor="let activity of activityList; let i = index" class="data-list">
+  <div class="data-header">
+    <div class="col-6">
+      <img src="./assets/images/activity/activity-list-01.svg" alt="activity" />
+      <label> {{ activity.activityNo }} </label>
+    </div>
+    <div class="col-6">
+      <section class="icon-group">
+        <div class="actions" (click)="actionBtn(activity,eventType.EDIT)">
+          <img src="./assets/images/edit-01.svg" alt="edit" />
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="data-content row">
+    <div class="col-4">
+      <label *ngIf="activity.activityTitle"> {{ activity.activityTitle }}</label>
+      <label *ngIf="activity.assignName"> Assign to: {{ activity.assignName }} </label>
+    </div>
+    <div class="col-4">
+      <label *ngIf="activity.dueDate"> {{ activity.dueDate | date:'dd/MM/YYYY' }} </label>
+      <label *ngIf="activity.status == '01' " style="color: #FF8100 !important; "> Open </label>
+      <label *ngIf="activity.status == '02' " style="color: #005EAA !important; "> Complete </label>
+      <label *ngIf="activity.status == '03' " style="color: #00ACEA !important;"> Cancel </label>
+    </div>
+    <div class="col-4">
+      <label> Activity Type: <span>{{ activity.activityType }}</span> </label>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="data-header">
+  <div class="col-6">
+    <!-- <img src="../../../assets/images/customer/custoner_list.svg" alt="quo" /> -->
+    <img [src]="itemData.productImage" alt="" />
+    <label> {{ itemData.id }} </label>
+  </div>
+  <div class="col-6">
+    <section class="icon-group">
+      <div class="actions">
+        <img src="../../../assets/images/view-01.svg" (click)="actionBtn(customer,eventType.VIEW)" alt="view" />
+      </div>
+      <div class="actions">
+        <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(customer,eventType.EDIT)" alt="edit" />
+      </div>
+    </section>
+  </div>
+</div>
+<div class="data-content row">
+  <div class="col-4">
+    <label *ngIf="itemData.agentFirstName"> {{ itemData.agentFirstName }} {{ itemData.agentLastName }}</label>
+    <label *ngIf="itemData.productName"> {{ itemData.productName }} </label>
+  </div>
+  <div class="col-4">
+    <label *ngIf="itemData.createdAt"> {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
+    <label *ngIf="itemData.createdAt"> {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
+    <label *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' "
+      style="color: #FF8100 !important;"> In Progress </label>
+    <label *ngIf="itemData.status == 'cancel' || itemData.status == 'Cancel' " style="color: #00ACEA !important;">
+      Cancel </label>
+    <label *ngIf="itemData.status == 'submitted' || itemData.status == 'Submitted' " style="color: #005EAA !important;">
+      Submitted </label>
+    <label *ngIf="itemData.status == 'approved' || itemData.status == 'Approved' " style="color: #005EAA !important;">
+      Approved </label>
+    <label *ngIf="itemData.status == 'fail' || itemData.status == 'Fail' " style="color: #DD5E5E !important;"> Fail
+    </label>
+    <label *ngIf="itemData.status == 'success' || itemData.status == 'Success' " style="color: #FFD300 !important;">
+      Success </label>
+  </div>
+  <div class="col-4">
+    <label> Premium : <span>{{ itemData.premium }}</span> </label>
+  </div>
+</div>

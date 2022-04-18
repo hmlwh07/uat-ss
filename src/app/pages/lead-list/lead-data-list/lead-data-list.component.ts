@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./lead-data-list.component.scss'],
 })
 export class LeadDataListComponent implements OnInit {
-  @Input() leadList: any[] = [];
+  @Input() lead: any[] = [];
   constructor(private router: Router) { }
 
   ngOnInit() {}

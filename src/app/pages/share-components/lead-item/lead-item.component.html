@@ -1,0 +1,37 @@
+<div class="data-header" *ngIf="itemData">
+    <div class="col-6">
+        <img src="../../../assets/images/activity/activity-list-01.svg" alt="activity" />
+        <label> {{ itemData.leadId }} </label>
+    </div>
+    <div class="col-6">
+        <section class="icon-group">
+            <div class="actions">
+                <img src="../../../assets/images/view-01.svg" (click)="actionBtn(itemData, eventType.VIEW )"
+                    alt="View" />
+            </div>
+            <div class="actions">
+                <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData, eventType.EDIT )"
+                    alt="edit" />
+            </div>
+        </section>
+    </div>
+</div>
+<div class="data-content row">
+    <div class="col-4">
+        <label *ngIf="itemData.contactName"> {{ itemData.contactName }}</label>
+        <label *ngIf="itemData.productName">{{ itemData.productName }} </label>
+        <label *ngIf="itemData.email">{{ itemData.email }}, {{ itemData.phoneNo }}</label>
+    </div>
+    <div class="col-4">
+        <label *ngIf="itemData.openedDate"> {{ itemData.openedDate | date:'dd/MM/YYYY' }} </label>
+        <label *ngIf="itemData.statusCode == '01' " style="color: #FF8100 !important;"> Open </label>
+        <label *ngIf="itemData.statusCode == '02' " style="color: #005EAA !important;"> Assigned </label>
+        <label *ngIf="itemData.statusCode == '03' " style="color: #FF8100 !important;"> Follow Up </label>
+        <label *ngIf="itemData.statusCode == '04' " style="color: #DD5E5E !important;"> Reject </label>
+        <label *ngIf="itemData.statusCode == '05' " style="color: #00ACEA !important;"> Win </label>
+        <label *ngIf="itemData.statusCode == '06' " style="color: #DD5E5E !important;"> Lost </label>
+    </div>
+    <div class="col-4">
+        <label> Score : <span>{{ itemData.score }}</span> </label>
+    </div>
+</div>
