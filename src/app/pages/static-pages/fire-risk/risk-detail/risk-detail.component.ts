@@ -472,7 +472,7 @@ export class RiskDetailComponent implements OnInit {
     this.activeBox = "ADDON"
     let stockVal = this.stockTemp.stockData
     if (stockVal.length > 0)
-      this.oldData.proposeStockValue = this.oldData[0].agreedSi
+      this.oldData.proposeStockValue = stockVal[0].agreedSi
     this.calPremimun(false)
   }
 

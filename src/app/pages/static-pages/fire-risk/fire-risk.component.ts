@@ -170,7 +170,7 @@ export class FireRiskComponent implements OnInit {
         break;
     }
     // }
-    finalPre = this.globalFun.calculateDecimal(finalPre * rate)
+    finalPre = this.globalFun.calculateDecimal(finalPre * rate) + 100
     this.premiumAmt = this.numberPipe.transform(finalPre) + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return finalPre
