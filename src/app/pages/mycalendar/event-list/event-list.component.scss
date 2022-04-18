@@ -54,10 +54,16 @@
 .cal-day-badge {
     background-color: #1e90ff;
     color: #fff;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
     text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 10px;
 }
 
 .ver-center {
