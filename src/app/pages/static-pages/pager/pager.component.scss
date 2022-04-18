@@ -1,0 +1,71 @@
+
+
+.pager{
+    width : 100%;
+    padding-top: 15px;
+}
+
+.pager_atom{
+    margin-right : 15px;
+}
+
+.pager_atom_btn{
+    margin-right : 15px;
+}
+
+.right{
+    float:right;
+}
+.pager_btn_wrapper{
+    display : flex;
+}
+
+.mr_15{
+    margin-right: 15px;
+}
+
+.mt_5{
+    margin-top: 5px;
+}
+.common_btn{
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0px 0px 12px;
+    cursor: pointer;
+}
+
+.pager_primary_btn{
+    @extend .common_btn;
+    background-color: #005f99;
+    color : #FFF;
+}
+
+.pager_primary_btn_selected{
+    @extend .common_btn;
+    background-color: #00acea;
+    color : #FFF;
+}
+
+.pager_icon{
+    width : 32px;
+    cursor : pointer;
+}
+
+.ml_15{
+    margin-left: 15px;
+}
+
+.ml_30{
+    margin-left: 30px;
+}
+
+.menu_bg{
+    background-color: inherit;
+}
+
+.mb_10{
+    margin-bottom: 10px;
+}

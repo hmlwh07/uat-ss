@@ -10,30 +10,29 @@ import {
 import { FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MaterialTableViewComponent } from "src/app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component";
-import { LeadCol, LeadDisplayCol } from "./lead-list.const";
-import { LeadListService } from "./lead-list.service";
+import { LeadCol, LeadDisplayCol } from "../../../../pages/lead-list/lead-list.const";
+import { LeadListService } from "../../../../pages/lead-list/lead-list.service";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from "@angular/material-moment-adapter";
-import { MasterDataService } from "../../modules/master-data/master-data.service";
-import { ProductDataService } from "../products/services/products-data.service";
-import { MY_FORMATS } from "../../core/is-json";
+import { MasterDataService } from "../../../../modules/master-data/master-data.service";
+import { ProductDataService } from "../../../../pages/products/services/products-data.service";
+import { MY_FORMATS } from "../../../../core/is-json";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { CustomerListComponent } from "../customer-list/customer-list.component";
+import { CustomerListComponent } from "../../../customer-list/customer-list.component";
 import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
-import { environment } from "../../../environments/environment";
-import { ListingsPagerComponent } from './../static-pages/pager/pager.component';
+import { environment } from "../../../../../environments/environment";
 @Component({
-  selector: "app-lead-list",
-  templateUrl: "./lead-list.component.html",
-  styleUrls: ["./lead-list.component.scss"],
+  selector: "app-listing-lead",
+  templateUrl: "./listings-lead-list.component.html",
+  styleUrls: ["./listings-lead.component.scss"],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
 
-export class LeadListComponent implements OnInit {
+export class ListingsLeadListComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent;
 
   ELEMENT_COL = JSON.parse(JSON.stringify(LeadCol));
@@ -61,6 +60,7 @@ export class LeadListComponent implements OnInit {
     this.loadForm();
   }
   ngOnInit(): void {
+    console.log('fkkkkkkk')
     this.show = true
   }
   ngAfterViewInit() {
@@ -129,8 +129,8 @@ export class LeadListComponent implements OnInit {
 
   }
 
-  updateURL(event: any) {
-    if (event) {
+  updateURL(event: any){
+    if(event){
       event.target.src = "assets/icon/general_product.svg"
     }
   }
@@ -175,23 +175,18 @@ export class LeadListComponent implements OnInit {
 
   getList() {
     console.log(this.LeadForm.getRawValue());
-    this.LeadList = [{ productName: 'Z' }, { productName: 'J' },
-    { productName: 'T' },
-    { productName: 'Y' },
-    { productName: 'B' },
-    { productName: 'A' }]
-
-    // this.LeadListService.getLeadList(this.LeadForm.getRawValue())
-    //   .toPromise()
-    //   .then((res: any) => {
-    //     if (res) {
-    //       console.log("RES", res)
-    //       this.LeadList = res
-    //       this.cdf.detectChanges();
-    //       if (this.matTable)
-    //         this.matTable.reChangeData();
-    //     }
-    //   });
+    
+    this.LeadListService.getLeadList(this.LeadForm.getRawValue())
+      .toPromise()
+      .then((res: any) => {
+        if (res) {
+          console.log("RES", res)
+          this.LeadList = res
+          this.cdf.detectChanges();
+          if (this.matTable)
+            this.matTable.reChangeData();
+        }
+      });
   }
   getFormatOpt(res) {
     return res.map(x => {
@@ -223,8 +218,8 @@ export class LeadListComponent implements OnInit {
       this.navigateToDetail("view", event.data.leadId, event.data.individualId);
     }
   }
-  onActionEdit() {
-
+  onActionEdit(){
+    
   }
 
   viewExistingCustomer() {
@@ -264,9 +259,5 @@ export class LeadListComponent implements OnInit {
   isControlTouched(controlName): boolean {
     const control = this.LeadForm.controls[controlName];
     return control.dirty || control.touched;
-  }
-
-  reponseFromListing(event) {
-    console.log('event', event)
   }
 }

@@ -1,0 +1,12 @@
+<ng-container *ngFor="let atom of data  ">
+    <!-- | Listing:'asc':colField | slice:start:end | Listing:listingargs-->
+    <div>
+        <app-child [data]="atom" (actionResponse)="reponseFromAtom($event)"></app-child>
+    </div>
+</ng-container>
+
+<div class="example-preview" *ngIf="data.length > 0">
+    
+    <app-pager *ngIf="data.length > 0" [sourceData]="data" [formType]="lead" (activePage)="reponseFromPager($event)">
+    </app-pager>
+</div>

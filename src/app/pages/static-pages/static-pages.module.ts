@@ -31,6 +31,13 @@ import { NgxCurrencyModule } from 'ngx-currency';
 import { EndoGripComponent } from './endo-griph/endo-griph.component';
 import { EndoComponent } from './endo/endo.component';
 import { TravelComponent } from './travel-page/travel-page.component';
+// import { ChildComponent } from './common-list/child.component';
+// //listings
+// import {ListingsPagerComponent} from './pager/pager.component';
+// import { CommonListingComponent,ListingPipe} from './common-list/common-list.component';
+// import {ListingsLeadListComponent } from './listings/lead/listings-lead-list.component';
+import {MatMenuModule} from '@angular/material/menu';
+
 @NgModule({
   declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,TravelComponent],
   exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,TravelComponent],
@@ -49,7 +56,8 @@ import { TravelComponent } from './travel-page/travel-page.component';
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    MatMenuModule
   ]
 })
 export class StaticPagesModule { }
