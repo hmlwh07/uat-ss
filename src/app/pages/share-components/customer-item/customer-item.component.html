@@ -1,0 +1,28 @@
+<div class="data-header">
+  <div class="col-6">
+    <img src="../../../assets/images/customer/custoner_list.svg" alt="customer" />
+    <label> {{ itemData.partyCode }} </label>
+  </div>
+  <div class="col-6">
+    <section class="icon-group">
+      <div class="actions">
+        <img src="../../../assets/images/edit-01.svg" (click)="navigateToDetail(itemData,eventType.EDIT)" alt="edit" />
+      </div>
+    </section>
+  </div>
+</div>
+<div class="data-content row">
+  <div class="col-4">
+    <label *ngIf="itemData.name"> {{ itemData.name }}</label>
+    <label *ngIf="itemData.fatherName"> {{ itemData.fatherName }} </label>
+    <label *ngIf="itemData.identityNumber"> {{ itemData.identityNumber }} </label>
+  </div>
+  <div class="col-4">
+    <label *ngIf="itemData.dateOfBirth"> {{ itemData.dateOfBirth | date:'dd/MM/YYYY' }} </label>
+    <label *ngIf="itemData.statusCode == 'A' " style="color: #FF8100 !important;"> Active </label>
+    <label *ngIf="itemData.statusCode != 'A' " style="color: #005EAA !important;"> InActive </label>
+  </div>
+  <div class="col-4">
+    <label> ID Type: <span>{{ itemData.identityType }}</span> </label>
+  </div>
+</div>
