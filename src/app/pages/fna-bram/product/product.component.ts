@@ -846,7 +846,7 @@ export class ProductComponent implements OnInit {
           HookData.cell.styles.fillColor = [255, 193, 51];
         }
       },
-
+     
       didDrawPage: (d) => {
         height = d.cursor.y;
       },

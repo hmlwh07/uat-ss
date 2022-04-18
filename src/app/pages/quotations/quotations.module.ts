@@ -9,10 +9,11 @@ import { RouterModule } from '@angular/router';
 import { ProductsModule } from '../products/products.module';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
+import { QuotationDataListComponent } from '../sales/quotation-data-list/quotation-data-list.component';
 
 
 @NgModule({
-  declarations: [QuotationPageComponent,QuotationsComponent],
+  declarations: [QuotationPageComponent,QuotationsComponent, QuotationDataListComponent],
   imports: [
     CommonModule,
     InlineSVGModule,

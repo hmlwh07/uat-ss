@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
 import { MaterialTableViewComponent } from '../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CustomerService } from '../../customer-detail/customer.service';
@@ -27,6 +28,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   policyAccess = defaultAccessObj
   quotationForm: FormGroup
   isTeam: boolean = false
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
     this.loadForm()
   }
@@ -117,7 +119,13 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   getQuoList() {
     this.quoService.getQuoList(this.quotationForm.getRawValue()).toPromise().then((res: any) => {
       if (res) {
+        console.log('getQuoList', res);
         this.quoList = res
+        for (var i = 0; i < this.quoList.length; i++) {
+          if (this.quoList[i].icon) {
+            this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '/' + this.quoList[i].icon
+          }
+        }
         this.cdRef.detectChanges()
         this.matTable.reChangeData()
         // })

@@ -1,0 +1,37 @@
+<div *ngFor="let quo of quoList; let i = index" class="data-list">
+  <div class="data-header">
+    <div class="col-6">
+      <!-- <img src="../../../assets/images/customer/custoner_list.svg" alt="quo" /> -->
+      <img [src]="quo.productImage"  alt="" />
+      <label> {{ quo.id }} </label>
+    </div>
+    <div class="col-6">
+      <section class="icon-group">
+        <div class="actions">
+          <img src="../../../assets/images/view-01.svg" (click)="navigateToDetail(customer)" alt="view" />
+        </div>
+        <div class="actions">
+          <img src="../../../assets/images/edit-01.svg" (click)="navigateToDetail(customer)" alt="edit" />
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="data-content row"> 
+    <div class="col-4">
+      <label *ngIf="quo.agentFirstName"> {{ quo.agentFirstName }} {{ quo.agentLastName }}</label>
+      <label *ngIf="quo.productName"> {{ quo.productName }} </label>
+    </div>
+    <div class="col-4">
+      <label *ngIf="quo.createdAt"> {{ quo.createdAt | date:'dd/MM/YYYY' }} </label>
+      <label *ngIf="quo.status == 'in_progress' || quo.status == 'In_progress' " style="color: #FF8100 !important;"> In Progress </label>
+      <label *ngIf="quo.status == 'cancel' || quo.status == 'Cancel' " style="color: #00ACEA !important;"> Cancel </label>
+      <label *ngIf="quo.status == 'submitted' || quo.status == 'Submitted' " style="color: #005EAA !important;"> Submitted </label>
+      <label *ngIf="quo.status == 'approved' || quo.status == 'Approved' " style="color: #005EAA !important;"> Approved </label>
+      <label *ngIf="quo.status == 'fail' || quo.status == 'Fail' " style="color: #DD5E5E !important;"> Fail </label>
+      <label *ngIf="quo.status == 'success' || quo.status == 'Success' " style="color: #FFD300 !important;"> Success </label>
+    </div>
+    <div class="col-4">
+      <label> Premium : <span>{{ quo.premium }}</span> </label>
+    </div>
+  </div>
+</div>

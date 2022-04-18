@@ -28,7 +28,7 @@
                             <!-- <input type="text" readonly class="form-control form-control-sm date-input"
                                 formControlName="dateOfBirth" [min]="fromMinDate" [max]="fromMaxDate"
                                 [matDatepicker]="picker" (dateChange)="doValid('dateOfBirth')">
-                            <mat-datepicker-toggle matSuffix [for]="picker12"></mat-datepicker-toggle>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker disabled="false"></mat-datepicker> -->
                         </div>
                     </div>
@@ -43,8 +43,8 @@
                 <div class="col-8">
                     <div class="col-7" style="padding: 0; float: left;">
                         <div class="form-group">
-                            <input type="number"  class="form-control form-control-sm form-control-md"
-                                autocomplete="off" [class.is-invalid]="isControlInvalid('retirementAge')"
+                            <input type="number" class="form-control form-control-sm form-control-md" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('retirementAge')"
                                 [class.is-valid]="isControlValid('retirementAge')" formControlName="retirementAge" />
                         </div>
                     </div>

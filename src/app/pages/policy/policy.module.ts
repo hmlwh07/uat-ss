@@ -8,10 +8,11 @@ import { RouterModule } from '@angular/router';
 import { ProductsModule } from '../products/products.module';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { PolicyPageComponent } from './policy-page.component';
+import { ApplicationDataListComponent } from '../sales/application-data-list/application-data-list.component';
 
 
 @NgModule({
-  declarations: [PolicyPageComponent,PolicyComponent],
+  declarations: [PolicyPageComponent,PolicyComponent, ApplicationDataListComponent],
   imports: [
     CommonModule,
     InlineSVGModule,
