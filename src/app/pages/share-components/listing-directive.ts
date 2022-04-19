@@ -1,9 +1,17 @@
 import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, EventEmitter, Input, OnDestroy, OnInit, Output, Renderer2, ViewContainerRef } from "@angular/core";
 import { Subscription } from "rxjs";
+import { ActivityItemComponent } from "./activity-item/activity-item.component";
+import { ApplicationItemComponent } from "./application-item/application-item.component";
+import { CustomerItemComponent } from "./customer-item/customer-item.component";
 import { LeadItemComponent } from "./lead-item/lead-item.component";
 import { ListField, ListItemAction } from "./list-field.interface";
+import { QuotationItemComponent } from "./quotation-item/quotation-item.component";
 const LIST_ITEM_COMPONENT = {
   lead: LeadItemComponent,
+  policy: ApplicationItemComponent,
+  quotat: QuotationItemComponent,
+  customer: CustomerItemComponent,
+  activity: ActivityItemComponent,
 }
 @Directive({
   selector: '[list-directive]'
