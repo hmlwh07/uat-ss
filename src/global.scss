@@ -78,9 +78,11 @@
           padding: 0;
           float: right;
           .icon-group {
-            width: 100px !important;
+            width: auto !important;
+            max-width: 85px;
             overflow: hidden;
-            margin-left: 61%;
+            margin: 0 auto;
+            //margin-left: 61%;
             .actions {
               width: 35px;
               height: 30px;
@@ -89,11 +91,15 @@
               float: left;
               margin-right: 15px;
               cursor: pointer;
+              margin-bottom: 5px;
               img {
                 width: 17px;
                 height: 17px;
                 margin: 6px 9px;
               }
+            }
+            .actions:last-child {
+              margin-right: 0;
             }
           }
         }
