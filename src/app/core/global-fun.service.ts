@@ -79,17 +79,17 @@ export class GlobalFunctionService {
     }
 
     let fector = 1
-    if (term == '001') {
+    if (term == 'T-001') {
       fector = 1 / 4
       // getMonth = 3
-    } else if (term == '002') {
+    } else if (term == 'T-002') {
       fector = 1 / 2
       // getMonth = 6
     }
     // let exChange = await this.getRate(currency)
     // if (exChange < 0) return false
     let stumDuty = currency == "MMK" ? 100 : 1
-    let result = this.calculateDecimal((sumIn * (0.7 / 100)) * fector) + stumDuty
+    let result = this.calculateDecimal((sumIn * (0.707 / 100)) * fector) + stumDuty
     // if()
     this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency)
     return true

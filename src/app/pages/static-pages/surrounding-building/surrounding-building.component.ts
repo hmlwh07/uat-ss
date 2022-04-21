@@ -44,7 +44,11 @@ export class SurroundingBuildingComponent implements OnInit {
         // console.log("RESSSS", res)
         if (res.type == "save") {
           // this.surrounding=res.data
-          this.surrounding.push(res.data)
+          let index = this.surrounding.findIndex(x => x.id == data.id)
+          if (index < 0)
+            this.surrounding.push(res.data)
+          else
+            this.surrounding[index] = res.data
           this.cdf.detectChanges()
         }
       }
