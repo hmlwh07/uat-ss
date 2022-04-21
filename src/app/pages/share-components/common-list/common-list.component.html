@@ -1,4 +1,4 @@
-<ng-container *ngFor="let atom of data | data-sort: order : colField  | slice:start:end">
+<ng-container *ngFor="let atom of data | dataSort: order : colField  | slice:start:end">
     <ng-container list-directive [viewType]="type" [itemData]="atom" (btnEvent)="actionTrigger($event)"></ng-container>
 </ng-container>
 

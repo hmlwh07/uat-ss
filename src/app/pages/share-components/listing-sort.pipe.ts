@@ -1,7 +1,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
-  name: 'data-sort'
+  name: 'dataSort'
 })
 
 export class ListingSortPipe implements PipeTransform {
