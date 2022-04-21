@@ -19,7 +19,8 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   @Input() type: any;  // form type
   @Input() colField: any; // col field
   @Input() order: string = 'asc' //ascending,descending
-  @Output() btnEvent?: EventEmitter<ListItemAction>;
+  // @Output() btnEvent?: EventEmitter<ListItemAction>;
+  @Output() btnEvent?: EventEmitter<ListItemAction> = new EventEmitter();
   selectedPageSize = 5;
   selectedPageBtn = 1;
 
