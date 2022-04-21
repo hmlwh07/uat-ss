@@ -68,9 +68,15 @@
       <td class="value-col">{{detail.policyDuration}} Days</td>
     </tr>
     <tr>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Type</td>
+      <td class="value-col" colspan="2">{{detail.policyType == "T-001" ? "Normal" : "Declaration"}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Currency</td>
-      <td class="value-col" colspan="10">{{detail.currency}}</td>
+      <td class="value-col" colspan="2">{{detail.currency}}</td>
      
+    </tr>
+    <tr>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Risk Address</td>
+      <td class="value-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
     </tr>
   </table>
 </div>
@@ -81,28 +87,34 @@
   <table class="tbody-align">
     <tr>
       <td class="field-col">
-        Vehicle No. 
+        Building Description 
       </td>
       <td class="field-col">
-        Make/ Model
+        Type of Building
       </td>
       <td class="field-col">
-        CC/ Tonnage
+        Occupation of Building
       </td>
       <td class="field-col">
-        Year of Manufacture
+        Building Class
       </td>
       <td class="field-col">
-       Type of Vehicle
+       Total Square Feet
       </td>
       <td class="field-col">
-        Type of Coverage 
+        Year of Construction 
       </td>
       <td class="field-col">
-        Excess
+        Proposed Building SI
       </td>
       <td class="field-col">
-        Windscreen SI
+        Proposed Furniture
+      </td>
+      <td class="field-col">
+        Proposed Machinery SI
+      </td>
+      <td class="field-col">
+        Proposed Stock SI
       </td>
       <td class="field-col">
         Total SI
@@ -111,62 +123,22 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of listData;">
         <tr>
-          <td class="field-value">{{data.vehicleNo}}</td>
-          <td class="field-value">{{data.model}}</td>
-          <td class="field-value">{{data.tonnage}}</td>
-          <td class="field-value">{{data.yearOfManufacture}}</td>
-          <td class="field-value">{{data.typeOfVehicle}}</td>
-          <td class="field-value">{{data.typeOfCoverage}}</td>
-          <td class="field-value">{{data.excess}}</td>
-          <td class="field-value">{{data.windscreenSI}}</td>
-          <td class="field-value">{{data.totalSI | number}}</td>
+          <td class="field-value">{{data.buildingDescription}}</td>
+          <td class="field-value">{{data.typeOfBuildingValue}}</td>
+          <td class="field-value">{{data.occupationOfBuildingValue}}</td>
+          <td class="field-value">{{data.buildingClassValue}}</td>
+          <td class="field-value">{{data.totalSquareFoot}}</td>
+          <td class="field-value">{{data.yearOfConstruction}}</td>
+          <td class="field-value">{{data.buildingSi}}</td>
+          <td class="field-value">{{data.proposedFurniture}}</td>
+          <td class="field-value">{{data.proposedMachinerySI}}</td>
+          <td class="field-value">{{data.proposeStockValue}}</td>
+          <td class="field-value">{{data.riskSi | number}}</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
 </div>
-
-
-
-
-
-<div class="addon-print">
-  <div class="title-style mt-5 mb-3">Basic Cover Information</div>
-  <table class="tbody-align">
-    <tr>
-      <td class="field-col">
-        OD
-      </td>
-      <td class="field-col">
-        Thrid Party
-      </td>
-      <td class="field-col">
-        SRCC
-      </td>
-      <td class="field-col">
-        Wind Screen
-      </td>
-      <td class="field-col">
-        Total Premium of Basic Cover 
-      </td>
-    </tr>
-    <tbody class="tbody-align val-col">
-      <ng-container *ngFor="let data of listData;">
-        <tr>
-          <td class="field-value">{{data.OD}}</td>
-          <td class="field-value">{{data.thirdParty}}</td>
-          <td class="field-value">{{data.srcc}}</td>
-          <td class="field-value">{{data.windScreen}}</td>
-          <td class="field-value">{{data.totalPremiumofBasicCover}}</td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
-
-
-
-
 
 
 <div class="addon-print">
@@ -174,53 +146,65 @@
   <table class="tbody-align">
     <tr>
       <td class="field-col">
+        Building Description
+      </td>
+      <td class="field-col">
+        Fire Premium
+      </td>
+      <td class="field-col">
+        STHTC
+      </td>
+      <td class="field-col">
+        Impact Damage
+      </td>
+      <td class="field-col">
+        RSMD
+      </td>
+      <td class="field-col">
+        Burglary
+      </td>
+      <td class="field-col">
+        Air Craft Damage
+      </td>
+      <td class="field-col">
+        EQ
+      </td>
+      <td class="field-col">
+        Spontaneous Combus
+      </td>
+      <td class="field-col">
+        Subsidence and Landslid
+      </td>
+      <td class="field-col">
         War Risk
       </td>
       <td class="field-col">
-        Act of God
+        Explosion 
       </td>
       <td class="field-col">
-        Theft
+        Flood and Inundati 
       </td>
       <td class="field-col">
-        No Betterment Endorsement
-      </td>
-      <td class="field-col">
-        Cross Border
-      </td>
-      <td class="field-col">
-        Loss of Luggage
-      </td>
-      <td class="field-col">
-        Medical Expense
-      </td>
-      <td class="field-col">
-        Passenger Liability  
-      </td>
-      <td class="field-col">
-        Paid Driver 
-      </td>
-      <td class="field-col">
-        Excess 
-      </td>
-      <td class="field-col">
-        Total Premium of Additional Cover  
+        Total Premium 
       </td>
     </tr>
     <tbody class="tbody-align val-col">
-      <ng-container *ngFor="let data of listData;">
+      <ng-container *ngFor="let data of addOnData;">
         <tr>
-          <td class="field-value">{{data.warRisk}}</td>
-          <td class="field-value">{{data.actOfGod}}</td>
-          <td class="field-value">{{data.theft}}</td>
-          <td class="field-value">{{data.noBettermentEndorsement}}</td>
-          <td class="field-value">{{data.crossBorder}}</td>
-          <td class="field-value">{{data.lossOfLuggage}}</td>
-          <td class="field-value">{{data.medicalExpense}}</td>
-          <td class="field-value">{{data.passengerLiability}}</td>
-          <td class="field-value">{{data.paidDriver}}</td>
-          <td class="field-value">{{data.excess}}</td>
-          <td class="field-value">{{data.totalPremium}}</td>
+          <td class="field-value">{{data.description}}</td>
+          <td class="field-value">{{data.firepremium || 0}}</td>
+          <td class="field-value">{{data.STHTC}}</td>
+          <td class="field-value">{{data.IMPD}}</td>
+          <td class="field-value">{{data.RSMD}}</td>
+          <td class="field-value">{{data.BURGLARY}}</td>
+          <td class="field-value">{{data.ACD}}</td>
+          <td class="field-value">{{data.EQ}}</td>
+          <td class="field-value">{{data.SPONTCOMB}}</td>
+          <td class="field-value">{{data.SUBLSLD}}</td>
+          <td class="field-value">{{data.WARRISK}}</td>
+          <td class="field-value">{{data.EXPLOSION}}</td>
+          <td class="field-value">{{data.FLOOD}}</td>
+          <td class="field-value">{{data.premium}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -232,13 +216,12 @@
   <table width="100%">
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Total SI</td>
-      <td class="value-col" colspan="4">{{detail.totalSI}}</td>
+      <td class="value-col" colspan="4">{{totalSi}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Total Premium</td>
-      <td class="value-col" colspan="4">{{detail.totalPremium}}</td>
+      <td class="value-col" colspan="4">{{totalPremium }}</td>
     </tr>
   </table>
 </div>
-
 
 <div class="addon-print">
   <div class="row">
@@ -250,8 +233,6 @@
     </div>
   </div>
 </div>
-
-
 
 <div class="moter-print">
 
@@ -269,4 +250,6 @@
       </div>
     </div>
   </div>
+
+
 </div>

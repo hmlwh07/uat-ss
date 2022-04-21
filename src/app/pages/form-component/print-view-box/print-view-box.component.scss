@@ -12,6 +12,9 @@
     // width: 500px;
   }
 }
+.row{
+  margin: 5px 5px;
+}
 
 .field-col {
   text-align: center;
@@ -41,9 +44,9 @@ table td {
 //   width: 120px;
 // }
 .print-header {
-  background-color: rgb(242, 242, 242);
+  background-color: rgb(255, 255, 255);
   margin          : 0px;
-  padding         : 15px 10px;
+  // padding         : 15px 10px;
   margin-bottom   : 1.25rem;
   position: relative;
 }
@@ -57,7 +60,15 @@ table td {
   position   : absolute;
 
   .logo {
-    width       : 40px;
+    width       : 30%;
+    margin-right: 10px;
+  }
+}
+.header-logo{
+  display: flex;
+  justify-content: center;
+  .logo {
+    width       : 30%;
     margin-right: 10px;
   }
 }

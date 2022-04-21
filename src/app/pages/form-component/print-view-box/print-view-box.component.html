@@ -1,17 +1,16 @@
 <div class="print-grid" id="componentID">
   <!-- static area -->
   <div class="print-header">
-    <div class="header-title">
-      <img src="assets/images/kbzms.png" alt="" class="logo">
-      KBZ MS & KBZ LIFE
-    </div>
-    <div class="product-name">{{product.name | titlecase}} Proposal</div>
+    <div class="header-logo">
+      <img src="assets/images/header-logo.png" alt="" class="logo">
+      </div>
+    <div class="product-name">{{product.name | titlecase}} Quotation</div>
     <div class="qr" *ngIf="qrLocation">
       <qrcode [qrdata]="qrLocation" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
     </div>
   </div>
   <div class="product-detail">
-    <table width="50%">
+    <!-- <table width="50%">
       <tr>
         <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Branch</td>
         <td class="value-col"></td>
@@ -24,10 +23,48 @@
         <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Proposal No</td>
         <td class="value-col">{{resourcesId}}</td>
       </tr>
-    </table>
+    </table> -->
+    <div class="row">
+      <div class="col-sm-3 text-bold">
+        Branch
+      </div>
+      <div class="col-sm-3">
+        
+      </div>
+      <div class="col-sm-3 text-bold">
+        Date
+      </div>
+      <div class="col-sm-3">
+        {{today | date: "dd/MM/YYYY"}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3 text-bold">
+        Agent Name / ID
+      </div>
+      <div class="col-sm-3">
+        {{agentName}}
+      </div>
+      <div class="col-sm-3 text-bold">
+        Quotation No.
+      </div>
+      <div class="col-sm-3">
+        {{resourcesId}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3 text-bold">
+        Agent Phone No.
+      </div>
+      <div class="col-sm-3">
+        
+      </div>
+    </div>
   </div>
   <!-- static area -->
-  <ng-container *ngIf="formatedData">
+  <ng-container *ngIf="formatedData && (product.code!='CLFR01' && product.code !='PLMO02');else staticPrint">
     <ng-container *ngFor="let page of temConfig">
       <ng-container *ngIf="page.type == 'static';else dynPrint">
         <ng-container staticPirint [compId]="page.id" [resourcesId]="resourcesId"></ng-container>
@@ -131,7 +168,16 @@
 
     </ng-container>
   </ng-container>
-  <div class="print-footer mt-5">
+  <ng-template #staticPrint>
+<ng-container *ngIf="product.code=='CLFR01'">
+<app-fire-print [resourcesId]="resourcesId"></app-fire-print>
+</ng-container>
+<ng-container *ngIf="product.code=='PLMO02' ">
+<app-moter-print [resourcesId]="resourcesId"></app-moter-print>
+</ng-container>
+  </ng-template>
+
+  <!-- <div class="print-footer mt-5">
     <div>
       <img src="assets/images/kbzms.png" alt="" class="logo">
     </div>
@@ -141,6 +187,6 @@
       (+951) 2307000, 09 95 007 7000<br>
       Email: customercare@kbz.com, Sales Channel: IA<br>
     </p>
-  </div>
+  </div> -->
 
 </div>
