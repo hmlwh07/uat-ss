@@ -14,13 +14,13 @@ const LIST_ITEM_COMPONENT = {
   activity: ActivityItemComponent,
 }
 @Directive({
-  selector: '[list-directive]'
+  selector: '[listDirective]'
 })
 export class ListingDirective implements ListField, OnInit, OnDestroy {
 
   @Input() viewType: string
   @Input() itemData: any
-  @Output() btnEvent?: EventEmitter<ListItemAction>;
+  @Output() btnEvent?: EventEmitter<ListItemAction> = new EventEmitter<ListItemAction>();
   component: ComponentRef<ListField>;
   unsub: Subscription[] = []
   constructor(

@@ -13,6 +13,7 @@ import { StaticPagesModule } from '../static-pages/static-pages.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { LeadDataListComponent } from './lead-data-list/lead-data-list.component';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { LeadDataListComponent } from './lead-data-list/lead-data-list.component
     MatInputModule,
     NgbModalModule,
     StaticPagesModule,
+    ShareComponentModule,
     NgSelectModule,
     CustomerListShareModule
   ]

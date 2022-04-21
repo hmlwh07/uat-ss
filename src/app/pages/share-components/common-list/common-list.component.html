@@ -1,7 +1,7 @@
-<ng-container *ngFor="let atom of data | dataSort: order : colField  | slice:start:end">
-    <ng-container list-directive [viewType]="type" [itemData]="atom" (btnEvent)="actionTrigger($event)"></ng-container>
+<ng-container *ngFor="let atom of data | dataSort: order : colField | slice: start: end">
+    <ng-container listDirective [viewType]="type" [itemData]="atom" (btnEvent)="actionTrigger($event)"></ng-container>
 </ng-container>
-
+<!-- | dataSort: order : colField -->
 <div class="example-preview" *ngIf="data.length > 0">
     <app-pager *ngIf="data.length > 0" [sourceData]="data" [formType]="lead" (activePage)="reponseFromPager($event)">
     </app-pager>

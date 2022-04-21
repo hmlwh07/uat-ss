@@ -2,13 +2,13 @@ import { Component, OnInit, Input, OnChanges, ElementRef, Output, EventEmitter, 
 import { ListItemAction } from '../list-field.interface';
 
 @Component({
-  selector: 'app-common-list',
+  selector: 'app-common-list-2',
   templateUrl: './common-list.component.html',
   styleUrls: ['./common-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CommonListComponent implements OnInit, AfterViewInit {
+export class CommonList2Component implements OnInit, AfterViewInit {
 
   @Output('responseListings') responseListings = new EventEmitter()
   // @Output('edit') edit = new EventEmitter()
@@ -20,11 +20,11 @@ export class CommonListComponent implements OnInit, AfterViewInit {
   @Input() colField: any; // col field
   @Input() order: string = 'asc' //ascending,descending
   @Output() btnEvent?: EventEmitter<ListItemAction>;
-  selectedPageSize;
-  selectedPageBtn;
+  selectedPageSize = 5;
+  selectedPageBtn = 1;
 
-  start;
-  end;
+  start = 0;
+  end = 5;
   listingargs;
   constructor(private cdf: ChangeDetectorRef) { }
 
@@ -34,6 +34,10 @@ export class CommonListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.cdf.detectChanges();
+  }
+
+  detchChange(){
+    this.cdf.detectChanges()
   }
 
   reponseFromPager(event) {

@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StaticPagesModule } from './../static-pages/static-pages.module';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { StaticPagesModule } from './../static-pages/static-pages.module';
     NgbDatepickerModule,
     LeadListShareModule,
     NgSelectModule,
+    ShareComponentModule,
     RouterModule.forChild([
       {
         path: '',

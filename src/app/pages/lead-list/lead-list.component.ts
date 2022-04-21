@@ -22,7 +22,7 @@ import { CustomerListComponent } from "../customer-list/customer-list.component"
 import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
 import { environment } from "../../../environments/environment";
-import { ListingsPagerComponent } from './../static-pages/pager/pager.component';
+import { CommonList2Component } from "../share-components/common-list/common-list.component";
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -34,6 +34,7 @@ import { ListingsPagerComponent } from './../static-pages/pager/pager.component'
 })
 
 export class LeadListComponent implements OnInit {
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent;
 
   ELEMENT_COL = JSON.parse(JSON.stringify(LeadCol));
@@ -181,6 +182,7 @@ export class LeadListComponent implements OnInit {
           console.log("RES", res)
           this.LeadList = res
           this.cdf.detectChanges();
+          this.commonList.detchChange()
          // this.matTable.reChangeData();
         }
       });

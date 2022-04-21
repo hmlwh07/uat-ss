@@ -141,6 +141,8 @@
                         [colField]="productName" [order]="asc" (responseListings)="reponseFromListing($event)">
                     </app-common-list>
                 </ng-container> -->
+
+                <app-common-list-2 #commonList [data]="LeadList" [type]="'lead'"></app-common-list-2>
             
             </div>
         </div>
