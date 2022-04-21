@@ -45,4 +45,4 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
   ],
   providers: []
 })
-export class SeniorLpDashboardModule { }
+export class ShareComponentModule { }
