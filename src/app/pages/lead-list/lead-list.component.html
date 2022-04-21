@@ -142,7 +142,7 @@
                     </app-common-list>
                 </ng-container> -->
 
-                <app-common-list-2 *ngIf="LeadList.length > 0"  class="customer-card-body data-list" #commonList [data]="LeadList" [type]="'lead'"
+                <app-common-list-2 *ngIf="LeadList.length > 0"  class="data-list" #commonList [data]="LeadList" [type]="'lead'"
                     [colField]="productName" (btnEvent)="actionBtn($event)"></app-common-list-2>
 
             </div>
