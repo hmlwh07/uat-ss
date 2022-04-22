@@ -1,0 +1,8 @@
+<ng-container *ngFor="let atom of dataList | dataSort: order : colField | slice: start: end">
+    <ng-container listDirective [viewType]="type" [itemData]="atom" (btnEvent)="actionTrigger($event)"></ng-container>
+</ng-container>
+<!-- | dataSort: order : colField -->
+<div class="example-preview" *ngIf="dataList.length > 0">
+    <app-pager *ngIf="dataList.length > 0" [sourceData]="dataList" [formType]="type" (activePage)="reponseFromPager($event)">
+    </app-pager>
+</div>

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 
@@ -17,6 +18,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     InlineSVGModule,
     CRUDTableModule,
+    ShareComponentModule,
     NgSelectModule,
     RouterModule.forChild([
       {

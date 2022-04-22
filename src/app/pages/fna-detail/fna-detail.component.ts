@@ -52,8 +52,8 @@ export class FnaDetailComponent implements OnInit {
   fnaTextColor: number;
   isValue: boolean;
   customerId: any;
-  leadId: any;
-  fnaId: any;
+  leadId: string;
+  fnaId: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -63,7 +63,6 @@ export class FnaDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(async params => {
       let data = JSON.parse(params.passValue);
-      console.log('data', data);
       this.leadId = data.leadId;
       this.fnaId = data.fnaId
       this.passValue = data;
@@ -72,10 +71,9 @@ export class FnaDetailComponent implements OnInit {
       this.aboutLLP = this.oldId;
       if (data.pageStatus != 'create') {
         if (this.oldId) {
-          await this.getFNAById(); 
+          await this.getFNAById();
         }
       }
-      //console.log('createdAt', this.passValue.createdAt);
       // this.passValue.createdAt = this.datepipe.transform(this.formatDateYYYYMMDD(this.convertDateFormatDDMMYYY(this.passValue.createdAt)), 'dd/MM/yyyy');
     }
     );
@@ -113,8 +111,6 @@ export class FnaDetailComponent implements OnInit {
     this.fnaService.fnaUpdateProducts = new Array<any>();
     this.fnaService.fnaTextColor = null;
     await this.fnaService.findOne(this.oldId).toPromise().then(res => {
-      console.log('getFNAById', res);
-
       if (res) {
         if (res.fnaAssets.length > 0 && res.fnaEducations.length &&
           res.fnaHealths.length > 0 && res.fnaIncome != null &&
@@ -122,6 +118,8 @@ export class FnaDetailComponent implements OnInit {
           this.freedom.push({ hasData: true })
         }
 
+        this.leadId = res.leadId;
+        this.fnaId = res.id;
         this.fnaIncome = res.fnaIncome;
         this.fnaService.fnaIncome = res.fnaIncome;
 

@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ProductsModule } from '../products/products.module';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { CustomerListShareModule } from '../customer-list/customer-list.share.mo
     ReactiveFormsModule,
     NgbModalModule,
     CRUDTableModule,
+    ShareComponentModule,
     RouterModule.forChild([
       {
         path: 'quotation',

@@ -1,10 +1,12 @@
 <div class="row">
     <div class="col-12 text-right pb-5">
-        <button class="btn btn-light-dark new-btn-dark-gray mr-2 btn-round" [ngClass]="{'activated' : !isTeam}" (click)="changeView('myview')">My View</button>
-        <button class="btn btn-light-dark new-btn-dark-gray btn-round" [ngClass]="{'activated' : isTeam}" (click)="changeView('team')">Team View</button>
+        <button class="btn btn-light-dark new-btn-dark-gray mr-2 btn-round" [ngClass]="{'activated' : !isTeam}"
+            (click)="changeView('myview')">My View</button>
+        <button class="btn btn-light-dark new-btn-dark-gray btn-round" [ngClass]="{'activated' : isTeam}"
+            (click)="changeView('team')">Team View</button>
     </div>
     <div class="col-12">
-        <div class="card card-custom gutter-b">
+        <div class="card card-custom gutter-b data">
             <div class="card-header">
                 <div class="card-title">
                     <h3 class="card-label left-border-image">Quotation List</h3>
@@ -18,14 +20,15 @@
           </button> -->
                     <span class="flaticon2-magnifier-tool search-tool" (click)="getQuoList()"></span>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="cancel()">
-            <span class="">Cancel</span>
-        </button>
+                        <span class="">Cancel</span>
+                    </button>
                 </div>
             </div>
             <div class="card-body px-10 py-3">
                 <form action="#" class="form" [formGroup]="quotationForm">
                     <div class="row" style="align-items: center;">
-                        <app-start-end-date [formInput]="quotationForm" remove-host [colClass]="'col-md-6'"></app-start-end-date>
+                        <app-start-end-date [formInput]="quotationForm" remove-host [colClass]="'col-md-6'">
+                        </app-start-end-date>
                     </div>
                 </form>
             </div>
@@ -35,7 +38,7 @@
 <div class="row">
 
     <div class="col-12">
-        <div class="card card-custom gutter-b">
+        <div class="card card-custom gutter-b data">
             <!-- <div class="card-header">
                 <div class="card-title">
                     <h3 class="card-label left-border-image">Quotation List</h3>
@@ -44,9 +47,15 @@
                     </div>
             </div> -->
             <div class="card-body customer-card-body">
+                <app-common-list-2 *ngIf="quoList.length > 0" class="data-list" #commonList
+                    [data]="quoList" [type]="'quotat'" (btnEvent)="actionBtn($event)">
+                </app-common-list-2>
+
+                <!-- <app-quotation-data-list [quoList]="quoList"></app-quotation-data-list> -->
                 <!-- begin:Table -->
-                <app-material-table-view [data]="quoList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)">
-                </app-material-table-view>
+                <!-- <app-material-table-view [data]="quoList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
+                    (emitter)="actionBtn($event)">
+                </app-material-table-view> -->
                 <!-- end: Table -->
             </div>
         </div>

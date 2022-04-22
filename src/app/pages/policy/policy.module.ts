@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { ProductsModule } from '../products/products.module';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { PolicyPageComponent } from './policy-page.component';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { PolicyPageComponent } from './policy-page.component';
     NgbModalModule,
     ProductsModule,
     CRUDTableModule,
+    ShareComponentModule,
     RouterModule.forChild([
       {
         path: 'application',

@@ -24,7 +24,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
         component: CustomerListComponent,
       },
     ]),
-
   ]
 })
 export class CustomerListModule { }

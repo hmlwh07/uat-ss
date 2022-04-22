@@ -1,0 +1,30 @@
+
+  <div class="data-header" *ngIf="itemData">
+    <div class="col-8">
+      <img src="./assets/images/activity/activity-list-01.svg" alt="activity" />
+      <label> {{ itemData.activityNo }} </label>
+    </div>
+    <div class="col-4">
+      <section class="icon-group">
+        <div class="actions">
+          <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData, eventType.EDIT )" alt="edit" />
+          
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="data-content row">
+    <div class="col-4">
+      <label *ngIf="itemData.activityTitle"> {{ itemData.activityTitle }}</label>
+      <label *ngIf="itemData.assignName"> Assign to: {{ itemData.assignName }} </label>
+    </div>
+    <div class="col-4">
+      <label *ngIf="itemData.dueDate"> {{ itemData.dueDate | date:'dd/MM/YYYY' }} </label>
+      <label *ngIf="itemData.status == '01' " style="color: #FF8100 !important; "> Open </label>
+      <label *ngIf="itemData.status == '02' " style="color: #005EAA !important; "> Complete </label>
+      <label *ngIf="itemData.status == '03' " style="color: #00ACEA !important;"> Cancel </label>
+    </div>
+    <div class="col-4">
+      <label> Activity Type: <span>{{ itemData.activityType }}</span> </label>
+    </div>
+  </div>
