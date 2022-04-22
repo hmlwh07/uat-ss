@@ -10,6 +10,7 @@ import { ProductsModule } from '../products/products.module';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { QuotationDataListComponent } from '../sales/quotation-data-list/quotation-data-list.component';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { QuotationDataListComponent } from '../sales/quotation-data-list/quotati
     ReactiveFormsModule,
     NgbModalModule,
     CRUDTableModule,
+    ShareComponentModule,
     RouterModule.forChild([
       {
         path: 'quotation',

@@ -49,14 +49,14 @@
 .data {
   padding: 0;
   .customer-card-body {
-    // padding: 2rem 2.25rem !important;
+   // padding: 0 2.25rem !important;
     .data-list {
       margin: 0 0 30px 0;
       .data-header {
         width: 100%;
         overflow: hidden;
         border-bottom: 1px solid #e3e3e3;
-        margin-top: 25px;
+        margin-top: 20px;
         div:first-child {
           width: 100%;
           overflow: hidden;
@@ -104,6 +104,16 @@
           }
         }
       }
+      // app-lead-item:first-child,
+      // app-activity-item:first-child,
+      // app-application-item:first-child,
+      // app-quotation-item:first-child  {
+      //   .data-header {
+      //     margin-top: 0;
+      //   }
+      // }
+
+
       .data-content {
         border-bottom: 1px solid #e3e3e3;
         padding: 15px;

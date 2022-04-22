@@ -23,7 +23,6 @@
     </div>
     <div class="col-4">
       <label *ngIf="quo.createdAt"> {{ quo.createdAt | date:'dd/MM/YYYY' }} </label>
-      <label *ngIf="quo.createdAt"> {{ quo.createdAt | date:'dd/MM/YYYY' }} </label>
       <label *ngIf="quo.status == 'in_progress' || quo.status == 'In_progress' " style="color: #FF8100 !important;"> In Progress </label>
       <label *ngIf="quo.status == 'cancel' || quo.status == 'Cancel' " style="color: #00ACEA !important;"> Cancel </label>
       <label *ngIf="quo.status == 'submitted' || quo.status == 'Submitted' " style="color: #005EAA !important;"> Submitted </label>

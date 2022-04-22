@@ -127,7 +127,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
           }
         }
         this.cdRef.detectChanges()
-        this.matTable.reChangeData()
+        //this.matTable.reChangeData()
         // })
       }
     })

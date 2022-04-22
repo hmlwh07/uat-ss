@@ -9,6 +9,7 @@ import { ProductsModule } from '../products/products.module';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { PolicyPageComponent } from './policy-page.component';
 import { ApplicationDataListComponent } from '../sales/application-data-list/application-data-list.component';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ApplicationDataListComponent } from '../sales/application-data-list/app
     NgbModalModule,
     ProductsModule,
     CRUDTableModule,
+    ShareComponentModule,
     RouterModule.forChild([
       {
         path: 'application',

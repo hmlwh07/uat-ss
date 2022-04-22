@@ -123,7 +123,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
           }
         }
         this.cdRef.detectChanges()
-        this.matTable.reChangeData()
+        //this.matTable.reChangeData()
         // })
       }
     })
