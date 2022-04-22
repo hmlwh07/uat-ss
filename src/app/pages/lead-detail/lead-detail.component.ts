@@ -346,7 +346,7 @@ export class LeadDetailComponent implements OnInit {
   }
   getState() {
     return this.masterDataService
-      .getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      .getDataByType("PT_STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
     // .toPromise()
@@ -514,7 +514,7 @@ export class LeadDetailComponent implements OnInit {
 
   getDistrict(parentId: string) {
     this.masterDataService
-      .getAddressDataByType("DISTRICT", parentId)
+      .getAddressDataByType("PT_DISTRICT", parentId)
       .toPromise()
       .then((res: any) => {
         if (res) {
@@ -528,7 +528,7 @@ export class LeadDetailComponent implements OnInit {
   getTownship(parentId: string) {
     if (parentId) {
       this.masterDataService
-        .getAddressDataByType("TOWNSHIP", parentId)
+        .getAddressDataByType("PT_TOWNSHIP", parentId)
         .toPromise()
         .then((res: any) => {
           if (res) {

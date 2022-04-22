@@ -86,7 +86,13 @@ export class CalculatedBuildingComponent implements OnInit {
               if (res) {
                 //console.log("getFireContent-RESSS", res)
                 this.getFireContent()
-                this.contentsData.push({ ...postData, id: res })
+                let oldVal = data ? data : { id: 0 }
+                let index = this.contentsData.findIndex(x => x.id == oldVal.id)
+                if (index < 0)
+                  this.contentsData.push({ ...postData, id: res })
+                else
+                  this.contentsData[index] = { ...postData, id: res }
+
                 this.cdf.detectChanges()
               }
             })
@@ -111,7 +117,13 @@ export class CalculatedBuildingComponent implements OnInit {
               if (res) {
                 //console.log("getFirePlant-RESSS", res)
                 this.getFirePlant()
-                this.plantData.push({ ...postData, id: res })
+                let oldVal = data ? data : { id: 0 }
+                let index = this.plantData.findIndex(x => x.id == oldVal.id)
+                if (index < 0)
+                  this.plantData.push({ ...postData, id: res })
+                else
+                  this.plantData[index] = { ...postData, id: res }
+                // this.plantData.push({ ...postData, id: res })
                 this.cdf.detectChanges()
               }
             })
@@ -137,7 +149,13 @@ export class CalculatedBuildingComponent implements OnInit {
               if (res) {
                 //console.log("getFirePlant-RESSS", res)
                 this.getFireStock()
-                this.stockData.push({ ...postData, id: res })
+                let oldVal = data ? data : { id: 0 }
+                let index = this.stockData.findIndex(x => x.id == oldVal.id)
+                if (index < 0)
+                  this.stockData.push({ ...postData, id: res })
+                else
+                  this.stockData[index] = { ...postData, id: res }
+                // this.stockData.push({ ...postData, id: res })
                 this.cdf.detectChanges()
               }
             })
@@ -216,7 +234,7 @@ export class CalculatedBuildingComponent implements OnInit {
           if (res) {
             this.getFireContent()
             this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-           
+
             });
           }
         })
@@ -229,7 +247,7 @@ export class CalculatedBuildingComponent implements OnInit {
         if (res) {
           this.getFirePlant()
           this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-           
+
           });
         }
       });
@@ -241,7 +259,7 @@ export class CalculatedBuildingComponent implements OnInit {
         if (res) {
           this.getFireStock()
           this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-           
+
           });
         }
       })

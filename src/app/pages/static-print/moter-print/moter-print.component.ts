@@ -18,6 +18,8 @@ export class MoterPrintComponent implements OnInit {
   detail: any = {}
   policyHolder:any={}
   address:any={}
+  @Input() signId?: string
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   constructor(private fireService: FireProductService,private fireRsikService: FireRiskService,private policyHolderService:PolicyHolderService,private fireRiskAddressService:FireRiskAddressService) { }
 
   ngOnInit() {

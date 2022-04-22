@@ -288,7 +288,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   getState() {
-    return this.masterDataService.getDataByType("STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+    return this.masterDataService.getDataByType("PT_STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
 
@@ -303,7 +303,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
 
   getDistrict(parentId: string) {
-    this.masterDataService.getAddressDataByType("DISTRICT", parentId).pipe(map(x => this.getFormatOpt(x)))
+    this.masterDataService.getAddressDataByType("PT_DISTRICT", parentId).pipe(map(x => this.getFormatOpt(x)))
       .toPromise().then((res: any) => {
         if (res) {
           this.districtOption = res
@@ -312,7 +312,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       });
   }
   getTownship(parentId: string) {
-    this.masterDataService.getAddressDataByType("TOWNSHIP", parentId).pipe(map(x => this.getFormatOpt(x)))
+    this.masterDataService.getAddressDataByType("PT_TOWNSHIP", parentId).pipe(map(x => this.getFormatOpt(x)))
       .toPromise().then((res: any) => {
         if (res) {
           this.townshipOption = res

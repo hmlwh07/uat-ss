@@ -44,7 +44,8 @@ export class SurroundingBuildingComponent implements OnInit {
         // console.log("RESSSS", res)
         if (res.type == "save") {
           // this.surrounding=res.data
-          let index = this.surrounding.findIndex(x => x.id == data.id)
+          let oldVal = data ? data : { id: 0 }
+          let index = this.surrounding.findIndex(x => x.id == oldVal.id)
           if (index < 0)
             this.surrounding.push(res.data)
           else
