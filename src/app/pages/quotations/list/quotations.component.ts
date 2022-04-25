@@ -1,10 +1,14 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DateAdapter } from 'angular-calendar';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { MY_FORMATS } from '../../../core/is-json';
 import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
 import { MaterialTableViewComponent } from '../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CustomerService } from '../../customer-detail/customer.service';
@@ -19,6 +23,10 @@ import { QuoDisplayCol, QuotationCol } from './quotation.const';
   selector: 'app-quotations',
   templateUrl: './quotations.component.html',
   styleUrls: ['./quotations.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ]
 })
 export class QuotationsComponent implements OnInit, OnDestroy {
   quoList: QuotationDTO[] = []

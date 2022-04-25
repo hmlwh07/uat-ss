@@ -17,7 +17,8 @@ export interface TableCol {
   isPaymentFrequencyType?: boolean,
   isUpper?: boolean
   btn?: ViewButton,
-  isStatus?: boolean
+  isRenewStatus?: boolean,
+  isStatus?: boolean,
   isImg?: boolean,
   prefix?: string 
 }

@@ -79,6 +79,16 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
     "02": "primary",
     "06": "danger",
   }
+  renewStatus = {
+    "DRAFT": "Draft",
+    "ACTIVE": "Active",
+    "CONFIRM": "Confirmed",
+  }
+  renewStatusColor = {
+    "DRAFT": "primary",
+    "ACTIVE": "success",
+    "CONFIRM": "secondary",
+  }
   selection = new SelectionModel<any>(false, []);
   activityStatus = ActivityStatus
   constructor(private cdf: ChangeDetectorRef) { }

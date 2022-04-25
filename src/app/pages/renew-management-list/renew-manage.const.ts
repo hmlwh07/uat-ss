@@ -1,17 +1,17 @@
-import { COLTYPE, TableCol } from '../../../_metronic/shared/crud-table/components/material-table-view/table-dto'
-export const QuotationCol: TableCol[] = [
+import { COLTYPE, TableCol } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto'
+export const RenewCol: TableCol[] = [
   {
-    title: "Quotation ID",
+    title: "Policy Number",
     type: COLTYPE.FEILD,
-    field: "id",
+    field: "policyNumber",
     // amtFormat?: boolean,
     // isTitle?: boolean
     // isDate?: boolen
   },
   {
-    title: "Product Name",
+    title: "Renew Policy Number",
     type: COLTYPE.FEILD,
-    field: "productName",
+    field: "renewalPolicyNumber",
     // amtFormat?: boolean,
     // isTitle?: boolean
     // isDate?: boolen
@@ -24,10 +24,19 @@ export const QuotationCol: TableCol[] = [
     // isTitle?: boolean
     // isDate?: boolen
   },
+  // {
+  //   title: "Related Type",
+  //   type: COLTYPE.FEILD,
+  //   field: "relatedType",
+  //   // amtFormat?: boolean,
+  //   isTitle: true
+  //   // isDate?: boolen
+  // },
+
   {
     title: "Agent Name",
     type: COLTYPE.FEILD,
-    field: "agentFirstName",
+    field: "agentName",
     // amtFormat?: boolean,
     // isTitle?: boolean
     // isDate?: boolen
@@ -36,28 +45,27 @@ export const QuotationCol: TableCol[] = [
     title: "Premium",
     type: COLTYPE.FEILD,
     field: "premium",
-    amtFormat: true,
     // isTitle?: boolean
+    amtFormat: true
     // isDate?: boolen
+  },
+  {
+    title: "Currency",
+    type: COLTYPE.FEILD,
+    field: "currency",
   },
   {
     title: "Status",
     type: COLTYPE.FEILD,
     field: "status",
-    isStatus: true
-  },
-  {
-    title: "Date",
-    type: COLTYPE.FEILD,
-    field: "createdAt",
+    isRenewStatus: true,
     // amtFormat?: boolean,
     // isTitle?: boolean
-    isDate: true
   },
   {
-    title: "Application",
+    title: "Confirm",
     type: COLTYPE.TEXT,
-    field: "create application",
+    field: "Confirm",
     // amtFormat?: boolean,
     // isTitle?: boolean
     // isDate: true
@@ -66,9 +74,10 @@ export const QuotationCol: TableCol[] = [
     title: "Actions",
     type: COLTYPE.ACTION,
     field: "actions",
-    btn:{
+    btn: {
+      edit: true,
       view: true,
-      edit: true
+      download: true
     }
     // amtFormat?: boolean,
     // isTitle?: boolean
@@ -76,14 +85,14 @@ export const QuotationCol: TableCol[] = [
   },
 ]
 
-export const QuoDisplayCol: string[] = [
-  "id",
-  "productName",
+export const ActivityDisplayCol: string[] = [
+  "policyNumber",
+  "renewalPolicyNumber",
   "productCode",
-  "agentFirstName",
+  "agentName",
   "premium",
+  "currency",
   "status",
-  "createdAt",
-  "create application",
+  "Confirm",
   "actions",
 ]

@@ -16,8 +16,6 @@ import { MY_FORMATS } from '../../core/is-json';
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
   providers: [
-    { provide: NgbDateAdapter, useClass: CustomAdapter },
-    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
     // { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },

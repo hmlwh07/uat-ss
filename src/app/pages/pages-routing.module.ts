@@ -59,6 +59,21 @@ const routes: Routes = [
           import('./policy/policy.module').then((m) => m.PolicyModule),
       },
       {
+        path: 'sale/renew-policy',
+        loadChildren: () =>
+          import('./renew-management-list/renew-management-list.module').then((m) => m.RenewManagementListModule),
+      },
+      {
+        path: 'sale/renew-policy',
+        loadChildren: () =>
+          import('./renew-management-list/renew-management-list.module').then((m) => m.RenewManagementListModule),
+      },
+      {
+        path: 'sale/renew-policy/detail',
+        loadChildren: () =>
+          import('./renew-management-detail/renew-management-detail.module').then((m) => m.RenewManagementDetailModule),
+      },
+      {
         path: 'builder',
         loadChildren: () =>
           import('./layout-dynamic/layout-dynamic.module').then((m) => m.LayoutDynamicModule),
@@ -119,7 +134,7 @@ const routes: Routes = [
             (m) => m.ProspectCustomerListModule
           ),
       },
-      
+
       {
         path: 'customer/customer-detail',
         loadChildren: () =>
@@ -300,7 +315,7 @@ const routes: Routes = [
       },
       {
         path: 'setting',
-        loadChildren: () => import('./setting/setting.module').then( m => m.SettingPageModule)
+        loadChildren: () => import('./setting/setting.module').then(m => m.SettingPageModule)
       },
       {
         path: '',
@@ -313,7 +328,7 @@ const routes: Routes = [
       },
     ],
   },
- 
+
 
 ];
 

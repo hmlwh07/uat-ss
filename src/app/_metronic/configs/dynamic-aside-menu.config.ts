@@ -108,6 +108,19 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
+          title: 'Renew Policies',
+          page: '/sale/renew-policy',
+          show: true,
+          submenu_show: false,
+          submenu: [
+            {
+              title: 'Renew Policy Detail',
+              page: '/sale/renew-policy/detail',
+              show: false
+            },
+          ]
+        },
+        {
           title: 'Sales Form',
           page: '/product-form',
         },
@@ -306,10 +319,10 @@ export const DynamicAsideMenuConfig = {
           page: '/report/report-key-driver',
           show: true
         },
-       
+
       ]
     },
-   
+
 
     // {
     //   title: 'Page Group',

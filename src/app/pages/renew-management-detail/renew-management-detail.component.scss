@@ -1,0 +1,25 @@
+.input-group {
+    .form-control-sm {
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #E4E6EF;
+        padding: 0px 0.75rem;
+    }
+    .mat-datepicker-toggle {
+        position: absolute;
+        right: 5px;
+    }
+}
+
+.ng-clear-wrapper .ng-clear {
+    cursor: pointer;
+    position: absolute;
+    right: 2rem;
+    top: 2.3rem;
+    font-size: 1.2rem;
+    color: #999;
+}
+
+.ng-clear-wrapper .ng-clear:hover {
+    color: #D0021B;
+}

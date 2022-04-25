@@ -38,8 +38,13 @@
                             </ng-container>
                             <ng-container *ngIf="item.isLeadStatus">
                                 <span
-                                    class="label label-custom-round label-inline label-{{leadStatusColor[element[item.field]]}}">{{
+                                    class="label label-custom-round label-inline label-{{renewStatusColor[element[item.field]]}}">{{
                                     leadStatus[element[item.field]] }}</span>
+                            </ng-container>
+                            <ng-container *ngIf="item.isRenewStatus">
+                                <span
+                                    class="label label-custom-round label-inline label-{{renewStatusColor[element[item.field]]}}">{{
+                                    renewStatus[element[item.field]] }}</span>
                             </ng-container>
                             <ng-container *ngIf="item.isCustomerStatus">
                                 <span
@@ -73,7 +78,7 @@
                                 <!-- {{ getFreq(element[item.field]) }} -->
                             </ng-container>
                             <ng-container
-                                *ngIf="!item.isDate && !item.isTitle && !item.amtFormat && !item.isFromatDate && !item.isActivityStatus && !item.isQuotationDay && !item.isAllowBackDate && !item.isPaymentFrequencyType && !item.isUpper && !item.isStatus && !item.isProdStatus && !item.isImg && !item.isCustomerStatus  && !item.isLeadStatus">
+                                *ngIf="!item.isDate && !item.isTitle && !item.amtFormat && !item.isFromatDate && !item.isActivityStatus && !item.isQuotationDay && !item.isAllowBackDate && !item.isPaymentFrequencyType && !item.isUpper && !item.isStatus && !item.isProdStatus && !item.isImg && !item.isCustomerStatus  && !item.isLeadStatus && !item.isRenewStatus">
                                 {{item.prefix ? item.prefix : ""}}{{element[item.field]}}
                             </ng-container>
                         </td>

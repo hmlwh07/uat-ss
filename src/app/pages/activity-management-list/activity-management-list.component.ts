@@ -1,6 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { DateAdapter } from 'angular-calendar';
+import { MY_FORMATS } from '../../core/is-json';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { ActivityStatus } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto';
 import { ActivityCol, ActivityDisplayCol } from './activity-manage.const';
@@ -9,7 +13,11 @@ import { ActivityManageService } from './activity-manage.service';
 @Component({
   selector: 'app-activity-management-list',
   templateUrl: './activity-management-list.component.html',
-  styleUrls: ['./activity-management-list.component.scss']
+  styleUrls: ['./activity-management-list.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ]
 })
 export class ActivityManagementListComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
