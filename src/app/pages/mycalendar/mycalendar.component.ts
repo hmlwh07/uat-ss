@@ -158,7 +158,8 @@ export class MycalendarComponent implements OnInit {
           return {
             start: new Date(data.planDate),
             end:  new Date(data.planDate),
-            title: data.activityTitle + "( " + data.activityType + " )",
+            // title: data.activityTitle + "( " + data.activityType + " )",
+            title: data.activityTitle,
             type:data.activityType ,
             color: actColor,
             icon:icon,
@@ -167,6 +168,7 @@ export class MycalendarComponent implements OnInit {
           }
         })
         // console.log(" this.EventData", this.EventData)
+        this.EventData.sort((a, b) => (a.type > b.type) ? 1 : -1)
         this.events = this.EventData
         this.eventNumber = this.events.length
         this.refresh.next();
@@ -187,7 +189,7 @@ export class MycalendarComponent implements OnInit {
       }
       this.viewDate = date;
     }
-    const modalRef = this.modalCrl.open(EventListComponent, { size: 'sm', backdrop: true });
+    const modalRef = this.modalCrl.open(EventListComponent, { size: 'sm', backdrop: true ,centered:true,scrollable:true  });
     modalRef.componentInstance.isModal = true
     modalRef.componentInstance.data = events
     modalRef.componentInstance.day = date

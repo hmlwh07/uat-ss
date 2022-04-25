@@ -12,15 +12,15 @@
 
         <div *ngIf="data.length>0">
             <ng-container *ngFor="let event of data">
-                <div class="row" style="margin: 10px 0px;">
+                <div class="row" style="padding: 5px 10px;">
 
                     <div class="col" (click)="navigateToDetail('edit',event.meta)">
 
                         <div class="card card-custom" [ngClass]="event.type">
 
-                            <div style="text-align: center;">
+                            <div class="event-list">
                                 <img [src]="event.icon" class="prod-icon" alt="" srcset="">
-                                <label style="margin-top: 20px;">{{event.title}} </label>
+                                <span class="event-label">{{event.title}} </span>
                             </div>
 
                         </div>
