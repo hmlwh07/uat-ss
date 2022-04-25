@@ -36,12 +36,21 @@
     top: 50%;
     transform: translateY(-50%);
 }
+.event-list{
+height: 1.5rem;
+}
+.event-label{
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+}
 
 .card.card-custom,
 .card,
 .card-header {
     box-shadow: none;
-    border-radius: 10px;
+    border-radius: 5px 5px 5px 5px;
     border-collapse: collapse;
 }
 

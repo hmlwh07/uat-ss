@@ -126,3 +126,16 @@
       }
     }
   }
+
+
+#Dashboard>.modal-wrapper {
+  --height: 100%;
+  top: 20%;
+  display: block;
+  width: 100%;
+  margin: auto;
+  box-shadow: 0px 4px 5px 4px #b3b3b3;
+  ion-toolbar {
+      --min-height: 40px;
+  }
+}
