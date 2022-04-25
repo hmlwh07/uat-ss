@@ -66,30 +66,30 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
   pageBtnClicked(btn: number) {
     this.selectedPageBtn = btn;
     this.calPageBtn();
-    this.prepareCalDataRows(this.selectedPageBtn);
+    //this.prepareCalDataRows(this.selectedPageBtn);
   }
 
   pageIncreased() {
     this.selectedPageBtn = this.selectedPageBtn == this.no_of_pages ? this.no_of_pages : this.selectedPageBtn + 1;
-    this.prepareCalDataRows(this.selectedPageBtn);
+    //this.prepareCalDataRows(this.selectedPageBtn);
     this.calPageBtn();
   }
 
   pageDecresed() {
     this.selectedPageBtn = this.selectedPageBtn == 1 ? 1 : this.selectedPageBtn - 1;
-    this.prepareCalDataRows(this.selectedPageBtn);
+    //this.prepareCalDataRows(this.selectedPageBtn);
     this.calPageBtn();
   }
 
   pageFirst() {
     this.selectedPageBtn = 1;
-    this.prepareCalDataRows(this.selectedPageBtn);
+   // this.prepareCalDataRows(this.selectedPageBtn);
     this.calPageBtn();
   }
 
   pageLast() {
     this.selectedPageBtn = this.no_of_pages;
-    this.prepareCalDataRows(this.selectedPageBtn);
+    //this.prepareCalDataRows(this.selectedPageBtn);
     this.calPageBtn();
   }
 
@@ -119,14 +119,13 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
     // }
   }
 
-
-  prepareCalDataRows(pageBtn: number) {
-    this.selectedPageBtn = pageBtn;
-    let tempStart = (this.selectedPageBtn - 1) * this.selectedPageSize;
-    let tempEnd = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.sourceData.length ?
-      (this.selectedPageBtn * this.selectedPageSize) - 1 : this.sourceData.length - 1;
-    this.calDataRows(tempStart, tempEnd);
-  }
+  // prepareCalDataRows(pageBtn: number) {
+  //   this.selectedPageBtn = pageBtn;
+  //   let tempStart = (this.selectedPageBtn - 1) * this.selectedPageSize;
+  //   let tempEnd = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.sourceData.length ?
+  //     (this.selectedPageBtn * this.selectedPageSize) - 1 : this.sourceData.length - 1;
+  //   this.calDataRows(tempStart, tempEnd);
+  // }
 
   calDataRows(start: number, end: number) {
     this.responseData = [];

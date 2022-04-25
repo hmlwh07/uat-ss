@@ -19,5 +19,4 @@ export class QuotationItemComponent implements OnInit {
     this.btnEvent.emit({ cmd: type, data: event })
   }
 
-
 }

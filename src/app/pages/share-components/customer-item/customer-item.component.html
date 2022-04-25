@@ -1,12 +1,12 @@
-<div class="data-header">
-  <div class="col-6">
+<div class="data-header" *ngIf="itemData">
+  <div class="col-8">
     <img src="../../../assets/images/customer/custoner_list.svg" alt="customer" />
     <label> {{ itemData.partyCode }} </label>
   </div>
-  <div class="col-6">
+  <div class="col-4">
     <section class="icon-group">
       <div class="actions">
-        <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
+        <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData, eventType.EDIT )" alt="edit" />
       </div>
     </section>
   </div>

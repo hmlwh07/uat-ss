@@ -10,6 +10,7 @@ import { CustomAdapter, CustomDateParserFormatter } from '../../_metronic/core';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../core/is-json';
+import { CommonList2Component } from '../share-components/common-list/common-list.component';
 
 @Component({
   selector: 'app-customer-list',
@@ -24,6 +25,7 @@ import { MY_FORMATS } from '../../core/is-json';
   ]
 })
 export class CustomerListComponent implements OnInit {
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
 
   ELEMENT_COL = JSON.parse(JSON.stringify(CustomerCol))
@@ -76,8 +78,9 @@ export class CustomerListComponent implements OnInit {
       if (res) {
         this.customerList = res
         console.log("customerList", this.customerList);
-
         this.cdf.detectChanges()
+        if(this.commonList)
+        this.commonList.detchChange()
         if (this.matTable)
           this.matTable.reChangeData()
       }
