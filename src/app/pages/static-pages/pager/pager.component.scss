@@ -6,7 +6,7 @@
 }
 
 .pager_atom{
-    margin-right : 15px;
+    margin: 6px 15px 0px 0px;
 }
 
 .pager_atom_btn{
@@ -29,11 +29,13 @@
 }
 .common_btn{
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 45px;
+    height: 45px;
     align-items: center;
     justify-content: center;
-    padding: 8px 0px 0px 12px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px;
     cursor: pointer;
 }
 
@@ -50,8 +52,9 @@
 }
 
 .pager_icon{
-    width : 32px;
-    cursor : pointer;
+    width: 32px !important;
+    cursor: pointer;
+    margin-top: 4px;
 }
 
 .ml_15{
