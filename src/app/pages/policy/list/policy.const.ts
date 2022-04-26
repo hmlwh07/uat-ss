@@ -55,7 +55,8 @@ export const PolicyCol: TableCol[] = [
     field: "actions",
     btn: {
       view: true,
-      edit: true
+      edit: true,
+      editOnState: true
     }
   },
 ]
