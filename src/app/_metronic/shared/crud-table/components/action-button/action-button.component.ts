@@ -13,9 +13,9 @@ export class ActionButtonComponent implements OnInit {
   emitter = new EventEmitter<any>();
 
   @Input()
-  data:any= {};
+  data: any = {};
 
-  @Input() viewBtn:any = {}
+  @Input() viewBtn: any = {}
 
   ngOnInit(): void { }
 
@@ -46,6 +46,12 @@ export class ActionButtonComponent implements OnInit {
   onActionDownload() {
     this.emitter.emit({
       cmd: "download",
+      data: this.data,
+    });
+  }
+  onActionConfirm() {
+    this.emitter.emit({
+      cmd: "confirm",
       data: this.data,
     });
   }

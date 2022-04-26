@@ -5,12 +5,21 @@
                 <form action="#" class="form" [formGroup]="actForm" (ngSubmit)="backLocation()">
                     <div class="row">
 
-                        <div class="col-sm-6" *ngIf="pageStatus == 'edit'">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.policy_no" | translate}}</label>
                                 <input type="text" class="form-control form-control-sm" name="policyNumber"
                                     autocomplete="off" [class.is-invalid]="isControlInvalid('policyNumber')"
                                     [class.is-valid]="isControlValid('policyNumber')" formControlName="policyNumber" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">{{"FORM.renew_policy_no" | translate}}</label>
+                                <input type="text" class="form-control form-control-sm" name="renewalPolicyNumber"
+                                    autocomplete="off" [class.is-invalid]="isControlInvalid('renewalPolicyNumber')"
+                                    [class.is-valid]="isControlValid('renewalPolicyNumber')" formControlName="renewalPolicyNumber" />
                             </div>
                         </div>
 
@@ -51,7 +60,7 @@
                         <!--  -->
                         <div class="col-sm-6">
                             <div class="form-group ">
-                                <label class="form-label">{{"FORM.quote_no" | translate}} </label>
+                                <label class="form-label">{{"FORM.qoute_no" | translate}} </label>
                                 <div class="input-group ">
                                     <input type="text" class="form-control form-control-sm" name="quoteNumber"
                                         autocomplete="off" [class.is-invalid]="isControlInvalid('quoteNumber')"
@@ -103,10 +112,10 @@
                         </div>
 
                     </div>
-                    <button type="button" class="btn btn-default btn-elevate"
-                        (click)="backLocation()">{{"FORM.btn_cancel" | translate}}</button>
-                    <button type="button" class="btn btn-primary btn-elevate mx-2"
-                        (click)="backLocation()">{{"FORM.btn_save" | translate}}</button>
+                    <button type="button" class="btn btn-default btn-elevate mt-2"
+                        (click)="backLocation()">{{"FORM.btn_back" | translate}}</button>
+                    <!-- <button type="button" class="btn btn-primary btn-elevate mx-2"
+                        (click)="backLocation()">{{"FORM.btn_save" | translate}}</button> -->
                 </form>
             </div>
         </div>

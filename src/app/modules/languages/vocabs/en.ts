@@ -146,10 +146,12 @@ export const locale = {
       policy_date: "Policy Inception Date",
       policy_edate: "Policy Expire Date",
       qoute_no: "Quote Number",
+      renew_policy_no: "Renewal Policy Number",
       gross_premium: "Gross Premium",
       net_premium: "Net Premium",
       policy_holder: "Policy Holder",
       policy_holder_code: "Policy Holder Code",
+      btn_back: "Back"
     },
     NAV: {
       my_acc: "My Account",

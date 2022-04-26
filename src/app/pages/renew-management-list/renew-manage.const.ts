@@ -63,19 +63,12 @@ export const RenewCol: TableCol[] = [
     // isTitle?: boolean
   },
   {
-    title: "Confirm",
-    type: COLTYPE.RENEW,
-    field: "Confirm",
-    // amtFormat?: boolean,
-    // isTitle?: boolean
-    // isDate: true
-  },
-  {
     title: "Actions",
     type: COLTYPE.ACTION,
     field: "actions",
     btn: {
-      edit: true,
+      // edit: true,
+      confirm: true,
       view: true,
       download: true
     }
@@ -93,6 +86,5 @@ export const ActivityDisplayCol: string[] = [
   "premium",
   "currency",
   "status",
-  "Confirm",
   "actions",
 ]

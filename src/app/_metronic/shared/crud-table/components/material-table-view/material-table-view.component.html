@@ -100,16 +100,9 @@
                             <app-action-button *ngIf="item.type == 'action'" [data]="element"
                                 (emitter)="actionBtn($event)" [viewBtn]="item.btn">
                             </app-action-button>
-                            <ng-container *ngIf="item.type == 'renew' ;else other">
-                                <span *ngIf="element.status != 'CONFIRM' " class="text-primary act-btn-box"
-                                    style="white-space: nowrap;cursor: pointer;"
-                                    (click)="createPolicyBtn(element)">{{item.field | titlecase}}</span>
-                            </ng-container>
-                            <ng-template #other>
-                                <span *ngIf="item.type == 'text'" class="text-primary"
-                                    style="text-decoration: underline;white-space: nowrap;cursor: pointer;"
-                                    (click)="createPolicyBtn(element)">{{item.field | titlecase}}</span>
-                            </ng-template>
+                            <span *ngIf="item.type == 'text'" class="text-primary"
+                                style="text-decoration: underline;white-space: nowrap;cursor: pointer;"
+                                (click)="createPolicyBtn(element)">{{item.field | titlecase}}</span>
                         </td>
                         <ng-container *ngIf="calTotal">
                             <td mat-footer-cell *matFooterCellDef></td>
