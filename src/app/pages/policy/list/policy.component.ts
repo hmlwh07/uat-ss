@@ -12,6 +12,7 @@ import { CustomerService } from '../../customer-detail/customer.service';
 import { CustomerListComponent } from '../../customer-list/customer-list.component';
 import { ProductsComponent } from '../../products/products.component';
 import { ProductDataService } from '../../products/services/products-data.service';
+import { CommonList2Component } from '../../share-components/common-list/common-list.component';
 import { PolicyDTO } from '../policy.dto';
 import { PolicyService } from '../policy.service';
 import { PolicyDisplayCol, PolicyCol } from './policy.const';
@@ -23,14 +24,15 @@ import { PolicyDisplayCol, PolicyCol } from './policy.const';
 })
 export class PolicyComponent implements OnInit, OnDestroy {
   quoList: PolicyDTO[] = []
-  policyForm:FormGroup
-  isTeam:boolean=false
+  policyForm: FormGroup
+  isTeam: boolean = false
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
   policyAccess = defaultAccessObj;
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-  
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService,private menuService: MenuDataService) {
-  this.loadForm()
+
+  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
+    this.loadForm()
   }
 
 
@@ -42,20 +44,20 @@ export class PolicyComponent implements OnInit, OnDestroy {
 
     // })
   }
-  loadForm(){
+  loadForm() {
     let date = new Date();
     let lastMonthDay = new Date(date.setMonth(date.getMonth() - 1))
     let monthDay = new Date(date.setMonth(date.getMonth() + 1))
     this.policyForm = new FormGroup({
-      startDate:new FormControl(lastMonthDay),
-      endDate:new FormControl(monthDay),
-      isTeam:new FormControl(this.isTeam)
+      startDate: new FormControl(lastMonthDay),
+      endDate: new FormControl(monthDay),
+      isTeam: new FormControl(this.isTeam)
     })
   }
   ngOnDestroy() {
     // this.rerender()
   }
-  cancel(){
+  cancel() {
 
   }
   changeView(type) {
@@ -112,7 +114,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
 
 
   getPolicyList() {
-    this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res:any) => {
+    this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res: any) => {
       if (res) {
         console.log('getPolicyList', res);
 
@@ -123,6 +125,9 @@ export class PolicyComponent implements OnInit, OnDestroy {
           }
         }
         this.cdRef.detectChanges()
+        if (this.commonList) {
+          this.commonList.detchChange()
+        }
         //this.matTable.reChangeData()
         // })
       }
@@ -130,7 +135,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
 
   editLayout(item) {
-    forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined)}))]).toPromise().then((res) => {
+    forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res[0]) {
         this.prodctService.createingProd = res[0]
         this.prodctService.creatingCustomer = res[1]

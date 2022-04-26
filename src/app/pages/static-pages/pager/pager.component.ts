@@ -33,7 +33,7 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
 
   startPageIndex;
   endPageIndex;
-
+  started
   constructor(private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -46,8 +46,14 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
       Math.floor(this.sourceData.length / this.selectedPageSize) :
       Math.floor(this.sourceData.length / this.selectedPageSize) + 1;
     this.selectedPageBtn = this.startPageIndex = 1;
-    this.endPageIndex = (this.startPageIndex + this.displayBtnCount) - 1;
+    this.showingListCnt()
     this.setPageBtnArray();
+  }
+
+  showingListCnt() {
+    let count = this.selectedPageBtn * this.selectedPageSize
+    this.started = count - this.selectedPageSize + 1
+    this.endPageIndex = count > this.sourceData.length ? this.sourceData.length : count
   }
 
   ngAfterViewInit() {
@@ -83,7 +89,7 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
 
   pageFirst() {
     this.selectedPageBtn = 1;
-   // this.prepareCalDataRows(this.selectedPageBtn);
+    // this.prepareCalDataRows(this.selectedPageBtn);
     this.calPageBtn();
   }
 
@@ -99,14 +105,14 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
       if (this.startPageIndex + i <= this.no_of_pages) this.viewPageButtonArray.push(this.startPageIndex + i);
     }
     this.cdf.detectChanges();
-    this.activePage.emit({activePage : this.selectedPageBtn,pageSize : this.selectedPageSize});
+    this.activePage.emit({ activePage: this.selectedPageBtn, pageSize: this.selectedPageSize });
   }
 
   calPageBtn() {
     this.startPageIndex = this.selectedPageBtn == 1 ? this.selectedPageBtn : this.selectedPageBtn - 1;
-    this.endPageIndex = this.selectedPageBtn == this.no_of_pages ? this.selectedPageBtn : this.selectedPageBtn + 1;
+    // this.endPageIndex = this.selectedPageBtn == this.no_of_pages ? this.selectedPageBtn : this.selectedPageBtn + 1;
+    this.showingListCnt()
     this.setPageBtnArray();
-
     // let remainder = this.selectedPageBtn % this.displayBtnCount;
     // if(remainder == 0){
     //   this.startPageIndex = (this.selectedPageBtn - this.displayBtnCount) + 1;
@@ -119,13 +125,6 @@ export class ListingsPagerComponent implements OnInit, AfterViewInit {
     // }
   }
 
-  // prepareCalDataRows(pageBtn: number) {
-  //   this.selectedPageBtn = pageBtn;
-  //   let tempStart = (this.selectedPageBtn - 1) * this.selectedPageSize;
-  //   let tempEnd = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.sourceData.length ?
-  //     (this.selectedPageBtn * this.selectedPageSize) - 1 : this.sourceData.length - 1;
-  //   this.calDataRows(tempStart, tempEnd);
-  // }
 
   calDataRows(start: number, end: number) {
     this.responseData = [];

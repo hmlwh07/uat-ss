@@ -12,6 +12,7 @@ import { CustomerService } from '../../customer-detail/customer.service';
 import { CustomerListComponent } from '../../customer-list/customer-list.component';
 import { ProductsComponent } from '../../products/products.component';
 import { ProductDataService } from '../../products/services/products-data.service';
+import { CommonList2Component } from '../../share-components/common-list/common-list.component';
 import { QuotationDTO } from '../quotation.dto';
 import { QuotationService } from '../quotation.service';
 import { QuoDisplayCol, QuotationCol } from './quotation.const';
@@ -24,6 +25,8 @@ import { QuoDisplayCol, QuotationCol } from './quotation.const';
 export class QuotationsComponent implements OnInit, OnDestroy {
   quoList: QuotationDTO[] = []
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
+
   quoAccess = defaultAccessObj
   policyAccess = defaultAccessObj
   quotationForm: FormGroup
@@ -119,7 +122,6 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   getQuoList() {
     this.quoService.getQuoList(this.quotationForm.getRawValue()).toPromise().then((res: any) => {
       if (res) {
-        console.log('getQuoList', res);
         this.quoList = res
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
@@ -127,6 +129,9 @@ export class QuotationsComponent implements OnInit, OnDestroy {
           }
         }
         this.cdRef.detectChanges()
+        if (this.commonList) {
+          this.commonList.detchChange()
+        }
         //this.matTable.reChangeData()
         // })
       }

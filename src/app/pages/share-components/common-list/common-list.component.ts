@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges, ElementRef, Output, EventEmitter, AfterViewInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ListingsPagerComponent } from '../../static-pages/pager/pager.component';
 import { ListItemAction } from '../list-field.interface';
 
 @Component({
@@ -21,6 +22,7 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   @Input() order: string = 'asc' //ascending,descending
   // @Output() btnEvent?: EventEmitter<ListItemAction>;
   @Output() btnEvent?: EventEmitter<ListItemAction> = new EventEmitter();
+  @ViewChild(ListingsPagerComponent) listpager: ListingsPagerComponent;
   selectedPageSize = 5;
   selectedPageBtn = 1;
 
@@ -37,7 +39,10 @@ export class CommonList2Component implements OnInit, AfterViewInit {
     this.cdf.detectChanges();
   }
 
-  detchChange(){
+  detchChange() {
+    if (this.listpager) {
+      this.listpager.prepareBtnArray()
+    }
     this.cdf.detectChanges()
   }
 
