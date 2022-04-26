@@ -63,7 +63,7 @@ export class RenewManagementListComponent implements OnInit {
     else if (event.cmd == 'view') {
       this.navigateToDetail(event.data)
     }
-    else if (event.cmd == "create") {
+    else if (event.cmd == "confirm") {
       this.confirmRenew(event.data)
     }
   }

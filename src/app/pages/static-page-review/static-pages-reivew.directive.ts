@@ -28,7 +28,7 @@ const STATIC_VIEW_COMPONENT = {
   'static_1644896661652': EndoViewComponent,
   'static_1644896804675': EndoGripViewComponent,
   'static_1648784270356': TravelViewComponent,
-  'static_1648784270432':MotorAddonViewComponent
+  // 'static_1648784270432':MotorAddonViewComponent
   // ''
 }
 @Directive({
