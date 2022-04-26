@@ -95,7 +95,7 @@ export class SurroundingDetailComponent implements OnInit {
     this.surroundingdetailform = new FormGroup({
       buildingClass: new FormControl(oldData ? oldData.buildingClass : ""),
       buildingDescription: new FormControl(oldData ? oldData.buildingDescription : ""),
-      distanceToBuilding: new FormControl(oldData ? oldData.distanceToBuilding : "",),
+      distanceToBuilding: new FormControl(oldData ? oldData.distanceToBuilding : "", [Validators.max(100)]),
       firePolicyRiskId: new FormControl(this.riskId),
       id: new FormControl(oldData ? oldData.id : ""),
       occupationOfBuilding: new FormControl(oldData ? oldData.occupationOfBuilding : ""),

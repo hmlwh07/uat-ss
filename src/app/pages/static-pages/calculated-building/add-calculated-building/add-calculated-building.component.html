@@ -37,7 +37,7 @@
             <div class="row" style="align-items: center">
                 <div class="col-sm-6" *ngIf="!isStock">
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Quantiy</label>
+                        <label class="col-sm-4 col-form-label">Quantity</label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control form-control-sm " (ngModelChange)="calculateTotalValue()" name="quantity" autocomplete="off" [class.is-invalid]="isControlInvalid('quantity')" [class.is-valid]="isControlValid('quantity')" formControlName="quantity"
                             />

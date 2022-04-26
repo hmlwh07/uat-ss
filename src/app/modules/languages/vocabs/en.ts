@@ -42,6 +42,7 @@ export const locale = {
       source: 'Source',
       phone_number: 'Phone Number',
       subject: 'Subject',
+      
       contact: 'Contact',
       precontact: 'Preferred Contact',
       type: 'Type',
@@ -68,7 +69,7 @@ export const locale = {
       existing_insurance_plan: 'Existing Insurance Plan',
       score: 'Score',
       asset: 'Asset (If Any)',
-      prospect_customer: 'Prospect Customer',
+      prospect_customer: 'Prospect Profile',
       lost_reason: 'Lost Reason',
       reject_reaosn: 'Reject Reason',
       btn_approve: 'Approve',

@@ -398,6 +398,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           if (col.type == "date") {
             return this.datePipe.transform(data[col.name], "dd/MM/yyyy")
           }
+          if (col.type == "file") {
+            return data[col.name].split("].")[1]
+          }
           if (col.options.length > 0) {
             let valueData = col.options.find(x => x.value == data[col.name])
             if (valueData) {
