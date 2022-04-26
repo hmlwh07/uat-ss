@@ -24,7 +24,7 @@ export class CurrencyExChangeComponent implements OnInit {
   ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyCol))
   displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
   exchangeForm: FormGroup
-  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef, 
+  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef,
     private modalCrl: NgbModal, private alertService: AlertService) {
 
   }
@@ -32,14 +32,14 @@ export class CurrencyExChangeComponent implements OnInit {
   ngOnInit() {
     this.loadForm()
   }
-  ngAfterViewInit(){  
-   
+
+  ngAfterViewInit() {
     this.getData()
   }
   loadForm() {
     this.exchangeForm = new FormGroup({
       startDate: new FormControl(null),
-      endDate:new FormControl(null),
+      endDate: new FormControl(null),
       currency: new FormControl('usd'),
     })
   }
