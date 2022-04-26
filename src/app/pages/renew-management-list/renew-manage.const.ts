@@ -8,14 +8,7 @@ export const RenewCol: TableCol[] = [
     // isTitle?: boolean
     // isDate?: boolen
   },
-  {
-    title: "Renew Policy Number",
-    type: COLTYPE.FEILD,
-    field: "renewalPolicyNumber",
-    // amtFormat?: boolean,
-    // isTitle?: boolean
-    // isDate?: boolen
-  },
+ 
   {
     title: "Product Code",
     type: COLTYPE.FEILD,
@@ -80,7 +73,7 @@ export const RenewCol: TableCol[] = [
 
 export const ActivityDisplayCol: string[] = [
   "policyNumber",
-  "renewalPolicyNumber",
+  // "renewalPolicyNumber",
   "productCode",
   "agentName",
   "premium",

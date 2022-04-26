@@ -148,6 +148,17 @@ export const locale = {
       new_password: 'New Password',
       comirm_password: 'Comfirm Password',
       requset_auth: 'Request Authentication',
+      policy_no: "Policy Number",
+      policy_status: "Policy Status",
+      policy_date: "Policy Inception Date",
+      policy_edate: "Policy Expire Date",
+      qoute_no: "Quote Number",
+      renew_policy_no: "Renewal Policy Number",
+      gross_premium: "Gross Premium",
+      net_premium: "Net Premium",
+      policy_holder: "Policy Holder",
+      policy_holder_code: "Policy Holder Code",
+      btn_back: "Back"
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

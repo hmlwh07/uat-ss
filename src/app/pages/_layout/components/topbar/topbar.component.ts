@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LayoutService } from '../../../../_metronic/core';
 import { AuthService } from '../../../../modules/auth/_services/auth.service';
@@ -64,17 +64,17 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       flag: './assets/media/svg/flags/058-myanmar.svg',
     },
   ];
-  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService, private lang:LanguagesService) {
+  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService, private lang: LanguagesService, private cdf: ChangeDetectorRef) {
     this.user$ = this.auth.currentUserSubject.asObservable();
   }
   @ViewChild(NgbDropdown) myDrop: NgbDropdown
   @ViewChild(NgbDropdown) myLanguageDrop: NgbDropdown
   ngOnInit(): void {
-    let lang=this.lang.getSelectedLanguage()
-    if(lang=='mm'){
+    let lang = this.lang.getSelectedLanguage()
+    if (lang == 'mm') {
       this.language = this.languages[1]
-    }else{
-      this.language=this.languages[0]
+    } else {
+      this.language = this.languages[0]
     }
     // topbar extras
     this.extraSearchDisplay = this.layout.getProp('extras.search.display');

@@ -14,7 +14,7 @@
         <!--begin::Dropdown-->
         <div ngbDropdownMenu class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg p-0">
             <form>
-                <app-notifications-dropdown-inner (emitter)="closeDropDown($event)" [data]="noti"></app-notifications-dropdown-inner>
+                <app-notifications-dropdown-inner (emitter)="closeDropDown($event);myDrop.close()" [data]="noti"></app-notifications-dropdown-inner>
             </form>
         </div>
         <!--end::Dropdown-->
@@ -34,7 +34,7 @@
         </div>
 
         <div ngbDropdownMenu class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg p-0">
-            <app-language-selector style="margin-top: 10px;" [data]="languages" (emitter)="getLanguage($event)"></app-language-selector>
+            <app-language-selector style="margin-top: 10px;" [data]="languages" (emitter)="getLanguage($event);myLanguageDrop.close()"></app-language-selector>
         </div>
     </div>
 </ng-container>

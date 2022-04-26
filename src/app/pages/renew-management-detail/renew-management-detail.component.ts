@@ -95,7 +95,7 @@ export class RenewManagementDetailComponent implements OnInit {
     console.log(oldData);
     this.actForm = new FormGroup({
       "policyNumber": new FormControl({ value: oldData ? oldData.policyNumber : null, disabled: true }),
-      "renewalPolicyNumber": new FormControl({ value: oldData ? oldData.renewalPolicyNumber : null, disabled: true }),
+      // "renewalPolicyNumber": new FormControl({ value: oldData ? oldData.renewalPolicyNumber : null, disabled: true }),
       "policyInceptionDate": new FormControl({ value: oldData ? moment(oldData.policyInceptionDate,"DD/MM/YYYY") : null, disabled: true }),
       "status": new FormControl({ value: oldData ? oldData.policyStatus : null, disabled: true }),
       "policyExpiryDate": new FormControl({ value: oldData ? moment(oldData.policyExpiryDate,"DD/MM/YYYY") : null, disabled: true }),
