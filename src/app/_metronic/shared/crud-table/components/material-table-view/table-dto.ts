@@ -26,6 +26,7 @@ export interface TableCol {
 export enum COLTYPE {
   FEILD = 'field',
   TEXT = 'text',
+  RENEW = 'renew',
   ACTION = 'action'
 }
 export interface ViewButton {

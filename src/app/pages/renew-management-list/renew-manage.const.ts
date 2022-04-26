@@ -64,7 +64,7 @@ export const RenewCol: TableCol[] = [
   },
   {
     title: "Confirm",
-    type: COLTYPE.TEXT,
+    type: COLTYPE.RENEW,
     field: "Confirm",
     // amtFormat?: boolean,
     // isTitle?: boolean
