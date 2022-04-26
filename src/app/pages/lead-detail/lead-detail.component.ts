@@ -209,7 +209,7 @@ export class LeadDetailComponent implements OnInit {
     private fnaService: FANService,
     private alertService: AlertService,
     private ngZone: NgZone,
-    
+
     private menuService: MenuDataService
   ) { }
 
@@ -908,10 +908,10 @@ export class LeadDetailComponent implements OnInit {
       productId: new FormControl({ value: oldData ? oldData.productId : '', disabled: true }),
       email: new FormControl({ value: oldData ? oldData.email : '', disabled: this.disabledForm }),
       campaignName: new FormControl({ value: oldData ? oldData.campaignName : '', disabled: this.disabledForm }),
-      identityType: new FormControl({ value: oldData ? oldData.identityType : '', disabled: true }),
+      identityType: new FormControl({ value: oldData ? oldData.identityType == 'OTHERS' ? "OTHER" : "OTHER" : '', disabled: true }),
       sourceCode: new FormControl({ value: oldData ? oldData.sourceCode : '', disabled: this.disabledForm }),
       campaignNo: new FormControl({ value: oldData ? oldData.campaignNo : '', disabled: this.disabledForm }),
-      identityNumber: new FormControl({ value: oldData ? oldData.nrcValue : '', disabled: true }),
+      identityNumber: new FormControl({ value: oldData ? oldData.nrcValue || oldData.identityNumber : '', disabled: true }),
       existingCustomerName: new FormControl(
         { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }
       ),
@@ -1159,7 +1159,7 @@ export class LeadDetailComponent implements OnInit {
               // if (res) {
               this.getLeadAttachment();
               this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-           
+
               });
               // }
             })

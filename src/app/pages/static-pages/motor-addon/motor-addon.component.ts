@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from 'angular-calendar';
@@ -51,7 +51,7 @@ export class MotorAddonComponent implements OnInit {
   addOnsData: any = {}
   medPremium: any
   crossPremium: any
-  constructor(private globalFun: GlobalFunctionService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService,private pageDataService: PageDataService) {
+  constructor(private globalFun: GlobalFunctionService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -73,16 +73,19 @@ export class MotorAddonComponent implements OnInit {
   }
 
   toggleChange(type) {
+    // console.log(type);
+    
     if (type == 'medical') {
       this.isMedical = !this.isMedical
       this.changePlan()
       // this.premium = this.globalFun.motorMedicalExpense(this.parentData)
       // console.log(this.premium);
-
+      this.cdf.detectChanges()
     }
     if (type == 'cross') {
       this.isCross = !this.isCross
       this.crossPremium = this.isCross ? this.calcuCross() : 0
+      this.cdf.detectChanges()
     }
   }
   changePlan() {
@@ -110,7 +113,8 @@ export class MotorAddonComponent implements OnInit {
     let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
-      tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
+      if (this.addOnsData[addon.id])
+        tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
       // }
     }
     if (this.isMedical) {
@@ -141,6 +145,7 @@ export class MotorAddonComponent implements OnInit {
     const quoService = this.addOnQuoService
     if (this.isMedical) {
       let medID = this.product.addOns.find(x => x.code == "MED")
+      this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium 
       if (medID) {
         let postData = {
           addonId: medID.id,
@@ -160,6 +165,7 @@ export class MotorAddonComponent implements OnInit {
     }
     if (this.isCross) {
       let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
+      this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium 
       if (crossID) {
         let postData = {
           addonId: crossID.id,

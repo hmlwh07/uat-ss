@@ -12,7 +12,7 @@
                 <label class="col-sm-6 text-bold left-border-image">Medical Expense</label>
             </div>
             <div class="col-sm-2">
-                <mat-slide-toggle [(ngModel)]="isMedical" [color]="primary" class="toggle ft-right" (change)="toggleChange('medical')"></mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isMedical" [color]="primary" class="toggle ft-right" (toggleChange)="toggleChange('medical')"></mat-slide-toggle>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                 <label class="col-sm-6 text-bold left-border-image">Cross Border</label>
             </div>
             <div class="col-sm-2">
-                <mat-slide-toggle [(ngModel)]="isCross" [color]="primary" class="toggle ft-right" (change)="toggleChange('cross')"></mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isCross" [color]="primary" class="toggle ft-right" (toggleChange)="toggleChange('cross')"></mat-slide-toggle>
             </div>
         </div>
     </div>

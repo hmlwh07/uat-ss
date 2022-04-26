@@ -105,7 +105,7 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource<any>(this.data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    let totalPage = Math.floor(this.data.length / 5) + 1
+    let totalPage = Math.ceil(this.data.length / 5)
     if (this.calTotal)
       this.calTotalData()
     if (this.customPaginator)

@@ -12,7 +12,7 @@
                 <label class="col-sm-6 text-bold left-border-image">Medical Expense</label>
             </div>
             <div class="col-sm-2">
-                <mat-slide-toggle [(ngModel)]="isMedical" [color]="primary" class="toggle ft-right" (change)="toggleChange('medical')"></mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="isMedical" [disabled]="true" [color]="primary" class="toggle ft-right" (toggleChange)="toggleChange('medical')"></mat-slide-toggle>
             </div>
         </div>
 
@@ -20,7 +20,7 @@
             <div class="col-sm-6">
                 <div class="form-group row">
                     <div class="col-sm-8">
-                        <ng-select class="ng-custom-select" [(ngModel)]="planOption" (change)="changePlan()" [items]="planOptionOption" bindLabel="value" bindValue="code">
+                        <ng-select class="ng-custom-select" [disabled]="true" [(ngModel)]="planOption" (toggleChange)="changePlan()" [items]="planOptionOption" bindLabel="value" bindValue="code">
                         </ng-select>
 
                     </div>

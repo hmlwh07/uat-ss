@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-2">
                 <mat-slide-toggle [(ngModel)]="isContents" [color]="primary" class="toggle ft-right"
-                    (change)="toggleChange('contents')"></mat-slide-toggle>
+                    (toggleChange)="toggleChange('contents')"></mat-slide-toggle>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-primary btn-sm mx-2 ft-right"
@@ -44,7 +44,7 @@
             </div>
             <div class="col-sm-2">
                 <mat-slide-toggle [(ngModel)]="isPlant" [color]="primary" class="toggle ft-right"
-                    (change)="toggleChange('plants')"></mat-slide-toggle>
+                    (toggleChange)="toggleChange('plants')"></mat-slide-toggle>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-primary btn-sm mx-2 ft-right"
@@ -73,7 +73,7 @@
             </div>
             <div class="col-sm-2">
                 <mat-slide-toggle [(ngModel)]="isStock" [color]="primary" class="toggle ft-right"
-                    (change)="toggleChange('stock')"></mat-slide-toggle>
+                    (toggleChange)="toggleChange('stock')"></mat-slide-toggle>
             </div>
             <div class="col-sm-2" *ngIf="stockData.length == 0">
                 <button type="button" class="btn btn-primary btn-sm mx-2 ft-right"

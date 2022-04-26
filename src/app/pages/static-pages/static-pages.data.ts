@@ -89,7 +89,7 @@ export const STATIC_PAGES = [
   },{
     id: 'static_1648784270432',
     type: PageUIType.STATIC,
-    pageTitle: "Addon",
+    pageTitle: "Optional Coverages",
     showLabel: "Motor Addons",
     pageType: 'form',
     tableName: 'static',
