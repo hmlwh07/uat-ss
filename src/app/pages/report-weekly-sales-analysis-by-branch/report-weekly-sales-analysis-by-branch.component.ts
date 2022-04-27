@@ -42,7 +42,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
   dataExcel = [];
   isData: boolean = false;
   displayList = [];
-  title: string = 'Weekly Sales Analysis Report';
+  title: string = 'Weekly Activity Analysis';
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportWeeklySalesAnalysisBranchExportService) { }

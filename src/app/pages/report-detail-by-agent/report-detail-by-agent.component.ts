@@ -13,7 +13,7 @@ import { validateAllFields } from '../../../app/core/valid-all-feild';
 })
 export class ReportDetailByAgentComponent implements OnInit {
   @ViewChild('TABLE', { static: false }) TABLE: ElementRef;
-  title = 'Agent Sales Report';
+  title = 'Individual details production report';
   createFormGroup: FormGroup;
   fromMinDate = null;
   fromMaxDate = null;

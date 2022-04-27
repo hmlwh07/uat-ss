@@ -13,7 +13,7 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-detail-by-bank-branch.const
 })
 export class ReportDetailByBankBranchComponent implements OnInit {
   createFormGroup: FormGroup;
-  title = "Bank Branch Sale Report"
+  title = "Branch details production report"
   fromMinDate = null;
   fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };

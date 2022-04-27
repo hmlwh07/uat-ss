@@ -13,7 +13,7 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-channel-summary-by-bank-bra
 })
 export class ReportChannelSummaryByBankBranchComponent implements OnInit {
   createFormGroup: FormGroup;
-  title = "Channel Summary Report";
+  title = "Production Summary - by channel";
   fromMinDate = null;
   fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };

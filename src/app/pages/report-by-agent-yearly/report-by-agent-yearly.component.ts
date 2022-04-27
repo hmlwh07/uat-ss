@@ -44,7 +44,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
   isData: boolean = false;
   dataList = [];
   totalDataList = [];
-  title = 'By Agent Yearly Report';
+  title = 'Individual production summary';
 
   constructor(private cdf: ChangeDetectorRef, private datePipe: DatePipe,
     public exportService: ReportAgentYearlyExportService) { }

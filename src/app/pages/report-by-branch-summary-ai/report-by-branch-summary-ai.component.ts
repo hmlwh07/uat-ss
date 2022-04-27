@@ -13,7 +13,7 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-by-branch-summary-ai.const'
 })
 export class ReportByBranchSummaryAiComponent implements OnInit {
   createFormGroup: FormGroup;
-  title = 'By Branch Summary IA'
+  title = 'Monthly Branch Production Summary'
   fromMinDate = null;
   fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };

@@ -44,7 +44,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
   isData: boolean = false;
   dataList = [];
   displayList = [];
-  title: string = 'Monthly Sales Analysis Report';
+  title: string = 'Monthly Activity Analysis';
 
   constructor(private cdf: ChangeDetectorRef, private datePipe: DatePipe,
     public exportService: ReportMonthlySalesAnalysisBranchExportService) { }

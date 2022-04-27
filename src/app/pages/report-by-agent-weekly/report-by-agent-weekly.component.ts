@@ -45,7 +45,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
   branchDataList = [];
   dataList = [];
   branchDataForExcel = [];
-  title: string = 'Weekly Activity Report';
+  title: string = 'Individual details activity report - weekly';
   productsSubHeader = [];
 
   constructor(private cdf: ChangeDetectorRef,

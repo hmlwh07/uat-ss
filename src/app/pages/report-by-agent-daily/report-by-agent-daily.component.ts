@@ -46,7 +46,7 @@ export class ReportByAgentDailyComponent implements OnInit {
   productsSubHeader = [];
   dataList = [];
   totalDataList = [];
-  title: string = 'Daily Activity Report';
+  title: string = 'Individual details activity report - daily';
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportAgentDailyExportService) { }

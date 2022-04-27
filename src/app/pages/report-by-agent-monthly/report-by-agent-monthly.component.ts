@@ -44,7 +44,7 @@ export class ReportByAgentMonthlyComponent implements OnInit {
   isData: boolean = false;
   productsHeader = [];
   dataList = [];
-  title: string = 'Monthly Activity Report';
+  title: string = 'Individual details activity report - monthly';
 
 
   constructor(private cdf: ChangeDetectorRef, private datePipe: DatePipe,

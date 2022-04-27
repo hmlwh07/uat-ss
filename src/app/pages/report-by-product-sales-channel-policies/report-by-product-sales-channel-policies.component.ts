@@ -44,7 +44,7 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   branchDataList = [];
   isData: boolean = false;
   branchDataForExcel = [];
-  title: string = "Product Sales Channel Policies";
+  title: string = "Monthly Product Sales by Channel";
   dataList: any;
 
   constructor(private cdf: ChangeDetectorRef,
