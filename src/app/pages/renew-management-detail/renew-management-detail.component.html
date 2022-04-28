@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.gross_premium" | translate}}</label>
                                 <input type="tel" currencyMask
-                                    [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+                                    [options]="{ prefix: '', thousands: ',',allowNegative:false,align:'left' }"
                                     class="form-control form-control-sm currency-input-tag" name="grossPremium"
                                     autocomplete="off" [class.is-invalid]="isControlInvalid('grossPremium')"
                                     [class.is-valid]="isControlValid('grossPremium')" formControlName="grossPremium" />
@@ -95,7 +95,7 @@
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.net_premium" | translate}}</label>
                                 <input type="tel" currencyMask
-                                    [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+                                    [options]="{ prefix: '', thousands: ',',allowNegative:false,align:'left' }"
                                     class="form-control form-control-sm currency-input-tag" name="netPremium"
                                     autocomplete="off" [class.is-invalid]="isControlInvalid('netPremium')"
                                     [class.is-valid]="isControlValid('netPremium')" formControlName="netPremium" />
