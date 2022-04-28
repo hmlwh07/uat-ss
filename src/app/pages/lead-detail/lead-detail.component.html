@@ -464,7 +464,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-5  col-form-label">{{"FORM.prospect_customer" | translate}}</label>
                                         <!--  (click)="viewExistingCustomer('prosp')" -->
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-5"  (click)="viewExistingCustomer('prosp')">
                                             <input type="text" readonly class="form-control form-control-sm " name="prospectCustomer" autocomplete="off" formControlName="prospectCustomer" />
                                             <span class="ng-clear-wrapper" *ngIf="!isAddProspect" (click)="clearDate('prospectCustomer');$event.stopPropagation()" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
 
