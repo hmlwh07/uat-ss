@@ -786,7 +786,7 @@ export class LeadDetailComponent implements OnInit {
         }
       })
     }
-    else if (!this.isExisting && !this.disabledForm) {
+    else if (!this.isExisting && !this.disabledForm && !this.isAddProspect) {
       let modalRef;
       modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.isPopup = true
