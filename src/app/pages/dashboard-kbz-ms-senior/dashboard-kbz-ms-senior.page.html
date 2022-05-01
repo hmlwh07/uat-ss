@@ -1,0 +1,90 @@
+<div class="dashboard-main" (window:resize)="onResize($event)" [ngStyle]="{'height': mainContentHeightPx }">
+  <section [ngStyle]="{'height': mainContentHeightPx}">
+    <!-- [ngStyle]="{'height': profileHpx}" -->
+    <div style="margin: 0 0 10px 0;">
+      <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
+        <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
+          <img src="../../../assets/images/dashboard-usr.svg" alt="profile">
+        </div>
+        <ion-label class="title-color">{{ data?.agentInfo?.employeeName }}</ion-label>
+        <ion-label>{{ data?.role }}</ion-label>
+      </div>
+      <div class="premium" [ngStyle]="{'padding': productPadding}">
+        <ion-label class="premuim-color">Premium</ion-label>
+        <ion-label>{{ data?.agentInfo?.totalPremium | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
+      </div>
+    </div>
+    <div class="product">
+      <h2>Products</h2>
+      <ion-list [ngStyle]="{'height': profileHpx}">
+        <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium" >
+          <ion-thumbnail slot="start">
+            <img *ngIf="!productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
+              alt="" srcset="">
+            <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
+              alt="" srcset="">
+          </ion-thumbnail>
+          <ion-text>{{ product.productName }}</ion-text>
+          <ion-text>{{ product.premium | number: '1.2-2' }} MMK</ion-text>
+        </ion-item>
+      </ion-list>      
+    </div>
+  </section>
+  <section class="sales-performance"  [ngStyle]="{'height': mainContentHeightPx}">
+    <h2 class="title-color">Sales Performances</h2>
+    <div class="date">
+      <div>{{ months[currentMonthIndex] }}</div>
+      <div>Y{{ currentYear }}</div>
+      <div><a (click)="goToSalePolicies()">All</a></div>
+    </div>
+    <ion-list *ngIf="data && data.subAgentMonthlySale.length > 0" [ngStyle]="{'height': salesHpx}">
+      <ion-item lines="full" *ngFor="let agent of data?.subAgentMonthlySale" (click)="goToLPManager(agent)">
+        <ion-avatar slot="start">
+          <img src="./assets/images/user_profile-01.svg" class="user-icon" alt="" />
+        </ion-avatar>
+        <ion-text>
+          <ion-label class="ion-text-wrap">{{ agent.name }}</ion-label>
+          <ion-label class="ion-text-wrap">{{ agent.premium | number: '1.2-2' }} MMK</ion-label>
+        </ion-text>
+      </ion-item>
+    </ion-list>
+  </section>
+  <section class="chart"  [ngStyle]="{'height': mainContentHeightPx}">
+    <div class="sub-chart" [ngStyle]="{'height': chartHpx}">
+      <h2 class="title-color">Lead Conversion</h2>
+      <div class="branch">
+        <div>{{ data?.agentInfo?.branchName }}</div>
+        <div style="font-weight: 600;">{{ leadObj?.leadWinRate }} %</div>
+      </div>
+      <div id="inflation" *ngIf="chartOptions">
+        <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [dataLabels]="chartOptions?.dataLabels"
+          [plotOptions]="chartOptions?.plotOptions" [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis"
+          [legend]="chartOptions?.legend" [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
+      </div>
+    </div>
+    <div class="sub-chart" [ngStyle]="{'height': chartHpx}">
+      <h2 class="title-color">Active Agents Today</h2>
+      <div style="font-weight: bold;">{{ todayActiveAgent }}</div>
+      <div id="chart" style="position: relative;
+      top: -15px;" *ngIf="chartOptionsAgent">
+        <apx-chart [series]="chartOptionsAgent.series" [chart]="chartOptionsAgent.chart"
+          [xaxis]="chartOptionsAgent.xaxis" [yaxis]="chartOptionsAgent.yaxis" [title]="chartOptionsAgent.title"
+          [legend]="chartOptionsAgent.legend" [dataLabels]="chartOptionsAgent.dataLabels"
+          [markers]="chartOptionsAgent.markers"></apx-chart>
+      </div>
+    </div>
+    <div class="sub-chart" [ngStyle]="{'height': thingsHpx}">
+      <h2 class="title-color">Things To Follow Up Today</h2>
+      <div class="today">
+        <div>
+          <p>TASK TODAY</p>
+          <p>{{ leadObj.taskToday }}</p>
+        </div>
+        <div>
+          <p>LEAD TODAY</p>
+          <p>{{ leadObj.leadToday }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
