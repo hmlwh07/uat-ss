@@ -90,7 +90,7 @@ export class AddonPageComponent implements OnInit {
     if (this.product.code == "PLMO02") {
       this.parentData = this.getParnet()
     }
-    this.addOnList = this.product.addOns.filter(x => x.code != "MED" && x.code != "CROSSBRDR" )
+    this.addOnList = this.product.addOns.filter(x => x.code != "MED EXP" && x.code != "CROSSBRDR" )
     if (this.addOnList && this.addOnList.length > 0) {
       await this.loadingService.activate()
       this.addOns = {

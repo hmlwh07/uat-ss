@@ -144,7 +144,7 @@ export class MotorAddonComponent implements OnInit {
   async nextPage() {
     const quoService = this.addOnQuoService
     if (this.isMedical) {
-      let medID = this.product.addOns.find(x => x.code == "MED")
+      let medID = this.product.addOns.find(x => x.code == "MED EXP")
       this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium 
       if (medID) {
         let postData = {
