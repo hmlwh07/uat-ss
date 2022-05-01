@@ -7,25 +7,46 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      // {
+      //   path: 'dashboard/lp-dashboard',
+      //   loadChildren: () =>
+      //     import('./lp-dashboard/lp-dashboard.module').then(
+      //       (m) => m.LpDashboardModule
+      //     ),
+      // },
+      // {
+      //   path: 'dashboard/lp-manager-dashboard',
+      //   loadChildren: () =>
+      //     import('./lp-manager-dashboard/lp-manager-dashboard.module').then(
+      //       (m) => m.LpManagerDashboardModule
+      //     ),
+      // },
+      // {
+      //   path: 'dashboard/senior-lp-dashboard',
+      //   loadChildren: () =>
+      //     import('./senior-lp-dashboard/senior-lp-dashboard.module').then(
+      //       (m) => m.SeniorLpDashboardModule
+      //     ),
+      // },
       {
         path: 'dashboard/lp-dashboard',
         loadChildren: () =>
-          import('./lp-dashboard/lp-dashboard.module').then(
-            (m) => m.LpDashboardModule
+          import('./dashboard-kbz-ms-lp/dashboard-kbz-ms-lp.module').then(
+            (m) => m.DashboardKbzMsLpPageModule
           ),
       },
       {
         path: 'dashboard/lp-manager-dashboard',
         loadChildren: () =>
-          import('./lp-manager-dashboard/lp-manager-dashboard.module').then(
-            (m) => m.LpManagerDashboardModule
+          import('./dashboard-kbz-ms-manager/dashboard-kbz-ms-manager.module').then(
+            (m) => m.DashboardKbzMsManagerPageModule
           ),
       },
       {
         path: 'dashboard/senior-lp-dashboard',
         loadChildren: () =>
-          import('./senior-lp-dashboard/senior-lp-dashboard.module').then(
-            (m) => m.SeniorLpDashboardModule
+          import('./dashboard-kbz-ms-senior/dashboard-kbz-ms-senior.module').then(
+            (m) => m.DashboardKbzMsSeniorPageModule
           ),
       },
       {
