@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { PolicyDTO } from '../../policy/policy.dto';
@@ -12,6 +12,7 @@ import { PageDataService } from "../../product-form/page-data.service"
 import { IsJsonString } from '../../../core/is-json';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
 import { FirePageID, FireRiskID } from '../static-pages.data';
+import { MotorAddonComponent } from '../motor-addon/motor-addon.component';
 @Component({
   selector: 'app-addon-page',
   templateUrl: './addon-page.component.html',
@@ -24,7 +25,7 @@ export class AddonPageComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
   @Input() fireAdd: boolean = false
-
+  @ViewChild(MotorAddonComponent) motorAddon: MotorAddonComponent
   addOns = {
     isSum: false,
     isUnit: false,
@@ -215,6 +216,7 @@ export class AddonPageComponent implements OnInit {
     const quoService = this.addOnQuoService
     const posDataArray = this.addOnsData
     await quoService.deleteAll(this.resourcesId, this.optionId).toPromise()
+    await this.motorAddon.nextPage()
     if (this.product.code == "CLFR01") {
       this.globalFun.tempFormData['addon_1634010770155' + this.optionId] = []
     } else {

@@ -30,6 +30,7 @@ export class MotorAddonComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
   @Input() premiumAmt: string = ''
+  @Output() changeCheck =  new EventEmitter<any>();
   primary = 'primary'
   isMedical: boolean = false
   isCross: boolean = false
@@ -84,7 +85,7 @@ export class MotorAddonComponent implements OnInit {
     }
     if (type == 'cross') {
       this.isCross = !this.isCross
-      this.crossPremium = this.isCross ? this.calcuCross() : 0
+      // this.crossPremium = this.isCross ? this.calcuCross() : 0
       this.cdf.detectChanges()
     }
   }
@@ -108,9 +109,9 @@ export class MotorAddonComponent implements OnInit {
     return fix
   }
 
-  calcuCross() {
+  calcuCross(addOnsData) {
     let tempPre = 0
-    let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
+    // let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
       if (this.addOnsData[addon.id])
@@ -136,7 +137,7 @@ export class MotorAddonComponent implements OnInit {
       }
     }
 
-    return tempPre + excessAmt
+    this.crossPremium = tempPre + excessAmt
   }
   backPage() {
     this.actionEvent.emit({ type: StaticActionType.PREV })
@@ -178,17 +179,17 @@ export class MotorAddonComponent implements OnInit {
           option2: this.option2
         }
         let res = await quoService.save(postData).toPromise()
-        if (this.globalFun.tempFormData['addon_1634010770155']) {
-          this.globalFun.tempFormData['addon_1634010770155'].push(postData)
-        } else {
-          this.globalFun.tempFormData['addon_1634010770155'] = [postData]
-        }
+        // if (this.globalFun.tempFormData['addon_1634010770155']) {
+        //   this.globalFun.tempFormData['addon_1634010770155'].push(postData)
+        // } else {
+        //   this.globalFun.tempFormData['addon_1634010770155'] = [postData]
+        // }
       }
 
     }
-    this.savePremimun()
+    // await this.savePremimun()
     // this.globalFun.tempFormData[AddOnID] = pageData
-    this.actionEvent.emit({ type: StaticActionType.NEXT })
+    // this.actionEvent.emit({ type: StaticActionType.NEXT })
   }
 
   savePremimun() {
