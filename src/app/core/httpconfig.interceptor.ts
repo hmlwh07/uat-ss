@@ -31,8 +31,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
         // request = request.clone({ headers: request.headers.set('X-Tenant-ID', 'kbzms') });
         // request = request.clone({ headers: request.headers.set('Authorization', 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyODQyMzI5OCwiaWF0IjoxNjI3ODE4NDk4fQ.K08GdAdgMVisiUjOO8ySxRA68Rj6PWTjRdoOBAnpRiCJ5aAY4pqJPKrhKS0ulK6K9qjU4jpOx2wuFdVi-XHw4A') });
-
-        this.loading.activate()
+        if (this.loading['activate'])
+            this.loading.activate()
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
@@ -53,14 +53,15 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             // catchError(this.errorHandler)
             catchError(
                 (error: HttpErrorResponse) => {
-                      console.log('error--->>>', error);
-                    this.loading.deactivate()
+                    console.log('error--->>>', error);
+                    if (this.loading['deactivate'])
+                        this.loading.deactivate()
                     if (error.error) {
                         if (typeof error.error == 'string') {
                             this.alertService.activate("Internal Server error!", "Error Message")
                         } else {
                             this.alertService.activate(error.error.payload || error.error.message || "Internal Server error!", 'Error Message');
-                            if(error.error.code == "403"){
+                            if (error.error.code == "403") {
                                 this.authService.logout()
                                 document.location.reload();
                             }
@@ -73,7 +74,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                 }
             ),
             finalize(() => {
-                this.loading.deactivate()
+                if (this.loading['deactivate'])
+                    this.loading.deactivate()
             })
         );
     }

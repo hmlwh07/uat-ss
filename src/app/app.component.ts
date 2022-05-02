@@ -102,6 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
     this.unsubscribe.push(routerSubscription);
+    console.log(this.menuService.dataAccess.value)
     let unsub = this.authService.currentUserSubject.subscribe((res) => {
       if (res) {
         this.user = res

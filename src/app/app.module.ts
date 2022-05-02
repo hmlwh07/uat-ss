@@ -33,13 +33,17 @@ import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { LanguagesService } from './modules/languages/languages.service';
 import { TranslatePipe } from './modules/languages/translate.pipe';
 import { LanguageModule } from './modules/languages/languages.modules';
+import { MenuDataService } from './core/menu-data.service';
+import { map, mergeMap } from 'rxjs';
 
 // #fake-start#
 // #fake-end#
-function appInitializer(authService: AuthService) {
+function appInitializer(authService: AuthService,menuService: MenuDataService) {
   return () => {
     return new Promise((resolve: any) => {
-      authService.getUserByToken().subscribe().add(resolve);
+      authService.getUserByToken().pipe(mergeMap((x)=> {
+        return menuService.getMenusData()
+      })).subscribe().add(resolve);
     });
   };
 }
@@ -90,7 +94,7 @@ function appInitializer(authService: AuthService) {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,
       multi: true,
-      deps: [AuthService],
+      deps: [AuthService,MenuDataService],
     },
     File,
     LanguagesService,

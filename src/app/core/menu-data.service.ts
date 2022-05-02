@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, map } from "rxjs";
+import { BehaviorSubject, map, of } from "rxjs";
 import { environment } from "../../environments/environment";
 import { BizOperationService } from "./biz.operation.service";
 const API_MENU_URL = `${environment.apiUrl}/menu`
@@ -28,15 +28,15 @@ export class MenuDataService extends BizOperationService<any, number>{
     super(httpClient, API_MENU_URL);
   }
 
-  getMenusData() {
-    this.findAllWithQuery("lan=EN").pipe(map((menus) => {
+  async getMenusData() {
+    let res = await this.findAllWithQuery("lan=EN").pipe(map((menus) => {
       return menus.map(menu => {
 
         if (menu.submenu) {
           let checked = menu.submenu.find(x => x.show == true)
           menu.submenu_show = checked ? true : false
         }
-       
+
         if (menu.page == "dashboard/senior-lp-dashboard") {
           menu.submenu_show = false
         }
@@ -45,15 +45,21 @@ export class MenuDataService extends BizOperationService<any, number>{
           menu.submenu[index].page = "product/products-config/list"
         }
         // console.log('MENU==>',menu);
-        
+
         return menu
       })
-    })).toPromise().then((res) => {
-      if (res) {
-        this.menuData.next(res)
-        this.accessPremission()
-      }
-    })
+    })).toPromise();
+    if (res) {
+      this.menuData.next(res)
+      this.accessPremission()
+    }
+    return of(res)
+    // .toPromise().then((res) => {
+    //   if (res) {
+    //     this.menuData.next(res)
+    //     this.accessPremission()
+    //   }
+    // })
   }
 
   accessPremission() {
