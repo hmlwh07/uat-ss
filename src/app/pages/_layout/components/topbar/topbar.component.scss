@@ -1,3 +1,6 @@
 .cus.svg-icon-primary svg g [fill] {
-  fill: #00acea;
+  fill: #00acea !important;
+}
+.topbar-item .cus.svg-icon.svg-icon-primary svg g [fill]{
+  fill: #00acea !important;
 }

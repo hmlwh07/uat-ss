@@ -528,7 +528,9 @@ td.mat-footer-cell,
 .topbar-item .svg-icon.svg-icon-primary svg g [fill] {
     fill: white !important;
 }
-
+.topbar-item .cus.svg-icon.svg-icon-primary svg g [fill]{
+    fill: #00acea !important;
+}
 .topbar-item .btn.btn-clean:hover:not(.btn-text):not(:disabled):not(.disabled) .svg-icon svg g [fill] {
     fill: #ffd300 !important;
 }

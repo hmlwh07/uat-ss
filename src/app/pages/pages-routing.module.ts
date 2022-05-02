@@ -340,7 +340,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/product/page-group',
+        redirectTo: '/dashboard/senior-lp-dashboard',
         pathMatch: 'full',
       },
       {
