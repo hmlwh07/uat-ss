@@ -19,9 +19,9 @@
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
-            <img *ngIf="!productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
+            <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
               alt="" srcset="">
-            <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
+            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" -->
               srcset="">
           </ion-thumbnail>
           <ion-text>{{ product.productName }}</ion-text>
@@ -40,7 +40,7 @@
     <ion-list *ngIf="data && data.subAgentMonthlySale.length > 0" [ngStyle]="{'height': salesHpx}">
       <ion-item lines="full" *ngFor="let agent of data?.subAgentMonthlySale" (click)="goToLPDashboard(agent)">
         <ion-avatar slot="start">
-          <img src="./assets/images/user_profile-01.svg" class="user-icon" alt="" />
+          <img src="./assets/images/user_profile-01.svg" class="user-icon" alt="" (error)="changeSource($event)" />
         </ion-avatar>
         <ion-text>
           <ion-label class="ion-text-wrap">{{ agent.name }}</ion-label>

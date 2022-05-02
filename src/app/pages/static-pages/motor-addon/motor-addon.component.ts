@@ -30,7 +30,7 @@ export class MotorAddonComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
   @Input() premiumAmt: string = ''
-  @Output() changeCheck =  new EventEmitter<any>();
+  @Output() changeCheck = new EventEmitter<any>();
   primary = 'primary'
   isMedical: boolean = false
   isCross: boolean = false
@@ -75,7 +75,7 @@ export class MotorAddonComponent implements OnInit {
 
   toggleChange(type) {
     // console.log(type);
-    
+
     if (type == 'medical') {
       this.isMedical = !this.isMedical
       this.changePlan()
@@ -144,9 +144,11 @@ export class MotorAddonComponent implements OnInit {
   }
   async nextPage() {
     const quoService = this.addOnQuoService
+    let medID = this.product.addOns.find(x => x.code == "MED EXP")
+    if (medID)
+      await quoService.deleteOne(medID, this.resourcesId, this.resourcesId)
     if (this.isMedical) {
-      let medID = this.product.addOns.find(x => x.code == "MED EXP")
-      this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium 
+      this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium
       if (medID) {
         let postData = {
           addonId: medID.id,
@@ -164,9 +166,12 @@ export class MotorAddonComponent implements OnInit {
       }
 
     }
+    let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
+    if (crossID)
+      await quoService.deleteOne(crossID, this.resourcesId, this.resourcesId)
+
     if (this.isCross) {
-      let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
-      this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium 
+      this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium
       if (crossID) {
         let postData = {
           addonId: crossID.id,
@@ -187,9 +192,9 @@ export class MotorAddonComponent implements OnInit {
       }
 
     }
-    // await this.savePremimun()
+    await this.savePremimun()
     // this.globalFun.tempFormData[AddOnID] = pageData
-    // this.actionEvent.emit({ type: StaticActionType.NEXT })
+    this.actionEvent.emit({ type: StaticActionType.NEXT })
   }
 
   savePremimun() {

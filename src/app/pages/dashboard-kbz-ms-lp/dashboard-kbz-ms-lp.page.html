@@ -18,10 +18,11 @@
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
-            <img *ngIf="!productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
-              alt="" srcset="">
-            <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
-              srcset="">
+            <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
+              alt="" srcset="" >
+            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
+              (error)="changeSource($event)"
+              srcset=""> -->
           </ion-thumbnail>
           <ion-text>{{ product.productName }}</ion-text>
           <ion-text style="font-weight: 600;">{{ product.premium | number: '1.2-2' }} MMK</ion-text>

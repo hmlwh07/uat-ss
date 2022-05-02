@@ -70,7 +70,8 @@ export class AddonPageComponent implements OnInit {
   // FLOOD
   // BURGLARY
   // WARRISK
-  addOnList:any[] = []
+  addOnList: any[] = []
+  crossAddons: string[] = []
   fireOptionData = {
     "STHTC": [
       { "code": "T-BFMGS", "value": "Building,Furniture,Machine,Goods/Stocks" },
@@ -91,7 +92,8 @@ export class AddonPageComponent implements OnInit {
     if (this.product.code == "PLMO02") {
       this.parentData = this.getParnet()
     }
-    this.addOnList = this.product.addOns.filter(x => x.code != "MED EXP" && x.code != "CROSSBRDR" )
+    this.addOnList = this.product.addOns.filter(x => x.code != "MED EXP" && x.code != "CROSSBRDR")
+    this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP" || x.code == "CROSSBRDR").map(x => x.id)
     if (this.addOnList && this.addOnList.length > 0) {
       await this.loadingService.activate()
       this.addOns = {
@@ -215,7 +217,7 @@ export class AddonPageComponent implements OnInit {
   async nextPage() {
     const quoService = this.addOnQuoService
     const posDataArray = this.addOnsData
-    await quoService.deleteAll(this.resourcesId, this.optionId).toPromise()
+    await quoService.deleteAll(this.resourcesId, this.optionId, this.crossAddons.join(",")).toPromise()
     await this.motorAddon.nextPage()
     if (this.product.code == "CLFR01") {
       this.globalFun.tempFormData['addon_1634010770155' + this.optionId] = []

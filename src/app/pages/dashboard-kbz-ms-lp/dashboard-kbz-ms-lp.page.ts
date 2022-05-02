@@ -369,5 +369,9 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   }
 
+  changeSource(event){
+    event.target.src = ""
+  }
+
 }
 
