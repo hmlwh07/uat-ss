@@ -908,7 +908,7 @@ export class LeadDetailComponent implements OnInit {
       productId: new FormControl({ value: oldData ? oldData.productId : '', disabled: true }),
       email: new FormControl({ value: oldData ? oldData.email : '', disabled: this.disabledForm }),
       campaignName: new FormControl({ value: oldData ? oldData.campaignName : '', disabled: this.disabledForm }),
-      identityType: new FormControl({ value: oldData ? oldData.identityType == 'OTHER' ? "OTHERS" : "OTHERS" : 'NRC', disabled: true }),
+      identityType: new FormControl({ value: oldData ? oldData.identityType == 'OTHER' ? "OTHERS" : oldData.identityType : 'NRC', disabled: true }),
       sourceCode: new FormControl({ value: oldData ? oldData.sourceCode : '', disabled: this.disabledForm }),
       campaignNo: new FormControl({ value: oldData ? oldData.campaignNo : '', disabled: this.disabledForm }),
       identityNumber: new FormControl({ value: oldData ? oldData.nrcValue || oldData.identityNumber : '', disabled: true }),

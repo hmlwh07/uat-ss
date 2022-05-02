@@ -28,8 +28,8 @@ export class MenuDataService extends BizOperationService<any, number>{
     super(httpClient, API_MENU_URL);
   }
 
-  async getMenusData() {
-    let res = await this.findAllWithQuery("lan=EN").pipe(map((menus) => {
+  getMenusData() {
+    return this.findAllWithQuery("lan=EN").pipe(map((menus) => {
       return menus.map(menu => {
 
         if (menu.submenu) {
@@ -48,18 +48,14 @@ export class MenuDataService extends BizOperationService<any, number>{
 
         return menu
       })
-    })).toPromise();
-    if (res) {
-      this.menuData.next(res)
-      this.accessPremission()
-    }
-    return of(res)
-    // .toPromise().then((res) => {
-    //   if (res) {
-    //     this.menuData.next(res)
-    //     this.accessPremission()
-    //   }
-    // })
+    }), map((res) => {
+      if (res) {
+        this.menuData.next(res)
+        this.accessPremission()
+      }
+      return res
+    }))
+   
   }
 
   accessPremission() {

@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, of, mergeMap } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { UserModel } from '../_models/user.model';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LanguagesService } from '../../languages/languages.service';
+import { MenuDataService } from '../../../core/menu-data.service';
 
 @Component({
   selector: 'app-login',
@@ -35,12 +36,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate:LanguagesService
+    private translate: LanguagesService,
+    private menuDataService: MenuDataService
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
-      this.router.navigate(['/'],{ replaceUrl: true });
+      this.router.navigate(['/'], { replaceUrl: true });
     }
   }
 
@@ -86,10 +88,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.hasError = false;
     const loginSubscr = this.authService
       .login(this.f.email.value, this.f.password.value)
-      .pipe(first())
+      .pipe(first(), mergeMap((x) => {
+        return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
+          return of(x)
+        }))
+      }))
       .subscribe((user: UserModel) => {
         if (user) {
-          this.router.navigateByUrl(this.returnUrl,{ replaceUrl: true });
+          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
         } else {
           this.hasError = true;
         }
