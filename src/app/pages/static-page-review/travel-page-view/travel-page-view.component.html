@@ -17,7 +17,7 @@
                 <tbody>
                     <ng-container *ngFor="let item of listData;let i = index">
                         <tr>
-                            <td>{{item.riskId}}</td>
+                            <td>{{ i+ 1 }}</td>
                             <td>{{replaceT(item.travelPlan) | titlecase}}</td>
                             <td>{{replaceT(item.insuredUnit) | titlecase}}</td>
                             <td>{{replaceT(item.travelDuration) | titlecase}}</td>
