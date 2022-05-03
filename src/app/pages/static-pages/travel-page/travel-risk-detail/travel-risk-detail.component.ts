@@ -288,7 +288,7 @@ export class TravelRiskDetailComponent implements OnInit {
           this.globalFun.tempFormData = this.tempData
           this.cdRef.detectChanges()
         } else {
-          this.tempData[type] = { ...formData, refId: res[0].refId, pageId: page.id }
+          this.tempData[type] = { ...formData, refId: res[0].refId, pageId: page.id, risk_id: this.riskId }
           if (type == "travelDetail") {
             this.riskId = res[0].refId
             this.stepData.step1 = true
