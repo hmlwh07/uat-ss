@@ -32,6 +32,7 @@ export class CoveragePageComponent implements OnInit {
   unsubscribe: Subscription[] = []
   parentData: any = {}
   isLoading = true
+  @Input() isPopup: boolean = false
   constructor(private coverageQuoService: CoverageQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private loadingService: LoadingService) { }
 
   async ngOnInit() {

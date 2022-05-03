@@ -147,7 +147,7 @@
             </div>
             <ng-container *ngIf="stepData.step3">
                 <div class="toggle-body" [ngClass]="activeBox=='COVER' ? 'active' : 'inactive'">
-                    <app-coverage-page [product]="product" [optionId]="oldData.id" [editData]="editData"
+                    <app-coverage-page [product]="product" [isPopup]="true" [optionId]="oldData.id" [editData]="editData"
                         [resourcesId]="resourceId"(actionEvent)="coverDone()"></app-coverage-page>
                 </div>
             </ng-container>

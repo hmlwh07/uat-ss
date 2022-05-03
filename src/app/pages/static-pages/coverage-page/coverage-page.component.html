@@ -55,11 +55,14 @@
   </tbody>
 </table>
 <hr>
-<div class="row">
+<div class="row" *ngIf="!isPopup">
   <div class="col-sm-6 mx-auto">
     <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
   </div>
   <div class="col-sm-6 mx-auto">
     <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
   </div>
+</div>
+<div *ngIf="isPopup" style="text-align: right;">
+  <button class="btn btn-primary" (click)="nextPage()"> Save </button>
 </div>
