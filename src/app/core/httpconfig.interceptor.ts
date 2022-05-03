@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { KBZToastService } from "../modules/loading-toast/toast/kbz-toast.service";
@@ -23,6 +23,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             // let body = request.body
             // request = request.clone({ body: { ...body, userId: this.userProfile.userInfo.userId } });
         }
+        if (!this.authService.authToken && !request.url.includes('login'))
+            return of(undefined)
 
         if (!request.headers.has('Content-Type')) {
             request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
