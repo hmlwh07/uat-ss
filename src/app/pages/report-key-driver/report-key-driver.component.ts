@@ -55,6 +55,7 @@ export class ReportKeyDriverComponent implements OnInit {
   channelProductivity: number = 0;
   anpCaseSize: number = 0;
   monthlyCaseSize: number = 0;
+  selectedPeople = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportKeyDriverExportService) { }
@@ -63,6 +64,7 @@ export class ReportKeyDriverComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
+    this.getAllProducts();
     this.fromMinDate = null;
     this.fromMaxDate = null;
   }
@@ -74,6 +76,22 @@ export class ReportKeyDriverComponent implements OnInit {
       }
     });
   }
+
+  async getAllProducts() {
+    await this.exportService.getAllProducts().toPromise().then(async (res: any) => {
+      if (res) {
+        res.push({statusCd: '02', statusValue: 'Active', name: 'All', code: 'All'});
+        this.productList = res;
+        
+        console.log('getAllProducts', this.productList);
+        this.productList = this.productList.filter(
+          obj => obj.statusCd === "02" && obj.statusValue === "Active").reverse();
+
+        console.log('After getAllProducts', this.productList);
+      }
+    });
+  }
+
 
   async getAllReports() {
     this.totalNewBusinessCase = 0;
@@ -259,6 +277,8 @@ export class ReportKeyDriverComponent implements OnInit {
   }
 
   async changeOptions(ev, type) {
+    console.log('changeOptions', ev);
+
     if (type == 'company') {
       if (ev) {
         this.companyName = ev.name
@@ -422,7 +442,8 @@ export class ReportKeyDriverComponent implements OnInit {
       "channelId": new FormControl(''),
       "regionId": new FormControl(''),
       "clusterId": new FormControl(''),
-      "branchId": new FormControl('')
+      "branchId": new FormControl(''),
+      "products": new FormControl('All')
     });
   }
 
@@ -446,7 +467,7 @@ export class ReportKeyDriverComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-  doValid(type) { 
+  doValid(type) {
     if (type == 'FromDate') {
       let fromDateValue = moment(this.createFormGroup.controls['fromDate'].value).format('YYYY-MM-DD');
       let toDateValue = moment(this.createFormGroup.controls['toDate'].value).format('YYYY-MM-DD');
@@ -482,7 +503,7 @@ export class ReportKeyDriverComponent implements OnInit {
         var fromDate = new Date(toDateValue);
         fromDate.setFullYear(fromDate.getFullYear() - 1);
         fromDate.setDate(fromDate.getDate() + 1);
-        this.fromMinDate =  fromDate;
+        this.fromMinDate = fromDate;
         this.fromMaxDate = new Date(toDateValue);
       }
     }

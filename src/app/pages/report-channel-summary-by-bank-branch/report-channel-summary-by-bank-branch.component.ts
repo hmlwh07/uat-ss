@@ -58,7 +58,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadForm();
-    //this.getOfficeHirearchy();
+    this.getOfficeHirearchy();
   }
 
   async getOfficeHirearchy() {

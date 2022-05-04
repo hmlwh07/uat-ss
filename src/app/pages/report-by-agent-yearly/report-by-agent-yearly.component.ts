@@ -84,22 +84,30 @@ export class ReportByAgentYearlyComponent implements OnInit {
             this.dataList = res.dataList;
             let countNo: number = 0;
             for (var i = 0; i < this.dataList.length; i++) {
+              this.dataList[i].totalPolicies = 0;
+              this.dataList[i].totalPremium = 0;
+              let totalPolicies: number = 0;
+              let totalPremium: number = 0;
               let list = [];
               for (var j = 0; j < this.productList.length; j++) {
                 list.push({ reportMonth: this.productList[j].reportMonth, noOfPolicies: 0, totalPremium: 0 });
               }
               countNo++;
-              this.dataList[i].no = countNo; 
+              this.dataList[i].no = countNo;
               this.dataList[i].productDataList = list;
               if (this.dataList[i].dynamicList) {
                 for (var j = 0; j < this.dataList[i].dynamicList.length; j++) {
                   for (var k = 0; k < this.dataList[i].productDataList.length; k++) {
                     if (this.dataList[i].productDataList[k].reportMonth == this.dataList[i].dynamicList[j].reportMonth) {
-                      this.dataList[i].productDataList[k].noOfPolicies = this.dataList[i].dynamicList[j].noOfPolicies
-                      this.dataList[i].productDataList[k].totalPremium = this.dataList[i].dynamicList[j].totalPremium
+                      this.dataList[i].productDataList[k].noOfPolicies = this.dataList[i].dynamicList[j].noOfPolicies;
+                      this.dataList[i].productDataList[k].totalPremium = this.dataList[i].dynamicList[j].totalPremium;
+                      totalPolicies += this.dataList[i].dynamicList[j].noOfPolicies;
+                      totalPremium += this.dataList[i].dynamicList[j].totalPremium;
                     }
                   }
                 }
+                this.dataList[i].totalPolicies = totalPolicies;
+                this.dataList[i].totalPremium = totalPremium;
               }
             }
           } else {
@@ -112,7 +120,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
   }
 
   generateReportExcel() {
-    this.productValues = []; 
+    this.productValues = [];
     this.subHeader = [];
     this.dataExcel = [];
     for (var i = 0; i < this.productList.length; i++) {
@@ -125,6 +133,8 @@ export class ReportByAgentYearlyComponent implements OnInit {
       this.subHeader.push("No of Policies");
       this.subHeader.push("Premium");
     }
+    this.subHeader.push("Total No. of Policies");
+    this.subHeader.push("Total Premium");
 
     // Data
     let countNo: number = 0;
@@ -134,9 +144,11 @@ export class ReportByAgentYearlyComponent implements OnInit {
       list.push(countNo, this.dataList[i].cluster, this.dataList[i].channel,
         this.dataList[i].agentName, this.dataList[i].agentNo)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].noOfPolicies, this.dataList[i].productDataList[j].totalPremium || 0.00)
-      }
-      this.dataExcel.push(list)
+        list.push(this.dataList[i].productDataList[j].noOfPolicies,
+          this.dataList[i].productDataList[j].totalPremium || 0.00)
+      }           
+      list.push(this.dataList[i].totalPolicies || 0.00 , this.dataList[i].totalPremium || 0.00);
+      this.dataExcel.push(list);
     }
 
     let fromDate = null;
@@ -378,7 +390,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.dirty || control.touched;
   }
-  doValid(type) { 
+  doValid(type) {
     if (type == 'FromDate') {
       let fromDateValue = moment(this.createFormGroup.controls['fromDate'].value).format('YYYY-MM-DD');
       let toDateValue = moment(this.createFormGroup.controls['toDate'].value).format('YYYY-MM-DD');
@@ -414,7 +426,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
         var fromDate = new Date(toDateValue);
         fromDate.setFullYear(fromDate.getFullYear() - 1);
         fromDate.setDate(fromDate.getDate() + 1);
-        this.fromMinDate =  fromDate;
+        this.fromMinDate = fromDate;
         this.fromMaxDate = new Date(toDateValue);
       }
     }
