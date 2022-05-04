@@ -160,9 +160,10 @@ export class DashboardKbzMsManagerPage implements OnInit {
     this.dashboardService
       .getLeadList(this.actForm.value)
       .toPromise()
-      .then((res) => {
+      .then((res:any) => {
         if (res) {
           this.leadObj = res;
+          this.todayActiveAgent = res.todayActiveAgent
           this.setChartOptions('lead');
           this.cdf.detectChanges();
         }

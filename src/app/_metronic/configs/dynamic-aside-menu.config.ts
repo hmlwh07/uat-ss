@@ -8,7 +8,16 @@ export const DynamicAsideMenuConfig = {
       page: '/dashboard/senior-lp-dashboard',
       bullet: 'dot',
       show: true,
-
+      submenu: [ 
+        {
+          title: 'Manager Dashboard',
+          page: '/dashboard/lp-manager-dashboard',
+        },
+        {
+          title: 'Lp Dashboard',
+          page: '/dashboard/lp-dashboard',
+        },
+      ]
     },
     {
       title: 'Calendar',
