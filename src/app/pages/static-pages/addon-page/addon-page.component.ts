@@ -25,7 +25,6 @@ export class AddonPageComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
   @Input() fireAdd: boolean = false
-  @ViewChild(MotorAddonComponent) motorAddon: MotorAddonComponent
   addOns = {
     isSum: false,
     isUnit: false,
@@ -218,7 +217,6 @@ export class AddonPageComponent implements OnInit {
     const quoService = this.addOnQuoService
     const posDataArray = this.addOnsData
     await quoService.deleteAll(this.resourcesId, this.optionId, this.crossAddons.join(",")).toPromise()
-    await this.motorAddon.nextPage()
     if (this.product.code == "CLFR01") {
       this.globalFun.tempFormData['addon_1634010770155' + this.optionId] = []
     } else {
