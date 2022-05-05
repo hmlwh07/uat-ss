@@ -242,11 +242,11 @@ export const DynamicAsideMenuConfig = {
           page: '/report/report-by-product-sales-channel-policies',
           show: true
         },
-        {
-          title: '#By Product Sales Channel - Premium',
-          page: '/report/report-by-product-sales-channel-premium',
-          show: true
-        },
+        // {
+        //   title: '#By Product Sales Channel - Premium',
+        //   page: '/report/report-by-product-sales-channel-premium',
+        //   show: false
+        // },
         {
           title: '#By Product Branch - #of Policies',
           page: '/report/report-by-product-branch-policies',
