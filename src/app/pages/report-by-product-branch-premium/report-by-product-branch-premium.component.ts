@@ -402,7 +402,7 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-  doValid(type) { 
+  doValid(type) {
     if (type == 'FromDate') {
       let fromDateValue = moment(this.createFormGroup.controls['fromDate'].value).format('YYYY-MM-DD');
       let toDateValue = moment(this.createFormGroup.controls['toDate'].value).format('YYYY-MM-DD');
@@ -412,7 +412,19 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
+        }      
+
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
         }
+
       }
       if (fromDateValue) {
         var toDate = new Date(fromDateValue);
@@ -432,19 +444,30 @@ export class ReportByProductBranchPremiumComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
+       
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
+        }
       }
 
       if (toDateValue) {
         var fromDate = new Date(toDateValue);
         fromDate.setFullYear(fromDate.getFullYear() - 1);
         fromDate.setDate(fromDate.getDate() + 1);
-        this.fromMinDate =  fromDate;
+        this.fromMinDate = fromDate;
         this.fromMaxDate = new Date(toDateValue);
       }
     }
     this.cdf.detectChanges();
   }
-
+  
   clearDate(type) {
     this.fromMinDate = null;
     this.fromMaxDate = null;

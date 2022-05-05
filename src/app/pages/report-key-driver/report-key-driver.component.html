@@ -120,20 +120,16 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-sm-6">
+                        <div class="col-sm-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Product</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="productList.length == 0 " class="ng-custom-select"
                                         placeholder="Please Select" (change)="changeOptions($event, 'product')"
                                         [items]="productList" bindLabel="name" bindValue="code"
-                                        formControlName="products">
-                                    </ng-select>                                   
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- <ng-select [readonly]="productList.length == 0 " [items]="productList"
+                                        formControlName="productCodes">
+                                    </ng-select>
+                                    <!-- <ng-select [readonly]="productList.length == 0 " [items]="productList"
                                         [multiple]="true" bindLabel="name" groupBy="gender" [selectableGroup]="true"
                                         [selectableGroupAsModel]="true" [closeOnSelect]="false" bindValue="id"
                                         formControlName="products" [(ngModel)]="selectedPeople">
@@ -148,6 +144,9 @@
                                             {{item.name}}
                                         </ng-template>
                                     </ng-select> -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

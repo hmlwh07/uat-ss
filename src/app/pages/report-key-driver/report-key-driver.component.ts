@@ -108,9 +108,13 @@ export class ReportKeyDriverComponent implements OnInit {
     this.anpCaseSize = 0;
     this.monthlyCaseSize = 0;
 
+
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
     } else {
+      if (!this.createFormGroup.value.productCodes) {
+        this.createFormGroup.value.productCodes = "All";
+      }
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         if (res) {
           this.keyDriver = res
@@ -443,7 +447,7 @@ export class ReportKeyDriverComponent implements OnInit {
       "regionId": new FormControl(''),
       "clusterId": new FormControl(''),
       "branchId": new FormControl(''),
-      "products": new FormControl('All')
+      "productCodes": new FormControl('All')
     });
   }
 
@@ -477,7 +481,19 @@ export class ReportKeyDriverComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
+        }      
+
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
         }
+
       }
       if (fromDateValue) {
         var toDate = new Date(fromDateValue);
@@ -496,6 +512,17 @@ export class ReportKeyDriverComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
+        }
+       
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
         }
       }
 
