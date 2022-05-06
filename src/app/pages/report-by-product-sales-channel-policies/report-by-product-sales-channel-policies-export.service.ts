@@ -146,6 +146,10 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
       for (var i = 0; i < searchValue.length; i++) {
         let cellIndex = null;
         let cellIndexValue = null;
+        if (searchValue[i].productName) {
+          cellIndex = 'K1';
+          cellIndexValue = 'Product: ' + searchValue[i].productName;
+        }
         if (searchValue[i].fromDate) {
           cellIndex = 'F1';
           cellIndexValue = 'From Date: ' + searchValue[i].fromDate;
@@ -163,7 +167,7 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
           cellIndexValue = 'Channel: ' + searchValue[i].channelName;
         }
         if (searchValue[i].regionName) {
-          cellIndex = 'N1';
+          cellIndex = 'K2';
           cellIndexValue = 'Region: ' + searchValue[i].regionName;
         }
         if (searchValue[i].clusterName) {

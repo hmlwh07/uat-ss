@@ -357,6 +357,7 @@ export class ReportDetailByAgentComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
+    this.getAllReports();
     this.cdf.detectChanges()
   }
 

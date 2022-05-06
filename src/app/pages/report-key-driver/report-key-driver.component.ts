@@ -56,6 +56,7 @@ export class ReportKeyDriverComponent implements OnInit {
   anpCaseSize: number = 0;
   monthlyCaseSize: number = 0;
   selectedPeople = [];
+  productName: string = 'All';
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportKeyDriverExportService) { }
@@ -80,14 +81,10 @@ export class ReportKeyDriverComponent implements OnInit {
   async getAllProducts() {
     await this.exportService.getAllProducts().toPromise().then(async (res: any) => {
       if (res) {
-        res.push({statusCd: '02', statusValue: 'Active', name: 'All', code: 'All'});
+        res.push({ statusCd: '02', statusValue: 'Active', name: 'All', code: 'All' });
         this.productList = res;
-        
-        console.log('getAllProducts', this.productList);
         this.productList = this.productList.filter(
           obj => obj.statusCd === "02" && obj.statusValue === "Active").reverse();
-
-        console.log('After getAllProducts', this.productList);
       }
     });
   }
@@ -98,7 +95,7 @@ export class ReportKeyDriverComponent implements OnInit {
     this.totalPremium = 0;
     this.totalProductDistribution = 0;
     this.totalAverageCaseSize = 0;
-    this.keyDriver = null;
+    this.keyDriver = {};
     this.displayDataList = [];
     this.roundTotalProductDistribution = 0;
     this.roundTotalAverageCaseSize = 0;
@@ -235,7 +232,9 @@ export class ReportKeyDriverComponent implements OnInit {
         { channelName: this.channelName },
         { regionName: this.regionName },
         { clusterName: this.clusterName },
-        { branchName: this.branchName }
+        { branchName: this.branchName },
+        { productName: this.productName },
+
       ],
       products: this.productValues,
       subHeader: this.subHeader,
@@ -281,8 +280,6 @@ export class ReportKeyDriverComponent implements OnInit {
   }
 
   async changeOptions(ev, type) {
-    console.log('changeOptions', ev);
-
     if (type == 'company') {
       if (ev) {
         this.companyName = ev.name
@@ -433,6 +430,15 @@ export class ReportKeyDriverComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
+    this.getAllReports();
+    this.cdf.detectChanges()
+  }
+
+  changeProductOptions(ev) {
+    if (ev.name) {
+      this.productName = ev.name
+    }
+    this.getAllReports();
     this.cdf.detectChanges()
   }
 
@@ -481,7 +487,7 @@ export class ReportKeyDriverComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
-        }      
+        }
 
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
@@ -513,7 +519,7 @@ export class ReportKeyDriverComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
-       
+
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
             this.createFormGroup.controls['toDate'].setValue('');

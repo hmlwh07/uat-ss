@@ -486,6 +486,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
+    this.getAllReports();
     this.cdf.detectChanges()
   }
 

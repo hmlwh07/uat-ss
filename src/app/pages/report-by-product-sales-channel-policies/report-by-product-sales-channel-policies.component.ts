@@ -50,6 +50,7 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   noOfPolicyByProduct: number;
   totalPreminumByProduct: number;
   header = [];
+  productName: string = 'All';
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportProductSalesChannelPoliciesExportService) { }
@@ -74,14 +75,10 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   async getAllProducts() {
     await this.exportService.getAllProducts().toPromise().then(async (res: any) => {
       if (res) {
-        res.push({statusCd: '02', statusValue: 'Active', name: 'All', code: 'All'});
+        res.push({ statusCd: '02', statusValue: 'Active', name: 'All', code: 'All' });
         this.productList = res;
-        
-        console.log('getAllProducts', this.productList);
         this.productList = this.productList.filter(
           obj => obj.statusCd === "02" && obj.statusValue === "Active").reverse();
-
-        console.log('After getAllProducts', this.productList);
       }
     });
   }
@@ -235,7 +232,8 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
         { channelName: this.channelName },
         { regionName: this.regionName },
         { clusterName: this.clusterName },
-        { branchName: this.branchName }
+        { branchName: this.branchName },
+        { productName: this.productName }
       ],
       productsHeader: this.productValues,
       branchDataForExcel: this.branchDataForExcel,
@@ -421,6 +419,15 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
+    this.getAllReports();
+    this.cdf.detectChanges()
+  }
+
+  changeProductOptions(ev) {
+    if (ev.name) {
+      this.productName = ev.name
+    }
+    this.getAllReports();
     this.cdf.detectChanges()
   }
 
