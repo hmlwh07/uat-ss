@@ -67,6 +67,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   creatingCustomer: Customer = {}
   creatingLeadId: string = ""
   travelFormss: PageUI[] = []
+  currencyType = "MMK"
   constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private ngZone: NgZone) { }
 
   async ngOnInit() {
@@ -74,7 +75,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.prodService.createingProd = this.prodService.createingProdRef
       this.prodService.createingProdRef = null
     }
-
+    this.unsubscribe[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
     if (!this.prodService.createingProd) {
       this.location.back()
     } else {
@@ -429,6 +434,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       policyNumber: null,
       pageId: page.id,
       leadId: this.creatingLeadId || null,
+      currency: this.currencyType,
       party: page.party || false,
       data: [
 
@@ -521,6 +527,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       pageId: page.id,
       customerId: this.creatingCustomer.customerId,
       leadId: this.creatingLeadId || null,
+      currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
       policyNumber: null,

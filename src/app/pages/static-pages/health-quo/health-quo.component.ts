@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { AuthService } from '../../../modules/auth';
@@ -20,7 +20,7 @@ import { HealthRateService } from './models&services/health-rate.service';
   templateUrl: './health-quo.component.html',
   styleUrls: ['./health-quo.component.scss']
 })
-export class HealthQuoComponent implements OnInit {
+export class HealthQuoComponent implements OnInit,OnDestroy {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string
@@ -32,12 +32,23 @@ export class HealthQuoComponent implements OnInit {
   parentData: any
   totalP: number = 0
   totalL: number = 0
-  constructor(private globalFun: GlobalFunctionService, private alertService: AlertService, 
-    private healthRateService: HealthRateService, private healthPayService: HealthPaymentService, 
-    private cdf: ChangeDetectorRef, private auth: AuthService, private prodService: ProductDataService, 
+
+  currencyType: string = "MMK"
+  unsub: Subscription[] = []
+  constructor(private globalFun: GlobalFunctionService, private alertService: AlertService,
+    private healthRateService: HealthRateService, private healthPayService: HealthPaymentService,
+    private cdf: ChangeDetectorRef, private auth: AuthService, private prodService: ProductDataService,
     private numberPipe: DecimalPipe) { }
+  ngOnDestroy(): void {
+    this.unsub.forEach(x => x.unsubscribe())
+  }
 
   ngOnInit(): void {
+    this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
     this.parentData = this.globalFun.tempFormData[HealthPageID]
     if (!this.parentData) {
       this.alertService.activate("This page cann't to show because there is no health product detail data. Please add health product detail in prodcut configuration", "Warning")
@@ -165,7 +176,8 @@ export class HealthQuoComponent implements OnInit {
           "productId": this.product.id,
           "quotationId": this.prodService.referenceID,
           "type": this.prodService.type,
-          "leadId": this.prodService.creatingLeadId
+          "leadId": this.prodService.creatingLeadId,
+          currency: this.currencyType,
         },
         "resourceId": this.resourcesId,
         "requests": []

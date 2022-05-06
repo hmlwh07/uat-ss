@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -16,7 +16,7 @@ import { AlertService } from '../../../modules/loading-toast/alert-model/alert.s
 import { HealthProductService } from '../simple-page/models&services/health-product.service';
 import { HealthPaymentService } from '../health-quo/models&services/health-payment.service';
 import { HealthPageID } from '../static-pages.data';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { DecimalPipe } from '@angular/common';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -33,7 +33,7 @@ import { IsJsonString, MY_FORMATS } from '../../../core/is-json';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class SimplePagePolicyComponent implements OnInit {
+export class SimplePagePolicyComponent implements OnInit, OnDestroy {
 
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
@@ -71,6 +71,8 @@ export class SimplePagePolicyComponent implements OnInit {
   currentAge = 0
   dob: string = ""
   totalL: number = 0
+  currencyType: string = "MMK"
+  unsub: Subscription[] = []
   constructor(
     private fb: FormBuilder,
     private prodService: ProductDataService,
@@ -96,7 +98,16 @@ export class SimplePagePolicyComponent implements OnInit {
     this.options3 = Array.from({ length: 10 }, (_, i) => i + 1)
   }
 
+  ngOnDestroy(): void {
+    this.unsub.forEach(x => x.unsubscribe())
+  }
+
   async ngOnInit() {
+    this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
     this.refID = this.prodService.referenceID
     if (!this.refID) {
       this.alertService.activate("This page cann't to show because there is no health product detail quotation data.", "Warning")
@@ -235,6 +246,7 @@ export class SimplePagePolicyComponent implements OnInit {
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
         // status: ,
+        currency: this.currencyType,
         type: this.prodService.type
       },
       resourceId: this.resourcesId,
@@ -287,7 +299,7 @@ export class SimplePagePolicyComponent implements OnInit {
           this.totalResult.unit += x.sumInsured
           this.totalResult.premium += x.premium
         })
-        console.log(this.totalResult,"Total");
+        console.log(this.totalResult, "Total");
         this.optionArray = this.optionArray.sort((a, b) => (a.coverage > b.coverage ? 1 : -1))
         this.tempArray = this.optionArray.filter((thing, index, self) =>
           index === self.findIndex((t) => (
@@ -392,7 +404,8 @@ export class SimplePagePolicyComponent implements OnInit {
           "productId": this.product.id,
           "quotationId": this.prodService.referenceID,
           "type": this.prodService.type,
-          leadId: this.prodService.creatingLeadId
+          leadId: this.prodService.creatingLeadId,
+          currency: this.currencyType,
         },
       }
       return this.healthPayService.save(postData)

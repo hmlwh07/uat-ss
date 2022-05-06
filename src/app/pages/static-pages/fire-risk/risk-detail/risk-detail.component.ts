@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/modules/auth';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
@@ -22,7 +23,7 @@ import { FireRiskService } from '../models&services/fire-risk.service';
   templateUrl: './risk-detail.component.html',
   styleUrls: ['./risk-detail.component.scss']
 })
-export class RiskDetailComponent implements OnInit {
+export class RiskDetailComponent implements OnInit,OnDestroy {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @ViewChild(CalculatedBuildingComponent) stockTemp: CalculatedBuildingComponent
@@ -52,9 +53,20 @@ export class RiskDetailComponent implements OnInit {
   step1Com: boolean = false
   step2Com: boolean = false
   step3Com: boolean = false
+  currencyType: string = "MMK"
+  unsub: Subscription[] = []
   constructor(private modalService: NgbModal, public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private fireRiskService: FireRiskService, private auth: AuthService, private PremiumRateService: PremiumRateService, private prodService: ProductDataService, private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService, private firebuildingService: SurroundingBuildingService) { }
 
+  ngOnDestroy(): void {
+    this.unsub.forEach(x=> x.unsubscribe()) 
+  }
+  
   ngOnInit(): void {
+    this.unsub[0] = this.globalService.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
     this.loadForm()
     this.getBuildingClass()
     this.getBuildingType()
@@ -270,6 +282,7 @@ export class RiskDetailComponent implements OnInit {
         productId: this.prodService.createingProd.id,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
+        currency: this.currencyType,
         resourceId: this.resourcesId,
         type: this.prodService.type,
       },

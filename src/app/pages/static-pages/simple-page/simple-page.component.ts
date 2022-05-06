@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import { QuotationDTO } from '../../quotations/quotation.dto';
 import { StaticActionType, StaticPageAction } from '../static-field.interface';
 import { HealthProductService } from './models&services/health-product.service';
 import { CoverageQuoService } from '../../products/services/coverage-quo.service';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { HealthPageID } from '../static-pages.data';
 import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -33,7 +33,7 @@ import { IsJsonString, MY_FORMATS } from '../../../core/is-json';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class SimplePageComponent implements OnInit {
+export class SimplePageComponent implements OnInit, OnDestroy {
 
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
@@ -58,6 +58,8 @@ export class SimplePageComponent implements OnInit {
   parentData: any
   currentAge = 0
   dob: string = ""
+  currencyType: string = "MMK"
+  unsub: Subscription[] = []
   private addValid: boolean = false
   constructor(
     private fb: FormBuilder,
@@ -82,8 +84,16 @@ export class SimplePageComponent implements OnInit {
     this.options3 = Array.from({ length: 10 }, (_, i) => i + 1)
   }
 
-  async ngOnInit() {
+  ngOnDestroy(): void {
+    this.unsub.forEach(x => x.unsubscribe())
+  }
 
+  async ngOnInit() {
+    this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
     this.options = this.product.coverages
     this.options2 = this.product.addOns
     this.refID = this.prodService.referenceID
@@ -243,7 +253,7 @@ export class SimplePageComponent implements OnInit {
   }
 
   saveData(id?) {
-    if(this.staticForm.invalid) return false
+    if (this.staticForm.invalid) return false
     const formValue = this.staticForm.value
     let coverd = this.product.coverages.find(x => x.code == formValue.basicCoverId)
     if (!coverd) {
@@ -267,6 +277,7 @@ export class SimplePageComponent implements OnInit {
         productId: this.prodService.createingProd.id,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
+        currency: this.currencyType,
         type: this.prodService.type
       },
       resourceId: this.resourcesId,

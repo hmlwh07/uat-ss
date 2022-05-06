@@ -1,7 +1,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { map, of, switchMap } from 'rxjs';
+import { map, of, Subscription, switchMap } from 'rxjs';
 import { GlobalFunctionService } from '../../../../core/global-fun.service';
 import { AuthService } from '../../../../modules/auth';
 import { AlertService } from '../../../../modules/loading-toast/alert-model/alert.service';
@@ -21,7 +21,7 @@ import { TravelRiskService } from '../models&services/travel-risk.service';
   templateUrl: './travel-risk-detail.component.html',
   styleUrls: ['./travel-risk-detail.component.scss']
 })
-export class TravelRiskDetailComponent implements OnInit {
+export class TravelRiskDetailComponent implements OnInit,OnDestroy {
   @Input() list: any[] = []
   @Input() product: Product
   @Input() editData: any = {}
@@ -51,6 +51,9 @@ export class TravelRiskDetailComponent implements OnInit {
   tableReform: any[] = []
   premium: number = 0
   activeBox: string = 'DETAIL'
+
+  currencyType: string = "MMK"
+  unsub: Subscription[] = []
   constructor(
     private globalFun: GlobalFunctionService,
     private numberPipe: DecimalPipe,
@@ -71,8 +74,16 @@ export class TravelRiskDetailComponent implements OnInit {
     let tep2 = this.stepData.step1 && this.stepData.step2 && this.stepData.step3 && this.stepData.step4 ? false : true
     return tep && tep2
   }
+  ngOnDestroy(): void {
+    this.unsub.forEach(x => x.unsubscribe())
+  }
   ngOnInit(): void {
-    this.globalFun.travelPremiumResult.subscribe(res => {
+    this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
+    this.unsub[1] = this.globalFun.travelPremiumResult.subscribe(res => {
       this.premium = res
     })
 
@@ -231,6 +242,7 @@ export class TravelRiskDetailComponent implements OnInit {
       pageId: page.id,
       customerId: this.prodService.creatingCustomer.customerId,
       leadId: this.prodService.creatingLeadId || null,
+      currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
       policyNumber: null,
@@ -337,6 +349,7 @@ export class TravelRiskDetailComponent implements OnInit {
       policyNumber: null,
       pageId: page.id,
       leadId: this.prodService.creatingLeadId || null,
+      currency: this.currencyType,
       party: page.party || false,
       data: [
 
@@ -423,6 +436,7 @@ export class TravelRiskDetailComponent implements OnInit {
         productId: this.prodService.createingProd.id,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
+        currency: this.currencyType,
         type: this.prodService.type
       },
     }
@@ -459,6 +473,7 @@ export class TravelRiskDetailComponent implements OnInit {
         premiumView: this.premiumAmt,
         productId: this.prodService.createingProd.id,
         quotationId: this.prodService.referenceID,
+        currency: this.currencyType,
         leadId: this.prodService.creatingLeadId || null,
         type: this.prodService.type
       },

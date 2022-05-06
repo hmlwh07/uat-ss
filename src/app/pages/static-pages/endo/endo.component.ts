@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { map, mergeMap, retry, switchMap } from 'rxjs/operators';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { IsJsonString } from '../../../core/is-json';
@@ -21,7 +21,7 @@ import { EndoService } from './models&services/endo.service';
   templateUrl: './endo.component.html',
   styleUrls: ['./endo.component.scss']
 })
-export class EndoComponent implements OnInit {
+export class EndoComponent implements OnInit,OnDestroy {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string
@@ -48,7 +48,10 @@ export class EndoComponent implements OnInit {
   premiumRate: any[] = []
   surrendRate: any[] = []
   showDatas: any[] = []
-  premiumAmt
+  premiumAmt: any
+
+  currencyType: string = "MMK"
+  unsub: Subscription[] = []
   constructor(
     private globalFun: GlobalFunctionService,
     private alertService: AlertService,
@@ -60,8 +63,16 @@ export class EndoComponent implements OnInit {
     private auth: AuthService,
     private numberPipe: DecimalPipe,
   ) { }
+  ngOnDestroy(): void {
+    this.unsub.forEach(x => x.unsubscribe())
+  }
 
   ngOnInit(): void {
+    this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
     this.parentData = this.getParnet()
     this.parentData2 = this.getParnet(true)
     if (!this.parentData) {
@@ -207,6 +218,7 @@ export class EndoComponent implements OnInit {
             "agentId": this.auth.currentUserValue.id || 1,
             "customerId": this.prodService.creatingCustomer.customerId || 1,
             "leadId": this.prodService.creatingLeadId || 1,
+            currency: this.currencyType,
             "policyNumber": null,
             "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
             "premiumView": this.premiumAmt,

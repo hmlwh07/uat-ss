@@ -26,4 +26,5 @@ export interface ResourceDataDTO {
   leadId: string
   status?: string
   type?: string
+  currency?: string
 }

@@ -55,9 +55,37 @@ export class MotorAddonComponent implements OnInit {
   constructor(private globalFun: GlobalFunctionService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.parentData = this.getParnet()
-
+    let medID = this.product.addOns.find(x => x.code == "MED EXP")
+    let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
+    let postData = {
+      quotationNo: this.resourcesId,
+      addOnIds: [],
+      optionalKey: this.optionId
+    }
+    if(medID){
+      postData.addOnIds.push(medID)
+    }
+    if(crossID){
+      postData.addOnIds.push(crossID)
+    }
+    let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
+    let response = results.find(x => x.addonId == medID)
+    if(response){
+      this.isMedical = true
+      this.planOption = response.option
+      this.toggleChange('medical')
+    }
+    let response2 = results.find(x => x.addonId == crossID)
+    if(response2){
+      this.isCross = true
+      this.startDate = response.startDate
+      this.endDate = response.endDate
+      this.option1 = response.option1
+      this.option2 = response.option2
+      this.toggleChange('cross')
+    }
   }
 
   getParnet(tableName: string = 'm_detail') {

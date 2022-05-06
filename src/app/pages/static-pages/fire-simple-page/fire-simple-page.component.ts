@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import { QuotationDTO } from '../../quotations/quotation.dto';
 import { StaticActionType, StaticPageAction } from '../static-field.interface';
 import { FireProductService } from './models&services/fire-product.service';
 import { CoverageQuoService } from '../../products/services/coverage-quo.service';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { FirePageID } from '../static-pages.data';
 import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -32,7 +32,7 @@ import { MY_FORMATS } from '../../../core/is-json';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class FirePageComponent implements OnInit {
+export class FirePageComponent implements OnInit,OnDestroy {
 
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
@@ -66,6 +66,8 @@ export class FirePageComponent implements OnInit {
   ]
   private editId: number
   refID: string
+  currencyType: string = "MMK"
+  unsub: Subscription[] = []
   constructor(
     private fb: FormBuilder,
     private prodService: ProductDataService,
@@ -113,8 +115,16 @@ export class FirePageComponent implements OnInit {
       this.doValid()
     }
   }
+  ngOnDestroy(): void {
+    this.unsub.forEach(x=> x.unsubscribe())
+  }
   async ngOnInit() {
 
+    this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (this.currencyType != res) {
+        this.currencyType = res
+      }
+    })
     this.options = this.product.coverages
     this.options2 = this.product.addOns
     this.refID = this.prodService.referenceID
@@ -232,6 +242,7 @@ export class FirePageComponent implements OnInit {
         productId: this.prodService.createingProd.id,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
+        currency: this.currencyType,
         // status: ,
         type: this.prodService.type
       },
