@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { map, mergeMap, retry, switchMap } from 'rxjs/operators';
