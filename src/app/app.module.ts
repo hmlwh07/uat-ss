@@ -43,6 +43,10 @@ function appInitializer(authService: AuthService,menuService: MenuDataService) {
     return new Promise((resolve: any) => {
       authService.getUserByToken().pipe(mergeMap((x)=> {
         return menuService.getMenusData()
+      }),map((x)=> {
+        if(!x){
+         return authService.getUserByToken()
+        }
       })).subscribe().add(resolve);
     });
   };

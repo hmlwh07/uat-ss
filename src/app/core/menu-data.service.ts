@@ -53,6 +53,9 @@ export class MenuDataService extends BizOperationService<any, number>{
         this.menuData.next(res)
         this.accessPremission()
       }
+      if(!res){
+        localStorage.removeItem(`${environment.appVersion}-${environment.USERDATA_KEY}`);
+      }
       return res
     }))
    
