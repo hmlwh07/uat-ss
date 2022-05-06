@@ -29,7 +29,7 @@
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
-                                        [matDatepicker]="picker1" (dateChange)="doValid('FromDate', createFormGroup.value.fromDate)" autocomplete="off">
+                                        [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1 disabled="false"></mat-datepicker>
                                 </div>

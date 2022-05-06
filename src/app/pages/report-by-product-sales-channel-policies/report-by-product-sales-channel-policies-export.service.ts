@@ -11,6 +11,7 @@ import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attac
 const API_ADDON_URL = `${environment.apiUrl}/policyProductSaleChannel`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
+const API_PRODUCT_URL = `${environment.apiUrl}/product-view`;
 
 
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
@@ -38,6 +39,11 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
       fromObject: reqObj
     });
     return this.httpClient.get<any>(API_HIREARCHY_URL, { params: params });
+  }
+
+  
+  getAllProducts() {
+    return this.httpClient.get(API_PRODUCT_URL);
   }
 
   getAgentOffice(officeId) {
@@ -87,6 +93,8 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
     const searchValue = excelData.searchValue
     const productsHeader = excelData.productsHeader
     const branchDataForExcel = excelData.branchDataForExcel
+    const header = excelData.header
+    const totalList = excelData.totalList
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -94,7 +102,7 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
 
     // Freeze
     worksheet.views = [
-      { state: 'frozen', xSplit: 2, ySplit: 4, activeCell: 'A1' }
+      { state: 'frozen', xSplit: 2, ySplit: 5, activeCell: 'A1' }
     ];
 
     //Add Row and formatting
@@ -121,17 +129,17 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
     }
     reportDate.alignment = { vertical: 'middle', horizontal: 'left' }
 
-     //Reported By:
-     worksheet.mergeCells('G2', 'G2');
-     let reportBy = worksheet.getCell('G2');
-     reportBy.value = 'Reported By: ' + this.authService.currentUserValue.firstName + this.authService.currentUserValue.lastName
-     reportBy.font = {
-       name: 'Calibri',
-       size: 10,    
-       bold: true
-     }
-     reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
-   
+    //Reported By:
+    worksheet.mergeCells('G2', 'G2');
+    let reportBy = worksheet.getCell('G2');
+    reportBy.value = 'Reported By: ' + this.authService.currentUserValue.firstName + this.authService.currentUserValue.lastName
+    reportBy.font = {
+      name: 'Calibri',
+      size: 10,
+      bold: true
+    }
+    reportBy.alignment = { vertical: 'middle', horizontal: 'left' }
+
 
     // Display search name   
     if (searchValue.length > 0) {
@@ -186,10 +194,29 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
 
     worksheet.addRow([]);
     // Adding Data with Conditional Formatting
-    let startIndex: number = 0;
-    for (var i = 0; i < productsHeader.length; i++) {
+    worksheet.mergeCells('A4:B4');
+    let startIndex: number = 2;
+    let endIndex: number = 3;
+    for (var i = 0; i < header.length; i++) {
       let start = this.calculateStartPoint(startIndex);
-      startIndex += 1;
+      startIndex += 2;
+      let end = this.calculateEndPoint(endIndex);
+      endIndex += 2;
+      worksheet.mergeCells(start + ':' + end);
+      let fireCell = worksheet.getCell(start);
+      fireCell.value = header[i];
+      fireCell.font = {
+        name: 'Calibri',
+        size: 12,
+        bold: true
+      }
+      fireCell.alignment = { vertical: 'middle', horizontal: 'center' }
+    }
+
+    let index: number = 0;
+    for (var i = 0; i < productsHeader.length; i++) {
+      let start = this.calculateSubHeaderPoint(index);
+      index += 1;
       let fireCell = worksheet.getCell(start);
       fireCell.value = productsHeader[i];
       fireCell.font = {
@@ -228,7 +255,27 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
 
       });
     }
+
+
+
     );
+
+    if (branchDataForExcel.length > 0) {
+      let index: number = 0;
+      for (var i = 0; i < totalList.length; i++) {
+        let start = this.calculateFooterTotalPoint(index, branchDataForExcel.length + 6);
+        index += 1;
+        let fireCell = worksheet.getCell(start);
+        fireCell.value = totalList[i];
+        fireCell.font = {
+          name: 'Calibri',
+          size: 12,
+          bold: true
+        }
+        fireCell.alignment = { vertical: 'middle', horizontal: 'right' }
+        fireCell.numFmt = '#,##0.00_);(#,##0.00)';
+      }
+    }
 
     worksheet.columns.forEach(function (column, i) {
       var maxLength = 0;
@@ -272,6 +319,14 @@ export class ReportProductSalesChannelPoliciesExportService extends BizOperation
 
   calculateEndPoint(index) {
     return alphabet[index] + '4'
+  }
+
+  calculateSubHeaderPoint(index) {
+    return alphabet[index] + '5'
+  }
+
+  calculateFooterTotalPoint(index, buttonIndex) {
+    return alphabet[index] + buttonIndex
   }
 
   calculateDataPoint(index) {

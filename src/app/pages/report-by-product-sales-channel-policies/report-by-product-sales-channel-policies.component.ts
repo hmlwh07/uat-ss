@@ -45,7 +45,11 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   isData: boolean = false;
   branchDataForExcel = [];
   title: string = "Monthly Product Sales by Channel";
-  dataList: any;
+  dataList = [];
+  totalDataList = [];
+  noOfPolicyByProduct: number;
+  totalPreminumByProduct: number;
+  header = [];
 
   constructor(private cdf: ChangeDetectorRef,
     public exportService: ReportProductSalesChannelPoliciesExportService) { }
@@ -54,6 +58,7 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   ngOnInit(): void {
     this.loadForm();
     this.getOfficeHirearchy();
+    this.getAllProducts();
     this.fromMinDate = null;
     this.fromMaxDate = null;
   }
@@ -66,6 +71,21 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
     });
   }
 
+  async getAllProducts() {
+    await this.exportService.getAllProducts().toPromise().then(async (res: any) => {
+      if (res) {
+        res.push({statusCd: '02', statusValue: 'Active', name: 'All', code: 'All'});
+        this.productList = res;
+        
+        console.log('getAllProducts', this.productList);
+        this.productList = this.productList.filter(
+          obj => obj.statusCd === "02" && obj.statusValue === "Active").reverse();
+
+        console.log('After getAllProducts', this.productList);
+      }
+    });
+  }
+
   async getAllReports() {
     if (this.createFormGroup.invalid) {
       validateAllFields(this.createFormGroup);
@@ -73,11 +93,17 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
       this.productsHeader = [];
       this.branchDataList = [];
       this.dataList = [];
+      if (!this.createFormGroup.value.productCodes) {
+        this.createFormGroup.value.productCodes = "All";
+      }
       await this.exportService.getAllReportData(this.createFormGroup.value).toPromise().then(async (res: any) => {
         if (res) {
           if (res.products.length > 0) {
             for (var i = 0; i < res.products.length; i++) {
-              this.productsHeader.push({ id: res.products[i].id, name: res.products[i].name })
+              this.productsHeader.push({
+                id: res.products[i].id, name: res.products[i].name,
+                noOfPolicy: 0, totalPreminum: 0
+              })
             }
           }
 
@@ -86,11 +112,15 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
             this.dataList = res.dataList;
             let countNo: number = 0;
             for (var i = 0; i < this.dataList.length; i++) {
+              this.dataList[i].totalPolicies = 0;
+              this.dataList[i].totalPremium = 0;
+              let totalPolicies: number = 0;
+              let totalPremium: number = 0;
               this.dataList[i].productDataList = []
               countNo++;
               this.dataList[i].no = countNo;
               for (var j = 0; j < this.productsHeader.length; j++) {
-                this.dataList[i].productDataList.push({ id: this.productsHeader[j].id, noOfPolicy: 0 });
+                this.dataList[i].productDataList.push({ id: this.productsHeader[j].id, noOfPolicy: 0, totalPreminum: 0 });
               }
 
               if (this.dataList[i].products) {
@@ -99,8 +129,40 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
                     if (this.dataList[i].productDataList[k].id == this.dataList[i].products[j].id) {
                       this.dataList[i].productDataList[k].noOfPolicy = this.dataList[i].products[j].noOfPolicy
                       this.dataList[i].productDataList[k].totalPreminum = this.dataList[i].products[j].totalPreminum
+                      totalPolicies += this.dataList[i].products[j].noOfPolicy;
+                      totalPremium += this.dataList[i].products[j].totalPreminum;
                     }
                   }
+                }
+                this.dataList[i].totalPolicies = totalPolicies;
+                this.dataList[i].totalPremium = totalPremium;
+
+
+                if (countNo == this.dataList.length) {
+                  this.totalDataList = JSON.parse(JSON.stringify(this.productsHeader));
+                  this.noOfPolicyByProduct = 0;
+                  this.totalPreminumByProduct = 0;
+                  for (var i = 0; i < this.dataList.length; i++) {
+                    for (var j = 0; j < this.dataList[i].products.length; j++) {
+                      let total: number = 0;
+                      for (var k = 0; k < this.totalDataList.length; k++) {
+                        if (this.totalDataList[k].id == this.dataList[i].products[j].id) {
+                          this.totalDataList[k].noOfPolicy += this.dataList[i].products[j].noOfPolicy;
+                          this.totalDataList[k].totalPreminum += this.dataList[i].products[j].totalPreminum;
+
+                        }
+                      }
+                    }
+
+                    this.noOfPolicyByProduct += this.dataList[i].totalPolicies;
+                    this.totalPreminumByProduct += this.dataList[i].totalPremium;
+                  }
+
+                  for (var k = 0; k < this.totalDataList.length; k++) {
+                    this.totalDataList[k].noOfPolicy = this.totalDataList[k].noOfPolicy
+                    this.totalDataList[k].totalPreminum = this.totalDataList[k].totalPreminum
+                  }
+
                 }
               }
             }
@@ -118,21 +180,41 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
   generateReportExcel() {
     this.productValues = []
     this.branchDataForExcel = [];
+    this.header = [];
+    // For header
+    for (var i = 0; i < this.productsHeader.length; i++) {
+      this.header.push(this.productsHeader[i].name)
+    }
+
+    // For sub header
     this.productValues.push('No.');
     this.productValues.push('Month');
     for (var i = 0; i < this.productsHeader.length; i++) {
-      this.productValues.push(this.productsHeader[i].name)
+      this.productValues.push('No of Policies', 'Premium')
     }
+    this.productValues.push('Total No. of Policies');
+    this.productValues.push('Total Premium');
 
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
       list.push(i + 1, this.dataList[i].month)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].noOfPolicy || 0.00)
+        list.push(this.dataList[i].productDataList[j].noOfPolicy || 0.00,
+          this.dataList[i].productDataList[j].totalPreminum || 0.00)
       }
+      list.push(this.dataList[i].totalPolicies || 0.00, this.dataList[i].totalPremium || 0.00);
       this.branchDataForExcel.push(list)
     }
 
+
+    let totalList = [];
+    totalList.push('');
+    totalList.push('Total');
+    for (var i = 0; i < this.totalDataList.length; i++) {
+      totalList.push(this.totalDataList[i].noOfPolicy, this.totalDataList[i].totalPreminum)
+    }
+    totalList.push(this.noOfPolicyByProduct);
+    totalList.push(this.totalPreminumByProduct);
 
     let fromDate = null;
     let toDate = null;
@@ -157,6 +239,8 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
       ],
       productsHeader: this.productValues,
       branchDataForExcel: this.branchDataForExcel,
+      header: this.header,
+      totalList: totalList
     }
     this.exportService.exportExcel(reportData);
   }
@@ -321,9 +405,9 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
@@ -350,7 +434,8 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
       "channelId": new FormControl(''),
       "regionId": new FormControl(''),
       "clusterId": new FormControl(''),
-      "branchId": new FormControl('')
+      "branchId": new FormControl(''),
+      "productCodes": new FormControl('All')
     });
   }
 
@@ -374,7 +459,7 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-  doValid(type) { 
+  doValid(type) {
     if (type == 'FromDate') {
       let fromDateValue = moment(this.createFormGroup.controls['fromDate'].value).format('YYYY-MM-DD');
       let toDateValue = moment(this.createFormGroup.controls['toDate'].value).format('YYYY-MM-DD');
@@ -385,6 +470,18 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
         }
+
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
+        }
+
       }
       if (fromDateValue) {
         var toDate = new Date(fromDateValue);
@@ -404,13 +501,24 @@ export class ReportByProductSalesChannelPoliciesComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
+
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
+        }
       }
 
       if (toDateValue) {
         var fromDate = new Date(toDateValue);
         fromDate.setFullYear(fromDate.getFullYear() - 1);
         fromDate.setDate(fromDate.getDate() + 1);
-        this.fromMinDate =  fromDate;
+        this.fromMinDate = fromDate;
         this.fromMaxDate = new Date(toDateValue);
       }
     }

@@ -19,9 +19,9 @@
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
-            <img *ngIf="!productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
+            <img *ngIf="!product.productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
               alt="" srcset="">
-            <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
+            <img *ngIf="product.productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
               srcset="">
           </ion-thumbnail>
           <ion-text>{{ product.productName }}</ion-text>
