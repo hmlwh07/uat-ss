@@ -676,7 +676,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     //   }
     // }
     let activeValue = this.formData[this.activePage]
-    if (activeValue.pageType == 'table') {
+    if (activeValue.pageType == 'table' && activeValue.unitCode != "attachment_form") {
       if (!this.tempData[activeValue.tableName + activeValue.id]) {
         return false
       } else if (this.tempData[activeValue.tableName + activeValue.id].length == 0) {
