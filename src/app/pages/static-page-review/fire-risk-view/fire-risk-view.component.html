@@ -31,4 +31,154 @@
       </table>
     </div>
   </div>
-</div>
+</div> 
+
+
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Risk Detail Information</h3>
+    </div>
+  </div>
+  <div class="card-body customer-card-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center fire-table">
+        <thead>
+          <tr>
+            <th>
+              Building Description 
+            </th>
+            <th>
+              Type of Building
+            </th>
+            <th>
+              Occupation of Building
+            </th>
+            <th>
+              Building Class
+            </th>
+            <th>
+             Total Square Feet
+            </th>
+            <th>
+              Year of Construction 
+            </th>
+            <th>
+              Proposed Building SI
+            </th>
+            <th>
+              Proposed Furniture
+            </th>
+            <th>
+              Proposed Machinery SI
+            </th>
+            <th>
+              Proposed Stock SI
+            </th>
+            <th>
+              Total SI
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of listData;">
+            <tr>
+              <td>{{data.buildingDescription}}</td>
+              <td>{{data.typeOfBuildingValue}}</td>
+              <td>{{data.occupationOfBuildingValue}}</td>
+              <td>{{data.buildingClassValue}}</td>
+              <td>{{data.totalSquareFoot}}</td>
+              <td>{{data.yearOfConstruction}}</td>
+              <td>{{data.buildingSi}}</td>
+              <td>{{data.proposedFurniture}}</td>
+              <td>{{data.proposedMachinerySI}}</td>
+              <td>{{data.proposeStockValue}}</td>
+              <td>{{data.riskSi | number}}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> 
+
+
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Additional Cover Information</h3>
+    </div>
+  </div>
+  <div class="card-body customer-card-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center fire-table">
+        <thead>
+          <tr>
+            <th class="field-col">
+              Building Description
+            </th>
+            <th class="field-col">
+              Fire Premium
+            </th>
+            <th class="field-col">
+              STHTC
+            </th>
+            <th class="field-col">
+              Impact Damage
+            </th>
+            <th class="field-col">
+              RSMD
+            </th>
+            <th class="field-col">
+              Burglary
+            </th>
+            <th class="field-col">
+              Air Craft Damage
+            </th>
+            <th class="field-col">
+              EQ
+            </th>
+            <th class="field-col">
+              Spontaneous Combus
+            </th>
+            <th class="field-col">
+              Subsidence and Landslid
+            </th>
+            <th class="field-col">
+              War Risk
+            </th>
+            <th class="field-col">
+              Explosion 
+            </th>
+            <th class="field-col">
+              Flood and Inundati 
+            </th>
+            <th class="field-col">
+              Total Premium 
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="addOnData.length>0">
+          <ng-container *ngFor="let data of addOnData;">
+            <tr>
+              <td >{{data.description}}</td>
+              <td >{{data.firepremium || 0}}</td>
+              <td >{{data.STHTC}}</td>
+              <td >{{data.IMPD}}</td>
+              <td >{{data.RSMD}}</td>
+              <td >{{data.BURGLARY}}</td>
+              <td >{{data.ACD}}</td>
+              <td >{{data.EQ}}</td>
+              <td >{{data.SPONTCOMB}}</td>
+              <td >{{data.SUBLSLD}}</td>
+              <td >{{data.WARRISK}}</td>
+              <td >{{data.EXPLOSION}}</td>
+              <td >{{data.FLOOD}}</td>
+              <td >{{data.premium}}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> 
