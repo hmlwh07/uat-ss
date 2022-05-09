@@ -125,7 +125,7 @@
                                 <label class="col-sm-4 col-form-label">Product</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="productList.length == 0 " class="ng-custom-select"
-                                        placeholder="Please Select" (change)="changeOptions($event, 'product')"
+                                        placeholder="Please Select" (change)="changeProductOptions($event)"
                                         [items]="productList" bindLabel="name" bindValue="code"
                                         formControlName="productCodes">
                                     </ng-select>
@@ -175,15 +175,18 @@
             </div>
             <div class="search-display">
                 <div *ngIf="createFormGroup.value.companyId != '' || 
-                createFormGroup.value.channelId !='' || createFormGroup.value.regionId != '' ">
+                createFormGroup.value.channelId !='' || productName != '' ">
+                    <span *ngIf="productName">Product: {{ productName }} </span>
                     <span *ngIf="createFormGroup.value.companyId">Company: {{ companyName }} </span>
                     <span *ngIf="createFormGroup.value.channelId">Channel: {{ channelName }} </span>
-                    <span *ngIf="createFormGroup.value.regionId">Region: {{ regionName }} </span>
                 </div>
-                <div *ngIf="createFormGroup.value.clusterId != '' || 
+                <div *ngIf="createFormGroup.value.regionId != '' ||  createFormGroup.value.clusterId != '' || 
                 createFormGroup.value.branchId !='' || createFormGroup.value.agentId !='' ">
+                    <span *ngIf="createFormGroup.value.regionId">Region: {{ regionName }} </span>
                     <span *ngIf="createFormGroup.value.clusterId">Cluster: {{ clusterName }} </span>
                     <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
+                </div>
+                <div *ngIf="createFormGroup.value.agentId !='' ">
                     <span *ngIf="createFormGroup.value.agentId">Agent: {{ agentName }} </span>
                 </div>
             </div>

@@ -323,6 +323,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
+    this.getAllReports();
     this.cdf.detectChanges()
   }
 

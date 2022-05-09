@@ -33,7 +33,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
   getAllProducts() {
     return this.httpClient.get(API_PRODUCT_URL);
   }
-  
+
 
   getOfficeHirearchy(parentId, typeCode) {
     let reqObj = {
@@ -138,6 +138,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       for (var i = 0; i < searchValue.length; i++) {
         let cellIndex = null;
         let cellIndexValue = null;
+        if (searchValue[i].productName) {
+          cellIndex = 'K1';
+          cellIndexValue = 'Product: ' + searchValue[i].productName;
+        }
         if (searchValue[i].fromDate) {
           cellIndex = 'F1';
           cellIndexValue = 'From Date: ' + searchValue[i].fromDate;
@@ -155,7 +159,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
           cellIndexValue = 'Channel: ' + searchValue[i].channelName;
         }
         if (searchValue[i].regionName) {
-          cellIndex = 'N1';
+          cellIndex = 'K2';
           cellIndexValue = 'Region: ' + searchValue[i].regionName;
         }
         if (searchValue[i].clusterName) {
@@ -216,7 +220,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
           }
         } else {
           center.alignment = { vertical: 'middle', horizontal: 'right' }
-          if (index == 4) { 
+          if (index == 4) {
             center.numFmt = '0"%"';
           } else {
             center.numFmt = '#,##0.00_);(#,##0.00)';
