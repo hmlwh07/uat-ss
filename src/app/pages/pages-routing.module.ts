@@ -321,6 +321,18 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'sales',
+        loadChildren: () => import('./sales/sales.module').then(m => m.SalesPageModule)
+      },
+      {
+        path: 'dashboard-kbz-ms',
+        loadChildren: () => import('./dashboard-kbz-ms-senior/dashboard-kbz-ms-senior.module').then(m => m.DashboardKbzMsSeniorPageModule)
+      },
+      {
+        path: 'dashboard-kbz-ms-manager',
+        loadChildren: () => import('./dashboard-kbz-ms-manager/dashboard-kbz-ms-manager.module').then(m => m.DashboardKbzMsManagerPageModule)
+      },
+      {
         path: '',
         redirectTo: '/product/page-group',
         pathMatch: 'full',
@@ -329,20 +341,10 @@ const routes: Routes = [
         path: '**',
         redirectTo: 'error/404',
       },
+
     ],
   },
-  {
-    path: 'sales',
-    loadChildren: () => import('./sales/sales.module').then(m => m.SalesPageModule)
-  },
-  {
-    path: 'dashboard-kbz-ms',
-    loadChildren: () => import('./dashboard-kbz-ms-senior/dashboard-kbz-ms-senior.module').then(m => m.DashboardKbzMsSeniorPageModule)
-  },
-  {
-    path: 'dashboard-kbz-ms-manager',
-    loadChildren: () => import('./dashboard-kbz-ms-manager/dashboard-kbz-ms-manager.module').then(m => m.DashboardKbzMsManagerPageModule)
-  },
+  
 
 
 
