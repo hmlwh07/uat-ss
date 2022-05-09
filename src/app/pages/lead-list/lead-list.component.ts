@@ -23,6 +23,7 @@ import { map } from 'rxjs/operators';
 import { forkJoin, catchError, of } from 'rxjs';
 import { environment } from "../../../environments/environment";
 import { LanguagesService } from "src/app/modules/languages/languages.service";
+import { CommonList2Component } from "../share-components/common-list/common-list.component";
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -34,6 +35,7 @@ import { LanguagesService } from "src/app/modules/languages/languages.service";
 })
 
 export class LeadListComponent implements OnInit {
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent;
 
   ELEMENT_COL = JSON.parse(JSON.stringify(LeadCol));
@@ -130,8 +132,8 @@ export class LeadListComponent implements OnInit {
 
   }
 
-  updateURL(event: any){
-    if(event){
+  updateURL(event: any) {
+    if (event) {
       event.target.src = "assets/icon/general_product.svg"
     }
   }
@@ -175,8 +177,6 @@ export class LeadListComponent implements OnInit {
   }
 
   getList() {
-    // console.log(this.LeadForm.getRawValue());
-    
     this.LeadListService.getLeadList(this.LeadForm.getRawValue())
       .toPromise()
       .then((res: any) => {
@@ -184,8 +184,8 @@ export class LeadListComponent implements OnInit {
           // console.log("RES", res)
           this.LeadList = res
           this.cdf.detectChanges();
-          if (this.matTable)
-            this.matTable.reChangeData();
+          this.commonList.detchChange()
+         // this.matTable.reChangeData();
         }
       });
   }
@@ -219,8 +219,8 @@ export class LeadListComponent implements OnInit {
       this.navigateToDetail("view", event.data.leadId, event.data.individualId);
     }
   }
-  onActionEdit(){
-    
+  onActionEdit() {
+
   }
   clearDate(key){
     this.LeadForm.controls[key].setValue(null)
@@ -268,5 +268,9 @@ export class LeadListComponent implements OnInit {
   isControlTouched(controlName): boolean {
     const control = this.LeadForm.controls[controlName];
     return control.dirty || control.touched;
+  }
+
+  reponseFromListing(event) {
+    console.log('event', event)
   }
 }

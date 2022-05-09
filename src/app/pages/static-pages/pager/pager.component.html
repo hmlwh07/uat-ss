@@ -1,0 +1,49 @@
+<div class="pager" *ngIf="sourceData.length > 0">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="pager_btn_wrapper mt_5 mb_10 right">
+                <div class="pager_atom">
+                    <span>Items per page:</span>
+                    <button mat-button [matMenuTriggerFor]="menu"
+                    class="menu_bg">
+                        <div class="pager_btn_wrapper ml_15">{{ selectedPageSize }}<img
+                                src="./assets/images/down_arrow-01.svg" class="ml_30" alt="" /></div>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item *ngFor="let pagesize of pageSizeArray" (click)="clickMenuItem(pagesize)">
+                            <span> {{ pagesize }}</span></button>
+                    </mat-menu>
+                </div>
+
+                <div class="pager_atom ml_15">
+                    <span>{{ started }} – {{ endPageIndex }} of {{ sourceData.length }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="pager_btn_wrapper right">
+                <div class="mr_15" (click)="pageFirst()">
+                    <img class="pager_icon" src="./../../../../assets/images/chevron-double-left.svg" alt="" />
+                </div>
+
+                <div class="mr_15" (click)="pageDecresed()">
+                    <img class="pager_icon" src="./assets/images/arrow-left.svg" alt="" />
+                </div>
+
+                <div *ngFor="let btn of viewPageButtonArray">
+                    <div [ngClass]="selectedPageBtn == btn? 'pager_primary_btn_selected mr_15' : 'pager_primary_btn mr_15'"
+                        (click)="pageBtnClicked(btn)">
+                        <span class="pager_display">{{ btn }}</span>
+                    </div>
+                </div>
+
+                <div class="mr_15" (click)="pageIncreased()">
+                    <img class="pager_icon" src="./assets/images/arrow-right.svg" alt="" />
+                </div>
+                <div (click)="pageLast()">
+                    <img class="pager_icon" src="./assets/images/chevron-double-right.svg" alt="" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -50,7 +50,7 @@ export const DynamicAsideMenuConfig = {
           //     page: '/fna/fna-detail',
           //   },
           //   {
-          //     title: 'FNA BRAM',
+          //     title: 'FNA BPM',
           //     page: '/fna/fna-bram',
           //   }
           // ]
@@ -60,7 +60,7 @@ export const DynamicAsideMenuConfig = {
           page: '/fna/fna-detail',
         },
         {
-          title: 'FNA BRAM',
+          title: 'FNA BPM',
           page: '/fna/fna-bram',
         }
         // {
@@ -68,7 +68,7 @@ export const DynamicAsideMenuConfig = {
         //   page: '/fna/fna-detail',
         // },
         // {
-        //   title: 'FNA BRAM',
+        //   title: 'FNA BPM',
         //   page: '/fna/fna-bram',
         // }
       ]
@@ -91,7 +91,7 @@ export const DynamicAsideMenuConfig = {
     //       page: '/fna/fna-detail',
     //     },
     //     {
-    //       title: 'FNA BRAM',
+    //       title: 'FNA BPM',
     //       page: '/fna/fna-bram',
     //     },
     //   ]
@@ -249,35 +249,35 @@ export const DynamicAsideMenuConfig = {
       submenu_show: true,
       submenu: [
         {
-          title: '#Detail Report by agent all',
+          title: '#Individual details production report',
           page: '/report/report-detail-by-agent',
           show: true
         },
         {
-          title: '#Detail Report by bank branch',
+          title: '#Branch details production report',
           page: '/report/report-detail-by-bank-branch',
           show: true
         },
         {
-          title: 'Channel Summary Report',
+          title: 'Production Summary - by channel',
           page: '/report/report-channel-summary-by-bank-branch',
           show: true
         },
         {
-          title: '#By Branch Summary IA',
+          title: '#Monthly Branch Production Summary',
           page: '/report/report-by-branch-summary-ai',
           show: true
         },
         {
-          title: '#By Product Sales Channel - #of policies',
+          title: '#Monthly Product Sales by Channel',
           page: '/report/report-by-product-sales-channel-policies',
           show: true
         },
-        {
-          title: '#By Product Sales Channel - Premium',
-          page: '/report/report-by-product-sales-channel-premium',
-          show: true
-        },
+        // {
+        //   title: '#By Product Sales Channel - Premium',
+        //   page: '/report/report-by-product-sales-channel-premium',
+        //   show: false
+        // },
         {
           title: '#By Product Branch - #of Policies',
           page: '/report/report-by-product-branch-policies',
@@ -289,37 +289,37 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: '#By Agent Yearly',
+          title: '#Individual production summary',
           page: '/report/report-by-agent-yearly',
           show: true
         },
         {
-          title: 'Activity Summary Report by Branch for Daily',
+          title: 'Individual details activity report - daily',
           page: '/report/report-by-agent-daily',
           show: true
         },
         {
-          title: 'Activity Summary Report by Branch for Weekly',
+          title: 'Individual details activity report - weekly',
           page: '/report/report-by-agent-weekly',
           show: true
         },
         {
-          title: 'Activity Summary Report by Branch for Monthly',
+          title: 'Individual details activity report - monthly',
           page: '/report/report-by-agent-monthly',
           show: true
         },
         {
-          title: 'Monthly Sales Analysis by Branch',
+          title: 'Monthly Activity Analysis',
           page: '/report/report-monthly-sales-analysis-by-branch',
           show: true
         },
         {
-          title: 'Weekly Sales Analysis by Branch',
+          title: 'Weekly Activity Analysi',
           page: '/report/report-weekly-sales-analysis-by-branch',
           show: true
         },
         {
-          title: 'Daily Sales Analysis by Branch',
+          title: 'Daily Activity Analysis',
           page: '/report/report-daily-sales-analysis-by-branch',
           show: true
         },

@@ -35,6 +35,13 @@ export class MenuDataService extends BizOperationService<any, number>{
         if (menu.submenu) {
           let checked = menu.submenu.find(x => x.show == true)
           menu.submenu_show = checked ? true : false
+          menu.submenu = menu.submenu.map((x) => {
+            if (x.submenu) {
+              let checked = x.submenu.find(z => z.show == true)
+              x.submenu_show = checked ? true : false
+            }
+            return x
+          })
         }
 
         if (menu.page == "dashboard/senior-lp-dashboard") {

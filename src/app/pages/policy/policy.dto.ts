@@ -1,4 +1,6 @@
 export interface PolicyDTO {
+  productImage?: string;
+  icon?: any;
   id?: string,
   policyNumber?: string,
   agentId?: number,
@@ -6,6 +8,7 @@ export interface PolicyDTO {
   quotationId?: string,
   preminum?: string,
   createdAt?: string,
+
 }
 
 export enum StatusType {

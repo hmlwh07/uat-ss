@@ -9,12 +9,14 @@ import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MY_FORMATS } from '../../../core/is-json';
+import { environment } from 'src/environments/environment';
 import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
 import { MaterialTableViewComponent } from '../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CustomerService } from '../../customer-detail/customer.service';
 import { CustomerListComponent } from '../../customer-list/customer-list.component';
 import { ProductsComponent } from '../../products/products.component';
 import { ProductDataService } from '../../products/services/products-data.service';
+import { CommonList2Component } from '../../share-components/common-list/common-list.component';
 import { PolicyDTO } from '../policy.dto';
 import { PolicyService } from '../policy.service';
 import { PolicyDisplayCol, PolicyCol } from './policy.const';
@@ -30,12 +32,15 @@ import { PolicyDisplayCol, PolicyCol } from './policy.const';
 })
 export class PolicyComponent implements OnInit, OnDestroy {
   quoList: PolicyDTO[] = []
-  policyForm:FormGroup
-  isTeam:boolean=false
+  policyForm: FormGroup
+  isTeam: boolean = false
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  policyAccess = defaultAccessObj
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService,private menuService: MenuDataService) {
-  this.loadForm()
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
+  policyAccess = defaultAccessObj;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+
+  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
+    this.loadForm()
   }
 
 
@@ -47,20 +52,20 @@ export class PolicyComponent implements OnInit, OnDestroy {
 
     // })
   }
-  loadForm(){
+  loadForm() {
     let date = new Date();
     let lastMonthDay = new Date(date.setMonth(date.getMonth() - 1))
     let monthDay = new Date(date.setMonth(date.getMonth() + 1))
     this.policyForm = new FormGroup({
-      startDate:new FormControl(lastMonthDay),
-      endDate:new FormControl(monthDay),
-      isTeam:new FormControl(this.isTeam)
+      startDate: new FormControl(lastMonthDay),
+      endDate: new FormControl(monthDay),
+      isTeam: new FormControl(this.isTeam)
     })
   }
   ngOnDestroy() {
     // this.rerender()
   }
-  cancel(){
+  cancel() {
 
   }
   changeView(type) {
@@ -117,20 +122,28 @@ export class PolicyComponent implements OnInit, OnDestroy {
 
 
   getPolicyList() {
-    this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res:any) => {
+    this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res: any) => {
       if (res) {
         // console.log(res);
         
         this.quoList = res
+        for (var i = 0; i < this.quoList.length; i++) {
+          if (this.quoList[i].icon) {
+            this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '/' + this.quoList[i].icon
+          }
+        }
         this.cdRef.detectChanges()
-        this.matTable.reChangeData()
+        if (this.commonList) {
+          this.commonList.detchChange()
+        }
+        //this.matTable.reChangeData()
         // })
       }
     })
   }
 
   editLayout(item) {
-    forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined)}))]).toPromise().then((res) => {
+    forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res[0]) {
         this.prodctService.createingProd = res[0]
         this.prodctService.creatingCustomer = res[1]

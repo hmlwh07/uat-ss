@@ -14,6 +14,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     NgbModalModule,
     LanguageModule,
     StaticPagesModule,
+    ShareComponentModule,
     NgSelectModule,
     CustomerListShareModule
   ]

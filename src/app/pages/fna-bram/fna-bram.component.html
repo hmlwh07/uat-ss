@@ -1,19 +1,27 @@
-<div class="customer">
+<div class="customer">    
+    <div>
+        <label>FNA Id</label>
+        <label>{{ passValueData.fnaId }}</label>
+    </div>
+    <div>
+        <label>Lead Id</label>
+        <label>{{ passValueData.leadId }}</label>
+    </div>
     <div>
         <label>FNA</label>
         <label>{{ passValueData.customerName }}</label>
     </div>
     <div>
         <label>Date</label>
-        <label>{{ passValueData.createdAt }}</label>
+        <label>{{ passValueData.createdAt }}</label> 
     </div>
 </div>
 
 
 <div [ngSwitch]="fnaSwitch">
     <div class="row btn-bram-group">
-        <button type="button" class="btn col-3"
-            [ngStyle]="{'background-color': fnaSwitch === 'aboutBRAM' ? '#005f99' : '#A6A6A6' }">About BRAM</button>
+        <button type="button" class="btn col-3" 
+            [ngStyle]="{'background-color': fnaSwitch === 'aboutBRAM' ? '#005f99' : '#A6A6A6' }">About BPM</button>
         <button type="button" class="btn col-3"
             [ngStyle]="{'background-color': fnaSwitch === 'inputs' ? '#005f99' : '#A6A6A6' }">Inputs</button>
         <button type="button" class="btn col-3"

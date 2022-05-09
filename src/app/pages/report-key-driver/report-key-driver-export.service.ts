@@ -11,6 +11,7 @@ import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attac
 const API_ADDON_URL = `${environment.apiUrl}/report/keyDriver`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
+const API_PRODUCT_URL = `${environment.apiUrl}/product-view`;
 
 
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
@@ -28,6 +29,11 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
     public platform: Platform, private attachmentDownloadService: AttachmentDownloadService) {
     super(httpClient, API_ADDON_URL);
   }
+
+  getAllProducts() {
+    return this.httpClient.get(API_PRODUCT_URL);
+  }
+
 
   getOfficeHirearchy(parentId, typeCode) {
     let reqObj = {
@@ -132,6 +138,10 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
       for (var i = 0; i < searchValue.length; i++) {
         let cellIndex = null;
         let cellIndexValue = null;
+        if (searchValue[i].productName) {
+          cellIndex = 'K1';
+          cellIndexValue = 'Product: ' + searchValue[i].productName;
+        }
         if (searchValue[i].fromDate) {
           cellIndex = 'F1';
           cellIndexValue = 'From Date: ' + searchValue[i].fromDate;
@@ -149,7 +159,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
           cellIndexValue = 'Channel: ' + searchValue[i].channelName;
         }
         if (searchValue[i].regionName) {
-          cellIndex = 'N1';
+          cellIndex = 'K2';
           cellIndexValue = 'Region: ' + searchValue[i].regionName;
         }
         if (searchValue[i].clusterName) {
@@ -210,7 +220,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
           }
         } else {
           center.alignment = { vertical: 'middle', horizontal: 'right' }
-          if (index == 4) { 
+          if (index == 4) {
             center.numFmt = '0"%"';
           } else {
             center.numFmt = '#,##0.00_);(#,##0.00)';

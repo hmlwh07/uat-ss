@@ -72,13 +72,18 @@
 
 <div class="row">
   <div class="col-12">
-    <div class="card card-custom gutter-b">
+    <div class="card card-custom gutter-b data">
 
       <div class="card-body customer-card-body">
+
+        <app-common-list-2 *ngIf="activityList.length > 0" class="data-list" #commonList [data]="activityList"
+          [type]="'activity'" (btnEvent)="actionBtn($event)">
+        </app-common-list-2>
+
         <!-- begin:Table -->
-        <app-material-table-view [data]="activityList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
+        <!-- <app-material-table-view [data]="activityList" [colum]="ELEMENT_COL" [displayedColumns]="displayedColumns"
           (emitter)="actionBtn($event)">
-        </app-material-table-view>
+        </app-material-table-view> -->
       </div>
     </div>
   </div>

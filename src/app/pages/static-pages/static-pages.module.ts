@@ -35,6 +35,13 @@ import { TravelComponent } from './travel-page/travel-page.component';
 import { TravelRiskDetailComponent } from './travel-page/travel-risk-detail/travel-risk-detail.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { FormComponentModule } from '../form-component/form-component.module';
+// import { ChildComponent } from './common-list/child.component';
+// //listings
+// import {ListingsPagerComponent} from './pager/pager.component';
+// import { CommonListingComponent,ListingPipe} from './common-list/common-list.component';
+// import {ListingsLeadListComponent } from './listings/lead/listings-lead-list.component';
+import {MatMenuModule} from '@angular/material/menu';
+
 @NgModule({
   declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,MotorAddonComponent,TravelComponent,TravelRiskDetailComponent],
   exports: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, SurroundingBuildingComponent, FirePageComponent, FireRiskComponent, SurroundingDetailComponent, CalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,MotorAddonComponent,TravelComponent,TravelRiskDetailComponent],
@@ -55,7 +62,8 @@ import { FormComponentModule } from '../form-component/form-component.module';
     MatInputModule,
     MatFormFieldModule,
     NgxCurrencyModule,
-    FormComponentModule
+    FormComponentModule,
+    MatMenuModule
   ]
 })
 export class StaticPagesModule { }

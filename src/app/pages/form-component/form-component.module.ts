@@ -23,8 +23,6 @@ import { DateBoxComponent } from './date-box/date-box.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ExportConfigModalComponent } from './export-config-modal/export-config-modal.component';
 import { ImportConfigModalComponent } from './import-config-modal/import-config-modal.component';
-import { SortConfigModalComponent } from './sort-config-modal/sort-config-modal.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { FormViewModalComponent } from './form-view-modal/form-view-modal.component';
 import { LabelConfigModalComponent } from './label-config-modal/label-config-modal.component';

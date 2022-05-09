@@ -7,8 +7,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
-
-
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 @NgModule({
   declarations: [ActivityManagementListComponent],
@@ -18,6 +17,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     ReactiveFormsModule,
     InlineSVGModule,
     CRUDTableModule,
+    ShareComponentModule,
     NgSelectModule,
     LanguageModule,
     RouterModule.forChild([

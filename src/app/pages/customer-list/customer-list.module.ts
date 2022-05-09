@@ -9,22 +9,20 @@ import { CustomerListShareModule } from './customer-list.share.module';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    CustomerListShareModule,
     ReactiveFormsModule,
     InlineSVGModule,
     CRUDTableModule,
-    CustomerListShareModule,
     RouterModule.forChild([
       {
         path: '',
         component: CustomerListComponent,
       },
     ]),
-
   ]
 })
 export class CustomerListModule { }

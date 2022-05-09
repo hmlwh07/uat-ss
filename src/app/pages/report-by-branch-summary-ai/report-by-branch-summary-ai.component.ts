@@ -13,7 +13,7 @@ import { CONSTANT_AGENT_REPORT_DATA } from './report-by-branch-summary-ai.const'
 })
 export class ReportByBranchSummaryAiComponent implements OnInit {
   createFormGroup: FormGroup;
-  title = 'By Branch Summary IA'
+  title = 'Monthly Branch Production Summary'
   fromMinDate = null;
   fromMaxDate = null;
   toMaxDate: { year: number; month: number; day: number; };
@@ -323,6 +323,7 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
         this.createFormGroup.value.agentId = '';
       }
     }
+    this.getAllReports();
     this.cdf.detectChanges()
   }
 
@@ -360,53 +361,67 @@ export class ReportByBranchSummaryAiComponent implements OnInit {
     const control = this.createFormGroup.controls[controlName];
     return control.dirty || control.touched;
   }
-
   doValid(type) {
     if (type == 'FromDate') {
-      let value = this.createFormGroup.controls['fromDate'].value;
-      if (value) {
-        let toDate = moment(this.createFormGroup.controls['fromDate'].value).add(0, 'years')
-        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-        this.createFormGroup.controls['fromDate'].setValue(toDate.format('YYYY-MM-DD'))
+      let fromDateValue = moment(this.createFormGroup.controls['fromDate'].value).format('YYYY-MM-DD');
+      let toDateValue = moment(this.createFormGroup.controls['toDate'].value).format('YYYY-MM-DD');
+      if (toDateValue) {
+        let formDateSplit = fromDateValue.split("-");
+        let toDateSplit = toDateValue.split("-");
+        let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
+        if (diffYear != 0 && diffYear != 1) {
+          this.createFormGroup.controls['toDate'].setValue('');
+        }      
+
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
+        }
+
       }
-      var fromDate = new Date(this.createFormGroup.value.fromDate);
-      fromDate.setFullYear(fromDate.getFullYear() + 1);
-      fromDate.setDate(fromDate.getDate() - 1);
-      this.fromMinDate = this.createFormGroup.value.fromDate
-      this.fromMaxDate = fromDate;
-      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-      if (diffYear != 0 && diffYear != 1) {
-        this.createFormGroup.controls['toDate'].setValue('');
+      if (fromDateValue) {
+        var toDate = new Date(fromDateValue);
+        toDate.setFullYear(toDate.getFullYear() + 1);
+        toDate.setDate(toDate.getDate() - 1);
+        this.fromMinDate = new Date(fromDateValue);
+        this.fromMaxDate = toDate;
       }
     }
-
     if (type == 'ToDate') {
-      let value = this.createFormGroup.controls['toDate'].value;
-      if (value) {
-        let toDate = moment(this.createFormGroup.controls['toDate'].value).add(0, 'years')
-        this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
-        this.createFormGroup.controls['toDate'].setValue(toDate.format('YYYY-MM-DD'))
-      }
-      var toDate = new Date(this.createFormGroup.value.toDate);
-      toDate.setFullYear(toDate.getFullYear() - 1);
-      toDate.setDate(toDate.getDate() + 1);
-      this.fromMinDate = toDate
-      if (!this.createFormGroup.value.toDate) {
-        this.fromMaxDate = this.createFormGroup.value.toDate;
+      let fromDateValue = moment(this.createFormGroup.controls['fromDate'].value).format('YYYY-MM-DD');
+      let toDateValue = moment(this.createFormGroup.controls['toDate'].value).format('YYYY-MM-DD');
+      if (fromDateValue) {
+        let formDateSplit = fromDateValue.split("-");
+        let toDateSplit = toDateValue.split("-");
+        let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
+        if (diffYear != 0 && diffYear != 1) {
+          this.createFormGroup.controls['fromDate'].setValue('');
+        }
+       
+        if (diffYear == 0) {
+          if (formDateSplit[1] > toDateSplit[1]) {
+            this.createFormGroup.controls['toDate'].setValue('');
+          }
+          if (formDateSplit[1] == toDateSplit[1]) {
+            if (formDateSplit[2] > toDateSplit[2]) {
+              this.createFormGroup.controls['toDate'].setValue('');
+            }
+          }
+        }
       }
 
-      let diffYear = new Date(this.createFormGroup.value.toDate).getFullYear() - new Date(this.createFormGroup.value.fromDate).getFullYear();
-      if (diffYear != 0 && diffYear != 1) {
-        this.createFormGroup.controls['fromDate'].setValue('');
-      }
-      if (diffYear == 1) {
-        if (new Date(this.createFormGroup.value.toDate).getMonth() > new Date(this.createFormGroup.value.fromDate).getMonth()) {
-          this.createFormGroup.controls['fromDate'].setValue('');
-        }
-        if (new Date(this.createFormGroup.value.toDate).getMonth() == new Date(this.createFormGroup.value.fromDate).getMonth() &&
-          new Date(this.createFormGroup.value.toDate).getDate() >= new Date(this.createFormGroup.value.fromDate).getDate()) {
-          this.createFormGroup.controls['fromDate'].setValue('');
-        }
+      if (toDateValue) {
+        var fromDate = new Date(toDateValue);
+        fromDate.setFullYear(fromDate.getFullYear() - 1);
+        fromDate.setDate(fromDate.getDate() + 1);
+        this.fromMinDate = fromDate;
+        this.fromMaxDate = new Date(toDateValue);
       }
     }
     this.cdf.detectChanges();

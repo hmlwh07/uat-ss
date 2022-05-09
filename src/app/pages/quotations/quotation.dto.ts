@@ -1,4 +1,6 @@
 export interface QuotationDTO {
+  productImage?: string;
+  icon?: any;
   id?: string,
   policyNumber?: string,
   agentId?: number,
