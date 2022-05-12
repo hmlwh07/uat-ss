@@ -127,6 +127,7 @@
             <div class="menu-submenu">
                 <i class="menu-arrow"></i>
                 <ul class="menu-subnav">
+                    <!-- {{item| json}} -->
                     <!-- submenu-->
                     <ng-container *ngFor="let sub of item.submenu" [ngTemplateOutlet]="menu3LevelTemplate" [ngTemplateOutletContext]="{ item: sub }"></ng-container>
                 </ul>

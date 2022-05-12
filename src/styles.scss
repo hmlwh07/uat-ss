@@ -899,3 +899,16 @@ app-common-list-2{
     padding: 0px!important;
     margin: 0px!important;
 }
+
+.aside-menu .menu-nav>.menu-item .menu-submenu .menu-item.menu-item-open>.menu-link{
+    background-color: transparent !important;
+}
+.aside-menu .menu-nav>.menu-item .menu-submenu .menu-item>.menu-link .menu-arrow{
+    color: white;
+}
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-open > .menu-link .menu-bullet.menu-bullet-dot > span {
+    background-color: #ffd300;
+}
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-open > .menu-link .menu-text {
+    color: #ffd300;
+}

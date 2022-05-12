@@ -35,10 +35,16 @@ export class MenuDataService extends BizOperationService<any, number>{
         if (menu.submenu) {
           let checked = menu.submenu.find(x => x.show == true)
           menu.submenu_show = checked ? true : false
+          menu.show = menu.dataAccess.view
           menu.submenu = menu.submenu.map((x) => {
+            x.show = x.dataAccess.view
             if (x.submenu) {
               let checked = x.submenu.find(z => z.show == true)
               x.submenu_show = checked ? true : false
+              x.submenu = x.submenu.map((i) => {
+                i.show = i.dataAccess.view
+                return i
+              })
             }
             return x
           })
@@ -60,12 +66,12 @@ export class MenuDataService extends BizOperationService<any, number>{
         this.menuData.next(res)
         this.accessPremission()
       }
-      if(!res){
+      if (!res) {
         localStorage.removeItem(`${environment.appVersion}-${environment.USERDATA_KEY}`);
       }
       return res
     }))
-   
+
   }
 
   accessPremission() {
@@ -73,6 +79,7 @@ export class MenuDataService extends BizOperationService<any, number>{
     ModuleList.forEach(element => {
       let access = this.getAccessPremission(element)
       let accessData = access ? access : {}
+      accessData.view = accessData.read || accessData.view || false
       data[element] = {
         ...this.defaultObj,
         ...accessData
@@ -89,10 +96,12 @@ export class MenuDataService extends BizOperationService<any, number>{
       } else {
         if (menu.submenu) {
           let access = menu.submenu.find((x) => x.module == moduleType)
-          if (access)
+          if (access) {
             return access.dataAccess
+          }
         }
       }
+
     }
     // })
     return null
