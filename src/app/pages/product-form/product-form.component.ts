@@ -682,6 +682,13 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       } else if (this.tempData[activeValue.tableName + activeValue.id].length == 0) {
         return false
       }
+
+      if (activeValue.unitCode == "beneficiaries_page") {
+        let check = this.globalFun.checkPercent(this.tempData[activeValue.tableName + activeValue.id])
+        if (!check)
+          return false
+      }
+
     }
     if (this.pageOrder.length > index + 1) {
       this.updateDataStatus()

@@ -730,6 +730,11 @@ export class GlobalFunctionService {
     }
   }
 
+  checkPercent(currentValue: any[]) {
+    let total = currentValue.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
+    return total == 100 ? true : false
+  }
+
   smPremium(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let type = ""
     let policy = ""
