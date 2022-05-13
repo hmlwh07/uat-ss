@@ -56,6 +56,7 @@ export class MotorAddonComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.optionId = this.optionId ? this.optionId : this.resourcesId
     this.parentData = this.getParnet()
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
