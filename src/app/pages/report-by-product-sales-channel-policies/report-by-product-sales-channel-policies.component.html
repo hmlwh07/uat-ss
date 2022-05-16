@@ -214,7 +214,7 @@
                         <th></th>
                     </tr>
                     <tr style="border-top: 1px solid #000;">
-                        <th style="min-width: 50px;">No.</th>
+                        <th style="min-width: 50px; max-width: 50px;">No.</th>
                         <th>Month</th>
                         <!-- <th style="min-width: 150px;" *ngFor="let product of productsHeader; let i = index"> -->
                         <th style="min-width: 170px;" *ngFor="let product of productsHeader; let i = index">
@@ -227,7 +227,7 @@
                         <th style="min-width: 100px;">Total Premium</th>
                     </tr>
                     <tr style="border-top: 1px solid #000;" *ngFor="let data of dataList; let i = index">
-                        <td>{{ data.no }}</td>
+                        <td  style="min-width: 50px; max-width: 50px;">{{ data.no }}</td>
                         <td class="text-left">{{ data.month }}</td>
                         <td class="text-right" *ngFor="let product of dataList[i].productDataList; let j = index">
                             <span style="text-align: end;  padding: 0 5px 0 0;" *ngIf="product.noOfPolicy">{{
@@ -247,10 +247,10 @@
                         <td class="text-right" *ngIf="data.totalPolicies">{{ (data.totalPolicies || 0) | number:'1.2-2'
                             }}
                         </td>
-                        <td class="text-right" *ngIf="!data.totalPolicies">0.0</td>
+                        <td class="text-right" *ngIf="!data.totalPolicies">0.00</td>
                         <td class="text-right" *ngIf="data.totalPremium">{{ (data.totalPremium || 0) | number:'1.2-2' }}
                         </td>
-                        <td class="text-right" *ngIf="!data.totalPremium">0.0</td>
+                        <td class="text-right" *ngIf="!data.totalPremium">0.00</td>
                     </tr>
                     <tr>
                         <td></td>

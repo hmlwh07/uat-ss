@@ -20,6 +20,7 @@ table {
         overflow: hidden;
         th,
         td {
+            min-width: 160px;
             text-align: center;
             position: relative;
             border: 1px solid #e3e3e3;
