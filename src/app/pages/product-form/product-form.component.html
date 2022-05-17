@@ -15,6 +15,11 @@
             PREMIUM <br>
             <span>{{premiumAmt}}</span>
           </div>
+
+          <div class="top-box" *ngIf="item.submittedCode">
+            Quotation No <br>
+            <span>{{item.submittedCode}}</span>
+          </div>
           <!-- <div class="top-box">
             STATUS <br>
             <span>Valid</span>
