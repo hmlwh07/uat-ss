@@ -176,14 +176,14 @@
         max-height: 500px;">
             <table border="1">
                 <tr>
-                    <th style="min-width: 50px;">Sr. No.</th>
+                    <th style="min-width: 50px; max-width: 50px;">Sr. No.</th>
                     <th>Branch</th>
                     <th>#Active Agents</th>
                     <th>#No of Policies</th>
                     <th>#Premium</th>
                 </tr>
                 <tr class="data" *ngFor="let report of reports; let i = index">
-                    <td>{{ report.srNo }}</td>
+                    <td  style="min-width: 50px; max-width: 50px;">{{ report.srNo }}</td>
                     <td class="text-left">{{ report.cluster }}</td>
                     <td class="text-right">{{ (report.activeAgents || 0) | number:'1.2-2' }}</td>
                     <td class="text-right">{{ (report.noOfPolicy || 0) | number:'1.2-2' }}</td>
