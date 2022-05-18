@@ -302,6 +302,7 @@ export class FirePageComponent implements OnInit,OnDestroy {
       policyType: this.oldData.policyType,
       policyDuration: this.oldData.policyDuration,
       currency: this.oldData.currency,
+      policyUnit: this.oldData.policyUnit,
     })
     this.cdf.detectChanges()
   }

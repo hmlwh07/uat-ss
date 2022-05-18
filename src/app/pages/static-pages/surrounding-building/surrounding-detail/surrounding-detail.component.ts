@@ -104,7 +104,8 @@ export class SurroundingDetailComponent implements OnInit {
     })
   }
   createSurrounding() {
-
+    if (this.surroundingdetailform.invalid)
+      return false
     let data = this.surroundingdetailform.getRawValue();
     let postData = { ...data, createdBy: this.auth.currentUserValue.id }
     if (this.type != 'create') {
