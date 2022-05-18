@@ -35,7 +35,8 @@ export interface Product {
   icon?: string
   smallIcon?: string
   policyRule?: RuleType
-  policyDay?: number
+  policyDay?: number,
+  // submittedCode: string
 }
 export enum RuleType {
   DAY = 'days',

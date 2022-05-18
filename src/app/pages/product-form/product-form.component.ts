@@ -42,6 +42,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   item: Product
   tempData: any = {}
   activePage: number = 0
+  submittedCode: string
   premiumAmt: string = '0'
   private unsubscribe: Subscription[] = []
   coverage = {
