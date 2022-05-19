@@ -23,6 +23,8 @@ import { SignaturePadComponent } from './signature-pad/signature-pad.component';
 })
 export class ResourseDetailComponent implements OnInit, OnDestroy {
   premiumAmt: string
+  submittedCode: string;
+  policyNumber: string;
   item: any
   resultObj: any = {}
   type: string
@@ -155,6 +157,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //     }
       //   }
       // }
+      console.log('resourceDetail', this.resourceDetail);
       this.cdf.detectChanges()
     }
   }
