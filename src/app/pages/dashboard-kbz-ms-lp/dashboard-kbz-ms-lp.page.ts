@@ -370,7 +370,7 @@ export class DashboardKbzMsLpPage implements OnInit {
   }
 
   changeSource(event){
-    event.target.src = ""
+    event.target.src = "./assets/images/user_profile-01.svg"
   }
 
 }
