@@ -52,6 +52,12 @@ export class MotorAddonComponent implements OnInit {
   addOnsData: any = {}
   medPremium: any
   crossPremium: any
+  crossPercent = {
+    "T-004": 0.35,
+    "T-003": 0.60,
+    "T-002": 0.85,
+    "T-001": 1, 
+  }
   constructor(private globalFun: GlobalFunctionService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
 
@@ -165,8 +171,9 @@ export class MotorAddonComponent implements OnInit {
         excessAmt = 25
       }
     }
-
-    this.crossPremium = tempPre + excessAmt
+    let term = this.parentData['m_policy_term']
+    let percent = this.crossPercent[term] || 1
+    this.crossPremium = ((tempPre + excessAmt) * 0.15) * percent
   }
   backPage() {
     this.actionEvent.emit({ type: StaticActionType.PREV })
