@@ -29,7 +29,7 @@ export const DynamicAsideMenuConfig = {
       show: true
     },
     {
-      title: 'Leads',
+      title: 'Opportunities',
       root: true,
       icon: 'flaticon-folder-1',
       svg: './assets/media/svg/icons/Design/Layers.svg',
@@ -38,11 +38,11 @@ export const DynamicAsideMenuConfig = {
       show: true,
       submenu: [
         {
-          title: 'Lead',
+          title: 'Opportunity',
           page: '/lead/lead-list',
         },
         {
-          title: 'Lead Detail',
+          title: 'Opportunity Detail',
           page: '/lead/lead-detail',
           // submenu: [
           //   {
