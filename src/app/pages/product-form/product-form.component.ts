@@ -42,8 +42,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   item: Product
   tempData: any = {}
   activePage: number = 0
-  submittedCode: string;
-  policyNumber: string;
+  
   premiumAmt: string = '0'
   private unsubscribe: Subscription[] = []
   coverage = {
@@ -93,9 +92,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.type = this.prodService.type
       this.editData = this.prodService.editData || {}
       this.creatingCustomer = this.prodService.creatingCustomer
-      this.premiumAmt = this.editData.premiumView || this.editData.premium || "0"
-      this.submittedCode = this.editData.submittedCode || '';
-      this.policyNumber = this.editData.policyNumber || '';
+      this.premiumAmt = this.editData.premiumView || this.editData.premium || "0";     
       let unsub = this.globalFun.paPremiumResult.subscribe((res: any) => {
         this.premiumAmt = res || "0"
         this.cdRef.detectChanges()
