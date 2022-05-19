@@ -388,4 +388,8 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   }
 
+  changeSource(event){
+    event.target.src = "./assets/images/user_profile-01.svg"
+  }
+
 }

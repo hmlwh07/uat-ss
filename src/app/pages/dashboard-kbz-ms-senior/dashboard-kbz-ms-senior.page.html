@@ -41,7 +41,7 @@
     <ion-list *ngIf="data && data.subAgentMonthlySale.length > 0" [ngStyle]="{'height': salesHpx}">
       <ion-item lines="full" *ngFor="let agent of data?.subAgentMonthlySale" (click)="goToLPManager(agent)">
         <ion-avatar slot="start">
-          <img src="./assets/images/user_profile-01.svg" class="user-icon" alt="" />
+          <img src="./assets/images/user_profile-01.svg" class="user-icon" alt="" (error)="changeSource($event)"/>
         </ion-avatar>
         <ion-text>
           <ion-label class="ion-text-wrap">{{ agent.name }}</ion-label>
