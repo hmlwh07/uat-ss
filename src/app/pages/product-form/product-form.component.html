@@ -14,11 +14,11 @@
           <div class="top-box">
             PREMIUM <br>
             <span>{{premiumAmt}}</span>
-          </div>
+          </div>   
 
-          <div class="top-box" *ngIf="submittedCode">
-            Quotation No <br>
-            <span>{{submittedCode}}</span>
+          <div class="top-box" *ngIf="resourceId">
+            Application No<br>
+            <span>{{resourceId}}</span>
           </div>
           <!-- <div class="top-box">
             STATUS <br>
@@ -340,7 +340,8 @@
             </ng-container>
             <ng-container *ngIf="pageOrder[activePage].type == 'static'">
               <ng-container staticPage [compId]="pageOrder[activePage].id" [product]="item" [editData]="editData"
-                [resourcesId]="resourceId" [premiumAmt]="premiumAmt" [travelForm]="travelFormss" (eventOut)="staticEvent($event)">
+                [resourcesId]="resourceId" [premiumAmt]="premiumAmt" [travelForm]="travelFormss"
+                (eventOut)="staticEvent($event)">
               </ng-container>
             </ng-container>
             <!-- <ng-container *ngIf="pageOrder[activePage].id == 'addon'">

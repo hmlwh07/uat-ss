@@ -9,8 +9,8 @@
     <form action="" [formGroup]="sourceForm">
       <div class="row">
         <div class="col-12">
-          <label class="form-label">Lead Source</label>
-          <select name="" id="" class="form-control form-control-sm" name="leadSource" placeholder="Lead Source"
+          <label class="form-label">Opportunity Source</label>
+          <select name="" id="" class="form-control form-control-sm" name="leadSource" placeholder="Opportunity Source"
             autocomplete="off" [class.is-invalid]="isControlInvalid('leadSource')"
             [class.is-valid]="isControlValid('leadSource')" formControlName="leadSource">
             <option *ngFor="let item of leadSources" value="{{item.codeId}}">{{item.codeName}}</option>

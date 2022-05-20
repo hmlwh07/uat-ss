@@ -24,6 +24,14 @@
             TCS Status <br>
             <span *ngIf="resourceDetail">{{ resourceDetail.apiStatus | titlecase }}</span>
           </div>
+          <div class="top-box" *ngIf="resourceDetail.submittedCode">
+            Bancs Quotation No. <br>
+            <span>{{resourceDetail.submittedCode}}</span>
+          </div>
+          <div class="top-box" *ngIf="resourceDetail.policyNumber">
+            Bancs Policy No. <br>
+            <span>{{resourceDetail.policyNumber}}</span>
+          </div>
           <button class="btn btn-outline-primary" *ngIf="type == 'policy'" style="margin-left: auto;"
             (click)="viewPrint()">
             <i class="flaticon2-print"></i> Print
