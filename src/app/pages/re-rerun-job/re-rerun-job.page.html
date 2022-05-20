@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12">
       <div class="card card-custom gutter-b">
-          <div class="card-header" *ngIf="!isPopup">
+          <div class="card-header" >
               <div class="card-title">
                   <h3 class="card-label left-border-image"> {{"FORM.rerun_list" | translate}}</h3>
               </div>
@@ -50,14 +50,12 @@
               </div>
             <ng-container *ngIf="isCRM">
                     <app-material-table-view #matTableCRM [data]="listFromCRM" [colum]="ELEMENT_COL"
-                        [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)"
-                        (rowselect)="rowSelected($event)" [selectable]="isPopup">
+                        [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)">
                     </app-material-table-view>
                 </ng-container>
                 <ng-container *ngIf="!isCRM"> 
                   <app-material-table-view #matTableSale [data]="listFromSale" [colum]="ELEMENT_COL_SALE"
-                      [displayedColumns]="displayedColumnsSale" (emitter)="actionBtn($event)"
-                      (rowselect)="rowSelected($event)" [selectable]="isPopup">
+                      [displayedColumns]="displayedColumnsSale" (emitter)="actionBtn($event)">
                   </app-material-table-view>
               </ng-container>
           </div>

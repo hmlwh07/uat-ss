@@ -139,4 +139,8 @@ export class ReRerunJobPage implements OnInit {
     const control = this.reRunForm.controls[controlName];
     return control.dirty || control.touched;
   }
+  cancel() {
+    this.reRunForm.reset();
+    this.getList();
+  }
 }
