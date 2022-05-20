@@ -1,4 +1,4 @@
-<div class="data-header"  *ngIf="itemData">
+<div class="data-header" *ngIf="itemData">
   <div class="col-8">
     <!-- <img src="../../../assets/images/customer/custoner_list.svg" alt="quo" /> -->
     <img [src]="itemData.productImage" alt="" />
@@ -9,7 +9,8 @@
       <div class="actions">
         <img src="../../../assets/images/view-01.svg" (click)="actionBtn(itemData,eventType.VIEW)" alt="view" />
       </div>
-      <div class="actions">
+      <div class="actions"
+        *ngIf="(itemData.status == 'in_progress' || itemData.status == 'In_progress' ) || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail')">
         <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
       </div>
     </section>

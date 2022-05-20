@@ -12,7 +12,8 @@ export class ApplicationItemComponent implements OnInit {
   eventType = ListActionType
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+   }
 
   actionBtn(event, type?: ListActionType) {
     this.btnEvent.emit({ cmd: type, data: event })

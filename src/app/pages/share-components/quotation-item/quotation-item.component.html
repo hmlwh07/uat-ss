@@ -10,7 +10,8 @@
       <div class="actions">
         <img src="./assets/images/view-01.svg" (click)="actionBtn(itemData,eventType.VIEW)" alt="view" />
       </div>
-      <div class="actions">
+      <div class="actions"
+        *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' ">
         <img src="./assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
       </div>
     </section>

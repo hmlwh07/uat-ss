@@ -13,7 +13,9 @@ export class QuotationItemComponent implements OnInit {
   
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    console.log('itemData', this.itemData)
+   }
 
   actionBtn(event, type?: ListActionType) {
     this.btnEvent.emit({ cmd: type, data: event })
