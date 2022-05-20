@@ -91,6 +91,14 @@
                     [class.is-valid]="isControlValid('productCode',formGroup)" formControlName="productCode" />
                 </div>
                 <!-- Product code -->
+                <!-- Cover Name -->
+                <div class="form-group">
+                  <label class="form-label">Cover Name</label>
+                  <input type="text" class="form-control form-control-sm" name="coverName" placeholder="Cover Name"
+                    autocomplete="off" [class.is-invalid]="isControlInvalid('coverName',formGroup)"
+                    [class.is-valid]="isControlValid('coverName',formGroup)" formControlName="coverName" />
+                </div>
+                <!-- Cover Name -->
                 <!-- Product Type -->
                 <div class="form-group">
                   <label class="form-label">Select Product Type</label>
@@ -227,22 +235,31 @@
                 <div class="form-group">
                   <label class="form-label">Upload Product Icon</label>
                   <div class="upload-icon-group">
-                    <div class="upload-icon" (click)="openFile()">
+                    <div class="upload-icon" (click)="openFile('icon')">
                       <img *ngIf="formGroup.value.icon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon" alt="">
                       <ng-container *ngIf="!formGroup.value.icon">
                         <i class="flaticon-upload-1 icon-lg"></i>
                         <label>Icon</label>
                       </ng-container>
-                      <input style="display: none;" type="file" #selectedFile (change)="handleUpload($event)" />
+                      <input style="display: none;" type="file" #selectedFile1 (change)="handleUpload($event,'icon')" />
                     </div>
-                    <div class="upload-icon" (click)="openFile(true)">
+                    <div class="upload-icon" (click)="openFile('small')">
                       <img *ngIf="formGroup.value.smallIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon"
                         alt="">
                       <ng-container *ngIf="!formGroup.value.smallIcon">
                         <i class="flaticon-upload-1 icon-lg"></i>
                         <label>Small Icon</label>
                       </ng-container>
-                      <input style="display: none;" type="file" #selectedFile2 (change)="handleUpload($event,true)" />
+                      <input style="display: none;" type="file" #selectedFile2 (change)="handleUpload($event,'small')" />
+                    </div>
+                    <div class="upload-icon" (click)="openFile('cover')">
+                      <img *ngIf="formGroup.value.coverIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon"
+                        alt="">
+                      <ng-container *ngIf="!formGroup.value.coverIcon">
+                        <i class="flaticon-upload-1 icon-lg"></i>
+                        <label>Cover icon</label>
+                      </ng-container>
+                      <input style="display: none;" type="file" #selectedFile3 (change)="handleUpload($event,'cover')" />
                     </div>
                   </div>
                 </div>
