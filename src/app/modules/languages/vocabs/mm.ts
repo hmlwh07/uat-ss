@@ -158,7 +158,8 @@ export const locale = {
       net_premium: "Net Premium",
       policy_holder: "Policy Holder",
       policy_holder_code: "Policy Holder Code",
-      btn_back: "Back"
+      btn_back: "Back",
+      rerun_list:"Re-Run"
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

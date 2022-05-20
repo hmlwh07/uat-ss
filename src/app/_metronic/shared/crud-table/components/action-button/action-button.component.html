@@ -1,4 +1,4 @@
-<div style="white-space: nowrap;text-align: right;">
+<div style="white-space: nowrap;text-align: center;">
     <a *ngIf="viewBtn.confirm && data.status != 'CONFIRM' " title="Confirm Form Page"
         class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionConfirm()">
         Confirm
@@ -33,6 +33,11 @@
     <a *ngIf="viewBtn.download" title="Downlaod Form Page" class="btn btn-primary btn-hover-primary btn-sm mx-1"
         (click)="onActionDownload()">
         <span class="flaticon-download"></span>
+
+    </a>
+    <a *ngIf="viewBtn.rerun" title="Rerun" class="btn btn-primary btn-hover-primary btn-sm mx-1"
+        (click)="onActionRerun()">
+        <span class="flaticon-refresh"></span>
 
     </a>
 </div>

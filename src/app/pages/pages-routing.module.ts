@@ -347,7 +347,15 @@ const routes: Routes = [
         path: '**',
         redirectTo: 'error/404',
       },
+      {
+        path: 're-rerun-job',
+        loadChildren: () => import('./re-rerun-job/re-rerun-job.module').then( m => m.ReRerunJobPageModule)
+      },
     ],
+  },
+  {
+    path: 're-rerun-job',
+    loadChildren: () => import('./re-rerun-job/re-rerun-job.module').then( m => m.ReRerunJobPageModule)
   },
 
 

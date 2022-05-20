@@ -13,6 +13,8 @@ export const locale = {
       passowrd: "Password",
       save: 'Save',
       cancel: 'Cancel',
+      renewalRerun: 'Renewal Re-Run',
+      renewalPolicyStatus: 'Policy Status Re-Run',
     },
     FORM: {
       title: "  Welcome to KBZ MS and Life Insurance Sales Portal",
@@ -42,7 +44,7 @@ export const locale = {
       source: 'Source',
       phone_number: 'Phone Number',
       subject: 'Subject',
-      
+
       contact: 'Contact',
       precontact: 'Preferred Contact',
       type: 'Type',
@@ -152,7 +154,8 @@ export const locale = {
       net_premium: "Net Premium",
       policy_holder: "Policy Holder",
       policy_holder_code: "Policy Holder Code",
-      btn_back: "Back"
+      btn_back: "Back",
+      rerun_list: "Re-Run"
     },
     NAV: {
       my_acc: "My Account",
@@ -169,8 +172,8 @@ export const locale = {
       setting: "Setting",
       logout: "Logout"
     },
-    ERROR:{
-      not_match:'Password and confirm password does not match',
+    ERROR: {
+      not_match: 'Password and confirm password does not match',
     }
   }
 }

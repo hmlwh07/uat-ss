@@ -100,6 +100,9 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     this.auth.logout();
     document.location.reload();
   }
+  reRun(){
+    this.router.navigateByUrl('/re-rerun-job')
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(sb => sb.unsubscribe());

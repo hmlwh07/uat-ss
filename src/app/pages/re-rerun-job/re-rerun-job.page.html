@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-12">
+      <div class="card card-custom gutter-b">
+          <div class="card-header" *ngIf="!isPopup">
+              <div class="card-title">
+                  <h3 class="card-label left-border-image"> {{"FORM.rerun_list" | translate}}</h3>
+              </div>
+              <div class="card-toolbar">
+                  <span class="flaticon2-magnifier-tool search-tool" (click)="getList()"></span>
+                  <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="cancel()">
+                      <span class="">{{"CARD.cancel" | translate}}</span>
+                  </button>
+              </div>
+          </div>
+          <div class="card-body px-10 py-3">
+              <form action="#" class="form" [formGroup]="reRunForm">
+                  <div class="row" style="align-items: center;">
+                      <app-start-end-date [formInput]="reRunForm" remove-host [colClass]="'col-xl-4 col-sm-6'">
+                      </app-start-end-date>
+                      <div class="col-xl-4 col-sm-6">
+                          <div class="form-group row">
+                              <label class="col-sm-4 col-form-label">{{"FORM.type" | translate}}</label>
+                              <div class="col-sm-8">
+                                  <ng-select class="ng-custom-select"
+                                      [class.is-invalid]="isControlInvalid('typeCode')"
+                                      [class.is-valid]="isControlValid('typeCode')" [items]="typeOption"
+                                      bindLabel="value" bindValue="code" formControlName="typeCode">
+                                  </ng-select>
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+      <div class="card card-custom gutter-b data">
+          <div class="card-body customer-card-body">
+              <div style="float:right ; margin-top:15px" *ngIf="!isCRM">
+                <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="reRunRenewal(listFromCRM)">
+                    <span class="">{{"CARD.renewalRerun" | translate}}</span>
+                </button>
+                <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="reRunPolicyStatus(listFromCRM)">
+                    <span class="">{{"CARD.renewalPolicyStatus" | translate}}</span>
+                </button>
+              </div>
+            <ng-container *ngIf="isCRM">
+                    <app-material-table-view #matTableCRM [data]="listFromCRM" [colum]="ELEMENT_COL"
+                        [displayedColumns]="displayedColumns" (emitter)="actionBtn($event)"
+                        (rowselect)="rowSelected($event)" [selectable]="isPopup">
+                    </app-material-table-view>
+                </ng-container>
+                <ng-container *ngIf="!isCRM"> 
+                  <app-material-table-view #matTableSale [data]="listFromSale" [colum]="ELEMENT_COL_SALE"
+                      [displayedColumns]="displayedColumnsSale" (emitter)="actionBtn($event)"
+                      (rowselect)="rowSelected($event)" [selectable]="isPopup">
+                  </app-material-table-view>
+              </ng-container>
+          </div>
+      </div>
+  </div>
+</div>

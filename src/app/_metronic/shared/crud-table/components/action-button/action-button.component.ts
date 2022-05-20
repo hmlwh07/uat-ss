@@ -49,6 +49,12 @@ export class ActionButtonComponent implements OnInit {
       data: this.data,
     });
   }
+  onActionRerun(){
+    this.emitter.emit({
+      cmd: "rerun",
+      data: this.data,
+    });
+  }
   onActionConfirm() {
     this.emitter.emit({
       cmd: "confirm",

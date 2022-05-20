@@ -36,13 +36,19 @@
                     <ng-container *ngIf="item.separator" [ngTemplateOutlet]="menuItemSeparatorTemplate"></ng-container>
                     <ng-container *ngIf="item.title && item.show" [ngTemplateOutlet]="menu1LevelTemplate" [ngTemplateOutletContext]="{ item: item }"></ng-container>
                 </ng-container>
-
+                <li class="menu-item ">
+                    <a class="menu-link" href="javascript:;" (click)="reRun()">
+                        <span class="flaticon-refresh svg-icon menu-icon"></span>
+                        <span class="menu-text">ReRun</span>
+                    </a>
+                </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="javascript:;" (click)="logout()">
                         <span class="flaticon-logout svg-icon menu-icon"></span>
                         <span class="menu-text">Logout</span>
                     </a>
                 </li>
+                
             </ul>
             <!-- end::Menu Nav -->
         </div>

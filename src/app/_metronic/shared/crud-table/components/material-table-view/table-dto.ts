@@ -35,7 +35,8 @@ export interface ViewButton {
   download?:boolean,
   editOnState?: boolean
   delete?: boolean,
-  confirm?: boolean
+  confirm?: boolean,
+  rerun?:boolean,
 }
 
 export const ActivityStatus = {

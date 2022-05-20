@@ -2,7 +2,7 @@
 <ng-container *ngIf="extrasNotificationsDropdownStyle === 'dark'">
     <div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top">
         <!--begin::Title-->
-        <h4 class="d-flex flex-center rounded-top ">
+        <h4 class="d-flex flex-left rounded-top " style="padding:0px 22px; font-weight: 600; ">
 
             <span class="text-black ">Notifications</span>
 
@@ -31,7 +31,7 @@
                         </div>
                     </div> -->
 
-                    <div class="card card-custom" style="background-color: lightcyan;">
+                    <div class="card card-custom" [ngClass]="noti.policyStatus">
                         <div class="card-header" style="padding: 10px;">
 
                             <div class="card-title">

@@ -1,5 +1,5 @@
 .scroll {
-    overflow: auto!important;
+    overflow: auto !important;
 }
 
 .drop {
@@ -28,4 +28,18 @@
     max-height: 50px;
     padding-bottom: 0;
     background-color: transparent;
+}
+
+.fail {
+    background-color: #ff00000f;
+   
+    .card-title{
+        color: black;
+    }
+    color: black;
+}
+
+.success {
+    background-color: #e0ffff82;
+    color: black;
 }

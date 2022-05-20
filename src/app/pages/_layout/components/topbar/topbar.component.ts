@@ -155,7 +155,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
 
     this.notificationService.getById(this.currentUser.username).toPromise()
       .then(async (res: any) => {
-        // console.log("RES", res)
+        console.log("RES", res)
         if (res) {
           this.noti = res
         }
