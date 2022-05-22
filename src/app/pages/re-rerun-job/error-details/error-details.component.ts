@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-error-details',
@@ -7,8 +8,21 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ErrorDetailsComponent implements OnInit {
   @Input() data;
-  constructor() { }
+  constructor(private ngModal: NgbActiveModal) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    // console.log(this.data);
+    this.data.errorDescription = (this.data.logMsg + "").split(',')
+    
+  }
+
+  closeModal() {
+    this.ngModal.dismiss()
+  }
+
+  reRun(){
+    this.ngModal.dismiss({ type: 'rerun' })
+    
+  }
 
 }

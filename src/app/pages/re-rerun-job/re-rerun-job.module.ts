@@ -23,7 +23,7 @@ import { ErrorDetailsComponent } from './error-details/error-details.component';
     LanguageModule,
     ReRerunJobPageRoutingModule
   ],
-  declarations: [ReRerunJobPage],
-  providers:[ErrorDetailsComponent]
+  declarations: [ReRerunJobPage,ErrorDetailsComponent],
+  providers:[]
 })
 export class ReRerunJobPageModule { }

@@ -6,15 +6,21 @@ export const CRM_COL: TableCol[] = [
     field: "jobType"
   },
   {
-    title: "Error Description",
+    title: "Job Name",
     type: COLTYPE.FEILD,
-    field: "errorDescription"
+    field: "jobName"
   },
   {
     title: "Date",
     type: COLTYPE.FEILD,
-    field: "date",
-    isDate: true
+    field: "runDate",
+    isFromatDate: true
+  },
+  {
+    title: "status",
+    type: COLTYPE.FEILD,
+    field: "status",
+    isTitle: true
   },
   {
     title: "Actions",
@@ -29,8 +35,9 @@ export const CRM_COL: TableCol[] = [
 
 export const CRM_DISPLAYCOL: string[] = [
   "jobType",
-  "errorDescription",
-  "date",
+  "jobName",
+  "runDate",
+  'status',
   "actions",
 ]
 
@@ -42,15 +49,21 @@ export const SALE_COL: TableCol[] = [
     field: "jobType"
   },
   {
-    title: "Error Description",
+    title: "Job Name",
     type: COLTYPE.FEILD,
-    field: "errorDescription"
+    field: "jobName"
   },
   {
     title: "Date",
     type: COLTYPE.FEILD,
-    field: "date",
-    isDate: true
+    field: "runDate",
+    isFromatDate: true
+  },
+  {
+    title: "status",
+    type: COLTYPE.FEILD,
+    field: "status",
+    isTitle: true
   },
   {
     title: "Actions",
@@ -58,13 +71,15 @@ export const SALE_COL: TableCol[] = [
     field: "actions",
     btn: {
       view: true,
+      rerun: true,
     }
   },
 ]
 
 export const SALE_DISPLAY_COL: string[] = [
   "jobType",
-  "errorDescription",
-  "date",
+  "jobName",
+  "runDate",
+  'status',
   "actions",
 ]

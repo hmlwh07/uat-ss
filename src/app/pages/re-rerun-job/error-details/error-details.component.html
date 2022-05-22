@@ -1,33 +1,50 @@
 <div class="modal-content">
   <div class="modal-header">
     <div class="modal-title h4 left-border-image" id="example-modal-sizes-title-lg">
-      {{data.jobType}} 
+      {{data.jobType}}
     </div>
   </div>
 
-  
-    <div class="overlay overlay-block cursor-default modal-body">
-      <div class="row" style="align-items: center">
-        <div class="col-sm-6">
-          <div class="form-group row">
-            <label class="col-sm-4 col-form-label text-bold">Job Type  -</label>
-            <div class="col-sm-8">
+
+  <div class="overlay overlay-block cursor-default modal-body">
+    <div class="row" style="align-items: center">
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label text-bold">Job Type -</label>
+          <div class="col-sm-8">
             {{data.jobType}}
-            </div>
           </div>
         </div>
       </div>
-
-      <div class="row" style="align-items: center">
-        <div class="col-sm-6">
-          <div class="form-group row">
-            <label class="col-sm-4 col-form-label text-bold">Error Description  - </label>
-            <div class="col-sm-8">
-            {{data.errorDescription}}
-            </div>
-          </div>
-        </div>
-      </div>
-      
     </div>
+    <div class="row" style="align-items: center">
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label text-bold">Job Name -</label>
+          <div class="col-sm-8">
+            {{data.jobName}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="align-items: center">
+      <div class="col-sm-12">
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label text-bold">Description -</label>
+          <div class="col-sm-8">
+            <ul class="error-list">
+              <li *ngFor="let item of data.errorDescription">{{item}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">Close</button>
+    <button type="button" *ngIf="data.status == 'FAIL'" class="btn btn-primary btn-elevate mr-2" (click)="reRun()">Re-Run</button>
+  </div>
+</div>
