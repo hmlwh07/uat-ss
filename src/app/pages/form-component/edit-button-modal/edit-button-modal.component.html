@@ -5,7 +5,7 @@
         <ng-container *ngIf="config.label">Edit</ng-container>
         <ng-container *ngIf="!config.label">Create</ng-container>
         Button config
-        <ng-container *ngIf="config.label">'{{config.label}}'</ng-container>
+        <ng-container *ngIf="config.label">'{{config.label | dyn_translate: config.labelMM}}'</ng-container>
       </ng-container>
     </div>
   </div>

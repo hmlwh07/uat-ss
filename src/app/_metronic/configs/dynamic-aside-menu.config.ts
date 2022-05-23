@@ -8,7 +8,7 @@ export const DynamicAsideMenuConfig = {
       page: '/dashboard/senior-lp-dashboard',
       bullet: 'dot',
       show: true,
-      submenu: [ 
+      submenu: [
         {
           title: 'Manager Dashboard',
           page: '/dashboard/lp-manager-dashboard',
@@ -237,6 +237,14 @@ export const DynamicAsideMenuConfig = {
       page: '/setting',
       bullet: 'dot',
       show: true,
+      submenu_show: true,
+      submenu: [
+        {
+          title: 'Scheduler Jobs​',
+          page: '/re-rerun-job',
+          show: true
+        },
+      ]
     },
     {
       title: 'Report',

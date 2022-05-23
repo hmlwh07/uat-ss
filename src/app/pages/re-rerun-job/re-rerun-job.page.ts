@@ -16,7 +16,7 @@ export class ReRerunJobPage implements OnInit {
   reRunForm: FormGroup
   typeOption: any = [
     { code: '', value: 'All' },
-    { code: 'CRM', value: 'CRM' },
+    { code: 'CRM', value: 'Management Portal' },
     { code: 'SALE', value: 'Sale Portal' },
   ]
   listFromCRM: any = [

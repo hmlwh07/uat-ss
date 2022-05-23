@@ -17,7 +17,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PageConfigModalComponent } from './page-config-modal/page-config-modal.component';
-import { NgbDateParserFormatter, NgbDatepickerModule, NgbModalModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbModalModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDialogComponent } from './custom-dialog/custom-dialog.component';
 import { DateBoxComponent } from './date-box/date-box.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,6 +38,7 @@ import { StaticPrintModule } from '../static-print/static-print.module';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { CustomInputAlertComponent } from './custom-input-alert/custom-input-alert.component';
+import { LanguageModule } from '../../modules/languages/languages.modules';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { CustomInputAlertComponent } from './custom-input-alert/custom-input-ale
     MatNativeDateModule,
     StaticPrintModule,
     CustomerListShareModule,
-    QRCodeModule
+    QRCodeModule,
+    LanguageModule
   ],
   providers: [DatePipe,DecimalPipe]
 })

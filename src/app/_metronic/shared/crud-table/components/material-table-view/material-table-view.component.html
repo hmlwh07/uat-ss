@@ -79,7 +79,7 @@
                             </ng-container>
                             <ng-container
                                 *ngIf="!item.isDate && !item.isTitle && !item.amtFormat && !item.isFromatDate && !item.isActivityStatus && !item.isQuotationDay && !item.isAllowBackDate && !item.isPaymentFrequencyType && !item.isUpper && !item.isStatus && !item.isProdStatus && !item.isImg && !item.isCustomerStatus  && !item.isLeadStatus && !item.isRenewStatus">
-                                {{item.prefix ? item.prefix : ""}}{{element[item.field]}}
+                                {{item.prefix ? item.prefix : ""}}{{element[item.field] == "CRM" ? "Management Portal" : element[item.field]}}
                             </ng-container>
                         </td>
                         <ng-container *ngIf="calField.includes(item.field) && calTotal; else footer">

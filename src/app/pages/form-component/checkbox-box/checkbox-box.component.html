@@ -1,6 +1,7 @@
 <div *ngIf="config">
   <div class="form-group row">
-    <label *ngIf="config.isLabel" class="col-{{ config.inlineStyle ? config.labelSize : '12'}}" style="padding-top: 10px;">{{config.label}}:</label>
+    <label *ngIf="config.isLabel" class="col-{{ config.inlineStyle ? config.labelSize : '12'}}" style="padding-top: 10px;">{{config.label | dyn_translate:
+      config.labelMM}}:</label>
     <div class="col-{{config.inlineStyle ? config.inputSize : '12'}}">
       <ng-container *ngFor="let item of config.options">
         <mat-checkbox class="example-margin" (change)="checkData($event)" [(ngModel)]="data['v'+item.value]"

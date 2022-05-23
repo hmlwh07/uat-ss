@@ -1,6 +1,6 @@
 <div *ngIf="config" [formGroup]="group">
   <div class="form-group" [ngClass]="{'row': config.inlineStyle}" (click)="openModal()">
-    <label class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+    <label class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label | dyn_translate: config.labelMM}}</label>
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <input type="text" class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
         [formControlName]="config.name" />
