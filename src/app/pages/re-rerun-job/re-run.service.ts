@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import * as moment from "moment";
 import { environment } from "../../../environments/environment";
 
-const API_RE_RUN_URL = `${environment.apiUrl}/scheduler-log/`;
+const API_RE_RUN_URL = `${environment.apiUrl}/scheduler-log/search`;
 const API_RE_RUN_URL_TYPE = `${environment.apiUrl}/scheduler-log/type/`;
 const API_RE_RUN_POLICY_STATUS_URL = `${environment.apiUrl}/scheduler/status/run`;
 const API_RE_RUN_RENEWAL_URL = `${environment.apiUrl}/scheduler/renewal/run`;
