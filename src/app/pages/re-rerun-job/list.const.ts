@@ -60,7 +60,7 @@ export const SALE_COL: TableCol[] = [
     isFromatDate: true
   },
   {
-    title: "status",
+    title: "Status",
     type: COLTYPE.FEILD,
     field: "status",
     isTitle: true
