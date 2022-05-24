@@ -4,6 +4,7 @@ export interface Product {
   id?: number
   name?: string
   code?: string
+  coverName?: string
   type?: string
   quotationDay?: number
   quotationRule?: RuleType
@@ -34,6 +35,7 @@ export interface Product {
   pdfConfig?: string
   icon?: string
   smallIcon?: string
+  coverIcon?: string
   policyRule?: RuleType
   policyDay?: number,
   // submittedCode: string

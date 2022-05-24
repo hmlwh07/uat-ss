@@ -37,8 +37,9 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
       value: "Active"
     },
   ]
-  @ViewChild('selectedFile') selectedFileEl: ElementRef;
+  @ViewChild('selectedFile1') selectedFileEl1: ElementRef;
   @ViewChild('selectedFile2') selectedFileEl2: ElementRef;
+  @ViewChild('selectedFile3') selectedFileEl3: ElementRef;
   constructor(
     private fb: FormBuilder, public modal: NgbActiveModal,
     private productService: ProductDataService,
@@ -55,6 +56,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
     this.formGroup = this.fb.group({
       productName: [this.oldData.name || null, Validators.compose([Validators.required, Validators.nullValidator])],
       productCode: [this.oldData.code || null, Validators.compose([Validators.required, Validators.nullValidator])],
+      coverName: [this.oldData.coverName || null, Validators.compose([Validators.required, Validators.nullValidator])],
       type: [this.oldData.type || 'GENERAL', Validators.compose([Validators.required, Validators.nullValidator])],
       stamDuty: [this.oldData.stamDuty || false, Validators.compose([Validators.required, Validators.nullValidator])],
       isAllowBackDate: [this.oldData.isAllowBackDate || null, Validators.compose([Validators.required, Validators.nullValidator])],
@@ -67,6 +69,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
       paymentFrequency: [this.oldData.paymentFrequencyType ? this.oldData.paymentFrequencyType.split(',') : null],
       icon: [this.oldData.icon ? this.oldData.icon : null],
       smallIcon: [this.oldData.smallIcon ? this.oldData.smallIcon : null],
+      coverIcon: [this.oldData.coverIcon ? this.oldData.coverIcon : null],
     });
 
   }
@@ -77,6 +80,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
       let data = {
         name: formData.productName,
         code: formData.productCode,
+        coverName: formData.coverName,
         type: formData.type,
         quotationDay: formData.ruleDate,
         quotationRule: formData.ruleType,
@@ -135,14 +139,17 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
     }
     this.formGroup.controls['paymentFrequency'].setValue(data);
   }
-  openFile(small:boolean = false){
-    if(small)
-    this.selectedFileEl2.nativeElement.click()
+
+  openFile(type: string) {
+    if (type == "cover")
+      this.selectedFileEl3.nativeElement.click()
+    else if (type == "small")
+      this.selectedFileEl2.nativeElement.click()
     else
-    this.selectedFileEl.nativeElement.click()
+      this.selectedFileEl1.nativeElement.click()
   }
   
-  handleUpload(event,small: boolean = false) {
+  handleUpload(event, type: string) {
     if (event) {
       const file = event.target.files[0];
       // console.log(file);
@@ -163,9 +170,11 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
           this.loading.activate()
           this.fileUpload.save(data).toPromise().then((res) => {
             if (res) {
-              if(small){
+              if (type == "cover") {
+                this.formGroup.controls['coverIcon'].setValue(res)
+              } else if (type == "small") {
                 this.formGroup.controls['smallIcon'].setValue(res)
-              }else{
+              } else {
                 this.formGroup.controls['icon'].setValue(res)
               }
             }

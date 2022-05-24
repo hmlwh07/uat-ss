@@ -42,8 +42,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     "Basic Coverage",
     "AddOn",
   ]
-  @ViewChild('selectedFile') selectedFileEl: ElementRef;
+  @ViewChild('selectedFile1') selectedFileEl1: ElementRef;
   @ViewChild('selectedFile2') selectedFileEl2: ElementRef;
+  @ViewChild('selectedFile3') selectedFileEl3: ElementRef;
   activePage: string = "Product Attributes"
   product: Product = {}
   products: any[] = []
@@ -244,6 +245,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     this.formGroup = this.fb.group({
       productName: [this.product.name || null, Validators.compose([Validators.required, Validators.nullValidator])],
       productCode: [this.product.code || null, Validators.compose([Validators.required, Validators.nullValidator])],
+      coverName: [this.product.coverName || null, Validators.compose([Validators.required, Validators.nullValidator])],
       stamDuty: [this.product.stamDuty || false, Validators.compose([Validators.required, Validators.nullValidator])],
       isAllowBackDate: [this.product.isAllowBackDate || null, Validators.compose([Validators.required, Validators.nullValidator])],
       allowDays: [this.product.allowDays || null],
@@ -256,6 +258,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       paymentFrequency: [this.product.paymentFrequencyType ? this.product.paymentFrequencyType.split(',') : null],
       icon: [this.product.icon ? this.product.icon : null],
       smallIcon: [this.product.smallIcon ? this.product.smallIcon : null],
+      coverIcon: [this.product.coverIcon ? this.product.coverIcon : null]
     });
     if (this.product.id) {
       this.lump = (this.product.paymentFrequencyType as string).includes('lump')
@@ -282,6 +285,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         id: this.product.id,
         name: formData.productName,
         code: formData.productCode,
+        coverName: formData.coverName,
         type: formData.type,
         quotationDay: formData.ruleDate,
         quotationRule: formData.ruleType,
@@ -297,6 +301,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         config: this.product.config,
         icon: formData.icon,
         smallIcon: formData.smallIcon,
+        coverIcon: formData.coverIcon,
         pdfConfig: this.product.pdfConfig
       }
       this.itemService.updateNoID(postData).toPromise().then(res => {
@@ -494,6 +499,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       id: this.product.id,
       name: this.product.name,
       code: this.product.code,
+      coverName: this.product.coverName,
       quotationDay: this.product.quotationDay,
       quotationRule: this.product.quotationRule,
       policyDay: this.product.policyDay,
@@ -508,6 +514,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       type: this.product.type,
       icon: this.product.icon,
       smallIcon: this.product.smallIcon,
+      coverIcon: this.product.coverIcon,
       config: JSON.stringify({ application: this.product.application_page, application_view: this.product.application_view, quotation: this.product.quotation_page, quotation_view: this.product.quotation_view, application_input: this.product.application_input, quotation_input: this.product.quotation_input }),
       pdfConfig: JSON.stringify(this.printConfig)
     }
@@ -702,14 +709,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  openFile(small: boolean = false) {
-    if (small)
+  openFile(type: string) {
+    if (type == "cover")
+      this.selectedFileEl3.nativeElement.click()
+    else if (type == "small")
       this.selectedFileEl2.nativeElement.click()
     else
-      this.selectedFileEl.nativeElement.click()
+      this.selectedFileEl1.nativeElement.click()
   }
 
-  handleUpload(event, small: boolean = false) {
+  handleUpload(event, type: string) {
     if (event) {
       const file = event.target.files[0];
       // console.log(file);
@@ -730,7 +739,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           this.loading.activate()
           this.fileUpload.save(data).toPromise().then((res) => {
             if (res) {
-              if (small) {
+              if (type == "cover") {
+                this.formGroup.controls['coverIcon'].setValue(res)
+              } else if (type == "small"){
                 this.formGroup.controls['smallIcon'].setValue(res)
               } else {
                 this.formGroup.controls['icon'].setValue(res)
