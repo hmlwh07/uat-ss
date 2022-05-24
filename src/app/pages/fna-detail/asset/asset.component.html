@@ -13,7 +13,7 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Asset Type</label>
+                        <label class="form-label">{{"FORM.asset_type" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -34,7 +34,7 @@
             <div class="row form-group" *ngIf="formGroup.value.assetType == 'others' ">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Please Specify <span>*</span></label>
+                        <label class="form-label">{{"FORM.please_specify" | translate}}<span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -48,14 +48,14 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">With insurance protection</label>
+                        <label class="form-label">{{"FORM.with_insurance_protection" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
                         <mat-radio-group formControlName="protect">
-                            <mat-radio-button class="example-margin" [value]=true>Yes</mat-radio-button>
-                            <mat-radio-button class="example-margin" [value]=false>No</mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=true>{{"FORM.rad_yes" | translate}}</mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false>{{"FORM.rad_no" | translate}}</mat-radio-button>
                         </mat-radio-group>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Replacement / Purchase Cost <span>*</span></label>
+                        <label class="form-label">{{"FORM.replacement_purchase_cost" | translate}} <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">

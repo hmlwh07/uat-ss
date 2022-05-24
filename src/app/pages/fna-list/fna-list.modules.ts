@@ -6,6 +6,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { FnaListComponent } from './fna-list.component';
 import { AuthService } from 'src/app/modules/auth';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -17,6 +18,7 @@ import { AuthService } from 'src/app/modules/auth';
     ReactiveFormsModule,
     InlineSVGModule,
     CRUDTableModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',

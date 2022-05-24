@@ -237,6 +237,14 @@ export const DynamicAsideMenuConfig = {
       page: '/setting',
       bullet: 'dot',
       show: true,
+      submenu_show: true,
+      submenu: [
+        {
+          title: 'Schedular Jobs',
+          page: '/re-rerun-job',
+          show: true
+        },
+      ]
     },
     {
       title: 'Report',

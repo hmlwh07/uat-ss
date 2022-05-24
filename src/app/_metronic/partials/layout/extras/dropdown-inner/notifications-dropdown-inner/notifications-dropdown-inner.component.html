@@ -1,14 +1,14 @@
 <!--begin::Header-->
 <ng-container *ngIf="extrasNotificationsDropdownStyle === 'dark'">
-    <div class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top">
+    <div class="d-flex flex-column bgi-size-cover bgi-no-repeat rounded-top">
         <!--begin::Title-->
-        <h4 class="d-flex flex-left rounded-top " style="padding:0px 22px; font-weight: 600; ">
+        <h4 class="d-flex flex-left rounded-top " style="padding:10px 22px; font-weight: 600; ">
 
             <span class="text-black ">Notifications</span>
 
         </h4>
 
-        <div class="drop">
+        <div class="drop" *ngIf="data.length>0">
             <div class="tab-pane " id="topbar_notifications_events " role="tabpanel " [ngClass]="getActiveCSSClasses( 'topbar_notifications_events') " *ngFor="let noti of data; let i =index">
                 <div class="navi navi-hover my-4 " data-scroll="true " style="position: relative; max-height: 300px; overflow: auto;padding: 0px 5px;">
 
@@ -31,7 +31,7 @@
                         </div>
                     </div> -->
 
-                    <div class="card card-custom" [ngClass]="noti.policyStatus">
+                    <div class="card card-custom" [ngClass]="noti.policyStatus" >
                         <div class="card-header" style="padding: 10px;">
 
                             <div class="card-title">
@@ -57,5 +57,15 @@
                     <!--end::Item-->
 
                 </div>
+            </div>
+        </div>
+        <div>
+            <div class="card-body customer-card-body" style="margin-top: 10px;">
+                <div class="row">
+                    <p style="justify-content: center; margin-left: 15px;"> There is No Notifications </p>
+
+                </div>
+
+
             </div>
         </div>

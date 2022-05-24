@@ -6,7 +6,7 @@
             <ng-container *ngFor="let item of colum; let i = index">
                 <ng-container matColumnDef="{{item.field}}">
                     <ng-container *ngIf="item.type == 'field';else actTemp">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{item.title}} </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"TABLE."+item.title | translate}} </th>
                         <td mat-cell *matCellDef="let element"
                             [ngStyle]="{'text-align': item.amtFormat ? 'right': 'left'}">
                             <ng-container *ngIf="item.isImg">
@@ -95,7 +95,7 @@
 
                     </ng-container>
                     <ng-template #actTemp>
-                        <th mat-header-cell *matHeaderCellDef> {{item.title | titlecase}} </th>
+                        <th mat-header-cell *matHeaderCellDef> {{"TABLE."+item.title | translate}} </th>
                         <td mat-cell *matCellDef="let element">
                             <app-action-button *ngIf="item.type == 'action'" [data]="element"
                                 (emitter)="actionBtn($event)" [viewBtn]="item.btn">

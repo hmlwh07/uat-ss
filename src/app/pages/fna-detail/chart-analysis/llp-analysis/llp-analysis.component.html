@@ -26,18 +26,18 @@
                 <img *ngIf="freedom.length == 0" class="freedom" src="./assets/images/default/freedom-01.svg"
                     alt="freedom" />
             </div>
-            <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' } " style="text-decoration: none;">Freedom</a>
+            <a [ngStyle]="{'color':freedom.length? '#ffffff' : '#275f96' } " style="text-decoration: none;">{{"FORM.freedom" | translate}}</a>
         </div>
         <div>
             <div class="investment-1" [ngStyle]="{'background':freedom.length? '#16384d' : '#aaaaaa' }">
-                <label>INVESTMENT</label>
+                <label>{{"FORM.investment" | translate}}</label>
             </div>
         </div>
         <div class="inner saving">
             <div class="sub-inner">
                 <div class="education-left-inner" (click)="fnaSwitchEvent('Education')">
                     <div [ngClass]="fnaEducations.length? 'bg-saving' : 'inactive-freedon-right' "></div>
-                    <a [ngStyle]="{'color':fnaEducations.length? '#16384d' : '#275f96' }">Education</a>
+                    <a [ngStyle]="{'color':fnaEducations.length? '#16384d' : '#275f96' }">{{"FORM.education" | translate}}</a>
                     <div class="lpp-icon">
                         <img *ngIf="fnaEducations.length > 0" class="education"
                             src="./assets/images/success/Education-01.svg" alt="education" />
@@ -47,7 +47,7 @@
                 </div>
                 <div class="retirement-right-inner" (click)="fnaSwitchEvent('Retirement')">
                     <div [ngClass]="fnaRetirementSaving? 'bg-saving' : 'inactive-freedon-left' "></div>
-                    <a [ngStyle]="{'color':fnaRetirementSaving? '#16384d' : '#275f96' }">Retirement</a>
+                    <a [ngStyle]="{'color':fnaRetirementSaving? '#16384d' : '#275f96' }">{{"FORM.retirement" | translate}}</a>
                     <div class="lpp-icon">
                         <img *ngIf="fnaRetirementSaving" class="retirement-img"
                             src="./assets/images/success/retirement-01.svg" alt="retirement" />
@@ -60,14 +60,14 @@
         <div>
             <div class="investment-1 button-saving"
                 [ngStyle]="{'background':fnaEducations.length && fnaRetirementSaving? '#16384d' : '#aaaaaa' }">
-                <label>SAVING</label>
+                <label>{{"FORM.saving" | translate}}</label>
             </div>
         </div>
         <div class="protection">
             <div class="sub-inner row">
                 <div class="income-left-inner col-4" (click)="fnaSwitchEvent('Income')">
                     <div [ngClass]="fnaIncome? 'bg-protection' : 'inactive-freedon-left' "></div>
-                    <a [ngStyle]="{'color':fnaIncome? '#ffffff' : '#275f96' }">Income</a>
+                    <a [ngStyle]="{'color':fnaIncome? '#ffffff' : '#275f96' }">{{"FORM.income" | translate}}</a>
                     <div class="lpp-icon">
                         <img *ngIf="fnaIncome" class="income" src="./assets/images/success/income-01.svg"
                             alt="income" />
@@ -78,7 +78,7 @@
                 <div class="health-middle-inner col-4" (click)="fnaSwitchEvent('Health')">
                     <div [ngClass]="fnaHealths.length? 'bg-protection' : 'inactive-freedon-right' "> </div>
                     <a [ngStyle]="{'color':fnaHealths.length? '#ffffff' : '#275f96' }"
-                        style="margin: 0 0 0 2px;">Health</a>
+                        style="margin: 0 0 0 2px;">{{"FORM.health" | translate}}</a>
                     <div class="lpp-icon">
                         <img *ngIf="fnaHealths.length > 0" class="health" src="./assets/images/success/health-01.svg"
                             alt="healths" />
@@ -94,13 +94,13 @@
                         <img *ngIf="fnaAssets.length == 0" class="assets" src="./assets/images/default/assets-01.svg"
                             alt="assets" />
                     </div>
-                    <a [ngStyle]="{'color':fnaAssets.length? '#ffffff' : '#275f96' }">Assets</a>
+                    <a [ngStyle]="{'color':fnaAssets.length? '#ffffff' : '#275f96' }">{{"FORM.assets" | translate}}</a>
                 </div>
             </div>
         </div>
         <div>
             <div [ngStyle]="{'background':fnaIncome && fnaHealths.length && fnaAssets.length? '#16384d' : '#aaaaaa' }"
-                class="investment-1 button-protection"><label>PROTECTION</label>
+                class="investment-1 button-protection"><label>{{"FORM.protection" | translate}}</label>
             </div>
         </div>
         <div class="left-border"></div>
@@ -111,9 +111,8 @@
 <div class="btn-next">
     <div>
         <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
-            (click)="backToDetail()"><label>Back</label></button>
+            (click)="backToDetail()"><label>{{"FORM.btn_back" | translate}}</label></button>
         <button type="button" class="btn btn-primary btn-elevate btn-block mt-3 "
-            (click)="fnaSwitchEvent('product')"><label>Save &
-                Next</label></button>
+            (click)="fnaSwitchEvent('product')"><label>{{"FORM.btn_save_and_next" | translate}}</label></button>
     </div>
 </div>
