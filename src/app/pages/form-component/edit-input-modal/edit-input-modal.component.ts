@@ -348,6 +348,8 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
           relatedField: parentValue.relatedField,
           show: parentValue.show
         }
+      }else{
+        this.config.dependency  = null
       }
 
       // parent Dependency
