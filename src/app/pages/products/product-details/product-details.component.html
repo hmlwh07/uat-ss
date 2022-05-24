@@ -244,7 +244,7 @@
                       <input style="display: none;" type="file" #selectedFile1 (change)="handleUpload($event,'icon')" />
                     </div>
                     <div class="upload-icon" (click)="openFile('small')">
-                      <img *ngIf="formGroup.value.smallIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon"
+                      <img *ngIf="formGroup.value.smallIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.smallIcon"
                         alt="">
                       <ng-container *ngIf="!formGroup.value.smallIcon">
                         <i class="flaticon-upload-1 icon-lg"></i>
@@ -253,7 +253,7 @@
                       <input style="display: none;" type="file" #selectedFile2 (change)="handleUpload($event,'small')" />
                     </div>
                     <div class="upload-icon" (click)="openFile('cover')">
-                      <img *ngIf="formGroup.value.coverIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.icon"
+                      <img *ngIf="formGroup.value.coverIcon" [src]="Default_DOWNLOAD_URL+'/'+formGroup.value.coverIcon"
                         alt="">
                       <ng-container *ngIf="!formGroup.value.coverIcon">
                         <i class="flaticon-upload-1 icon-lg"></i>

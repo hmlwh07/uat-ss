@@ -747,6 +747,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                 this.formGroup.controls['icon'].setValue(res)
               }
             }
+            this.cdRef.detectChanges()
             this.loading.deactivate()
           }).catch(e => {
             this.loading.deactivate()

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Subscription } from 'rxjs';
@@ -45,7 +45,8 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
     private productService: ProductDataService,
     private fileUpload: AttachmentUploadService,
     private loading: LoadingService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private cdf: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -178,6 +179,7 @@ export class ProductsModalComponent implements OnInit, OnDestroy {
                 this.formGroup.controls['icon'].setValue(res)
               }
             }
+            this.cdf.detectChanges()
             this.loading.deactivate()
           }).catch(e=>{
             this.loading.deactivate()
