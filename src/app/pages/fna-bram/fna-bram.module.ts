@@ -53,7 +53,7 @@ import { OutboundLogisticOthersComponent } from './inputs/outbound-logistics/out
 import { ServiceOthersComponent } from './inputs/service/service-others/service-others.component';
 import { TechnologyOthersComponent } from './inputs/technology/technology-others/technology-others.component';
 import { MarketTransporationComponent } from './inputs/marketing-sales/market-transporation/market-transporation.component';
-import { LanguageModule } from 'src/app/modules/languages/languages.modules';
+import { LanguageModule } from '../../modules/languages/languages.modules';
 
 @NgModule({
   declarations: [FnaBramComponent, AboutBramComponent, InputsComponent, OutputsComponent,
@@ -77,6 +77,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     FormsModule,
     ReactiveFormsModule,
     InlineSVGModule,
+    LanguageModule,
     CRUDTableModule,
     LanguageModule,
     RouterModule.forChild([
