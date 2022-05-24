@@ -149,7 +149,7 @@ export class ReRerunJobPage implements OnInit {
           this.alertService.activate('This job was already successful!', 'Warning Message');
           return false
         }
-        this.alertService.activate('Are you sure want to re-run?', 'Alert Message').then(async result => {
+        this.alertService.activate('Are you sure want to re-run?', 'Warning Message').then(async result => {
           if (result) {
             if (data.jobType == "CRM")
               this.reRunCRM(data)
