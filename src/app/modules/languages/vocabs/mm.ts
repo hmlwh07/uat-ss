@@ -225,7 +225,20 @@ export const locale = {
       noti: "အသိပေးချက်များ",
       change_pw: "လျှို့ဝှက်နံပါတ် ပြောင်းရန်",
       setting: "သတ်မှတ်ချက်များ",
-      logout: "ထွက်ရန်"
+      logout: "ထွက်ရန်",
+      others:"ဂိုဒေါင်",
+      raw_material_storage:"ဂိုဒေါင်",
+      transportation:"ကုန်ကြမ်းသိုလှောင်မှု",
+      warehouse:"လမ်းပန်းဆက်သွယ်ရေးသယ်ယူပို့ဆောင်ရေး",
+      btn_previous:"နောက်ဆုတ်ရန်",
+      assets_desc:"ပိုင်ဆိုင်မှု ဖော်ပြချက်",
+      no_of__units:"ယူနစ် အရေအတွက်",
+      estimated_value:"ခန့်မှန်းတန်ဖိုး (သိန်းပေါင်း)",
+      risk_perception:"အန္တရာယ်ရှိနိုင်ခြေယူဆချက်",
+      product:"ကုန်ပစ္စည်း  အာမခံ အမျိုးအစား",
+      action:"လုပ်ဆောင်ရန် လုပ်ဆောင်ချက်",
+      total:"စုစုပေါင်း",
+      
     },
     TABLE: {
       'FNA ID': "FNA ID",
@@ -236,6 +249,8 @@ export const locale = {
       'Job Type': "Job Type",
       'Job Name': "Job Name",
       'Status': "Status",
+      'Group Name': "Group Name",
+      'Simple Data': "Simple Data",
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',
