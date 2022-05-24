@@ -1,6 +1,6 @@
 <section class="example-section" *ngIf="config" [formGroup]="group">
   <div class="form-group row">
-    <label *ngIf="config.isLabel" class="col-form-label col-{{config.inlineStyle ? config.labelSize : '12'}}">{{config.label}}</label>
+    <label *ngIf="config.isLabel" class="col-form-label col-{{config.inlineStyle ? config.labelSize : '12'}}">{{config.label | dyn_translate: config.labelMM}}</label>
     <mat-radio-group [formControlName]="config.name" class="col-{{config.inlineStyle ? config.inputSize : '12'}}" (change)="doFunction()">
       <mat-radio-button class="mx-1" *ngFor="let item of masterOption" value="{{item.value}}">{{item.text}}
       </mat-radio-button>

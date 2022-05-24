@@ -122,7 +122,7 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   FormatedDate(date) {
     return moment(date, "YYYYMMDD").format('DD/MM/YYYY');
   }
-
+ 
   getFreq(data: string) {
     let val = ""
     let ary = data.split(", ")

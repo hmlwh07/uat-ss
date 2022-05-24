@@ -32,6 +32,34 @@
                         </div>
 
                     </div>
+                    <div class="row" style="align-items: center;">
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Name</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select"
+                                        [class.is-invalid]="isControlInvalid('name')"
+                                        [class.is-valid]="isControlValid('name')" [items]="nameOption"
+                                        bindLabel="value" [clearable]="false" bindValue="code"
+                                        formControlName="name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Status</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select"
+                                        [class.is-invalid]="isControlInvalid('status')"
+                                        [class.is-valid]="isControlValid('status')" [items]="statusOption"
+                                        bindLabel="value" [clearable]="false" bindValue="code"
+                                        formControlName="status">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

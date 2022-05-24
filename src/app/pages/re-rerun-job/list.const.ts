@@ -14,7 +14,7 @@ export const CRM_COL: TableCol[] = [
     title: "Date",
     type: COLTYPE.FEILD,
     field: "runDate",
-    isFromatDate: true
+    isDateTime: true
   },
   {
     title: "Status",
@@ -60,7 +60,7 @@ export const SALE_COL: TableCol[] = [
     isFromatDate: true
   },
   {
-    title: "status",
+    title: "Status",
     type: COLTYPE.FEILD,
     field: "status",
     isTitle: true

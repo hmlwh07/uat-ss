@@ -1,7 +1,8 @@
 <div *ngIf="config" [formGroup]="group">
   <div class="form-group currency-group" [ngClass]="{'row': config.inlineStyle}">
     <label *ngIf="config.isLabel"
-      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label | dyn_translate:
+      config.labelMM}}</label>
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <ng-container *ngIf="config.type === 'textarea'; else inputNoraml">
         <textarea class="form-control form-control-sm" name="{{config.name}}" placeholder="{{config.placeholder}}"
@@ -11,8 +12,8 @@
         <ng-container *ngIf="config.type == 'currency'; else inputText">
           <input type="tel" currencyMask
             [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
-            class="form-control form-control-sm currency-input-tag" name="{{config.name}}" placeholder="{{config.placeholder}}"
-            [formControlName]="config.name" (focusout)="doFunction()" />
+            class="form-control form-control-sm currency-input-tag" name="{{config.name}}"
+            placeholder="{{config.placeholder}}" [formControlName]="config.name" (focusout)="doFunction()" />
           <span class="currency-tag">{{currencyType}}</span>
         </ng-container>
         <ng-template #inputText>
@@ -33,8 +34,8 @@
           <ng-container *ngIf="config.type == 'currency'; else inputText2">
             <input type="tel" currencyMask
               [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
-              class="form-control form-control-sm currency-input-tag" name="{{config.name}}" placeholder="{{config.placeholder}}"
-              [formControlName]="config.name" (focusout)="doFunction()" />
+              class="form-control form-control-sm currency-input-tag" name="{{config.name}}"
+              placeholder="{{config.placeholder}}" [formControlName]="config.name" (focusout)="doFunction()" />
             <span class="currency-tag">{{currencyType}}</span>
           </ng-container>
           <ng-template #inputText2>

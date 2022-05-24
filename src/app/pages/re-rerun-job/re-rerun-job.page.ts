@@ -16,8 +16,19 @@ export class ReRerunJobPage implements OnInit {
   reRunForm: FormGroup
   typeOption: any = [
     { code: '', value: 'All' },
-    { code: 'CRM', value: 'CRM' },
+    { code: 'CRM', value: 'Management Portal' },
     { code: 'SALE', value: 'Sale Portal' },
+  ]
+  nameOption: any = [
+    { code: '', value: 'All' },
+    { code: 'RunTCSAPIByScheduler', value: 'Create / Update Party' },
+    { code: 'Renewal Policy', value: 'Renewal Policy' },
+    { code: 'Update Policy Status', value: 'Update Policy Status' }
+  ]
+  statusOption: any = [
+    { code: '', value: 'All' },
+    { code: 'FAIL', value: 'Fail' },
+    { code: 'SUCCESS', value: 'Success' },
   ]
   listFromCRM: any = [
   ]
@@ -45,7 +56,9 @@ export class ReRerunJobPage implements OnInit {
     this.reRunForm = new FormGroup({
       startDate: new FormControl(null),
       endDate: new FormControl(null),
-      typeCode: new FormControl('')
+      typeCode: new FormControl(''),
+      name: new FormControl(''),
+      status: new FormControl('')
     });
   }
 
@@ -81,17 +94,21 @@ export class ReRerunJobPage implements OnInit {
     }
     if (event.cmd == "rerun") {
       if (event.data.status != "FAIL") {
-        this.alertService.activate('This job was already successful!', 'Warining Message');
+        this.alertService.activate('This job was already successful!', 'Warning Message');
         return false
       }
-      if (event.data.jobType == "CRM")
-        this.reRunCRM(event.data)
-      else {
-        if (event.data.jobName == "Renewal Policy") {
-          this.reRunRenewal()
-        } else
-          this.reRunPolicyStatus(event.data)
-      }
+      this.alertService.activate('Are you sure want to re-run?', 'Warning Message').then(async result => {
+        if (result) {
+          if (event.data.jobType == "CRM")
+            this.reRunCRM(event.data)
+          else {
+            if (event.data.jobName == "Renewal Policy") {
+              this.reRunRenewal()
+            } else
+              this.reRunPolicyStatus(event.data)
+          }
+        }
+      })
     }
   }
 
@@ -129,21 +146,24 @@ export class ReRerunJobPage implements OnInit {
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (data.status != "FAIL") {
-          this.alertService.activate('This job was already successful!', 'Warining Message');
+          this.alertService.activate('This job was already successful!', 'Warning Message');
           return false
         }
-        if (data.jobType == "CRM")
-          this.reRunCRM(data)
-        else {
-          if (data.jobName == "Renewal Policy") {
-            this.reRunRenewal()
-          } else
-            this.reRunPolicyStatus(data)
-        }
+        this.alertService.activate('Are you sure want to re-run?', 'Alert Message').then(async result => {
+          if (result) {
+            if (data.jobType == "CRM")
+              this.reRunCRM(data)
+            else {
+              if (data.jobName == "Renewal Policy") {
+                this.reRunRenewal()
+              } else
+                this.reRunPolicyStatus(data)
+            }
+          }
+        })
       }
     })
   }
-
 
   //for view
   isControlValid(controlName: string): boolean {
@@ -169,4 +189,6 @@ export class ReRerunJobPage implements OnInit {
     this.reRunForm.reset();
     this.getList();
   }
+
+
 }

@@ -30,9 +30,9 @@ export class CustomerListService {
     } if (search.identityNumber) {
       url = url + "identityNumber=" + search.identityNumber + "&"
     }
-    if (popup) {
+    // if (popup) {
       url = url + "isPartyCode=" + party
-    }
+    // }
     return this.httpClient.get(url)
   }
 }

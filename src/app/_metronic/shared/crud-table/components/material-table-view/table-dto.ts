@@ -6,6 +6,7 @@ export interface TableCol {
   isTitle?: boolean,
   isDate?: boolean,
   isFromatDate?: boolean,
+  isDateTime?:boolean,
   isActivityStatus?: boolean
   isLeadStatus?: boolean
   isAttachment?: boolean

@@ -1,11 +1,11 @@
 <div *ngIf="config && (!config.multi || config.multi == 'false')" class="config.size" [formGroup]="group">
   <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
     <label *ngIf="config.isLabel"
-      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label | dyn_translate: config.labelMM}}</label>
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <ng-select [formControlName]="config.name" (change)="doFunction()"
         class="ng-custom-select" placeholder="{{config.placeholder}}">
-        <!-- <ng-option [value]="null">Select {{config.label}}</ng-option> -->
+        <!-- <ng-option [value]="null">Select {{config.label | dyn_translate: config.labelMM}}</ng-option> -->
         <ng-container *ngIf="config.master == 'true';else Otheroption">
           <ng-option *ngFor="let opt of masterOption" [value]="opt.value">{{opt.text}}</ng-option>
         </ng-container>
@@ -18,7 +18,7 @@
     <ng-template #InlineForm>
       <div class="col-{{config.inputSize}}">
         <ng-select [formControlName]="config.name" (change)="doFunction()" class="ng-custom-select" placeholder="{{config.placeholder}}">
-          <!-- <ng-option [value]="null">Select {{config.label}}</ng-option> -->
+          <!-- <ng-option [value]="null">Select {{config.label | dyn_translate: config.labelMM}}</ng-option> -->
           <!-- <option *ngFor="let opt of config.options" [value]="{{opt.value}}">{{opt.text}}</option> -->
           <ng-container *ngIf="config.master == 'true';else Otheroption2">
             <ng-option *ngFor="let opt of masterOption" [value]="opt.value">{{opt.text}}</ng-option>
@@ -37,7 +37,7 @@
 <div *ngIf="config && config.multi && config.multi == 'true'" class="config.size" [formGroup]="group">
   <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
     <label *ngIf="config.isLabel"
-      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label}}</label>
+      class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label | dyn_translate: config.labelMM}}</label>
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <mat-select [formControlName]="config.name" (change)="doFunction()" class="form-control form-control-sm" multiple>
         <!-- <mat-option *ngFor="let opt of config.options" value="{{opt.value}}">{{opt.text}}</mat-option> -->

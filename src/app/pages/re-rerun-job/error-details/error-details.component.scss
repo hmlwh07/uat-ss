@@ -1,6 +1,17 @@
-.form-group.row{
-  align-items:flex-start;
+.form-group.row {
+  align-items: flex-start;
 }
-.error-list{
-  padding: 0px;
+
+.error-list {
+  padding: 5px;
+}
+
+.form-control-sm {
+
+  padding: 0.55rem 0.75rem;
+  font-size: 0.925rem;
+  line-height: 1.8;
+  border-radius: 0.28rem;
+  background-color: #E4E6EF;
+  height: auto;
 }
