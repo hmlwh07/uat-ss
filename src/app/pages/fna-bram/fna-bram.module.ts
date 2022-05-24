@@ -79,6 +79,7 @@ import { LanguageModule } from '../../modules/languages/languages.modules';
     InlineSVGModule,
     LanguageModule,
     CRUDTableModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',

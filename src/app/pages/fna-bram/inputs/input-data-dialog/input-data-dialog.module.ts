@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputDataDialogComponent } from './input-data-dialog.component';
 import { RouterModule } from '@angular/router';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -11,6 +12,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
+    LanguageModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {

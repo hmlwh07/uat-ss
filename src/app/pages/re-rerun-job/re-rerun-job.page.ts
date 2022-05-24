@@ -6,7 +6,7 @@ import { AlertService } from '../../modules/loading-toast/alert-model/alert.serv
 import { ErrorDetailsComponent } from './error-details/error-details.component';
 import { CRM_COL, CRM_DISPLAYCOL, SALE_COL, SALE_DISPLAY_COL } from './list.const';
 import { ReRunService } from './re-run.service';
-
+import { map } from "rxjs"
 @Component({
   selector: 'app-re-rerun-job',
   templateUrl: './re-rerun-job.page.html',
@@ -21,13 +21,13 @@ export class ReRerunJobPage implements OnInit {
   ]
   nameOption: any = [
     { code: '', value: 'All' },
-    { code: 'RunTCSAPIByScheduler', value: 'Create / Update Party' },
+    { code: 'Create Update Party', value: 'Create / Update Party' },
     { code: 'Renewal Policy', value: 'Renewal Policy' },
     { code: 'Update Policy Status', value: 'Update Policy Status' }
   ]
   statusOption: any = [
     { code: '', value: 'All' },
-    { code: 'FAIL', value: 'Fail' },
+    { code: 'FAIL', value: 'Failed' },
     { code: 'SUCCESS', value: 'Success' },
   ]
   listFromCRM: any = [
@@ -68,7 +68,13 @@ export class ReRerunJobPage implements OnInit {
     //   .then((res: any) => {
     //     console.log(res);
     // if(res)
-    this.reRunService.getReRunListByType(this.reRunForm.value).toPromise().then((res) => {
+    this.reRunService.getReRunListByType(this.reRunForm.value).pipe(map((x:any)=>{
+      return x.map((data)=>{
+        data.statusValue = data.status == "FAIL" ? "FAILED" : data.status
+        data.jobNameValue=data.jobName== "RunTCSAPIByScheduler" ? "Create / Update Party":data.jobName
+        return data
+      })
+    })).toPromise().then((res) => {
       if (res) {
         console.log("res", res);
         this.listFromCRM = res

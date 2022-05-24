@@ -257,12 +257,12 @@ export const DynamicAsideMenuConfig = {
       submenu_show: true,
       submenu: [
         {
-          title: '#Individual details production report',
+          title: 'Individual details production report',
           page: '/report/report-detail-by-agent',
           show: true
         },
         {
-          title: '#Branch details production report',
+          title: 'Branch details production report',
           page: '/report/report-detail-by-bank-branch',
           show: true
         },
@@ -272,12 +272,12 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: '#Monthly Branch Production Summary',
+          title: 'Monthly Branch Production Summary',
           page: '/report/report-by-branch-summary-ai',
           show: true
         },
         {
-          title: '#Monthly Product Sales by Channel',
+          title: 'Monthly Product Sales by Channel',
           page: '/report/report-by-product-sales-channel-policies',
           show: true
         },
@@ -287,17 +287,17 @@ export const DynamicAsideMenuConfig = {
         //   show: false
         // },
         {
-          title: '#By Product Branch - #of Policies',
+          title: 'By Product Branch - #of Policies',
           page: '/report/report-by-product-branch-policies',
           show: true
         },
         {
-          title: '#By Product Branch - #of Premium',
+          title: 'By Product Branch - #of Premium',
           page: '/report/report-by-product-branch-premium',
           show: true
         },
         {
-          title: '#Individual production summary',
+          title: 'Individual production summary',
           page: '/report/report-by-agent-yearly',
           show: true
         },

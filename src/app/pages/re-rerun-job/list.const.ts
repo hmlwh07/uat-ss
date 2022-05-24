@@ -8,7 +8,7 @@ export const CRM_COL: TableCol[] = [
   {
     title: "Job Name",
     type: COLTYPE.FEILD,
-    field: "jobName"
+    field: "jobNameValue"
   },
   {
     title: "Date",
@@ -19,7 +19,7 @@ export const CRM_COL: TableCol[] = [
   {
     title: "Status",
     type: COLTYPE.FEILD,
-    field: "status",
+    field: "statusValue",
     isTitle: true
   },
   {
@@ -35,9 +35,9 @@ export const CRM_COL: TableCol[] = [
 
 export const CRM_DISPLAYCOL: string[] = [
   "jobType",
-  "jobName",
+  "jobNameValue",
   "runDate",
-  'status',
+  'statusValue',
   "actions",
 ]
 
