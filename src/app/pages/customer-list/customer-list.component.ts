@@ -39,6 +39,7 @@ export class CustomerListComponent implements OnInit {
   @Input() isPopup: boolean = false
   @Input() party: boolean = true
   @Input() isDynamic: boolean = false
+  @Input() customFrom: boolean = false
   show: boolean = false
   constructor(private router: Router, private cdf: ChangeDetectorRef, private customerListService: CustomerListService, private modalService: NgbModal) {
     this.loadForm();
@@ -72,7 +73,7 @@ export class CustomerListComponent implements OnInit {
 
   getList() {
     let check = this.isPopup && !this.isDynamic ? true : false
-    this.customerListService.getCustomerList(this.customerForm.value, this.party, check).toPromise().then((res: any) => {
+    this.customerListService.getCustomerList(this.customerForm.value, this.party, check,this.customFrom).toPromise().then((res: any) => {
       if (res) {
         this.customerList = res
         // console.log("customerList", this.customerList);
