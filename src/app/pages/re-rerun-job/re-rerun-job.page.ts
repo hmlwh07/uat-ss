@@ -21,13 +21,13 @@ export class ReRerunJobPage implements OnInit {
   ]
   nameOption: any = [
     { code: '', value: 'All' },
-    { code: 'RunTCSAPIByScheduler', value: 'Create / Update Party' },
+    { code: 'Create Update Party', value: 'Create / Update Party' },
     { code: 'Renewal Policy', value: 'Renewal Policy' },
     { code: 'Update Policy Status', value: 'Update Policy Status' }
   ]
   statusOption: any = [
     { code: '', value: 'All' },
-    { code: 'FAIL', value: 'Fail' },
+    { code: 'FAIL', value: 'Failed' },
     { code: 'SUCCESS', value: 'Success' },
   ]
   listFromCRM: any = [
@@ -71,7 +71,7 @@ export class ReRerunJobPage implements OnInit {
     this.reRunService.getReRunListByType(this.reRunForm.value).pipe(map((x:any)=>{
       return x.map((data)=>{
         data.statusValue = data.status == "FAIL" ? "FAILED" : data.status
-        data.jobNameValue=data.jobName== "RunTCSAPIByScheduler" ? "Create / Update Party' ":data.jobName
+        data.jobNameValue=data.jobName== "RunTCSAPIByScheduler" ? "Create / Update Party":data.jobName
         return data
       })
     })).toPromise().then((res) => {
