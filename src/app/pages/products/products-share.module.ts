@@ -32,6 +32,7 @@ import { EditPrintUIModalComponent } from './edit-print-ui-modal/edit-print-ui-m
 import { PrintPreviewModalComponent } from './print-preview-modal/print-preview-modal.component';
 import { EditSourceModalComponent } from './edit-source-modal/edit-source-modal.component';
 import { ValidityPeriodService } from './services/validity-period.service';
+import { MotorPrintService } from './services/motor-print.service';
 @NgModule({
   declarations: [ProductsComponent, ProductsModalComponent, CoverageModalComponent, ProductDetailsComponent, PageUIModalComponent, CoverageOption, UIPagesComponent, ViewUIModalComponent, StaticUIModalComponent, InputConfigModalComponent, PrintConfigModalComponent, PrintFormsModalComponent, EditPrintUIModalComponent, PrintPreviewModalComponent, EditSourceModalComponent],
 
@@ -52,6 +53,6 @@ import { ValidityPeriodService } from './services/validity-period.service';
     MatSortModule,
     OverlayModule,
   ],
-  providers: [CoverageDataService, AddOnDataService, ProductUIService, ProductUIDeleteService, ValidityPeriodService]
+  providers: [CoverageDataService, AddOnDataService, ProductUIService, ProductUIDeleteService, ValidityPeriodService, MotorPrintService]
 })
 export class ProductShareModule { }
