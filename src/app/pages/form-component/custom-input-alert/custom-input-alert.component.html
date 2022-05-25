@@ -17,7 +17,7 @@
                 <textarea type="text" class=" form-control form-control-sm" name="lostReason" placeholder="Reason" autocomplete="off" [(ngModel)]="lostReason"></textarea>
             </div>
             <div class="col-sm-12" *ngIf="type=='description'">
-                <input type="text" class=" form-control form-control-sm" name="description" placeholder="Description" autocomplete="off" [(ngModel)]="description">
+                <input type="text" class=" form-control form-control-sm" name="description" placeholder="{{'FORM.description' | translate}}" autocomplete="off" [(ngModel)]="description">
             </div>
 
         </div>
@@ -27,7 +27,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control form-control-sm" [(ngModel)]="fileName">
                     <div class="input-group-append">
-                        <button class="btn btn-primary btn-sm" type="button" (click)="openFile()">Browse</button>
+                        <button class="btn btn-primary btn-sm" type="button" (click)="openFile()">{{"FORM.btn_browse" | translate}}</button>
                     </div>
                 </div>
                 <!-- <div class="col-sm-12" *ngIf="type=='description'">
@@ -41,9 +41,9 @@
         <div class="col-12">
 
             <div class="modal-footer">
-                <button type="button" *ngIf="type=='description'" class="btn btn-light btn-elevate mr-2" [disabled]="!description" (click)="save()">Save</button>
-                <button type="button" *ngIf="type=='reason'" class="btn btn-light btn-elevate mr-2" [disabled]="!lostReason" (click)="save()">Save</button>
-                <button class="btn btn-primary btn-elevate" (click)="modal.dismiss()">Cancel</button>
+                <button type="button" *ngIf="type=='description'" class="btn btn-light btn-elevate mr-2" [disabled]="!description" (click)="save()">{{"FORM.btn_save" | translate}}</button>
+                <button type="button" *ngIf="type=='reason'" class="btn btn-light btn-elevate mr-2" [disabled]="!lostReason" (click)="save()">{{"FORM.btn_save" | translate}}</button>
+                <button class="btn btn-primary btn-elevate" (click)="modal.dismiss()">{{"FORM.btn_cancel" | translate}}</button>
             </div>
 
         </div>

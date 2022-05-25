@@ -24,7 +24,7 @@
         <div class="form-group row">
           <label class="col-sm-4 col-form-label">Job Name</label>
           <div class="col-sm-8">
-            <div type="text" class="form-control form-control-sm " name="name" autocomplete="off">{{data.jobName}}</div>
+            <div type="text" class="form-control form-control-sm " name="name" autocomplete="off">{{data.jobName == 'RunTCSAPIByScheduler' ? "Create / Update Party" : data.jobName}}</div>
           </div>
         </div>
       </div>
