@@ -11,7 +11,7 @@ export class CustomerListService {
   constructor(protected httpClient: HttpClient) {
   }
 
-  getCustomerList(search: any = {}, party: boolean, popup: boolean,customFrom?:boolean) {
+  getCustomerList(search: any = {}, party: boolean, popup: boolean,isCustom?:boolean) {
     let url = API_CUSTOMER_URL + "?"
     if (search.name) {
       url = url + "name=" + search.name + "&"
@@ -30,7 +30,7 @@ export class CustomerListService {
     } if (search.identityNumber) {
       url = url + "identityNumber=" + search.identityNumber + "&"
     }
-    if (customFrom) {
+    if (!isCustom) {
       url = url + "isPartyCode=" + party
     }else{
       url = url + "statusCode=A"

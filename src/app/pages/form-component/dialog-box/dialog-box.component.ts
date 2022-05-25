@@ -63,7 +63,7 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
       modalRef = this.modalService.open(NrcPopupPage, { size: 'xl', backdrop: false });
     } else {
       modalRef = this.modalService.open(CustomDialogComponent, { size: 'xl', backdrop: false });
-      modalRef.componentInstance.customFrom = true
+      modalRef.componentInstance.customForm = true
     }
     modalRef.componentInstance.config = this.config
     modalRef.componentInstance.group = this.group

@@ -17,6 +17,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
   @Input() group: FormGroup;
   @Input() config: ConfigInput
   @Input() internalConfig: ConfigInput[] = []
+  @Input() customForm;
   selectedData: any
   private subscriptions: Subscription[] = [];
   constructor(
