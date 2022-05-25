@@ -1595,6 +1595,7 @@ let CustomerListComponent = class CustomerListComponent {
             this.ELEMENT_COL.splice(9, 1);
             this.displayedColumns.splice(9, 1);
         }
+        console.log(this.customFrom);
         this.show = true;
     }
     ngAfterViewInit() {
@@ -1866,7 +1867,7 @@ let CustomerListService = class CustomerListService {
         if (search.identityNumber) {
             url = url + "identityNumber=" + search.identityNumber + "&";
         }
-        if (!customFrom) {
+        if (customFrom) {
             url = url + "isPartyCode=" + party;
         }
         else {

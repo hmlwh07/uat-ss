@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1653463901826,
+  "timestamp": 1653471181935,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -4223,7 +4223,7 @@
     "/default-src_app__metronic_core_index_ts-src_app_pages_policy_policy_service_ts-src_app_pages_-b29154.js": "dcbf534a871bb4bf9abc3f93fae9605d69f44f88",
     "/default-src_app__metronic_core_services_attachment-data_service_ts-src_app_core_valid-all-feild_ts.js": "df6d10198302fb958e89b4616321f220b11591d8",
     "/default-src_app_pages_customer-detail_customer-detail_share_module_ts.js": "96c6327ce2ecee71017def616afc8d01ab7c1a44",
-    "/default-src_app_pages_customer-list_customer-list_share_module_ts-src_app_pages_share-compone-a9f04a.js": "4ca511b81943a114eff90dba8a0fefdaf5c61640",
+    "/default-src_app_pages_customer-list_customer-list_share_module_ts-src_app_pages_share-compone-a9f04a.js": "1c722b78b63877a9a5b366eb3cc3c186adcad8eb",
     "/default-src_app_pages_dashboard_dashboard_module_ts.js": "a7ed3d798bb42cdd64cf41ec92fb92259153dd42",
     "/default-src_app_pages_form-component_form-component_module_ts.js": "f9c211eebfa3327e8285fcf59714d87c6796d645",
     "/default-src_app_pages_products_products-share_module_ts.js": "16081976f62895767af122fc3a2343dd9852a89b",
@@ -4245,7 +4245,7 @@
     "/firebase-messaging-sw.js": "752c5705bd73169eb6337827257d123550efc948",
     "/index.html": "9982253aeac3c447dff8d7fdc2c2e3dadae28dde",
     "/left-border.png": "036921a884f862730c2b4c4f7aa3fe785dbbce08",
-    "/main.js": "f77f853b9e1b7830133e61547c182628ef5a3c5a",
+    "/main.js": "a00ff83678441b5af3bc9db18642dee5eed51ee0",
     "/manifest.webmanifest": "9a088b7c4339228d1082e666ce105dc889bc180c",
     "/node_modules_canvg_lib_index_es_js.js": "6c2e55b37461689af0f904c1301c3d378f6a5364",
     "/node_modules_capacitor_app_dist_esm_web_js.js": "b2004f47a174bc6c4c0e366a64296b81d372df44",
@@ -4327,7 +4327,7 @@
     "/src_app_pages_dashboard-kbz-ms-manager_dashboard-kbz-ms-manager_module_ts.js": "744186e52de5f3f57e79e154348c4a8cb86c6cb0",
     "/src_app_pages_dashboard-kbz-ms-senior_dashboard-kbz-ms-senior_module_ts.js": "2dc8441973f8f623cc022f4933f9df26952b3c8b",
     "/src_app_pages_dashboard_services_form-ui_service_ts.js": "650d38a8db8be3e07b921b05bd05190f98dba35e",
-    "/src_app_pages_fna-bram_fna-bram_module_ts.js": "dc81f271a91f05ce8a3eedd2fc708cac0ef2edb0",
+    "/src_app_pages_fna-bram_fna-bram_module_ts.js": "e747457eab7bb5c0c000110f5c8188e451c695c3",
     "/src_app_pages_fna-detail_fna-detail_modules_ts.js": "f87e631853e412767c215fd558b583b6cd2e7620",
     "/src_app_pages_fna-list_fna-list_modules_ts.js": "c152148639de1cdca43a17fe53d66795e58724d3",
     "/src_app_pages_layout-dynamic_layout-dynamic_module_ts.js": "f895767e3bdd22b8b67b661711e8e99c3ff46e99",
