@@ -114,7 +114,7 @@
                         <ng-container *ngIf="isPopup && !isDynamic">
                             <div class="card-footer">
                                 <button type="button" class="btn btn-light btn-elevate mr-2"
-                                    (click)="closeModal()">Cancel</button>
+                                    (click)="closeModal()">{{"FORM.cancel" | translate}}</button>
                                 <button type="button" class="btn btn-primary btn-elevate" (click)="nextProd()"
                                     [disabled]="!selected.customerId">Next</button>
                             </div>

@@ -206,6 +206,7 @@ export const locale = {
       technology: "TECHNOLOGY",
       human_resources: "HUMAN RESOURCES",
       management_infrastructure: "MANAGEMENT INFRASTRUCTURE",
+      cancel: 'Cancel',
     },
     NAV: {
       my_acc: "My Account",
