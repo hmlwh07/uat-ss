@@ -213,7 +213,20 @@ export const locale = {
       technology: "နည်းပညာ",
       human_resources: "လူ့အင်အားအရင်းအမြစ်",
       management_infrastructure: "စီမံခန့်ခွဲမှု အခြေခံအဆောက်အအုံ   စီမံခန့်ခွဲမှု အခြေခံအရင်းအမြစ်",
-      cancel: 'ပယ်ဖျက်ပါ'
+      cancel: 'ပယ်ဖျက်ပါ',
+      vehicle_no: "ယာဉ်အမှတ်",
+      engine_capacity: "အင်ဂျင်စွမ်းဆောင်ရည်",
+      estimated_value: "ခန့်မှန်းတန်ဖိုး (သိန်းကျော်)",
+      risk_perception: "အန္တရာယ်ရှိနိုင်ခြေယူဆချက်",
+      shipping:"Shipping",
+      question:"Question",
+      answer:"Answer",
+      job_desc:"Job Description",
+      no_of_people: "No Of People",
+      average_age: "Average Age",
+      package: "Package",
+      no_of_locations: "No of location",
+      
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

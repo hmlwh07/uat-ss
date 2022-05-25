@@ -30,7 +30,7 @@ export class CustomerListService {
     } if (search.identityNumber) {
       url = url + "identityNumber=" + search.identityNumber + "&"
     }
-    if (!customFrom) {
+    if (customFrom) {
       url = url + "isPartyCode=" + party
     }else{
       url = url + "statusCode=A"

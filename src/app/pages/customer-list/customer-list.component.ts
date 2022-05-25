@@ -50,6 +50,8 @@ export class CustomerListComponent implements OnInit {
       this.ELEMENT_COL.splice(9, 1)
       this.displayedColumns.splice(9, 1)
     }
+    console.log(this.customFrom);
+    
     this.show = true
   }
   ngAfterViewInit() {
