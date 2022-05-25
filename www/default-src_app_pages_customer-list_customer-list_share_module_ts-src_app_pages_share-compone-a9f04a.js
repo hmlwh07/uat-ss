@@ -1586,7 +1586,7 @@ let CustomerListComponent = class CustomerListComponent {
         this.isPopup = false;
         this.party = true;
         this.isDynamic = false;
-        this.customFrom = false;
+        this.isCustom = false;
         this.show = false;
         this.loadForm();
     }
@@ -1595,7 +1595,7 @@ let CustomerListComponent = class CustomerListComponent {
             this.ELEMENT_COL.splice(9, 1);
             this.displayedColumns.splice(9, 1);
         }
-        console.log(this.customFrom);
+        console.log(this.isCustom);
         this.show = true;
     }
     ngAfterViewInit() {
@@ -1617,7 +1617,7 @@ let CustomerListComponent = class CustomerListComponent {
     }
     getList() {
         let check = this.isPopup && !this.isDynamic ? true : false;
-        this.customerListService.getCustomerList(this.customerForm.value, this.party, check, this.customFrom).toPromise().then((res) => {
+        this.customerListService.getCustomerList(this.customerForm.value, this.party, check, this.isCustom).toPromise().then((res) => {
             if (res) {
                 this.customerList = res;
                 // console.log("customerList", this.customerList);
@@ -1687,7 +1687,7 @@ CustomerListComponent.propDecorators = {
     isPopup: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }],
     party: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }],
     isDynamic: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }],
-    customFrom: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }]
+    isCustom: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__.Input }]
 };
 CustomerListComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
@@ -1844,7 +1844,7 @@ let CustomerListService = class CustomerListService {
     constructor(httpClient) {
         this.httpClient = httpClient;
     }
-    getCustomerList(search = {}, party, popup, customFrom) {
+    getCustomerList(search = {}, party, popup, isCustom) {
         let url = API_CUSTOMER_URL + "?";
         if (search.name) {
             url = url + "name=" + search.name + "&";
@@ -1867,7 +1867,7 @@ let CustomerListService = class CustomerListService {
         if (search.identityNumber) {
             url = url + "identityNumber=" + search.identityNumber + "&";
         }
-        if (customFrom) {
+        if (!isCustom) {
             url = url + "isPartyCode=" + party;
         }
         else {

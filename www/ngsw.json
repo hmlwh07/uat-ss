@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1653471181935,
+  "timestamp": 1653472455344,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -4223,9 +4223,9 @@
     "/default-src_app__metronic_core_index_ts-src_app_pages_policy_policy_service_ts-src_app_pages_-b29154.js": "dcbf534a871bb4bf9abc3f93fae9605d69f44f88",
     "/default-src_app__metronic_core_services_attachment-data_service_ts-src_app_core_valid-all-feild_ts.js": "df6d10198302fb958e89b4616321f220b11591d8",
     "/default-src_app_pages_customer-detail_customer-detail_share_module_ts.js": "96c6327ce2ecee71017def616afc8d01ab7c1a44",
-    "/default-src_app_pages_customer-list_customer-list_share_module_ts-src_app_pages_share-compone-a9f04a.js": "1c722b78b63877a9a5b366eb3cc3c186adcad8eb",
+    "/default-src_app_pages_customer-list_customer-list_share_module_ts-src_app_pages_share-compone-a9f04a.js": "e4c1314e922b5c1c16ee7025ea69a5204c5b1673",
     "/default-src_app_pages_dashboard_dashboard_module_ts.js": "a7ed3d798bb42cdd64cf41ec92fb92259153dd42",
-    "/default-src_app_pages_form-component_form-component_module_ts.js": "f9c211eebfa3327e8285fcf59714d87c6796d645",
+    "/default-src_app_pages_form-component_form-component_module_ts.js": "0293d5a607142d425bbed6fa0bddf65a79302645",
     "/default-src_app_pages_products_products-share_module_ts.js": "16081976f62895767af122fc3a2343dd9852a89b",
     "/default-src_app_pages_products_products_component_ts.js": "ad49f8f19b7ca7e6b30aa41527bf80510caec6ac",
     "/default-src_app_pages_static-page-review_static-pages-reivew_module_ts.js": "61133e17657584695f5e13b2ef8e8117d017952e",

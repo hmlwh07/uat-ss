@@ -6311,7 +6311,8 @@ CustomDialogComponent.ctorParameters = () => [
 CustomDialogComponent.propDecorators = {
     group: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
     config: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
-    internalConfig: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }]
+    internalConfig: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
+    customForm: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }]
 };
 CustomDialogComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
@@ -6716,7 +6717,7 @@ let DialogBoxComponent = class DialogBoxComponent {
         }
         else {
             modalRef = this.modalService.open(_custom_dialog_custom_dialog_component__WEBPACK_IMPORTED_MODULE_3__.CustomDialogComponent, { size: 'xl', backdrop: false });
-            modalRef.componentInstance.customFrom = true;
+            modalRef.componentInstance.customForm = true;
         }
         modalRef.componentInstance.config = this.config;
         modalRef.componentInstance.group = this.group;
@@ -12095,7 +12096,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"modal-content\">\r\n    <div class=\"modal-header\">\r\n        <div class=\"modal-title h4 left-border-image\" id=\"example-modal-sizes-title-lg\">\r\n            {{config.label | dyn_translate: config.labelMM}}\r\n            <span class=\"text-muted font-weight-bold font-size-sm mt-1\">Please select in table list</span>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"overlay overlay-block cursor-default modal-body\">\r\n        <ng-container *ngIf=\"config.type == 'user'\">\r\n            <app-customer-list (selectedUser)=\"selectedUser($event)\" [isPopup]=\"true\" [isDynamic]=\"true\">\r\n            </app-customer-list>\r\n        </ng-container>\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-light btn-elevate mr-2\" (click)=\"modal.dismiss()\">Cancel</button>\r\n        <button type=\"submit\" class=\"btn btn-primary btn-elevate\" (click)=\"save()\">Save</button>\r\n    </div>\r\n</div>");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<div class=\"modal-content\">\r\n    <div class=\"modal-header\">\r\n        <div class=\"modal-title h4 left-border-image\" id=\"example-modal-sizes-title-lg\">\r\n            {{config.label | dyn_translate: config.labelMM}}\r\n            <span class=\"text-muted font-weight-bold font-size-sm mt-1\">Please select in table list</span>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"overlay overlay-block cursor-default modal-body\">\r\n        <ng-container *ngIf=\"config.type == 'user'\">\r\n            <app-customer-list (selectedUser)=\"selectedUser($event)\" [isCustom]=\"customForm\" [isPopup]=\"true\" [isDynamic]=\"true\">\r\n            </app-customer-list>\r\n        </ng-container>\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-light btn-elevate mr-2\" (click)=\"modal.dismiss()\">Cancel</button>\r\n        <button type=\"submit\" class=\"btn btn-primary btn-elevate\" (click)=\"save()\">Save</button>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
