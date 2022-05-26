@@ -56,7 +56,7 @@ export class MotorAddonComponent implements OnInit {
     "T-004": 0.35,
     "T-003": 0.60,
     "T-002": 0.85,
-    "T-001": 1, 
+    "T-001": 1,
   }
   constructor(private globalFun: GlobalFunctionService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
@@ -71,21 +71,21 @@ export class MotorAddonComponent implements OnInit {
       addOnIds: [],
       optionalKey: this.optionId
     }
-    if(medID){
+    if (medID) {
       postData.addOnIds.push(medID)
     }
-    if(crossID){
+    if (crossID) {
       postData.addOnIds.push(crossID)
     }
     let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
     let response = results.find(x => x.addonId == medID)
-    if(response){
+    if (response) {
       this.isMedical = true
       this.planOption = response.option
       this.toggleChange('medical')
     }
     let response2 = results.find(x => x.addonId == crossID)
-    if(response2){
+    if (response2) {
       this.isCross = true
       this.startDate = response.startDate
       this.endDate = response.endDate
@@ -276,7 +276,10 @@ export class MotorAddonComponent implements OnInit {
       }
     }
     let stumd = currency == "MMK" ? 100 : 1
-    let preAMT = (tempPre - discount) + stumd
+    let preAMT = (tempPre - discount)
+    let term = this.parentData['m_policy_term']
+    let percent = this.crossPercent[term] || 1
+    preAMT = (term * percent) + stumd
     this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT
