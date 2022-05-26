@@ -137,5 +137,28 @@ export class RenewManagementDetailComponent implements OnInit {
     })
   }
 
+  confirmRenew() {
+    if (this.actForm.value.status != 'confirm') {
+      this.alertService
+        .activate('Are you sure want to confirm?', 'Warning Message')
+        .then(async (result) => {
+          if (result) {
+            this.actForm.value.status = 'confirm';
+            this.renewService
+              .confirmRenew(this.actForm.value.policyNumber)
+              .toPromise()
+              .then((res) => {
+                if (res) {
+                  this.alertService.activate(
+                    'This record was updated',
+                    'Success Message'
+                  );
+                }
+              });
+          }
+        });
+    }
+  }
+
 
 }

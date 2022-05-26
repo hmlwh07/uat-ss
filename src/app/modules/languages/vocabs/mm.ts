@@ -103,6 +103,7 @@ export const locale = {
       saving: "စုဆောင်းထားမှု",
       protection: "အကာအကွယ်",
       btn_back: "နောက်ဆုတ်ရန်",
+      btn_confirm: "အတည်ပြုပါ",
       btn_save_and_next: "သိမ်းဆည်းပြီး ရှေ့သို့သွားမည်",
       btn_next: "ဆက်သွားရန်",
       party_code: 'ပါတီကုဒ်',
