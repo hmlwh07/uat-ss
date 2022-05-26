@@ -36,7 +36,7 @@ export class InboundLogisticsOthersComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Others').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'others').then(result => {
       if (result) {
         this.getAll();
       }

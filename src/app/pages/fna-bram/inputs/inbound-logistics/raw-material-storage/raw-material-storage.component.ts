@@ -37,7 +37,7 @@ export class RawMaterialStorageComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Raw Material Storage').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'raw_material_storage').then(result => {
       if (result) {
         this.getAll();
       }

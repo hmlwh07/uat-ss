@@ -233,7 +233,7 @@ export const locale = {
       about_bpm: "About BPM",
       input: "Input",
       output: "Output",
-      inbound_logistics: "INBOUND_LOGISTICS",
+      inbound_logistics: "INBOUND LOGISTICS",
       operation: "OPERATION",
       outbound_logistics: "OUTBOUND LOGISTICS",
       marketing_sales: "MARKETING SALES",
@@ -258,7 +258,7 @@ export const locale = {
       estimated_value: "Estimated Value (lakhs)",
       risk_perception: "Risk Perception",
       assets_desc: "Assets Description",
-      no_of__units: "No of Units",
+      no_of_units: "No of Units",
       action: "Action",
       total: "Total",
       shipping: "Shipping",
@@ -278,6 +278,9 @@ export const locale = {
       goods_in_warehouses: "Goods in Warehouses",
       goods_in_transporation: "Goods In Transporation",
       transporation: "Transporation",
+      factory_building:"Factory Building/s",
+      machinery:"Machinery",
+      manufacturing_process:"Manufacturing Process"
     },
     NAV: {
       my_acc: "My Account",

@@ -37,7 +37,7 @@ export class WarehousingComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Warehousing').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'warehousing').then(result => {
       if (result) {
         this.getAll();
       }
