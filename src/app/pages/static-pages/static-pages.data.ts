@@ -97,8 +97,8 @@ export const STATIC_PAGES = [
   },{
     id: 'static_1648784270356',
     type: PageUIType.STATIC,
-    pageTitle: "Tavel Risk",
-    showLabel: "Tavel Risk",
+    pageTitle: "Travel Risk",
+    showLabel: "Travel Risk",
     pageType: 'form',
     tableName: 'static',
     pageIcon: "fa-briefcase"

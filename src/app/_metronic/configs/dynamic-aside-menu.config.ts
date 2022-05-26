@@ -117,13 +117,13 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'Renew Policies',
+          title: 'Renewal Policies',
           page: '/sale/renew-policy',
           show: true,
           submenu_show: false,
           submenu: [
             {
-              title: 'Renew Policy Detail',
+              title: 'Renewal Policies Detail',
               page: '/sale/renew-policy/detail',
               show: false
             },
@@ -163,18 +163,15 @@ export const DynamicAsideMenuConfig = {
       root: true,
       icon: 'flaticon-profile-1',
       svg: './assets/media/svg/icons/Design/Layers.svg',
-      page: 'customer/prospect-list',
+      page: '/customer/prospect-list',
       bullet: 'dot',
       show: true,
       submenu: [
         {
           title: 'Prospect Customer',
-          page: 'customer/prospect-list',
+          page: '/customer/prospect-list',
         },
-        {
-          title: 'Prospect Customer',
-          page: 'customer/customer-detail',
-        }
+       
       ]
     },
     {

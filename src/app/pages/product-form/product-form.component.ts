@@ -42,7 +42,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   item: Product
   tempData: any = {}
   activePage: number = 0
-  
+
   premiumAmt: string = '0'
   private unsubscribe: Subscription[] = []
   coverage = {
@@ -92,7 +92,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.type = this.prodService.type
       this.editData = this.prodService.editData || {}
       this.creatingCustomer = this.prodService.creatingCustomer
-      this.premiumAmt = this.editData.premiumView || this.editData.premium || "0";     
+      this.premiumAmt = this.editData.premiumView || this.editData.premium || "0";
       let unsub = this.globalFun.paPremiumResult.subscribe((res: any) => {
         this.premiumAmt = res || "0"
         this.cdRef.detectChanges()
@@ -685,10 +685,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         return false
       }
 
-      if (activeValue.unitCode == "beneficiaries_page") {
+      if (activeValue.unitCode == "beneficiaries_page" || activeValue.unitCode == "trave_benefi_0003") {
         let check = this.globalFun.checkPercent(this.tempData[activeValue.tableName + activeValue.id])
-        if (!check)
+        if (!check) {
+          this.alert.activate('Beneficiary percent need to be 100%!', 'Warning Message')
           return false
+        }
       }
 
     }

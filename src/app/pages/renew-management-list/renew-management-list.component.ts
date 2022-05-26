@@ -36,9 +36,8 @@ export class RenewManagementListComponent implements OnInit {
 
   loadForm() {
     this.actForm = new FormGroup({
-      "type": new FormControl(""),
-      "title": new FormControl(null),
-      "status": new FormControl(""),
+      "policyNumber": new FormControl(null),
+      "policyHolder": new FormControl(null),
       startDate: new FormControl(null),
       endDate: new FormControl(null)
     })
@@ -50,6 +49,7 @@ export class RenewManagementListComponent implements OnInit {
       if (res) {
 
         this.renewList = res
+        console.log("RenewList", this.renewList)
         this.cdf.detectChanges()
         this.matTable.reChangeData()
       }
@@ -94,15 +94,38 @@ export class RenewManagementListComponent implements OnInit {
   }
 
   confirmRenew(data) {
-    if (data.status != "confirm") {
-      this.renewService.confirmRenew(data.policyNumber).toPromise().then((res) => {
-        if (res) {
-          console.log(res);
-          
-          this.alertService.activate('This record was updated', 'Success Message');
-          this.navigateToDetail(res)
-        }
-      })
+    if (data.status != 'confirm') {
+      this.alertService
+        .activate('Are you sure want to confirm?', 'Warning Message')
+        .then(async (result) => {
+          if (result) {
+            this.renewService
+              .confirmRenew(data.policyNumber)
+              .toPromise()
+              .then((res) => {
+                if (res) {
+                  console.log(res);
+
+                  this.alertService.activate(
+                    'This record was updated',
+                    'Success Message'
+                  );
+                  this.navigateToDetail(res);
+                }
+              });
+          }
+        });
     }
+  }
+
+  getRenewalList() {
+    this.renewService.getRenewList(this.actForm.getRawValue()).toPromise().then((res: any) => {
+      if (res) {
+        this.renewList = res
+        this.cdf.detectChanges()
+        if (this.matTable)
+          this.matTable.reChangeData()
+      }
+    })
   }
 }

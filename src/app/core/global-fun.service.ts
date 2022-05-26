@@ -6,6 +6,7 @@ import { BehaviorSubject, of, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { AlertService } from "../modules/loading-toast/alert-model/alert.service";
 import { LatestCurrencyExchangeService } from "../pages/currency-exchange/currency-exchange.service";
+import { ProductPages } from "../pages/products/models/product.dto";
 import { IN_BOUND, OUT_BOUND } from "./const-data-value";
 import { IsJsonString } from "./is-json";
 import { MotorRateService } from "./rate-datas/motor-rate.service";
@@ -819,6 +820,19 @@ export class GlobalFunctionService {
 
   calculateDecimal(value: any) {
     return Math.round(value * 100) / 100
+  }
+
+  getParnet(product: any, type: string, unitCode: string) {
+    if (IsJsonString(product.config)) {
+      let pageUI: ProductPages = JSON.parse(product.config);
+      let pageOrder = type != 'quotation' ? pageUI.application || [] : pageUI.quotation || []
+      let parent = pageOrder.find(page => page.unitCode == unitCode)
+      if (parent) {
+        return this.tempFormData[parent.tableName + parent.id] || null
+      }
+      return null
+    }
+    return null
   }
 
 }

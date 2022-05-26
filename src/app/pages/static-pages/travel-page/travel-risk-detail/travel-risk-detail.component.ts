@@ -21,7 +21,7 @@ import { TravelRiskService } from '../models&services/travel-risk.service';
   templateUrl: './travel-risk-detail.component.html',
   styleUrls: ['./travel-risk-detail.component.scss']
 })
-export class TravelRiskDetailComponent implements OnInit,OnDestroy {
+export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   @Input() list: any[] = []
   @Input() product: Product
   @Input() editData: any = {}
@@ -98,8 +98,13 @@ export class TravelRiskDetailComponent implements OnInit,OnDestroy {
   }
 
   nextCover() {
-    this.stepData.step3 = true
-    this.activeBox = "COVER"
+    let check = this.globalFun.checkPercent(this.tempData['benefi'])
+    if (check) {
+      this.stepData.step3 = true
+      this.activeBox = "COVER"
+    } else {
+      this.alert.activate('Beneficiary percent need to be 100%!', 'Warning Message')
+    }
   }
 
   coverDone() {

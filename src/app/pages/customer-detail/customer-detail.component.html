@@ -3,7 +3,7 @@
         <div class="card card-custom" [class.gutter-b]="!isPopup">
             <div class="card-header">
                 <div class="card-title">
-                    <h3 class="card-label left-border-image">{{pageStatus == "create" ? "Create Customer" : "Customer Detail"}}</h3>
+                    <h3 class="card-label left-border-image">{{pageStatus == "create" ? "Create Prospect Customer" : "Customer Detail"}}</h3>
                 </div>
                 <div class="card-toolbar" *ngIf="!isPopup">
                     <button type="button" *ngIf="isDetail" class="icon" (click)="toggleAccordion('Detail')">

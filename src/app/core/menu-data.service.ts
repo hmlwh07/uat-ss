@@ -38,6 +38,8 @@ export class MenuDataService extends BizOperationService<any, number>{
           menu.show = menu.dataAccess.view
           menu.submenu = menu.submenu.map((x) => {
             x.show = x.dataAccess.view
+            console.log(x,menu);
+            
             if (x.submenu) {
               let checked = x.submenu.find(z => z.show == true)
               x.submenu_show = checked ? true : false

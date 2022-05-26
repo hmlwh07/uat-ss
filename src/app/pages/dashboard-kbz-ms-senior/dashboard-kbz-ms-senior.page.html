@@ -3,9 +3,11 @@
     <!-- [ngStyle]="{'height': profileHpx}" -->
     <div style="margin: 0 0 10px 0;">
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
-        <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
-          <img src="./assets/temp-img/banca_head.jpg" alt="profile">
-          <!-- <img src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
+        <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">         
+          <!-- <img *ngIf="data?.agentInfo?.attId" [src]="Default_DOWNLOAD_URL+'/' + data?.agentInfo?.attId" style="width: 100%; height: 100%;"
+          alt="profile1" /> -->
+          <!-- <img  src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
+          <img src="./assets/temp-img/banca_head.jpg" alt="profile">        
         </div>
         <ion-label class="title-color">{{ data?.agentInfo?.employeeName }}</ion-label>
         <ion-label>{{ data?.role }}</ion-label>
