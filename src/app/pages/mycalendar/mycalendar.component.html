@@ -13,7 +13,7 @@
 
             <div mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" style="margin-right: 5px;"> <span class="flaticon2-back icon"></span></div>
             <div mwlCalendarToday [(viewDate)]="viewDate">
-                <label style="font-size: 1rem;">Today</label>
+                <label style="font-size: 1rem;">{{"CARD.today"| translate}}</label>
             </div>
             <div mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" style="margin-left: 5px;">
                 <span class="flaticon2-next icon"></span></div>

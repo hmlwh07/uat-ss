@@ -8,6 +8,7 @@ import { DashboardKbzMsManagerPageRoutingModule } from './dashboard-kbz-ms-manag
 
 import { DashboardKbzMsManagerPage } from './dashboard-kbz-ms-manager.page';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     FormsModule,
     IonicModule,
     NgApexchartsModule,
+    LanguageModule,
     DashboardKbzMsManagerPageRoutingModule
   ],
   declarations: [DashboardKbzMsManagerPage]

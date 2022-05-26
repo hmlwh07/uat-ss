@@ -11,8 +11,8 @@
         <div class="col-12">
           <!-- Product name -->
           <div class="form-group">
-            <label class="form-label">Product Name</label>
-            <input type="text" class="form-control form-control-sm" name="productName" placeholder="Product name"
+            <label class="form-label">{{"TABLE.Product Name"|translate}}</label>
+            <input type="text" class="form-control form-control-sm" name="productName" placeholder="{{'TABLE.Product Name'|translate}}"
               autocomplete="off" [class.is-invalid]="isControlInvalid('productName')"
               [class.is-valid]="isControlValid('productName')" formControlName="productName" />
             <!-- <div class="feedback">Enter Your <b>Product Name</b> </div> -->
@@ -20,8 +20,8 @@
           <!-- Product name -->
           <!-- Product code -->
           <div class="form-group">
-            <label class="form-label">Product Code</label>
-            <input type="text" class="form-control form-control-sm" name="productCode" placeholder="Product code"
+            <label class="form-label">{{"TABLE.Product Code"|translate}}</label>
+            <input type="text" class="form-control form-control-sm" name="productCode" placeholder="{{'TABLE.Product Code'|translate}}"
               autocomplete="off" [class.is-invalid]="isControlInvalid('productCode')"
               [class.is-valid]="isControlValid('productCode')" formControlName="productCode" />
             <!-- <div class="feedback">Enter Your <b>Product Code</b></div> -->
@@ -53,7 +53,7 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
-            <label class="example-margin form-label">Allow Back Date</label>
+            <label class="example-margin form-label">{{"TABLE.Allow Back Date"|translate}}</label>
             <mat-radio-group formControlName="isAllowBackDate">
               <mat-radio-button class="example-margin" value="no">No</mat-radio-button>
               <mat-radio-button class="example-margin" value="yes">Yes</mat-radio-button>
@@ -90,7 +90,7 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label class="form-label">Quotation Auto Lapse Rule</label>
+            <label class="form-label">{{"TABLE.Quotation Auto Lapse Rule"|translate}}</label>
             <input type="number" class="form-control form-control-sm" name="ruleDate" placeholder="Dates"
               autocomplete="off" [class.is-invalid]="isControlInvalid('ruleDate')"
               [class.is-valid]="isControlValid('ruleDate')" formControlName="ruleDate" />
@@ -125,7 +125,7 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label class="form-label">Application Auto Lapse Rule</label>
+            <label class="form-label">{{"TABLE.Application Auto Lapse Rule"|translate}}</label>
             <input type="number" class="form-control form-control-sm" name="policyDay" placeholder="Dates"
               autocomplete="off" [class.is-invalid]="isControlInvalid('policyDay')"
               [class.is-valid]="isControlValid('policyDay')" formControlName="policyDay" />

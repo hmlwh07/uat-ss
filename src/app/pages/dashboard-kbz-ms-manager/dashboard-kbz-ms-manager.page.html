@@ -11,12 +11,12 @@
         <ion-label>{{ data?.role }}</ion-label>
       </div>
       <div class="premium" [ngStyle]="{'padding': productPadding}">
-        <ion-label class="premuim-color">Premium</ion-label>
+        <ion-label class="premuim-color">{{"CARD.premium" | translate}}</ion-label>
         <ion-label>{{ data?.agentInfo?.totalPremium | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
       </div>
     </div>
     <div class="product">
-      <h2>Products</h2>
+      <h2>{{"CARD.products" | translate}}</h2>
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
@@ -30,11 +30,11 @@
     </div>
   </section>
   <section class="sales-performance" [ngStyle]="{'height': mainContentHeightPx}">
-    <h2 class="title-color">Sales Performances</h2>
+    <h2 class="title-color">{{"CARD.sales_performances" | translate}}</h2>
     <div class="date">
       <div style="width: 50%;">{{ months[currentMonthIndex] }} | Y{{ currentYear }}</div>
       <!-- <div></div> -->
-      <div><a (click)="goToSalePolicies()">All</a></div>
+      <div><a (click)="goToSalePolicies()">{{"CARD.all" | translate}}</a></div>
     </div>
     <ion-list *ngIf="data && data.subAgentMonthlySale.length > 0" [ngStyle]="{'height': salesHpx}">
       <ion-item lines="full" *ngFor="let agent of data?.subAgentMonthlySale" (click)="goToLPDashboard(agent)">
@@ -73,7 +73,7 @@
       </div>
     </div>
     <div class="sub-chart" [ngStyle]="{'height': thingsHpx}">
-      <h2 class="title-color">Things To Follow Up Today</h2>
+      <h2 class="title-color">{{"CARD.things_to_followup" | translate}}</h2>
       <div class="today">
         <div>
           <p>TASK TODAY</p>

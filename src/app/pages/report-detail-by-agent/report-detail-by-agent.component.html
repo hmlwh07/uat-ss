@@ -12,11 +12,11 @@
                     </button>
                     <button type="button" [disabled]="!isData" (click)="generateReportExcel()"
                         class="btn btn-primary ml-2" style="min-width: 50px;">
-                        <span class="">Generate</span>
+                        <span class="">{{"FORM.generate" | translate}}</span>
                     </button>
                     <button type="button" (click)="cancelReport()" class="btn btn-primary ml-2"
                         style="min-width: 50px;">
-                        <span class="">Cancel</span>
+                        <span class="">{{"FORM.cancel" | translate}}</span>
                     </button>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                     <div class="row" style="align-items: center;">
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">From Date</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.from_date" | translate}}</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -34,12 +34,12 @@
                                     <mat-datepicker #picker1 disabled="false"></mat-datepicker>
                                 </div>
                                 <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')"
-                                    class="btn btn-primary btn-elevate mx-2">Clear</button>
+                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear" | translate}}</button>
                             </div>
                         </div>
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">To Date</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.to_date" | translate}}</label>
                                 <div class="col-sm-6 input-date">
                                     <input type="text" readonly class="form-control form-control-sm"
                                         formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate"
@@ -48,7 +48,7 @@
                                     <mat-datepicker #picker disabled="false"></mat-datepicker>
                                 </div>
                                 <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')"
-                                    class="btn btn-primary btn-elevate mx-2">Clear</button>
+                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear" | translate}}</button>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         <div class="col-sm-6"
                             *ngIf="createFormGroup.value.fromDate != '' && createFormGroup.value.toDate != '' ">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Company</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.company" | translate}}</label>
                                 <div class="col-sm-8">
                                     <ng-select class="ng-custom-select" placeholder="Please Select"
                                         (change)="changeOptions($event, 'channel')" [items]="selectOptions.companies"
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Channel</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.channel" | translate}}</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.channels.length == 0 " class="ng-custom-select"
                                         placeholder="Please Select" (change)="changeOptions($event, 'region')"
@@ -83,7 +83,7 @@
                         *ngIf="createFormGroup.value.fromDate != '' && createFormGroup.value.toDate != '' ">
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Region</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.region" | translate}}</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.regions.length == 0 " class="ng-custom-select"
                                         placeholder="Please Select" (change)="changeOptions($event, 'cluster')"
@@ -95,7 +95,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Cluster</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.cluster" | translate}}</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.cluster.length == 0 " class="ng-custom-select"
                                         placeholder="Please Select" (change)="changeOptions($event, 'branch')"
@@ -110,7 +110,7 @@
                         *ngIf="createFormGroup.value.fromDate != '' && createFormGroup.value.toDate != '' ">
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Branch</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.branch" | translate}}</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.branches.length == 0 " class="ng-custom-select"
                                         placeholder="Please Select" (change)="changeOptions($event, 'agent')"
@@ -122,7 +122,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Agent Name</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.agent_name" | translate}}</label>
                                 <div class="col-sm-8">
                                     <ng-select [readonly]="selectOptions.agents.length == 0 " class="ng-custom-select"
                                         placeholder="Please Select" (change)="changeOptions($event, 'office')"
@@ -152,24 +152,24 @@
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
                 <div class="date-display">
-                    <span *ngIf="createFormGroup.value.fromDate">From Date: {{
+                    <span *ngIf="createFormGroup.value.fromDate">{{"FORM.from_date" | translate}}: {{
                         formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
-                    <span *ngIf="createFormGroup.value.toDate">To Date: {{
+                    <span *ngIf="createFormGroup.value.toDate">{{"FORM.to_date" | translate}}: {{
                         formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
                 </div>
             </div>
             <div class="search-display">
                 <div *ngIf="createFormGroup.value.companyId != '' || 
                 createFormGroup.value.channelId !='' || createFormGroup.value.regionId != '' ">
-                    <span *ngIf="createFormGroup.value.companyId">Company: {{ companyName }} </span>
+                    <span *ngIf="createFormGroup.value.companyId">{{"FORM.compnay" | translate}}: {{ companyName }} </span>
                     <span *ngIf="createFormGroup.value.channelId">Channel: {{ channelName }} </span>
-                    <span *ngIf="createFormGroup.value.regionId">Region: {{ regionName }} </span>
+                    <span *ngIf="createFormGroup.value.regionId">{{"FORM.region" | translate}}: {{ regionName }} </span>
                 </div>
                 <div *ngIf="createFormGroup.value.clusterId != '' || 
                 createFormGroup.value.branchId !='' || createFormGroup.value.agentId !='' ">
-                    <span *ngIf="createFormGroup.value.clusterId">Cluster: {{ clusterName }} </span>
-                    <span *ngIf="createFormGroup.value.branchId">Branch: {{ branchName }}</span>
-                    <span *ngIf="createFormGroup.value.agentId">Agent: {{ agentName }} </span>
+                    <span *ngIf="createFormGroup.value.clusterId">{{"FORM.cluster" | translate}}: {{ clusterName }} </span>
+                    <span *ngIf="createFormGroup.value.branchId">{{"FORM.branch" | translate}}: {{ branchName }}</span>
+                    <span *ngIf="createFormGroup.value.agentId">{{"FORM.agent_name" | translate}}: {{ agentName }} </span>
                 </div>
             </div>
         </div>
@@ -184,9 +184,9 @@
                 </tr>
                 <tr>
                     <th style="min-width: 50px; max-width: 50px;">No</th>
-                    <th>Branch</th>
-                    <th>Channel</th>
-                    <th>Agent Name</th>
+                    <th>{{"REPORT.Branch" | translate}}</th>
+                    <th>{{"REPORT.Channel" | translate}}</th>
+                    <th>{{"REPORT.Agent_Name" | translate}}</th>
                     <th>Agent No.</th>
                     <th style="min-width: 160px;" *ngFor="let product of productList; let i = index">
                         <span>No of Policies
