@@ -227,6 +227,15 @@ export const locale = {
       average_age: "Average Age",
       package: "Package",
       no_of_locations: "No of location",
+      btn_previous: "Previous",
+      others: "Others",
+      raw_material_storage: "Raw Material Storage",
+      transportation: "Transportation",
+      warehouse: "Warehouse",
+      warehousing: "Warehousing",
+      goods_in_warehouses: "Goods in Warehouses",
+      goods_in_transporation: "Goods In Transporation",
+      transporation: "Transporation",
     },
     NAV: {
       my_acc: "My Account",
@@ -242,12 +251,6 @@ export const locale = {
       change_pw: "Change Password",
       setting: "Setting",
       logout: "Logout",
-      others: "Others",
-      raw_material_storage: "Raw Material Storage",
-      transportation: "Transportation",
-      warehouse: "Warehouse",
-      btn_previous: "Previous",
-
     },
     TABLE: {
       'FNA ID': "FNA ID",
