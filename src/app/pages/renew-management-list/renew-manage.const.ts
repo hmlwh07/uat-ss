@@ -48,6 +48,16 @@ export const RenewCol: TableCol[] = [
     field: "currency",
   },
   {
+    title: "Policy Inception Date",
+    type: COLTYPE.FEILD,
+    field: "policyInceptionDate",
+  },
+  {
+    title: "Policy Expiry Date",
+    type: COLTYPE.FEILD,
+    field: "policyExpiryDate",
+  },
+  {
     title: "Status",
     type: COLTYPE.FEILD,
     field: "status",
@@ -78,6 +88,8 @@ export const ActivityDisplayCol: string[] = [
   "agentName",
   "premium",
   "currency",
+  "policyInceptionDate",
+  "policyExpiryDate",
   "status",
   "actions",
 ]

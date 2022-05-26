@@ -99,6 +99,7 @@ export const locale = {
       saving: "Saving",
       protection: "Protection",
       btn_back: "Back",
+      btn_confirm: "Confirm",
       btn_save_and_next: "Save & Next",
       btn_next: "Next",
       name: 'Name',

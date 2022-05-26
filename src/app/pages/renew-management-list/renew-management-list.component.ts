@@ -94,15 +94,27 @@ export class RenewManagementListComponent implements OnInit {
   }
 
   confirmRenew(data) {
-    if (data.status != "confirm") {
-      this.renewService.confirmRenew(data.policyNumber).toPromise().then((res) => {
-        if (res) {
-          console.log(res);
-          
-          this.alertService.activate('This record was updated', 'Success Message');
-          this.navigateToDetail(res)
-        }
-      })
+    if (data.status != 'confirm') {
+      this.alertService
+        .activate('Are you sure want to confirm?', 'Warning Message')
+        .then(async (result) => {
+          if (result) {
+            this.renewService
+              .confirmRenew(data.policyNumber)
+              .toPromise()
+              .then((res) => {
+                if (res) {
+                  console.log(res);
+
+                  this.alertService.activate(
+                    'This record was updated',
+                    'Success Message'
+                  );
+                  this.navigateToDetail(res);
+                }
+              });
+          }
+        });
     }
   }
 }
