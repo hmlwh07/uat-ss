@@ -37,7 +37,6 @@
                 <div class="col-sm-6">
                     <div class="input-group">
                         <input type="text" name="policyDuration" formControlName="policyDuration" class="form-control form-control-sm" (change)="doValid()">
-                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                         <ng-select class="ng-custom-select" (change)="updateValidation()" [items]="durtaionOption" bindLabel="value" bindValue="code" formControlName="policyUnit">
                         </ng-select>
 

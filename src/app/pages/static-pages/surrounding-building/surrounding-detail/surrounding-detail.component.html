@@ -55,7 +55,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Distance to Building (feet)</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control form-control-sm " name="distanceToBuilding" autocomplete="off" [class.is-invalid]="isControlInvalid('distanceToBuilding')" [class.is-valid]="isControlValid('distanceToBuilding')" formControlName="distanceToBuilding"
+                            <input type="number" class="form-control form-control-sm " name="distanceToBuilding" autocomplete="off" [class.is-invalid]="isControlInvalid('distanceToBuilding')" [class.is-valid]="isControlValid('distanceToBuilding')" max="100" formControlName="distanceToBuilding"
                             />
                         </div>
                     </div>
