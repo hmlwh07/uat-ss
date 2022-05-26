@@ -35,7 +35,7 @@ export class RecruitmentTrainingComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Recruitment and Training').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'recruitment_and_training').then(result => {
       if (result) {
         this.getAll();
       }
