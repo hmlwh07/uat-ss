@@ -2971,8 +2971,8 @@ const STATIC_PAGES = [
     }, {
         id: 'static_1648784270356',
         type: _products_models_product_dto__WEBPACK_IMPORTED_MODULE_0__.PageUIType.STATIC,
-        pageTitle: "Tavel Risk",
-        showLabel: "Tavel Risk",
+        pageTitle: "Travel Risk",
+        showLabel: "Travel Risk",
         pageType: 'form',
         tableName: 'static',
         pageIcon: "fa-briefcase"
