@@ -161,6 +161,7 @@ export const locale = {
       team_veiw: 'Team View',
       application_list: 'Application List',
       quotation_list: 'Quotation List',
+      renewal_list: 'Renewal List',
       exchange_rate: 'Exchange Rate',
       currency: 'Currency',
       currency_exchange: 'Currency Exchange',

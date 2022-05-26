@@ -15,14 +15,12 @@ export class RenewManageService extends BizOperationService<RenewManage, number>
   }
 
   getRenewList(search: any = {}) {
-    // let url = API_RENEW_URL + "?isTeam=true&"
-    // if (search.type) {
-    //   url = url + "type=" + search.type + "&"
-    // } if (search.title) {
-    //   url = url + "title=" + search.title + "&"
+    // let url = API_RENEW_URL + "?"
+    // if (search.policyNumber) {
+    //   url = url + "policyNumber=" + search.policyNumber + "&"
     // } 
-    // if (search.status) {
-    //   url = url + "status=" + search.status+ "&"
+    // if (search.policyHolder) {
+    //   url = url + "policyHolder=" + search.policyHolder+ "&"
     // }
     // if (search.startDate) {
     //  url = url + "startDate=" + moment(search.startDate).format("YYYY-MM-DD") + "&"
@@ -30,6 +28,7 @@ export class RenewManageService extends BizOperationService<RenewManage, number>
     // if (search.endDate) {
     //    url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
     // }
+    // return this.httpClient.get(url)
 
     return this.findAll()
 
