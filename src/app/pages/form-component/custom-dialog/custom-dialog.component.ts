@@ -43,7 +43,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
       // console.log(this.selectedData[this.config.valueField]);
       // console.log(this.config,this.selectedData);
       let prod = this.prodService.createingProd
-      let checkArray = this.globalService.getParnet(prod, this.prodService.viewType, "drivers_page")
+      let checkArray = this.globalService.getParnet(prod, this.prodService.viewType, "drivers_page") || []
       if (this.selectedData[this.config.valueField]) {
         if (checkArray.length > 0) {
           let checkData = checkArray.find(data => data[this.config.valueField] == this.selectedData[this.config.valueField])
