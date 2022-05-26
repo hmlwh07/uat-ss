@@ -36,7 +36,7 @@ export class SalesTeamComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Sales Team').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'sales_team').then(result => {
       if (result) {
         this.getAll();
       }

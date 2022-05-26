@@ -283,6 +283,8 @@ export const locale = {
       factory_building: "စက်ရုံအဆောက်အအုံ",
       machinery: "စက်ယန္တရား",
       manufacturing_process:"ထုတ်လုပ်မှုလုပ်ငန်းစဉ်",
+      marketing_assets: "ဈေးကွက်ချဲ့ထွင်ရေးဆိုင်ရာပစ္စည်းများ",
+      sales_team: "အရောင်း အဖွဲ့",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

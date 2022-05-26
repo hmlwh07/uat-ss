@@ -280,7 +280,9 @@ export const locale = {
       transporation: "Transporation",
       factory_building:"Factory Building/s",
       machinery:"Machinery",
-      manufacturing_process:"Manufacturing Process"
+      manufacturing_process:"Manufacturing Process",
+      marketing_assets: "Marketing Assets",
+      sales_team: "Sales Team",
     },
     NAV: {
       my_acc: "My Account",
