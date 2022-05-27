@@ -16,11 +16,12 @@ import { CustomerListShareModule } from '../customer-list/customer-list.share.mo
 import { CampaignListComponent } from './campaign-list/campaign-list.component';
 import { LeadDetailShareModule } from './lead-detail.share.module';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
+import { ShareComponentModule } from '../share-components/share-component.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    FormComponentModule,
+    // FormComponentModule,
     ReactiveFormsModule,
     InlineSVGModule,
     CRUDTableModule,
@@ -32,6 +33,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     LeadDetailShareModule,
     MatInputModule,
     LanguageModule,
+    ShareComponentModule,
     RouterModule.forChild([
       {
         path: '',

@@ -27,7 +27,7 @@ import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { FormViewModalComponent } from './form-view-modal/form-view-modal.component';
 import { LabelConfigModalComponent } from './label-config-modal/label-config-modal.component';
 import { LabelBoxComponent } from './label-box/label-box.component';
-import { NrcPopupPage } from './nrc-popup/nrc-popup.page';
+// import { NrcPopupPage } from './nrc-popup/nrc-popup.page';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -39,6 +39,8 @@ import { CustomerListShareModule } from '../customer-list/customer-list.share.mo
 import { QRCodeModule } from 'angularx-qrcode';
 import { CustomInputAlertComponent } from './custom-input-alert/custom-input-alert.component';
 import { LanguageModule } from '../../modules/languages/languages.modules';
+import { CustomerDetailShareModule } from '../customer-detail/customer-detail.share.module';
+import { ShareComponentModule } from '../share-components/share-component.module';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,7 @@ import { LanguageModule } from '../../modules/languages/languages.modules';
     FormViewModalComponent,
     LabelConfigModalComponent,
     LabelBoxComponent,
-    NrcPopupPage,
+    // NrcPopupPage,
     PrintViewBoxComponent
     
     // CusMatDatePicker,
@@ -90,7 +92,7 @@ import { LanguageModule } from '../../modules/languages/languages.modules';
     FormViewModalComponent,
     LabelConfigModalComponent,
     LabelBoxComponent,
-    NrcPopupPage,
+    // NrcPopupPage,
     PrintViewBoxComponent
     // CusMatDatePicker
   ],
@@ -104,7 +106,7 @@ import { LanguageModule } from '../../modules/languages/languages.modules';
     ImportConfigModalComponent,
     // SortConfigModalComponent
     FormViewModalComponent,
-    NrcPopupPage,
+    // NrcPopupPage,
     PrintViewBoxComponent
   ],
   imports: [
@@ -127,8 +129,10 @@ import { LanguageModule } from '../../modules/languages/languages.modules';
     MatNativeDateModule,
     StaticPrintModule,
     CustomerListShareModule,
+    CustomerDetailShareModule,
     QRCodeModule,
-    LanguageModule
+    LanguageModule,
+    ShareComponentModule,
   ],
   providers: [DatePipe,DecimalPipe]
 })

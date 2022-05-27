@@ -15,6 +15,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     FormsModule,
     ReactiveFormsModule,
     CRUDTableModule,
+    LanguageModule
   ]
 })
 export class DashboardShareModule { }
