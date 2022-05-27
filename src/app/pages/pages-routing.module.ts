@@ -90,7 +90,7 @@ const routes: Routes = [
           import('./renew-management-list/renew-management-list.module').then((m) => m.RenewManagementListModule),
       },
       {
-        path: 'salse/renew-policy/detail',
+        path: 'sales/renew-policy/detail',
         loadChildren: () =>
           import('./renew-management-detail/renew-management-detail.module').then((m) => m.RenewManagementDetailModule),
       },
