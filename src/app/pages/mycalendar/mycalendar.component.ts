@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, } from 'date-fns';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, } from 'angular-calendar';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { EventListComponent } from './event-list/event-list.component';
 import { LoadingService } from 'src/app/modules/loading-toast/loading/loading.service';
+import { LanguagesService } from 'src/app/modules/languages/languages.service';
 
 const colors: any = {
   red: {
@@ -116,15 +117,17 @@ export class MycalendarComponent implements OnInit {
   ];
   events: CalendarEvent[] = []
   activeDayIsOpen: boolean = false;
+  language:any='en'
 
-
-  constructor(private loadingService:LoadingService,  private modal: NgbModal, private activityService: ActivityManageService, private router: Router,private modalCrl:NgbModal) {
+  constructor(private lang:LanguagesService,private cdf:ChangeDetectorRef, private loadingService:LoadingService,  private modal: NgbModal, private activityService: ActivityManageService, private router: Router,private modalCrl:NgbModal) {
   }
 
   ngOnInit(): void {
+    
    
   }
   ngAfterViewInit() {
+  
     this.getActivity()
   }
   getActivity() {

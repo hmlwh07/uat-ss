@@ -4,6 +4,7 @@
 
 .modal {
     // Header
+   backdrop-filter: brightness(.75);
     .modal-header {
         align-items: center;
 
@@ -78,6 +79,7 @@
                 @include border-radius($border-radius);
 
                 .modal-content {
+                   backdrop-filter: brightness(.75);
                     border: 0;
                     @include border-radius($border-radius);
                 }
@@ -109,6 +111,9 @@
 .modal-open {
     overflow: auto !important;
     padding: 0 !important;
+    .modal{
+       backdrop-filter: brightness(.75);
+    }
 }
 
 // Responsive breakpoints
