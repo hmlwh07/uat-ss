@@ -1,14 +1,14 @@
 <div class="form-group">
-    <button type="button" class="btn btn-primary mx-2" (click)="newData('add')">Add New Data</button>
+    <button type="button" class="btn btn-primary mx-2" (click)="newData('add')">{{"FORM.add_new_data" | translate }}</button>
 </div>
 <div class="table-responsive angular-bootstrap-table">
     <table class="table table-head-custom table-vertical-center">
         <thead>
             <tr>
-                <th>Building Description</th>
-                <th>Sum Insured</th>
-                <th>Premium </th>
-                <th>Action</th>
+                <th>{{"FORM.building_description" | translate }}</th>
+                <th>{{"FORM.sum_insured" | translate }}</th>
+                <th>{{"FORM.premium" | translate }}</th>
+                <th>{{"FORM.action" | translate }}</th>
             </tr>
         </thead>
         <tbody>
@@ -32,9 +32,9 @@
 </div>
 <div class="row mt-3">
     <div class="col-sm-6 mx-auto">
-        <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+        <button class="btn btn-block btn-secondary" (click)="backPage()"> {{"FORM.btn_previous" | translate }} </button>
     </div>
     <div class="col-sm-6 mx-auto">
-        <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+        <button class="btn btn-block btn-primary" (click)="nextPage()">{{"FORM.btn_save_and_next" | translate }} </button>
     </div>
 </div>

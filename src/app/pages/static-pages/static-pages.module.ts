@@ -41,6 +41,7 @@ import { FormComponentModule } from '../form-component/form-component.module';
 // import { CommonListingComponent,ListingPipe} from './common-list/common-list.component';
 // import {ListingsLeadListComponent } from './listings/lead/listings-lead-list.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [CoveragePageComponent, AddonPageComponent, SimplePageComponent, StaticPageDirective, HealthQuoComponent, EducationLifeComponent, EducationLifeGripComponent, SimplePagePolicyComponent, FirePageComponent, FireRiskComponent, SurroundingBuildingComponent, SurroundingDetailComponent, CalculatedBuildingComponent, TablesComponent, AddCalculatedBuildingComponent,RiskDetailComponent,EndoComponent,EndoGripComponent,MotorAddonComponent,TravelComponent,TravelRiskDetailComponent],
@@ -63,7 +64,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatFormFieldModule,
     NgxCurrencyModule,
     FormComponentModule,
-    MatMenuModule
+    MatMenuModule,
+    LanguageModule
   ]
 })
 export class StaticPagesModule { }

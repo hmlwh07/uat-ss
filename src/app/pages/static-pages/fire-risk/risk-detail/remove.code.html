@@ -5,7 +5,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Building Description</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.building_description" | translate }}</label>
                       <div class="col-md-6">
                           <textarea type="text" class="form-control form-control-sm " name="buildingDescription" autocomplete="off" [class.is-invalid]="isControlInvalid('buildingDescription')" [class.is-valid]="isControlValid('buildingDescription')" formControlName="buildingDescription"></textarea>
                       </div>
@@ -13,7 +13,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Type of Building</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.type_of_building" | translate }}</label>
                       <div class="col-md-6">
                           <ng-select class="ng-custom-select" (change)="calcuRate('child')" [class.is-invalid]="isControlInvalid('typeOfBuilding')" [class.is-valid]="isControlValid('typeOfBuilding')" [items]="typeOfBuildingOption" bindLabel="value" bindValue="code" formControlName="typeOfBuilding">
                           </ng-select>
@@ -24,7 +24,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Occupation of Building</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.occupation_of_building" | translate }}</label>
                       <div class="col-md-6">
                           <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('occupationOfBuilding')" (change)="calcuRate()" [class.is-valid]="isControlValid('occupationOfBuilding')" [items]="occupationOfBuildingOption" bindLabel="value" bindValue="code"
                               formControlName="occupationOfBuilding">
@@ -35,7 +35,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Building Class</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.building_class" | translate }}</label>
                       <div class="col-md-6">
                           <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('buildingClass')" [class.is-valid]="isControlValid('buildingClass')" [items]="buildingClassOption" (change)="calcuRate()" bindLabel="value" bindValue="code" formControlName="buildingClass">
                           </ng-select>
@@ -47,7 +47,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Construction of Roof</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.construction_of_roof" | translate }}</label>
                       <div class="col-md-6">
                           <!-- <input type="number" class="form-control form-control-sm " name="constructionOfRoof"
                           autocomplete="off" [class.is-invalid]="isControlInvalid('constructionOfRoof')"
@@ -60,7 +60,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Construction of Walls</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.construction_of_walls" | translate }}</label>
                       <div class="col-md-6">
                           <!-- <input type="number" class="form-control form-control-sm " name="constructionOfWall"
                           autocomplete="off" [class.is-invalid]="isControlInvalid('constructionOfWall')"
@@ -77,7 +77,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Construction of Floor</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.construction_of_floor" | translate }}</label>
                       <div class="col-md-6">
                           <!-- <input type="number" class="form-control form-control-sm " name="constructionOfFloor"
                           autocomplete="off" [class.is-invalid]="isControlInvalid('constructionOfFloor')"
@@ -90,7 +90,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">No. of Story of Building</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.story_of_building" | translate }}</label>
                       <div class="col-md-6">
                           <input type="number" class="form-control form-control-sm " name="storyOfBuilding" autocomplete="off" [class.is-invalid]="isControlInvalid('storyOfBuilding')" [class.is-valid]="isControlValid('storyOfBuilding')" formControlName="storyOfBuilding" />
                       </div>
@@ -102,7 +102,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Length in Feet</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.length_in_feet" | translate }}</label>
                       <div class="col-md-6">
                           <input type="number" class="form-control form-control-sm " name="length" autocomplete="off" [class.is-invalid]="isControlInvalid('length')" [class.is-valid]="isControlValid('length')" formControlName="length" />
                       </div>
@@ -110,7 +110,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Height in Feet</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.height_in_feet" | translate }}</label>
                       <div class="col-md-6">
                           <input type="number" class="form-control form-control-sm " name="height" autocomplete="off" [class.is-invalid]="isControlInvalid('height')" (change)="calcuSquare()" [class.is-valid]="isControlValid('height')" formControlName="height" />
                       </div>
@@ -122,7 +122,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Width in Feet</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.width_in_feet" | translate }}</label>
                       <div class="col-md-6">
                           <input type="number" class="form-control form-control-sm " name="width" autocomplete="off" [class.is-invalid]="isControlInvalid('width')" [class.is-valid]="isControlValid('width')" formControlName="width" (change)="calcuSquare()" />
                       </div>
@@ -130,7 +130,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Total Square in Feet</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.total_square_in_feet" | translate }}</label>
                       <div class="col-md-6">
                           <input type="number" class="form-control form-control-sm " name="totalSquareFoot" autocomplete="off" [class.is-invalid]="isControlInvalid('totalSquareFoot')" [class.is-valid]="isControlValid('totalSquareFoot')" formControlName="totalSquareFoot" />
                       </div>
@@ -142,7 +142,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Year of Construction</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.year_of_construction" | translate }}</label>
                       <div class="col-md-6">
                           <input type="number" class="form-control form-control-sm " name="yearOfConstruction" autocomplete="off" [class.is-invalid]="isControlInvalid('yearOfConstruction')" [class.is-valid]="isControlValid('yearOfConstruction')" formControlName="yearOfConstruction"
                           />
@@ -151,7 +151,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Special Decoration</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.special_decoration" | translate }}</label>
                       <div class="col-md-6">
                           <!-- <input type="number" class="form-control form-control-sm " name="specialDecoration"
                           autocomplete="off" [class.is-invalid]="isControlInvalid('specialDecoration')"
@@ -170,7 +170,7 @@
           <div class="row" style="align-items: center">
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Proposed Sum Insured</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.proposed_sum_insured" | translate }}</label>
                       <div class="col-md-6">
                           <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " name="sumInsure" autocomplete="off" [class.is-invalid]="isControlInvalid('sumInsure')" [class.is-valid]="isControlValid('sumInsure')"
                               formControlName="sumInsure" />
@@ -179,7 +179,7 @@
               </div>
               <div class="col-md-6">
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label">Proposed Stock Value</label>
+                      <label class="col-md-4 col-form-label">{{"FORM.proposed_stock_value" | translate }}</label>
                       <div class="col-md-6">
                           <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " name="proposeStockValue" autocomplete="off" [class.is-invalid]="isControlInvalid('proposeStockValue')"
                               [class.is-valid]="isControlValid('proposeStockValue')" formControlName="proposeStockValue" />
@@ -201,8 +201,8 @@
 
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button>
-          <button type="submit" class="btn btn-primary btn-elevate">Save</button>
+          <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">{{"FORM.btn_cancel” | translate }}</button>
+          <button type="submit" class="btn btn-primary btn-elevate">{{"FORM.btn_save” | translate }}</button>
       </div>
   </form>
 </ng-container>
@@ -213,7 +213,7 @@
       </app-calculated-building>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">Cancel</button>
-      <button type="button" class="btn btn-primary btn-elevate" (click)="calPremimun()">Save</button>
+      <button type="button" class="btn btn-light btn-elevate mr-2" (click)="calPremimun()">{{"FORM.btn_cancel” | translate }}</button>
+      <button type="button" class="btn btn-primary btn-elevate" (click)="calPremimun()">{{"FORM.btn_save” | translate }}</button>
   </div>
 </ng-template>
