@@ -119,15 +119,10 @@ export const DynamicAsideMenuConfig = {
         {
           title: 'Renewal Policies',
           page: '/sale/renew-policy',
-          show: true,
-          submenu_show: false,
-          submenu: [
-            {
-              title: 'Renewal Policies Detail',
-              page: '/sale/renew-policy/detail',
-              show: false
-            },
-          ]
+        },
+        {
+          title: 'Renewal Policies Detail',
+          page: '/sale/renew-policy/detail',
         },
         {
           title: 'Sales Form',
