@@ -1,11 +1,17 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Capacitor } from '@capacitor/core';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from "rxjs/operators";
+import { LoadingService } from 'src/app/modules/loading-toast/loading/loading.service';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { AlertService } from '../../modules/loading-toast/alert-model/alert.service';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { ActivityStatus } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto';
 import { RenewCol, ActivityDisplayCol } from './renew-manage.const';
 import { RenewManageService } from './renew-manage.service';
+
 
 @Component({
   selector: 'app-renew-management-list',
@@ -19,8 +25,13 @@ export class RenewManagementListComponent implements OnInit {
   renewList = [];
   actForm: FormGroup;
   activityStatus = ActivityStatus
+  private downED = "attachment-downloader/tcs.htm?fileName="
+  private fileNameURL = "attachment-downloader/tcs.htm?fileName="
 
-  constructor(private fb: FormBuilder, private router: Router, private cdf: ChangeDetectorRef, private renewService: RenewManageService, private alertService: AlertService) {
+  constructor(private fb: FormBuilder, private router: Router, private cdf: ChangeDetectorRef, 
+    private renewService: RenewManageService, private alertService: AlertService, 
+    private loadingService: LoadingService,
+    private attachmentDownloadService: AttachmentDownloadService) {
     this.loadForm();
   }
 
@@ -57,6 +68,8 @@ export class RenewManagementListComponent implements OnInit {
   }
 
   actionBtn(event) {
+    console.log('actionBtn', event);
+
     if (event.cmd == 'edit') {
       this.navigateToDetail(event.data)
     }
@@ -65,7 +78,10 @@ export class RenewManagementListComponent implements OnInit {
     }
     else if (event.cmd == "confirm") {
       this.confirmRenew(event.data)
+    } else if(event.cmd == 'download'){
+        this.download(event.data.documentName);
     }
+    
   }
 
   // helpers for View
@@ -128,4 +144,31 @@ export class RenewManagementListComponent implements OnInit {
       }
     })
   }
+
+  async download(fileName: string) {
+    await this.loadingService.activate()
+    this.getfileExt(fileName).pipe(mergeMap((x) => {
+      let ext = x ? x.docExtension : "pdf"
+      return this.attachmentDownloadService.getFile(this.downED + fileName + "." + ext).pipe(map((x) => {
+        return { data: x, ext: ext }
+      }))
+    })).toPromise().then(async (res: any) => {
+      if (res) {
+        if (Capacitor.isNativePlatform()) {
+          this.attachmentDownloadService.mobileTCSDownload(fileName + "." + res.ext, res.data)
+        } else {
+          await this.loadingService.deactivate()
+          this.attachmentDownloadService.downloadTCSFile(res.data, fileName + "." + res.ext)
+        }
+      }
+      await this.loadingService.deactivate()
+    }).catch(async (err) => {
+      await this.loadingService.deactivate()
+    })
+  }
+
+  getfileExt(fileName) {
+    return this.attachmentDownloadService.get(this.fileNameURL + fileName).pipe(catchError(() => { return of(null) }))
+  }
+
 }
