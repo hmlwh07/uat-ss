@@ -197,7 +197,7 @@ export const locale = {
       old_password: 'လျှို့ဝှတ်နံပါတ် အဟောင်း ',
       new_password: 'လျှို့ဝှတ်နံပါတ် အသစ်',
       comfirm_password: 'လျှို့ဝှတ်နံပါတ် အတည်ပြုပါ',
-      requset_auth: 'စစ်မှန်ကြောင်း အထောက်အထားတောင်းဆိုပါ',
+      request_auth: 'စစ်မှန်ကြောင်း အထောက်အထားတောင်းဆိုပါ',
       policy_no: "Policy Number",
       policy_status: "Policy Status",
       policy_date: "Policy Inception Date",
@@ -322,6 +322,7 @@ export const locale = {
       proposed_stock_value: "စုစုပေါင်း အဆိုပြုကုန်ပစ္စည်း တန်ဖိုး",
       add_new_data: "အသစ်ထည့်ရန်",
       unit: "ယူနစ်",
+      base_coverage: "အခြေခံ အကာအကွယ်",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

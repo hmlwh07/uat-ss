@@ -3,19 +3,19 @@
     <tr>
       <th></th>
       <th style="text-align: left;">
-        Base Coverage
+        {{"FORM.base_coverage" | translate }}
       </th>
       <th *ngIf="product.code == 'CLFR01'">
         Option
       </th>
       <th *ngIf="addOns.isSum">
-        Sum Insured
+        {{"FORM.sum_insured" | translate }}
       </th>
       <th *ngIf="addOns.isUnit">
-        Unit
+        {{"FORM.unit" | translate }}
       </th>
       <th *ngIf="addOns.isPremium">
-        Premium
+        {{"FORM.premium" | translate }}
       </th>
     </tr>
   </thead>
@@ -80,12 +80,12 @@
 <hr> -->
 <div class="row" *ngIf="!fireAdd">
   <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+    <button class="btn btn-block btn-secondary" (click)="backPage()"> {{"FORM.btn_previous" | translate }} </button>
   </div>
   <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+    <button class="btn btn-block btn-primary" (click)="nextPage()"> {{"FORM.btn_save_and_next" | translate }} </button>
   </div>
 </div>
 <div *ngIf="fireAdd" style="text-align: right;">
-  <button class="btn btn-primary" (click)="nextPage()"> Save </button>
+  <button class="btn btn-primary" (click)="nextPage()"> {{"FORM.btn_save" | translate }} </button>
 </div>
