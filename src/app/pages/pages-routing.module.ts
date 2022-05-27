@@ -79,18 +79,18 @@ const routes: Routes = [
         loadChildren: () =>
           import('./policy/policy.module').then((m) => m.PolicyModule),
       },
+      // {
+      //   path: 'sales/renew-policy',
+      //   loadChildren: () =>
+      //     import('./renew-management-list/renew-management-list.module').then((m) => m.RenewManagementListModule),
+      // },
       {
-        path: 'sale/renew-policy',
+        path: 'sales/renew-policy',
         loadChildren: () =>
           import('./renew-management-list/renew-management-list.module').then((m) => m.RenewManagementListModule),
       },
       {
-        path: 'sale/renew-policy',
-        loadChildren: () =>
-          import('./renew-management-list/renew-management-list.module').then((m) => m.RenewManagementListModule),
-      },
-      {
-        path: 'sale/renew-policy/detail',
+        path: 'salse/renew-policy/detail',
         loadChildren: () =>
           import('./renew-management-detail/renew-management-detail.module').then((m) => m.RenewManagementDetailModule),
       },

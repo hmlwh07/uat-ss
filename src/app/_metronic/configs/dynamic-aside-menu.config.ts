@@ -101,28 +101,20 @@ export const DynamicAsideMenuConfig = {
       root: true,
       icon: 'flaticon-cart',
       svg: './assets/media/svg/icons/Design/Layers.svg',
-      page: '/sale/application/list',
+      page: '/sales/application/list',
       bullet: 'dot',
       show: true,
       submenu_show: true,
       submenu: [
         {
           title: 'Quotation',
-          page: '/sale/quotation/list',
+          page: '/sales/quotation/list',
           show: true
         },
         {
           title: 'Application',
-          page: '/sale/application/list',
+          page: '/sales/application/list',
           show: true
-        },
-        {
-          title: 'Renewal Policies',
-          page: '/sale/renew-policy',
-        },
-        {
-          title: 'Renewal Policies Detail',
-          page: '/sale/renew-policy/detail',
         },
         {
           title: 'Sales Form',
@@ -132,6 +124,17 @@ export const DynamicAsideMenuConfig = {
           title: 'Sales Result',
           page: '/resourse-detail',
         },
+        {
+          title: 'Renewal Policies',
+          page: '/sales/renew-policy',
+          submenu: [
+            {
+              title: 'Renewal Policies Detail',
+              page: '/sales/renew-policy/detail',
+            },
+          ]
+        },
+        
       ]
     },
     {
@@ -166,7 +169,7 @@ export const DynamicAsideMenuConfig = {
           title: 'Prospect Customer',
           page: '/customer/prospect-list',
         },
-       
+
       ]
     },
     {
