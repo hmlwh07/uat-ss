@@ -238,11 +238,11 @@ export class DashboardKbzMsLpPage implements OnInit {
   }
 
   goToSaleQuotation() {
-    this.router.navigate(['/sale/quotation/list'])
+    this.router.navigate(['/sales/quotation/list'])
   }
 
   goToSalePolicies() {
-    this.router.navigate(['/sale/application/list'])
+    this.router.navigate(['/sales/application/list'])
   }
 
   goToCalendar() {

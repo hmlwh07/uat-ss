@@ -191,7 +191,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   }
 
   goToSalePolicies() {
-    this.router.navigate(['/sale/application/list'])
+    this.router.navigate(['/sales/application/list'])
   }
 
   goToActivities() {

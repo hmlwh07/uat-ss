@@ -130,7 +130,7 @@ export class RenewManagementListComponent implements OnInit {
   }
 
   navigateToDetail(data) {
-    this.router.navigate(["sale/renew-policy/detail"], { queryParams: { data: JSON.stringify(data) } })
+    this.router.navigate(["sales/renew-policy/detail"], { queryParams: { data: JSON.stringify(data) } })
   }
 
   confirmRenew(data) {

@@ -210,7 +210,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
   }
 
   goToSalePolicies() {
-    this.router.navigate(['/sale/application/list'])
+    this.router.navigate(['/sales/application/list'])
   }
 
   goToActivities() {

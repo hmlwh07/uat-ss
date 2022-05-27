@@ -384,9 +384,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     // if (this.type == 'quotation') {
     //   this.productService.createingProd = null;
     //   this.productService.editData = null;
-    //   this.router.navigateByUrl("/sale/quotation/list")
+    //   this.router.navigateByUrl("/sales/quotation/list")
     // } else
-    //   this.router.navigateByUrl("/sale/application/list")
+    //   this.router.navigateByUrl("/sales/application/list")
     this.location.back()
   }
 
