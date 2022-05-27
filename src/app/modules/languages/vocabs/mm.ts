@@ -273,7 +273,7 @@ export const locale = {
       total: "စုစုပေါင်း",
       warehousing: "ဂိုဒေါင်",
       goods_in_warehouses: "ဂိုဒေါင်ထဲရှိကုန်ပစ္စည်းများ",
-      goods_in_transporation: "သယ်ယူပို့ဆောင်မည့်ကုန်ပစ္စည်းများ",
+      goods_in_transportation: "သယ်ယူပို့ဆောင်မည့်ကုန်ပစ္စည်းများ",
       transporation: "သယ်ယူပို့ဆောင်ရေး",
       factory_building: "စက်ရုံအဆောက်အအုံ",
       machinery: "စက်ယန္တရား",
