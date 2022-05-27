@@ -132,7 +132,7 @@ import { ShareComponentModule } from '../share-components/share-component.module
     CustomerDetailShareModule,
     QRCodeModule,
     LanguageModule,
-    ShareComponentModule
+    ShareComponentModule,
   ],
   providers: [DatePipe,DecimalPipe]
 })
