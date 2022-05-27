@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Lead } from "src/app/pages/lead-detail/lead.dto";
 import { environment } from "../../../../environments/environment";
@@ -10,6 +10,8 @@ import { File } from '@awesome-cordova-plugins/file/ngx';
 import { Capacitor } from "@capacitor/core";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import write_blob from "capacitor-blob-writer";
+import { Observable } from "rxjs";
+import { LanguagesService } from "src/app/modules/languages/languages.service";
 
 const API_UPLOAD_URL = `${environment.apiUrl}/attachment-uploader`;
 @Injectable({
@@ -22,15 +24,56 @@ export class AttachmentUploadService extends BizOperationService<any, number>{
 }
 
 const API_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+const API_TCS_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/tcs`;
 @Injectable({
   providedIn: 'root'
 })
 export class AttachmentDownloadService extends BizOperationService<any, number>{
   constructor(protected httpClient: HttpClient, private file: File, 
     private loadingService: LoadingService, private toastService: KBZToastService, 
-    private alertService: AlertService) {
+    private alertService: AlertService, 
+    private translate: LanguagesService) {
     super(httpClient, API_DOWNLOAD_URL);
   }
+
+  getFile(url) {
+    return this.httpClient.get(API_TCS_DOWNLOAD_URL + url, { responseType: 'blob' })
+}
+
+get(url: string, param?: HttpParams): Observable<any> {
+  return this.httpClient.get(API_TCS_DOWNLOAD_URL + url, { params: param })
+}
+
+async mobileTCSDownload(fileName: string, res: any) {
+  const url = URL.createObjectURL(res);
+  this.file.checkDir(this.file.externalRootDirectory, 'kbzms_downloads').then(response => {
+    this.createFile(fileName, res)
+  }).catch(error => {
+    this.file.createDir(this.file.externalRootDirectory, 'kbzms_downloads', false).then(response => {
+      this.createFile(fileName, res)
+    }).catch(async (e) => {
+      console.log(e);
+      await this.loadingService.deactivate()
+      let msg = this.translate.transform("ERROR.file_error")
+      this.alertService.activate(msg, 'Download File')
+    })
+  })
+
+}
+
+
+downloadTCSFile(data, fileName) {
+  // const blob = new Blob([data], { type: 'text/csv' });
+  // const url= window.URL.createObjectURL(blob);
+  // window.open(url);
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(data);
+  a.download = fileName;
+  a.click();
+  let msg = this.translate.transform("ERROR.download_success")
+  this.alertService.activate(msg, 'Download File')
+  a.remove()
+}
 
   getDownload(id, fileName: string) {
     this.httpClient.get(API_DOWNLOAD_URL + "/" + id, { responseType: 'blob' }).toPromise().then((res) => {
