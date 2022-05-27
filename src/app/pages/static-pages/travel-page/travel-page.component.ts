@@ -187,7 +187,9 @@ export class TravelComponent implements OnInit {
   }
 
   changeTravelDetail(data) {
-    let index = this.tempData['travelDetail'].findIndex(x => x.refId == data.refId)
+    let index = -1
+    if (this.tempData['travelDetail'])
+      index = this.tempData['travelDetail'].findIndex(x => x.refId == data.refId)
     if (index < 0) {
       this.tempData['travelDetail'].push(data)
     } else {
