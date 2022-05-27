@@ -21,6 +21,12 @@ export class MoterPrintComponent implements OnInit {
   policyHolder: any = {}
   address: any = {}
   vehicleDetail: any = {}
+  policyTerm = {
+    "T-004":"3 Months",
+    "T-003": "6 Months",
+    "T-002": "8 Months",
+    "T-001": "1 year",
+  }
   @Input() signId?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   constructor(private motorService: MotorPrintService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService) { }

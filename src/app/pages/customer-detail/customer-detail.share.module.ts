@@ -29,7 +29,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     MatRadioModule,
     MatInputModule,
     LanguageModule,
-    FormComponentModule
+    // FormComponentModule
   ]
 })
 export class CustomerDetailShareModule { }

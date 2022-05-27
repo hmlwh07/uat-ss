@@ -6,6 +6,7 @@ import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { throwIfAlreadyLoaded } from "src/app/modules/loading-toast/module-import-guard";
 import { CustomerListShareModule } from "../customer-list/customer-list.share.module";
 import { FormComponentModule } from "../form-component/form-component.module";
+import { NrcPopupPage } from "../form-component/nrc-popup/nrc-popup.page";
 import { ListingsPagerComponent } from "../static-pages/pager/pager.component";
 import { ActivityItemComponent } from "./activity-item/activity-item.component";
 import { ApplicationItemComponent } from "./application-item/application-item.component";
@@ -26,7 +27,8 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     ApplicationItemComponent,
     QuotationItemComponent,
     CommonList2Component,
-    ListingsPagerComponent
+    ListingsPagerComponent,
+    NrcPopupPage
   ],
   exports: [
     ListingSortPipe,
@@ -37,7 +39,11 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     ApplicationItemComponent,
     QuotationItemComponent,
     CommonList2Component,
-    ListingsPagerComponent
+    ListingsPagerComponent,
+    NrcPopupPage
+  ],
+  entryComponents:[ 
+    NrcPopupPage
   ],
   imports: [
     CommonModule,
