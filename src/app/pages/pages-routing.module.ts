@@ -70,12 +70,12 @@ const routes: Routes = [
           import('./products/products.module').then((m) => m.ProductsModule),
       },
       {
-        path: 'sale',
+        path: 'sales',
         loadChildren: () =>
           import('./quotations/quotations.module').then((m) => m.QuotationsModule),
       },
       {
-        path: 'sale',
+        path: 'sales',
         loadChildren: () =>
           import('./policy/policy.module').then((m) => m.PolicyModule),
       },
