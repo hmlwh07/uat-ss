@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
+import * as moment from 'moment';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { LoadingService } from 'src/app/modules/loading-toast/loading/loading.service';
@@ -24,12 +25,13 @@ export class RenewManagementListComponent implements OnInit {
   displayedColumns = ActivityDisplayCol
   renewList = [];
   actForm: FormGroup;
+  isTeam: boolean = false;
   activityStatus = ActivityStatus
   private downED = "attachment-downloader/tcs.htm?fileName="
   private fileNameURL = "attachment-downloader/tcs.htm?fileName="
 
-  constructor(private fb: FormBuilder, private router: Router, private cdf: ChangeDetectorRef, 
-    private renewService: RenewManageService, private alertService: AlertService, 
+  constructor(private fb: FormBuilder, private router: Router, private cdf: ChangeDetectorRef,
+    private renewService: RenewManageService, private alertService: AlertService,
     private loadingService: LoadingService,
     private attachmentDownloadService: AttachmentDownloadService) {
     this.loadForm();
@@ -38,29 +40,51 @@ export class RenewManagementListComponent implements OnInit {
   ngOnInit(): void {
 
   }
+
   ngAfterViewInit() {
     this.getList()
   }
-  cancel() {
 
+  cancel() {
+    this.actForm.reset();
+    this.getOneMonthAndRefresh();
+    this.getList();
   }
 
   loadForm() {
     this.actForm = new FormGroup({
-      "policyNumber": new FormControl(null),
-      "policyHolder": new FormControl(null),
-      startDate: new FormControl(null),
-      endDate: new FormControl(null)
+      "policyNumber": new FormControl(""),
+      "policyHolder": new FormControl(""),
+      startDate: new FormControl(""),
+      endDate: new FormControl(""),
+      isTeam: new FormControl(this.isTeam)
     })
+  }
+
+  getOneMonthAndRefresh() {
+    let date = new Date();
+    let lastMonthDay = new Date(date.setMonth(date.getMonth() - 1))
+    let monthDay = new Date(date.setMonth(date.getMonth() + 1))
+    this.actForm.controls['startDate'].setValue(lastMonthDay.toISOString());
+    this.actForm.controls['endDate'].setValue(monthDay.toISOString());
+    this.actForm.controls.policyNumber.setValue("");
+    this.actForm.controls.policyHolder.setValue("");
+    this.actForm.controls.isTeam.setValue(this.isTeam);
   }
 
 
   getList() {
-    this.renewService.getRenewList(this.actForm.value).toPromise().then((res: any) => {
-      if (res) {
+    let searchValues = {
+      policyNumber: this.actForm.controls.policyNumber.value || "",
+      policyHolder: this.actForm.controls.policyHolder.value || "",
+      fromDate: this.actForm.controls.startDate.value != null ? moment(this.actForm.controls.startDate.value).format("YYYY-MM-DD") : "",
+      toDate: this.actForm.controls.endDate.value != null ? moment(this.actForm.controls.endDate.value).format("YYYY-MM-DD") : "",
+      isTeam: this.isTeam
+    }
 
+    this.renewService.getRenewList(searchValues).toPromise().then((res: any) => {
+      if (res) {
         this.renewList = res
-        console.log("RenewList", this.renewList)
         this.cdf.detectChanges()
         this.matTable.reChangeData()
       }
@@ -78,10 +102,10 @@ export class RenewManagementListComponent implements OnInit {
     }
     else if (event.cmd == "confirm") {
       this.confirmRenew(event.data)
-    } else if(event.cmd == 'download'){
-        this.download(event.data.documentName);
+    } else if (event.cmd == 'download') {
+      this.download(event.data.documentName);
     }
-    
+
   }
 
   // helpers for View
@@ -134,20 +158,9 @@ export class RenewManagementListComponent implements OnInit {
     }
   }
 
-  getRenewalList() {
-    this.renewService.getRenewList(this.actForm.getRawValue()).toPromise().then((res: any) => {
-      if (res) {
-        this.renewList = res
-        this.cdf.detectChanges()
-        if (this.matTable)
-          this.matTable.reChangeData()
-      }
-    })
-  }
-
   async download(fileName: string) {
     await this.loadingService.activate()
-    this.getfileExt(fileName).pipe(mergeMap((x) => {
+    this.getFileExt(fileName).pipe(mergeMap((x) => {
       let ext = x ? x.docExtension : "pdf"
       return this.attachmentDownloadService.getFile(this.downED + fileName + "." + ext).pipe(map((x) => {
         return { data: x, ext: ext }
@@ -167,8 +180,21 @@ export class RenewManagementListComponent implements OnInit {
     })
   }
 
-  getfileExt(fileName) {
+  getFileExt(fileName) {
     return this.attachmentDownloadService.get(this.fileNameURL + fileName).pipe(catchError(() => { return of(null) }))
+  }
+
+  changeView(type) {
+    if (type == 'team') {
+      this.isTeam = true
+    }
+    else {
+      this.isTeam = false
+
+    }
+    this.actForm.controls.isTeam.setValue(this.isTeam)
+    this.cdf.detectChanges()
+    this.getList()
   }
 
 }

@@ -2,16 +2,16 @@
   <thead class="tbody-align">
     <tr>
       <th>
-        Basic Coverage
+        {{"FORM.base_coverage" | translate }}
       </th>
       <th *ngIf="coverage.isSum">
-        Sum Insured
+        {{"FORM.sum_insured" | translate }}
       </th>
       <th *ngIf="coverage.isUnit">
-        Unit
+        {{"FORM.unit" | translate }}
       </th>
       <th *ngIf="coverage.isPremium">
-        Premium
+        {{"FORM.premium" | translate }}
       </th>
     </tr>
   </thead>
@@ -57,12 +57,12 @@
 <hr>
 <div class="row" *ngIf="!isPopup">
   <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+    <button class="btn btn-block btn-secondary" (click)="backPage()"> {{"FORM.btn_previous" | translate }} </button>
   </div>
   <div class="col-sm-6 mx-auto">
-    <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+    <button class="btn btn-block btn-primary" (click)="nextPage()"> {{"FORM.btn_save_and_next" | translate }} </button>
   </div>
 </div>
 <div *ngIf="isPopup" style="text-align: right;">
-  <button class="btn btn-primary" (click)="nextPage()"> Save </button>
+  <button class="btn btn-primary" (click)="nextPage()"> {{"FORM.btn_save" | translate }} </button>
 </div>

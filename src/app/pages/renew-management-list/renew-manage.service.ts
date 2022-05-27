@@ -15,23 +15,8 @@ export class RenewManageService extends BizOperationService<RenewManage, number>
   }
 
   getRenewList(search: any = {}) {
-    // let url = API_RENEW_URL + "?"
-    // if (search.policyNumber) {
-    //   url = url + "policyNumber=" + search.policyNumber + "&"
-    // } 
-    // if (search.policyHolder) {
-    //   url = url + "policyHolder=" + search.policyHolder+ "&"
-    // }
-    // if (search.startDate) {
-    //  url = url + "startDate=" + moment(search.startDate).format("YYYY-MM-DD") + "&"
-    // }
-    // if (search.endDate) {
-    //    url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
-    // }
-    // return this.httpClient.get(url)
-
-    return this.findAll()
-
+    let url = API_RENEW_URL + "/search?"
+    return this.httpClient.post(url, search);
   }
 
   confirmRenew(policy) {

@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew.module';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignaturePadComponent } from './signature-pad/signature-pad.component';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [ResourseDetailComponent, SignaturePadComponent],
@@ -19,6 +20,7 @@ import { SignaturePadComponent } from './signature-pad/signature-pad.component';
     FormComponentModule,
     StaticPagesViewModule,
     SignaturePadModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',
