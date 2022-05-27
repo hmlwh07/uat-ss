@@ -7,6 +7,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormComponentModule } from '../form-component/form-component.module';
 import { StaticPagesModule } from '../static-pages/static-pages.module';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [ProductFormComponent],
@@ -18,6 +19,7 @@ import { StaticPagesModule } from '../static-pages/static-pages.module';
     NgbModalModule,
     FormComponentModule,
     StaticPagesModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',

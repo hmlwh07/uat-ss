@@ -196,7 +196,7 @@ export const locale = {
       old_password: 'Old Password',
       new_password: 'New Password',
       comfirm_password: 'Comfirm Password',
-      requset_auth: 'Request Authentication',
+      request_auth: 'Request Authentication',
       policy_no: "Policy Number",
       policy_status: "Policy Status",
       policy_date: "Policy Inception Date",
@@ -321,6 +321,7 @@ export const locale = {
       proposed_stock_value: "Proposed Stock Value",
       add_new_data: "Add New Data",
       unit: "Unit",
+      base_coverage: "Base Coverage",
     },
     NAV: {
       my_acc: "My Account",
