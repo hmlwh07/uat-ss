@@ -3,19 +3,22 @@
     <div style="margin: 0 0 10px 0;">
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
         <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
-          <!-- assets/images/dashboard-usr.svg -->
-          <img src="./assets/temp-img/sale.jpeg" alt="profile">
+          <!-- assets/images/dashboard-usr.svg -->         
+          <img *ngIf="data?.agentInfo?.attId" [src]="DEFAULT_DOWNLOAD_URL+'/' + data?.agentInfo?.attId" style="width: 100%; height: 100%;"
+          alt="profile" />  
+          <img *ngIf="!data?.agentInfo?.attId" src="./assets/temp-img/sale.jpeg" alt="profile"> 
+
         </div>
         <ion-label class="title-color">{{ data?.agentInfo?.employeeName }}</ion-label>
         <ion-label>{{ data?.role }}</ion-label>
       </div>
       <div class="premium" [ngStyle]="{'padding': productPadding}">
-        <ion-label class="premuim-color">Premium</ion-label>
+        <ion-label class="premuim-color">{{"CARD.premium" | translate}}</ion-label>
         <ion-label>{{ data?.agentInfo?.totalPremium | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
       </div>
     </div>
     <div class="product">
-      <h2>Products</h2>
+      <h2>{{"CARD.products" | translate}}</h2>
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
@@ -32,10 +35,10 @@
     </div>
   </section>
   <section class="sales-performance" [ngStyle]="{'height': mainContentHeightPx}">
-    <h2 class="title-color">Recent Operations</h2>
+    <h2 class="title-color">{{"CARD.recent_operations" | translate}}</h2>
     <div>
       <div class="date">
-        <div>Quotes</div>
+        <div>{{"CARD.quotes" | translate}}</div>
         <div><a (click)="goToSaleQuotation()">All</a></div>
       </div>
       <ion-list [ngStyle]="{'height': salesHpx}">
@@ -48,7 +51,7 @@
     </div>
     <div>
       <div class="date">
-        <div>Policies</div>
+        <div>{{"CARD.policies" | translate}}</div>
         <div><a (click)="goToSalePolicies()">All</a></div>
       </div>
       <ion-list [ngStyle]="{'height': salesHpx}">
@@ -74,13 +77,13 @@
   </section>
   <section class="chart" [ngStyle]="{'height': mainContentHeightPx}">
     <div class="sub-chart">
-      <h2 class="title-color">Things to Follow Up</h2>
+      <h2 class="title-color">{{"CARD.things_to_followup" | translate}}</h2>
       <div class="row" style="margin: 0;">
-        <div class="col-5 sub-title">Calendar</div>
-        <div class="col-5">Today
+        <div class="col-5 sub-title">{{"CARD.calendar" | translate}}</div>
+        <div class="col-5">{{"CARD.today" | translate}}
           <ion-icon name="chevron-down-outline"></ion-icon>
         </div>
-        <div class="col-2 underline pointer link" (click)="goToCalendar()"><a>All</a></div>
+        <div class="col-2 underline pointer link" (click)="goToCalendar()"><a>{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': chartHpx}">
         <ion-item lines="full" *ngFor="let followup of followUpArray  | slice: 0:3">
@@ -98,11 +101,11 @@
     <div class="sub-chart">
       <h2 class="title-color">Overdue Activities</h2>
       <div class="row" style="margin: 0;">
-        <div class="col-5 sub-title">Backlog</div>
-        <div class="col-5">Today
+        <div class="col-5 sub-title">{{"CARD.backlog" | translate}}</div>
+        <div class="col-5">{{"CARD.today" | translate}}
           <ion-icon name="chevron-down-outline"></ion-icon>
         </div>
-        <div class="col-2 underline pointer link" (click)="goToCalendar()"><a>All</a></div>
+        <div class="col-2 underline pointer link" (click)="goToCalendar()"><a>{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': chartHpx}">
         <ion-item lines="full" *ngFor="let log of backlogArray | slice: 0:2">

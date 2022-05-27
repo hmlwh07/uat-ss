@@ -76,10 +76,10 @@ export class CurrencyAddFormComponent implements OnInit, AfterViewInit {
   saveData() {
     if (this.formGroup.valid) {
       if (this.isModal) {
-        let date=moment(this.formGroup.value.date)
-        this.formGroup.controls['date'].setValue(date)
-        // console.log(( this.formGroup.value));
+        let date=this.convertDateFormatDDMMYYY(this.formGroup.value.date)
+        console.log("date",date);
         
+        this.formGroup.controls['date'].setValue(date)  
         this.modal.dismissAll({ data: { ...this.formGroup.value, id: this.id }, cmd: 'save' })
       } else {
         this.formSubmit.emit({ ...this.formGroup.value })
@@ -87,6 +87,14 @@ export class CurrencyAddFormComponent implements OnInit, AfterViewInit {
     } else {
       validateAllFields(this.formGroup)
     }
+  }
+
+  convertDateFormatDDMMYYY(date) {
+    var today = new Date(date);
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    return yyyy + '-' + mm + '-' + dd;
   }
 
 }

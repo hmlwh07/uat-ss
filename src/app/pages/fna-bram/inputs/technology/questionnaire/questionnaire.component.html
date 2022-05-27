@@ -3,43 +3,41 @@
         <div class="card card-custom gutter-b">
             <div class="card-header">
                 <div class="card-title">
-                    <h3 class="card-label left-border-image">Questionnaire</h3>
+                    <h3 class="card-label left-border-image">{{"FORM.questionnaire" | translate}}</h3>
                 </div>
             </div>
             <div class="fna-bram-tab row">
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows>
                     <ng-container matColumnDef="question">
-                        <th class="col-3" mat-header-cell *matHeaderCellDef> Question </th>
-                        <td class="col-3" mat-cell *matCellDef="let element"> {{
-                            element.question }} </td>
-
+                        <th class="col-3" mat-header-cell *matHeaderCellDef> {{"FORM.question" | translate}} </th>
+                        <td class="col-3" mat-cell *matCellDef="let element"> {{ element.question }} </td>
                     </ng-container>
                     <ng-container matColumnDef="riskLevel">
-                        <th mat-header-cell *matHeaderCellDef> Risk Level </th>
+                        <th mat-header-cell *matHeaderCellDef> {{"FORM.risk_level" | translate}} </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="row">
                                 <div class="form-group">
                                     <mat-radio-group [(ngModel)]="element.defaultValue">
                                         <mat-radio-button class="example-margin col-2"
                                             (change)="update($event, element.question, element.id)"
-                                            [value]="element.noRisk">No Risk
+                                            [value]="element.noRisk">{{"FORM.no_risk" | translate}}
                                         </mat-radio-button>
                                         <mat-radio-button class="example-margin col-2"
                                             (change)="update($event, element.question, element.id)"
-                                            [value]="element.lowRisk">Low
-                                            Risk</mat-radio-button>
+                                            [value]="element.lowRisk">{{"FORM.low_risk" | translate}}
+                                         </mat-radio-button>
                                         <mat-radio-button class="example-margin col-3"
                                             (change)="update($event, element.question, element.id)"
-                                            [value]="element.somewhatRisky">
-                                            Somewhat Risky</mat-radio-button>
+                                            [value]="element.somewhatRisky">{{"FORM.somewhat_risky" | translate}}
+                                        </mat-radio-button>
                                         <mat-radio-button class="example-margin col-1"
                                             (change)="update($event, element.question, element.id)"
-                                            [value]="element.risky">Risky
+                                            [value]="element.risky">{{"FORM.risky" | translate}}
                                         </mat-radio-button>
                                         <mat-radio-button class="example-margin col-2"
                                             (change)="update($event, element.question, element.id)"
-                                            [value]="element.highRisk">High
-                                            Risk</mat-radio-button>
+                                            [value]="element.highRisk">{{"FORM.high_risk" | translate}}
+                                        </mat-radio-button>
                                     </mat-radio-group>
                                 </div>
                             </div>

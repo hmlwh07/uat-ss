@@ -12,6 +12,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ActivityManagementListModule } from '../activity-management-list/activity-management-list.module';
 import { EventListComponent } from './event-list/event-list.component';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 @NgModule({
  imports: [
     CommonModule,
@@ -20,6 +21,7 @@ import { EventListComponent } from './event-list/event-list.component';
     InlineSVGModule,
     CRUDTableModule,
     NgbDatepickerModule,
+    LanguageModule,
     NgSelectModule,
     // ActivityManagementListModule,
     RouterModule.forChild([

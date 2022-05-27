@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -17,6 +17,7 @@ import { DashboardKbzMsSeniorPageRoutingModule } from './dashboard-kbz-ms-senior
     FormsModule,
     IonicModule,
     NgApexchartsModule,
+    LanguageModule,
     DashboardKbzMsSeniorPageRoutingModule
   ],
   declarations: [DashboardKbzMsSeniorPage]

@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } fr
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
+
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -12,7 +13,7 @@ import {
   ApexPlotOptions,
   ApexGrid,
   ApexTitleSubtitle,
-  ApexMarkers
+  ApexMarkers,
 } from 'ng-apexcharts';
 
 

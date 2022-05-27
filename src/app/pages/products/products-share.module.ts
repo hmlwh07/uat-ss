@@ -33,6 +33,7 @@ import { PrintPreviewModalComponent } from './print-preview-modal/print-preview-
 import { EditSourceModalComponent } from './edit-source-modal/edit-source-modal.component';
 import { ValidityPeriodService } from './services/validity-period.service';
 import { MotorPrintService } from './services/motor-print.service';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 @NgModule({
   declarations: [ProductsComponent, ProductsModalComponent, CoverageModalComponent, ProductDetailsComponent, PageUIModalComponent, CoverageOption, UIPagesComponent, ViewUIModalComponent, StaticUIModalComponent, InputConfigModalComponent, PrintConfigModalComponent, PrintFormsModalComponent, EditPrintUIModalComponent, PrintPreviewModalComponent, EditSourceModalComponent],
 
@@ -48,6 +49,7 @@ import { MotorPrintService } from './services/motor-print.service';
     CRUDTableModule,
     NgbTypeaheadModule,
     WizardsModule,
+    LanguageModule,
     NgSelectModule,
     DragDropModule,
     MatSortModule,

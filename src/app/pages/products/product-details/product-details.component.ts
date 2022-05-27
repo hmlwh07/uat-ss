@@ -114,6 +114,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+      console.log("ITEM",this.items);
+      
     if (!this.itemService.selectedProd) {
       this.loadForm()
       this.location.back()

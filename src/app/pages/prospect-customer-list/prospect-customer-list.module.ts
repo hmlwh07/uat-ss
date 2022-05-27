@@ -8,6 +8,7 @@ import { ProspectCustomerListComponent } from './prospect-customer-list.componen
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ShareComponentModule } from '../share-components/share-component.module';
 import { throwIfAlreadyLoaded } from 'src/app/modules/loading-toast/module-import-guard';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations:[ProspectCustomerListComponent],
@@ -18,6 +19,7 @@ import { throwIfAlreadyLoaded } from 'src/app/modules/loading-toast/module-impor
     InlineSVGModule,
     NgSelectModule,
     CRUDTableModule,
+    LanguageModule,
     ShareComponentModule,
     RouterModule.forChild([
       {

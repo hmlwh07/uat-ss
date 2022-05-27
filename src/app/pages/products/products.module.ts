@@ -34,6 +34,7 @@ import { EditSourceModalComponent } from './edit-source-modal/edit-source-modal.
 import { ValidityPeriodService } from './services/validity-period.service';
 import { ProductShareModule } from './products-share.module';
 import { MotorAddonComponent } from '../static-pages/motor-addon/motor-addon.component';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 @NgModule({
   declarations: [ProductsPageComponent],
   imports: [
@@ -50,6 +51,7 @@ import { MotorAddonComponent } from '../static-pages/motor-addon/motor-addon.com
     NgSelectModule,
     DragDropModule,
     MatSortModule,
+    LanguageModule,
     OverlayModule,
     ProductShareModule,
     RouterModule.forChild([

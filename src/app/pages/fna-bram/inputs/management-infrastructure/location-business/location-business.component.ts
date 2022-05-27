@@ -35,7 +35,7 @@ export class LocationBusinessComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Location of Business').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'location_of_business').then(result => {
       if (result) {
         this.getAll();
       }

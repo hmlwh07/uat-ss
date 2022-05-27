@@ -50,7 +50,7 @@ export class WarehouseComponent implements OnInit {
     } else {
       this.data = null;
     }
-    await this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Warehouse').then(async result => {
+    await this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'warehouse').then(async result => {
       if (result) {
         await this.getAll();
       }

@@ -37,7 +37,7 @@ export class ServicingEmployeesComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Servicing employees').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'servicing_employees').then(result => {
       if (result) {
         this.getAll();
       }

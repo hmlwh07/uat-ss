@@ -38,7 +38,7 @@ export class ManufacturingProcessComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Manufacturing Process').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'manufacturing_process').then(result => {
       if (result) {
         this.getAll();
       }

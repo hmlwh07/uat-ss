@@ -4,21 +4,21 @@
     <div style="margin: 0 0 10px 0;">
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
         <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">         
-          <!-- <img *ngIf="data?.agentInfo?.attId" [src]="Default_DOWNLOAD_URL+'/' + data?.agentInfo?.attId" style="width: 100%; height: 100%;"
-          alt="profile1" /> -->
+          <img *ngIf="data?.agentInfo?.attId" [src]="DEFAULT_DOWNLOAD_URL+'/' + data?.agentInfo?.attId" style="width: 100%; height: 100%;"
+          alt="profile" />
           <!-- <img  src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
-          <img src="./assets/temp-img/banca_head.jpg" alt="profile">        
+          <img *ngIf="!data?.agentInfo?.attId" src="./assets/temp-img/banca_head.jpg" alt="profile">        
         </div>
         <ion-label class="title-color">{{ data?.agentInfo?.employeeName }}</ion-label>
         <ion-label>{{ data?.role }}</ion-label>
       </div>
       <div class="premium" [ngStyle]="{'padding': productPadding}">
-        <ion-label class="premuim-color">Premium</ion-label>
+        <ion-label class="premuim-color">{{"CARD.premium" | translate}} </ion-label>
         <ion-label>{{ data?.agentInfo?.totalPremium | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
       </div>
     </div>
     <div class="product">
-      <h2>Products</h2>
+      <h2>{{"CARD.products" | translate}}</h2>
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium" >
           <ion-thumbnail slot="start">
@@ -34,7 +34,7 @@
     </div>
   </section>
   <section class="sales-performance"  [ngStyle]="{'height': mainContentHeightPx}">
-    <h2 class="title-color">Sales Performances</h2>
+    <h2 class="title-color">{{"CARD.sales_performances" | translate}}</h2>
     <div class="date">
       <div style="width: 50%;">{{ months[currentMonthIndex] }} | Y{{ currentYear }}</div>
       <!-- <div>Y{{ currentYear }}</div> -->
@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="sub-chart" [ngStyle]="{'height': chartHpx}">
-      <h2 class="title-color">Active Agents Today</h2>
+      <h2 class="title-color">{{"CARD.active_agents_today" | translate}}</h2>
       <div style="font-weight: bold;">{{ todayActiveAgent }}</div>
       <div id="chart" style="position: relative;
       top: -15px;" *ngIf="chartOptionsAgent">
@@ -77,7 +77,7 @@
       </div>
     </div>
     <div class="sub-chart" [ngStyle]="{'height': thingsHpx}">
-      <h2 class="title-color">Things To Follow Up Today</h2>
+      <h2 class="title-color">{{"CARD.things_followup_today" | translate}}</h2>
       <div class="today">
         <div>
           <p>TASK TODAY</p>
