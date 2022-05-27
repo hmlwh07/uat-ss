@@ -42,7 +42,7 @@
   <div class="modal-footer">
     <!-- <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
       (click)="deleteEditModal()">Delete</button> -->
-    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
-    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="!selected.id && !selected.empId">Save</button>
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">{{"FORM.btn_cancel" | translate }}</button>
+    <button type="submit" class="btn btn-primary btn-elevate" (click)="save()" [disabled]="!selected.id && !selected.empId">{{"FORM.btn_save" | translate }}</button>
   </div>
 </div>

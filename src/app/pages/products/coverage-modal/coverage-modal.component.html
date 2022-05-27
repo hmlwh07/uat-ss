@@ -11,7 +11,7 @@
         <!-- isSun -->
         <div class="col-sm-4">
           <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">Sum Insured</label>
+            <label class="col-md-6 col-form-label text-md-right">{{"FORM.sum_insured" | translate}}</label>
             <div class="col-md-6 col-xl-4">
               <span class="switch switch-icon">
                 <label>
@@ -27,7 +27,7 @@
         <!-- isUnit -->
         <div class="col-sm-4">
           <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">Unit</label>
+            <label class="col-md-6 col-form-label text-md-right">{{"FORM.unit" | translate}}</label>
             <div class="col-md-6 col-xl-4">
               <span class="switch switch-icon">
                 <label>
@@ -43,7 +43,7 @@
         <!-- isPremium -->
         <div class="col-sm-4">
           <div class="form-group row">
-            <label class="col-md-6 col-form-label text-md-right">Premium</label>
+            <label class="col-md-6 col-form-label text-md-right">{{"FORM.premium" | translate}}</label>
             <div class="col-md-6 col-xl-4">
               <span class="switch switch-icon">
                 <label>
@@ -61,7 +61,7 @@
         <div class="col-sm-12">
           <!-- Description -->
           <div class="form-group">
-            <label class="form-label">Description</label>
+            <label class="form-label">{{"FORM.description" | translate}}</label>
             <input type="text" class="form-control form-control-sm form-control-solid" name="description"
               placeholder="Description" autocomplete="off" [class.is-invalid]="isControlInvalid('description')"
               [class.is-valid]="isControlValid('description')" formControlName="description" />

@@ -94,13 +94,11 @@
     </ng-container>
   </div>
   <div class="modal-footer">
-    <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2"
-      (click)="deleteEditModal()">Delete</button>
-    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" *ngIf="id" class="btn btn-danger btn-elevate mr-2" (click)="deleteEditModal()">Delete</button>
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">{{"FORM.btn_cancel" | translate }}</button>
     <ng-container *ngIf="config">
-
       <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
-        [disabled]="formGroup.invalid">Save</button>
+        [disabled]="formGroup.invalid">{{"FORM.btn_save" | translate }}</button>
     </ng-container>
   </div>
 </div>
