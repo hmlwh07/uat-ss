@@ -323,6 +323,7 @@ export const locale = {
       add_new_data: "အသစ်ထည့်ရန်",
       unit: "ယူနစ်",
       base_coverage: "အခြေခံ အကာအကွယ်",
+      product_code: "အာမခံ အမျိုးအစား ကုဒ်နံပါတ်",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

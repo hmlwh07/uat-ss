@@ -321,6 +321,7 @@ export const locale = {
       add_new_data: "Add New Data",
       unit: "Unit",
       base_coverage: "Base Coverage",
+      product_code: "Product Code",
     },
     NAV: {
       my_acc: "My Account",

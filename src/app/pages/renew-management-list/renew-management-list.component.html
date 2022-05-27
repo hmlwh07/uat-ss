@@ -22,13 +22,18 @@
         <form action="#" class="form" [formGroup]="actForm">
 
           <div class="row" style="align-items: center;">
+            <app-start-end-date [formInput]="actForm" remove-host [colClass]="'col-md-6'">
+            </app-start-end-date>
+          </div>
+
+          <div class="row" style="align-items: center;">
             <div class="col-md-6">
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">{{"FORM.policy_no" | translate}}</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control form-control-sm " name="policyNumber" autocomplete="off"
-                    [class.is-invalid]="isControlInvalid('policyNumber')" [class.is-valid]="isControlValid('policyNumber')"
-                    formControlName="policyNumber" />
+                    [class.is-invalid]="isControlInvalid('policyNumber')"
+                    [class.is-valid]="isControlValid('policyNumber')" formControlName="policyNumber" />
                 </div>
               </div>
             </div>
@@ -37,16 +42,24 @@
                 <label class="col-sm-4 col-form-label">{{"FORM.policy_holder" | translate}}</label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control form-control-sm " name="policyHolder" autocomplete="off"
-                    [class.is-invalid]="isControlInvalid('policyHolder')" [class.is-valid]="isControlValid('policyHolder')"
-                    formControlName="policyHolder" />
+                    [class.is-invalid]="isControlInvalid('policyHolder')"
+                    [class.is-valid]="isControlValid('policyHolder')" formControlName="policyHolder" />
                 </div>
               </div>
             </div>
           </div>
 
           <div class="row" style="align-items: center;">
-            <app-start-end-date [formInput]="actForm" remove-host [colClass]="'col-md-6'">
-            </app-start-end-date>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">{{"FORM.product_code" | translate}}</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control form-control-sm " name="productCode" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('productCode')"
+                    [class.is-valid]="isControlValid('productCode')" formControlName="productCode" />
+                </div>
+              </div>
+            </div>
           </div>
 
         </form>

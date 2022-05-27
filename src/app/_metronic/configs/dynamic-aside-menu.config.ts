@@ -127,12 +127,10 @@ export const DynamicAsideMenuConfig = {
         {
           title: 'Renewal Policies',
           page: '/sales/renew-policy',
-          submenu: [
-            {
-              title: 'Renewal Policies Detail',
-              page: '/sales/renew-policy/detail',
-            },
-          ]
+        },
+        {
+          title: 'Renewal Policies Detail',
+          page: '/sales/renew-policy/detail',
         },
         
       ]

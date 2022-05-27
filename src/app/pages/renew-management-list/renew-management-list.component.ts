@@ -55,6 +55,7 @@ export class RenewManagementListComponent implements OnInit {
     this.actForm = new FormGroup({
       "policyNumber": new FormControl(""),
       "policyHolder": new FormControl(""),
+      "productCode": new FormControl(""),
       startDate: new FormControl(""),
       endDate: new FormControl(""),
       isTeam: new FormControl(this.isTeam)
@@ -69,6 +70,7 @@ export class RenewManagementListComponent implements OnInit {
     this.actForm.controls['endDate'].setValue(monthDay.toISOString());
     this.actForm.controls.policyNumber.setValue("");
     this.actForm.controls.policyHolder.setValue("");
+    this.actForm.controls.productCode.setValue("");
     this.actForm.controls.isTeam.setValue(this.isTeam);
   }
 
@@ -77,6 +79,7 @@ export class RenewManagementListComponent implements OnInit {
     let searchValues = {
       policyNumber: this.actForm.controls.policyNumber.value || "",
       policyHolder: this.actForm.controls.policyHolder.value || "",
+      productCode: this.actForm.controls.productCode.value || "",
       fromDate: this.actForm.controls.startDate.value != null ? moment(this.actForm.controls.startDate.value).format("YYYY-MM-DD") : "",
       toDate: this.actForm.controls.endDate.value != null ? moment(this.actForm.controls.endDate.value).format("YYYY-MM-DD") : "",
       isTeam: this.isTeam
@@ -92,8 +95,6 @@ export class RenewManagementListComponent implements OnInit {
   }
 
   actionBtn(event) {
-    console.log('actionBtn', event);
-
     if (event.cmd == 'edit') {
       this.navigateToDetail(event.data)
     }
