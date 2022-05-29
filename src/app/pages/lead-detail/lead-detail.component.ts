@@ -653,7 +653,7 @@ export class LeadDetailComponent implements OnInit {
           this.fnaList = this.oldData.fnas != null ? this.oldData.fnas : []
           this.activityList = this.oldData.activities != null ? this.oldData.activities : []
           this.quatationList = this.oldData.resourceQuotations != null ? this.oldData.resourceQuotations : []
-          this.oldData.resourcePolicies[0].apiStatus='draft_application'
+          // this.oldData.resourcePolicies[0].apiStatus='draft_application'
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
           this.attachmentList = this.oldData.attachments != null ? this.oldData.attachments : []
           if (this.activityList.length > 0 || this.quatationList.length > 0 || this.applicationList.length > 0 || this.attachmentList.length > 0 || this.fnaList.length > 0) {
