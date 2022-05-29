@@ -63,15 +63,17 @@ export class ReRerunJobPage implements OnInit {
   }
 
   getList() {
-    // this.reRunService.getReRunList(this.reRunForm.getRawValue())
-    //   .toPromise()
-    //   .then((res: any) => {
-    //     console.log(res);
-    // if(res)
+  
     this.reRunService.getReRunListByType(this.reRunForm.value).pipe(map((x:any)=>{
       return x.map((data)=>{
         data.statusValue = data.status == "FAIL" ? "FAILED" : data.status
         data.jobNameValue=data.jobName== "RunTCSAPIByScheduler" ? "Create / Update Party":data.jobName
+        if(data.date && data.time){
+          data.jobDateTime=data.date +"-"+ data.time
+        }
+        else{
+          data.jobDateTime=data.runDate
+        }
         return data
       })
     })).toPromise().then((res) => {
@@ -89,7 +91,6 @@ export class ReRerunJobPage implements OnInit {
       }
     })
 
-    // });
   }
 
   actionBtn(event) {
