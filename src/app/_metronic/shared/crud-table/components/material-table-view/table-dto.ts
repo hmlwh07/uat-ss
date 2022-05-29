@@ -20,6 +20,7 @@ export interface TableCol {
   btn?: ViewButton,
   isRenewStatus?: boolean,
   isStatus?: boolean,
+  isApiStatus?:boolean,
   isImg?: boolean,
   prefix?: string 
 }

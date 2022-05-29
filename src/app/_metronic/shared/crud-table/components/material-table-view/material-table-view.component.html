@@ -78,10 +78,17 @@
                                     class="label label-custom-round label-inline label-{{statusColor[element[item.field]]}}">
                                     {{ element[item.field] == "in_progress" ? "In Progress" : (element[item.field] |
                                     titlecase ) }}</span>
-                                <!-- {{ getFreq(element[item.field]) }} -->
+                               
+                            </ng-container>
+                            <ng-container *ngIf="item.isApiStatus">
+                                <span
+                                    class="label label-custom-round label-inline label-{{statusColor[element[item.field]]}}">
+                                    {{ element[item.field] == "draft_application" ? "Draft Application" : (element[item.field] |
+                                    titlecase ) }}</span>
+                               
                             </ng-container>
                             <ng-container
-                                *ngIf="!item.isDate && !item.isTitle && !item.amtFormat && !item.isFromatDate && !item.isDateTime && !item.isActivityStatus && !item.isQuotationDay && !item.isAllowBackDate && !item.isPaymentFrequencyType && !item.isUpper && !item.isStatus && !item.isProdStatus && !item.isImg && !item.isCustomerStatus  && !item.isLeadStatus && !item.isRenewStatus">
+                                *ngIf="!item.isDate && !item.isTitle && !item.amtFormat && !item.isFromatDate && !item.isDateTime && !item.isActivityStatus && !item.isQuotationDay && !item.isAllowBackDate && !item.isPaymentFrequencyType && !item.isUpper && !item.isStatus && !item.isApiStatus && !item.isProdStatus && !item.isImg && !item.isCustomerStatus  && !item.isLeadStatus && !item.isRenewStatus">
                                 {{item.prefix ? item.prefix : ""}}{{element[item.field] == "CRM" ? "Management Portal" :
                                 element[item.field]}}
                             </ng-container>

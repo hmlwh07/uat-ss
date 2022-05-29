@@ -54,6 +54,8 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
     "success": "success",
     "sending": "info",
     "fail": "danger",
+    "draft_application":"secondary",
+    "draft application":"secondary"
   }
   customerStatusColor = {
     "A": "secondary",
