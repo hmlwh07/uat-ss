@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 
 @Component({
   selector: 'app-action-button',
@@ -7,7 +8,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./action-button.component.scss']
 })
 export class ActionButtonComponent implements OnInit {
-  constructor() { }
+  constructor(private alertService:AlertService) { }
 
   @Output()
   emitter = new EventEmitter<any>();
@@ -16,8 +17,11 @@ export class ActionButtonComponent implements OnInit {
   data: any = {};
 
   @Input() viewBtn: any = {}
-
-  ngOnInit(): void { }
+ 
+  ngOnInit(): void {
+    console.log("ISDOWNLOAD",this.data);
+    
+   }
 
   onActionEdit() {
     this.emitter.emit({
@@ -44,10 +48,20 @@ export class ActionButtonComponent implements OnInit {
     });
   }
   onActionDownload() {
-    this.emitter.emit({
-      cmd: "download",
-      data: this.data,
-    });
+    if(this.data.documentName != null){
+
+      this.emitter.emit({
+        cmd: "download",
+        data: this.data,
+      });
+    }else{
+      this.alertService.activate('There is no document to download', 'Warning')
+      .then(async (result) => {
+        if (result) {
+       
+        }
+      });
+    }
   }
   onActionRerun(){
     this.emitter.emit({

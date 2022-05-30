@@ -87,7 +87,9 @@ export class RenewManagementListComponent implements OnInit {
 
     this.renewService.getRenewList(searchValues).toPromise().then((res: any) => {
       if (res) {
+      
         this.renewList = res
+        
         this.cdf.detectChanges()
         this.matTable.reChangeData()
       }
