@@ -31,8 +31,6 @@ export const locale = {
       things_to_followup: 'Things To Follow Up',
       backlog: 'Backlog',
       leads_assigned: ' Leads assigned',
-      //calendar :'Calendar',
-      //today:'Today',
       sunday: 'Sunday',
       monday: 'Monday',
       tuesday: 'Tuesday',
@@ -40,10 +38,6 @@ export const locale = {
       thursday: 'Thursday',
       friday: 'Friday',
       saturday: 'Saturday'
-
-
-
-
     },
     FORM: {
       title: "  Welcome to KBZ MS and Life Insurance Sales Portal",
@@ -74,7 +68,6 @@ export const locale = {
       source: 'Source',
       phone_number: 'Phone Number',
       subject: 'Subject',
-
       contact: 'Contact',
       precontact: 'Preferred Contact',
       type: 'Type',
@@ -322,6 +315,8 @@ export const locale = {
       unit: "Unit",
       base_coverage: "Base Coverage",
       product_code: "Product Code",
+      product_cap: "PRODUCT",
+      premium_cap: "PREMIUM"
     },
     NAV: {
       my_acc: "My Account",
@@ -346,7 +341,6 @@ export const locale = {
       'Actions': "Actions",
       'Job Type': "Job Type",
       'Job Name': "Job Name",
-      //'Status': "Status",
       'Group Name': "Group Name",
       'Simple Data': "Simple Data",
       'Currency': "Currency",
@@ -360,25 +354,17 @@ export const locale = {
       'Next': "Next",
       'Cancel': "Cancel",
       'Small Icon': "Small Icon",
-      // 'Group Name': "Group Name",
-      // 'Simple Data': "Simple Data",
       'Activity No': "Activity No",
       'Activity Type': "Activity Type",
       'Activity Title': "Activity Title",
       'Related To': "Related To",
       'Assigned To': "Assigned To",
       'Due Date': "Due Date",
-      //'Status': "Status",
       'Customer",': "Customer",
       'Quotation ID': "Quotation ID",
-      // 'Product Name': "Product Name",
-      // 'Product Code': "Product Code",
       'Agent Name': "Agent Name",
       'Premium': "Premium",
       'Application': "Application",
-      // 'Allow Back Date': "Allow Back Date",
-      // 'Quotation Auto Lapse Rule': "Quotation Auto Lapse Rule",
-      // 'Application Auto Lapse Rule': "Application Auto Lapse Rule",
 
     },
     ERROR: {
