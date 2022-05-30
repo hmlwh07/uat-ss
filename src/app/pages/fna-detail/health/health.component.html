@@ -97,22 +97,24 @@
                         <label class="form-label"> {{"FORM.date_of_birth" | translate}}</label>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-7">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" readonly class="form-control form-control-sm date-input"
                                 formControlName="dateOfBirthSpouse" [min]="fromMinDate" [max]="fromMaxDate"
                                 [matDatepicker]="picker" (dateChange)="doValid('dateOfBirthSpouse')">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker-toggle matSuffix [for]="picker" style="z-index: 99999;"></mat-datepicker-toggle>
                             <mat-datepicker #picker disabled="false"></mat-datepicker>
                         </div>
                     </div>
                 </div>
-                <div class="col-2" style="padding: 0;">
-                    <button type="button" style="width: auto;
+                <div class="col-1" class="btn_clear">
+                    <!-- <button type="button" style="width: auto;
                     float: left;
                     margin: 0 !important;" (click)="clearDOB('dateOfBirthSpouse')"
-                        class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_clear" | translate}}</button>
+                        class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_clear" | translate}}</button> -->
+                        <a (click)="clearDOB('dateOfBirthSpouse')">X</a> 
+
                 </div>
             </div>
             <div class="row">
@@ -216,22 +218,24 @@
                         <label class="form-label">{{"FORM.date_of_birth" | translate}}</label>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-7">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" readonly class="form-control form-control-sm date-input"
                                 formControlName="dateOfBirth" [min]="fromMinDate" [max]="fromMaxDate"
                                 [matDatepicker]="picker" (dateChange)="doValid('dateOfBirth')" autocomplete="off">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker-toggle matSuffix [for]="picker" style="z-index: 99999;"></mat-datepicker-toggle>
                             <mat-datepicker #picker disabled="false"></mat-datepicker>
                         </div>
                     </div>
                 </div>
-                <div class="col-2" style="padding: 0;">
-                    <button type="button" style="width: auto;
+                <div class="col-1" class="btn_clear">
+                    <!-- <button type="button" style="width: auto;
                     float: left;
                     margin: 0 !important;" (click)="clearDOB('dateOfBirth')"
-                        class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_clear" | translate}}</button>
+                        class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_clear" | translate}}</button> -->
+
+                     <a  (click)="clearDOB('dateOfBirth')"> X  </a>
                 </div>
             </div>
             <div class="row">

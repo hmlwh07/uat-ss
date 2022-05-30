@@ -3,27 +3,27 @@
     text-align: end;
     padding: 0;
     margin-top: 150px;
-    button:last-child{
+    button:last-child {
         margin-right: 0 !important;
     }
 }
 
-h3{
+h3 {
     font-size: 0.9rem;
 }
 
-.add-child{
+.add-child {
     float: left;
 }
 
-.sub-title{
+.sub-title {
     padding-left: 26px;
     color: #005f99 !important;
     font-size: 0.9rem;
     margin: 15px 0 5px 0;
 }
 
-.col-4{
+.col-4 {
     padding-left: 26px;
     span {
         color: red;
@@ -32,7 +32,7 @@ h3{
     }
 }
 
-.delete{
+.delete {
     margin: 12px 0 0 0;
     display: inline-block;
     color: #005f99 !important;
@@ -40,6 +40,17 @@ h3{
     font-size: 0.9rem;
 }
 
-button{
+button {
     width: 120px;
+}
+
+.btn_clear {
+    padding: 0;
+    position: relative;
+    a {
+        position: absolute;
+        top: 14px;
+        display: inline-block;
+        cursor: pointer;
+    }
 }
