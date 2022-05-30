@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxOtpInputConfig } from 'ngx-otp-input';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { OTPService, resetPasswordService, VerifyOTPService, verifyPasswordService } from '../reset-password.service';
 
 @Component({
@@ -28,9 +29,9 @@ export class OtpModalComponent implements OnInit {
   requestStatus: boolean = false
   counter: number = 60
   otpInput: boolean = false;
-  isSubmitted:boolean=false
+  isSubmitted: boolean = false
   private interval: any;
-  constructor(private OTPService: OTPService, private modal: NgbActiveModal, private resetPasswordService: resetPasswordService,private VerifyOTPService:VerifyOTPService,private verifyPasswordService:verifyPasswordService) { }
+  constructor(private OTPService: OTPService, private modal: NgbActiveModal, private resetPasswordService: resetPasswordService, private VerifyOTPService: VerifyOTPService, private verifyPasswordService: verifyPasswordService, private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.doRequest()
@@ -63,37 +64,53 @@ export class OtpModalComponent implements OnInit {
       )
   }
   verifyOTP() {
-    this.isSubmitted=true
+    this.isSubmitted = true
     let otp = this.optCode.join("")
     let token = this.verifyToken
-    let postData={otp,token}
+    let postData = { otp, token }
     this.VerifyOTPService.save(postData).toPromise()
       .then((res: any) => {
         // console.log("verifyOTP", res)
-        if (res.status) {
-          this.isSubmitted=false
+        if (res.status == true) {
+          this.isSubmitted = false
           this.verifyOTPToken = res.token
           // console.log("verifyOTP", res)
           this.resetPassword()
+        } else {
+          this.alertService.activate(res.message, 'Warning')
+            .then(async (result) => {
+              if (result) {
+                // this.modal.dismiss()
+                this.isSubmitted=false
+              }
+            }
+            )
         }
       }
       )
   }
+
+  
   resetPassword() {
-    let postData={
-      passwordRequest:this.data,
-      token:this.verifyOTPToken
+    let postData = {
+      passwordRequest: this.data,
+      token: this.verifyOTPToken
     }
     this.resetPasswordService.save(postData).toPromise()
       .then((res: any) => {
         // console.log("resetPassword", res)
-        if (res.status) {
-          this.modal.dismiss(res.status)
+        if (res.status==true) {
+          this.alertService.activate('Password Reset Successful','Success Message').then(async (result)=>{
+            if(result){
+              this.modal.dismiss(res.status)
+            }
+          })
+         
         }
       }
       )
   }
-  cancel(){
+  cancel() {
     this.modal.dismiss()
   }
   handeOtpChange(event) {
