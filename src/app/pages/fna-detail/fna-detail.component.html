@@ -4,23 +4,23 @@
       <h3 class="card-label left-border-image">Financial Needs Analysis</h3>
       <div class="financial">
         <div>
-          <label>Opportunity ID :</label>
+          <label style="font-weight: bold;">Opportunity ID :</label>
           <label>{{ leadId }}</label>
         </div>
         <div>
-          <label>FNA ID :</label>
+          <label style="font-weight: bold;">FNA ID :</label>
           <label>{{ fnaId }}</label>
         </div>
         <div>
-          <label>Customer :</label>
+          <label style="font-weight: bold;">Customer :</label>
           <label>{{ passValue.customerName }}</label>
         </div>
         <div>
-          <label>Created By {{ "FORM.create_by"  |  translate }} : </label>
+          <label style="font-weight: bold;">{{ "FORM.create_by"  |  translate }} : </label>
           <label>{{ passValue.createdByName }}</label>
         </div>
         <div>
-          <label>{{ "FORM.create_date"  |  translate }} : </label>
+          <label style="font-weight: bold;">{{ "FORM.create_date"  |  translate }} : </label>
           <label>{{ passValue.createdAt }}</label>
         </div>
       </div>
