@@ -22,7 +22,8 @@ export interface TableCol {
   isStatus?: boolean,
   isApiStatus?:boolean,
   isImg?: boolean,
-  prefix?: string 
+  prefix?: string,
+  isDownload?:boolean, 
 }
 
 export enum COLTYPE {
@@ -39,6 +40,7 @@ export interface ViewButton {
   delete?: boolean,
   confirm?: boolean,
   rerun?:boolean,
+  
 }
 
 export const ActivityStatus = {

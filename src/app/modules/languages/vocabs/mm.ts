@@ -372,7 +372,7 @@ export const locale = {
       'Quotation ID': "Quotation အမှတ်",
       // 'Product Name': "အာမခံ အမျိုးအစား အမည်",
       // 'Product Code': "အာမခံ အမျိုးအစား ကုဒ်နံပါတ်",
-      'Agent Name': "စီစဉ်ထားသောရက်စွဲ",
+      'Agent Name': "Agent အမည်",
       'Premium': "အာမခံပရီမီယံ",
       'Application': "လျှောက်လွှာ",
       // 'Allow Back Date': "Back Date ခွင့်ပြုသည်",
