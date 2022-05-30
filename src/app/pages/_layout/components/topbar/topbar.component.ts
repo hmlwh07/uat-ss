@@ -14,6 +14,7 @@ import { KTUtil } from '../../../../../assets/js/components/util';
 import { NotificationService } from 'src/app/_metronic/partials/layout/extras/dropdown-inner/notifications-dropdown-inner/notification.service';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { LanguagesService } from 'src/app/modules/languages/languages.service';
+import * as moment from 'moment';
 
 
 
@@ -150,18 +151,20 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       KTLayoutHeaderTopbar.init('kt_header_mobile_topbar_toggle');
     });
   }
-  getNotiList() {
-    // console.log(this.currentUser);
 
+  getNotiList() {
     this.notificationService.getById(this.currentUser.username).toPromise()
       .then(async (res: any) => {
-        console.log("RES", res)
         if (res) {
+          for (let data of res) {
+            data.policyStatus = data.policyStatus.toUpperCase();
+            data.createdAt = moment(data.createdAt).format("yyyy-MM-DD HH:mm:ss")
+          }
           this.noti = res
         }
       });
-
   }
+
   getLanguage(event) {
     if (event == 'mm') {
       this.language = this.languages[1]
@@ -171,6 +174,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       this.myLanguageDrop.close()
     }
   }
+
   closeDropDown(event) {
     // console.log(event);
     if (event) {

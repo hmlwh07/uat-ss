@@ -13,6 +13,12 @@
     font-weight: 800;
 }
 
+.date-title {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 2em;
+}
+
 .label {
     font-size: 0.8rem;
     font-weight: 800;
@@ -30,16 +36,37 @@
     background-color: transparent;
 }
 
-.fail {
-    background-color: #ff00000f;
-   
-    .card-title{
-        color: black;
-    }
-    color: black;
+.FAIL {
+    background: var(--new-fail-color);
+    color: var(--primary-text-color);
 }
 
-.success {
-    background-color: #e0ffff82;
-    color: black;
+.SUCCESS {
+    background: var(--new-success-color);
+    color: var(--primary-text-color);
+}
+
+.ACTIVE {
+    background: var(--new-warning-color);
+    color: var(--primary-text-color);
+}
+
+.PENDING {
+    background: var(--new-success-color);
+    color: var(--primary-text-color);
+}
+
+.CLOSE {
+    background: var(--secondary-text-color);
+    color: var(--primary-text-color);
+}
+
+.APPROVED {
+    background: var(--new-warning-color);
+    color: var(--primary-text-color);
+}
+
+.DRAFT {
+    background: var(--new-success-color);
+    color: var(--primary-text-color);
 }
