@@ -9,8 +9,11 @@
         </h4>
 
         <div class="drop" *ngIf="data.length>0">
-            <div class="tab-pane " id="topbar_notifications_events " role="tabpanel " [ngClass]="getActiveCSSClasses( 'topbar_notifications_events') " *ngFor="let noti of data; let i =index">
-                <div class="navi navi-hover my-4 " data-scroll="true " style="position: relative; max-height: 300px; overflow: auto;padding: 0px 5px;">
+            <div class="tab-pane " id="topbar_notifications_events " role="tabpanel "
+                [ngClass]="getActiveCSSClasses( 'topbar_notifications_events') "
+                *ngFor="let noti of data; let i =index">
+                <div class="navi navi-hover my-4 " data-scroll="true "
+                    style="position: relative; max-height: 300px; overflow: auto;padding: 0px 5px;">
 
                     <!-- <div class="navi-item" (click)="navDetail(noti)">
                         <div class="navi-link ">
@@ -31,23 +34,26 @@
                         </div>
                     </div> -->
 
-                    <div class="card card-custom" [ngClass]="noti.policyStatus" >
+                    <div class="card card-custom" class="{{noti.policyStatus | firstWord}}">
                         <div class="card-header" style="padding: 10px;">
 
                             <div class="card-title">
-                                <div class="navi-icon mr-2 " *ngIf="noti.policyStatus=='success'">
+                                <div class="navi-icon mr-2 " *ngIf="noti.policyStatus!='FAIL'">
                                     <i class="flaticon2-bell text-success "></i>
                                 </div>
-                                <div class="navi-icon mr-2 " *ngIf="noti.policyStatus!='success'">
+                                <div class="navi-icon mr-2 " *ngIf="noti.policyStatus=='FAIL'">
                                     <i class="flaticon2-bell text-danger "></i>
                                 </div>
-                                <label class="title">{{noti.title}} </label>
+                                <label class="title" >{{noti.title}} <br>
+                                    <span class="date-title">{{noti.createdAt}}</span>
+                                </label>
                             </div>
 
                         </div>
                         <div class="card-body customer-card-body" style="margin-top: 10px;">
                             <div class="row">
-                                <p style="justify-content: center; margin-left: 15px;"> {{noti.message}} ( {{noti.resourceId}}) </p>
+                                <p style="justify-content: center; margin-left: 15px;"> {{noti.message}} (
+                                    {{noti.resourceId}}) </p>
 
                             </div>
 
@@ -59,13 +65,10 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div *ngIf="data.length == 0">
             <div class="card-body customer-card-body" style="margin-top: 10px;">
                 <div class="row">
                     <p style="justify-content: center; margin-left: 15px;"> There is No Notifications </p>
-
                 </div>
-
-
             </div>
         </div>

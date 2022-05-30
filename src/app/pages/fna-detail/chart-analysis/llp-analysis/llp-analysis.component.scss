@@ -314,12 +314,12 @@
     overflow: hidden;
     margin: 47px 0 0 0;
     div {
-        width: 250px;
+        width: 600px;
         margin: 0 auto;
         overflow: hidden;
         button {
-            max-width: 110px;
-            min-width: 100px;
+            width: 220px;
+           // min-width: 100px;
             float: left;
         }
 
@@ -874,5 +874,44 @@ button {
     color: #fff;
     label {
         margin: 0;
+    }
+}
+
+
+
+//new 30-May
+
+.next-btn{
+    overflow: hidden;
+    margin: 47px 0 0 0;
+}
+.fna-segment {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    button {
+        width: 49%;
+        color: #fff;
+    }
+    button:last-child {
+        float: right;
+    }
+}
+
+
+
+@media screen and (min-width: 320px) and (max-width: 460px) {
+    .chart-grid {
+        width: 100%;
+        padding: 0 !important;
+    }
+    .fna-segment{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 461px) and (max-width: 680px) {
+    .fna-segment{
+        width: 100%;
     }
 }
