@@ -37,7 +37,7 @@ export class FactoryBuildingComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'factory_building').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Factory Building/s').then(result => {
       if (result) {
         this.getAll();
       }

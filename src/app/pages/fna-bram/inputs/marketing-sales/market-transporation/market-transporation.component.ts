@@ -37,7 +37,7 @@ export class MarketTransporationComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'transporation').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Transporation').then(result => {
       if (result) {
         this.getAll();
       }

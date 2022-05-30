@@ -37,7 +37,7 @@ export class CallCenterComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'call_center').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Call Center').then(result => {
       if (result) {
         this.getAll()
       }
