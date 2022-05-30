@@ -371,6 +371,7 @@ export const locale = {
       'Agent Name': "Agent Name",
       'Premium': "Premium",
       'Application': "Application",
+      'Show In List':"Show In List"
 
     },
     ERROR: {

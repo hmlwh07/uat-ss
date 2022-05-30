@@ -402,6 +402,7 @@ export const locale = {
       'State': "ပြည်နယ်",
       'District': "ခရိုင်",
       'Township': "မြို့နယ်",
+      'Show In List':"Show In List"
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',

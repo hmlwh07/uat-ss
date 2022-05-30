@@ -12,6 +12,7 @@ export interface Product {
   application?: boolean
   quotation?: boolean
   isAllowBackDate?: string
+  showInList?:string
   allowDays?: number
   stamDuty?: boolean
   coverages?: any[]
