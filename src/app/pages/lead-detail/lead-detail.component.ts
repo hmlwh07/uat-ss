@@ -1067,6 +1067,7 @@ export class LeadDetailComponent implements OnInit {
     if (type == 'Application') {
       const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = 'modal'
+      modalRef.componentInstance.isShowList='yes'
       modalRef.result.then(() => { }, (prod) => {
         if (prod) {
           if (prod.type == 'save') {

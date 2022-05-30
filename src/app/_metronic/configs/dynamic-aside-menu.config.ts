@@ -155,7 +155,7 @@ export const DynamicAsideMenuConfig = {
       ]
     },
     {
-      title: 'Prospect Customer',
+      title: 'Prospect Profile',
       root: true,
       icon: 'flaticon-profile-1',
       svg: './assets/media/svg/icons/Design/Layers.svg',
@@ -164,7 +164,7 @@ export const DynamicAsideMenuConfig = {
       show: true,
       submenu: [
         {
-          title: 'Prospect Customer',
+          title: 'Prospect Profile',
           page: '/customer/prospect-list',
         },
 

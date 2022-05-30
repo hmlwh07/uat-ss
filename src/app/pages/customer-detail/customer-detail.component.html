@@ -2,8 +2,11 @@
     <div class="col-12">
         <div class="card card-custom" [class.gutter-b]="!isPopup">
             <div class="card-header">
-                <div class="card-title">
-                    <h3 class="card-label left-border-image">{{pageStatus == "create" ? "Create Prospect Customer" : "Customer Detail"}}</h3>
+                <div class="card-title" *ngIf="pageName=='Customer'">
+                    <h3 class="card-label left-border-image">{{pageStatus == "create" ? "Create Prospect Profile" : "Customer Detail"}}</h3>
+                </div>
+                <div class="card-title" *ngIf="pageName=='Prospect'">
+                    <h3 class="card-label left-border-image">{{pageStatus == "create" ? "Create Prospect Profile" : "Prospect Profile Detail"}}</h3>
                 </div>
                 <div class="card-toolbar" *ngIf="!isPopup">
                     <button type="button" *ngIf="isDetail" class="icon" (click)="toggleAccordion('Detail')">

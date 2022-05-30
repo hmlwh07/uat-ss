@@ -123,6 +123,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   isMenuOpen: boolean = false
   isMore: boolean = false
   isDetail: boolean = true
+  pageName:string=""
   description: string = ""
   cusAccess = defaultAccessObj
   activityAccess = defaultAccessObj
@@ -157,9 +158,11 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     this.route.queryParams
       .subscribe(params => {
         this.pageStatus = params.pageStatus;
+        this.pageName=params.page
         if (this.pageStatus != 'create' && !this.isPopup) {
           this.oldId = params.pageId;
           this.oldSecondaryId = params.pageSecondaryId;
+         
           this.getOld()
 
 
