@@ -13,6 +13,7 @@ import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { LanguagesService } from 'src/app/modules/languages/languages.service';
 
 
 
@@ -38,17 +39,17 @@ export class ProductComponent implements OnInit {
   inputSwitch: string = 'outputs';
   originalData = [
     {
-      packageOffer: "High Priority", input: null, product: []
+      packageOffer: this.transform("High Priority"), input: null, product: []
     },
-    { packageOffer: 'highTotal', input: null, product: [{ product: 'Total', policies: null, sa: 20, annualRate: 30, monthlyRate: 40, action: '' }] },
-    { packageOffer: 'highDiscount', input: 'percent', product: [{ product: 'Discount (%):', policies: '', sa: 'Premium after discount:', annualRate: '', monthlyRate: '', action: '' }] },
-    { packageOffer: 'highBlank', input: null, product: [{ product: '', policies: null, sa: '', annualRate: '', monthlyRate: '', action: '' }] },
+    { packageOffer: this.transform("highTotal"), input: null, product: [{ product: 'Total', policies: null, sa: 20, annualRate: 30, monthlyRate: 40, action: '' }] },
+    { packageOffer: this.transform("highDiscount"), input: 'percent', product: [{ product: 'Discount (%):', policies: '', sa: 'Premium after discount:', annualRate: '', monthlyRate: '', action: '' }] },
+    { packageOffer: this.transform("highBlank"), input: null, product: [{ product: '', policies: null, sa: '', annualRate: '', monthlyRate: '', action: '' }] },
     {
-      packageOffer: "Less Priority", product: []
+      packageOffer: this.transform("Less Priority"), product: []
     },
-    { packageOffer: 'mediumTotal', product: [{ product: 'Total', policies: 10, sa: 20, annualRate: 30, monthlyRate: 40, action: '' }] },
+    { packageOffer: this.transform("mediumTotal"), product: [{ product: 'Total', policies: 10, sa: 20, annualRate: 30, monthlyRate: 40, action: '' }] },
     //{ packageOffer: 'two', product: [{ product: 'Discount (%):', policies: null, sa: 'Premium after discount:', annualRate: 221, monthlyRate: 18, action: '' }] },
-    { packageOffer: 'mediumBlank', product: [{ product: '', policies: null, sa: '', annualRate: '', monthlyRate: '', action: '' }] }
+    { packageOffer: this.transform("mediumBlank"), product: [{ product: '', policies: null, sa: '', annualRate: '', monthlyRate: '', action: '' }] }
   ]
   dataSource = this.originalData;
   displayedColumns = ['packageOffer', 'product', 'policies', 'sa', 'annualRate', 'monthlyRate', 'action'];
@@ -75,7 +76,8 @@ export class ProductComponent implements OnInit {
   constructor(private productService: FNAProductService, private productDataService: ProductDataService,
     private cdf: ChangeDetectorRef, private customerService: CustomerService, private router: Router,
     private fnaService: FANService, private alertService: AlertService,
-    public platform: Platform, private attachmentDownloadService: AttachmentDownloadService) {
+    public platform: Platform, private attachmentDownloadService: AttachmentDownloadService,
+    private _languageService:LanguagesService) {
 
   }
 
@@ -129,8 +131,8 @@ export class ProductComponent implements OnInit {
       if (res) {
         this.productDataService.createingProd = res[0]
         this.productDataService.creatingCustomer = res[1]
-        this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
-        this.productDataService.viewType = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
+        this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLMO01" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
+        this.productDataService.viewType = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLMO01" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
         this.productDataService.referenceID = null
         this.productDataService.creatingLeadId = this.passValueData.leadId
         this.router.navigateByUrl("/product-form")
@@ -302,7 +304,7 @@ export class ProductComponent implements OnInit {
           packageOffer = 'three'
         }
         if (i == 0) {
-          packageOffer = 'Grand Total'
+          packageOffer = this.transform('Grand Total')
         }
 
         totalGrantPolicies += this.grantTotalList[i].grantPolicies;
@@ -335,30 +337,30 @@ export class ProductComponent implements OnInit {
       this.originalData.push({
         packageOffer: 'total', product: [
           {
-            product: 'Total', policies: totalGrantPolicies || null, sa: totalGrantSa || null,
+            product: this.transform('Total'), policies: totalGrantPolicies || null, sa: totalGrantSa || null,
             annualRate: totalGrantAnnualRate || null, monthlyRate: totalGrantMonthlyRate || null, action: ''
           }]
       })
       this.originalData.push({
         packageOffer: 'discount', input: 'percent', product: [
           {
-            product: 'Discount (%):', policies: null, sa: 'Premium after discount:',
+            product: this.transform('Discount (%):'), policies: null, sa: 'Premium after discount:',
             annualRate: '', monthlyRate: '', action: ''
           }]
       })
 
       if (res.highRisk.length == 0) {
         for (var i = 0; i < this.originalData.length; i++) {
-          if (this.originalData[i].packageOffer == 'High Priority') {
+          if (this.originalData[i].packageOffer == this.transform('High Priority')) {
             this.originalData.splice(i, 1);
           }
-          if (this.originalData[i].packageOffer == 'highTotal') {
+          if (this.originalData[i].packageOffer == this.transform('highTotal')) {
             this.originalData.splice(i, 1);
           }
-          if (this.originalData[i].packageOffer == 'highDiscount') {
+          if (this.originalData[i].packageOffer == this.transform('highDiscount')) {
             this.originalData.splice(i, 1);
           }
-          if (this.originalData[i].packageOffer == 'highBlank') {
+          if (this.originalData[i].packageOffer == this.transform('highBlank')) {
             this.originalData.splice(i, 1);
           }
         }
@@ -367,13 +369,13 @@ export class ProductComponent implements OnInit {
 
       if (res.lessRisk.length == 0) {
         for (var i = 0; i < this.originalData.length; i++) {
-          if (this.originalData[i].packageOffer == 'Less Priority') {
+          if (this.originalData[i].packageOffer == this.transform('Less Priority')) {
             this.originalData.splice(i, 1);
           }
-          if (this.originalData[i].packageOffer == 'mediumTotal') {
+          if (this.originalData[i].packageOffer == this.transform('mediumTotal')) {
             this.originalData.splice(i, 1);
           }
-          if (this.originalData[i].packageOffer == 'mediumBlank') {
+          if (this.originalData[i].packageOffer == this.transform('mediumBlank')) {
             this.originalData.splice(i, 1);
           }
         }
@@ -415,6 +417,20 @@ export class ProductComponent implements OnInit {
 
     });
     this.cdf.detectChanges();
+  }
+
+  transform(value: string) {
+    if (value) {
+      let current = this._languageService.getSelectedLanguage();
+      if (value) {
+        try {
+          return this._languageService.langs[current]['FNA'][value] || value
+        } catch (error) {
+          return value        
+        }
+      }
+    }
+    return value
   }
 
 
@@ -460,7 +476,7 @@ export class ProductComponent implements OnInit {
 
 
   updateCommaInput(percent, type) {
-    if (type == 'highDiscount') {
+    if (type == this.transform('highDiscount')) {
       // High Priority Discount
       this.highPercent = percent;
       this.highAnnualPercentageRate = this.calculatePercentage(Number(percent), Number(this.totalHighAnnualRate));

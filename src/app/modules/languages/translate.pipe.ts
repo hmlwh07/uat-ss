@@ -11,6 +11,8 @@ export class TranslatePipe implements PipeTransform {
     if (value) {
       let current = this._languageService.getSelectedLanguage();
       let valueObj = value.split('.')
+      console.log(valueObj);
+      
       if (valueObj.length >= 2) {
         try {
           
