@@ -9,7 +9,7 @@
             placeholder="{{config.placeholder}}" [formControlName]="config.name" />
         </div>
         <div class="col-2" *ngIf="!isNrc">
-          <button class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled"
+          <button type="button" class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled"
             (click)="onCreate()">
             <span class="flaticon2-plus"></span>
           </button>
@@ -24,7 +24,7 @@
         <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
       </div>
       <div class="col-2" *ngIf="!isNrc">
-        <button class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled"
+        <button type="button" class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled"
           (click)="onCreate()">
           <span class="flaticon2-plus"></span>
         </button>
