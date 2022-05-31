@@ -316,7 +316,8 @@ export const locale = {
       base_coverage: "Base Coverage",
       product_code: "Product Code",
       product_cap: "PRODUCT",
-      premium_cap: "PREMIUM"
+      premium_cap: "PREMIUM",
+      management_team: "Management Team",
     },
     NAV: {
       my_acc: "My Account",

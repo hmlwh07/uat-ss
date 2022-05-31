@@ -7,7 +7,7 @@ export const ELEMENT_COL: TableCol[] = [
     field: "description"
   },
   {
-    title: "No. of Units",
+    title: "No of Units",
     type: COLTYPE.FEILD,
     field: "unit"
   },
