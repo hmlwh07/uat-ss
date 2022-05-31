@@ -11,9 +11,9 @@ export class DynTranslatePipe implements PipeTransform {
     if (value) {
       let current = this._languageService.getSelectedLanguage();
       try {
-        return current == "EN" ? value : valueMM || value
+        return current == "en" ? value : valueMM ||value
       } catch (error) {
-        return "Can't Translate Data"
+        return value
       }
     }
   }
