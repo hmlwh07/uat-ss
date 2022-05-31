@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatMenuModule } from "@angular/material/menu";
 import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { LanguageModule } from "src/app/modules/languages/languages.modules";
 import { throwIfAlreadyLoaded } from "src/app/modules/loading-toast/module-import-guard";
 import { CustomerListShareModule } from "../customer-list/customer-list.share.module";
 import { FormComponentModule } from "../form-component/form-component.module";
@@ -53,7 +54,8 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     NgbModalModule,
     // FormComponentModule,
     NgSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    LanguageModule
   ],
   providers: []
 })

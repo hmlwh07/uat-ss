@@ -2,7 +2,7 @@ import { COLTYPE, TableCol } from "../../../../../../app/_metronic/shared/crud-t
 
 export const ELEMENT_COL: TableCol[] = [
   {
-    title: "No. of People",
+    title: "No Of People",
     type: COLTYPE.FEILD,
     field: "noOfPeople"
   },

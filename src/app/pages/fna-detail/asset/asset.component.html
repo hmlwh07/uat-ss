@@ -1,13 +1,13 @@
 <div>
     <form action="#" class="form" [formGroup]="formGroup">
-        <h3 class="card-label left-border-image ">Asset</h3>
+        <h3 class="card-label left-border-image ">{{"FORM.asset" | translate }}</h3>
         <div>
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-label sub-title">Asset {{ selectedIndex + 1 }}</div>
                 </div>
                 <div class="col-8">
-                    <a class=" delete" *ngIf="selectedIndex > 0" (click)="deleteAsset()">Delete</a>
+                    <a class=" delete" *ngIf="selectedIndex > 0" (click)="deleteAsset()">{{"FORM.btn_delete" | translate }}</a>
                 </div>
             </div>
             <div class="row form-group">
@@ -83,14 +83,14 @@
             <button type="button" *ngIf="selectedIndex >= 0" class="btn btn-primary btn-elevate mx-2"
                 (click)="backToStartAction()" style="width: 150px; margin-bottom: 10px;">Back Main Page</button>
             <button type="button" *ngIf="selectedIndex > 0" class="btn btn-primary btn-elevate mx-2"
-                style="margin-bottom: 10px;" (click)="backAction()">Back</button>
+                style="margin-bottom: 10px;" (click)="backAction()">{{"FORM.btn_back" | translate }}</button>
             <button type="button" (click)="saveAsset()" class="btn btn-primary btn-elevate mx-2"
-                style="margin-bottom: 10px;">Save</button>
+                style="margin-bottom: 10px;">{{"FORM.btn_save" | translate }}</button>
             <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 >= nextCount"
                 (click)="addChild()" class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">Add
                 Asset</button>
             <button type="button" *ngIf="selectedIndex + 1 < nextCount" (click)="addChild()"
-                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">Next</button>
+                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">{{"FORM.btn_next" | translate }}</button>
         </div>
     </form>
 </div>

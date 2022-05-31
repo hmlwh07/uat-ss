@@ -1,5 +1,5 @@
 <div>
-    <h3 class="card-label left-border-image">Health</h3>
+    <h3 class="card-label left-border-image">{{"FORM.health" | translate }}</h3>
     <form action="#" class="form" [formGroup]="formGroup">
         <div class="set" *ngIf="selectedIndex == 2">
             <div class="col-12">We need health to work, so whatever it costs we need to
@@ -313,16 +313,15 @@
             <button type="button" *ngIf="selectedIndex >= 2" class="btn btn-primary btn-elevate mx-2"
                 (click)="backToStartAction()" style="width: 150px; margin-bottom: 10px;">Back Main Page</button>
             <button type="button" *ngIf="selectedIndex > 2" class="btn btn-primary btn-elevate mx-2"
-                style="margin-bottom: 10px;" (click)="backAction()">Back</button>
+                style="margin-bottom: 10px;" (click)="backAction()">{{"FORM.btn_back" | translate }}</button>
             <button type="button" style="margin-bottom: 10px;" (click)="saveAndNextHealth()"
-                class="btn btn-primary btn-elevate mx-2">Save</button>
+                class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_save" | translate }}</button>
             <button type="button" style="margin-bottom: 10px;" (click)="addChild('add')"
                 [disabled]="!formGroup.value.id" *ngIf="selectedIndex <= 4 && selectedIndex - 1 >= nextCount"
-                class="btn btn-primary btn-elevate mx-2">Add
-                Child</button>
+                class="btn btn-primary btn-elevate mx-2">{{"FORM.add_child" | translate }}</button>
             <button type="button" style="margin-bottom: 10px;" (click)="addChild('next')"
                 *ngIf="selectedIndex <= 4 && selectedIndex - 1 < nextCount"
-                class="btn btn-primary btn-elevate mx-2">Next</button>
+                class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_next" | translate }}</button>
 
         </div>
     </form>
