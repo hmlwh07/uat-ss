@@ -354,7 +354,6 @@ export const locale = {
       management_team: "စီမံခန့်ခွဲမှုအဖွဲ့",
       'Management team': "စီမံခန့်ခွဲမှုအဖွဲ့",
       'Customer Data Storage': "Customer ဒေတာသိုလှောင်မှု",
-<<<<<<< HEAD
       customer_id:"အာမခံထားသူ အမှတ်စဉ်", 
       bank_branch:"Bank Branch",
       agent_no:"Agent နံပါတ်",
@@ -368,7 +367,6 @@ export const locale = {
       average_case:"Average Case Size",
       view_all:"ပြန်ကြည့်ရန်",
       back_main_page:"မူလစာမျက်နှာသို့",
-=======
       'IT equipment loss': "အိုင်တီပစ္စည်းများ ဆုံးရှုံးခြင်း",
       'Employee capability': "ဝန်ထမ်းစွမ်းဆောင်ရည်",
       'Business disruption caused by technology issues': "နည်းပညာဆိုင်ရာ ပြဿနာများကြောင့် စီးပွားရေး အနှောင့်အယှက်များ",
@@ -386,7 +384,6 @@ export const locale = {
       'Lack of good compensation and benefits scheme': "အကျိုးခံစားခွင့် အစီအစဉ်ကောင်းများ နည်းပါးခြင်း",
       'Work related injuries': "အလုပ်ခွင်မှရရှိသော ထိခိုက်မှု",
       'Employee absenteeism': "အလုပ်ပျက်ကွက်ခြင်း",
->>>>>>> 6aed949a18cddde3242b46195fa6ab69565084dc
 
     },
     NAV: {
@@ -471,12 +468,9 @@ export const locale = {
       'Job Description': "အလုပ်အကိုင် ဖော်ပြချက်",
       'No of Locations': "လုပ်ငန်းတည်နေရာများ",
       'Question': "မေးခွန်း",
-<<<<<<< HEAD
       'Customer Data Storage': "Customer ဒေတာသိုလှောင်မှု",
       'Vehicle No': "ယာဉ်အမှတ်",
       'Engine Capacity': "အင်ဂျင်စွမ်းဆောင်ရည်"
-=======
->>>>>>> 6aed949a18cddde3242b46195fa6ab69565084dc
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',
