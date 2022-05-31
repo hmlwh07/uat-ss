@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { ProductsService } from '../../_metronic/core/services/products.service';
@@ -21,6 +21,7 @@ import { defaultAccessObj, MenuDataService } from '../../core/menu-data.service'
 })
 export class ProductsComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
+  @Input() isShowList:any='all'
   type: string = 'page'
   products: Product[] = []
   ELEMENT_COL = JSON.parse(JSON.stringify(ProductCol))
@@ -111,7 +112,8 @@ export class ProductsComponent implements OnInit {
   }
 
   getProducts() {
-    this.itemService.getAll().toPromise().then((res: any) => {
+    
+    this.itemService.getAll(this.isShowList).toPromise().then((res: any) => {
       //console.log(res);
       if (res) {
         this.products = res

@@ -123,6 +123,8 @@ export class ProductComponent implements OnInit {
   }
 
   buyProduct(product) {
+    console.log('product =====> ', product);
+
     forkJoin([this.productDataService.findOne(product.productId), this.customerService.findOne(this.passValueData.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
         this.productDataService.createingProd = res[0]

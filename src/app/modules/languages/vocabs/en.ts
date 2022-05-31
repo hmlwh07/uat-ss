@@ -38,6 +38,7 @@ export const locale = {
       thursday: 'Thursday',
       friday: 'Friday',
       saturday: 'Saturday'
+
     },
     FORM: {
       title: "  Welcome to KBZ MS and Life Insurance Sales Portal",
@@ -315,6 +316,11 @@ export const locale = {
       unit: "Unit",
       base_coverage: "Base Coverage",
       product_code: "Product Code",
+      branch_name:"Branch Name",
+      activity_name:"Activities Name",
+      target:"Target",
+      from_month:"From Month/Year",
+      to_month:"To Month/Year",
       product_cap: "PRODUCT",
       premium_cap: "PREMIUM",
       management_team: "Management Team",
@@ -366,6 +372,7 @@ export const locale = {
       'Agent Name': "Agent Name",
       'Premium': "Premium",
       'Application': "Application",
+      'Show In List':"Show In List"
 
     },
     ERROR: {

@@ -517,7 +517,7 @@
                             </div>
                             <!-- <div class="col-sm-8" *ngIf="leadForm.value.statusCode=='03'">isValidWin
                             </div> -->
-                            <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03' && applicationList.length > 0">
+                            <!-- <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03' && applicationList.length > 0">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('05')">
                                     <span class="">{{"FORM.btn_win" | translate}}</span>
                                 </button>
@@ -526,7 +526,7 @@
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('06')">
                                     <span class="">{{"FORM.btn_lost" | translate}}</span>
                                 </button>
-                            </div>
+                            </div> -->
                             <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode =='03'">
                                 <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;" (click)="updateLeadStatus('save')">
                                     <span class="">{{"FORM.btn_save" | translate}}</span>

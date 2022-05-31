@@ -78,6 +78,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.unsub.forEach(x => x.unsubscribe())
   }
   ngOnInit(): void {
+    console.log("tableReform",this.tableReform);
+    
     this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
         this.currencyType = res

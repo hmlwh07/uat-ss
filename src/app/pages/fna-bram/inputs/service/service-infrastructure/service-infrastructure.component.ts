@@ -37,7 +37,7 @@ export class ServiceInfrastructureComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'service_infrastructure').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Service Infrastructure').then(result => {
       if (result) {
         this.getAll();
       }

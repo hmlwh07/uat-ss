@@ -37,7 +37,7 @@ export class FixAssetManagementComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'fixed_assets_and_their_management').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Fixed assets and their management').then(result => {
       if (result) {
         this.getAll();
       }

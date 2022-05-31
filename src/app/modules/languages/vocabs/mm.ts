@@ -18,7 +18,7 @@ export const locale = {
       change: 'ဘာသာစကားပြောင်းလဲရန်',
       language: "ဘာသာစကား",
       save: 'Save',
-      Cancel: 'ပယ်ဖျက်ရန်',
+      cancel: 'ပယ်ဖျက်ရန်',
       dashboard: 'Dashboard',
       premium: 'အာမခံပရီမီယံ',
       products: 'အာမခံအမျိုးအစားများ',
@@ -324,6 +324,11 @@ export const locale = {
       unit: "ယူနစ်",
       base_coverage: "အခြေခံ အကာအကွယ်",
       product_code: "အာမခံ အမျိုးအစား ကုဒ်နံပါတ်",
+      branch_name:"Branch Name",
+      activity_name:"Activities Name",
+      target:"Target",
+      from_month:"From Month/Year",
+      to_month:"To Month/Year",
       product_cap: "အာမခံ အမျိုးအစား",
       premium_cap: "အာမခံပရီမီယံ",
       management_team: "စီမံခန့်ခွဲမှုအဖွဲ့",
@@ -405,6 +410,7 @@ export const locale = {
       'Product': "အာမခံ အမျိုးအစား",
       'Action': "လုပ်ဆောင်ချက်များ",
       'No Of People': "လူအရေအတွက်",
+      'Show In List':"Show In List"
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',

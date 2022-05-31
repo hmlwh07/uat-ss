@@ -27,8 +27,8 @@ export class ProductDataService extends BizOperationService<Product, number>{
     super(httpClient, API_PRODUCT_URL);
   }
 
-  getAll(){
-   return this.httpClient.get(API_PRODUCT_URL+"-view")
+  getAll(showInList?){
+   return this.httpClient.get(API_PRODUCT_URL+"-view"+ "?showInList="+showInList)
   }
 
 }

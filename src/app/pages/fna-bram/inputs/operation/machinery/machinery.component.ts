@@ -37,7 +37,7 @@ export class MachineryComponent implements OnInit {
     } else {
       this.data = null;
     }
-    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'machinery').then(result => {
+    this.fnaBRAMInputService.displayInput(this.fnaId, this.data, this.menuType, 'Machinery').then(result => {
       if (result) {
         this.getAll();
       }

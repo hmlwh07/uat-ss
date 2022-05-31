@@ -78,16 +78,18 @@
                 <!-- Product name -->
                 <div class="form-group">
                   <label class="form-label">{{"TABLE.Product Name"|translate}}</label>
-                  <input type="text" class="form-control form-control-sm" name="productName" placeholder="{{'TABLE.Product Name'|translate}}"
-                    autocomplete="off" [class.is-invalid]="isControlInvalid('productName',formGroup)"
+                  <input type="text" class="form-control form-control-sm" name="productName"
+                    placeholder="{{'TABLE.Product Name'|translate}}" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('productName',formGroup)"
                     [class.is-valid]="isControlValid('productName',formGroup)" formControlName="productName" />
                 </div>
                 <!-- Product name -->
                 <!-- Product code -->
                 <div class="form-group">
                   <label class="form-label">{{"TABLE.Product Code"|translate}}</label>
-                  <input type="text" class="form-control form-control-sm" name="productCode" placeholder="{{'TABLE.Product Code'|translate}}"
-                    autocomplete="off" [class.is-invalid]="isControlInvalid('productCode',formGroup)"
+                  <input type="text" class="form-control form-control-sm" name="productCode"
+                    placeholder="{{'TABLE.Product Code'|translate}}" autocomplete="off"
+                    [class.is-invalid]="isControlInvalid('productCode',formGroup)"
                     [class.is-valid]="isControlValid('productCode',formGroup)" formControlName="productCode" />
                 </div>
                 <!-- Product code -->
@@ -142,6 +144,21 @@
               </div>
 
             </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="example-margin form-label">{{"TABLE.Show In List"|translate}}</label>
+                  <mat-radio-group formControlName="showInList">
+                    <mat-radio-button class="example-margin" value="no">No</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="yes">Yes</mat-radio-button>
+                    <!-- <mat-radio-button class="example-margin" value="30days">Yes and max 30 days</mat-radio-button> -->
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+
+
             <div class="row" *ngIf="formGroup.value.isAllowBackDate == 'yes'">
               <div class="col-sm-12">
                 <div class="form-group">
@@ -229,6 +246,7 @@
                   </select>
                 </div>
               </div>
+
             </div>
             <div class="row">
               <div class="col-12">
@@ -252,7 +270,8 @@
                         <i class="flaticon-upload-1 icon-lg"></i>
                         <label>Small Icon</label>
                       </ng-container>
-                      <input style="display: none;" type="file" #selectedFile2 (change)="handleUpload($event,'small')" />
+                      <input style="display: none;" type="file" #selectedFile2
+                        (change)="handleUpload($event,'small')" />
                     </div>
                     <!-- Cover Icon -->
                     <div class="upload-icon" (click)="openFile('cover')">
@@ -262,7 +281,8 @@
                         <i class="flaticon-upload-1 icon-lg"></i>
                         <label>Cover Icon</label>
                       </ng-container>
-                      <input style="display: none;" type="file" #selectedFile3 (change)="handleUpload($event,'cover')" />
+                      <input style="display: none;" type="file" #selectedFile3
+                        (change)="handleUpload($event,'cover')" />
                     </div>
                   </div>
                 </div>

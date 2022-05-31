@@ -69,7 +69,7 @@ export class ProspectCustomerListComponent implements OnInit {
   }
 
   navigateToDetail(data, id?: string, secondaryId?: string) {
-    this.router.navigate(["/customer/customer-detail"], { queryParams: { pageStatus: data, pageId: id, pageSecondaryId: secondaryId } })
+    this.router.navigate(["/customer/customer-detail"], { queryParams: { pageStatus: data, pageId: id, pageSecondaryId: secondaryId,page:'Prospect' } })
   }
 
   getList() {
