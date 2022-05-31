@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from 'src/app/core/is-json';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 
@@ -32,6 +33,7 @@ import { MY_FORMATS } from 'src/app/core/is-json';
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
+    LanguageModule,
     RouterModule.forChild([
       {
         path: '',

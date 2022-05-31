@@ -308,10 +308,9 @@
 
         <div class="btn-about col-12">
             <button type="button" *ngIf="selectedIndex == 2 && tempChildList.length > 0"
-                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;" (click)="viewAll()">View
-                All</button>
+                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;" (click)="viewAll()">{{"FORM.view_all"|translate}}</button>
             <button type="button" *ngIf="selectedIndex >= 2" class="btn btn-primary btn-elevate mx-2"
-                (click)="backToStartAction()" style="width: auto; margin-bottom: 10px;">Back Main Page</button>
+                (click)="backToStartAction()" style="width: auto; margin-bottom: 10px;">{{"FORM.back_main_page"|translate}}</button>
             <button type="button" *ngIf="selectedIndex > 2" class="btn btn-primary btn-elevate mx-2"
                 style="margin-bottom: 10px;" (click)="backAction()">{{"FORM.btn_back" | translate }}</button>
             <button type="button" style="margin-bottom: 10px;" (click)="saveAndNextHealth()"
