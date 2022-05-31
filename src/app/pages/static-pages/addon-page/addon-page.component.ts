@@ -88,11 +88,11 @@ export class AddonPageComponent implements OnInit {
   async ngOnInit() {
     this.refID = this.prodService.referenceID
     this.optionId = this.optionId ? this.optionId : this.resourcesId
-    if (this.product.code == "PLMO02") {
+    if (this.product.code == "PLMO02" || this.product.code =="PLMO01") {
       this.parentData = this.getParnet()
     }
-    this.addOnList = this.product.addOns.filter(x => x.code != "MED EXP" && x.code != "CROSSBRDR")
-    this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP" || x.code == "CROSSBRDR").map(x => x.id)
+    this.addOnList = this.product.addOns.filter(x =>(x.code != "MED EXP" && this.product.code != "PLMO01") && (x.code != "CROSSBRDR" && this.product.code != "PLMO01"))
+    this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP"&& this.product.code != "PLMO01" || x.code == "CROSSBRDR"&& this.product.code != "PLMO01").map(x => x.id)
     if (this.addOnList && this.addOnList.length > 0) {
       await this.loadingService.activate()
       this.addOns = {
@@ -179,7 +179,7 @@ export class AddonPageComponent implements OnInit {
 
   getGlobalFun(funName: string, mainObj: string, mainKey, subKey: string, addon: any) {
 
-    if (this.product.code == "PLMO02" && subKey == "premium") {
+    if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && subKey == "premium") {
       if (this.globalFun[funName]) {
         let parentValueObj = addon.code == "PAIDDRIVER" ? this.getParnet('motor_driver') : this.parentData
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {
@@ -251,7 +251,7 @@ export class AddonPageComponent implements OnInit {
       }
 
     }
-    if (this.product.code == "PLMO02") {
+    if (this.product.code == "PLMO02" || this.product.code == "PLMO01") {
       await this.savePremimun().toPromise()
     }
     if (this.product.code == "CLFR01") {
@@ -271,7 +271,7 @@ export class AddonPageComponent implements OnInit {
   }
 
   changeOption(addon: AddOn) {
-    if (addon.code != "CROSSBRDR" && this.product.code == "PLMO02") {
+    if (addon.code != "CROSSBRDR" && this.product.code == "PLMO01") {
       let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
       if (this.addOnsData[cross.id].checked) {
         let tempPre = this.calcuCross()
