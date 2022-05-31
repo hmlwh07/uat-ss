@@ -123,8 +123,7 @@ export class ProductComponent implements OnInit {
   }
 
   buyProduct(product) {
-    console.log('product =====> ', product);
-
+   // console.log('product =====> ', product);
     forkJoin([this.productDataService.findOne(product.productId), this.customerService.findOne(this.passValueData.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
         this.productDataService.createingProd = res[0]
@@ -150,7 +149,7 @@ export class ProductComponent implements OnInit {
     let nameList = []
     //472
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('getAllProductRec', res);
+      // console.log('getAllProductRec', res);
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
         this.isData = true;
@@ -184,7 +183,6 @@ export class ProductComponent implements OnInit {
           if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' ||
             res.highRisk[i].productCode == 'PLPA01' || res.highRisk[i].productCode == 'PCPA01') {
             res.highRisk[i].action = 'Buy';
-            console.log('res.highRisk[i]', res.highRisk[i]);
           } else {
             res.highRisk[i].action = '';
           }
@@ -325,6 +323,7 @@ export class ProductComponent implements OnInit {
         let data = {
           packageOffer: packageOffer, product: [
             {
+              productId: this.grantTotalList[i].productId,
               product: this.grantTotalList[i].product, policies: this.grantTotalList[i].grantPolicies || null,
               sa: this.grantTotalList[i].grantSa || '', annualRate: this.grantTotalList[i].grantAnnualRate || '',
               monthlyRate: this.grantTotalList[i].grantMonthlyRate || '', action: this.grantTotalList[i].action
@@ -336,6 +335,7 @@ export class ProductComponent implements OnInit {
       this.originalData.push({
         packageOffer: 'total', product: [
           {
+            
             product: 'Total', policies: totalGrantPolicies || null, sa: totalGrantSa || null,
             annualRate: totalGrantAnnualRate || null, monthlyRate: totalGrantMonthlyRate || null, action: ''
           }]
@@ -402,9 +402,8 @@ export class ProductComponent implements OnInit {
 
       this.dataSource = this.originalData.reduce((current, next) => {
         next.product.forEach(b => {
-
-
           current.push({
+            productId:  b.productId,
             packageOffer: next.packageOffer, input: next.input, product: b.product, policies: b.policies,
             sa: this.fnaService.currencyFormat(Number(b.sa)),
             annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
@@ -506,6 +505,7 @@ export class ProductComponent implements OnInit {
     this.dataSource = this.originalData.reduce((current, next) => {
       next.product.forEach(b => {
         current.push({
+          productId: b.productId,
           packageOffer: next.packageOffer, product: b.product, input: next.input, policies: b.policies,
           sa: this.fnaService.currencyFormat(Number(b.sa)),
           annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
@@ -869,7 +869,7 @@ export class ProductComponent implements OnInit {
       170, height + 40);
     doc.text("previous, Questions not answered shall be filtered out automatically",
       170, height + 50);
-    console.log('DOC =====> ', doc);
+    //console.log('DOC =====> ', doc);
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
