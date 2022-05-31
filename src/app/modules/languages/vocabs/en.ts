@@ -363,7 +363,7 @@ export const locale = {
       'Next': "Next",
       'Cancel': "Cancel",
       'Small Icon': "Small Icon",
-      'Activity No': "Activity No",
+      'Activity No': "Activity No.",
       'Activity Type': "Activity Type",
       'Activity Title': "Activity Title",
       'Related To': "Related To",

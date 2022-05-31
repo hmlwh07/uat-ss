@@ -105,14 +105,14 @@
             <button type="button" *ngIf="selectedIndex >= 0" class="btn btn-primary btn-elevate mx-2"
                 (click)="backToStartAction()" style="width: 150px; margin-bottom: 10px;">Back Main Page</button>
             <button type="button" *ngIf="selectedIndex > 0" class="btn btn-primary btn-elevate mx-2"
-                (click)="backAction()" style="margin-bottom: 10px;">Back</button>
+                (click)="backAction()" style="margin-bottom: 10px;">{{"FORM.btn_back" | translate }}</button>
             <button type="button" (click)="saveEducation()" class="btn btn-primary btn-elevate mx-2"
-                style="margin-bottom: 10px;">Save</button>
+                style="margin-bottom: 10px;">{{"FORM.btn_save" | translate }}</button>
             <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 >= nextCount"
                 (click)="addChild('add')" class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">{{"FORM.add_child" | translate}}</button>
             <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 < nextCount"
                 (click)="addChild('next')" class="btn btn-primary btn-elevate mx-2"
-                style="margin-bottom: 10px;">Next</button>
+                style="margin-bottom: 10px;">{{"FORM.btn_next" | translate }}</button>
         </div>
     </form>
 </div>

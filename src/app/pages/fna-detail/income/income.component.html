@@ -1,5 +1,5 @@
 <div>
-    <h3 class="card-label left-border-image">Income</h3>
+    <h3 class="card-label left-border-image">{{"FORM.income" | translate }}</h3>
     <form action="#" class="form" [formGroup]="formGroup" (ngSubmit)="saveFNAIncome()">
         <div class="about">
             <div style="padding-left: 13px;">We all work for our income - can you provide some details</div>
@@ -62,7 +62,8 @@
             <button type="button" class="btn btn-primary btn-elevate" (click)="backAction()"
                 style="width: 150px; margin-bottom: 10px; ">Back
                 Main Page</button>
-            <button type="submit" class="btn btn-primary btn-elevate mx-2" style=" margin-bottom: 10px;">Save</button>
+            <button type="submit" class="btn btn-primary btn-elevate mx-2"
+                style=" margin-bottom: 10px;">{{"FORM.btn_save" | translate }}</button>
         </div>
     </form>
 </div>

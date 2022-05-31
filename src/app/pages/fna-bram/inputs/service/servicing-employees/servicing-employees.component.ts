@@ -5,8 +5,8 @@ import { MaterialTableViewComponent } from '../../../../../../app/_metronic/shar
 import { FNABRAMInputService } from '../../../inputs.manage.service';
 import { SERVICE } from '../../input-data-dialog/input.data.enum';
 import { InputsService } from '../../inputs.manage.service';
-import { DISPLAY_COL, ELEMENT_COL } from '../service-infrastructure/service-infrastructure.const';
 import { BRAMServiceService } from '../service.manage.service';
+import { DISPLAY_COL, ELEMENT_COL } from './servicing-employees.const';
 
 @Component({
   selector: 'app-servicing-employees',
