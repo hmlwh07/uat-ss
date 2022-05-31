@@ -158,7 +158,7 @@ export class LeadListComponent implements OnInit {
     //   });
   }
   getProduct() {
-    return this.productService.getAll().pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+    return this.productService.getAll('yes').pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
     // this.productService

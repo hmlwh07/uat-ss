@@ -20,6 +20,7 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
   constructor(private masterData: MasterDataService, private cdf: ChangeDetectorRef, private globalFun: GlobalFunctionService) { }
 
   ngOnInit() {
+    
     if (this.config.master == 'true') {
       if (!this.config.dependency) {
         this.getOptions()
