@@ -4,7 +4,7 @@ import { BizOperationService } from "../../../../app/core/biz.operation.service"
 import { environment } from "../../../../environments/environment";
 
 const API_ADDON_URL = `${environment.apiUrl}/fna`;
-const API_PRODUCT_URL = `${environment.apiUrl}/product-view`;
+const API_PRODUCT_URL = `${environment.apiUrl}/product`;
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class InputsService extends BizOperationService<any, number>{
 
 
   getAllProducts() {
-    return this.httpClient.get(API_PRODUCT_URL);
+    return this.httpClient.get(API_PRODUCT_URL+"-view"+ "?showInList=all")
   }
 
 

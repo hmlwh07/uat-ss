@@ -711,6 +711,7 @@ export class InputDataDialogComponent implements OnInit {
 
   async getAllProducts() {
     await this.inputsService.getAllProducts().toPromise().then(async (res: any) => {
+      console.log('getAllProducts', this.type);
       if (this.menuType == "OutboundLogistics" && this.type == "Goods In Transporation") {
         this.products = res.filter(x => x.code === 'CLMA01');
       } else if (this.menuType == "HumanResources" && this.type == "Recruitment and Training") {

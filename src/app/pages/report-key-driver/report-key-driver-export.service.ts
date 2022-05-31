@@ -11,7 +11,7 @@ import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attac
 const API_ADDON_URL = `${environment.apiUrl}/report/keyDriver`;
 const API_HIREARCHY_URL = `${environment.apiUrl}/officeHirearchy`;
 const API_AGENT_OFFICE_URL = `${environment.apiUrl}/agentByOffice`;
-const API_PRODUCT_URL = `${environment.apiUrl}/product-view`;
+const API_PRODUCT_URL = `${environment.apiUrl}/product`;
 
 
 const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
@@ -31,7 +31,7 @@ export class ReportKeyDriverExportService extends BizOperationService<any, numbe
   }
 
   getAllProducts() {
-    return this.httpClient.get(API_PRODUCT_URL);
+    return this.httpClient.get(API_PRODUCT_URL+"-view"+ "?showInList=all")
   }
 
 
