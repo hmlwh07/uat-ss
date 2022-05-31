@@ -271,6 +271,7 @@ export const locale = {
       others: "အခြား",
       'Others': "အခြား",
       btn_previous: "နောက်ဆုတ်ရန်",
+      previous: "နောက်ဆုတ်ရန်",
       assets_desc: "ပိုင်ဆိုင်မှု ဖော်ပြချက်",
       no_of_units: "အရေအတွက်",
       action: "လုပ်ဆောင်ချက်",

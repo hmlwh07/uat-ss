@@ -260,6 +260,7 @@ export const locale = {
       package: "Package",
       no_of_locations: "No of location",
       btn_previous: "Previous",
+      previous:"Previous",
       others: "Others",
       raw_material_storage: "Raw Material Storage",
       transportation: "Transportation",
