@@ -353,6 +353,23 @@ export const locale = {
       management_team: "စီမံခန့်ခွဲမှုအဖွဲ့",
       'Management team': "စီမံခန့်ခွဲမှုအဖွဲ့",
       'Customer Data Storage': "Customer ဒေတာသိုလှောင်မှု",
+      'IT equipment loss': "အိုင်တီပစ္စည်းများ ဆုံးရှုံးခြင်း",
+      'Employee capability': "ဝန်ထမ်းစွမ်းဆောင်ရည်",
+      'Business disruption caused by technology issues': "နည်းပညာဆိုင်ရာ ပြဿနာများကြောင့် စီးပွားရေး အနှောင့်အယှက်များ",
+      'Not able to access business(factory) location': "လုပ်ငန်း (စက်ရုံ) တည်နေရာကို ဝင်ရောက်ကြည့်ရှုခြင်းမပြုနိုင်ပါ",
+      'Not able to access business(showroom) location': "လုပ်ငန်း (အရောင်းပြခန်း) တည်နေရာကို ဝင်ရောက်ကြည့်ရှုနိုင်ခြင်း မရှိပါ",
+      'Key management team unavailability': "အဓိက စီမံခန့်ခွဲမှုအဖွဲ့ မအားလပ်မူ",
+      'Loss of business licenses and permits': "လုပ်ငန်းလိုင်စင်နှင့် ပါမစ်များ ဆုံးရှုံးခြင်း",
+      'Damaged business image/good will': "လုပ်ငန်းပုံရိပ်ကျဆင်းခြင်း",
+      'Loss of cash': "ငွေကြေးဆုံးရှုံးမှု",
+      'Burglary': "ဖောက်ထွင်းမှု",
+      'Not finding the right employees': "သင့်လျော်သောဝန်ထမ်းများကို ရှာမတွေ့ခြင်း",
+      'Lack of trained employees': "လေ့ကျင့်ထားသော ဝန်ထမ်းများ နည်းပါးခြင်း",
+      'Unable to retain qualified trained employees': "အရည်အချင်းပြည့်မီ အောင် လေ့ကျင့်သင်ကြားထားသော ဝန်ထမ်းများကို မထိန်းသိမ်းထားနိုင်ခြင်း",
+      'Lack of employee productivity': "ဝန်ထမ်း၏ လုပ်ဆောင်နိုင်စွမ်းနည်းပါးခြင်း",
+      'Lack of good compensation and benefits scheme': "အကျိုးခံစားခွင့် အစီအစဉ်ကောင်းများ နည်းပါးခြင်း",
+      'Work related injuries': "အလုပ်ခွင်မှရရှိသော ထိခိုက်မှု",
+      'Employee absenteeism': "အလုပ်ပျက်ကွက်ခြင်း",
 
     },
     NAV: {
@@ -399,7 +416,7 @@ export const locale = {
       'Due Date': "နောက်ဆုံးသတ်မှတ်ရက်စွဲ",
       'Customer",': "Customer",
       'Quotation ID': "Quotation အမှတ်",
-      'Application ID':"လျှောက်လွှာ အမှတ်",
+      'Application ID': "လျှောက်လွှာ အမှတ်",
       'Policy Number': "ပေါ်လစီ နံပါတ်",
       'Agent Name': "Agent အမည်",
       'Premium': "အာမခံပရီမီယံ",
@@ -437,7 +454,6 @@ export const locale = {
       'Job Description': "အလုပ်အကိုင် ဖော်ပြချက်",
       'No of Locations': "လုပ်ငန်းတည်နေရာများ",
       'Question': "မေးခွန်း",
-      'Customer Data Storage': "Customer ဒေတာသိုလှောင်မှု",
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',
@@ -453,7 +469,7 @@ export const locale = {
       "Grand Total": "အားလုံးစုံ စုစုပေါင်း",
       "Total": "စုစုပေါင်း",
       "total": "စုစုပေါင်း",
-      "discount": "လျှော့စျေး (%)"
+      "discount": "လျှော့စျေး (%)",
     }
 
   },

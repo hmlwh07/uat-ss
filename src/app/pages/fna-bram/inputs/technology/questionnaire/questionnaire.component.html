@@ -10,7 +10,7 @@
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows>
                     <ng-container matColumnDef="question">
                         <th class="col-3" mat-header-cell *matHeaderCellDef> {{"FORM.question" | translate}} </th>
-                        <td class="col-3" mat-cell *matCellDef="let element"> {{ element.question }} </td>
+                        <td class="col-3" mat-cell *matCellDef="let element"> {{ "FORM."+element.question | translate }} </td>
                     </ng-container>
                     <ng-container matColumnDef="riskLevel">
                         <th mat-header-cell *matHeaderCellDef> {{"FORM.risk_level" | translate}} </th>
