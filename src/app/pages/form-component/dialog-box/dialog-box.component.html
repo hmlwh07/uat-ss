@@ -1,10 +1,10 @@
 <div *ngIf="config" [formGroup]="group">
-  <div class="form-group" [ngClass]="{'row': config.inlineStyle}" (click)="openModal()">
+  <div class="form-group" [ngClass]="{'row': config.inlineStyle}" >
     <label class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label |
       dyn_translate: config.labelMM}}</label>
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <div class="row">
-        <div class="{{ isNrc ? 'col-12' : 'col-10'}}">
+        <div class="{{ isNrc ? 'col-12' : 'col-10'}}" (click)="openModal()">
           <input type="text" class="form-control form-control-sm" name="{{config.name}}"
             placeholder="{{config.placeholder}}" [formControlName]="config.name" />
         </div>
@@ -18,7 +18,7 @@
       <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
     </div>
     <ng-template #InlineForm>
-      <div class="col-{{isNrc ? config.inputSize : config.inputSize-2}}">
+      <div class="col-{{isNrc ? config.inputSize : config.inputSize-2}}" (click)="openModal()" >
         <input type="{{config.type}}" class="form-control form-control-sm" name="{{config.name}}"
           placeholder="{{config.placeholder}}" [formControlName]="config.name" />
         <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>

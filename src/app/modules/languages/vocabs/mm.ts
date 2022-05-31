@@ -267,6 +267,7 @@ export const locale = {
       transportation: "လမ်းပန်းဆက်သွယ်ရေးသယ်ယူပို့ဆောင်ရေး",
       others: "အခြား",
       btn_previous: "နောက်ဆုတ်ရန်",
+      previous: "နောက်ဆုတ်ရန်",
       assets_desc: "ပိုင်ဆိုင်မှု ဖော်ပြချက်",
       no_of_units: "အရေအတွက်",
       action: "လုပ်ဆောင်ချက်",
