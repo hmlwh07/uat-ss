@@ -215,6 +215,7 @@ export const locale = {
       sum_insured: "အာမခံ ထားငွေ",
       education_expenses: "ပညာရေးအသုံးစရိတ်",
       add_child: "နောက်တစ်ယောက်ထည့်ရန်",
+      add_asset: "နောက်ပိုင်ဆိုင်မှုထည့်ရန်",
       retirement_age: "အလုပ်မှ အနားယူသည့်အသက်",
       pre_retirement_income: "အလုပ်မှ အနားမယူခင်ဝင်ငွေ ",
       retirement_savings_required: "အနားယူရန် လိုအပ်သည့် စုဆောင်းငွေ",

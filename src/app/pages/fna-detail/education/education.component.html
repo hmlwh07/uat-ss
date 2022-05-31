@@ -35,9 +35,10 @@
             <div class="col-6">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" readonly class="form-control form-control-sm date-input" formControlName="dateOfBirth"
-                            [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker" (dateChange)="doValid()"
-                            autocomplete="off" [class.is-invalid]="isControlInvalid('dateOfBirth')"
+                        <input type="text" readonly class="form-control form-control-sm date-input"
+                            formControlName="dateOfBirth" [min]="fromMinDate" [max]="fromMaxDate"
+                            [matDatepicker]="picker" (dateChange)="doValid()" autocomplete="off"
+                            [class.is-invalid]="isControlInvalid('dateOfBirth')"
                             [class.is-valid]="isControlValid('dateOfBirth')">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker disabled="false"></mat-datepicker>
@@ -48,7 +49,8 @@
             <div class="col-2" style="padding: 0;">
                 <button type="button" style="width: auto;
                 float: left;
-                margin: 0 !important;" (click)="clearDOB()" class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_clear" | translate}}</button>
+                margin: 0 !important;" (click)="clearDOB()" class="btn btn-primary btn-elevate mx-2">{{"FORM.btn_clear"
+                    | translate}}</button>
             </div>
         </div>
         <div class="row">
@@ -103,13 +105,14 @@
                 class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;" (click)="viewAll()">View
                 All</button>
             <button type="button" *ngIf="selectedIndex >= 0" class="btn btn-primary btn-elevate mx-2"
-                (click)="backToStartAction()" style="width: 150px; margin-bottom: 10px;">Back Main Page</button>
+                (click)="backToStartAction()" style="width: auto; margin-bottom: 10px;">Back Main Page</button>
             <button type="button" *ngIf="selectedIndex > 0" class="btn btn-primary btn-elevate mx-2"
                 (click)="backAction()" style="margin-bottom: 10px;">{{"FORM.btn_back" | translate }}</button>
             <button type="button" (click)="saveEducation()" class="btn btn-primary btn-elevate mx-2"
                 style="margin-bottom: 10px;">{{"FORM.btn_save" | translate }}</button>
             <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 >= nextCount"
-                (click)="addChild('add')" class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">{{"FORM.add_child" | translate}}</button>
+                (click)="addChild('add')" class="btn btn-primary btn-elevate mx-2"
+                style="width: auto; margin-bottom: 10px;">{{"FORM.add_child" | translate}}</button>
             <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 < nextCount"
                 (click)="addChild('next')" class="btn btn-primary btn-elevate mx-2"
                 style="margin-bottom: 10px;">{{"FORM.btn_next" | translate }}</button>

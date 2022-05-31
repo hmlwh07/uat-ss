@@ -7,7 +7,8 @@
                     <div class="form-label sub-title">Asset {{ selectedIndex + 1 }}</div>
                 </div>
                 <div class="col-8">
-                    <a class=" delete" *ngIf="selectedIndex > 0" (click)="deleteAsset()">{{"FORM.btn_delete" | translate }}</a>
+                    <a class=" delete" *ngIf="selectedIndex > 0" (click)="deleteAsset()">{{"FORM.btn_delete" | translate
+                        }}</a>
                 </div>
             </div>
             <div class="row form-group">
@@ -54,8 +55,10 @@
                 <div class="col-8">
                     <div class="form-group">
                         <mat-radio-group formControlName="protect">
-                            <mat-radio-button class="example-margin" [value]=true>{{"FORM.rad_yes" | translate}}</mat-radio-button>
-                            <mat-radio-button class="example-margin" [value]=false>{{"FORM.rad_no" | translate}}</mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=true>{{"FORM.rad_yes" | translate}}
+                            </mat-radio-button>
+                            <mat-radio-button class="example-margin" [value]=false>{{"FORM.rad_no" | translate}}
+                            </mat-radio-button>
                         </mat-radio-group>
                     </div>
                 </div>
@@ -63,7 +66,8 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">{{"FORM.replacement_purchase_cost" | translate}} <span>*</span></label>
+                        <label class="form-label">{{"FORM.replacement_purchase_cost" | translate}}
+                            <span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -81,16 +85,17 @@
                 class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;" (click)="viewAll()">View
                 All</button>
             <button type="button" *ngIf="selectedIndex >= 0" class="btn btn-primary btn-elevate mx-2"
-                (click)="backToStartAction()" style="width: 150px; margin-bottom: 10px;">Back Main Page</button>
+                (click)="backToStartAction()" style="width: auto; margin-bottom: 10px;">Back Main Page</button>
             <button type="button" *ngIf="selectedIndex > 0" class="btn btn-primary btn-elevate mx-2"
                 style="margin-bottom: 10px;" (click)="backAction()">{{"FORM.btn_back" | translate }}</button>
             <button type="button" (click)="saveAsset()" class="btn btn-primary btn-elevate mx-2"
                 style="margin-bottom: 10px;">{{"FORM.btn_save" | translate }}</button>
             <button type="button" [disabled]="!formGroup.value.id" *ngIf="selectedIndex + 1 >= nextCount"
-                (click)="addChild()" class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">Add
-                Asset</button>
+                (click)="addChild()" class="btn btn-primary btn-elevate mx-2" style="width: auto; margin-bottom: 10px;">
+                {{"FORM.add_asset" | translate }}</button>
             <button type="button" *ngIf="selectedIndex + 1 < nextCount" (click)="addChild()"
-                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">{{"FORM.btn_next" | translate }}</button>
+                class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;">{{"FORM.btn_next" | translate
+                }}</button>
         </div>
     </form>
 </div>

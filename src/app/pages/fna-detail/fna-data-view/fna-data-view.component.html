@@ -8,16 +8,18 @@
             <h4 class="col-12 sub-title" style="padding-left: 13px;">Current health protection self</h4>
             <div class="row form-group">
                 <div class="col-4">
-                    <div class="form-group"> <label class="form-label">With protection</label> </div>
+                    <div class="form-group"> <label class="form-label">{{"FORM.with_protection" | translate }}</label>
+                    </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
                         <mat-radio-group [disabled]="true">
                             <mat-radio-button class="example-margin" [value]=true
-                                [checked]="fnaViews[0].protection == true ">Yes
+                                [checked]="fnaViews[0].protection == true ">{{"FORM.rad_yes" | translate }}
                             </mat-radio-button>
                             <mat-radio-button class="example-margin" [value]=false
-                                [checked]="fnaViews[0].protection == false ">No</mat-radio-button>
+                                [checked]="fnaViews[0].protection == false ">{{"FORM.rad_no" | translate }}
+                            </mat-radio-button>
                         </mat-radio-group>
                     </div>
                 </div>
@@ -75,7 +77,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Name of Spouse</label>
+                        <label class="form-label">{{"FORM.name_of_spouse" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -88,7 +90,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Date of Birth</label>
+                        <label class="form-label">{{"FORM.date_of_birth" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -108,17 +110,18 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label"> With protection</label>
+                        <label class="form-label"> {{"FORM.with_protection" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-sm-8">
                     <div class="form-group">
                         <mat-radio-group [disabled]="true">
                             <mat-radio-button class="example-margin" [value]=true
-                                [checked]="fnaViews[1].protection == true ">Yes
+                                [checked]="fnaViews[1].protection == true ">{{"FORM.rad_yes" | translate }}
                             </mat-radio-button>
                             <mat-radio-button class="example-margin" [value]=false
-                                [checked]="fnaViews[1].protection == false ">No</mat-radio-button>
+                                [checked]="fnaViews[1].protection == false ">{{"FORM.rea_no" | translate }}
+                            </mat-radio-button>
                         </mat-radio-group>
                     </div>
                 </div>
@@ -180,7 +183,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Name of Child</label>
+                        <label class="form-label">{{"FORM.name_of_child" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -193,7 +196,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Date of Birth</label>
+                        <label class="form-label">{{"FORM.date_of_birth" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -213,17 +216,17 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">With protection</label>
+                        <label class="form-label">{{"FORM.with_protection" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
                         <mat-radio-group [disabled]="true">
                             <mat-radio-button class="example-margin" [value]=true [checked]="view.protection == true ">
-                                Yes
+                                {{"FORM.rad_yes" | translate }}
                             </mat-radio-button>
                             <mat-radio-button class="example-margin" [value]=false
-                                [checked]="view.protection == false ">No
+                                [checked]="view.protection == false ">{{"FORM.rad_no" | translate }}
                             </mat-radio-button>
                         </mat-radio-group>
                     </div>
@@ -286,7 +289,7 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Asset Type</label>
+                        <label class="form-label">{{"FORM.asset_type" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -317,15 +320,17 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">With insurance protection</label>
+                        <label class="form-label">{{"FORM.with_insurance_protection" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
                         <mat-radio-group [disabled]="true">
-                            <mat-radio-button class="example-margin" [value]=true [checked]="view.protect == true ">Yes
+                            <mat-radio-button class="example-margin" [value]=true [checked]="view.protect == true ">
+                                {{"FORM.rad_yes" | translate }}
                             </mat-radio-button>
-                            <mat-radio-button class="example-margin" [value]=false [checked]="view.protect == false ">No
+                            <mat-radio-button class="example-margin" [value]=false [checked]="view.protect == false ">
+                                {{"FORM.rad_no" | translate }}
                             </mat-radio-button>
                         </mat-radio-group>
                     </div>
@@ -334,7 +339,8 @@
             <div class="row form-group">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Replacement/ Purchase Cost <span>*</span></label>
+                        <label class="form-label">{{"FORM.replacement_purchase_cost" | translate
+                            }}<span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -365,7 +371,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Child Name</label>
+                        <label class="form-label">{{"FORM.child_name" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -378,7 +384,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Date of Birth</label>
+                        <label class="form-label">{{"FORM.date_of_birth" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -398,7 +404,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Higher Education</label>
+                        <label class="form-label">{{"FORM.higher_education" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -415,7 +421,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Sum Assured <span>*</span></label>
+                        <label class="form-label">{{"FORM.sum_insured" | translate}}<span>*</span></label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -428,7 +434,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">Education Expense</label>
+                        <label class="form-label">{{"FORM.education_expenses" | translate }}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -449,7 +455,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">Source of Income</label>
+                            <label class="form-label">{{"FORM.source_of_income" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -468,7 +474,8 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">Family Monthly Spending (lakhs) <span>*</span> </label>
+                            <label class="form-label">{{"FORM.family_monthly_spending" | translate }}<span>*</span>
+                            </label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -482,7 +489,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">Estimated Monthly Income (lakhs) </label>
+                            <label class="form-label">{{"FORM.estimated_monthly_income" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -508,7 +515,8 @@
             <div class="set">
                 <div class="row">
                     <div class="col-4">
-                        <div class="form-group"> <label class="form-label">Date of Birth</label> </div>
+                        <div class="form-group"> <label class="form-label">{{"FORM.date_of_birth" | translate }}</label>
+                        </div>
                     </div>
                     <div class="col-8">
                         <div class="form-group">
@@ -527,7 +535,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">Retirement Age</label>
+                            <label class="form-label">{{"FORM.retirement_age" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -540,7 +548,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">Pre-retirement Income</label>
+                            <label class="form-label">{{"FORM.pre_retirement_income" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -554,7 +562,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">Retirement Savings Required</label>
+                            <label class="form-label">{{"FORM.retirement_savings_required" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -568,7 +576,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">Retirement Savings Incl. Spouse</label>
+                            <label class="form-label">{{"FORM.retirement_savings_incl_spouse" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -584,6 +592,7 @@
 
     <div class="btn-about col-12" style="overflow: hidden; padding: 0;">
         <button type="button" class="btn btn-primary btn-elevate mx-2"
-            style="width: 120px; float: right; margin-right: 0 !important;" (click)="close()">Close</button>
+            style="width: 120px; float: right; margin-right: 0 !important;" (click)="close()">{{"FORM.btn_close" |
+            translate }}</button>
     </div>
 </div>
