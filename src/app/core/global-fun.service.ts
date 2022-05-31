@@ -32,7 +32,7 @@ export class GlobalFunctionService {
   exChange: number = 1650
 
   optionResultChange = new Subject()
-
+  sumInsuredResult = new Subject()
   constructor(private numberPipe: DecimalPipe, private alert: AlertService, private exChangeService: LatestCurrencyExchangeService, private motorService: MotorRateService) {
 
   }

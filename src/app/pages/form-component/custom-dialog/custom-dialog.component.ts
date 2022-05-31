@@ -48,7 +48,7 @@ export class CustomDialogComponent implements OnInit, OnDestroy {
         if (checkArray.length > 0) {
           let checkData = checkArray.find(data => data[this.config.valueField] == this.selectedData[this.config.valueField])
           if (checkData) {
-            this.alertService.activate('This Driver is already exist!', 'Warning Message');
+            this.alertService.activate(`This ${this.config.label} is already exist`, 'Warning Message');
           } else {
             this.doDataBind()
           }
