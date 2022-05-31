@@ -44,4 +44,8 @@ export class LeadDetailService extends BizOperationService<Lead, number>{
   getValidityPeriod(leadSource, productId) {
     return this.httpClient.get(API_VALIDITY_URL + "?leadSource=" + leadSource + "&" + "productId=" + productId)
   }
+  checkLead(postData){
+    console.log(postData);
+    return this.httpClient.post(API_LEAD_URL + "/check", postData)
+  }
 }

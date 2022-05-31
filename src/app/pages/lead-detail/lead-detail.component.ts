@@ -690,6 +690,7 @@ export class LeadDetailComponent implements OnInit {
         }
       });
   }
+
   async updateLeadStatus(status) {
     if (status == "save") {
       this.createLead();
@@ -710,12 +711,32 @@ export class LeadDetailComponent implements OnInit {
             // this.leadForm.controls.lostReason.setValue(data)
             this.updateStatus(status, data)
           }
-
         })
-
-
       } else {
-        this.updateStatus(status)
+        this.alertService.activate('Are you sure want to approve?', 'Warning Message').then(result => {
+          if (result) {
+            let data = {
+              email: this.oldData.email,
+              identityNumber: this.oldData.identityNumber,
+              identityType: this.oldData.identityType,
+              nrcRegionCd: this.oldData.nrcRegionCode,
+              nrcTownshipCd: this.oldData.nrcTownshipCode,
+              nrcTypeCd: this.oldData.nrcTypeCode,
+              phone: this.oldData.phoneNo
+            }
+            this.LeadDetailService.checkLead(data).toPromise().then((res) => {
+              if (res) {
+                this.alertService.activate('You must reject to this opportunity.', 'Warning Message').then(result => {
+                });
+              } else {
+                this.updateStatus(status);
+                this.alertService.activate('This record was approved', 'Success Message').then(result => {
+                });
+              }
+
+            });
+          }
+        })
       }
     }
 
@@ -730,7 +751,9 @@ export class LeadDetailComponent implements OnInit {
       this.customer.customerName = this.existingCustomer.customerName
       this.customer.customerDob = this.existingCustomer.customerDob
     }
+
   }
+
   updateStatus(status, reason?) {
     let postData = {
       leadId: this.oldId,
@@ -747,6 +770,7 @@ export class LeadDetailComponent implements OnInit {
         }
       });
   }
+
   viewCampaignList() {
     if (!this.disabledForm) {
       let modalRef;
