@@ -150,7 +150,7 @@ export class ProductComponent implements OnInit {
     let nameList = []
     //472
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
-      // console.log('getAllProductRec', res);
+      console.log('getAllProductRec', res);
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
         this.isData = true;
@@ -184,6 +184,7 @@ export class ProductComponent implements OnInit {
           if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' ||
             res.highRisk[i].productCode == 'PLPA01' || res.highRisk[i].productCode == 'PCPA01') {
             res.highRisk[i].action = 'Buy';
+            console.log('res.highRisk[i]', res.highRisk[i]);
           } else {
             res.highRisk[i].action = '';
           }
