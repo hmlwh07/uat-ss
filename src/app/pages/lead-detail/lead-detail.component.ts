@@ -482,7 +482,7 @@ export class LeadDetailComponent implements OnInit {
 
   getProduct() {
     this.productService
-      .getAll()
+      .getAll('all')
       .toPromise()
       .then((res: any) => {
         if (res) {
@@ -490,6 +490,7 @@ export class LeadDetailComponent implements OnInit {
             return { code: x.id, value: x.name, type: x.type };
           });
           this.cdf.detectChanges();
+        
           this.getProductOption()
         }
       });
@@ -1326,8 +1327,12 @@ export class LeadDetailComponent implements OnInit {
   }
   getProductOption() {
     let array: any[] = this.productOption || []
+    console.log("this.leadForm.getRawValue().typeCode",this.leadForm.getRawValue().typeCode);
+    
     let type = array.filter(x => x.type == this.leadType[this.leadForm.getRawValue().typeCode])
     let index = type.findIndex(x => x.code == this.leadForm.controls["productId"].value)
+    console.log(type,index);
+    
     if (index < 0 && this.leadForm.controls["productId"].value && type.length > 0)
       this.leadForm.controls["productId"].setValue("");
     this.productOption2 = type || []
