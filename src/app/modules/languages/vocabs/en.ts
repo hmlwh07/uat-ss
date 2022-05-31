@@ -71,6 +71,7 @@ export const locale = {
       subject: 'Subject',
       contact: 'Contact',
       precontact: 'Preferred Contact',
+      actual_date:"Actual Date",
       type: 'Type',
       occupation: 'Occupation',
       company: 'Company',

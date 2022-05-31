@@ -88,6 +88,7 @@ export const locale = {
       email: 'အီးမေးလ်',
       identity_type: 'နိုင်ငံသားစီစစ်ရေးကတ်ပြားအမျိုးအစား',
       campaign_id: 'ကမ်ပိန်း ID',
+      actual_date: 'အမှန်တကယ်စတင်သော ရက်စွဲ',
       nrc_frc_passport: 'NRC/FRC/Passport',
       referral_customer: 'ညွှန်းပေးသည့် customer',
       more_detail: 'More Detail',
@@ -374,7 +375,7 @@ export const locale = {
       'Date': "ရက်စွဲ",
       'Type': "အမျိုးအစား ",
       'Conducted By': "လုပ်ဆောင်သူ",
-      'Actions': "လုပ်ဆောင်ချက်များ",
+      'Actions': "လုပ်ဆောင်ချက်",
       'Job Type': "Job Type",
       'Job Name': "Job Name",
       'Group Name': "Group Name",
@@ -386,7 +387,7 @@ export const locale = {
       'Allow Back Date': "Back Date ခွင့်ပြု/ မပြု",
       'Quotation Auto Lapse Rule': "Quotation အလိုအလျှောက် ပျက်ပြယ်သည့်ရက်",
       'Application Auto Lapse Rule': "Application အလိုအလျှောက် ပျက်ပြယ်သည့်ရက်",
-      'Status': "အခြေအနေ",
+      'Status': "ဆောင်ရွက်မှု အခြေအနေ",
       'Next': "ဆက်သွားရန်",
       'Cancel': "ပယ်ဖျက်ပါ",
       'Small Icon': "ပုံ ",
@@ -398,6 +399,7 @@ export const locale = {
       'Due Date': "နောက်ဆုံးသတ်မှတ်ရက်စွဲ",
       'Customer",': "Customer",
       'Quotation ID': "Quotation အမှတ်",
+      'Application ID':"လျှောက်လွှာ အမှတ်",
       'Policy Number': "ပေါ်လစီ နံပါတ်",
       'Agent Name': "Agent အမည်",
       'Premium': "အာမခံပရီမီယံ",
@@ -429,7 +431,7 @@ export const locale = {
       'Estimated Value (Lakhs)': "ခန့်မှန်းတန်ဖိုး (သိန်းပေါင်း)",
       'Risk Perception': "အန္တရာယ်ရှိနိုင်ခြေယူဆချက်",
       'Product': "အာမခံ အမျိုးအစား",
-      'Action': "လုပ်ဆောင်ချက်များ",
+      'Action': "လုပ်ဆောင်ချက်",
       'No Of People': "လူအရေအတွက်",
       'Show In List': "Show In List",
       'Job Description': "အလုပ်အကိုင် ဖော်ပြချက်",
@@ -440,6 +442,19 @@ export const locale = {
     ERROR: {
       not_match: 'Password and confirm password does not match',
     },
+    FNA: {
+      "High Priority": " အရေးကြီး ဦးစားပေး",
+      "Less Priority": " အရေးကြီး ဦးစားပေးမဟုတ်",
+      "highTotal": "highTotal",
+      "highDiscount": "လျှော့စျေး (%)",
+      "highBlank": "highBlank",
+      "mediumTotal": "mediumTotal",
+      "mediumBlank": "mediumBlank",
+      "Grand Total": "အားလုံးစုံ စုစုပေါင်း",
+      "Total": "စုစုပေါင်း",
+      "total": "စုစုပေါင်း",
+      "discount": "လျှော့စျေး (%)"
+    }
 
   },
 
