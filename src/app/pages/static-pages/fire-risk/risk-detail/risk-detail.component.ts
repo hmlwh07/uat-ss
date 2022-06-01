@@ -233,7 +233,7 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
       rate: new FormControl(oldData ? oldData.rate : ""),
       specialDecoration: new FormControl(oldData ? oldData.specialDecoration || false : false, Validators.required),
       storyOfBuilding: new FormControl(oldData ? oldData.storyOfBuilding : "", Validators.required),
-      sumInsure: new FormControl(oldData ? oldData.sumInsure : ""),
+      sumInsure: new FormControl(oldData ? oldData.sumInsure : "", Validators.required),
       totalSquareFoot: new FormControl(oldData ? oldData.totalSquareFoot : "", Validators.required),
       yearOfConstruction: new FormControl(oldData ? oldData.yearOfConstruction : "", [Validators.required, Validators.max(9999)]),
       // proposeStockValue: new FormControl(oldData ? oldData.proposeStockValue : 0),
@@ -398,7 +398,8 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
     if (this.otherSi == 0) {
       this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
     }
-    this.riskSi = this.otherSi + this.buildingSi
+    // this.riskSi = this.otherSi + this.buildingSi
+    this.riskSi=this.otherSi
 
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi

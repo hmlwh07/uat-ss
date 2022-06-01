@@ -316,7 +316,7 @@ export const locale = {
       year_of_construction: "Year of Construction",
       special_decoration: "Special Decoration",
       proposed_sum_insured: "Proposed Sum Insured",
-      proposed_stock_value: "Proposed Stock Value",
+      proposed_stock_value: "Proposed Stock SI",
       add_new_data: "Add New Data",
       unit: "Unit",
       base_coverage: "Base Coverage",
