@@ -4,7 +4,7 @@
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
         <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
           <!-- assets/images/dashboard-usr.svg -->         
-          <img *ngIf="data?.agentInfo?.attId" [src]="DEFAULT_DOWNLOAD_URL+'/' + data?.agentInfo?.attId" style="width: 100%; height: 100%;"
+          <img *ngIf="data?.agentInfo?.attId" [src]="DEFAULT_DOWNLOAD_URL + data?.agentInfo?.attId" style="width: 100%; height: 100%;"
           alt="profile" />  
           <img *ngIf="!data?.agentInfo?.attId" src="./assets/temp-img/sale.jpeg" alt="profile"> 
 

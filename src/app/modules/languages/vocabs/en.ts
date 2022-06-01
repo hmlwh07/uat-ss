@@ -344,6 +344,13 @@ export const locale = {
       active_agent:"Active Agents",
       view_all:"View All",
       back_main_page:"Back Main Page",
+      task_today: "TASK TODAY",
+      opportunity_today: "OPPORTUNITY TODAY",
+      opportunity_conversion: "Opportunity Conversion",
+      amount_protected_by_insurance: "Amount protected by insurance",
+      amount_protected_by_employer: "Amount protected by employer",
+      amount_protected_by_social_benefit: "Amount protected by social benefit",
+      child: "Child"
     },
     NAV: {
       my_acc: "My Account",

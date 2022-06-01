@@ -27,8 +27,8 @@ export class RenewManagementListComponent implements OnInit {
   actForm: FormGroup;
   isTeam: boolean = false;
   activityStatus = ActivityStatus
-  private downED = "attachment-downloader/tcs.htm?fileName="
-  private fileNameURL = "attachment-downloader/tcs.htm?fileName="
+  private downED = "/attachment-downloader/tcs/fileName="
+ // private fileNameURL = "attachment-downloader/tcs.htm?fileName="
 
   constructor(private fb: FormBuilder, private router: Router, private cdf: ChangeDetectorRef,
     private renewService: RenewManageService, private alertService: AlertService,
@@ -184,7 +184,7 @@ export class RenewManagementListComponent implements OnInit {
   }
 
   getFileExt(fileName) {
-    return this.attachmentDownloadService.get(this.fileNameURL + fileName).pipe(catchError(() => { return of(null) }))
+    return this.attachmentDownloadService.get(this.downED + fileName).pipe(catchError(() => { return of(null) }))
   }
 
   changeView(type) {
