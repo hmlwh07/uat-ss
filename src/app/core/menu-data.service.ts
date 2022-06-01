@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, map, of } from "rxjs";
 import { environment } from "../../environments/environment";
+import { LanguagesService } from "../modules/languages/languages.service";
 import { BizOperationService } from "./biz.operation.service";
 const API_MENU_URL = `${environment.apiUrl}/menu`
 const ModuleList = ["leads", "fna", "application", "quotation", "activity", "product_definition", "page_group", "exchange_rate", "customer"]
@@ -24,14 +25,19 @@ export class MenuDataService extends BizOperationService<any, number>{
     edit: false,
     delete: false
   }
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient,private lang:LanguagesService) {
     super(httpClient, API_MENU_URL);
   }
+  
 
   getMenusData() {
-    return this.findAllWithQuery("lan=EN").pipe(map((menus) => {
+    let language=this.lang.getSelectedLanguage().toUpperCase()
+    return this.findAllWithQuery("lan="+language).pipe(map((menus) => {
       return menus.map(menu => {
-
+        if(language=='MM'){
+          // menu.titleMM="အစ"
+          menu.titleMM=menu.title
+        }
         if (menu.submenu) {
           let checked = menu.submenu.find(x => x.show == true)
           menu.submenu_show = checked ? true : false

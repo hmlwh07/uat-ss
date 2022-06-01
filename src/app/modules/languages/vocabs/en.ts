@@ -1,5 +1,5 @@
 export const locale = {
-  lang: 'en',
+  lang: 'EN',
   data: {
 
     CARD: {
@@ -402,6 +402,12 @@ export const locale = {
       'Application': "Application",
       'Show In List':"Show In List"
 
+    },
+    FNA:{
+
+    },
+    MENU:{
+      'Dashboard':'Dashboard'
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',

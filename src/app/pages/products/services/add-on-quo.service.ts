@@ -18,7 +18,7 @@ export class AddOnQuoService extends BizOperationService<QuoAddon, number>{
     return this.httpClient.get(API_ADDON_URL + "/" + id + "/" + quo + "/" + optionId)
   }
   deleteAll(quo: any,optionId: string,expect: string = "") {
-    return this.httpClient.delete(API_ADDON_URL + "/quotation/" + quo + "/" + optionId +"?expect=")
+    return this.httpClient.delete(API_ADDON_URL + "/quotation/" + quo + "/" + optionId +"?expect="+expect)
   }
 
   deleteOne(addOn: string,quo: any,optionId: string) {

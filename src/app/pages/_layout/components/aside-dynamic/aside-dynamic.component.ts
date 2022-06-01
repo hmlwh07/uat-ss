@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { LanguagesService } from 'src/app/modules/languages/languages.service';
 import { MenuDataService } from '../../../../core/menu-data.service';
 import { AuthService } from '../../../../modules/auth';
 import { LayoutService, DynamicAsideMenuService } from '../../../../_metronic/core';
@@ -25,7 +26,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
   brandClasses: string;
   asideMenuScroll = 1;
   asideSelfMinimizeToggle = false;
-
+  lang:string="EN"
   currentUrl: string;
 
   constructor(
@@ -34,10 +35,12 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     private menu: DynamicAsideMenuService,
     private menuService: MenuDataService,
     private auth: AuthService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,
+    private _languageService:LanguagesService) { }
 
   ngOnInit(): void {
     // load view settings
+    this.lang = this._languageService.getSelectedLanguage();
     this.disableAsideSelfDisplay =
       this.layout.getProp('aside.self.display') === false;
     this.brandSkin = this.layout.getProp('brand.self.theme');
@@ -66,6 +69,8 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     // menu load
     const menuSubscr = this.menuService.menuData.subscribe(res => {
       this.menuConfig = { items: res };
+      console.log("MENU",this.menuConfig);
+      
       let data = this.menuService.getAccessPremission("Customer")
       this.cdr.detectChanges();
     });

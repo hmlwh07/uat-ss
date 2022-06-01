@@ -1,5 +1,5 @@
 export const locale = {
-  lang: 'mm',
+  lang: 'MM',
   data: {
 
     CARD: {
@@ -500,6 +500,12 @@ export const locale = {
       "Total": "စုစုပေါင်း",
       "total": "စုစုပေါင်း",
       "discount": "လျှော့စျေး (%)",
+    },
+    MENU:{
+      'Dashboard':'Dashboard',
+      'Setting':'သတ်မှတ်ချက်များ',
+      'Reset Password':'Reset Password',
+      'Logout':'ထွက်ရန်'
     }
 
   },
