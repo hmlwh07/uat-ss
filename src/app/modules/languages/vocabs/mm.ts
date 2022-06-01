@@ -384,6 +384,9 @@ export const locale = {
       'Lack of good compensation and benefits scheme': "အကျိုးခံစားခွင့် အစီအစဉ်ကောင်းများ နည်းပါးခြင်း",
       'Work related injuries': "အလုပ်ခွင်မှရရှိသော ထိခိုက်မှု",
       'Employee absenteeism': "အလုပ်ပျက်ကွက်ခြင်း",
+      basic_coverage:"အခြေခံ အကာအကွယ် ",
+      sum_insure:"အာမခံထားငွေ ",
+
 
     },
     NAV: {
@@ -463,7 +466,7 @@ export const locale = {
       'Risk Perception': "အန္တရာယ်ရှိနိုင်ခြေယူဆချက်",
       'Product': "အာမခံ အမျိုးအစား",
       'Action': "လုပ်ဆောင်ချက်",
-      'No Of People': "လူအရေအတွက်",
+      'No of People': "လူအရေအတွက်",
       'Show In List': "Show In List",
       'Job Description': "အလုပ်အကိုင် ဖော်ပြချက်",
       'No of Locations': "လုပ်ငန်းတည်နေရာများ",

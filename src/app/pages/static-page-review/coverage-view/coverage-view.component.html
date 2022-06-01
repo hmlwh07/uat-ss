@@ -1,7 +1,7 @@
 <div class="card card-custom gutter-b">
   <div class="card-header">
     <div class="card-title">
-      <h3 class="card-label">Basic Coverage :</h3>
+      <h3 class="card-label">{{"FORM.basic_coverage"|translate}} :</h3>
     </div>
   </div>
   <div class="card-body customer-card-body">
@@ -10,16 +10,16 @@
         <thead>
           <tr>
             <th style="text-align: left;">
-              Basic Coverage
+              {{"FORM.basic_coverage"|translate}}
             </th>
             <th *ngIf="coverage.sumInsured" style="text-align: right;">
-              Sum Insured
+              {{"FORM.sum_insure"|translate}}
             </th>
             <th *ngIf="coverage.unit" style="text-align: right;">
-              Unit
+              {{"FORM.unit"|translate}}
             </th>
             <th *ngIf="coverage.premium" style="text-align: right;">
-              Premium
+              {{"FORM.premium"|translate}}
             </th>
           </tr>
         </thead>

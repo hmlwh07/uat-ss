@@ -257,7 +257,7 @@ export const locale = {
       question: "Question",
       answer: "Answer",
       job_desc: "Job Description",
-      no_of_people: "No Of People",
+      no_of_people: "No of People",
       average_age: "Average Age",
       package: "Package",
       no_of_locations: "No of location",
@@ -344,6 +344,8 @@ export const locale = {
       active_agent:"Active Agents",
       view_all:"View All",
       back_main_page:"Back Main Page",
+      basic_coverage:"Basic Coverage",
+      sum_insure:"Sum Insured"
     },
     NAV: {
       my_acc: "My Account",

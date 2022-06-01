@@ -17,8 +17,30 @@
                         <th mat-header-cell *matHeaderCellDef> {{"FORM.risk_level" | translate}} </th>
                         <td mat-cell *matCellDef="let element">
                             <div class="row">
-                                <div class="form-group">
+                                <div >
                                     <mat-radio-group [(ngModel)]="element.defaultValue">
+                                        <mat-radio-button class=" col-2"
+                                            (change)="update($event, element.question, element.id)"
+                                            [value]="element.noRisk">{{"FORM.no_risk" | translate}}
+                                        </mat-radio-button>
+                                        <mat-radio-button class=" col-2"
+                                            (change)="update($event, element.question, element.id)"
+                                            [value]="element.lowRisk">{{"FORM.low_risk" | translate}}
+                                        </mat-radio-button>
+                                        <mat-radio-button class=" col-3"
+                                            (change)="update($event, element.question, element.id)"
+                                            [value]="element.somewhatRisky" >{{"FORM.somewhat_risky" | translate}}
+                                        </mat-radio-button>
+                                        <mat-radio-button class=" col-1"
+                                            (change)="update($event, element.question, element.id)"
+                                            [value]="element.risky">{{"FORM.risky" | translate}}
+                                        </mat-radio-button>
+                                        <mat-radio-button class=" col-2"
+                                            (change)="update($event, element.question, element.id)"
+                                            [value]="element.highRisk">{{"FORM.high_risk" | translate}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                    <!-- <mat-radio-group [(ngModel)]="element.defaultValue">
                                         <mat-radio-button class="example-margin col-2"
                                             (change)="update($event, element.question, element.id)"
                                             [value]="element.noRisk">{{"FORM.no_risk" | translate}}
@@ -39,7 +61,7 @@
                                             (change)="update($event, element.question, element.id)"
                                             [value]="element.highRisk">{{"FORM.high_risk" | translate}}
                                         </mat-radio-button>
-                                    </mat-radio-group>
+                                    </mat-radio-group> -->
                                 </div>
                             </div>
                         </td>
