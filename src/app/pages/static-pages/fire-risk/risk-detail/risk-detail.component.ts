@@ -426,7 +426,7 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
       let response: any = await this.firebuildingService.getMaxRate(this.oldData.id).toPromise()
       let rate2 = response ? response.rate : 0
       if (this.oldData.specialDecoration) {
-        if ((rate1 * 1.3) < rate2) {
+        if ((rate1 * 1.3) > rate2) {
           rateData = rate1 * 1.3
         } else {
           rateData = ((rate1 * 1.3) + rate2) / 2

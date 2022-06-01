@@ -24,7 +24,7 @@ export class AttachmentUploadService extends BizOperationService<any, number>{
 }
 
 const API_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-const API_TCS_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/tcs`;
+const API_TCS_DOWNLOAD_URL = `${environment.apiUrl}`;
 @Injectable({
   providedIn: 'root'
 })

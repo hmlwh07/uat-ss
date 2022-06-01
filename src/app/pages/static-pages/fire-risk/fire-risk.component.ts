@@ -132,45 +132,53 @@ export class FireRiskComponent implements OnInit {
     // });this.addOnsData
 
     let finalPre = (premiumTotal + addOnPre) * precent
-    // if (parentData2.durationType == "D") {
+    // if (parentData2.policyUnit == "D") {
     let rate = 1
     switch (true) {
-      case (parentData2.durationType == "G" && parentData2.policyDuration == 1):
+      case (parentData2.policyUnit == "G" && parentData2.policyDuration == 1):
         rate = 1
         break;
-      case (parentData2.durationType == "D" && parentData2.policyDuration <= 10):
+      case (parentData2.policyUnit == "D" && parentData2.policyDuration <= 10):
         rate = 1 / 8
         break;
-      case (parentData2.durationType == "D" && parentData2.policyDuration <= 15):
+      case (parentData2.policyUnit == "D" && parentData2.policyDuration <= 15):
         rate = 1 / 6
         break;
-      case (parentData2.durationType == "D" && parentData2.policyDuration > 15):
+      case (parentData2.policyUnit == "D" && parentData2.policyDuration > 15):
         rate = 2 / 8
         break;
-      case (parentData2.durationType == "F" && parentData2.policyDuration == 1):
+      case (parentData2.policyUnit == "F" && parentData2.policyDuration == 1):
         rate = 2 / 8
         break;
-      case (parentData2.durationType == "F" && parentData2.policyDuration == 2):
+      case (parentData2.policyUnit == "F" && parentData2.policyDuration == 2):
         rate = 3 / 8
         break;
-      case (parentData2.durationType == "F" && parentData2.policyDuration == 3):
+      case (parentData2.policyUnit == "F" && parentData2.policyDuration == 3):
         rate = 4 / 8
         break;
-      case (parentData2.durationType == "F" && parentData2.policyDuration == 4):
+      case (parentData2.policyUnit == "F" && parentData2.policyDuration == 4):
         rate = 5 / 8
         break;
-      case (parentData2.durationType == "F" && parentData2.policyDuration == 5):
+      case (parentData2.policyUnit == "F" && parentData2.policyDuration == 5):
         rate = 6 / 8
         break;
-      case (parentData2.durationType == "F" && parentData2.policyDuration == 6):
+      case (parentData2.policyUnit == "F" && parentData2.policyDuration == 6):
         rate = 6 / 8
         break;
-      case (parentData2.durationType == "F" && parentData2.policyDuration > 6):
+      case (parentData2.policyUnit == "F" && parentData2.policyDuration > 6):
         rate = 1
         break;
     }
     // }
-    finalPre = this.globalFun.calculateDecimal(finalPre * rate) + 100
+    let currency=parentData2.currency
+    let stampDuty=0
+    if(currency == 'MMK'){
+      stampDuty=100
+    }else{
+      stampDuty=1
+    }
+
+    finalPre = this.globalFun.calculateDecimal(finalPre * rate) + stampDuty
     this.premiumAmt = this.numberPipe.transform(finalPre) + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return finalPre
