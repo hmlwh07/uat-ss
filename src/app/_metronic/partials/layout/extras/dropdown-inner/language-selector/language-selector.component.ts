@@ -21,13 +21,13 @@ export class LanguageSelectorComponent implements OnInit {
   language: LanguageFlag;
   languages: LanguageFlag[] = [
     {
-      lang: 'en',
+      lang: 'EN',
       name: 'English',
       flag: './assets/media/svg/flags/012-uk.svg',
     },
 
     {
-      lang: 'mm',
+      lang: 'MM',
       name: 'Myanmar',
       flag: './assets/media/svg/flags/058-myanmar.svg',
     },

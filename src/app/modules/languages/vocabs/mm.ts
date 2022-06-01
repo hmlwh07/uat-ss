@@ -386,6 +386,9 @@ export const locale = {
       'Employee absenteeism': "အလုပ်ပျက်ကွက်ခြင်း",
       basic_coverage:"အခြေခံ အကာအကွယ် ",
       sum_insure:"အာမခံထားငွေ ",
+      no:"နံပါတ်",
+      file_name:"ဖိုင်အမည်",
+      upload_name:"ဖိုင်တွဲရန်",
 
 
     },

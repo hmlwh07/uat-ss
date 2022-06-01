@@ -81,7 +81,7 @@ export class DashboardKbzMsLpPage implements OnInit {
     'NOV',
     'DEC',
   ];
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   currentMonthIndex: number = new Date().getUTCMonth();
 
   icons = [

@@ -345,7 +345,11 @@ export const locale = {
       view_all:"View All",
       back_main_page:"Back Main Page",
       basic_coverage:"Basic Coverage",
-      sum_insure:"Sum Insured"
+      sum_insure:"Sum Insured",
+      no:"No",
+      file_name:"File Name",
+      upload_name:"Upload Name",
+      
     },
     NAV: {
       my_acc: "My Account",

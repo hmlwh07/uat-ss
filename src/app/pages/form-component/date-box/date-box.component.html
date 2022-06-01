@@ -109,7 +109,7 @@
       <div class="col-sm-6">
         <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
           <label *ngIf="config.isLabel"
-            class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.endLabel}}</label>
+            class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.endLabel | dyn_translate :config.endLabelMM}}</label>
           <div *ngIf="!config.inlineStyle;else InlineForm2">
             <!-- <div class="input-group ">
               <input type="text" name="{{config.endName}}" id="{{config.endName}}" class="form-control form-control-sm "

@@ -117,7 +117,7 @@ export class MycalendarComponent implements OnInit {
   ];
   events: CalendarEvent[] = []
   activeDayIsOpen: boolean = false;
-  language:any='en'
+  language:any='EN'
 
   constructor(private lang:LanguagesService,private cdf:ChangeDetectorRef, private loadingService:LoadingService,  private modal: NgbModal, private activityService: ActivityManageService, private router: Router,private modalCrl:NgbModal) {
   }

@@ -15,6 +15,7 @@ import { NotificationService } from 'src/app/_metronic/partials/layout/extras/dr
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { LanguagesService } from 'src/app/modules/languages/languages.service';
 import * as moment from 'moment';
+import { MenuDataService } from 'src/app/core/menu-data.service';
 
 
 
@@ -50,29 +51,29 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   extrasUserDisplay: boolean;
   extrasUserLayout: 'offcanvas' | 'dropdown';
   currentUser: UserModel = new UserModel()
-  languageData: string = 'en'
+  languageData: string = 'EN'
   language: LanguageFlag;
   languages: LanguageFlag[] = [
     {
-      lang: 'en',
+      lang: 'EN',
       name: 'English',
       flag: './assets/media/svg/flags/012-uk.svg',
     },
 
     {
-      lang: 'mm',
+      lang: 'MM',
       name: 'Myanmar',
       flag: './assets/media/svg/flags/058-myanmar.svg',
     },
   ];
-  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService, private lang: LanguagesService, private cdf: ChangeDetectorRef) {
+  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService, private lang: LanguagesService, private cdf: ChangeDetectorRef,) {
     this.user$ = this.auth.currentUserSubject.asObservable();
   }
   @ViewChild(NgbDropdown) myDrop: NgbDropdown
   @ViewChild(NgbDropdown) myLanguageDrop: NgbDropdown
   ngOnInit(): void {
     let lang = this.lang.getSelectedLanguage()
-    if (lang == 'mm') {
+    if (lang == 'MM') {
       this.language = this.languages[1]
     } else {
       this.language = this.languages[0]
@@ -166,7 +167,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   }
 
   getLanguage(event) {
-    if (event == 'mm') {
+    if (event == 'MM') {
       this.language = this.languages[1]
       this.myLanguageDrop.close()
     } else {
