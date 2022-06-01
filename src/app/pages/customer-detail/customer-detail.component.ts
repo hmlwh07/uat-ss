@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { forkJoin, catchError, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -144,7 +144,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     private CustomerAttachmentService: AttachmentServiceRef,
     private AttachmentDownloadService: AttachmentDownloadService,
     private alertService: AlertService,
-    private menuService: MenuDataService
+    private menuService: MenuDataService,
+    private activeModal:NgbActiveModal
   ) {
     this.ACTIVITYdisplayedColumns.splice(8, 1)
     this.QuotationdisplayedColumns.splice(7, 2)
@@ -449,19 +450,25 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   create(postData) {
-    let data = { ...postData, customerId: null, individualId: null };
-    this.customerService.save(data).toPromise().then((res) => {
-      // console.log("RESSS", res)
-      if (res) {
-        if (this.isPopup) {
-          let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
-          this.modalService.dismissAll({ data: { name: name, customerId: res }, type: "save" })
-        } else {
-          this.alertService.activate('This record was created', 'Success Message');
-          this.location.back()
-        }
-      }
-    })
+    if(this.isPopup){
+
+      this.activeModal.close({ data: { name: name, customerId: 'test' }, type: "save" })
+    }
+
+    // let data = { ...postData, customerId: null, individualId: null };
+    // this.customerService.save(data).toPromise().then((res) => {
+    //   // console.log("RESSS", res)
+    //   if (res) {
+    //     if (this.isPopup) {
+    //       let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
+    //       // this.modalService.dismissAll({ data: { name: name, customerId: res }, type: "save" })
+    //       this.activeModal.close({ data: { name: name, customerId: res }, type: "save" })
+    //     } else {
+    //       this.alertService.activate('This record was created', 'Success Message');
+    //       this.location.back()
+    //     }
+    //   }
+    // })
   }
 
   edit(postData) {

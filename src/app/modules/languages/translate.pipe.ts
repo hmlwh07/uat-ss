@@ -17,7 +17,7 @@ export class TranslatePipe implements PipeTransform {
           
           return this._languageService.langs[current][valueObj[0]][valueObj[1]] || valueObj[1]
         } catch (error) {
-          return value        
+          return valueObj[1]    
         }
       }
     }

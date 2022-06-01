@@ -195,7 +195,7 @@ export const locale = {
       policy_no: "Policy Number",
       policy_status: "Policy Status",
       policy_date: "Policy Inception Date",
-      policy_edate: "Policy Expire Date",
+      policy_edate: "Policy Expiry Date",
       qoute_no: "Quote Number",
       renew_policy_no: "Renewal Policy Number",
       gross_premium: "Gross Premium",
