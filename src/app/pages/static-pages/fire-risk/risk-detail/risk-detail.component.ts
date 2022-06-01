@@ -233,7 +233,7 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
       rate: new FormControl(oldData ? oldData.rate : ""),
       specialDecoration: new FormControl(oldData ? oldData.specialDecoration || false : false, Validators.required),
       storyOfBuilding: new FormControl(oldData ? oldData.storyOfBuilding : "", Validators.required),
-      sumInsure: new FormControl(oldData ? oldData.sumInsure : ""),
+      sumInsure: new FormControl(oldData ? oldData.sumInsure : "", Validators.required),
       totalSquareFoot: new FormControl(oldData ? oldData.totalSquareFoot : "", Validators.required),
       yearOfConstruction: new FormControl(oldData ? oldData.yearOfConstruction : "", [Validators.required, Validators.max(9999)]),
       // proposeStockValue: new FormControl(oldData ? oldData.proposeStockValue : 0),
