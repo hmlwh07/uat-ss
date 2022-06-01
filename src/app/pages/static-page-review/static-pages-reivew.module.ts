@@ -25,6 +25,7 @@ import { MotorAddonViewComponent } from './motor-addon-view/motor-addon-view.com
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HealthQuoViewComponent } from './health-quo-view/health-quo-view.component';
 import { TravelViewComponent } from './travel-page-view/travel-page-view.component';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 @NgModule({
   declarations: [
     StaticPageViewDirective,
@@ -41,7 +42,7 @@ import { TravelViewComponent } from './travel-page-view/travel-page-view.compone
     EndoGripViewComponent,
     EndoViewComponent,
     MotorAddonViewComponent,
-    TravelViewComponent
+    TravelViewComponent,
   ],
   exports: [
     StaticPageViewDirective,
@@ -70,7 +71,8 @@ import { TravelViewComponent } from './travel-page-view/travel-page-view.compone
     MatSlideToggleModule,
     NgApexchartsModule,
     NgSelectModule,
-    NgxCurrencyModule
+    NgxCurrencyModule,
+    LanguageModule,
   ]
 })
 export class StaticPagesViewModule { }

@@ -172,7 +172,7 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="form-label">{{"TABLE.Quotation Auto Lapse Rule"}}</label>
+                  <label class="form-label">{{"TABLE.Quotation Auto Lapse Rule" | translate}}</label>
                   <input type="number" class="form-control form-control-sm" name="ruleDate" placeholder="Dates"
                     autocomplete="off" [class.is-invalid]="isControlInvalid('ruleDate',formGroup)"
                     [class.is-valid]="isControlValid('ruleDate',formGroup)" formControlName="ruleDate" />
@@ -205,7 +205,7 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="form-label">{{"TABLE.Application Auto Lapse Rule"}}</label>
+                  <label class="form-label">{{"TABLE.Application Auto Lapse Rule" | translate}}</label>
                   <input type="number" class="form-control form-control-sm" name="policyDay" placeholder="Dates"
                     autocomplete="off" [class.is-invalid]="isControlInvalid('policyDay',formGroup)"
                     [class.is-valid]="isControlValid('policyDay',formGroup)" formControlName="policyDay" />
@@ -213,7 +213,7 @@
               </div>
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="form-label">Period Type</label>
+                  <label class="form-label">{{"TABLE.Period Type" | translate}}</label>
                   <!-- <input type="text" class="form-control form-control-sm" name="ruleType"
                     placeholder="Date Type" autocomplete="off" [class.is-invalid]="isControlInvalid('ruleType',formGroup)"
                     [class.is-valid]="isControlValid('ruleType',formGroup)" formControlName="ruleType" /> -->
@@ -237,7 +237,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label class="form-label">Product Status</label>
+                  <label class="form-label">{{"TABLE.Product Status" | translate}}</label>
                   <select class="form-control form-control-sm" name="status" placeholder="Product Status"
                     autocomplete="off" [class.is-invalid]="isControlInvalid('statusCd',formGroup)"
                     [class.is-valid]="isControlValid('statusCd',formGroup)" formControlName="statusCd">

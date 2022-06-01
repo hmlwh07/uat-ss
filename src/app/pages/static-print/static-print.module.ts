@@ -19,13 +19,15 @@ import { SimplePagePrintComponent } from './simple-page-print/simple-page-print.
 import { HealthQuoPrintComponent } from './health-quo-print/health-quo-print.component';
 import { FirePrintComponent } from './fire-print/fire-print.component';
 import { MotorPrintService } from '../products/services/motor-print.service';
+import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 @NgModule({
   declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent],
   exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent],
   imports: [
     CommonModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    LanguageModule,
   ],
   providers:[MotorPrintService]
 })

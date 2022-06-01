@@ -424,6 +424,8 @@ export const locale = {
       'Allow Back Date': "Back Date ခွင့်ပြု/ မပြု",
       'Quotation Auto Lapse Rule': "Quotation အလိုအလျှောက် ပျက်ပြယ်သည့်ရက်",
       'Application Auto Lapse Rule': "Application အလိုအလျှောက် ပျက်ပြယ်သည့်ရက်",
+      'Period Type': "",
+      'Product Status': "",
       'Status': "ဆောင်ရွက်မှု အခြေအနေ",
       'Next': "ဆက်သွားရန်",
       'Cancel': "ပယ်ဖျက်ပါ",
