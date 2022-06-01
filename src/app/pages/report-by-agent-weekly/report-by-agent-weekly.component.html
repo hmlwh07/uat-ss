@@ -152,11 +152,18 @@
                     <th colspan="4"></th>
                     <th *ngFor="let product of productList; let i = index">{{ product.headerWeekRange }}</th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th>{{"FORM.agent_name"|translate}}</th>
                     <th>{{"FORM.branch_name"|translate}}</th>
                     <th>{{"FORM.activity_name"|translate}}</th>
                     <th>{{"FORM.target"|translate}}</th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.headerWeekName }}</th>
+                </tr> -->
+                <tr>
+                    <th>Agent Name</th>
+                    <th>Branch Name</th>
+                    <th>Activity Name}</th>
+                    <th>Target</th>
                     <th *ngFor="let product of productList; let i = index">{{ product.headerWeekName }}</th>
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">

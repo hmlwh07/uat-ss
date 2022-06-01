@@ -184,7 +184,7 @@
                     <th colspan="2"></th>
                 </tr>
                 <tr>
-                    <th style="min-width: 50px; max-width: 50px;">No</th>
+                    <!-- <th style="min-width: 50px; max-width: 50px;">No</th>
                     <th>{{"FORM.branch"|translate}}</th>
                     <th>{{"FORM.channel"|translate}}</th>
                     <th>{{"FORM.agent_name"|translate}}</th>
@@ -196,7 +196,20 @@
                         <span>{{"FORM.premium"|translate}}</span>
                     </th>
                     <th style="min-width: 115px;">{{"FORM.total_no_policies"|translate}}</th>
-                    <th style="min-width: 100px;">{{"FORM.total_premium"|translate}}</th>
+                    <th style="min-width: 100px;">{{"FORM.total_premium"|translate}}</th> -->
+                    <th style="min-width: 50px; max-width: 50px;">No</th>
+                    <th>Branch</th>
+                    <th>Channel</th>
+                    <th>Agent Name</th>
+                    <th>Agent No</th>
+                    <th style="min-width: 160px;" *ngFor="let product of productList; let i = index">
+                        <span>No Policies
+                            <div class="right-border-transform"></div>
+                        </span>
+                        <span>Premium</span>
+                    </th>
+                    <th style="min-width: 115px;">Total No Policies</th>
+                    <th style="min-width: 100px;">Total Premium</th>
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">
                     <td  style="min-width: 50px; max-width: 50px;">{{ data.no }}</td>

@@ -148,11 +148,18 @@
         overflow-x: scroll;
         max-height: 500px;">
             <table border="1">
-                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
+                <!-- <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
                     <th>{{"FORM.agent_name"|translate}}</th>
                     <th>{{"FORM.branch_name"|translate}}</th>
                     <th>{{"FORM.activity"|translate}}</th>
                     <th>{{"FORM.target"|translate}}</th>
+                    <th *ngFor="let product of productList; let i = index">{{ product.headerMonthName }}</th>
+                </tr> -->
+                <tr style="border-top: 1px solid #000;" *ngIf="productList.length > 0">
+                    <th>Agent Name</th>
+                    <th>Branch Name</th>
+                    <th>Activity Name}</th>
+                    <th>Target</th>
                     <th *ngFor="let product of productList; let i = index">{{ product.headerMonthName }}</th>
                 </tr>
                 <tr *ngFor="let data of dataList; let i = index">

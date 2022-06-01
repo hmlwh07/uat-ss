@@ -176,11 +176,16 @@
         max-height: 500px;">
             <table border="1">
                 <tr>
-                    <th style="min-width: 50px; max-width: 50px;">{{"FORM.sr_no"|translate}}</th>
+                    <!-- <th style="min-width: 50px; max-width: 50px;">{{"FORM.sr_no"|translate}}</th>
                     <th>{{"FORM.branch"|translate}}</th>
                     <th>#{{"FORM.active_agent"|translate}}s</th>
                     <th>#{{"FORM.no_policies"|translate}}</th>
-                    <th>#{{"FORM.premium"|translate}}</th>
+                    <th>#{{"FORM.premium"|translate}}</th> -->
+                    <th style="min-width: 50px; max-width: 50px;">Sr No</th>
+                    <th>Branch</th>
+                    <th>#Active Agents</th>
+                    <th>#No Policies</th>
+                    <th>#Premium</th>
                 </tr>
                 <tr class="data" *ngFor="let report of reports; let i = index">
                     <td  style="min-width: 50px; max-width: 50px;">{{ report.srNo }}</td>

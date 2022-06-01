@@ -197,11 +197,16 @@
         max-height: 500px;">
             <table border="1">
                 <tr>
-                    <th>{{"FORM.product"|translate}}</th>
+                    <!-- <th>{{"FORM.product"|translate}}</th>
                     <th>{{"FORM.new_business"|translate}}</th>
                     <th>{{"FORM.new_business_premium"|translate}}</th>
                     <th>{{"FORM.product_distribution"|translate}}</th>
-                    <th>{{"FORM.average_case"|translate}}</th>
+                    <th>{{"FORM.average_case"|translate}}</th> -->
+                    <th>Product</th>
+                    <th>New Business</th>
+                    <th>New Business Premium</th>
+                    <th>Product Distribution</th>
+                    <th>Average Case</th>
                 </tr>
                 <tr *ngFor="let data of displayDataList; let i = index">
                     <td class="text-left">{{ data.product }}</td>
