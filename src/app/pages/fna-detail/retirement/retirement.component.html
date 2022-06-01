@@ -99,10 +99,9 @@
 
         <div class="btn-about col-12">
             <button type="button" *ngIf="fnaService.fnaRetirementSaving" class="btn btn-primary btn-elevate mx-2"
-                (click)="viewAll()" style="width: auto; margin-bottom: 10px;">View All</button>
+                (click)="viewAll()" style="width: auto; margin-bottom: 10px;">{{"FORM.view_all" | translate }}</button>
             <button type="button" class="btn btn-primary btn-elevate" (click)="backAction()"
-                style="width: auto;margin-bottom: 10px; ">Back
-                Main Page</button>
+                style="width: auto;margin-bottom: 10px; ">{{"FORM.back_main_page" | translate }}</button>
             <button type="submit" class="btn btn-primary btn-elevate mx-2" style="margin-bottom: 10px;"
                 [disabled]="!isCalculate">{{"FORM.btn_save" | translate }}</button>
         </div>

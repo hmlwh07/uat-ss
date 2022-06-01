@@ -7,7 +7,7 @@ export const ELEMENT_COL: TableCol[] = [
     field: "averageAge"
   },
   {
-    title: "No of People",
+    title: "No Of People",
     type: COLTYPE.FEILD,
     field: "noOfPeople"
   },

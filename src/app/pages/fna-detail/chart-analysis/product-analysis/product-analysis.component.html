@@ -17,9 +17,9 @@
     <div class="btn-group col-12">
         <button type="button" class="btn"
             [ngStyle]="{'background-color': productSwitch === 'product' ? '#005f99' : '#A6A6A6' }"
-            (click)="previous('aboutLLP')"><label>Previous</label></button>
+            (click)="previous('aboutLLP')"><label>{{"FORM.btn_previous" | translate }}</label></button>
         <button type="button" class="btn"
             [ngStyle]="{'background-color': productSwitch === 'save' ? '#005f99' : '#A6A6A6' }"
-            (click)="saveProduct('save')"><label>Save</label></button>
+            (click)="saveProduct('save')"><label>{{"FORM.btn_save" | translate }}</label></button>
     </div>
 </div>

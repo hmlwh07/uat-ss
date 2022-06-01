@@ -42,7 +42,7 @@
         <ng-container matColumnDef="name">
             <td class="col-3" mat-cell *matCellDef="let data;let i = dataIndex" [attr.rowspan]="getRowSpan('Name',i)"
                 [style.display]="getRowSpan('Name', i) ? '' : 'none'">
-                {{ data.name }} </td>
+                {{ "FORM."+data.name | translate }}</td>
         </ng-container>
 
         <ng-container matColumnDef="dataList">

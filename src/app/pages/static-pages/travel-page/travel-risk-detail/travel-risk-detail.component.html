@@ -24,7 +24,7 @@
                     (submit)="saveDetailTemp($event)" [editStage]="false">
                 </dynamic-form>
                 <div class="form-footer">
-                    <button type="submit" class="btn btn-primary btn-elevate" (click)="saveData(dynForm,prodDetailForm)">Next</button>
+                    <button type="submit" class="btn btn-primary btn-elevate" (click)="saveData(dynForm,prodDetailForm)">{{"FORM.btn_next" | translate }}</button>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                     </dynamic-form>
                     <div class="form-footer">
                         <button type="submit" class="btn btn-primary btn-elevate"
-                            (click)="saveData(dynFormTraveler,travelerForm)">Next</button>
+                            (click)="saveData(dynFormTraveler,travelerForm)">{{"FORM.btn_next" | translate }}</button>
                     </div>
                 </div>
             </ng-container>
@@ -76,7 +76,7 @@
                 <div class="toggle-body" [ngClass]="activeBox=='BENEFI' ? 'active' : 'inactive'">
                     <div class="form-group">
                         <!-- <button type="button" class="btn btn-default" (click)="reset()">Reset Data</button> -->
-                        <button type="button" class="btn btn-primary mx-2" (click)="newData()">Add New Data</button>
+                        <button type="button" class="btn btn-primary mx-2" (click)="newData()">{{"FORM.add_new_data" | translate }}</button>
                       </div>
                       <hr>
                       <div class="table-responsive angular-bootstrap-table">
@@ -125,7 +125,7 @@
                       </div>
                       <div class="form-footer">
                         <button type="submit" class="btn btn-primary btn-elevate"
-                            (click)="nextCover()">Next</button>
+                            (click)="nextCover()">{{"FORM.btn_next" | translate }}</button>
                     </div>
                 </div>
             </ng-container>
@@ -156,8 +156,8 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-light btn-elevate mr-2" [disabled]="validCancel"
-            (click)="calPremimun()">Cancel</button>
+            (click)="calPremimun()">{{"FORM.btn_cancel" | translate }}</button>
         <button type="button" class="btn btn-primary btn-elevate" [disabled]="!stepData.step4"
-            (click)="calPremimun()">Save</button>
+            (click)="calPremimun()">{{"FORM.btn_save" | translate }}</button>
     </div>
 </div>
