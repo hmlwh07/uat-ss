@@ -72,10 +72,10 @@ export class MotorAddonComponent implements OnInit {
       optionalKey: this.optionId
     }
     if (medID) {
-      postData.addOnIds.push(medID)
+      postData.addOnIds.push(medID.id)
     }
     if (crossID) {
-      postData.addOnIds.push(crossID)
+      postData.addOnIds.push(crossID.id)
     }
     let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
     let response = results.find(x => x.addonId == medID)
@@ -279,7 +279,7 @@ export class MotorAddonComponent implements OnInit {
     let preAMT = (tempPre - discount)
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
-    preAMT = (term * percent) + stumd
+    preAMT = (preAMT * percent) + stumd
     this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT

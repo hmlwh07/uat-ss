@@ -145,7 +145,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     private AttachmentDownloadService: AttachmentDownloadService,
     private alertService: AlertService,
     private menuService: MenuDataService,
-    private activeModal:NgbActiveModal
+    private ngbModal: NgbActiveModal
   ) {
     this.ACTIVITYdisplayedColumns.splice(8, 1)
     this.QuotationdisplayedColumns.splice(7, 2)
@@ -450,25 +450,19 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   create(postData) {
-    if(this.isPopup){
-
-      this.activeModal.close({ data: { name: name, customerId: 'test' }, type: "save" })
-    }
-
-    // let data = { ...postData, customerId: null, individualId: null };
-    // this.customerService.save(data).toPromise().then((res) => {
-    //   // console.log("RESSS", res)
-    //   if (res) {
-    //     if (this.isPopup) {
-    //       let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
-    //       // this.modalService.dismissAll({ data: { name: name, customerId: res }, type: "save" })
-    //       this.activeModal.close({ data: { name: name, customerId: res }, type: "save" })
-    //     } else {
-    //       this.alertService.activate('This record was created', 'Success Message');
-    //       this.location.back()
-    //     }
-    //   }
-    // })
+    let data = { ...postData, customerId: null, individualId: null };
+    this.customerService.save(data).toPromise().then((res) => {
+      // console.log("RESSS", res)
+      if (res) {
+        if (this.isPopup) {
+          let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
+          this.ngbModal.dismiss({ data: { ...postData,name: name, customerId: res, }, type: "save" })
+        } else {
+          this.alertService.activate('This record was created', 'Success Message');
+          this.location.back()
+        }
+      }
+    })
   }
 
   edit(postData) {
