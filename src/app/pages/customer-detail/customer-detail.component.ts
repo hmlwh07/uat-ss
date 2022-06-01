@@ -426,6 +426,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
   doCustomer() {
     // console.log(this.customerForm.invalid);
+    console.log("POPUP",this.isPopup);
+    
     if (this.customerForm.invalid) {
       validateAllFields(this.customerForm)
       return true

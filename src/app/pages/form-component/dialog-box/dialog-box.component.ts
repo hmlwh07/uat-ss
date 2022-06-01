@@ -86,6 +86,7 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
     modalRef.componentInstance.isLead = true
     modalRef.result.then(() => { }, (res) => {
       if (res) {
+        console.log("Detail",res)
         if (res.type == "save") {
           let customer = res.data
           this.doDataBind(customer)

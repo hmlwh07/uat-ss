@@ -11,7 +11,7 @@ import { LanguagesService } from 'src/app/modules/languages/languages.service';
   }`]
 })
 export class SettingPage implements OnInit {
-  languageData: string = 'en'
+  languageData: string = 'EN'
   constructor(private navCtrl: NavController, private langService: LanguagesService,private cdf: ChangeDetectorRef) { }
 
   ngOnInit() {

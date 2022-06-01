@@ -5,22 +5,22 @@ export interface Locale {
   data: any;
 }
 export interface Langs {
-  en: any,
-  mm: any
+  EN: any,
+  MM: any
 }
 const LOCALIZATION_LOCAL_STORAGE_KEY = 'kbzDefaultLanguage';
 
 @Injectable()
 export class LanguagesService {
   langs: Langs
-  private seletedLanguage = 'en'
+  private seletedLanguage = 'EN'
   languageChanged = new Subject()
   constructor(private ngZone: NgZone) {
-    this.seletedLanguage = localStorage.getItem(LOCALIZATION_LOCAL_STORAGE_KEY) || 'en'
+    this.seletedLanguage = localStorage.getItem(LOCALIZATION_LOCAL_STORAGE_KEY) || 'EN'
   }
 
-  loadTranslations(en: Locale, mm: Locale) {
-    this.langs = { en: en.data, mm: mm.data }
+  loadTranslations(EN: Locale, MM: Locale) {
+    this.langs = { EN: EN.data, MM: MM.data }
   }
 
   setLanguage(lang) {
@@ -40,7 +40,7 @@ export class LanguagesService {
   toggleLange() {
     // if(this.seletedLanguage == )
     this.ngZone.run(()=>{
-      this.seletedLanguage = this.seletedLanguage == "en" ? "mm" : "en"
+      this.seletedLanguage = this.seletedLanguage == "EN" ? "MM" : "EN"
       localStorage.setItem(LOCALIZATION_LOCAL_STORAGE_KEY, this.seletedLanguage);
       this.languageChanged.next(null)
     })
