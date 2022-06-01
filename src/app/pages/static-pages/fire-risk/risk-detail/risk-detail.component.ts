@@ -398,7 +398,8 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
     if (this.otherSi == 0) {
       this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
     }
-    this.riskSi = this.otherSi + this.buildingSi
+    // this.riskSi = this.otherSi + this.buildingSi
+    this.riskSi=this.otherSi
 
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi
