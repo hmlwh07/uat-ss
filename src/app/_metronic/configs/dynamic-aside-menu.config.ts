@@ -334,7 +334,7 @@ export const DynamicAsideMenuConfig = {
           show: true
         },
         {
-          title: 'Weekly Activity Analysi',
+          title: 'Weekly Activity Analysis',
           page: '/report/report-weekly-sales-analysis-by-branch',
           show: true
         },
