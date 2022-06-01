@@ -95,7 +95,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
     'DEC',
   ];
   todayActiveAgent: number = 0
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   radioW: number;
   radioH: number;
   chartH: number;
