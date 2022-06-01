@@ -68,8 +68,8 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">{{"FORM.btn_cancel" | translate }}</button>
     <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
-      [disabled]="selected.length < 0">Save</button>
+      [disabled]="selected.length < 0">{{"FORM.btn_save" | translate }}</button>
   </div>
 </div>

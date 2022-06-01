@@ -25,9 +25,8 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">{{"FORM.family_monthly_spending" | translate}} <span style="position: absolute;
-                            top: 9px;
-                            right: 10px;">*</span> </label>
+                        <label class="form-label">{{"FORM.family_monthly_spending" | translate}} 
+                            <span>*</span> </label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -58,10 +57,9 @@
         </div>
         <div class="btn-about col-12">
             <button type="button" *ngIf="fnaService.fnaIncome" class="btn btn-primary btn-elevate mx-2"
-                style="width: auto; margin-bottom: 10px;" (click)="viewAll()">View All</button>
+                style="width: auto; margin-bottom: 10px;" (click)="viewAll()">{{"FORM.view_all" | translate }}</button>
             <button type="button" class="btn btn-primary btn-elevate" (click)="backAction()"
-                style="width: auto; margin-bottom: 10px; ">Back
-                Main Page</button>
+                style="width: auto; margin-bottom: 10px; ">{{"FORM.back_main_page" | translate }}</button>
             <button type="submit" class="btn btn-primary btn-elevate mx-2"
                 style=" margin-bottom: 10px;">{{"FORM.btn_save" | translate }}</button>
         </div>
