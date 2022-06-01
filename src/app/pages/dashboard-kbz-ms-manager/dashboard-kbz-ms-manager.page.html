@@ -53,7 +53,7 @@
   </section>
   <section class="chart" [ngStyle]="{'height': mainContentHeightPx}">
     <div class="sub-chart" [ngStyle]="{'height': chartHpx}">
-      <h2 class="title-color">Opportunity Conversion</h2>
+      <h2 class="title-color">{{"FORM.opportunity_conversion" | translate }}</h2>
       <div class="branch">
         <div>{{ data?.agentInfo?.branchName }}</div>
         <div style="font-weight: 600;">{{ leadObj?.leadWinRate }} %</div>
@@ -79,11 +79,11 @@
       <h2 class="title-color">{{"CARD.things_to_followup" | translate}}</h2>
       <div class="today">
         <div>
-          <p>TASK TODAY</p>
+          <p>{{"FORM.task_today" | translate }}</p>
           <p>{{ leadObj.taskToday }}</p>
         </div>
         <div>
-          <p>OPPORTUNITY TODAY</p>
+          <p>{{"FORM.opportunity_today" | translate }}</p>
           <p>{{ leadObj.leadToday }}</p>
         </div>
       </div>
