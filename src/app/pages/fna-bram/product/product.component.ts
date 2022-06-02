@@ -182,7 +182,7 @@ export class ProductComponent implements OnInit {
           }
 
           // Fire, Motor, Personal Accident
-          if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' ||
+          if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' || res.highRisk[i].productCode=='PLMO01'||
             res.highRisk[i].productCode == 'PLPA01' || res.highRisk[i].productCode == 'PCPA01') {
             res.highRisk[i].action = 'Buy';
           } else {
@@ -218,7 +218,7 @@ export class ProductComponent implements OnInit {
           }
 
           // Fire, Motor, Personal Accident
-          if (res.lessRisk[i].productCode == 'CLFR01' || res.lessRisk[i].productCode == 'PLMO02' ||
+          if (res.lessRisk[i].productCode == 'CLFR01' || res.lessRisk[i].productCode == 'PLMO02' || res.lessRisk[i].productCode=="PLMO01"||
             res.lessRisk[i].productCode == 'PLPA01' || res.lessRisk[i].productCode == 'PCPA01') {
             res.lessRisk[i].action = 'Buy';
           } else {
@@ -314,7 +314,7 @@ export class ProductComponent implements OnInit {
         this.totalGrantAnnualRate = totalGrantAnnualRate;
         this.totalGrantMonthlyRate = totalGrantMonthlyRate;
 
-        if (this.grantTotalList[i].productCode == 'CLFR01' || this.grantTotalList[i].productCode == 'PLMO02' ||
+        if (this.grantTotalList[i].productCode == 'CLFR01' || this.grantTotalList[i].productCode == 'PLMO02' || this.grantTotalList[i].productCode=="PLMO01"||
           this.grantTotalList[i].productCode == 'PLPA01' || this.grantTotalList[i].productCode == 'PCPA01') {
           this.grantTotalList[i].action = 'Buy';
         } else {

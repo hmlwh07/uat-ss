@@ -38,7 +38,7 @@ export class CoveragePageComponent implements OnInit {
   async ngOnInit() {
     this.refID = this.prodService.referenceID
     this.optionId = this.optionId ? this.optionId : this.resourcesId
-    if (this.product.code == "PLMO02") {
+    if (this.product.code == "PLMO02" || this.product.code=="PLMO01") {
       this.parentData = this.getParnet()
     }
     if (this.product.coverages && this.product.coverages.length > 0) {
@@ -93,7 +93,7 @@ export class CoveragePageComponent implements OnInit {
   }
 
   getGlobalFun(funName: string, mainObj: string, mainKey, subKey: string) {
-    if (this.product.code == "PLMO02" && subKey == "premium") {
+    if ((this.product.code == "PLMO02" || this.product.code=="PLMO01") && subKey == "premium") {
       if (this.globalFun[funName]) {
         let unsub = this.globalFun[funName](this.parentData).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res

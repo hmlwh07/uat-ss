@@ -495,6 +495,9 @@ export const locale = {
       "Total": "စုစုပေါင်း",
       "total": "စုစုပေါင်း",
       "discount": "လျှော့စျေး (%)",
+    },
+    MENU:{
+      'Logout':'ထွက်ရန်',
     }
 
   },

@@ -717,7 +717,7 @@ export class InputDataDialogComponent implements OnInit {
       } else if (this.menuType == "HumanResources" && this.type == "Recruitment and Training") {
         this.products = res.filter(x => x.code === 'PCHL01');
       } else {
-        this.products = res.filter(x => x.code === 'CLFR01' || x.code === 'PLMO02' ||
+        this.products = res.filter(x => x.code === 'CLFR01' || x.code === 'PLMO02' || x.code==='PLMO01'||
           x.code === 'PCPA01' || x.code === 'PLPA01' || x.code === 'CLCS01' || x.code === 'CLCT01' || x.code === 'CLFD01');
       }
     });
