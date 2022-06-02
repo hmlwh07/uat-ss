@@ -123,10 +123,8 @@
                 <br *ngIf="createFormGroup.value.companyId">
                 <br *ngIf="createFormGroup.value.clusterId">
                 <div class="date-display">
-                    <span *ngIf="createFormGroup.value.fromDate">{{"FORM.from_date"|translate}}: {{
-                        formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
-                    <span *ngIf="createFormGroup.value.toDate">{{"FORM.to_date"|translate}}To Date: {{
-                        formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
+                    <span *ngIf="createFormGroup.value.fromDate">{{"FORM.from_date"|translate}}: {{formatDateDDMMYYY(createFormGroup.value.fromDate) }} </span>
+                    <span *ngIf="createFormGroup.value.toDate">{{"FORM.to_date"|translate}}: {{formatDateDDMMYYY(createFormGroup.value.toDate) }}</span>
                 </div>
             </div>
             <div class="search-display">
