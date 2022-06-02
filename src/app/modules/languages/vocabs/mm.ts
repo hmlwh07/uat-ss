@@ -347,8 +347,8 @@ export const locale = {
       branch_name: "Branch Name",
       activity_name: "Activities Name",
       target: "Target",
-      from_month: "From Month/Year",
-      to_month: "To Month/Year",
+      from_month: 'လ/ နှစ် "မှ"',
+      to_month: 'လ/ နှစ် "ထိ"',
       product_cap: "အာမခံ အမျိုးအစား",
       premium_cap: "အာမခံပရီမီယံ",
       management_team: "စီမံခန့်ခွဲမှုအဖွဲ့",
@@ -389,7 +389,7 @@ export const locale = {
       no:"နံပါတ်",
       file_name:"ဖိုင်အမည်",
       upload_name:"ဖိုင်တွဲရန်",
-
+      
 
     },
     NAV: {
