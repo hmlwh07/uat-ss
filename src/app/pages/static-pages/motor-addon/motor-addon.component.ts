@@ -121,6 +121,7 @@ export class MotorAddonComponent implements OnInit {
     if (type == 'cross') {
       this.isCross = !this.isCross
       // this.crossPremium = this.isCross ? this.calcuCross() : 0
+      this.calcuCross()
       this.cdf.detectChanges()
     }
   }
@@ -144,9 +145,9 @@ export class MotorAddonComponent implements OnInit {
     return fix
   }
 
-  calcuCross(addOnsData) {
+  calcuCross() {
     let tempPre = 0
-    // let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
+    let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
       if (this.addOnsData[addon.id])

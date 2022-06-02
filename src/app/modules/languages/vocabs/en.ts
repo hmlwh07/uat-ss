@@ -349,6 +349,13 @@ export const locale = {
       no: "No",
       file_name: "File Name",
       upload_name: "Upload Name",
+      task_today: "TASK TODAY",
+      opportunity_today: "OPPORTUNITY TODAY",
+      opportunity_conversion: "Opportunity Conversion",
+      amount_protected_by_insurance: "Amount protected by insurance",
+      amount_protected_by_employer: "Amount protected by employer",
+      amount_protected_by_social_benefit: "Amount protected by social benefit",
+      child: "Child"
 
     },
     NAV: {
@@ -400,7 +407,17 @@ export const locale = {
       'Agent Name': "Agent Name",
       'Premium': "Premium",
       'Application': "Application",
-      'Show In List': "Show In List"
+      'Show In List': "Show In List",
+      'Customer ID': "Customer ID",
+      'Mobile': "Mobile",
+      'Title': "U/Daw",
+      'First Name': "First Name",
+      'Middle Name': "Middle Name",
+      'Last Name': "Last Name",
+      'No.':"No.",
+      'NO':"No.",
+      'File Name':"File Name",
+      'Upload File':"Upload File",
 
     },
     ERROR: {
