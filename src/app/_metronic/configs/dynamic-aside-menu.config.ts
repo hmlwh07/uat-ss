@@ -14,7 +14,7 @@ export const DynamicAsideMenuConfig = {
           page: '/dashboard/lp-manager-dashboard',
         },
         {
-          title: 'Lp Dashboard',
+          title: 'Executive Dashboard',
           page: '/dashboard/lp-dashboard',
         },
       ]

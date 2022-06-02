@@ -152,6 +152,7 @@ export class LeadDetailComponent implements OnInit {
   }
   sourceScore: number = 0
   qualityScore: number = 0
+  score:number=0
   isFNA: boolean = false
   isApplication: boolean = false
   isAttachment: boolean = false
@@ -163,7 +164,7 @@ export class LeadDetailComponent implements OnInit {
   isValidWin: boolean = false
   leadQuality: any = []
   Quality = {
-    "Q10": "campaignNo",
+    "Q10": "campaignName",
     "Q06": "channelCode",
     "Q03": "phoneNo",
     "Q07": "typeCode",
@@ -504,6 +505,7 @@ export class LeadDetailComponent implements OnInit {
         .then((res: any) => {
           if (res) {
             this.leadQuality = res
+            console.log("test3");
             this.calculateLeadQuality()
             this.getValidityPeriod()
           }
@@ -591,6 +593,8 @@ export class LeadDetailComponent implements OnInit {
       this.LeadDetailService.getLeadScore(sourceCode, channel).toPromise().then((res: any) => {
         // this.leadForm.controls.score.setValue(res)
         this.sourceScore = res
+        console.log("test1",this.score);
+        
         this.calculateLeadQuality()
         this.getValidityPeriod()
       })
@@ -601,6 +605,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   calculateLeadQuality(type?: string) {
+    console.log("Test");
+    
     if (type == "typeCode") {
       this.getProductOption()
     }
@@ -613,12 +619,34 @@ export class LeadDetailComponent implements OnInit {
     if (type == "district") {
       this.onChangeDistrict()
     }
-    let score = this.sourceScore
+     this.score += this.sourceScore
+    console.log('LOEADQuALITY',this.leadQuality)
     this.leadQuality.forEach(element => {
+      let ele=element.qualityValue.toLowerCase()
+      if(ele=='type'|| ele=='township' || ele=='channel' || ele=='district' || ele=='state'){
+        element.qualityValue=ele+"Code"
+      }
+      else if(ele=='product'){
+        element.qualityValue=ele+"Id"
+      }
+      else if(ele=='phone no.'){
+        element.qualityValue='phoneNo'
+      }
+      else if(ele=='campaign name'){
+        element.qualityValue='campaignName'
+      }
+      else{
+        element.qualityValue=element.qualityValue
+      }
+
+      console.log('element',element);   
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
-      score += value ? element.score : 0
+      
+      this.score += value ? element.score : 0
+    
     });
-    this.leadForm.controls.score.setValue(score)
+    console.log('score',this.score)
+    this.leadForm.controls.score.setValue(this.score)
   }
 
 
@@ -784,6 +812,7 @@ export class LeadDetailComponent implements OnInit {
             this.leadForm.controls.campaignName.setValue(campaign.cpmName)
             this.leadForm.controls.campaignNo.setValue(campaign.cpmNumber)
             this.calculateLeadQuality()
+            console.log("test2");
           }
         }
       })
