@@ -104,6 +104,7 @@ export const locale = {
       create_by: 'Created By',
       create_date: 'Created',
       btn_approve: 'Approve',
+      btn_delete:'Delete',
       btn_reject: 'Reject',
       btn_win: 'Win',
       btn_lost: 'Lost',

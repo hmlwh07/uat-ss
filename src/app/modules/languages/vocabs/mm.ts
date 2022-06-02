@@ -107,6 +107,7 @@ export const locale = {
       create_by: 'လုပ်ဆောင်သူ',
       create_date: 'လုပ်ဆောင် သည့်ရက်စွဲ',
       btn_approve: 'Approve',
+      btn_delete:"ဖျက်ပါ",
       btn_reject: 'Reject',
       btn_win: 'Win',
       btn_lost: 'Lost',
