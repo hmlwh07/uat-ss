@@ -744,7 +744,7 @@ export class LeadDetailComponent implements OnInit {
           }
         })
       } else {
-        this.alertService.activate('Are you sure want to approve?', 'Warning Message').then(result => {
+        this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
           if (result) {
             let data = {
               email: this.oldData.email,
