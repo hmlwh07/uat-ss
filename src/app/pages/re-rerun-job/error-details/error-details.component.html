@@ -11,7 +11,7 @@
     <div class="row" style="align-items: center;">
       <div class="col-md-12">
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Job Type</label>
+          <label class="col-sm-4 col-form-label">{{"FORM.job_type" | translate }}</label>
           <div class="col-sm-8">
             <div type="text" class="form-control form-control-sm " name="name" autocomplete="off">{{data.jobType=='CRM'
               ? "Management Portal " : data.jobType}}</div>
@@ -22,7 +22,7 @@
     <div class="row" style="align-items: center;">
       <div class="col-md-12">
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Job Name</label>
+          <label class="col-sm-4 col-form-label">{{"FORM.job_name" | translate }}</label>
           <div class="col-sm-8">
             <div type="text" class="form-control form-control-sm " name="name" autocomplete="off">{{data.jobName == 'RunTCSAPIByScheduler' ? "Create / Update Party" : data.jobName}}</div>
           </div>
@@ -32,7 +32,7 @@
     <div class="row" style="align-items: center;">
       <div class="col-md-12">
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Description</label>
+          <label class="col-sm-4 col-form-label">{{"FORM.description" | translate }}</label>
           <div class="col-sm-8">
             <div type="text" class="form-control form-control-sm"  name="name" autocomplete="off">
               <ul class="error-list">
@@ -46,8 +46,8 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">Close</button>
+    <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">{{"FORM.btn_close" | translate }}</button>
     <button type="button" *ngIf="data.status == 'FAIL'" class="btn btn-primary btn-elevate mr-2"
-      (click)="reRun()">Re-Run</button>
+      (click)="reRun()">{{"FORM.rerun_list" | translate }}</button>
   </div>
 </div>

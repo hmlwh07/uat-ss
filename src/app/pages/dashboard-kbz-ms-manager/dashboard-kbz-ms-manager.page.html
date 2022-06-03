@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="sub-chart" [ngStyle]="{'height': chartHpx}">
-      <h2 class="title-color">Active Agents Today</h2>
+      <h2 class="title-color">{{"CARD.active_agents_today" | translate}}</h2>
       <div style="font-weight: bold;">{{ todayActiveAgent }}</div>
       <div id="chart" style="position: relative;
       top: -15px;" *ngIf="chartOptionsAgent">

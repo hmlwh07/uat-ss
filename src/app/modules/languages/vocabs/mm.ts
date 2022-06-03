@@ -222,13 +222,13 @@ export const locale = {
       source_of_income: "ဝင်ငွေ အရင်းအမြစ်",
       family_monthly_spending: "မိသားစုလစဉ် သုံးစွဲငွေ(သိန်းပေါင်း)",
       estimated_monthly_income: "ခန့်မှန်းလစဉ် ဝင်ငွေ(သိန်းပေါင်း)",
-      with_protection: "အိမ်ထောင်ဖက်အမည်",
+      with_protection: "အကာအကွယ်ရှိမှု",
       rad_yes: "ရှိ",
       rad_no: "မရှိ",
       name_of_spouse: "အိမ်ထောင်ဖက်အမည်",
       name_of_child: "ကလေးအမည်",
       asset_type: "ပိုင်ဆိုင်သောပစ္စည်းအမျိုးအစား",
-      please_specify: "သတ်မှတ်ပေးပါ။",
+      please_specify: "သတ်မှတ်ပေးပါ",
       with_insurance_protection: "အာမခံကာကွယ်မှုနှင့်အတူ",
       replacement_purchase_cost: "အစားထိုး/ဝယ်ယူမှုကုန်ကျစရိတ်",
       about_bpm: "BPM အကြောင်း အရာ",
@@ -380,6 +380,9 @@ export const locale = {
       'Lack of good compensation and benefits scheme': "အကျိုးခံစားခွင့် အစီအစဉ်ကောင်းများ နည်းပါးခြင်း",
       'Work related injuries': "အလုပ်ခွင်မှရရှိသော ထိခိုက်မှု",
       'Employee absenteeism': "အလုပ်ပျက်ကွက်ခြင်း",
+      'Technology': "နည်းပညာ",
+      'Human Resources': "လူ့အင်အားအရင်းအမြစ်",
+      'Management Infrastructure': "စီမံခန့်ခွဲမှု အခြေခံအရင်းအမြစ်",
       basic_coverage:"အခြေခံ အကာအကွယ် ",
       sum_insure:"အာမခံထားငွေ ",
       no:"နံပါတ်",
@@ -393,6 +396,8 @@ export const locale = {
       amount_protected_by_employer: "အလုပ်ရှင်မှ အကာကွယ်ပေးထားသော ပမာဏ",
       amount_protected_by_social_benefit: "လူမှုဖူလုံရေးမှ အကာအကွယ်ပေးထားသော ပမာဏ",
       child: "ကလေး",
+      job_type: "Job Type",
+      job_name: "Job Name"
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",
@@ -499,7 +504,7 @@ export const locale = {
       'Share':"ရှယ်ယာ",
       'share':"ရှယ်ယာ",
       'ID Type':"ID အမျိုးအစား",
-    
+      'Average Age': "ပျမ်းမျှအသက်",
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',

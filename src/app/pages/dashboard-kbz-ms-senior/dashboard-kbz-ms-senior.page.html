@@ -38,7 +38,7 @@
     <div class="date">
       <div style="width: 50%;">{{ months[currentMonthIndex] }} | Y{{ currentYear }}</div>
       <!-- <div>Y{{ currentYear }}</div> -->
-      <div><a (click)="goToSalePolicies()">All</a></div>
+      <div><a (click)="goToSalePolicies()">{{"CARD.all" | translate}}</a></div>
     </div>
     <ion-list *ngIf="data && data.subAgentMonthlySale.length > 0" [ngStyle]="{'height': salesHpx}">
       <ion-item lines="full" *ngFor="let agent of data?.subAgentMonthlySale" (click)="goToLPManager(agent)">
