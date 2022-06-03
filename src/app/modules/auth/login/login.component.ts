@@ -7,6 +7,7 @@ import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LanguagesService } from '../../languages/languages.service';
 import { MenuDataService } from '../../../core/menu-data.service';
+import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   hasError: boolean;
   returnUrl: string;
+  firstPage:string;
   isLoading$: Observable<boolean>;
 
   // private fields
@@ -37,7 +39,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private translate: LanguagesService,
-    private menuDataService: MenuDataService
+    private menuDataService: MenuDataService,
+    private globalService:GlobalFunctionService
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -90,16 +93,20 @@ export class LoginComponent implements OnInit, OnDestroy {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first(), mergeMap((x) => {
         return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
+          console.log("DATAMENU",data[0].page);
+          this.firstPage=data[0].page
           return of(x)
         }))
       }))
       .subscribe((user: UserModel) => {
         if (user) {
-          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
+          this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
         } else {
           this.hasError = true;
         }
       });
+     
+
     this.unsubscribe.push(loginSubscr);
   }
 

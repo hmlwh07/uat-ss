@@ -405,7 +405,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       this.riskSi = this.otherSi + this.buildingSi
     else
       this.riskSi = this.otherSi
-
+    
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi
       this.oldData.riskSi = this.riskSi
@@ -424,7 +424,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       if (this.productDetail.policyType == 'T-NM') {
         await this.calBuildingSi()
       } else {
-        this.riskSi = this.oldData.proposeStockValue || 0
+        this.riskSi = (this.oldData.proposeStockValue*0.75 )|| 0
         this.oldData.riskSi = this.riskSi
       }
       let rateData = 0
