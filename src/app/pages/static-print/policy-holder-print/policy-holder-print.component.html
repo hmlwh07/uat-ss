@@ -1,0 +1,58 @@
+<div class="addon-print" *ngIf="policyHolder">
+  <div class="title-style mt-5 mb-3">Policyholder</div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Name
+    </div>
+    <div class="col-sm-6">
+      {{policyHolder.title}} {{policyHolder.firstName}}{{policyHolder.middleName}}{{policyHolder.lastName}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      ID
+    </div>
+    <div class="col-sm-6">
+      {{policyHolder.cprNumber}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Date of Birth
+    </div>
+    <div class="col-sm-6">
+      {{policyHolder.dateOfBirth}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Mobile
+    </div>
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].mobileNo}}
+      </ng-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Email
+    </div>
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].eMailId}}
+      </ng-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Address
+    </div>
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].city}}/{{policyHolder.partyAddress[0].district}}/{{policyHolder.partyAddress[0].state}}
+      </ng-container>
+    </div>
+  </div>
+
+</div>

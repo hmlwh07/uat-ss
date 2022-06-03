@@ -2,8 +2,13 @@ import { PageUIType } from "../products/models/product.dto";
 
 export const STATIS_PINRTS = [
   {
+    id: "print_4148941769133",
+    pageTitle: "Policy Holder View",
+    type: PageUIType.STATIC,
+  },
+  {
     id: "print_1638594148571",
-    pageTitle: "Motor Sign",
+    pageTitle: "Sign Area",
     type: PageUIType.STATIC,
   },
   {
