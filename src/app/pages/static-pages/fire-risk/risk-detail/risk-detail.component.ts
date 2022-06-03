@@ -412,6 +412,22 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     }
 
   }
+  calBuildingSiD(){
+    this.buildingSi = 0
+    this.buildingSi = this.oldData.sumInsure
+    if (this.otherSi == 0) {
+      this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
+    }
+    if (this.productDetail.currency == 'MMK')
+      this.riskSi = (this.otherSi *0.75) + this.buildingSi
+    else
+      this.riskSi = this.otherSi *0.75
+    
+    if (this.oldData) {
+      this.riskSi = this.oldData.proposeStockValue|| 0
+        this.oldData.riskSi = this.riskSi
+    }
+  }
 
   changeTotal(total) {
     this.otherSi = 0
@@ -424,8 +440,9 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       if (this.productDetail.policyType == 'T-NM') {
         await this.calBuildingSi()
       } else {
-        this.riskSi = (this.oldData.proposeStockValue*0.75 )|| 0
-        this.oldData.riskSi = this.riskSi
+        await this.calBuildingSiD()
+        // this.riskSi = this.oldData.proposeStockValue|| 0
+        // this.oldData.riskSi = this.riskSi
       }
       let rateData = 0
       let rate1 = this.oldData.rate
