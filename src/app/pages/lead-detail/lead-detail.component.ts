@@ -168,7 +168,7 @@ export class LeadDetailComponent implements OnInit {
     "Q06": "channelCode",
     "Q03": "phoneNo",
     "Q07": "typeCode",
-    "Q12": "stateCode",
+    "Q04": "stateCode",
     "Q13": "districtCode",
     "Q05": "townshipCode",
     "Q08": "productId",
@@ -325,6 +325,11 @@ export class LeadDetailComponent implements OnInit {
       this.getTownship(this.leadForm.controls["districtCode"].value);
     }
     this.cdf.detectChanges();
+  }
+
+  ngOnDestroy(){
+    this.score=0
+    this.sourceScore=0
   }
 
 
@@ -605,6 +610,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   calculateLeadQuality(type?: string) {
+    this.score=0
+   
     console.log("Test");
 
     if (type == "typeCode") {
@@ -642,7 +649,8 @@ export class LeadDetailComponent implements OnInit {
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
 
       this.score += value ? element.score : 0
-
+        console.log("this.score",this.score);
+        
     });
     if (this.sourceScore != 0) {
       this.score += this.sourceScore
