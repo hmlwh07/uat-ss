@@ -23,7 +23,7 @@ import { FireRiskService } from '../models&services/fire-risk.service';
   templateUrl: './risk-detail.component.html',
   styleUrls: ['./risk-detail.component.scss']
 })
-export class RiskDetailComponent implements OnInit,OnDestroy {
+export class RiskDetailComponent implements OnInit, OnDestroy {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @ViewChild(CalculatedBuildingComponent) stockTemp: CalculatedBuildingComponent
@@ -58,9 +58,9 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
   constructor(private modalService: NgbModal, public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private fireRiskService: FireRiskService, private auth: AuthService, private PremiumRateService: PremiumRateService, private prodService: ProductDataService, private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService, private firebuildingService: SurroundingBuildingService) { }
 
   ngOnDestroy(): void {
-    this.unsub.forEach(x=> x.unsubscribe()) 
+    this.unsub.forEach(x => x.unsubscribe())
   }
-  
+
   ngOnInit(): void {
     this.unsub[0] = this.globalService.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
@@ -217,7 +217,9 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
     // 9. Year of Construction
     // 10. Total square in Feet
     // 11. Special Decoration
-
+    let formValidate = []
+    if(this.productDetail.policyType == 'T-NM' )
+    formValidate.push(Validators.required)
     this.fireRiskform = new FormGroup({
       buildingClass: new FormControl(oldData ? oldData.buildingClass : "", Validators.required),
       buildingDescription: new FormControl(oldData ? oldData.buildingDescription : "", Validators.required),
@@ -233,7 +235,7 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
       rate: new FormControl(oldData ? oldData.rate : ""),
       specialDecoration: new FormControl(oldData ? oldData.specialDecoration || false : false, Validators.required),
       storyOfBuilding: new FormControl(oldData ? oldData.storyOfBuilding : "", Validators.required),
-      sumInsure: new FormControl(oldData ? oldData.sumInsure : "", Validators.required),
+      sumInsure: new FormControl(oldData ? oldData.sumInsure : "", [...formValidate]),
       totalSquareFoot: new FormControl(oldData ? oldData.totalSquareFoot : "", Validators.required),
       yearOfConstruction: new FormControl(oldData ? oldData.yearOfConstruction : "", [Validators.required, Validators.max(9999)]),
       // proposeStockValue: new FormControl(oldData ? oldData.proposeStockValue : 0),
@@ -375,7 +377,7 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
       this.fireRiskform.controls['totalSquareFoot'].setValue(square)
     }
   }
-   calBuildingSi() {
+  calBuildingSi() {
     console.log("enter SI");
 
     this.buildingSi = 0
@@ -399,10 +401,10 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
     if (this.otherSi == 0) {
       this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
     }
-    if(this.productDetail.currency=='MMK')
-      this.riskSi = this.otherSi + this.buildingSi  
+    if (this.productDetail.currency == 'MMK')
+      this.riskSi = this.otherSi + this.buildingSi
     else
-    this.riskSi=this.otherSi
+      this.riskSi = this.otherSi
 
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi

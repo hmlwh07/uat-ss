@@ -624,6 +624,9 @@
                     Parent Form Group
                   </th>
                   <th>
+                    Change Page Type
+                  </th>
+                  <th>
                     Action
                   </th>
                 </tr>
@@ -648,7 +651,14 @@
                   </td>
                   <td>
                     <a title="Edit Form Page" *ngIf="item.type != 'static'"
-                      class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" (click)="configPrint(item)">
+                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" (click)="changePageType(item,i)">
+                    <span class="flaticon-refresh">
+                    </span>
+                  </a>
+                  </td>
+                  <td>
+                    <a title="Edit Form Page" *ngIf="item.type != 'static'"
+                      class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" (click)="configPrint(item,item.pageType)">
                       <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" [cacheSVG]="true"
                         class="svg-icon svg-icon-md svg-icon-primary">
                       </span>

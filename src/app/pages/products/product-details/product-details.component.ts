@@ -605,6 +605,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       }
     })
   }
+  changePageType(item,index){
+    this.printConfig.prinitUI[index].pageType=item.pageType == 'form' ? 'table' : "form"
+  }
 
   changeOption(data, type) {
     this[type] = data;
@@ -667,7 +670,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  configPrint(printForm: FromGroupData) {
+  configPrint(printForm: FromGroupData,type:string) {
     let oldData: PrintFormat = {}
     let oldIndex: number = -1
     if (this.printConfig.printFormat) {
@@ -684,6 +687,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.configData = oldData
     modalRef.componentInstance.listData = [...printForm.controls, ...this.defaultCol]
     modalRef.componentInstance.defaultObj = JSON.parse(JSON.stringify(printForm))
+    modalRef.componentInstance.defaultObj.pageType=type
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (res.type == 'save') {

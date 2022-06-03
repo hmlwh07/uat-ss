@@ -22,7 +22,7 @@
     <div class="col-sm-3 text-bold">
       Date of Birth
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
       {{policyHolder.dateOfBirth}}
     </div>
   </div>
@@ -30,24 +30,30 @@
     <div class="col-sm-3 text-bold">
       Mobile
     </div>
-    <div class="col-sm-6">
-      {{policyHolder.partyAddress[0].mobileNo}}
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].mobileNo}}
+      </ng-container>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-3 text-bold">
       Email
     </div>
-    <div class="col-sm-6">
-      {{policyHolder.partyAddress[0].eMailId}}
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].eMailId}}
+      </ng-container>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-3 text-bold">
       Address
     </div>
-    <div class="col-sm-6">
-      {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].city}}/{{policyHolder.partyAddress[0].district}}/{{policyHolder.partyAddress[0].state}}
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].city}}/{{policyHolder.partyAddress[0].district}}/{{policyHolder.partyAddress[0].state}}
+      </ng-container>
     </div>
   </div>
   
@@ -69,7 +75,7 @@
     </tr>
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Currency</td>
-      <td class="value-col" colspan="10">{{motorDetail.currency}}</td>
+      <td class="value-col" colspan="10">{{motorDetail.mCurrency}}</td>
      
     </tr>
   </table>
@@ -109,19 +115,19 @@
       </td>
     </tr>
     <tbody class="tbody-align val-col">
-      <ng-container *ngFor="let data of listData;">
+      <!-- <ng-container *ngFor="let data of listData;"> -->
         <tr>
-          <td class="field-value">{{data.vehicleNo}}</td>
-          <td class="field-value">{{data.model}}</td>
-          <td class="field-value">{{data.tonnage}}</td>
-          <td class="field-value">{{data.yearOfManufacture}}</td>
-          <td class="field-value">{{data.typeOfVehicle}}</td>
-          <td class="field-value">{{data.typeOfCoverage}}</td>
-          <td class="field-value">{{data.excess}}</td>
-          <td class="field-value">{{data.windscreenSI}}</td>
-          <td class="field-value">{{data.totalSI | number}}</td>
+          <td class="field-value">{{vehicleDetail.mEngineNo}}</td>
+          <td class="field-value">{{motorDetail.mModel}}</td>
+          <td class="field-value">{{motorDetail.mTonnage}}</td>
+          <td class="field-value">{{vehicleDetail.mManufactureYear}}</td>
+          <td class="field-value">{{motorDetail.mTypeOfVehicle}}</td>
+          <td class="field-value">{{motorDetail.mTypeOfCoverage}}</td>
+          <td class="field-value">{{motorDetail.mExcess}}</td>
+          <td class="field-value">{{motorDetail.mWindscreenValue}}</td>
+          <td class="field-value">{{motorDetail.mTotalRiskSi | number}}</td>
         </tr>
-      </ng-container>
+      <!-- </ng-container> -->
     </tbody>
   </table>
 </div>
@@ -151,13 +157,13 @@
       </td>
     </tr>
     <tbody class="tbody-align val-col">
-      <ng-container *ngFor="let data of listData;">
+      <ng-container *ngFor="let data of coverageData;">
         <tr>
           <td class="field-value">{{data.OD}}</td>
-          <td class="field-value">{{data.thirdParty}}</td>
-          <td class="field-value">{{data.srcc}}</td>
-          <td class="field-value">{{data.windScreen}}</td>
-          <td class="field-value">{{data.totalPremiumofBasicCover}}</td>
+          <td class="field-value">{{data.TP}}</td>
+          <td class="field-value">{{data.SRCC}}</td>
+          <td class="field-value">{{data.WSC}}</td>
+          <td class="field-value">{{data.premium}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -208,19 +214,19 @@
       </td>
     </tr>
     <tbody class="tbody-align val-col">
-      <ng-container *ngFor="let data of listData;">
+      <ng-container *ngFor="let data of addOnData;">
         <tr>
-          <td class="field-value">{{data.warRisk}}</td>
-          <td class="field-value">{{data.actOfGod}}</td>
-          <td class="field-value">{{data.theft}}</td>
-          <td class="field-value">{{data.noBettermentEndorsement}}</td>
-          <td class="field-value">{{data.crossBorder}}</td>
-          <td class="field-value">{{data.lossOfLuggage}}</td>
-          <td class="field-value">{{data.medicalExpense}}</td>
-          <td class="field-value">{{data.passengerLiability}}</td>
-          <td class="field-value">{{data.paidDriver}}</td>
-          <td class="field-value">{{data.excess}}</td>
-          <td class="field-value">{{data.totalPremium}}</td>
+          <td class="field-value">{{data.WR}}</td>
+          <td class="field-value">{{data.AOG}}</td>
+          <td class="field-value">{{data.THEFT}}</td>
+          <td class="field-value">{{data.NOBTTRMNT}}</td>
+          <td class="field-value">{{data.CROSSBRDR}}</td>
+          <td class="field-value">{{data.LOSSOFLUGG}}</td>
+          <td class="field-value">{{data['MED EXP']}}</td>
+          <td class="field-value">{{data.PASSRLBTY}}</td>
+          <td class="field-value">{{data.PAIDDRIVER}}</td>
+          <td class="field-value">{{motorDetail.mExcess}}</td>
+          <td class="field-value">{{data.premium}}</td>
         </tr>
       </ng-container>
     </tbody>

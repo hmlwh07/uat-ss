@@ -30,51 +30,55 @@ export class PrintViewBoxComponent implements OnInit {
 
   //wait for the component to render completely
   async ngOnInit() {
-    if(this.resourcesId)
-    this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
+    console.log(this.product);
+
+    if (this.resourcesId)
+      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
     await this.loadingService.activate()
     if (this.config) {
       let temp: PrintFormat[] = JSON.parse(JSON.stringify(this.config))
       for (let formObj of this.configOrder) {
         if (formObj.type == PageUIType.DYN) {
           let printForm = temp.find(data => data.id == formObj.id)
-          printForm.tables.forEach(printTable => {
-            printTable.row = printTable.row.map((row) => {
-              let formatedCol: PrintCol[] = []
-              let parentArray: string[] = []
-              row.column.forEach((col, index) => {
-                let skip = false
-                if (col.data) {
-                  let index = parentArray.findIndex(data => data == col.title)
-                  if (index < 0) {
-                    parentArray.push(col.title)
-                  } else {
-                    skip = true
-                  }
-                }
-
-                if (!skip) {
+          if (printForm) {
+            printForm.tables.forEach(printTable => {
+              printTable.row = printTable.row.map((row) => {
+                let formatedCol: PrintCol[] = []
+                let parentArray: string[] = []
+                row.column.forEach((col, index) => {
+                  let skip = false
                   if (col.data) {
-                    formatedCol.push({ ...col, otherOption: [col.data] })
-                  } else {
-                    formatedCol.push(col)
-
-                  }
-                } else {
-                  let indexCol = formatedCol.findIndex(x => {
-                    if (x.data) {
-                      if (x.data.input != 'label' && x.title == col.title) return true
+                    let index = parentArray.findIndex(data => data == col.title)
+                    if (index < 0) {
+                      parentArray.push(col.title)
+                    } else {
+                      skip = true
                     }
-                    return false
-                  })
-                  formatedCol[indexCol].otherOption.push(col.data)
-                }
+                  }
+
+                  if (!skip) {
+                    if (col.data) {
+                      formatedCol.push({ ...col, otherOption: [col.data] })
+                    } else {
+                      formatedCol.push(col)
+
+                    }
+                  } else {
+                    let indexCol = formatedCol.findIndex(x => {
+                      if (x.data) {
+                        if (x.data.input != 'label' && x.title == col.title) return true
+                      }
+                      return false
+                    })
+                    formatedCol[indexCol].otherOption.push(col.data)
+                  }
+                })
+                row.column = formatedCol
+                return row
               })
-              row.column = formatedCol
-              return row
             })
-          })
-          this.temConfig.push(printForm)
+            this.temConfig.push(printForm)
+          }
         } else {
           this.temConfig.push(formObj as PrintFormat)
           // return formObj as PrintFormat
@@ -97,6 +101,13 @@ export class PrintViewBoxComponent implements OnInit {
     //     return x as PrintFormat
     //   }
     // })
+  }
+  getViewData(page) {
+    let data = this.tempData[page.tableName + page.id]
+    if (page.pageType == 'table' && !Array.isArray(data)) {
+      return [data]
+    }
+    return data
   }
 
 
