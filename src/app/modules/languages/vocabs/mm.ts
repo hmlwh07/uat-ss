@@ -396,6 +396,8 @@ export const locale = {
       amount_protected_by_employer: "အလုပ်ရှင်မှ အကာကွယ်ပေးထားသော ပမာဏ",
       amount_protected_by_social_benefit: "လူမှုဖူလုံရေးမှ အကာအကွယ်ပေးထားသော ပမာဏ",
       child: "ကလေး",
+      job_type: "Job Type",
+      job_name: "Job Name"
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

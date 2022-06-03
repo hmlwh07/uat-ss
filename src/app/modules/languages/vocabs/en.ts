@@ -356,8 +356,9 @@ export const locale = {
       amount_protected_by_insurance: "Amount protected by insurance",
       amount_protected_by_employer: "Amount protected by employer",
       amount_protected_by_social_benefit: "Amount protected by social benefit",
-      child: "Child"
-
+      child: "Child",
+      job_type: "Job Type",
+      job_name: "Job Name"
     },
     NAV: {
       my_acc: "My Account",

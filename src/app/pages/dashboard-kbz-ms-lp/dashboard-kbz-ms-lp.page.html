@@ -39,7 +39,7 @@
     <div>
       <div class="date">
         <div>{{"CARD.quotes" | translate}}</div>
-        <div><a (click)="goToSaleQuotation()">All</a></div>
+        <div><a (click)="goToSaleQuotation()">{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': salesHpx}">
         <ion-row *ngFor="let q of recentObj?.quotations | slice:0:1">
@@ -52,7 +52,7 @@
     <div>
       <div class="date">
         <div>{{"CARD.policies" | translate}}</div>
-        <div><a (click)="goToSalePolicies()">All</a></div>
+        <div><a (click)="goToSalePolicies()">{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': salesHpx}">
         <ion-row *ngFor="let p of recentObj?.policies  | slice: 0:1">
@@ -124,7 +124,7 @@
       <h2 class="title-color">Opportunities</h2>
       <div class="row" style="margin: 0;">
         <div class="col-10 sub-title">Opportunities Assigned</div>
-        <div class="col-2 underline pointer link" (click)="goToLeadList()"><a>All</a></div>
+        <div class="col-2 underline pointer link" (click)="goToLeadList()"><a>{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': chartHpx}">
         <ion-item lines="full" *ngFor="let obj of assignLeadArray | slice: 0:1">
