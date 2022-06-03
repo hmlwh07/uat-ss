@@ -152,7 +152,7 @@ export class LeadDetailComponent implements OnInit {
   }
   sourceScore: number = 0
   qualityScore: number = 0
-  score:number=0
+  score: number = 0
   isFNA: boolean = false
   isApplication: boolean = false
   isAttachment: boolean = false
@@ -491,7 +491,7 @@ export class LeadDetailComponent implements OnInit {
             return { code: x.id, value: x.name, type: x.type };
           });
           this.cdf.detectChanges();
-        
+
           this.getProductOption()
         }
       });
@@ -593,8 +593,8 @@ export class LeadDetailComponent implements OnInit {
       this.LeadDetailService.getLeadScore(sourceCode, channel).toPromise().then((res: any) => {
         // this.leadForm.controls.score.setValue(res)
         this.sourceScore = res
-        console.log("test1",this.score);
-        
+        console.log("test1", this.score);
+
         this.calculateLeadQuality()
         this.getValidityPeriod()
       })
@@ -606,7 +606,7 @@ export class LeadDetailComponent implements OnInit {
 
   calculateLeadQuality(type?: string) {
     console.log("Test");
-    
+
     if (type == "typeCode") {
       this.getProductOption()
     }
@@ -619,33 +619,35 @@ export class LeadDetailComponent implements OnInit {
     if (type == "district") {
       this.onChangeDistrict()
     }
-     this.score = this.sourceScore
-    console.log('LOEADQuALITY',this.leadQuality)
+    console.log('LOEADQuALITY', this.leadQuality)
     this.leadQuality.forEach(element => {
-      let ele=element.qualityValue.toLowerCase()
-      if(ele=='type'|| ele=='township' || ele=='channel' || ele=='district' || ele=='state'){
-        element.qualityValue=ele+"Code"
+      let ele = element.qualityValue.toLowerCase()
+      if (ele == 'type' || ele == 'township' || ele == 'channel' || ele == 'district' || ele == 'state') {
+        element.qualityValue = ele + "Code"
       }
-      else if(ele=='product'){
-        element.qualityValue=ele+"Id"
+      else if (ele == 'product') {
+        element.qualityValue = ele + "Id"
       }
-      else if(ele=='phone no.'){
-        element.qualityValue='phoneNo'
+      else if (ele == 'phone no.') {
+        element.qualityValue = 'phoneNo'
       }
-      else if(ele=='campaign name'){
-        element.qualityValue='campaignName'
+      else if (ele == 'campaign name') {
+        element.qualityValue = 'campaignName'
       }
-      else{
-        element.qualityValue=element.qualityValue
+      else {
+        element.qualityValue = element.qualityValue
       }
 
-      console.log('element',element);   
+      console.log('element', element);
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
-      
+
       this.score += value ? element.score : 0
-    
+
     });
-    console.log('score',this.score)
+    if (this.sourceScore != 0) {
+      this.score += this.sourceScore
+    }
+    console.log('score', this.score)
     this.leadForm.controls.score.setValue(this.score)
   }
 
@@ -1121,7 +1123,7 @@ export class LeadDetailComponent implements OnInit {
     if (type == 'Application') {
       const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = 'modal'
-      modalRef.componentInstance.isShowList='yes'
+      modalRef.componentInstance.isShowList = 'yes'
       modalRef.result.then(() => { }, (prod) => {
         if (prod) {
           if (prod.type == 'save') {
@@ -1356,12 +1358,12 @@ export class LeadDetailComponent implements OnInit {
   }
   getProductOption() {
     let array: any[] = this.productOption || []
-    console.log("this.leadForm.getRawValue().typeCode",this.leadForm.getRawValue().typeCode);
-    
+    console.log("this.leadForm.getRawValue().typeCode", this.leadForm.getRawValue().typeCode);
+
     let type = array.filter(x => x.type == this.leadType[this.leadForm.getRawValue().typeCode])
     let index = type.findIndex(x => x.code == this.leadForm.controls["productId"].value)
-    console.log(type,index);
-    
+    console.log(type, index);
+
     if (index < 0 && this.leadForm.controls["productId"].value && type.length > 0)
       this.leadForm.controls["productId"].setValue("");
     this.productOption2 = type || []
