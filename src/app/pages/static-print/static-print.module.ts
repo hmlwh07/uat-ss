@@ -20,10 +20,11 @@ import { HealthQuoPrintComponent } from './health-quo-print/health-quo-print.com
 import { FirePrintComponent } from './fire-print/fire-print.component';
 import { MotorPrintService } from '../products/services/motor-print.service';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
+import { HolderPrintComponent } from './policy-holder-print/policy-holder-print.component';
 
 @NgModule({
-  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent],
-  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent],
+  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent,HolderPrintComponent],
+  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent,HolderPrintComponent],
   imports: [
     CommonModule,
     NgApexchartsModule,

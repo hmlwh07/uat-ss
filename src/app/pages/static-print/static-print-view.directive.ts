@@ -13,10 +13,11 @@ import { HealthPrintComponent } from "./health-print/health-print.component";
 import { HealthQuoPrintComponent } from "./health-quo-print/health-quo-print.component";
 import { MoterPrintComponent } from "./moter-print/moter-print.component";
 import { PaPrintComponent } from "./pa-print/pa-print.component";
+import { HolderPrintComponent } from "./policy-holder-print/policy-holder-print.component";
 import { SimplePagePrintComponent } from "./simple-page-print/simple-page-print.component";
 
 const STATIC_PRINT_COMPONENT = {
-  'print_1638594148571': MoterPrintComponent,
+  'print_1638594148571': PaPrintComponent, // need to add new Sign Area Component
   'print_1638594176913': FarmerPrintComponent,
   'print_1645157346931': HealthPrintComponent,
   'print_1645157579888': PaPrintComponent,
@@ -29,6 +30,7 @@ const STATIC_PRINT_COMPONENT = {
   'static_1635309151504': EducationLifePrintComponent,
   'static_1634018514043': SimplePagePrintComponent,
   'static_1635218894755': HealthQuoPrintComponent,
+  'print_4148941769133' : HolderPrintComponent
 }
 @Directive({
   selector: '[staticPirint]'
