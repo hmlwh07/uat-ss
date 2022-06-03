@@ -40,10 +40,10 @@ export class AddonPageComponent implements OnInit {
   fireAddonRate = {
     "FLOOD": 0.1,
     "SUBLSLD": 0.1,
-    "BURGLARY-T-C1": 0.25,
-    "BURGLARY-T-C2": 0.5,
-    "BURGLARY-T-C3": 0.75,
-    "BURGLARY-T-C4": 1,
+    "BURGLARY-T-CL1": 0.25,
+    "BURGLARY-T-CL2": 0.5,
+    "BURGLARY-T-CL3": 0.75,
+    "BURGLARY-T-CL4": 1,
     "STHTC-T-BFMGS": 0.2,
     "STHTC-T-002": 0.2,
     "STHTC-T-003": 0.2,
@@ -77,10 +77,10 @@ export class AddonPageComponent implements OnInit {
       { "code": "T-WDGS", "value": "Water Damage for Goods/Stocks" },
     ],
     "BURGLARY": [
-      { "code": "T-C1", "value": "Class 1" },
-      { "code": "T-C2", "value": "Class 2" },
-      { "code": "T-C3", "value": "Class 3" },
-      { "code": "T-C4", "value": "Class 4" },
+      { "code": "T-CL1", "value": "Class 1" },
+      { "code": "T-CL2", "value": "Class 2" },
+      { "code": "T-CL3", "value": "Class 3" },
+      { "code": "T-CL4", "value": "Class 4" },
     ]
   }
   constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe, private pageDataService: PageDataService, private loadingService: LoadingService) { }
@@ -134,7 +134,9 @@ export class AddonPageComponent implements OnInit {
         if (item.code == "STHTC" && this.addOnsData[item.id].option == "") {
           this.addOnsData[item.id].option = "T-BFMGS"
         } else if (item.code == "BURGLARY" && this.addOnsData[item.id].option == "") {
-          this.addOnsData[item.id].option = "T-C1"
+          this.addOnsData[item.id].option = "T-CL1"
+          let unsub =this.globalFun.fireBurgeryResult.subscribe((value)=> this.addOnsData[item.id].option=value)
+          this.unsubscribe.push(unsub)
         }
 
         if (item.sumInsured) {

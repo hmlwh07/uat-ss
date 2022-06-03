@@ -35,7 +35,7 @@
             <ng-container *ngIf="addon.code == 'BURGLARY' || addon.code == 'STHTC' ">
               <ng-select class="ng-custom-select" [items]="fireOptionData[addon.code]" bindLabel="value"
                 bindValue="code" (change)="rechangeOption(addon)" [(ngModel)]="addOnsData[addon.id].option"
-                [clearable]="false"></ng-select>
+                [clearable]="false" [disabled]="addon.code == 'BURGLARY'"></ng-select>
             </ng-container>
           </td>
           <td *ngIf="addon.sumInsured">

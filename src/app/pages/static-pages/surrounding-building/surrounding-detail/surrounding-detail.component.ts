@@ -24,15 +24,15 @@ export class SurroundingDetailComponent implements OnInit {
   constructor(public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private SurroundingBuildingService: SurroundingBuildingService, private auth: AuthService, private PremiumRateService: PremiumRateService) { }
 
   ngOnInit(): void {
-    this.loadForm()
+    if (this.type == 'create') {
+      this.loadForm()
+    } else {  
+      this.loadForm(this.oldData)
+    }
     this.getBuildingClass()
     this.getBuildingType()
     this.getBuildingOccupation()
-    if (this.type == 'create') {
-      this.loadForm()
-    } else {
-      this.loadForm(this.oldData)
-    }
+   
 
   }
   getBuildingClass() {
@@ -75,9 +75,12 @@ export class SurroundingDetailComponent implements OnInit {
           this.occupationOfBuildingOptions = res.map((x) => {
             return { code: x.codeId, value: x.codeName, parent: x.parentId };
           });
+          this.changeType('child')
           this.cdf.detectChanges();
         }
       });
+      
+      
   }
   getPremiumRate() {
     let buildingClass = this.surroundingdetailform.value.buildingClass
@@ -92,6 +95,7 @@ export class SurroundingDetailComponent implements OnInit {
 
 
   loadForm(oldData?) {
+  
     this.surroundingdetailform = new FormGroup({
       buildingClass: new FormControl(oldData ? oldData.buildingClass : ""),
       buildingDescription: new FormControl(oldData ? oldData.buildingDescription : ""),
@@ -102,6 +106,7 @@ export class SurroundingDetailComponent implements OnInit {
       premiumRate: new FormControl(oldData ? oldData.premiumRate : ""),
       typeOfBuilding: new FormControl(oldData ? oldData.typeOfBuilding : ""),
     })
+   
   }
   createSurrounding() {
     if (this.surroundingdetailform.invalid)

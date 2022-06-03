@@ -619,7 +619,7 @@ export class LeadDetailComponent implements OnInit {
     if (type == "district") {
       this.onChangeDistrict()
     }
-     this.score += this.sourceScore
+     this.score = this.sourceScore
     console.log('LOEADQuALITY',this.leadQuality)
     this.leadQuality.forEach(element => {
       let ele=element.qualityValue.toLowerCase()

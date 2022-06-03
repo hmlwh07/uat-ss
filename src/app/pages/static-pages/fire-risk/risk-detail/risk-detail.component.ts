@@ -288,6 +288,7 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
       },
       resourceId: this.resourcesId
     }
+    this.globalService.fireBurgery(data.buildingClass)
 
     // if (this.type != 'create') {
     if (postData.id) {
@@ -398,7 +399,9 @@ export class RiskDetailComponent implements OnInit,OnDestroy {
     if (this.otherSi == 0) {
       this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
     }
-    // this.riskSi = this.otherSi + this.buildingSi
+    if(this.productDetail.currency=='MMK')
+      this.riskSi = this.otherSi + this.buildingSi  
+    else
     this.riskSi=this.otherSi
 
     if (this.oldData) {

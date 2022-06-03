@@ -16,6 +16,7 @@ import { MotorRateService } from "./rate-datas/motor-rate.service";
 })
 export class GlobalFunctionService {
   testingFunResult = new BehaviorSubject(null)
+  fireBurgeryResult = new BehaviorSubject(null)
   paPremiumResult = new Subject()
   smSumInsuredAmtResult = new BehaviorSubject(null)
   paCoverageResult = new BehaviorSubject(null)
@@ -53,6 +54,9 @@ export class GlobalFunctionService {
 
   testingFun() {
     this.testingFunResult.next('value testing')
+  }
+  fireBurgery(currentValue: string, activeForm?: any, option?: any[], form?: boolean) {
+    this.fireBurgeryResult.next(currentValue)
   }
 
 

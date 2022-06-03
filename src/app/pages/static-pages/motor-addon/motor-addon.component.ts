@@ -149,11 +149,11 @@ export class MotorAddonComponent implements OnInit {
     let tempPre = 0
     let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
     for (let addon of addOnsData) {
-      // if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
-      if (this.addOnsData[addon.id])
-        tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
+      // if (this.addOnsData[addon.id].checked) {
+      tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
       // }
     }
+    
     if (this.isMedical) {
       tempPre += this.globalFun.calculateDecimal(this.medPremium)
     }
@@ -279,7 +279,11 @@ export class MotorAddonComponent implements OnInit {
     let stumd = currency == "MMK" ? 100 : 1
     let preAMT = (tempPre - discount)
     let term = this.parentData['m_policy_term']
+    console.log();
+    
     let percent = this.crossPercent[term] || 1
+    console.log("PERCENT",percent);
+    
     preAMT = (preAMT * percent) + stumd
     this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
