@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductFormComponent } from './product-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +27,6 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
       },
     ]),
   ],
-  providers: [DatePipe,DecimalPipe]
+  providers: [DatePipe,DecimalPipe,TitleCasePipe]
 })
 export class ProductFormModule {}

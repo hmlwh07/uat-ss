@@ -161,41 +161,23 @@ export class MotorAddonComponent implements OnInit {
     for (let cov of coverageData) {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
-  
+    // let crossPre = tempPre * 0.15
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
-    // let excessAmt = 0
-    // if (this.parentData) {
-    //   let excess = this.parentData['m_excess']
-    //   if (excess == "T-NILEX" && currency == "MMK") {
-    //     excessAmt = 50000
-    //   } else if (excess == "TU-NILEX") {
-    //     excessAmt = 25
-    //   }
-    // }
     let excessAmt = 0
-    let discount = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']
-      let excess_discount = this.parentData['excess_discount']
       if (excess == "T-NILEX" && currency == "MMK") {
-        discount = -50000
+        excessAmt = 50000
       } else if (excess == "TU-NILEX") {
-        discount = -25
-      } else if (excess == "T-ED" && currency == "MMK") {
-        if (excess_discount == "T-EXD1") {
-          discount = 50000
-        } else if (excess_discount == "T-EXD2") {
-          discount = 70000
-        } else if (excess_discount == "T-EXD3") {
-          discount = 100000
-        }
+        excessAmt = 25
       }
     }
 
-
+    
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
-    this.crossPremium = ((tempPre - discount) * 0.15) * percent
+    // * percent
+    this.crossPremium = ((tempPre + excessAmt) * 0.15)
   }
   backPage() {
     this.actionEvent.emit({ type: StaticActionType.PREV })

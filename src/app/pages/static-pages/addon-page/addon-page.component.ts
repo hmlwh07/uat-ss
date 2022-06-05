@@ -91,8 +91,12 @@ export class AddonPageComponent implements OnInit {
     if (this.product.code == "PLMO02" || this.product.code =="PLMO01") {
       this.parentData = this.getParnet()
     }
-    this.addOnList = this.product.addOns.filter(x =>(x.code != "MED EXP" && this.product.code != "PLMO01") && (x.code != "CROSSBRDR" && this.product.code != "PLMO01"))
-    this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP"&& this.product.code != "PLMO01" || x.code == "CROSSBRDR"&& this.product.code != "PLMO01").map(x => x.id)
+    this.addOnList = this.product.addOns.filter(x =>(x.code != "MED EXP") || (x.code != "CROSSBRDR"))
+    this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP"&& (this.product.code != "PLMO01") || (x.code == "CROSSBRDR"&& this.product.code != "PLMO01")).map(x => x.id)
+    console.log("ADDON",this.addOnList);
+    console.log("PRODUCTLIST",);
+    
+    
     if (this.addOnList && this.addOnList.length > 0) {
       await this.loadingService.activate()
       this.addOns = {

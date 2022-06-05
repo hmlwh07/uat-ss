@@ -327,9 +327,9 @@ export class LeadDetailComponent implements OnInit {
     this.cdf.detectChanges();
   }
 
-  ngOnDestroy(){
-    this.score=0
-    this.sourceScore=0
+  ngOnDestroy() {
+    this.score = 0
+    this.sourceScore = 0
   }
 
 
@@ -610,8 +610,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   calculateLeadQuality(type?: string) {
-    this.score=0
-   
+    this.score = 0
+
     console.log("Test");
 
     if (type == "typeCode") {
@@ -626,7 +626,6 @@ export class LeadDetailComponent implements OnInit {
     if (type == "district") {
       this.onChangeDistrict()
     }
-    console.log('LOEADQuALITY', this.leadQuality)
     this.leadQuality.forEach(element => {
       let ele = element.qualityValue.toLowerCase()
       if (ele == 'type' || ele == 'township' || ele == 'channel' || ele == 'district' || ele == 'state') {
@@ -645,17 +644,14 @@ export class LeadDetailComponent implements OnInit {
         element.qualityValue = element.qualityValue
       }
 
-      console.log('element', element);
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
 
       this.score += value ? element.score : 0
-        console.log("this.score",this.score);
-        
+     
     });
     if (this.sourceScore != 0) {
       this.score += this.sourceScore
     }
-    console.log('score', this.score)
     this.leadForm.controls.score.setValue(this.score)
   }
 
@@ -694,6 +690,11 @@ export class LeadDetailComponent implements OnInit {
           this.quatationList = this.oldData.resourceQuotations != null ? this.oldData.resourceQuotations : []
           // this.oldData.resourcePolicies[0].apiStatus='draft_application'
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
+          this.applicationList.forEach((value, index) => {
+            this.applicationList[index].agentFirstName = value.agentFirstName + " " + value.agentLastName
+            this.cdf.detectChanges()
+          })
+
           this.attachmentList = this.oldData.attachments != null ? this.oldData.attachments : []
           if (this.activityList.length > 0 || this.quatationList.length > 0 || this.applicationList.length > 0 || this.attachmentList.length > 0 || this.fnaList.length > 0) {
             this.isAddProspect = true
@@ -924,7 +925,7 @@ export class LeadDetailComponent implements OnInit {
             // let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
             this.leadForm.controls.prospectCustomer.setValue(customer.name)
             this.leadForm.controls.prospectCustomerId.setValue(customer.customerId)
-            this.isProspectCustomer = true
+
           }
         }
       })

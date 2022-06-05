@@ -420,6 +420,7 @@ export const locale = {
       'NO':"No.",
       'File Name':"File Name",
       'Upload File':"Upload File",
+      'share':"Share",
 
     },
     ERROR: {

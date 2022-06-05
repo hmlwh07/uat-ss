@@ -183,7 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.messagingService.getMessages().subscribe(async (msg: any) => {
       if (msg) {
         console.log(msg);
-        this.alertService.activate(msg.notification.body, msg.notification.title)
+        // this.alertService.activate(msg.notification.body, msg.notification.title)
         // this.kbzToast.activate(msg.notification.title, 'success')
         let value = this.messagingService.notiCount.value + 1
         this.messagingService.notiCount.next(value)

@@ -19,7 +19,6 @@ export class ActionButtonComponent implements OnInit {
   @Input() viewBtn: any = {}
  
   ngOnInit(): void {
-    console.log("ISDOWNLOAD",this.data);
     
    }
 
