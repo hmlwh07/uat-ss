@@ -24,7 +24,7 @@ export const locale = {
       things_followup_today: 'Things To Follow Up Today ',
       recent_operations: 'Recent Operations',
       quotes: 'Quotes',
-      policies: 'Policies',
+      policies: 'Applications',
       all: 'All',
       calendar: 'Calendar',
       today: 'Today',
