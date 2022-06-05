@@ -27,7 +27,7 @@ export const locale = {
       things_followup_today: 'ယနေ့ Follow Up ရမည့်အရာများ  ',
       recent_operations: 'လတ်တလော လုပ်ဆောင်မှုများ      ',
       quotes: 'Quotes',
-      policies: 'Policies',
+      policies: 'Applications',
       all: 'အားလုံး ပြရန်',
       calendar: 'ပြက္ခဒိန် ',
       today: 'ယနေ့ ',

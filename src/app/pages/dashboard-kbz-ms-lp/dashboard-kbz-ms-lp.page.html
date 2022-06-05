@@ -42,7 +42,7 @@
         <div><a (click)="goToSaleQuotation()">{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': salesHpx}">
-        <ion-row *ngFor="let q of recentObj?.quotations | slice:0:1">
+        <ion-row *ngFor="let q of recentObj?.quotations | slice:0:3">
           <ion-col>{{ q.productName }}</ion-col>
           <ion-col>{{ q.customerName }}</ion-col>
           <ion-col>{{ q.status == "in_progress" ? "In Progress" : (q.status | titlecase) }}</ion-col>
@@ -55,7 +55,7 @@
         <div><a (click)="goToSalePolicies()">{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': salesHpx}">
-        <ion-row *ngFor="let p of recentObj?.policies  | slice: 0:1">
+        <ion-row *ngFor="let p of recentObj?.policies  | slice: 0:3">
           <ion-col>{{ p.productName }}</ion-col>
           <ion-col>{{ p.customerName }}</ion-col>
           <ion-col>{{ p.status == "in_progress" ? "In Progress" : (p.status | titlecase) }}</ion-col>
@@ -68,7 +68,7 @@
         <div></div>
       </div>
       <ion-list [ngStyle]="{'height': salesHpx}">
-        <ion-row *ngFor="let c of campaignArray | slice:0:1">
+        <ion-row *ngFor="let c of campaignArray | slice:0:3">
           <ion-col>{{ c.campaignName }}</ion-col>
           <ion-col>{{ c.status }}</ion-col>
         </ion-row>
@@ -127,11 +127,11 @@
         <div class="col-2 underline pointer link" (click)="goToLeadList()"><a>{{"CARD.all" | translate}}</a></div>
       </div>
       <ion-list [ngStyle]="{'height': chartHpx}">
-        <ion-item lines="full" *ngFor="let obj of assignLeadArray | slice: 0:1">
+        <ion-item lines="full" *ngFor="let obj of assignLeadArray | slice: 0:3">
           <ion-avatar slot="start">
             <img src="./assets/images/dashboard-user.png" class="user-icon" alt="" />
           </ion-avatar>
-          <ion-text style="margin: 0; margin: 0; font-weight: 600;"> {{ obj.registerUserName }}</ion-text>
+          <ion-text style="margin: 0; margin: 0; font-weight: 600;"> {{ obj.contactName }}</ion-text>
           <ion-text style="margin: 0; margin: 0;">Assigned on {{ obj.openDate | date:'shortDate' }}
           </ion-text>
         </ion-item>
