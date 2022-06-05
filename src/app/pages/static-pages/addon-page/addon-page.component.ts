@@ -94,7 +94,7 @@ export class AddonPageComponent implements OnInit {
     this.addOnList = this.product.addOns.filter(x =>(x.code != "MED EXP") || (x.code != "CROSSBRDR"))
     this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP"&& (this.product.code != "PLMO01") || (x.code == "CROSSBRDR"&& this.product.code != "PLMO01")).map(x => x.id)
     console.log("ADDON",this.addOnList);
-    console.log("PRODUCTLIST",);
+    console.log("PRODUCTLIST",this.product);
     
     
     if (this.addOnList && this.addOnList.length > 0) {
