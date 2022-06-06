@@ -140,6 +140,7 @@ export class AddonPageComponent implements OnInit {
         } else if (item.code == "BURGLARY" && this.addOnsData[item.id].option == "") {
           this.addOnsData[item.id].option = "T-CL1"
           let unsub =this.globalFun.fireBurgeryResult.subscribe((value)=> this.addOnsData[item.id].option=value)
+          // this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
           this.unsubscribe.push(unsub)
         }
 
@@ -293,6 +294,8 @@ export class AddonPageComponent implements OnInit {
   }
 
   rechangeOption(addOn) {
+    console.log('ADDON',addOn);
+    
     this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
   }
 
@@ -430,13 +433,17 @@ export class AddonPageComponent implements OnInit {
   }
 
   rateByValue(addon: any) {
+    console.log("ADDON==>",addon);
+    
     let rate = 0
     if (addon.code == "BURGLARY" || addon.code == "STHTC") {
       let keyId = addon.code + "-" + this.addOnsData[addon.id].option
       rate = this.fireAddonRate[keyId] || 0
-    } else {
-      rate = this.fireAddonRate[addon.code] || 0
     }
+    //  else {
+    //   console.log("rete_EKSE",this.fireAddonRate[addon.code] )
+    //   rate = this.fireAddonRate[addon.code] || 0
+    // }
     let parentData = this.globalFun.tempFormData[FireRiskID]
     // console.log(parentData);
 
@@ -447,9 +454,11 @@ export class AddonPageComponent implements OnInit {
       // });
       let parent = parentData.find(x => x.id == this.optionId)
       totalRisk += parent ? parent.riskSi : 0
+      
     }
     if (rate > 0 && totalRisk > 0) {
       let amt = totalRisk * (rate / 100)
+      // NEED_TO_CONFIRM
       if (addon.code == "BURGLARY") {
         let dis = amt * 0.1
         amt = amt - dis

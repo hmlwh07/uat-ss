@@ -38,6 +38,9 @@ export class MenuDataService extends BizOperationService<any, number>{
           // menu.titleMM="အစ"
           menu.titleMM=menu.title
         }
+        if(menu.title=='Dashboard'){
+          menu.icon='flaticon-squares-4'
+        }
         if (menu.submenu) {
           let checked = menu.submenu.find(x => x.show == true)
           menu.submenu_show = checked ? true : false

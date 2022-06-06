@@ -4,7 +4,7 @@ export const locale = {
 
     CARD: {
       welcome: "Welcome",
-      welcometxt: "  Welcome to KBZ MS and Life Insurance Sales Portal",
+      welcometxt: "  Welcome to KBZ MS Insurance Sales Portal",
       forgettxt: "Forgot Password?",
       signin: "Sign In",
       sign_up: "Not a member yet? Sign up now",

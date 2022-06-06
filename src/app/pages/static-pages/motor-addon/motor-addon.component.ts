@@ -159,6 +159,8 @@ export class MotorAddonComponent implements OnInit {
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
+      console.log("COV",cov);
+      
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     // let crossPre = tempPre * 0.15
@@ -172,8 +174,6 @@ export class MotorAddonComponent implements OnInit {
         excessAmt = 25
       }
     }
-
-    
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
     // * percent
@@ -253,18 +253,27 @@ export class MotorAddonComponent implements OnInit {
     let tempArray = this.globalFun.tempFormData['addon_1634010770155'] || []
     for (let addon of tempArray) {
       // if (this.addOnsData[addon.id].checked) {
+        console.log("addonPremium",this.globalFun.calculateDecimal(addon.premium));
+      
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
       // }
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
+      console.log("covPremium",this.globalFun.calculateDecimal(cov.premium));
+      
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
+    console.log("TEMPPRE",tempPre);
+    
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
+    console.log("PARENT",this.parentData);
+    
     if (this.parentData) {
       let excess = this.parentData['m_excess']
-      let excess_discount = this.parentData['excess_discount']
+      let excess_discount = this.parentData['m_excess_discount']
+      
       if (excess == "T-NILEX" && currency == "MMK") {
         discount = -50000
       } else if (excess == "TU-NILEX") {
@@ -279,8 +288,12 @@ export class MotorAddonComponent implements OnInit {
         }
       }
     }
+    console.log("DISCOUNT",discount);
+    
     let stumd = currency == "MMK" ? 100 : 1
     let preAMT = (tempPre - discount)
+    console.log("OREAMTTT",preAMT);
+    
     let term = this.parentData['m_policy_term']
     console.log();
     
@@ -288,6 +301,8 @@ export class MotorAddonComponent implements OnInit {
     console.log("PERCENT",percent);
     
     preAMT = (preAMT * percent) + stumd
+    console.log("FIANLPRE",preAMT);
+    
     this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT

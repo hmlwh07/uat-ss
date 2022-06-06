@@ -38,10 +38,11 @@ export class CoverageViewComponent implements OnInit {
         if (this.resourcesId) {
           this.coverageQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response: any) => {
             if (response) {
+              
               this.coverageData[item.id] = {
-                sum: response ? response.sumInsured || 0 : 0,
+                sum: response ? Number(response.sumInsured.replace(',', '')) || 0 : 0,
                 unit: response ? response.unit || 0 : 0,
-                premium: response ? response.premium || 0 : 0
+                premium: response ?  Number(response.premium.replace(',', '')) || 0 : 0
               }
             }
           })
@@ -68,9 +69,9 @@ export class CoverageViewComponent implements OnInit {
 
         }
         this.coverageData[item.id] = {
-          sum: response ? response.sumInsured || 0 : 0,
+          sum: response ? Number(response.sumInsured.replace(',', '')) || 0 : 0,
           unit: response ? response.unit || 0 : 0,
-          premium: response ? response.premium || 0 : 0
+          premium: response ?  Number(response.premium.replace(',', '')) || 0 : 0
         }
 
       }

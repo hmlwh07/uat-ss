@@ -19,6 +19,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
   disableAsideSelfDisplay: boolean;
   headerLogo: string;
   brandSkin: string;
+  dashBorard:string;
   ulCSSClasses: string;
   asideMenuHTMLAttributes: any = {};
   asideMenuCSSClasses: string;
@@ -28,7 +29,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
   asideSelfMinimizeToggle = false;
   lang:string="EN"
   currentUrl: string;
-
+ exchangeRate:string;
   constructor(
     private layout: LayoutService,
     private router: Router,
@@ -45,6 +46,8 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
       this.layout.getProp('aside.self.display') === false;
     this.brandSkin = this.layout.getProp('brand.self.theme');
     this.headerLogo = this.getLogo();
+    this.exchangeRate=this.getExchangeRate()
+    this.dashBorard=this.getDashboradlogo()
     this.ulCSSClasses = this.layout.getProp('aside_menu_nav');
     this.asideMenuCSSClasses = this.layout.getStringCSSClasses('aside_menu');
     this.asideMenuHTMLAttributes = this.layout.getHTMLAttributes('aside_menu');
@@ -84,6 +87,12 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
     } else {
       return './assets/media/bss_logo_white.png';
     }
+  }
+  private getDashboradlogo(){
+    return './assets/media/svg/icons/Design/dashboard.svg'
+  }
+  private getExchangeRate(){
+    return './assets/media/svg/icons/Design/exchange_rate-01.svg'
   }
 
   isMenuItemActive(path) {

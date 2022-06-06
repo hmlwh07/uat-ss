@@ -50,6 +50,8 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
       }
     })
     this.parentData = this.globalFun.tempFormData[HealthPageID]
+    console.log("PARTENT",this.parentData);
+    
     if (!this.parentData) {
       this.alertService.activate("This page cann't to show because there is no health product detail data. Please add health product detail in prodcut configuration", "Warning")
     } else {

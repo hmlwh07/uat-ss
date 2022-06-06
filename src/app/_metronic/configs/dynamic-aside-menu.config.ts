@@ -3,8 +3,9 @@ export const DynamicAsideMenuConfig = {
     {
       title: 'Dashboard',
       root: true,
-      icon: 'flaticon-pie-chart-1',
-      svg: './assets/media/svg/icons/Design/Layers.svg',
+      icon: 'flaticon-squares-4',
+      svg: './assets/media/svg/icons/Design/dashboard.svg',
+      png:'./assets/icon/exchange_rete.png',
       page: '/dashboard/senior-lp-dashboard',
       bullet: 'dot',
       show: true,

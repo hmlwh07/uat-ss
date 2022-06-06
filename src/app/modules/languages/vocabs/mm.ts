@@ -257,6 +257,7 @@ export const locale = {
       shipping: "သင်္ဘောဖြင့်ကုန်ပစ္စည်းပို့ခြင်း",
       question: "မေးခွန်း",
       answer: "အဖြေ",
+      'Answer': "အဖြေ",
       job_desc: "အလုပ်အကိုင် ဖော်ပြချက်",
       no_of_people: "လူအရေအတွက်",
       average_age: "ပျမ်းမျှအသက်",

@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { LanguagesService } from 'src/app/modules/languages/languages.service';
 import { MaterialTableViewComponent } from '../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { OutputsService } from './outputs.manage.service';
 
@@ -72,7 +73,7 @@ export class OutputsComponent implements OnInit {
   displayedColumns1 = ['name', 'dataList'];
   spans = [];
 
-  constructor(private cdf: ChangeDetectorRef, private outputsService: OutputsService) {
+  constructor(private cdf: ChangeDetectorRef, private outputsService: OutputsService,private _languageService:LanguagesService) {
 
   }
 
@@ -200,6 +201,19 @@ export class OutputsComponent implements OnInit {
 
     this.cdf.detectChanges();
 
+  }
+  transform(value: string) {
+    if (value) {
+      let current = this._languageService.getSelectedLanguage();
+      if (value) {
+        try {
+          return this._languageService.langs[current]['FNA'][value] || value
+        } catch (error) {
+          return value        
+        }
+      }
+    }
+    return value
   }
 
 }

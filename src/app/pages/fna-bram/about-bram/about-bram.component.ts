@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { LanguagesService } from 'src/app/modules/languages/languages.service';
 import { MaterialTableViewComponent } from '../../../../app/_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { TechnologyComponent } from '../inputs/technology/technology.component';
 import { OutputsService } from '../outputs/outputs.manage.service';
@@ -26,19 +27,7 @@ const ELEMENT_DATA: AboutBramDTO[] = [
 
 ];
 
-
-const originalData = [
-  {
-    name: 'Technology', dataList: []
-  },
-  {
-    name: 'Human Resources', dataList: []
-  },
-  {
-    name: 'Management Infrastructure', dataList: []
-  }
-]
-
+ 
 
 @Component({
   selector: 'app-about-bram',
@@ -61,6 +50,17 @@ export class AboutBramComponent implements OnInit {
   mgmtInfra = [];
   isData: boolean = false;
 
+  originalData = [
+    {
+      name: this.transform('Technology'), dataList: []
+    },
+    {
+      name: this.transform('Human Resources'), dataList: []
+    },
+    {
+      name: this.transform('Management Infrastructure'), dataList: []
+    }
+  ]
 
   fnaSwitchEvent(type) {
     this.inputSwitch = type;
@@ -73,12 +73,12 @@ export class AboutBramComponent implements OnInit {
   displayedColumns: string[] = ['inbound', 'operation', 'outbound', 'marketing', 'service'];
   dataSource = ELEMENT_DATA;
 
-  dataSource1 = originalData;
+  dataSource1 = this.originalData;
   displayedColumns1 = ['name', 'dataList'];
   spans = [];
 
   constructor(private cdf: ChangeDetectorRef, private outputsService: OutputsService,
-    private navController: NavController) {
+    private navController: NavController,private _languageService:LanguagesService) {
 
   }
 
@@ -182,13 +182,13 @@ export class AboutBramComponent implements OnInit {
       //this.dataSource = this.dataSource.filter(item => !item.technology && !item.humanResource && !item.mgmtInfra)
 
 
-      originalData[0].dataList = this.technology;
-      originalData[1].dataList = this.humanResource;
-      originalData[2].dataList = this.mgmtInfra;
+      this.originalData[0].dataList = this.technology;
+      this.originalData[1].dataList = this.humanResource;
+      this.originalData[2].dataList = this.mgmtInfra;
 
 
 
-      this.dataSource1 = originalData.reduce((current, next) => {
+      this.dataSource1 = this.originalData.reduce((current, next) => {
         next.dataList.forEach(b => {
           current.push({ name: next.name, productName: b.productName, risk: b.risk })
         });
@@ -202,6 +202,19 @@ export class AboutBramComponent implements OnInit {
 
   backToDetail() {
     this.navController.back();
+  }
+  transform(value: string) {
+    if (value) {
+      let current = this._languageService.getSelectedLanguage();
+      if (value) {
+        try {
+          return this._languageService.langs[current]['FNA'][value] || value
+        } catch (error) {
+          return value        
+        }
+      }
+    }
+    return value
   }
 
 }
