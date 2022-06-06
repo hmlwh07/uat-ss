@@ -766,7 +766,7 @@ export class LeadDetailComponent implements OnInit {
             }
             this.LeadDetailService.checkLead(data).toPromise().then((res) => {
               if (res) {
-                this.alertService.activate('You must reject to this opportunity.', 'Warning Message').then(result => {
+                this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
                 });
               } else {
                 this.updateStatus(status);
