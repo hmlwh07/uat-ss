@@ -97,6 +97,7 @@ export class MotorAddonComponent implements OnInit {
         this.toggleChange('cross')
       }
     }
+    // here detect change
   }
 
   getParnet(tableName: string = 'm_detail') {
