@@ -13,6 +13,7 @@ export class ApplicationItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
    }
 
   actionBtn(event, type?: ListActionType) {
