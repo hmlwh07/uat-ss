@@ -22,7 +22,7 @@
           </div>
           <div class="top-box">
             Submission Status <br>
-            <span *ngIf="resourceDetail">{{ resourceDetail.apiStatus | titlecase }}</span>
+            <span *ngIf="resourceDetail.apiStatus">{{ resourceDetail.apiStatus | titlecase }}</span>
           </div>
           <div class="top-box" *ngIf="resourceDetail.submittedCode">
             Bancs Quotation No. <br>
