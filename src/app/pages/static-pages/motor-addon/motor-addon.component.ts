@@ -78,21 +78,27 @@ export class MotorAddonComponent implements OnInit {
       postData.addOnIds.push(crossID.id)
     }
     let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
-    let response = results.find(x => x.addonId == medID)
-    if (response) {
-      this.isMedical = true
-      this.planOption = response.option
-      this.toggleChange('medical')
+    if (medID) {
+      let response = results.find(x => x.addonId == medID.id)
+      if (response) {
+        this.isMedical = true
+        this.planOption = response.option
+        this.toggleChange('medical')
+      }
     }
-    let response2 = results.find(x => x.addonId == crossID)
-    if (response2) {
-      this.isCross = true
-      this.startDate = response.startDate
-      this.endDate = response.endDate
-      this.option1 = response.option1
-      this.option2 = response.option2
-      this.toggleChange('cross')
+    if (crossID) {
+      let response2 = results.find(x => x.addonId == crossID.id)
+      if (response2) {
+        this.isCross = true
+        this.startDate = response2.startDate
+        this.endDate = response2.endDate
+        this.option1 = response2.option1
+        this.option2 = response2.option2
+        this.toggleChange('cross')
+      }
     }
+    // here detect change
+    this.cdf.detectChanges()
   }
 
   getParnet(tableName: string = 'm_detail') {
@@ -153,14 +159,14 @@ export class MotorAddonComponent implements OnInit {
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
       // }
     }
-    
+
     if (this.isMedical) {
       tempPre += this.globalFun.calculateDecimal(this.medPremium)
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      console.log("COV",cov);
-      
+      console.log("COV", cov);
+
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     // let crossPre = tempPre * 0.15
@@ -253,27 +259,27 @@ export class MotorAddonComponent implements OnInit {
     let tempArray = this.globalFun.tempFormData['addon_1634010770155'] || []
     for (let addon of tempArray) {
       // if (this.addOnsData[addon.id].checked) {
-        console.log("addonPremium",this.globalFun.calculateDecimal(addon.premium));
-      
+      console.log("addonPremium", this.globalFun.calculateDecimal(addon.premium));
+
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
       // }
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      console.log("covPremium",this.globalFun.calculateDecimal(cov.premium));
-      
+      console.log("covPremium", this.globalFun.calculateDecimal(cov.premium));
+
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
-    console.log("TEMPPRE",tempPre);
-    
+    console.log("TEMPPRE", tempPre);
+
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
-    console.log("PARENT",this.parentData);
-    
+    console.log("PARENT", this.parentData);
+
     if (this.parentData) {
       let excess = this.parentData['m_excess']
       let excess_discount = this.parentData['m_excess_discount']
-      
+
       if (excess == "T-NILEX" && currency == "MMK") {
         discount = -50000
       } else if (excess == "TU-NILEX") {
@@ -288,21 +294,21 @@ export class MotorAddonComponent implements OnInit {
         }
       }
     }
-    console.log("DISCOUNT",discount);
-    
+    console.log("DISCOUNT", discount);
+
     let stumd = currency == "MMK" ? 100 : 1
     let preAMT = (tempPre - discount)
-    console.log("OREAMTTT",preAMT);
-    
+    console.log("OREAMTTT", preAMT);
+
     let term = this.parentData['m_policy_term']
     console.log();
-    
+
     let percent = this.crossPercent[term] || 1
-    console.log("PERCENT",percent);
-    
+    console.log("PERCENT", percent);
+
     preAMT = (preAMT * percent) + stumd
-    console.log("FIANLPRE",preAMT);
-    
+    console.log("FIANLPRE", preAMT);
+
     this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT
