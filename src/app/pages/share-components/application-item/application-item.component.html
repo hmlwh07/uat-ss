@@ -38,7 +38,8 @@
       Success </label>
   </div>
   <div class="col-4" style="padding: 10px 0">
+
     <label> Premium : <span>{{ itemData.premium }}</span> </label>
-    <label *ngIf="itemData.apiStatus"> {{ itemData.apiStatus }}</label>
+    <label *ngIf="itemData.apiStatus"> {{ itemData.apiStatus  | titlecase }}</label>
   </div>
 </div>
