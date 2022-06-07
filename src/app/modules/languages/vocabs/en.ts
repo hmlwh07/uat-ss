@@ -191,7 +191,7 @@ export const locale = {
       reset_password: 'Reset Password',
       old_password: 'Old Password',
       new_password: 'New Password',
-      comfirm_password: 'Comfirm Password',
+      comfirm_password: 'Confirm Password',
       request_auth: 'Request Authentication',
       policy_no: "Policy Number",
       policy_status: "Policy Status",
