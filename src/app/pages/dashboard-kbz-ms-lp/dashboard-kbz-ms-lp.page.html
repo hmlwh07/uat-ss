@@ -18,7 +18,15 @@
       </div>
     </div>
     <div class="product">
-      <h2>{{"CARD.products" | translate}}</h2>
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>{{"CARD.products" | translate}}</h2>
+        </div>
+        <div class="col-sm-6">
+        
+        <h2  style="margin-left: 50%;">{{"CARD.premium" | translate}}</h2>
+        </div>  
+      </div>
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
