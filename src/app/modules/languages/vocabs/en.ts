@@ -376,8 +376,19 @@ export const locale = {
       payment_frequency: "Payment Frequency",
       sum_insured_of_main_cover: "Sum Insured of Main Cover",
       medical_card_no: "Medical Card No.",
-
-
+      risk_no: "Risk No",
+      travel_plan: "Travel Plan",
+      insured_unit: "Insured Unit",
+      travel_duration: "Travel Duration",
+      no_of_traveller: "No. Of Traveller",
+      total_unit: "Total Unit",
+      traveller_name: "Traveller Name",
+      print: "Print",
+      application_status: "Application Status",
+      tcs_status: "TCS Status",
+      go_back: "Go Back",
+      create_new_application: "Create New Application",
+      source_place: "Source Place",
     },
     NAV: {
       my_acc: "My Account",
