@@ -141,7 +141,12 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     }
 
     // Sub Header
-    this.subHeader = ["Agent Name", "Branch Name", "Activities Name", "Target"];
+    this.subHeader = [
+      // "Agent Name", 
+      "Branch Name", 
+      "Activities Name", 
+      "Target"
+    ];
     for (var i = 0; i < this.productList.length; i++) {
       this.subHeader.push(this.productList[i].headerWeekName);
     }
@@ -149,9 +154,12 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     // Data
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(this.dataList[i].agentName,
-        this.dataList[i].branchName, this.dataList[i].activitiesName,
-        this.dataList[i].target || 0.00)
+      list.push(
+        // this.dataList[i].agentName,
+        this.dataList[i].branchName, 
+        this.dataList[i].activitiesName,
+        this.dataList[i].target || 0.00
+        )
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(this.dataList[i].productDataList[j].weeklyValue || 0.00)
       }
