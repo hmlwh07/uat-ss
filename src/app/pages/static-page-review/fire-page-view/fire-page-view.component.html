@@ -7,23 +7,23 @@
     <div class="card-body customer-card-body">
         <ul class="list-group">
             <li class="list-group-item">
-                Policy Effective Date (From) :
+                {{"FORM.policy_effective_from_date" | translate}} :
                 <span> {{showData.startDate | date : "dd/MM/yyyy"}}</span>
             </li>
             <li class="list-group-item">
-                Policy Effective Date (To) :
+                {{"FORM.policy_effective_to_date" | translate}} :
                 <span> {{showData.endDate | date : "dd/MM/yyyy"}}</span>
             </li>
             <li class="list-group-item">
-                Policy Duration :
-                <span> {{showData.policyDuration }} Days</span>
+                {{"FORM.policy_duration" | translate}} :
+                <span> {{showData.policyDuration }} {{"FORM.days" | translate}}</span>
             </li>
             <li class="list-group-item">
-                Policy Type :
+                {{"FORM.policy_type" | translate}} :
                 <span> {{showData.policyType == "T-001" ? "Normal" : "Declaration" }}</span>
             </li>
             <li class="list-group-item">
-                Currency :
+                {{"FORM.currency" | translate}} :
                 <span> {{showData.policyDuration  == "T-001" ? "MMK" : "USD" }}</span>
             </li>
 
