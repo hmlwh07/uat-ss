@@ -389,6 +389,8 @@ export const locale = {
       go_back: "Go Back",
       create_new_application: "Create New Application",
       source_place: "Source Place",
+      create_signature: "Create Signature",
+      submit_application: "Submit Application",
     },
     NAV: {
       my_acc: "My Account",

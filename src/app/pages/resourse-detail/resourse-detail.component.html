@@ -66,7 +66,7 @@
                         <!-- <hr > -->
                         <li *ngIf="cont.input == 'label'" class="list-group-item"
                           style="border-top: 0.5px solid #dad9d9 !important;">
-                          <h5 style="margin-bottom: 0px;">{{cont.name}} </h5>
+                          <h5 style="margin-bottom: 0px;">{{"TABLE."+cont.name | translate}} </h5>
 
                         </li>
                         <ng-container
@@ -75,7 +75,7 @@
                             <!-- <span class="pull-right"> -->
                             <!-- <span class="btn btn-xs btn-default"> -->
                             <!-- {{cont.input}}cont.input != 'label' ?  -->
-                            {{cont.label || cont.name }} :
+                            {{"TABLE."+cont.label || "TABLE."+cont.name | translate }} :
                             <!-- </span> -->
                             <!-- </span> -->
                             <ng-container
@@ -177,7 +177,7 @@
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy'">
               <button type="submit" class="btn btn-primary btn-block" (click)="createSign()">
-                Create Signature
+                {{"FORM.create_signature" | translate}}
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy' ">
@@ -185,7 +185,7 @@
               <button type="submit" class="btn btn-primary btn-block"
                 [disabled]="resourceDetail.apiStatus == 'sending' || resourceDetail.apiStatus == 'success'"
                 (click)="submitPolicy()">
-                Submit Application
+                {{"FORM.submit_application" | translate}}
               </button>
             </div>
           </div>

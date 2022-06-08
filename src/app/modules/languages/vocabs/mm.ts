@@ -432,6 +432,8 @@ export const locale = {
       go_back: "ပြန်သွားသည်",
       create_new_application: "လျှောက်လွှာ အသစ်ပြုလုပ်ရန်",
       source_place: "မူလလာခဲ့သည့် ထွက်ခွာမည့် နေရာ",
+      create_signature: "လက်မှတ်ထိုးရန်",
+      submit_application: "လျှောက်လွှာ တင်ရန်",
 
     },
     NAV: {
@@ -542,6 +544,10 @@ export const locale = {
       'Average Age': "ပျမ်းမျှအသက်",
       'Description': "ဖော်ပြချက်",
       'Document': "Document",
+      'Payment Frequency': "ငွေပေးချေမှု အကြိမ်အရေအတွက်",
+      'Policy Duration': "ပေါ်လစီ သက်တမ်း",
+      'Policy Holder': "ပေါ်လစီ ကိုင်ဆောင်သူ",
+      'Policy Plan': "ပေါ်လစီ အစီအစဥ်",
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',
