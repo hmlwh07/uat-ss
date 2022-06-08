@@ -4,7 +4,7 @@
       <div class="card-body">
         <div style="display:flex">
           <div class="top-box" style="margin-left: 0px;">
-            PRODUCT <br>
+            {{"FORM.product_cap" | translate}} <br>
             <span *ngIf="item">{{item.name}}</span>
           </div>
           <!-- <div class="top-box">
@@ -12,11 +12,11 @@
             <span>Jimmy Tao</span>
           </div> -->
           <div class="top-box">
-            PREMIUM <br>
+            {{"FORM.premium_cap" | translate}} <br>
             <span *ngIf="resourceDetail">{{resourceDetail.premiumView || 0 }}</span>
           </div>
           <div class="top-box">
-            Application Status <br>
+            {{"FORM.application_status" | translate}} <br>
             <span *ngIf="resourceDetail">{{(resourceDetail.status == "in_progress" ? "In Progress" :
               resourceDetail.status) | titlecase }}</span>
           </div>
@@ -34,7 +34,7 @@
           </div>
           <button class="btn btn-outline-primary" *ngIf="type == 'policy'" style="margin-left: auto;"
             (click)="viewPrint()">
-            <i class="flaticon2-print"></i> Print
+            <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
           </button>
         </div>
       </div>
@@ -66,7 +66,7 @@
                         <!-- <hr > -->
                         <li *ngIf="cont.input == 'label'" class="list-group-item"
                           style="border-top: 0.5px solid #dad9d9 !important;">
-                          <h5 style="margin-bottom: 0px;">{{cont.name}} </h5>
+                          <h5 style="margin-bottom: 0px;">{{"TABLE."+cont.name | translate}} </h5>
 
                         </li>
                         <ng-container
@@ -75,7 +75,7 @@
                             <!-- <span class="pull-right"> -->
                             <!-- <span class="btn btn-xs btn-default"> -->
                             <!-- {{cont.input}}cont.input != 'label' ?  -->
-                            {{cont.label || cont.name }} :
+                            {{"TABLE."+cont.label || "TABLE."+cont.name | translate }} :
                             <!-- </span> -->
                             <!-- </span> -->
                             <ng-container
@@ -166,18 +166,18 @@
           <div class="row">
             <div class="{{type == 'quotation' ? 'col-sm-6' : 'col-sm-4'}}">
               <button type="submit" class="btn btn-primary btn-block" (click)="goToList()">
-               {{"FORM.btn_go_back" | translate}}
+                {{"FORM.go_back" | translate}}
                 <!-- To {{ (type == 'policy' ? "application" : type) | titlecase }} List -->
               </button>
             </div>
             <div class="col-sm-6" *ngIf="type == 'quotation' && resourceDetail.status != 'complete' ">
               <button type="submit" class="btn btn-primary btn-block" (click)="createPolicy()">
-                 {{"FORM.btn_create_app" | translate}}
+                {{"FORM.create_new_application" | translate}}
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy'">
               <button type="submit" class="btn btn-primary btn-block" (click)="createSign()">
-                {{"FORM.btn_create_sign" | translate}}
+                {{"FORM.create_signature" | translate}}
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy' ">
@@ -185,7 +185,7 @@
               <button type="submit" class="btn btn-primary btn-block"
                 [disabled]="resourceDetail.apiStatus == 'sending' || resourceDetail.apiStatus == 'success'"
                 (click)="submitPolicy()">
-               {{"FORM.btn_submit_app" | translate}}
+                {{"FORM.submit_application" | translate}}
               </button>
             </div>
           </div>
