@@ -281,6 +281,7 @@ export class PageConfigComponent implements OnInit, OnDestroy {
     const pageIndex = this.activePage - 1
     const modalRef = this.modalService.open(LabelConfigModalComponent, { size: 'xl' });
     modalRef.componentInstance.name = id >= 0 ? this.configPage.fromGroup[pageIndex].controls[id].name : ''
+    modalRef.componentInstance.nameMM = id >= 0 ? this.configPage.fromGroup[pageIndex].controls[id].nameMM : ''
     modalRef.componentInstance.label = id >= 0 ? this.configPage.fromGroup[pageIndex].controls[id].label : ''
     modalRef.componentInstance.coreName = id >= 0 ? this.configPage.fromGroup[pageIndex].controls[id].coreName : ''
     modalRef.componentInstance.endLabel = id >= 0 ? this.configPage.fromGroup[pageIndex].controls[id].endLabel : ''

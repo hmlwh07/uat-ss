@@ -422,7 +422,7 @@
                     <td>{{cover.description}}</td>
                     <td>{{cover.code}}</td>
                     <td>{{cover.validationFun}}</td>
-                    <td>{{cover.sumInsured | number}}</td>
+                    <td>{{cover.sumInsured }}</td>
                     <td>{{cover.unit}}</td>
                     <td>{{cover.premium | number}}}</td>
                     <td>
@@ -487,9 +487,9 @@
                     <td>{{addOn.description}}</td>
                     <td>{{addOn.code}}</td>
                     <td>{{addOn.validationFun}}</td>
-                    <td>{{addOn.sumInsured | number}}}</td>
+                    <td>{{addOn.sumInsured }}</td>
                     <td>{{addOn.unit}}</td>
-                    <td>{{addOn.premium | number}}}</td>
+                    <td>{{addOn.premium | number}}</td>
                     <td>
                       <a title="Edit addOns" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
                         (click)="createOrEdit('addOn',addOn,addOn.id)">

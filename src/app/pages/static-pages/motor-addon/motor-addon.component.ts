@@ -180,6 +180,7 @@ export class MotorAddonComponent implements OnInit {
         excessAmt = 25
       }
     }
+    
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
     // * percent
@@ -286,6 +287,7 @@ export class MotorAddonComponent implements OnInit {
         discount = -25
       } else if (excess == "T-ED" && currency == "MMK") {
         if (excess_discount == "T-EXD1") {
+        
           discount = 50000
         } else if (excess_discount == "T-EXD2") {
           discount = 70000
@@ -294,20 +296,15 @@ export class MotorAddonComponent implements OnInit {
         }
       }
     }
-    console.log("DISCOUNT", discount);
-
+  
     let stumd = currency == "MMK" ? 100 : 1
-    let preAMT = (tempPre - discount)
-    console.log("OREAMTTT", preAMT);
-
+    let preAMT = ((tempPre+ Number(this.crossPremium)) - discount)
+   
     let term = this.parentData['m_policy_term']
-    console.log();
 
     let percent = this.crossPercent[term] || 1
-    console.log("PERCENT", percent);
 
     preAMT = (preAMT * percent) + stumd
-    console.log("FIANLPRE", preAMT);
 
     this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)

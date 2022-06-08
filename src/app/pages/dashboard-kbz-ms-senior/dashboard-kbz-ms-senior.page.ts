@@ -141,7 +141,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res:any) => {
       if (res) {
         this.leadObj = res;
-        this.todayActiveAgent = res.todayActiveAgent
+        // this.todayActiveAgent = res.todayActiveAgent
         this.setChartOptions('lead');
         this.cdf.detectChanges();
       }
@@ -164,7 +164,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
         if (res) {
           this.agentLineChart = res;
-          // this.todayActiveAgent = res.todayNoOfActiveAgent
+          this.todayActiveAgent = res.todayNoOfActiveAgent
           this.agentLineChartCategories = res.weeks
           this.agentLineChartDatas = res.data
           // res.weeklyActiveAgents.map(a => {

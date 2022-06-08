@@ -5,7 +5,7 @@ export const locale = {
     CARD: {
       header: "Header Show",
       welcome: "ကြိုဆိုပါသည်",
-      welcometxt: "Welcome to KBZ Insurance Customer Care",
+      welcometxt: "Welcome to KBZMS Insurance Sale Portal",
       signin: "ကိုယ်ပိုင်အကောင့်ဖြင့်၀င်မည်",
       forgettxt: "လျှို့ဝှက်နံပါတ်မေ့နေပါသလား?",
       sign_up: "အဖွဲ့၀င် မဖြစ်သေးဘူးလား? အခုပဲ မှတ်ပုံတင်လိုက်ပါ",
@@ -43,7 +43,7 @@ export const locale = {
       saturday: 'စနေ'
     },
     FORM: {
-      welcome: "Welcome to KBZ Insurance Customer Care",
+      welcome: "Welcome to KBZMS Insurance Sale Care",
       forgettxt: "ကိုယ်ပိုင်အကောင့်ဖြင့်၀င်မည်",
       sign_up: "အဖွဲ့၀င် မဖြစ်သေးဘူးလား? အခုပဲ မှတ်ပုံတင်လိုက်ပါ",
       more: "ယုံကြည်အားထား အာမခံစွမ်းအား",
