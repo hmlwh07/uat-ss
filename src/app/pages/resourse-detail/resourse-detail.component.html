@@ -54,7 +54,7 @@
           <div class="card card-custom gutter-b">
             <div class="card-header">
               <div class="card-title">
-                <h3 class="card-label">{{ page.pageTitle | titlecase }} :</h3>
+                <h3 class="card-label">{{ page.pageTitle | translate }} :</h3>
               </div>
             </div>
             <div class="card-body customer-card-body">
@@ -114,9 +114,9 @@
                     <table class="table table-head-custom table-vertical-center">
                       <thead>
                         <tr>
-                          <th>No.</th>
+                          <th>{{"TABLE.No" | translate}}</th>
                           <ng-container *ngFor="let cont of getFormatTable(page.controls)">
-                            <th [ngStyle]="{'text-align': cont.subType == 'currency' ? 'right' : 'left'}">{{cont.title}}
+                            <th [ngStyle]="{'text-align': cont.subType == 'currency' ? 'right' : 'left'}">{{"TABLE."+cont.title | translate}}
                             </th>
                             <!-- <td *ngIf="cont.input != 'file'">{{ getOtherData(cont.cols,item) }}</td>
                             <td *ngIf="cont.input == 'file'"> <a href="javascript:;"
@@ -166,18 +166,18 @@
           <div class="row">
             <div class="{{type == 'quotation' ? 'col-sm-6' : 'col-sm-4'}}">
               <button type="submit" class="btn btn-primary btn-block" (click)="goToList()">
-                Go Back
+               {{"FORM.btn_go_back" | translate}}
                 <!-- To {{ (type == 'policy' ? "application" : type) | titlecase }} List -->
               </button>
             </div>
             <div class="col-sm-6" *ngIf="type == 'quotation' && resourceDetail.status != 'complete' ">
               <button type="submit" class="btn btn-primary btn-block" (click)="createPolicy()">
-                Create New Application
+                 {{"FORM.btn_create_app" | translate}}
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy'">
               <button type="submit" class="btn btn-primary btn-block" (click)="createSign()">
-                Create Signature
+                {{"FORM.btn_create_sign" | translate}}
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy' ">
@@ -185,7 +185,7 @@
               <button type="submit" class="btn btn-primary btn-block"
                 [disabled]="resourceDetail.apiStatus == 'sending' || resourceDetail.apiStatus == 'success'"
                 (click)="submitPolicy()">
-                Submit Application
+               {{"FORM.btn_submit_app" | translate}}
               </button>
             </div>
           </div>
@@ -194,3 +194,6 @@
     </div>
   </div>
 </ng-container>
+
+
+

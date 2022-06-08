@@ -419,6 +419,10 @@ export const locale = {
       payment_frequency: "ငွေပေးချေမှု အကြိမ်အရေအတွက်",
       sum_insured_of_main_cover: "အခြေခံ အကာအကွယ် ၏ ဝယ်ယူသည့် ယူနစ်",
       medical_card_no: "ဆေးစစ်ချက် မှတ်တမ်း ကဒ် နံပါတ်",
+      btn_go_back:"နောက်ဆုတ်ရန်",
+      btn_create_app:"လျှောက်လွှာအသစ်လုပ်ရန်",
+      btn_create_sign:"လက်မှတ်ထိုးရန်",
+      btn_submit_app:"လျှောက်လွှာတင်ရန်",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",

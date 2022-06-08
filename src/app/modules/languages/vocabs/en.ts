@@ -376,7 +376,10 @@ export const locale = {
       payment_frequency: "Payment Frequency",
       sum_insured_of_main_cover: "Sum Insured of Main Cover",
       medical_card_no: "Medical Card No.",
-
+      btn_go_back:"Go Back",
+      btn_create_app:"Create New Application",
+      btn_create_sign:"Create Signature",
+      btn_submit_app:"Submit Application ",
 
     },
     NAV: {
