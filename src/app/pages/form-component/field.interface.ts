@@ -15,6 +15,7 @@ export interface ConfigInput {
   input?: string,
   isLabel?: boolean,
   name?: string,
+  nameMM?:string,
   coreName?: string,
   label?: string,
   labelMM?: string,

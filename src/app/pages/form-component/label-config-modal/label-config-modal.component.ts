@@ -16,6 +16,7 @@ import { BtnConfig } from '../field.interface';
 export class LabelConfigModalComponent implements OnInit, OnDestroy {
   id: number
   name: string
+  nameMM:string
   label: string
   coreName: string
   endLabel: string // size type
@@ -46,6 +47,7 @@ export class LabelConfigModalComponent implements OnInit, OnDestroy {
   loadForm() {
     this.formGroup = this.fb.group({
       name: [this.name, Validators.compose([Validators.required, Validators.nullValidator])],
+      nameMM:[this.nameMM],
       label: [this.label, Validators.compose([Validators.required, Validators.nullValidator])],
       coreName: [this.coreName, Validators.compose([Validators.required, Validators.nullValidator])],
       endLabel: [this.endLabel || this.sizeOpt[2], Validators.compose([Validators.required, Validators.nullValidator])],

@@ -4,7 +4,7 @@ export const locale = {
 
     CARD: {
       welcome: "Welcome",
-      welcometxt: "  Welcome to KBZ MS Insurance Sales Portal",
+      welcometxt: "  Welcome to KBZMS Insurance Sales Portal",
       forgettxt: "Forgot Password?",
       signin: "Sign In",
       sign_up: "Not a member yet? Sign up now",
@@ -41,7 +41,7 @@ export const locale = {
 
     },
     FORM: {
-      title: "  Welcome to KBZ MS and Life Insurance Sales Portal",
+      title: "  Welcome to KBZMS Insurance Sales Portal",
       subtext: "Forgot Password?",
       button: "Sign In",
       sign_up: "Not a member yet? Sign up now",

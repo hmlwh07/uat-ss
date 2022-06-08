@@ -13,6 +13,8 @@ export class LabelBoxComponent implements OnInit{
   constructor() { }
 
   ngOnInit(){
+    console.log("CONFIG",this.config);
+    
     this.config.labelSize = this.config.labelSize || 1
     this.config.endLabel = this.config.endLabel || "rem"
     this.config.endLabelMM = this.config.endLabelMM || "normal"

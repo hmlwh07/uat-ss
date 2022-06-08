@@ -163,7 +163,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       .then((res:any) => {
         if (res) {
           this.leadObj = res;
-          this.todayActiveAgent = res.todayActiveAgent
+          // this.todayActiveAgent = res.todayActiveAgent
           this.setChartOptions('lead');
           this.cdf.detectChanges();
         }
