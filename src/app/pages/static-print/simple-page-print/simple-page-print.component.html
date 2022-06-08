@@ -2,26 +2,26 @@
   <div class="title-style left-border-image mt-5 mb-3">Product Detail</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Period of Insurance
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.period_of_insurance" | translate}}
       </td>
       <td class="value-col">{{showData.insuranceStartDate | date : "dd/MM/yyyy"}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Basic Cover
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.basic_cover" | translate}}
       </td>
       <td class="value-col">{{showData.basicCoverId == "HEALTH" ? "Health Insurance" : "Critical Illness"}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Date of Birth
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.date_of_birth" | translate}}
       </td>
       <td class="value-col">{{showData.dateOfBirth | date : "dd/MM/yyyy"}}</td>
     </tr>
     <tr>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Payment Frequency</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.payment_frequency" | translate}}</td>
       <td class="value-col" colspan="2">{{showData.paymentFrequency == 'L' ? "Lump Sum" : "Semi-Annually"}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
-        Sum Insured of Main Cover
+        {{"FORM.sum_insured_of_main_cover" | translate}}
       </td>
       <td class="value-col" colspan="2">{{showData.sumInsuredMainCover}} Unit{{showData.sumInsuredMainCover > 1 ?
         "s":""}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
-        Medical Card No
+        {{"FORM.medical_card_no" | translate}}
       </td>
       <td class="value-col" colspan="2">{{showData.medicalCardNo}}</td>
     </tr>

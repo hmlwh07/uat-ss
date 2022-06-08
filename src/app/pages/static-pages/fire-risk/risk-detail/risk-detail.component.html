@@ -224,9 +224,9 @@
                                         [class.is-valid]="isControlValid('specialDecoration')"
                                         formControlName="specialDecoration" /> -->
                                     <mat-radio-group formControlName="specialDecoration" class="col-8">
-                                        <mat-radio-button class="mx-1" [value]="true">Yes
+                                        <mat-radio-button class="mx-1" [value]="true">{{"FORM.rad_yes"| translate}}
                                         </mat-radio-button>
-                                        <mat-radio-button class="mx-1" [value]="false">No
+                                        <mat-radio-button class="mx-1" [value]="false">{{"FORM.rad_no"| translate}}
                                         </mat-radio-button>
                                     </mat-radio-group>
                                 </div>
@@ -236,7 +236,7 @@
                     <div class="row" style="align-items: center" *ngIf="productDetail.policyType == 'T-NM' ">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-md-4 col-form-label">Proposed Building SI</label>
+                                <label class="col-md-4 col-form-label">{{"FORM.proposed_building_si" | translate}}</label>
                                 <div class="col-md-8">
                                     <input type="tel" currencyMask
                                         [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"

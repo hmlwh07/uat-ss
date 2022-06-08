@@ -3,7 +3,7 @@
     <div class="row" style="align-items: center;">
         <div class="col-sm-6">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label ">Policy Effective Date</label>
+                <label class="col-sm-4 col-form-label ">{{"FORM.policy_effective_date" | translate}}</label>
                 <div class="col-sm-6">
                     <div class="input-group">
                         <input matInput class="form-control-sm date-input" formControlName="startDate" [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker" readonly (dateChange)="doValid()">
@@ -16,7 +16,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label ">Policy Expiry Date</label>
+                <label class="col-sm-4 col-form-label ">{{"FORM.policy_expiry_date" | translate}}</label>
                 <div class="col-sm-6">
                     <div class="input-group">
                         <input matInput class="form-control-sm date-input" formControlName="endDate" [min]="toMinDate" [max]="toMaxDate" [matDatepicker]="picker2" readonly>
@@ -33,7 +33,7 @@
     <div class="row" style="align-items: center;">
         <div class="col-sm-6">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label ">Policy Duration</label>
+                <label class="col-sm-4 col-form-label ">{{"FORM.policy_duration" | translate}}</label>
                 <div class="col-sm-6">
                     <div class="input-group">
                         <input type="text" name="policyDuration" formControlName="policyDuration" class="form-control form-control-sm" (change)="doValid()">
@@ -53,7 +53,7 @@
         <div class="col-sm-6">
             <section class="example-section">
                 <div class="form-group row">
-                    <label class="col-4">Policy Type</label>
+                    <label class="col-4">{{"FORM.policy_type" | translate}}</label>
                     <mat-radio-group formControlName="policyType" class="col-8">
                         <mat-radio-button class="mx-1" [value]="'T-NM'">Normal
                         </mat-radio-button>
@@ -72,7 +72,7 @@
         <div class="col-sm-6">
             <section class="example-section">
                 <div class="form-group row">
-                    <label class="col-4">Currency</label>
+                    <label class="col-4">{{"FORM.currency" | translate}}</label>
                     <mat-radio-group formControlName="currency" class="col-8">
                         <mat-radio-button class="mx-1" [value]="'MMK'">MMK
                         </mat-radio-button>
@@ -88,10 +88,10 @@
 </form>
 <div class="row mt-3">
     <div class="col-sm-6 mx-auto">
-        <button class="btn btn-block btn-secondary" (click)="backPage()"> Previous </button>
+        <button class="btn btn-block btn-secondary" (click)="backPage()"> {{"FORM.btn_previous" | translate }}  </button>
     </div>
     <div class="col-sm-6 mx-auto">
-        <button class="btn btn-block btn-primary" (click)="nextPage()"> Save & Next </button>
+        <button class="btn btn-block btn-primary" (click)="nextPage()"> {{"FORM.btn_save_and_next" | translate }} </button>
     </div>
 </div>
 

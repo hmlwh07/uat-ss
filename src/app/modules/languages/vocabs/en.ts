@@ -319,6 +319,7 @@ export const locale = {
       special_decoration: "Special Decoration",
       proposed_sum_insured: "Proposed Sum Insured",
       proposed_stock_value: "Proposed Stock SI",
+      proposed_building_si: "Proposed Building SI",
       add_new_data: "Add New Data",
       unit: "Unit",
       base_coverage: "Base Coverage",
@@ -359,7 +360,24 @@ export const locale = {
       amount_protected_by_social_benefit: "Amount protected by social benefit",
       child: "Child",
       job_type: "Job Type",
-      job_name: "Job Name"
+      job_name: "Job Name",
+      policy_effective_date: "Policy Effective Date",
+      policy_expiry_date: "Policy Expiry Date",
+      policy_duration: "Policy Duration",
+      policy_duration_days: "Policy Duration Days",
+      days: "Days",
+      policy_type: "Policy Type",
+      building_occupation: "Occupation",
+      class: "Class",
+      premium_rate: "Premium Rate", 
+      distance_to_building_feet: "Distance to Building(feet)",
+      period_of_insurance: "Period of Insurance",
+      basic_cover: "Basic Cover",
+      payment_frequency: "Payment Frequency",
+      sum_insured_of_main_cover: "Sum Insured of Main Cover",
+      medical_card_no: "Medical Card No.",
+
+
     },
     NAV: {
       my_acc: "My Account",

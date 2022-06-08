@@ -2,20 +2,20 @@
   <div class="title-style left-border-image mt-5 mb-3">Policy Information Detail</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Effective Date
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.policy_effective_date" | translate}}
       </td>
       <td class="value-col">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Expiry Date
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.policy_expiry_date" | translate}}
       </td>
       <td class="value-col">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Duration Days
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.policy_duration_days" | translate}}
       </td>
-      <td class="value-col">{{detail.policyDuration}} Days</td>
+      <td class="value-col">{{detail.policyDuration}} {{"FORM.days" | translate}}</td>
     </tr>
     <tr>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Type</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.policy_type" | translate}}</td>
       <td class="value-col" colspan="2">{{detail.policyType == "T-001" ? "Normal" : "Declaration"}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Currency</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">{{"FORM.currency" | translate}}</td>
       <td class="value-col" colspan="2">{{detail.currency}}</td>
     </tr>
   </table>
