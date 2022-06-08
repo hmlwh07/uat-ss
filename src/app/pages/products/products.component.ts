@@ -21,7 +21,7 @@ import { defaultAccessObj, MenuDataService } from '../../core/menu-data.service'
 })
 export class ProductsComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  @Input() isShowList:any='all'
+  @Input() isShowList:any='yes'
   type: string = 'page'
   products: Product[] = []
   ELEMENT_COL = JSON.parse(JSON.stringify(ProductCol))

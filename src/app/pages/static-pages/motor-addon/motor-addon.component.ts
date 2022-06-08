@@ -98,6 +98,7 @@ export class MotorAddonComponent implements OnInit {
       }
     }
     // here detect change
+    this.cdf.detectChanges()
   }
 
   getParnet(tableName: string = 'm_detail') {

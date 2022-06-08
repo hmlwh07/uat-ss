@@ -76,7 +76,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.act_desc" | translate}}</label>
-                                <textarea name="" rows="4" class="form-control form-control-sm" name="actDesc"
+                                <textarea name="" maxlength="500" rows="4" class="form-control form-control-sm" name="actDesc"
                                     autocomplete="off" [class.is-invalid]="isControlInvalid('activityDescription')"
                                     [class.is-valid]="isControlValid('activityDescription')"
                                     formControlName="activityDescription" style="resize: false;"></textarea>

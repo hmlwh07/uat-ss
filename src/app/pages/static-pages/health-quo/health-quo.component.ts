@@ -65,6 +65,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
           }
         })
       }
+      console.log('SHOWDATA',this.showData)
       this.calculateSchedule()
     }
   }

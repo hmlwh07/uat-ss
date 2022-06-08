@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of showData">
-      <td>{{item.keyName == "HEALTH" ? "Medical treatments in clinic or hospital" : "Surgery and Miscarriage"}}</td>
+      <td>{{item.keyName == "HEALTH" ? "Sum Insured of Main Cover":item.keyName}}</td>
       <td>{{item.value}} Units</td>
     </tr>
   </tbody>
