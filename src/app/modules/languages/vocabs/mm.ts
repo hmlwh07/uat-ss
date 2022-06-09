@@ -445,6 +445,8 @@ export const locale = {
       "Payment Frequency": "ငွေပေးချေမှု အကြိမ်အရေအတွက်",
       "Sum Insured of Main Cover": "အခြေခံ အကာအကွယ် ၏ ဝယ်ယူသည့် ယူနစ်",
       "Medical Card No.": "ဆေးစစ်ချက် မှတ်တမ်း ကဒ် နံပါတ်",
+      "Coverages / Benefit":'အကာအကွယ်/ခံစားခွင့်',
+      "Sum Insured":'ဝယ်ယူသည့် အာမခံ ယူနစ် စုစုပေါင်း'
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",
