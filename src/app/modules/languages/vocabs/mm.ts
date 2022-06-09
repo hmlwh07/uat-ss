@@ -5,7 +5,7 @@ export const locale = {
     CARD: {
       header: "Header Show",
       welcome: "ကြိုဆိုပါသည်",
-      welcometxt: "Welcome to KBZMS Insurance Sale Portal",
+      welcometxt: "Welcome to KBZMS Insurance Sales Portal",
       signin: "ကိုယ်ပိုင်အကောင့်ဖြင့်၀င်မည်",
       forgettxt: "လျှို့ဝှက်နံပါတ်မေ့နေပါသလား?",
       sign_up: "အဖွဲ့၀င် မဖြစ်သေးဘူးလား? အခုပဲ မှတ်ပုံတင်လိုက်ပါ",
@@ -43,7 +43,7 @@ export const locale = {
       saturday: 'စနေ'
     },
     FORM: {
-      welcome: "Welcome to KBZMS Insurance Sale Care",
+      welcome: "Welcome to KBZMS Insurance Sales Portal",
       forgettxt: "ကိုယ်ပိုင်အကောင့်ဖြင့်၀င်မည်",
       sign_up: "အဖွဲ့၀င် မဖြစ်သေးဘူးလား? အခုပဲ မှတ်ပုံတင်လိုက်ပါ",
       more: "ယုံကြည်အားထား အာမခံစွမ်းအား",
@@ -440,6 +440,11 @@ export const locale = {
       source_place: "မူလလာခဲ့သည့် ထွက်ခွာမည့် နေရာ",
       create_signature: "လက်မှတ်ထိုးရန်",
       submit_application: "လျှောက်လွှာ တင်ရန်",
+      "Period of Insurance": "အာမခံသက်တမ်း",
+      "Basic Cover": "အခြေခံ အကာအကွယ်",
+      "Payment Frequency": "ငွေပေးချေမှု အကြိမ်အရေအတွက်",
+      "Sum Insured of Main Cover": "အခြေခံ အကာအကွယ် ၏ ဝယ်ယူသည့် ယူနစ်",
+      "Medical Card No.": "ဆေးစစ်ချက် မှတ်တမ်း ကဒ် နံပါတ်",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",
@@ -574,7 +579,6 @@ export const locale = {
       'Total Premium': "Total Premium",
       'Sum Insured': "အာမခံ ထားငွေ",
       'Policy term': "Policy term",
-      'Period of Insurance': "Period of Insurance",
       'Type of Body': "Type of Body",
       'Purpose of Use': "Purpose of Use",
       'Make of Vehicle': "Make of Vehicle",
