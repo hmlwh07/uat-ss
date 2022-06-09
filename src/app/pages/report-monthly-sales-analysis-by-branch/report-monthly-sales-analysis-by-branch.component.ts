@@ -273,14 +273,17 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
 
   generateReportExcel() {
     this.dataExcel = [];
-    this.productValues = ['Agent Name', 'Branch Name',
+    this.productValues = [
+      //'Agent Name', 
+      'Branch Name',
       'Activities', 'Month Actual against Target',
       'Month Conversion to Prospect', 'Month Conversion to Previous Stage',
       'Month Expected Target Conversion', 'Month Expected Target Conversion to Prospects']
 
     // Data
     for (var i = 0; i < this.displayList.length; i++) {
-      this.dataExcel.push([this.displayList[i].agentName,
+      this.dataExcel.push([
+        //this.displayList[i].agentName,
       this.displayList[i].branchName, this.displayList[i].activityName,
       this.displayList[i].monthActualAgainstTarge || 0.00, this.displayList[i].monthConversionToProspect || 0.00,
       this.displayList[i].monthConversionToPreviousStage || 0.00, this.displayList[i].monthExpectedTargetConversion || 0.00,
