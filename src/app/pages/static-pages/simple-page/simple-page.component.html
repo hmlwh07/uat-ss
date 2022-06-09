@@ -3,7 +3,7 @@
   <div class="row" style="align-items: center;">
     <div class="col-6">
       <div class="form-group row">
-        <label class="col-sm-4 col-form-label ">Period of Insurance</label>
+        <label class="col-sm-4 col-form-label "> {{"FORM.Period of Insurance" | translate}}</label>
         <div class="col-sm-6">
           <div class="input-group">
             <input matInput class="form-control-sm date-input" formControlName="insuranceStartDate" [min]="fromMinDate"
@@ -36,7 +36,7 @@
     <div class="col-6">
       <section class="example-section">
         <div class="form-group row">
-          <label class="col-4">Basic Cover</label>
+          <label class="col-4"> {{"FORM.Basic Cover" | translate}}</label>
           <mat-radio-group formControlName="basicCoverId" class="col-8" (change)="radioChange($event)" >
             <mat-radio-button class="mx-1" [value]="'HEALTH'">Health Insurance
             </mat-radio-button>
@@ -70,7 +70,7 @@
     <!--  Payment Frequency -->
     <div class="col-6">
       <div class="form-group row">
-        <label class="col-4 col-form-label">Payment Frequency</label>
+        <label class="col-4 col-form-label"> {{"FORM.Payment Frequency" | translate}}</label>
         <div class="col-6">
           <select name="payment_frequency" formControlName="paymentFrequency" class="form-control form-control-sm">
             <option [value]="null">Please Select Payment Frequency</option>
@@ -86,7 +86,7 @@
     <!--  Payment Frequency -->
     <div class="col-6">
       <div class="form-group row">
-        <label class="col-4 col-form-label">Sum Insured of Main Cover</label>
+        <label class="col-4 col-form-label"> {{"FORM.Sum Insured of Main Cover" | translate}}</label>
         <div class="col-6">
           <select name="sumInsuredMainCover" formControlName="sumInsuredMainCover" class="form-control form-control-sm"
             (change)="getUnitOption()">
@@ -104,7 +104,7 @@
     <!--  Medical Card No -->
     <div class="col-6">
       <div class="form-group row">
-        <label class="col-4 col-form-label">Medical Card No</label>
+        <label class="col-4 col-form-label"> {{"FORM.Medical Card No." | translate}}</label>
         <div class="col-6">
           <input type="text" name="medicalCardNo" formControlName="medicalCardNo" class="form-control form-control-sm">
           <app-print-error [control]="controls.medicalCardNo"></app-print-error>
