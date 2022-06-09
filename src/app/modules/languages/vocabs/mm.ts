@@ -618,7 +618,7 @@ export const locale = {
       'Windscreen Value': "ရှေ့လေကာမှန်် တန်ဖိုး",
       'Vehicle SI': "မော်တော်ယာဉ် အာမခံထားငွေ",
       'Excess Type': "ဝန်အပို အမျိုးအစား",
-      'Excess Discount': "ထပ်ဆောင်းငွေ Discount",
+      'Excess Discount': "ထပ်ဆောင်းငွေ လျှော့စျေး",
       'Registration No': "မော်တော်ယာဥ်  နံပါတ်",
       'Chassis No': "ချက်စီ  နံပါတ်",
       'Engine No': "အင်ဂျင် နံပါတ်",
