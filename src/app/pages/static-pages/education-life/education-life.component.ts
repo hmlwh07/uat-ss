@@ -209,6 +209,7 @@ export class EducationLifeComponent implements OnInit {
             "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
             "premiumView": this.premiumAmt,
             "productId": this.product.id,
+            "productCode":this.product.code,
             "quotationId": this.prodService.referenceID,
             "type": this.prodService.type
           },

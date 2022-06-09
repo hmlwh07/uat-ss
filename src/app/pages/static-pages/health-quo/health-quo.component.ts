@@ -177,6 +177,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
           "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
           "premiumView": this.premiumAmt,
           "productId": this.product.id,
+          "productCode":this.product.code,
           "quotationId": this.prodService.referenceID,
           "type": this.prodService.type,
           "leadId": this.prodService.creatingLeadId,

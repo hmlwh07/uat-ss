@@ -22,6 +22,7 @@ export interface ResourceDataDTO {
   premium?: string
   premiumView?: string
   productId?: number
+  productCode?:string
   quotationId?: string
   leadId: string
   status?: string
