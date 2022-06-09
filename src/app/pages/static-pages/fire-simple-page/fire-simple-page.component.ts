@@ -240,6 +240,7 @@ export class FirePageComponent implements OnInit,OnDestroy {
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
         productId: this.prodService.createingProd.id,
+        productCode:this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
         currency: this.currencyType,
