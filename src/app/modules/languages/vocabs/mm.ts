@@ -595,7 +595,6 @@ export const locale = {
       'Flood and Inundati': "Flood and Inundati",
       'Total Premium': "Total Premium",
       'Sum Insured': "အာမခံ ထားငွေ",
-      'Policy term': "Policy term",
       'Policy Term': "ပေါ်လစီ သက်တမ်း",
       'Policy term': "ပေါ်လစီ သက်တမ်း",
       'Period of Insurance': "အာမခံသက်တမ်း",
