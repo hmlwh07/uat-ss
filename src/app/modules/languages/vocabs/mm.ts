@@ -144,6 +144,7 @@ export const locale = {
       middle_name: 'အမည် အလယ် စာလုံး',
       last_name: 'အမည် နောက်ဆုံး စာလုံး',
       date_of_birth: 'မွေးနေ့',
+      'Date of Birth': 'မွေးနေ့',
       natoinality: 'လူမျိုး',
       gender: 'ကျား/မ/အခြား',
       house: 'အိမ်အမှတ်',
@@ -449,6 +450,7 @@ export const locale = {
       "Payment Frequency": "ငွေပေးချေမှု အကြိမ်အရေအတွက်",
       "Sum Insured of Main Cover": "အခြေခံ အကာအကွယ် ၏ ဝယ်ယူသည့် ယူနစ်",
       "Medical Card No.": "ဆေးစစ်ချက် မှတ်တမ်း ကဒ် နံပါတ်",
+      "Medical Card No": "ဆေးစစ်ချက် မှတ်တမ်း ကဒ် နံပါတ်",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",
@@ -651,6 +653,7 @@ export const locale = {
       'Basic Cover': "အခြေခံ အကာအကွယ်",
       'Sum Insured of Main Cover': "အခြေခံ အကာအကွယ် ၏ ဝယ်ယူသည့် ယူနစ်",
       'Medical Card No': "ဆေးစစ်ချက် မှတ်တမ်း ကဒ် နံပါတ်",
+      'Medical Card No.': "ဆေးစစ်ချက် မှတ်တမ်း ကဒ် နံပါတ်",
 
     },
     ERROR: {
