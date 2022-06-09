@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.agent_name"|translate}}</label>
                                 <div class="col-sm-8">
@@ -101,7 +101,7 @@
                                     </ng-select>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </div>
@@ -148,7 +148,7 @@
         max-height: 500px;">
             <table border="1">
                 <tr>
-                    <th>Agent Name</th>
+                    <!-- <th>Agent Name</th> -->
                     <th>Branch Name</th>
                     <th>Activities</th>
                     <th>Week Actual against Target</th>
@@ -158,7 +158,7 @@
                     <th>Week Expected Target Conversion to Prospects</th>
                 </tr>
                 <tr *ngFor="let data of displayList; let i = index">
-                    <td class="text-left">{{ data.agentName }}</td>
+                    <!-- <td class="text-left">{{ data.agentName }}</td> -->
                     <td class="text-left">{{ data.branchName }}</td>
                     <td class="text-left">{{ data.activityName }}</td>
                     <td class="text-right">{{ (data.weekActualAgainstTarge || 0) | number:'1.2-2' }}</td>

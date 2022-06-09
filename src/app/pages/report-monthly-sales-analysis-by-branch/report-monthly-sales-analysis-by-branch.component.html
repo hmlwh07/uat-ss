@@ -159,7 +159,7 @@
                     <th>Month Expected Target Conversion to Prospects</th>
                 </tr>
                 <tr *ngFor="let data of displayList; let i = index">
-                    <td class="text-left">{{ data.agentName }}</td>
+                    <!-- <td class="text-left">{{ data.agentName }}</td> -->
                     <td class="text-left">{{ data.branchName }}</td>
                     <td class="text-left">{{ data.activityName }}</td>
                     <td class="text-right">{{ (data.monthActualAgainstTarge || 0) | number:'1.2-2' }}</td>
