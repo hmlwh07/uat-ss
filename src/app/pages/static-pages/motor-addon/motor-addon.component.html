@@ -9,7 +9,7 @@
         <div class="row" style="align-items: center;">
 
             <div class="col-sm-6">
-                <label class="col-sm-6 text-bold left-border-image">Medical Expense</label>
+                <label class="col-sm-6 text-bold left-border-image">{{"FORM.medical_expense" | translate}}</label>
             </div>
             <div class="col-sm-2">
                 <mat-slide-toggle [(ngModel)]="isMedical" [color]="primary" class="toggle ft-right" (toggleChange)="toggleChange('medical')"></mat-slide-toggle>
@@ -27,14 +27,14 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <label class="col-sm-12  text-bold">Premium : <span>{{medPremium}}</span></label>
+                <label class="col-sm-12  text-bold">{{"FORM.premium" | translate}} : <span>{{medPremium}}</span></label>
             </div>
         </div>
 
         <div class="row" style="align-items: center; margin-top: 10px;">
 
             <div class="col-sm-6">
-                <label class="col-sm-6 text-bold left-border-image">Cross Border</label>
+                <label class="col-sm-6 text-bold left-border-image">{{"FORM.cross_border" | translate}}</label>
             </div>
             <div class="col-sm-2">
                 <mat-slide-toggle [(ngModel)]="isCross" [color]="primary" class="toggle ft-right" (toggleChange)="toggleChange('cross')"></mat-slide-toggle>
@@ -45,7 +45,7 @@
     <div class="row" style="align-items: center; margin-top: 10px;" *ngIf="isCross">
         <div class="col-sm-4">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Start Date</label>
+                <label class="col-sm-4 col-form-label">{{"FORM.start_date" | translate}}</label>
                 <div class="col-sm-8">
                     <div class="input-group input-group-sm ">
                         <input matInput class="form-control-sm date-input" style="width: 100%;" [(ngModel)]="startDate" [matDatepicker]="start" readonly>
@@ -58,7 +58,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">End Date</label>
+                <label class="col-sm-4 col-form-label">{{"FORM.end_date" | translate}}</label>
                 <div class="col-sm-8">
                     <div class="input-group input-group-sm ">
                         <input matInput class="form-control-sm date-input" style="width: 100%;" [(ngModel)]="endDate" [matDatepicker]="end" readonly>
@@ -73,7 +73,7 @@
     <div class="row" style="align-items: center; margin-top: 10px;" *ngIf="isCross">
         <div class="col-sm-4">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Source Place</label>
+                <label class="col-sm-4 col-form-label">{{"FORM.source_place" | translate}}</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control form-control-sm " name="option1" autocomplete="off" [disabled]="true" [(ngModel)]="option1" />
                 </div>
@@ -81,7 +81,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Destination Place</label>
+                <label class="col-sm-4 col-form-label">{{"FORM.destination_place" | translate}}</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control form-control-sm " name="option2" autocomplete="off" [disabled]="true" [(ngModel)]="option2" />
                 </div>
@@ -89,7 +89,7 @@
         </div>
         <div class="col-sm-4">
             <div class="form-group row">
-                <label class="col-sm-12  text-bold">Premium : <span>{{crossPremium}}</span></label>
+                <label class="col-sm-12  text-bold">{{"FORM.premium" | translate}} : <span>{{crossPremium}}</span></label>
             </div>
         </div>
     </div>

@@ -399,8 +399,11 @@ export const locale = {
       go_back: "Go Back",
       create_new_application: "Create New Application",
       source_place: "Source Place",
+      destination_place: "Destination Place",
       create_signature: "Create Signature",
       submit_application: "Submit Application",
+      medical_expense: "Medical Expense",
+      cross_border: "Cross Border",
     },
     NAV: {
       my_acc: "My Account",
