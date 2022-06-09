@@ -4,10 +4,10 @@
       <thead class="tbody-align">
         <tr>
           <th>
-            Coverages/Benefit
+            {{"FORM.Coverages / Benefit" | translate}}
           </th>
           <th>
-            Sum Insured
+            {{"FORM.Sum Insured" | translate}}
           </th>
         </tr>
       </thead>
@@ -33,16 +33,16 @@
       <thead>
         <tr>
           <th>
-            No. of Installment
+            {{ "TABLE.No of Installment" | translate }}
           </th>
           <th style="text-align: right;">
-            Premium
+            {{ "TABLE.Premium" | translate }}
           </th>
           <th style="text-align: right;">
-            Levy
+            {{ "TABLE.Levy" | translate }}
           </th>
           <th style="text-align: right;">
-            Total
+            {{ "TABLE.Total" | translate }}
           </th>
         </tr>
       </thead>
@@ -56,7 +56,7 @@
       </tbody>
       <tfoot class="tbody-align">
         <tr>
-          <td><b>Total</b></td>
+          <td><b>{{ "TABLE.Total" | translate }}</b></td>
           <td>{{totalP | number}}</td>
           <td>{{totalL | number}}</td>
           <td>{{(totalP+totalL) | number}}</td>

@@ -1,7 +1,7 @@
 <div class="card card-custom gutter-b">
   <div class="card-header">
     <div class="card-title">
-      <h3 class="card-label">Addons Coverage :</h3>
+      <h3 class="card-label">{{"FORM.Addons Coverage" | translate}} :</h3>
     </div>
   </div>
   <div class="card-body customer-card-body">
@@ -10,19 +10,19 @@
         <thead>
           <tr>
             <th style="text-align: left;">
-              Addons Coverage
+              {{"FORM.Addons Coverage" | translate}}
             </th>
             <th *ngIf="product.code == 'CLFR01'">
-              Option
+              {{"FORM.Option" | translate}}
             </th>
             <th *ngIf="addon.sumInsured" style="text-align: right;">
-              Sum Insured
+              {{"FORM.Sum Insured" | translate}}
             </th>
             <th *ngIf="addon.unit" style="text-align: right;">
-              Unit
+              {{"FORM.Unit" | translate}}
             </th>
             <th *ngIf="addon.premium" style="text-align: right;">
-              Premium
+              {{"FORM.Premium" | translate}}
             </th>
           </tr>
         </thead>
