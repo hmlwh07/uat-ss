@@ -304,7 +304,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
-        { agentName: this.agentName },
+        // { agentName: this.agentName },
         { companyName: this.companyName },
         { channelName: this.channelName },
         { regionName: this.regionName },

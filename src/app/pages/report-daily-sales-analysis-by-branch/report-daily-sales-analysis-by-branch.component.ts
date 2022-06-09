@@ -271,18 +271,28 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
 
   generateReportExcel() {
     this.dataExcel = [];
-    this.productValues = ['Agent Name', 'Branch Name',
-      'Activities', 'Daily Actual against Target',
-      'Daily Conversion to Prospect', 'Daily Conversion to Previous Stage',
-      'Daily Expected Target Conversion', 'Daily Expected Target Conversion to Prospects']
+    this.productValues = [
+      // 'Agent Name', 
+      'Branch Name',
+      'Activities', 
+      'Daily Actual against Target',
+      'Daily Conversion to Prospect', 
+      'Daily Conversion to Previous Stage',
+      'Daily Expected Target Conversion', 
+      'Daily Expected Target Conversion to Prospects'
+    ]
 
     // Data
     for (var i = 0; i < this.displayList.length; i++) {
-      this.dataExcel.push([this.displayList[i].agentName,
-      this.displayList[i].branchName, this.displayList[i].activityName,
-      this.displayList[i].dailyActualAgainstTarge || 0.00, this.displayList[i].dailyConversionToProspect || 0.00,
-      this.displayList[i].dailyConversionToPreviousStage || 0.00, this.displayList[i].dailyExpectedTargetConversion || 0.00,
-      this.displayList[i].dailyExpectedTargetConversionToProspects || 0.00])
+      this.dataExcel.push([
+        // this.displayList[i].agentName,
+        this.displayList[i].branchName, 
+        this.displayList[i].activityName,
+        this.displayList[i].dailyActualAgainstTarge || 0.00, 
+        this.displayList[i].dailyConversionToProspect || 0.00,
+        this.displayList[i].dailyConversionToPreviousStage || 0.00, 
+        this.displayList[i].dailyExpectedTargetConversion || 0.00,
+        this.displayList[i].dailyExpectedTargetConversionToProspects || 0.00])
     }
 
     let fromDate = null;
@@ -299,7 +309,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
       searchValue: [
         { fromDate: fromDate },
         { toDate: toDate },
-        { agentName: this.agentName },
+        // { agentName: this.agentName },
         { companyName: this.companyName },
         { channelName: this.channelName },
         { regionName: this.regionName },
