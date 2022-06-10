@@ -67,7 +67,7 @@
                         <li *ngIf="cont.input == 'label'" class="list-group-item"
                           style="border-top: 0.5px solid #dad9d9 !important;">
                           <h5 style="margin-bottom: 0px;">{{"TABLE."+cont.name | translate}} </h5>
-
+ 
                         </li>
                         <ng-container
                           *ngIf="!cont.isHideView && checkDep(cont.dependency,resultObj[page.tableName+page.id]) && cont.input != 'underline' && cont.input != 'label'">
