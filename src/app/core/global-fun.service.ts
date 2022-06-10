@@ -728,7 +728,7 @@ export class GlobalFunctionService {
     // console.log(oldData,activeForm);
     let total = oldData.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
     console.log("CURRENT%total",total)
-    let tempTotal = currentPercent + total
+    let tempTotal = currentPercent + total 
     console.log("CURRENT%tempTotal",tempTotal)
     if (tempTotal > 100) {
       this.alert.activate("Total Share Percent can't over 100%", "Validation")
