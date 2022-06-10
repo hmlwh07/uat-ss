@@ -142,7 +142,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
 
     // Sub Header
     this.subHeader = [
-      // "Agent Name", 
+      "Agent Name", 
       "Branch Name", 
       "Activities Name", 
       "Target"
@@ -155,7 +155,7 @@ export class ReportByAgentWeeklyComponent implements OnInit {
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
       list.push(
-        // this.dataList[i].agentName,
+        this.dataList[i].agentName,
         this.dataList[i].branchName, 
         this.dataList[i].activitiesName,
         this.dataList[i].target || 0.00
