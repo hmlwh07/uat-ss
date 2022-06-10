@@ -26,6 +26,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
   @Input() resourcesId: string
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() premiumAmt: string
+  @Input() sumInsured:any
   showData: any = []
   schedule: any = []
   tempSchedule: any = []
@@ -176,6 +177,8 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
           "policyNumber": null,
           "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
           "premiumView": this.premiumAmt,
+          sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+          sumInsuredView:this.sumInsured,
           "productId": this.product.id,
           "productCode":this.product.code,
           "quotationId": this.prodService.referenceID,

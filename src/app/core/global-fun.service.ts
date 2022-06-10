@@ -99,6 +99,17 @@ export class GlobalFunctionService {
     this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency)
     return true
   }
+
+  sumInsured(currentValue: any, activeForm: any, option?: any[], form?: boolean){
+    let currency=""
+    let stumDuty = currency == "MMK" ? 100 : 1
+    if (activeForm.currency) {
+      currency = activeForm.currency
+    }
+
+    let result = this.calculateDecimal((currentValue)) + stumDuty
+    this.sumInsuredResult.next(this.numberPipe.transform(result) + " " + currency)
+  }
   snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let valInt = 0
     if (typeof currentValue == 'string') {

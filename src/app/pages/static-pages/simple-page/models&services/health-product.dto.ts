@@ -21,6 +21,8 @@ export interface ResourceDataDTO {
   policyNumber?: string
   premium?: string
   premiumView?: string
+  sumInsured?:string
+  sumInsuredView?:string
   productId?: number
   productCode?:string
   quotationId?: string

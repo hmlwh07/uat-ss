@@ -33,7 +33,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   @Input() travelerForm: PageUI
   @Input() benefiForm: PageUI
   @Input() riskId: number
-  @Input() sumInsured: number
+  @Input() sumInsured: any
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
   @Input() tempData: any = {
@@ -440,6 +440,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         policyNumber: null,
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
+        sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+        sumInsuredView:this.sumInsured,
         productId: this.prodService.createingProd.id,
         productCode:this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
@@ -479,6 +481,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         policyNumber: null,
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
+        sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+        sumInsuredView:this.sumInsured,
         productId: this.prodService.createingProd.id,
         productCode:this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,

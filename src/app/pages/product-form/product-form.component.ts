@@ -44,6 +44,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   activePage: number = 0
 
   premiumAmt: string = '0'
+  sumInsured: string = '0'
   private unsubscribe: Subscription[] = []
   coverage = {
     isSum: false,
@@ -93,11 +94,18 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.editData = this.prodService.editData || {}
       this.creatingCustomer = this.prodService.creatingCustomer
       this.premiumAmt = this.editData.premiumView || this.editData.premium || "0";
+      this.sumInsured = this.editData.sumInsuredView || this.editData.sumInsured || "0";
+
       let unsub = this.globalFun.paPremiumResult.subscribe((res: any) => {
         this.premiumAmt = res || "0"
         this.cdRef.detectChanges()
       })
       this.unsubscribe.push(unsub)
+      let unsubSum = this.globalFun.sumInsuredResult.subscribe((res: any) => {
+        this.sumInsured = res || "0"
+        this.cdRef.detectChanges()
+      })
+      this.unsubscribe.push(unsubSum)
       this.initProductConfig()
 
     }
