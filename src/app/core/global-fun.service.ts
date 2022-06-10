@@ -725,8 +725,10 @@ export class GlobalFunctionService {
       if (index >= 0)
         oldData.splice(index, 1)
     }
-    // console.log(oldData,activeForm);
-    let total = oldData.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
+    console.log(oldData,activeForm);
+    let total = oldData.reduce(function (a, b) {
+       return a + parseFloat(b.share); 
+      }, 0);
     console.log("CURRENT%total",total)
     let tempTotal = currentPercent + total 
     console.log("CURRENT%tempTotal",tempTotal)
