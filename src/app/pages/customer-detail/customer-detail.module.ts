@@ -5,7 +5,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatInputModule } from "@angular/material/input";
 import { MatRadioModule } from "@angular/material/radio";
 import { RouterModule } from "@angular/router";
-import { NgbDatepickerModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbActiveModal, NgbDatepickerModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { InlineSVGModule } from "ng-inline-svg";
 import { CRUDTableModule } from "src/app/_metronic/shared/crud-table";
@@ -33,6 +33,7 @@ import { CustomerDetailShareModule } from "./customer-detail.share.module";
       },
     ]),
 
-  ]
+  ],
+  providers:[NgbActiveModal]
 })
 export class CustomerDetailModule { }

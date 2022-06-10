@@ -60,7 +60,8 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
   providers: []
 })
 export class ShareComponentModule {
-  constructor(@Optional() @SkipSelf() parentModule: CustomerListShareModule) {
-    throwIfAlreadyLoaded(parentModule, 'CustomerListShareModule')
+  // @Optional() @SkipSelf() parentModule: CustomerListShareModule
+  constructor() {
+    // throwIfAlreadyLoaded(parentModule, 'CustomerListShareModule')
   }
  }
