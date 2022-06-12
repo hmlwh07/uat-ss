@@ -722,8 +722,9 @@ export class GlobalFunctionService {
     console.log("CURRENT%",currentPercent)
     if (activeForm.refId) {
       let index = oldData.findIndex(x => x.refId == activeForm.refId)
+      console.log("INDEX",index); 
       if (index >= 0)
-        oldData.splice(index, 1)
+      oldData.splice(index, 1)
     }
     console.log(oldData,activeForm);
     let total = oldData.reduce(function (a, b) {
