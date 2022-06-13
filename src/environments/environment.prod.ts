@@ -5,6 +5,7 @@ export const environment = {
   isMockEnabled: true,
   apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1',
   // apiUrl: 'http://104.248.152.205:8082/sale/api/v1',
+  // apiUrl: 'http://104.248.152.205:8082/sale/api/v1',
   // apiUrl: 'http://178.128.30.201:8010/sale/api/v1',
   // apiUrl: 'mysite.com/api'
   crm: 'http://178.128.30.201:8089/BlueStoneCrmWeb/api/v1',

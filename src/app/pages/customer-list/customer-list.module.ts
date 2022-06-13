@@ -8,6 +8,7 @@ import { CustomerListComponent } from './customer-list.component';
 import { CustomerListShareModule } from './customer-list.share.module';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         component: CustomerListComponent,
       },
     ]),
-  ]
+  ],
+  providers:[NgbActiveModal]
 })
 export class CustomerListModule { }

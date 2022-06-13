@@ -11,6 +11,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 import { ShareComponentModule } from '../share-components/share-component.module';
 import { throwIfAlreadyLoaded } from 'src/app/modules/loading-toast/module-import-guard';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [CustomerListComponent],
@@ -24,7 +25,8 @@ import { throwIfAlreadyLoaded } from 'src/app/modules/loading-toast/module-impor
     NgSelectModule,
     LanguageModule,
     ShareComponentModule
-  ]
+  ],
+  providers:[NgbActiveModal]
 })
 export class CustomerListShareModule { 
   constructor(@Optional() @SkipSelf() parentModule: CustomerListShareModule) {
