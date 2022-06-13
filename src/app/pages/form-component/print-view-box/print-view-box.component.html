@@ -65,7 +65,8 @@
   </div>
   <!-- static area -->
   <ng-container *ngIf="formatedData">
-    <ng-container *ngIf="(product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLTR01');else staticPrint">
+    <ng-container *ngIf="(product.code!='CLFR01' && product.code !='PLMO02'
+    && product.code !='PLTR01'  && product.code !='PCHL01' );else staticPrint">
       <ng-container *ngFor="let page of temConfig">
         <ng-container *ngIf="page.type == 'static';else dynPrint">
           <ng-container staticPirint [compId]="page.id" [resourcesId]="resourcesId"></ng-container>
@@ -180,8 +181,12 @@
       <ng-container *ngIf="product.code=='PLTR01' ">
         <app-travel-print [resourcesId]="resourcesId"></app-travel-print>
       </ng-container>
+      <ng-container *ngIf="product.code=='PCHL01' ">
+        <app-health-ci-print [resourcesId]="resourcesId"></app-health-ci-print>
+      </ng-container>
     </ng-template>
   </ng-container>
+  <!-- PCHL01 -->
   <!-- <div class="print-footer mt-5">
     <div>
       <img src="assets/images/kbzms.png" alt="" class="logo">

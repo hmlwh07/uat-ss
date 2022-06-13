@@ -1,0 +1,227 @@
+
+
+<div class="addon-print" *ngIf="policyHolder">
+  <div class="title-style mt-5 mb-3">Policy Holder</div>
+  <div class="row" >
+    <div class="col-sm-3 text-bold">
+      Name
+    </div>
+    <div class="col-sm-6">
+      {{policyHolder.title}} {{policyHolder.firstName}}{{policyHolder.middleName}}{{policyHolder.lastName}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      ID
+    </div>
+    <div class="col-sm-6">
+    {{policyHolder.cprNumber}} 
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Date of Birth
+    </div>
+    <div class="col-sm-6">
+      {{policyHolder.dateOfBirth}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Mobile
+    </div>
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].mobileNo}}
+      </ng-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Email
+    </div>
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].eMailId}}
+      </ng-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 text-bold">
+      Address
+    </div>
+    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].city}}/{{policyHolder.partyAddress[0].district}}/{{policyHolder.partyAddress[0].state}}
+      </ng-container>
+    </div>
+  </div>
+  
+</div>
+
+<div class="addon-print">
+  <div class="title-style mt-5 mb-3">Policy Information Detail</div>
+  <table width="100%">
+    <tr>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Effective Date
+      </td>
+      <td class="value-col">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Expiry Date
+      </td>
+      <td class="value-col">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Duration
+      </td>
+      <td class="value-col">{{detail.policyDuration}} Days</td>
+    </tr>
+    <tr>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Plan</td>
+      <td class="value-col" colspan="2">{{detail.policyType == "T-001" ? "Normal" : "Declaration"}}</td>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Payment Frequency</td>
+      <td class="value-col" colspan="2">{{detail.currency}}</td>
+     
+    </tr>
+    <!-- <tr>
+      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Risk Address</td>
+      <td class="value-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
+    </tr> -->
+  </table>
+</div>
+
+
+<div class="addon-print">
+  <div class="title-style mt-5 mb-3">Risk Detail Information</div>
+  <table class="tbody-align">
+    <tr>
+      <td class="field-col">Name</td>
+      <td class="field-col">Occupation</td>
+      <td class="field-col">Gender</td>
+      <td class="field-col">ID</td>
+      <td class="field-col">Date of Birth</td>
+      <td class="field-col">Father Name</td>
+      <td class="field-col">Phone Number</td>
+    </tr>
+     <tbody class="tbody-align val-col">
+      <ng-container *ngFor="let riskDetail of riskDetails;">
+        <tr>
+          <td class="field-value">{{riskDetail.name}}</td>
+          <td class="field-value">{{riskDetail.occupation}}</td>
+          <td class="field-value">{{riskDetail.gender}}</td>
+          <td class="field-value">{{riskDetail.id}}</td>
+          <td class="field-value">{{riskDetail.dateOfBirth}}</td>
+          <td class="field-value">{{riskDetail.fatherName}}</td>
+          <td class="field-value">{{riskDetail.phoneNumber}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div class="title-style mt-5 mb-3">Beneficiaries Detailed Information</div>
+  <table class="tbody-align" style="width: 100%;">
+    <tr>
+      <td class="field-col" style="width: 50px;">No.</td>
+      <td class="field-col" style="width: 17%;">Name</td>
+      <td class="field-col" style="width: 17%;">Relationship</td>
+      <td class="field-col" style="width: 17%;">ID</td>
+      <td class="field-col" style="width: 17%;">Date of Birth</td>
+      <td class="field-col" style="width: 17%;">Share %</td>
+    </tr>
+     <tbody class="tbody-align val-col" style="width: 100%;">
+      <ng-container *ngFor="let data of beneficiaries;">
+        <tr>
+          <td class="field-value" style="width: 50px;">{{data.no}}</td>
+          <td class="field-value" style="width: 17%;">{{data.name}}</td>
+          <td class="field-value" style="width: 17%;">{{data.relationship}}</td>
+          <td class="field-value" style="width: 17%;">{{data.id}}</td>
+          <td class="field-value" style="width: 17%;">{{data.dateOfBirth}}</td>
+          <td class="field-value" style="width: 17%;">{{data.share}} %</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div class="title-style mt-5 mb-3">Coverage Detail</div>
+  <table class="tbody-align" style="width: 100%;">
+    <tr>
+      <td class="field-col" style="width: 50px;">No.</td>
+      <td class="field-col" style="width: 70%;">Coverage Name</td>
+      <td class="field-col" style="width: 20%;">Units</td>
+    </tr>
+     <tbody class="tbody-align val-col">
+      <ng-container >
+        <tr *ngFor="let data of coverages;">
+          <td class="field-value" style="width: 50px;">{{data.no}}</td>
+          <td class="field-value" style="width: 70%;">{{data.coverageName}}</td>
+          <td class="field-value" style="width: 20%;">{{data.unit}}</td>
+        </tr>
+        <tr *ngIf="coverages.length > 0">
+          <td class="field-value" colspan="2">Total</td>
+          <td class="field-value">1254</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div class="title-style mt-5 mb-3">Payment Schedule</div>
+  <table class="tbody-align" style="width: 100%;">
+    <tr>
+      <td class="field-col" style="width: 25%;">No. of Installment</td>
+      <td class="field-col" style="width: 25%;">Installment Premium</td>
+      <td class="field-col" style="width: 25%;">Stamp Duty</td>
+      <td class="field-col" style="width: 25%;">Total Premium</td>
+    </tr>
+     <tbody class="tbody-align val-col">
+      <ng-container >
+        <tr *ngFor="let data of paymentSchedule;">
+          <td class="field-value" style="width: 25%;">{{data.noofInstallment}}</td>
+          <td class="field-value" style="width: 25%;">{{data.installmentPremium}}</td>
+          <td class="field-value" style="width: 25%;">{{data.stampDuty}}</td>
+          <td class="field-value" style="width: 25%;">{{data.totalPremium}}</td>
+        </tr>
+        <tr *ngIf="paymentSchedule.length > 0">
+          <td class="field-value">Annual Premium</td>
+          <td class="field-value">100</td>
+          <td class="field-value">Total payable premium</td>
+          <td class="field-value">300</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div class="row">
+    <div class="title-style text-bold mt-5 mb-3" style="margin-left: 12px;">Declaration By Proposer</div>
+  </div>
+  <div class="row">
+    <div class="col">
+       <p>I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between the insurance company and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
+        Remark:  The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.</p>
+    </div>
+  </div>
+</div>
+
+<div class="moter-print">
+
+  <div class="sign-row">
+    <div class="sign-box">
+      <label>DATE</label>
+      <div class="sign-area"></div>
+    </div>
+    <div class="sign-box">
+      <label>PROPOSER</label>
+      <div class="sign-area">
+        <ng-container *ngIf="signId">
+          <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+
+</div>
