@@ -124,7 +124,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   getPolicyList() {
     this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res: any) => {
       if (res) {
-        // console.log(res);
+        console.log(res);
         
         this.quoList = res
         for (var i = 0; i < this.quoList.length; i++) {
