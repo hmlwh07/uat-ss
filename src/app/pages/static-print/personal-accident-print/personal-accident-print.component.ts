@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { PaPrintService } from '../../products/services/pa.service';
+import { ProductDataService } from '../../products/services/products-data.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { TravelRiskService } from '../../static-pages/travel-page/models&services/travel-risk.service';
 
@@ -23,10 +25,12 @@ export class PersonalAccidentPrintComponent implements OnInit {
 
   constructor(
     private policyHolderService: PolicyHolderService,
-    private paService: TravelRiskService,
+    private paService: PaPrintService,
+    private productService:ProductDataService
   ) { }
 
   ngOnInit() {
+    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     this.getPolicyHolder()
     this.getPolicyInformationDetail()
     this.getRiskDetail()
@@ -78,15 +82,15 @@ export class PersonalAccidentPrintComponent implements OnInit {
   }
 
   getPolicyInformationDetail() {
-    // this.travelService.getOne(this.policyHolder.customerId).toPromise().then((res: any) => {
-    //   if (res)
-    //     this.policyInfo = res;
-    //   console.log("getPolicyInformationDetail: ", this.policyInfo);
-    // })
+    this.paService.getOne(this.policyHolder.customerId).toPromise().then((res: any) => {
+      if (res)
+        this.policyInfo = res;
+      console.log("getPolicyInformationDetail: ", this.policyInfo);
+    })
   }
 
   getRiskDetail() {
-    this.paService.getMany(this.resourcesId).toPromise().then((res: any) => {
+    this.paService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.listData = res
         console.log("getRiskDetail: ", this.listData);

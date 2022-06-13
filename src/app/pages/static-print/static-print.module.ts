@@ -28,7 +28,7 @@ import { PersonalAccidentPrintComponent } from './personal-accident-print/person
 @NgModule({
   declarations: [StaticPrintDirective, FarmerPrintComponent, 
     MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, 
-    FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, 
+    FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent,
     PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, 
     EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, 
     HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent,

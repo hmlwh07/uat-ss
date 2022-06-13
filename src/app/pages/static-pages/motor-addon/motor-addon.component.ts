@@ -252,18 +252,26 @@ export class MotorAddonComponent implements OnInit {
     }
     await this.savePremimun()
     // this.globalFun.tempFormData[AddOnID] = pageData
-    this.actionEvent.emit({ type: StaticActionType.NEXT })
+  
   }
 
   savePremimun() {
+    let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let premiumAmt = this.caluMotorPremimun()
+    let premiumAmtView=this.numberPipe.transform(premiumAmt) + " " + currency.toUpperCase()
     let postData = {
-      "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
-      "premiumView": this.premiumAmt,
+      "premium": Number(premiumAmt|| 0) + "",
+      "premiumView": premiumAmtView,
       "resourceId": this.resourcesId,
       "type": this.prodService.viewType
     }
-    return this.pageDataService.updatePremimun(postData)
+    console.log("PSOTDATA",postData);
+    
+    this.pageDataService.updatePremimun(postData).toPromise().then((res) => {
+      if (res) {
+        this.actionEvent.emit({ type: StaticActionType.NEXT })
+      }
+    })
   }
 
   caluMotorPremimun() {
@@ -285,7 +293,7 @@ export class MotorAddonComponent implements OnInit {
     if (this.isMedical) {
       console.log("isMedical",this.isMedical);
       
-      tempPre += this.globalFun.calculateDecimal(this.medPremium)
+      tempPre += this.globalFun.calculateDecimal(this.medPremium || 0)
     }
     console.log("TEMPPRE", tempPre);
 
@@ -323,9 +331,9 @@ export class MotorAddonComponent implements OnInit {
     console.log("discount", discount);
 
     let stumd = currency == "MMK" ? 100 : 1
-    console.log("TOTAL", (tempPre + Number(this.crossPremium)));
+    console.log("TOTAL", (tempPre + Number(this.crossPremium || 0)));
 
-    let preAMT = ((tempPre + Number(this.crossPremium)) - discount)
+    let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)
     console.log("preAMT", preAMT);
 
     let term = this.parentData['m_policy_term']

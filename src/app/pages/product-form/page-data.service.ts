@@ -31,6 +31,8 @@ export class PageDataService extends BizOperationService<any, number>{
   }
 
   updatePremimun(postData: any): Observable<any> {
+    console.log("PREMIUM",postData);
+    
     return this.httpClient.put(API_PAGEDATA_URL + "/resource", postData)
   }
   // updateStatus(data){
