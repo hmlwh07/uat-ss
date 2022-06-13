@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { map } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 import { BizOperationService } from "../../../../core/biz.operation.service";
 import { FireProductDTO } from "./fire-product.dto";
@@ -17,5 +18,14 @@ export class PolicyHolderService extends BizOperationService<FireProductDTO, num
   getOne(quo: string){
     console.log(quo,"data");
     return this.httpClient.get(API_POLICY_HOLDER_URL+"/"+quo)
+  }
+  getMasterDataSale(codeBookRequest) {
+    return this.httpClient.post(environment.apiUrl+ "/codebook", codeBookRequest).pipe(map((masterValues: any) => {
+      let obj = {}
+      masterValues.map(x => {
+        obj[x.codeType] = x.codeName
+      })
+      return obj
+    }))
   }
 }

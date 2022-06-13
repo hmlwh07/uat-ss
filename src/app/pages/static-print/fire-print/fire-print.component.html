@@ -7,7 +7,7 @@
       Name
     </div>
     <div class="col-sm-6">
-      {{policyHolder.title}} {{policyHolder.firstName}}{{policyHolder.middleName}}{{policyHolder.lastName}}
+      {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
     </div>
   </div>
   <div class="row">
@@ -52,7 +52,7 @@
     </div>
     <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
       <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].city}}/{{policyHolder.partyAddress[0].district}}/{{policyHolder.partyAddress[0].state}}
+        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.townshipName}}/{{policyHolder.districtName}}/{{policyHolder.stateName}}
       </ng-container>
     </div>
   </div>
@@ -135,11 +135,19 @@
           <td class="field-value">{{data.buildingClassValue}}</td>
           <td class="field-value">{{data.totalSquareFoot}}</td>
           <td class="field-value">{{data.yearOfConstruction}}</td>
-          <td class="field-value">{{data.buildingSi}}</td>
-          <td class="field-value">{{data.proposedFurniture}}</td>
-          <td class="field-value">{{data.proposedMachinerySI}}</td>
-          <td class="field-value">{{data.proposeStockValue}}</td>
-          <td class="field-value">{{data.riskSi | number}}</td>
+          <td class="field-value">{{data.buildingSi|| 0 | number}}</td>
+          <td class="field-value">{{data.proposedFurniture|| 0 | number}}</td>
+          <td class="field-value">{{data.proposedMachinerySI|| 0 | number}}</td>
+          <td class="field-value">{{data.proposeStockValue|| 0 | number}}</td>
+          <td class="field-value">{{data.riskSi|| 0 | number}}</td>
+        </tr>
+        <tr>
+          <td class="field-value" colspan="6"> Total Si</td>
+          <td class="field-value"> {{ totalbuildingSi | number}}</td>
+          <td class="field-value"> {{ totalproposedFurniture | number}}</td>
+          <td class="field-value"> {{ totalproposedMachinerySI | number}}</td>
+          <td class="field-value"> {{ totalproposeStockValue | number}}</td>
+          <td class="field-value"> {{ totalriskSi | number}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -199,18 +207,18 @@
         <tr>
           <td class="field-value">{{data.description}}</td>
           <td class="field-value">{{data.firepremium || 0}}</td>
-          <td class="field-value">{{data.STHTC}}</td>
-          <td class="field-value">{{data.IMPD}}</td>
+          <td class="field-value">{{data.STHTC | number }}</td>
+          <td class="field-value">{{data.IMPD | number}}</td>
           <td class="field-value">{{data.RSMD}}</td>
-          <td class="field-value">{{data.BURGLARY}}</td>
-          <td class="field-value">{{data.ACD}}</td>
-          <td class="field-value">{{data.EQ}}</td>
-          <td class="field-value">{{data.SPONTCOMB}}</td>
-          <td class="field-value">{{data.SUBLSLD}}</td>
-          <td class="field-value">{{data.WARRISK}}</td>
-          <td class="field-value">{{data.EXPLOSION}}</td>
-          <td class="field-value">{{data.FLOOD}}</td>
-          <td class="field-value">{{data.premium}}</td>
+          <td class="field-value">{{data.BURGLARY | number }}</td>
+          <td class="field-value">{{data.ACD | number }}</td>
+          <td class="field-value">{{data.EQ | number }}</td>
+          <td class="field-value">{{data.SPONTCOMB | number }}</td>
+          <td class="field-value">{{data.SUBLSLD | number }}</td>
+          <td class="field-value">{{data.WARRISK | number }}</td>
+          <td class="field-value">{{data.EXPLOSION| number }}</td>
+          <td class="field-value">{{data.FLOOD | number }}</td>
+          <td class="field-value">{{data.premium | number }}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -222,9 +230,9 @@
   <table width="100%">
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Total SI</td>
-      <td class="value-col" colspan="4">{{totalSi}}</td>
+      <td class="value-col" colspan="4">{{totalSi | number}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Total Premium</td>
-      <td class="value-col" colspan="4">{{totalPremium }}</td>
+      <td class="value-col" colspan="4">{{premiumAmt}}</td>
     </tr>
   </table>
 </div>
