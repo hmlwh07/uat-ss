@@ -6,6 +6,7 @@ import { Customer } from "../../customer-detail/custmer.dto";
 import { Product } from "../models/product.dto";
 
 const API_PRODUCT_URL = `${environment.apiUrl}/product`;
+const API_AGENT_URL=`${environment.apiUrl}/dashboard/agent`;
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,14 @@ export class ProductDataService extends BizOperationService<Product, number>{
 
   getAll(showInList?){
    return this.httpClient.get(API_PRODUCT_URL+"-view"+ "?showInList="+showInList)
+  }
+
+  getAgentInfo(empId) {
+    let url = API_AGENT_URL + "?"
+    
+      url = url + "empId=" +empId 
+    
+    return this.httpClient.get(url)
   }
 
 }

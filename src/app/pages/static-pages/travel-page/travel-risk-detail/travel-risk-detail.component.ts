@@ -78,8 +78,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.unsub.forEach(x => x.unsubscribe())
   }
   ngOnInit(): void {
-    console.log("tableReform",this.tableReform);
-    
+    console.log("tableReform", this.tableReform);
+
     this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
         this.currencyType = res
@@ -100,12 +100,20 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   }
 
   nextCover() {
-    let check = this.globalFun.checkPercent(this.tempData['benefi'])
-    if (check) {
+    if (this.tempData['benefi'].length > 0) {
+
+
+      let check = this.globalFun.checkPercent(this.tempData['benefi'])
+      if (check) {
+        this.stepData.step3 = true
+        this.activeBox = "COVER"
+      } else {
+        this.alert.activate('Beneficiary percent need to be 100%!', 'Warning Message')
+      }
+    }
+    else {
       this.stepData.step3 = true
       this.activeBox = "COVER"
-    } else {
-      this.alert.activate('Beneficiary percent need to be 100%!', 'Warning Message')
     }
   }
 
@@ -441,7 +449,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
         productId: this.prodService.createingProd.id,
-        productCode:this.prodService.createingProd.code,
+        productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
         currency: this.currencyType,
@@ -480,7 +488,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
         productId: this.prodService.createingProd.id,
-        productCode:this.prodService.createingProd.code,
+        productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
         currency: this.currencyType,
         leadId: this.prodService.creatingLeadId || null,
