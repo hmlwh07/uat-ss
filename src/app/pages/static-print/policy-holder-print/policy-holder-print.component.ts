@@ -25,7 +25,7 @@ export class HolderPrintComponent implements OnInit {
         this.policyHolder = res
         console.log("policy", this.policyHolder);
         this.cdf.detectChanges()
-        this.getMasterValue(this.policyHolder.partyAddress[0].district,this.policyHolder.partyAddress[0].state,this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
+        this.getMasterValue(this.policyHolder.partyAddress[0].district,this.policyHolder.partyAddress[0].state,this.policyHolder.partyAddress[0].township).toPromise().then((res: any) => {
                 
           this.policyHolder = {
             ...this.policyHolder,
