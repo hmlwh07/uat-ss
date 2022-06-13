@@ -22,10 +22,23 @@ import { MotorPrintService } from '../products/services/motor-print.service';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { HolderPrintComponent } from './policy-holder-print/policy-holder-print.component';
 import { TravelPrintComponent } from './travel-print/travel-print.component';
+import { HealthCiPrintComponent } from './health-ci-print/health-ci-print.component';
+import { PersonalAccidentPrintComponent } from './personal-accident-print/personal-accident-print.component';
 
 @NgModule({
-  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent],
-  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent],
+  declarations: [StaticPrintDirective, FarmerPrintComponent, 
+    MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, 
+    FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, 
+    PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, 
+    EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, 
+    HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent,
+    HealthCiPrintComponent, PersonalAccidentPrintComponent],
+  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, 
+    FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, 
+    HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, 
+    EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, 
+    HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent,
+    HealthCiPrintComponent, PersonalAccidentPrintComponent],
   imports: [
     CommonModule,
     NgApexchartsModule,
