@@ -21,15 +21,16 @@ import { FirePrintComponent } from './fire-print/fire-print.component';
 import { MotorPrintService } from '../products/services/motor-print.service';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { HolderPrintComponent } from './policy-holder-print/policy-holder-print.component';
+import { TravelPrintComponent } from './travel-print/travel-print.component';
 
 @NgModule({
-  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent,HolderPrintComponent],
-  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent,FirePrintComponent,HolderPrintComponent],
+  declarations: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent, PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent],
+  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent],
   imports: [
     CommonModule,
     NgApexchartsModule,
     LanguageModule,
   ],
-  providers:[MotorPrintService]
+  providers: [MotorPrintService]
 })
 export class StaticPrintModule { }
