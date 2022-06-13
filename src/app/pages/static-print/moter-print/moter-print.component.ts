@@ -17,6 +17,7 @@ import { FireRiskAddressService } from '../../static-pages/fire-simple-page/mode
 export class MoterPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
+  @Input() premiumAmt?:any
   listData: any[] = []
   motorDetail: any = {}
   motorDriver: any = {}
@@ -40,9 +41,10 @@ export class MoterPrintComponent implements OnInit {
   coverageData2: any = []
   
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
-  constructor(private motorService: MotorPrintService,private coverageService:CoverageQuoService ,private addonQuo:AddOnQuoService ,private productSerice:ProductDataService ,private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService) { }
+  constructor(private motorService: MotorPrintService,private productService:ProductDataService,private coverageService:CoverageQuoService ,private addonQuo:AddOnQuoService ,private productSerice:ProductDataService ,private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService) { }
 
   ngOnInit() {
+    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     this.getPolicyHolder()
     this.getDetail()
     this.getAddonCover()
@@ -52,9 +54,42 @@ export class MoterPrintComponent implements OnInit {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.policyHolder = res
-        console.log("policy", this.policyHolder);
+        this.getMasterValue(this.policyHolder.partyAddress[0].district,this.policyHolder.partyAddress[0].state,this.policyHolder.partyAddress[0].township).toPromise().then((res: any) => {
+                
+          this.policyHolder = {
+            ...this.policyHolder,
+            // phone: "0943044813",
+            townshipName: res['PT_TOWNSHIP'],
+            districtName: res['PT_DISTRICT'],
+            stateName: res['PT_STATE'],
+          }
+        })
       }
-    })
+      })
+  }
+  
+
+  getMasterValue(districtCd: string, stateCd: string, townshipCd: string) {
+    let data = {
+      "codeBookRequest": [
+        {
+          "codeId": "TA-" + townshipCd,
+          "codeType": "PT_TOWNSHIP",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + districtCd,
+          "codeType": "PT_DISTRICT",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + stateCd,
+          "codeType": "PT_STATE",
+          "langCd": "EN"
+        },
+      ]
+    }
+    return this.policyHolderService.getMasterDataSale(data)
   }
 
   getDetail() {

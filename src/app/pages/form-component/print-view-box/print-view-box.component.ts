@@ -22,6 +22,7 @@ export class PrintViewBoxComponent implements OnInit {
   premimunAmt: string = ""
   today = new Date()
   agentName = ""
+  agentData:any={}
   formatedData: boolean = false
   qrLocation: string
   constructor(private el: ElementRef, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
@@ -87,6 +88,9 @@ export class PrintViewBoxComponent implements OnInit {
       }
       if (this.productService.editData) {
         this.premimunAmt = this.productService.editData.premiumView
+        console.log("AGET", this.productService.editData.agentId);
+        this.getAgentData()
+        
         // this.today = this.productService.editData.createdAt
         this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
       }
@@ -135,6 +139,18 @@ export class PrintViewBoxComponent implements OnInit {
     return value
   }
 
+  getAgentData() {
+    this.productService.getAgentInfo(this.productService.editData.agentId).toPromise().then((res:any) => {
+        if (res) {
+          console.log("RES",res);
+          
+          this.agentData = res.agentInfo;
+          console.log("this.agentData", this.agentData);
+          
+        }
+      });
+  }
+
   getStatic(key: string) {
     if (key == 'premimun')
       return this.premimunAmt
@@ -143,4 +159,8 @@ export class PrintViewBoxComponent implements OnInit {
     return ""
   }
 
+
+
+
+  
 }

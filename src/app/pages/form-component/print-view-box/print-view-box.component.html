@@ -29,7 +29,7 @@
         Branch
       </div>
       <div class="col-sm-3">
-
+        {{agentData.branchName}}
       </div>
       <div class="col-sm-3 text-bold">
         Date
@@ -44,7 +44,7 @@
         Agent Name / ID
       </div>
       <div class="col-sm-3">
-        {{agentName}}
+        {{agentData.employeeName}}
       </div>
       <div class="col-sm-3 text-bold">
         Quotation No.
@@ -59,13 +59,13 @@
         Agent Phone No.
       </div>
       <div class="col-sm-3">
-
+        {{agentData.mobileNo}}
       </div>
     </div>
   </div>
   <!-- static area -->
   <ng-container *ngIf="formatedData">
-    <ng-container *ngIf="(product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLTR01');else staticPrint">
+    <ng-container *ngIf="(product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLMO01' && product.code !='PLTR01');else staticPrint">
       <ng-container *ngFor="let page of temConfig">
         <ng-container *ngIf="page.type == 'static';else dynPrint">
           <ng-container staticPirint [compId]="page.id" [resourcesId]="resourcesId"></ng-container>
@@ -172,10 +172,10 @@
     </ng-container>
     <ng-template #staticPrint>
       <ng-container *ngIf="product.code=='CLFR01'">
-        <app-fire-print [resourcesId]="resourcesId"></app-fire-print>
+        <app-fire-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-fire-print>
       </ng-container>
-      <ng-container *ngIf="product.code=='PLMO02' ">
-        <app-moter-print [resourcesId]="resourcesId"></app-moter-print>
+      <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
+        <app-moter-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-moter-print>
       </ng-container>
       <ng-container *ngIf="product.code=='PLTR01' ">
         <app-travel-print [resourcesId]="resourcesId"></app-travel-print>
