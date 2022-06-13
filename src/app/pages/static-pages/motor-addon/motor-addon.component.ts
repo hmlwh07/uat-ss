@@ -119,6 +119,9 @@ export class MotorAddonComponent implements OnInit {
 
     if (type == 'medical') {
       this.isMedical = !this.isMedical
+      if(!this.isMedical){
+        this.medPremium=0
+      }
       this.changePlan()
       // this.premium = this.globalFun.motorMedicalExpense(this.parentData)
       // console.log(this.premium);
@@ -126,6 +129,9 @@ export class MotorAddonComponent implements OnInit {
     }
     if (type == 'cross') {
       this.isCross = !this.isCross
+      if(!this.isCross){
+        this.crossPremium=0
+      }
       // this.crossPremium = this.isCross ? this.calcuCross() : 0
       this.calcuCross()
       this.cdf.detectChanges()
