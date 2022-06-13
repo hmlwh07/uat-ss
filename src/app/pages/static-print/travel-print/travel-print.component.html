@@ -50,7 +50,7 @@
         </div>
         <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
             <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-                {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].city}}/{{policyHolder.partyAddress[0].district}}/{{policyHolder.partyAddress[0].state}}
+                {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].townshipName}}/{{policyHolder.districtName}}/{{policyHolder.stateName}}/{{policyHolder.cityName}}
             </ng-container>
         </div>
     </div>

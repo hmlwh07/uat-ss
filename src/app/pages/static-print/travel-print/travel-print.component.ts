@@ -40,10 +40,47 @@ export class TravelPrintComponent implements OnInit {
 
   getPolicyHolder() {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
-      if (res)
+      if (res) {
         this.policyHolder = res
+        this.getMasterValue(
+          this.policyHolder.partyAddress[0].township,
+          this.policyHolder.partyAddress[0].district,
+          this.policyHolder.partyAddress[0].state
+        ).toPromise().then((res: any) => {
+          this.policyHolder = {
+            ...this.policyHolder,
+            townshipName: res['PT_TOWNSHIP'],
+            districtName: res['PT_DISTRICT'],
+            stateName: res['PT_STATE'],
+            cityName: res['CITY']
+          }
+        })
+      }
       console.log("getPolicyHolder: ", this.policyHolder)
     })
+  }
+
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string) {
+    let data = {
+      "codeBookRequest": [
+        {
+          "codeId": "TA-" + townshipCd,
+          "codeType": "PT_TOWNSHIP",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + districtCd,
+          "codeType": "PT_DISTRICT",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + stateCd,
+          "codeType": "PT_STATE",
+          "langCd": "EN"
+        },
+      ]
+    }
+    return this.policyHolderService.getMasterDataSale(data)
   }
 
   getPolicyInformationDetail() {
