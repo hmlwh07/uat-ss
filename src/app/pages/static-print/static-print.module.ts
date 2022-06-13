@@ -23,6 +23,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { HolderPrintComponent } from './policy-holder-print/policy-holder-print.component';
 import { TravelPrintComponent } from './travel-print/travel-print.component';
 import { HealthCiPrintComponent } from './health-ci-print/health-ci-print.component';
+import { PersonalAccidentPrintComponent } from './personal-accident-print/personal-accident-print.component';
 
 @NgModule({
   declarations: [StaticPrintDirective, FarmerPrintComponent, 
@@ -31,13 +32,13 @@ import { HealthCiPrintComponent } from './health-ci-print/health-ci-print.compon
     PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, 
     EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, 
     HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent,
-    HealthCiPrintComponent],
+    HealthCiPrintComponent, PersonalAccidentPrintComponent],
   exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, 
     FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, 
     HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, 
     EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, 
     HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent,
-    HealthCiPrintComponent],
+    HealthCiPrintComponent, PersonalAccidentPrintComponent],
   imports: [
     CommonModule,
     NgApexchartsModule,
