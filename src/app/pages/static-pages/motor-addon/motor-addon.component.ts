@@ -121,6 +121,7 @@ export class MotorAddonComponent implements OnInit {
       this.isMedical = !this.isMedical
       if(!this.isMedical){
         this.medPremium=0
+        this.caluMotorPremimun()
       }
       this.changePlan()
       // this.premium = this.globalFun.motorMedicalExpense(this.parentData)
@@ -131,6 +132,7 @@ export class MotorAddonComponent implements OnInit {
       this.isCross = !this.isCross
       if(!this.isCross){
         this.crossPremium=0
+        this.caluMotorPremimun()
       }
       // this.crossPremium = this.isCross ? this.calcuCross() : 0
       this.calcuCross()
@@ -141,6 +143,7 @@ export class MotorAddonComponent implements OnInit {
     if (this.planOption == 'basic') {
       // this.premium = this.globalFun.motorMedicalExpense(this.parentData)
       this.medPremium = this.calcumotorMedical()
+      this.premiumAmt
     } else {
       // this.premium =  this.globalFun.motorMedicalExpense(this.parentData)
       this.medPremium = this.calcumotorMedical()

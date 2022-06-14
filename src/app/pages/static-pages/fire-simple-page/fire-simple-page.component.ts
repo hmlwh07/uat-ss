@@ -32,7 +32,7 @@ import { MY_FORMATS } from '../../../core/is-json';
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class FirePageComponent implements OnInit,OnDestroy {
+export class FirePageComponent implements OnInit, OnDestroy {
 
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
@@ -90,33 +90,36 @@ export class FirePageComponent implements OnInit,OnDestroy {
     this.options3 = Array.from({ length: 10 }, (_, i) => i + 1)
   }
 
-  updateValidation() {
-
-    let type = this.staticForm.value.policyUnit
+  updateValidation(oldDataType?) {
+    let type;
+    if (oldDataType) {
+      type = oldDataType
+    }
+    type = this.staticForm.value.policyUnit
 
     if (type == 'D') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.required,Validators.max(30)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required, Validators.max(30)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
       this.validValue = 30
       this.doValid()
     }
     else if (type == 'F') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.required,Validators.max(11)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required, Validators.max(11)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
       this.validValue = 11
       this.doValid()
     } else {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.required,Validators.max(1)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required, Validators.max(1)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
       this.validValue = 1
       this.doValid()
     }
   }
   ngOnDestroy(): void {
-    this.unsub.forEach(x=> x.unsubscribe())
+    this.unsub.forEach(x => x.unsubscribe())
   }
   async ngOnInit() {
 
@@ -240,7 +243,7 @@ export class FirePageComponent implements OnInit,OnDestroy {
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
         productId: this.prodService.createingProd.id,
-        productCode:this.prodService.createingProd.code,
+        productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
         currency: this.currencyType,
@@ -305,6 +308,7 @@ export class FirePageComponent implements OnInit,OnDestroy {
       currency: this.oldData.currency,
       policyUnit: this.oldData.policyUnit,
     })
+    this.updateValidation(this.oldData.policyUnit)
     this.cdf.detectChanges()
   }
 
