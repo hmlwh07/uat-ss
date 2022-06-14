@@ -178,13 +178,13 @@
         <app-moter-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-moter-print>
       </ng-container>
       <ng-container *ngIf="product.code=='PLTR01' ">
-        <app-travel-print [resourcesId]="resourcesId"></app-travel-print>
+        <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-travel-print>
       </ng-container>
       <ng-container *ngIf="product.code=='PCHL01' ">
-        <app-health-ci-print [resourcesId]="resourcesId"></app-health-ci-print>
+        <app-health-ci-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-health-ci-print>
       </ng-container>
       <ng-container *ngIf="product.code=='PLPA01' ">
-        <app-personal-accident-print [resourcesId]="resourcesId"></app-personal-accident-print>
+        <app-personal-accident-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-personal-accident-print>
       </ng-container>
     </ng-template>
   </ng-container>

@@ -460,7 +460,7 @@ export class GlobalFunctionService {
 
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
-      let rate = 0.005
+      let rate = 0.05
       if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
         rate = 0.00065
       } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
@@ -690,7 +690,9 @@ export class GlobalFunctionService {
     } else if (this.tempFormData['pa_product_detail']) {
       sumIn = this.tempFormData['pa_product_detail']['sum_insured'] || 0
     }
-    this.paCoverageResult.next(this.numberPipe.transform(sumIn) + currency)
+    console.log("SUMIN",sumIn);
+    
+    this.paCoverageResult.next(this.numberPipe.transform(sumIn) +" "+ currency)
   }
 
   paPolicyValidation(value, option?: any[]) {

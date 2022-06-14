@@ -4,7 +4,7 @@ import { environment } from "../../../../environments/environment";
 import { BizOperationService } from "../../../core/biz.operation.service";
 import { AddOn } from "../models/product.dto";
 
-const API_MOTOR_URL = `${environment.apiUrl}/pagedata/life_insured_policy_pa/`;
+const API_MOTOR_URL = `${environment.apiUrl}/pa/dynamic/info`;
 @Injectable()
 export class PaPrintService extends BizOperationService<AddOn, number>{
   constructor(protected httpClient: HttpClient) {

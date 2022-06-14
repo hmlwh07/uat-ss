@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { environment } from '../../../../environments/environment';
 import { PaPrintService } from '../../products/services/pa.service';
 import { ProductDataService } from '../../products/services/products-data.service';
@@ -13,27 +15,38 @@ import { TravelRiskService } from '../../static-pages/travel-page/models&service
 export class PersonalAccidentPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
+  @Input() premiumAmt:any
+  sumInsuredAmt:any
   listData: any[] = []
   policyInfo: any = {}
   policyHolder: any = {
     partyAddress: []
   }
+  productDetail: any = {}
+  beneficiaries: any[] = []
+  lifeInsuredPolicy: any = {}
   totalPremium: number = 0
   totalSI: number = 0
   @Input() signId?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
-
+  unsubscribe: Subscription[] = []
   constructor(
     private policyHolderService: PolicyHolderService,
     private paService: PaPrintService,
-    private productService:ProductDataService
+    private productService: ProductDataService,
+    private globalFun:GlobalFunctionService,
   ) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     this.getPolicyHolder()
-    this.getPolicyInformationDetail()
-    this.getRiskDetail()
+    this.getDetail()
+    let unsub =this.globalFun.paCoverageResult.subscribe((value)=>{
+      console.log("VALUE",value);
+      
+      this.sumInsuredAmt=value
+    } )
+    this.unsubscribe.push(unsub)
   }
 
   getPolicyHolder() {
@@ -80,25 +93,15 @@ export class PersonalAccidentPrintComponent implements OnInit {
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-
-  getPolicyInformationDetail() {
-    this.paService.getOne(this.policyHolder.customerId).toPromise().then((res: any) => {
-      if (res)
-        this.policyInfo = res;
-      console.log("getPolicyInformationDetail: ", this.policyInfo);
-    })
-  }
-
-  getRiskDetail() {
+  getDetail() {
     this.paService.getOne(this.resourcesId).toPromise().then((res: any) => {
-      if (res) {
-        this.listData = res
-        console.log("getRiskDetail: ", this.listData);
-        for (let data of this.listData) {
-          this.totalPremium += parseInt(data.premium)
-          this.totalSI += parseInt(data.riskSi)
-        }
-      }
+      if (res.productDetail)
+        this.productDetail = res.productDetail
+      if (res.beneficiaries)
+        this.beneficiaries = res.beneficiaries
+      if (res.lifeInsuredPolicy)
+        this.lifeInsuredPolicy = res.lifeInsuredPolicy
     })
   }
+
 }

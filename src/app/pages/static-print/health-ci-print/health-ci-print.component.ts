@@ -11,6 +11,7 @@ import { environment } from '../../../../environments/environment';
 export class HealthCiPrintComponent implements OnInit {
   @Input() resourcesId?: string;
   @Input() signId?: string
+  @Input() premiumAmt:any
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   policyHolder: any = {

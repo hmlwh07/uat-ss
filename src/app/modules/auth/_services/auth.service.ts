@@ -20,7 +20,8 @@ export class AuthService implements OnDestroy {
   isLoading$: Observable<boolean>;
   currentUserSubject: BehaviorSubject<UserModel>;
   isLoadingSubject: BehaviorSubject<boolean>;
-
+  token:any
+  isLoggedIn:any
 
   get currentUserValue(): UserModel {
     return this.currentUserSubject.value;
@@ -59,7 +60,10 @@ export class AuthService implements OnDestroy {
 
         let auth = new AuthModel()
         auth.setAuth(res);
+        console.log("AUTH",res);
+        
         const result = this.setAuthFromLocalStorage(auth);
+        this.setToken(res.token)
         return result;
       }),
       switchMap(() => this.getUserByToken()),
@@ -80,6 +84,29 @@ export class AuthService implements OnDestroy {
       queryParams: { redirectTo: url },
       replaceUrl: true
     });
+  }
+
+
+async setToken(token: string) {
+  this.token = token
+  this.isLoggedIn = true
+  await localStorage.setItem('authToken',token,);
+}
+
+
+
+  async checkToken(){
+    const  value  = await localStorage.getItem('authToken')
+    return value
+  }
+
+  async setSection(time: number) {
+    await localStorage.setItem('setSession',time + "",);
+  }
+
+  async getSection(){
+    const  value  = await localStorage.getItem('setSession')
+    return value
   }
 
   getUserByToken(): Observable<UserModel> {
