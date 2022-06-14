@@ -17,6 +17,7 @@ import { TravelRiskDetailComponent } from '../../static-pages/travel-page/travel
 export class TravelPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
+  @Input() premiumAmt:any
   listData: any[] = []
   policyInfo: any = {}
   policyHolder: any = {

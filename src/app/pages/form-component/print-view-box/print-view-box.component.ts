@@ -1,6 +1,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { AuthService } from 'src/app/modules/auth';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
 import { PrintCol, PrintFormat } from '../../products/models/print-config.interface';
 import { PageUIType, Product } from '../../products/models/product.dto';
@@ -25,7 +26,7 @@ export class PrintViewBoxComponent implements OnInit {
   agentData:any={}
   formatedData: boolean = false
   qrLocation: string
-  constructor(private el: ElementRef, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
+  constructor(private el: ElementRef,private auth:AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
 
   }
 
@@ -88,7 +89,6 @@ export class PrintViewBoxComponent implements OnInit {
       }
       if (this.productService.editData) {
         this.premimunAmt = this.productService.editData.premiumView
-        console.log("AGET", this.productService.editData.agentId);
         this.getAgentData()
         
         // this.today = this.productService.editData.createdAt
@@ -140,7 +140,7 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
   getAgentData() {
-    this.productService.getAgentInfo(this.productService.editData.agentId).toPromise().then((res:any) => {
+    this.productService.getAgentInfo( this.auth.currentUserValue.id || 1 ).toPromise().then((res:any) => {
         if (res) {
           console.log("RES",res);
           

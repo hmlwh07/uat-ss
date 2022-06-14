@@ -18,7 +18,7 @@ import { MasterDataService } from './modules/master-data/master-data.service';
 import { AuthService } from './modules/auth';
 import { Device } from "@capacitor/device"
 import { App as CapacitorApp } from '@capacitor/app';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { AlertService } from './modules/loading-toast/alert-model/alert.service';
 import { MenuDataService } from './core/menu-data.service';
 import { MessagingService } from './messaging.service';
@@ -56,18 +56,31 @@ export class AppComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private messagingService: MessagingService,
     private userTokenService: UserTokenService,
-    private langageService:LanguagesService
+    private langageService: LanguagesService,
+    private auth: AuthService,
+    private plat: Platform
   ) {
     this.langageService.loadTranslations(
       enLang,
       mmLang
     )
+
+
   }
   @HostListener('window:unload', ['$event'])
   beforeUnloadHandler(event) {
+    if (this.auth.isLoggedIn)
+      console.log("LOGIN");
+
+    this.setTimeout()
     // const data = this.itemService.prodSubject.getValue()
     //console.log(`I'm leaving the app!`, data);
     // localStorage.setItem("itemsData", JSON.stringify(data));
+  }
+  async setTimeout() {
+    let now = new Date().getTime()
+    // console.log("entered", now);
+    await this.auth.setSection(now);
   }
 
   ngOnInit() {
@@ -103,6 +116,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.unsubscribe.push(routerSubscription);
     console.log(this.menuService.dataAccess.value)
+
+
     let unsub = this.authService.currentUserSubject.subscribe((res) => {
       if (res) {
         this.user = res
@@ -112,6 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // this.master.getType()
       }
     })
+
     this.unsubscribe.push(unsub);
     Device.getInfo().then((res) => {
       if (res.platform != "web") {
@@ -126,8 +142,47 @@ export class AppComponent implements OnInit, OnDestroy {
             window.history.back();
           }
         });
+
       }
     })
+console.log("PLat", this.plat);
+
+    let unsublogin = this.plat.pause.subscribe((res) => {  
+      if (this.auth.isLoggedIn)
+        this.setTimeout()
+    })
+    this.unsubscribe.push(unsublogin)
+
+    let unsubtime = this.plat.resume.subscribe((res) => {
+      if (this.auth.isLoggedIn)
+      console.log("test",this.auth.isLoggedIn);
+      
+        this.checkTimeOut()
+    })
+    this.plat.ready().then(async (res) => {
+      let token = await this.auth.checkToken()
+      if (token)
+      console.log("testtoken",token);
+      
+        this.checkTimeOut()
+    })
+    this.unsubscribe.push(unsubtime);
+  }
+
+  async checkTimeOut() {
+    // return false
+    let now = new Date().getTime();
+    let oldTime = await this.auth.getSection()
+    let fiveMin = parseInt(oldTime) > 0 ? parseInt(oldTime) + (15 * 60 * 1000) : 0;
+    // console.log(now, fiveMin);
+
+    if (now > fiveMin) {
+      this.auth.logout();
+      this.router.navigate(['/auth/login'], { replaceUrl: true })
+    }
+  }
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
   async confirmExist() {
@@ -162,7 +217,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   requestPermission() {
     console.log("request Noti Token");
-    
+
     this.messagingService.requestPermission().subscribe({
       next: (token) => {
         console.log('Permission granted! Save to the server!', token);
@@ -175,9 +230,6 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
-  }
 
   listenForMessages() {
     this.messagingService.getMessages().subscribe(async (msg: any) => {

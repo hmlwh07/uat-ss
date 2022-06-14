@@ -5,7 +5,7 @@
       Name
     </div>
     <div class="col-sm-6">
-      {{policyHolder.title}}{{policyHolder.firstName}}{{policyHolder.middleName}}{{policyHolder.lastName}}
+      {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
     </div>
   </div>
   <div class="row">
@@ -64,21 +64,21 @@
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
         Policy Effective Date
       </td>
-      <td class="value-col">{{policyInfo.startDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="value-col">{{productDetail.formdate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
         Policy Expiry Date
       </td>
-      <td class="value-col">{{policyInfo.endDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="value-col">{{productDetail.todate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
         Policy Duration
       </td>
-      <td class="value-col">{{policyInfo.policyDuration}} Days</td>
+      <td class="value-col">{{productDetail.paPolicyTerm}}</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
         Currency
       </td>
-      <td class="value-col" colspan="10">{{policyInfo.currency}}</td>
+      <td class="value-col" colspan="10">{{productDetail.currency}}</td>
     </tr>
   </table>
 </div>
@@ -88,7 +88,7 @@
   <table class="tbody-align" width="100%">
     <tr>
       <td class="field-col">
-        No.
+        Name
       </td>
       <td class="field-col">
         Occupation
@@ -110,15 +110,15 @@
       </td>
     </tr>
     <tbody class="tbody-align val-col">
-      <ng-container *ngFor="let data of listData; let i=index;">
+      <ng-container>
         <tr>
-          <td class="field-value">{{i+1}}</td>
-          <td class="field-value">{{data.occupation}}</td>
-          <td class="field-value">{{data.gender}}</td>
-          <td class="field-value">{{data.id}}</td>
-          <td class="field-value">{{data.dateOfBirth}}</td>
-          <td class="field-value">{{data.fatherName}}</td>
-          <td class="field-value">{{data.phoneNumber}}</td>
+          <td class="field-value">{{lifeInsuredPolicy.paNameOfInsured}}</td>
+          <td class="field-value">{{lifeInsuredPolicy.occupationCd}}</td>
+          <td class="field-value">{{lifeInsuredPolicy.gendercdValue}}</td>
+          <td class="field-value">{{lifeInsuredPolicy.identityType}}-{{lifeInsuredPolicy.identityType !='NRC' ? lifeInsuredPolicy.identityNumber : lifeInsuredPolicy.identityNrc }} </td>
+          <td class="field-value">{{lifeInsuredPolicy.dateOfBirth}}</td>
+          <td class="field-value">{{lifeInsuredPolicy.fatherName}}</td>
+          <td class="field-value">{{lifeInsuredPolicy.phone}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -149,14 +149,14 @@
       </td>
     </tr>
     <tbody class="tbody-align val-col">
-      <ng-container *ngFor="let data of listData; let i=index;">
+      <ng-container *ngFor="let data of beneficiaries; let i=index;">
         <tr>
           <td class="field-value">{{i+1}}</td>
-          <td class="field-value">{{data.name}}</td>
-          <td class="field-value">{{data.relationship}</td>
-          <td class="field-value">{{data.id}}</td>
-          <td class="field-value">{{data.dateOfBirth}}</td>
-          <td class="field-value">{{data.share}}</td>
+          <td class="field-value">{{data.beneficiaryName}}</td>
+          <td class="field-value">{{data.relationshipValue}}</td>
+          <td class="field-value">{{data.idType}}</td>
+          <td class="field-value">{{data.dateOfBirth | date}}</td>
+          <td class="field-value">{{data.share}} % </td>
         </tr>
       </ng-container>
     </tbody>
@@ -170,11 +170,11 @@
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
         Total SI
       </td>
-      <td class="value-col" colspan="4">{{totalSI}}</td>
+      <td class="value-col" colspan="4">{{sumInsuredAmt}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
         Total Premium
       </td>
-      <td class="value-col" colspan="4">{{totalPremium}}</td>
+      <td class="value-col" colspan="4">{{premiumAmt}}</td>
     </tr>
   </table>
 </div>
