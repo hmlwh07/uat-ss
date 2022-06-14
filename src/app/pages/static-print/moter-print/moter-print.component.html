@@ -220,12 +220,12 @@
           <td class="field-value">{{data.AOG | number}}</td>
           <td class="field-value">{{data.THEFT | number}}</td>
           <td class="field-value">{{data.NOBTTRMNT}}</td>
-          <td class="field-value">{{data.CROSSBRDR}}</td>
+          <td class="field-value">{{data['CROSSBRDR'] || 0}}</td>
           <td class="field-value">{{data.LOSSOFLUGG}}</td>
-          <td class="field-value">{{data['MED EXP']}}</td>
+          <td class="field-value">{{data['MED EXP'] || 0}}</td>
           <td class="field-value">{{data.PASSRLBTY}}</td>
           <td class="field-value">{{data.PAIDDRIVER}}</td>
-          <td class="field-value">{{motorDetail.mExcessValues}}</td>
+          <td class="field-value">{{motorDetail.mExcessValue}}</td>
           <td class="field-value">{{data.premium | number}}</td>
         </tr>
       </ng-container>

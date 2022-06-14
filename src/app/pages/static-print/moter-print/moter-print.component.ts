@@ -54,7 +54,7 @@ export class MoterPrintComponent implements OnInit {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.policyHolder = res
-        this.getMasterValue(this.policyHolder.partyAddress[0].district,this.policyHolder.partyAddress[0].state,this.policyHolder.partyAddress[0].township).toPromise().then((res: any) => {
+        this.getMasterValue(this.policyHolder.partyAddress[0].district,this.policyHolder.partyAddress[0].state,this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
                 
           this.policyHolder = {
             ...this.policyHolder,
@@ -112,6 +112,8 @@ export class MoterPrintComponent implements OnInit {
         description: 'MOTOR',
         premium: 0
       }
+      console.log("this.product.addOns",this.product.addOns);
+      
       for (const item of this.product.addOns) {
         this.optionId =this.resourcesId
 
