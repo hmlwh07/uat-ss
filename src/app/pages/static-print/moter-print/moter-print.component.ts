@@ -35,7 +35,7 @@ mExcessType = {
   "TU-NILEX": "+25",
   "TU-STNDEX": "+100",
   "T-STNDEX": "+100,000",
-  "T-ED": "-50,000",
+  "T-EXD1": "-50,000",
   "T-EXD2": "-70,000",
   "T-EXD3": "-100,000"
 }
@@ -105,6 +105,9 @@ getDetail() {
   this.motorService.getOne(this.resourcesId).toPromise().then((res: any) => {
     if (res.motorDetail)
       this.motorDetail = res.motorDetail
+      if(res.motorDetail.mExcessDiscount ==""){
+        this.motorDetail.mExcessDiscount=res.motorDetail.mExcess
+      }
     if (res.motorDriver)
       this.listData = res.motorDriver
     if (res.vehicleDetail)
