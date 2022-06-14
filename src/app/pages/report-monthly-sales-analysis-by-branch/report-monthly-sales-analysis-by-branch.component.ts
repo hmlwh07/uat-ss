@@ -87,8 +87,8 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
           for (var i = 0; i < res.monthlydataList.length; i++) {
             for (var j = 0; j < activities.length; j++) {
               let obj = {
-                agentName: res.monthlydataList[i].agentName,
-                branchName: res.monthlydataList[i].branchName,
+                // agentName: res.monthlydataList[i].agentName,
+                branchName: j == 0 ? res.monthlydataList[i].branchName : null,
                 activityName: activities[j].activityName,
                 monthActualAgainstTarge: this.monthActualAgainstTarge(activities[j].activityName, res.monthlydataList[i]),
                 monthConversionToProspect: this.monthConversionToProspect(activities[j].activityName, res.monthlydataList[i]),
@@ -284,10 +284,10 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
     for (var i = 0; i < this.displayList.length; i++) {
       this.dataExcel.push([
         //this.displayList[i].agentName,
-      this.displayList[i].branchName, this.displayList[i].activityName,
-      this.displayList[i].monthActualAgainstTarge || 0.00, this.displayList[i].monthConversionToProspect || 0.00,
-      this.displayList[i].monthConversionToPreviousStage || 0.00, this.displayList[i].monthExpectedTargetConversion || 0.00,
-      this.displayList[i].monthExpectedTargetConversionToProspects || 0.00])
+        this.displayList[i].branchName, this.displayList[i].activityName,
+        this.displayList[i].monthActualAgainstTarge || 0.00, this.displayList[i].monthConversionToProspect || 0.00,
+        this.displayList[i].monthConversionToPreviousStage || 0.00, this.displayList[i].monthExpectedTargetConversion || 0.00,
+        this.displayList[i].monthExpectedTargetConversionToProspects || 0.00])
     }
 
     let fromDate = null;
@@ -538,7 +538,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
-        }      
+        }
 
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
@@ -570,7 +570,7 @@ export class ReportMonthlySalesAnalysisByBranchComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
-       
+
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
             this.createFormGroup.controls['toDate'].setValue('');

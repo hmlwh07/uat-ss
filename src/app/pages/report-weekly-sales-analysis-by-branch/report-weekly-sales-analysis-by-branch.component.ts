@@ -85,8 +85,8 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
           for (var i = 0; i < res.weeklydataList.length; i++) {
             for (var j = 0; j < activities.length; j++) {
               let obj = {
-                agentName: res.weeklydataList[i].agentName,
-                branchName: res.weeklydataList[i].branchName,
+                // agentName: res.weeklydataList[i].agentName,
+                branchName: j == 0 ? res.weeklydataList[i].branchName : null,
                 activityName: activities[j].activityName,
                 weekActualAgainstTarge: this.weekActualAgainstTarge(activities[j].activityName, res.weeklydataList[i]),
                 weekConversionToProspect: this.weekConversionToProspect(activities[j].activityName, res.weeklydataList[i]),
@@ -274,11 +274,11 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     this.productValues = [
       // 'Agent Name', 
       'Branch Name',
-      'Activities', 
+      'Activities',
       'Week Actual against Target',
-      'Week Conversion to Prospect', 
+      'Week Conversion to Prospect',
       'Week Conversion to Previous Stage',
-      'Week Expected Target Conversion', 
+      'Week Expected Target Conversion',
       'Week Expected Target Conversion to Prospects'
     ]
 
@@ -286,11 +286,11 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
     for (var i = 0; i < this.displayList.length; i++) {
       this.dataExcel.push([
         // this.displayList[i].agentName,
-        this.displayList[i].branchName, 
+        this.displayList[i].branchName,
         this.displayList[i].activityName,
-        this.displayList[i].weekActualAgainstTarge || 0.00, 
+        this.displayList[i].weekActualAgainstTarge || 0.00,
         this.displayList[i].weekConversionToProspect || 0.00,
-        this.displayList[i].weekConversionToPreviousStage || 0.00, 
+        this.displayList[i].weekConversionToPreviousStage || 0.00,
         this.displayList[i].weekExpectedTargetConversion || 0.00,
         this.displayList[i].monthExpectedTargetConversionToProspects || 0.00])
     }
@@ -543,7 +543,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
-        }      
+        }
 
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
@@ -575,7 +575,7 @@ export class ReportWeeklySalesAnalysisByBranchComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
-       
+
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
             this.createFormGroup.controls['toDate'].setValue('');

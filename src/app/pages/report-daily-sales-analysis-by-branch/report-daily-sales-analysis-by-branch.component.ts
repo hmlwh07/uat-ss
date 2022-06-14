@@ -85,8 +85,8 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
           for (var i = 0; i < res.dailydataList.length; i++) {
             for (var j = 0; j < activities.length; j++) {
               let obj = {
-                agentName: res.dailydataList[i].agentName,
-                branchName: res.dailydataList[i].branchName,
+                // agentName: res.dailydataList[i].agentName,
+                branchName: j == 0 ? res.dailydataList[i].branchName: null,
                 activityName: activities[j].activityName,
                 dailyActualAgainstTarge: this.dailyActualAgainstTarge(activities[j].activityName, res.dailydataList[i]),
                 dailyConversionToProspect: this.dailyConversionToProspect(activities[j].activityName, res.dailydataList[i]),

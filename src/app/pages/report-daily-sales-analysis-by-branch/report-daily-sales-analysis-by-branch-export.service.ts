@@ -147,29 +147,29 @@ export class ReportDailyDalesAnalysisBranchExportService extends BizOperationSer
           cellIndexValue = 'To Date: ' + searchValue[i].toDate;
         }
         if (searchValue[i].companyName) {
-          cellIndex = 'L1';
+          cellIndex = 'I1';
           cellIndexValue = 'Company: ' + searchValue[i].companyName;
         }
         if (searchValue[i].channelName) {
-          cellIndex = 'M1';
+          cellIndex = 'J1';
           cellIndexValue = 'Channel: ' + searchValue[i].channelName;
         }
         if (searchValue[i].regionName) {
-          cellIndex = 'N1';
+          cellIndex = 'K1';
           cellIndexValue = 'Region: ' + searchValue[i].regionName;
         }
         if (searchValue[i].clusterName) {
-          cellIndex = 'L2';
+          cellIndex = 'I2';
           cellIndexValue = 'Cluster: ' + searchValue[i].clusterName;
         }
         if (searchValue[i].branchName) {
-          cellIndex = 'M2';
+          cellIndex = 'J2';
           cellIndexValue = 'Branch: ' + searchValue[i].branchName;
         }
-        if (searchValue[i].agentName) {
-          cellIndex = 'N2';
-          cellIndexValue = 'Agent: ' + searchValue[i].agentName;
-        }
+        // if (searchValue[i].agentName) {
+        //   cellIndex = 'K2';
+        //   cellIndexValue = 'Agent: ' + searchValue[i].agentName;
+        // }
 
         if (cellIndex != null && cellIndexValue != null) {
           let searchCell = worksheet.getCell(cellIndex);
@@ -206,14 +206,14 @@ export class ReportDailyDalesAnalysisBranchExportService extends BizOperationSer
       d.forEach(a => {
         index++;
         let center = row.getCell(index);
-        if (index == 1 || index == 2 || index == 3) {
+        if (index == 1 || index == 2) {
           if (center) {
             center.alignment = { vertical: 'middle', horizontal: 'left' }
           }
         } else {
           center.alignment = { vertical: 'middle', horizontal: 'right' }
         }
-        if (index > 3) {
+        if (index > 2) {
           center.numFmt = '#,##0.00_);(#,##0.00)';
         }
       });
