@@ -44,7 +44,7 @@ export class TravelPrintComponent implements OnInit {
       if (res) {
         this.policyHolder = res
         this.getMasterValue(
-          this.policyHolder.partyAddress[0].township,
+          this.policyHolder.partyAddress[0].city,
           this.policyHolder.partyAddress[0].district,
           this.policyHolder.partyAddress[0].state
         ).toPromise().then((res: any) => {
@@ -53,7 +53,6 @@ export class TravelPrintComponent implements OnInit {
             townshipName: res['PT_TOWNSHIP'],
             districtName: res['PT_DISTRICT'],
             stateName: res['PT_STATE'],
-            cityName: res['CITY']
           }
         })
       }

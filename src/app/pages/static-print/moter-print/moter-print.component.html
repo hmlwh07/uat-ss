@@ -220,12 +220,12 @@
           <td class="field-value">{{data.AOG | number}}</td>
           <td class="field-value">{{data.THEFT | number}}</td>
           <td class="field-value">{{data.NOBTTRMNT}}</td>
-          <td class="field-value">{{data.CROSSBRDR}}</td>
+          <td class="field-value">{{data['CROSSBRDR'] || 0}}</td>
           <td class="field-value">{{data.LOSSOFLUGG}}</td>
-          <td class="field-value">{{data['MED EXP']}}</td>
+          <td class="field-value">{{data['MED EXP'] || 0}}</td>
           <td class="field-value">{{data.PASSRLBTY}}</td>
           <td class="field-value">{{data.PAIDDRIVER}}</td>
-          <td class="field-value">{{motorDetail.mExcessValues}}</td>
+          <td class="field-value">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
           <td class="field-value">{{data.premium | number}}</td>
         </tr>
       </ng-container>
@@ -238,7 +238,7 @@
   <table width="100%">
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Total SI</td>
-      <td class="value-col" colspan="4">{{motorDetail.mTotalRiskSi | number}}</td>
+      <td class="value-col" colspan="4">{{motorDetail.mTotalRiskSi | number}}  {{motorDetail.mCurrency}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Total Premium</td>
       <td class="value-col" colspan="4">{{premiumAmt}}</td>
     </tr>

@@ -35,6 +35,11 @@ export class FirePrintComponent implements OnInit {
   totalproposedMachinerySI: number = 0
   totalproposeStockValue: number = 0
   totalriskSi: number = 0
+  policyUnit={
+    "F":"Months",
+    "G":"Years",
+    "D":"Days"
+  }
   @Input() signId?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
@@ -81,7 +86,7 @@ export class FirePrintComponent implements OnInit {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.policyHolder = res
-        this.getMasterValue(this.policyHolder.partyAddress[0].district, this.policyHolder.partyAddress[0].state, this.policyHolder.partyAddress[0].township).toPromise().then((res: any) => {
+        this.getMasterValue(this.policyHolder.partyAddress[0].district, this.policyHolder.partyAddress[0].state, this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
 
           this.policyHolder = {
             ...this.policyHolder,
@@ -89,7 +94,6 @@ export class FirePrintComponent implements OnInit {
             townshipName: res['PT_TOWNSHIP'],
             districtName: res['PT_DISTRICT'],
             stateName: res['PT_STATE'],
-            cityName: res['CITY']
           }
         })
       }

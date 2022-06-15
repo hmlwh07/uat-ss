@@ -136,6 +136,8 @@ export class TravelComponent implements OnInit {
   }
 
   newData(type, detail?: any) {
+    console.log("DETAIL",detail);
+    
     let modalRef = this.modalService.open(TravelRiskDetailComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type
     modalRef.componentInstance.riskId = detail ? detail.riskId : ""
