@@ -204,7 +204,8 @@ export class MotorAddonComponent implements OnInit {
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
     // * percent
-    this.crossPremium = ((tempPre + excessAmt) * 0.15)
+    let cross=((tempPre + excessAmt) * 0.15)
+    this.crossPremium =  this.globalFun.calculateDecimal(cross||0)
   }
   backPage() {
     this.actionEvent.emit({ type: StaticActionType.PREV })

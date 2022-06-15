@@ -36,6 +36,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   @Input() sumInsured: number
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
+  tempRef:any=[]
   @Input() tempData: any = {
     travelDetail: null,
     traveler: null,
@@ -295,6 +296,17 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       })
     }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
+      this.tempRef.push(data.refId)
+      let postValue = {
+        riskId: this.riskId,
+        refId: this.tempRef,
+        tableName:'travel_detail'
+      }
+      console.log("POSt",postValue);
+      
+      if(this.tempRef.length==2){
+        this.pageDataService.updateRiskId(postValue)
+      }
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
       }
@@ -302,7 +314,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     })).toPromise().then((res) => {
 
       if (res) {
-
+      
         if (!this.resourceId)
           this.resourceId = res[0].resourceId;
         if (page.pageType == 'table') {
@@ -341,7 +353,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
           //   this.goReusltPage()
           // }
         }
-
+       
       }
 
     })
@@ -396,12 +408,23 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       // }
     }
     this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
+      this.tempRef.push(data.refId)
+      let postValue = {
+        riskId: this.riskId,
+        refId: this.tempRef,
+        tableName:'travel_detail'
+      }
+      console.log("POSt",postValue);
+      
+      if(this.tempRef.length==2){
+        this.pageDataService.updateRiskId(postValue)
+      }
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
       }
       return of(data)
     })).toPromise().then((res) => {
-
+      
       if (res) {
         if (isTable < 0) {
           this.tempData[type] = { ...formData, refId: res.refId }
@@ -420,6 +443,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
           this.cdRef.detectChanges();
         }
       }
+     
     })
 
   }
