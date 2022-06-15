@@ -664,6 +664,7 @@ export class LeadDetailComponent implements OnInit {
         if (res) {
           this.oldData = res;
           if (res.existingCustomerId != 0) {
+            this.isAddProspect=true
             this.customer = {
               customerId: res.existingCustomerId,
               customerName: res.existingCustomerName,
@@ -1026,16 +1027,24 @@ export class LeadDetailComponent implements OnInit {
     this.loadForm(this.oldData);
   }
   clearDate(key) {
+    if(!this.disabledForm && !this.isExisting){
+      if (key == 'existingCustomerName') {
+        this.leadForm.controls[key].setValue(null)
+        this.leadForm.controls['existingCustomerId'].setValue(null)
+        console.log("TESTexistingCustomerName");
+      
+      }
+    }else{
+      console.log("TEST");
+      
+      return false
+    }
     if (key == 'referralCustomerName') {
       this.leadForm.controls[key].setValue(null)
       this.leadForm.controls['referralCustomerId'].setValue(null)
 
     }
-    if (key == 'existingCustomerName') {
-      this.leadForm.controls[key].setValue(null)
-      this.leadForm.controls['existingCustomerId'].setValue(null)
-
-    }
+   
     if (key == 'campaignName' || key == 'campaignNo') {
       this.leadForm.controls['campaignName'].setValue(null)
       this.leadForm.controls['campaignNo'].setValue(null)

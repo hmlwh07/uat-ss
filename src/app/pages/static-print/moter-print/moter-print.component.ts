@@ -138,7 +138,7 @@ getDetail() {
 
         if (this.additionalData) {
           obj[item.code] = this.additionalData.premium || 0
-          obj.premium += parseInt(this.additionalData.premium)
+          obj.premium += parseInt(this.additionalData.premium || 0)
         } else {
           obj[item.code] = 0
         }
@@ -176,7 +176,7 @@ getDetail() {
 
         if (this.coverageData2) {
           obj[item.code] = this.coverageData2.premium || 0
-          obj.premium += parseInt(this.coverageData2.premium)
+          obj.premium += parseInt(this.coverageData2.premium || 0)
         } else {
           obj[item.code] = 0
         }
