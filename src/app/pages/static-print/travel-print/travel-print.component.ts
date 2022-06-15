@@ -20,11 +20,13 @@ export class TravelPrintComponent implements OnInit {
   @Input() premiumAmt:any
   listData: any[] = []
   policyInfo: any = {}
+  riskInfo:any=[]
   policyHolder: any = {
     partyAddress: []
   }
   totalPremium: number = 0
   totalSI: number = 0
+  numberOfTraveller:number=0
   @Input() signId?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
@@ -35,8 +37,7 @@ export class TravelPrintComponent implements OnInit {
 
   ngOnInit() {
     this.getPolicyHolder()
-    this.getPolicyInformationDetail()
-    this.getRiskDetailAndInsuranceDetail()
+    this.getTravelPrintData()
   }
 
   getPolicyHolder() {
@@ -82,25 +83,22 @@ export class TravelPrintComponent implements OnInit {
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-
-  getPolicyInformationDetail() {
-    // this.travelService.getOne(this.policyHolder.customerId).toPromise().then((res: any) => {
-    //   if (res)
-    //     this.policyInfo = res;
-    //   console.log("getPolicyInformationDetail: ", this.policyInfo);
-    // })
-  }
-
-  getRiskDetailAndInsuranceDetail() {
-    this.travelService.getMany(this.resourcesId).toPromise().then((res: any) => {
-      if (res) {
-        this.listData = res
-        console.log("getRiskDetailAndInsuranceDetail: ", this.listData);
-        for (let data of this.listData) {
-          this.totalPremium += parseInt(data.premium)
-          this.totalSI += parseInt(data.riskSi)
+  getTravelPrintData(){
+    this.travelService.getData(this.resourcesId).toPromise().then((res:any)=>{
+      console.log(res);
+      
+      if(res){
+        this.policyInfo=res.policyInfo.travelBasic
+        this.numberOfTraveller=res.policyInfo.numberOfTraveller
+        this.riskInfo=res.riskDetails
+        for(let data of res.riskDetails){
+          console.log("data",data);
+          
+          this.totalSI +=parseInt(data.travelRisk.insuredUnitValue)
         }
       }
     })
   }
+
+
 }

@@ -11,11 +11,15 @@ import { environment } from '../../../../environments/environment';
 export class HealthCiPrintComponent implements OnInit {
   @Input() resourcesId?: string;
   @Input() signId?: string
-  @Input() premiumAmt:any
+  @Input() premiumAmt: any
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   policyHolder: any = {
-    partyAddress: [],
+    startDate: "15/06/2022",
+    endDate: "14/06/2023",
+    policyDuration: "Health Insurance",
+    policyPlan: "05/02/1986",
+    paymentFrequency: "Semi-Annually",
   };
   detail: {
     startDate: Date;
@@ -38,7 +42,7 @@ export class HealthCiPrintComponent implements OnInit {
   coverages = [];
   paymentSchedule = []
 
-  constructor(private policyHolderService: PolicyHolderService) {}
+  constructor(private policyHolderService: PolicyHolderService) { }
 
   ngOnInit() {
     this.getPolicyHolder();
@@ -64,7 +68,7 @@ export class HealthCiPrintComponent implements OnInit {
   getDetail() {
     this.detail = {
       startDate: null,
-      endDate:null,
+      endDate: null,
       policyDuration: null,
       policyType: '',
       currency: '',
@@ -97,15 +101,15 @@ export class HealthCiPrintComponent implements OnInit {
 
   getRiskDetail() {
     this.riskDetails.push(
-    //   {
-    //   name: 'Aung Aung',
-    //   occupation: 'Father',
-    //   gender: 'Male',
-    //   id: '123',
-    //   dateofBirth: '05/01/1991',
-    //   fatherName: '1212',
-    //   phoneNumber: '1212',
-    // }
+      //   {
+      //   name: 'Aung Aung',
+      //   occupation: 'Father',
+      //   gender: 'Male',
+      //   id: '123',
+      //   dateofBirth: '05/01/1991',
+      //   fatherName: '1212',
+      //   phoneNumber: '1212',
+      // }
     );
   }
 
@@ -145,7 +149,7 @@ export class HealthCiPrintComponent implements OnInit {
     );
   }
 
-  getPaymentSchedule(){
+  getPaymentSchedule() {
     this.paymentSchedule.push(
       // {
       //   noofInstallment: 1,
@@ -162,5 +166,5 @@ export class HealthCiPrintComponent implements OnInit {
     );
   }
 
-  
+
 }

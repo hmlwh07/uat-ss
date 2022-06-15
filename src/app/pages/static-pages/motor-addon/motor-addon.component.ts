@@ -288,6 +288,10 @@ export class MotorAddonComponent implements OnInit {
     let tempPre = 0
     let tempArray = this.globalFun.tempFormData['addon_1634010770155'] || []
     for (let addon of tempArray) {
+
+
+
+      
       // if (this.addOnsData[addon.id].checked) {
       console.log("addonPremium", this.globalFun.calculateDecimal(addon.premium));
 
@@ -300,6 +304,10 @@ export class MotorAddonComponent implements OnInit {
 
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
+
+
+
+
     if (this.isMedical) {
       console.log("isMedical",this.isMedical);
       

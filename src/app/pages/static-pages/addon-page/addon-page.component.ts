@@ -111,22 +111,33 @@ export class AddonPageComponent implements OnInit {
         optionalKey: this.optionId
       }
       let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
+      console.log("RESULT",results);
+      
       if (results.length == 0) {
         postData.quotationNo = this.refID
         postData.optionalKey = this.refID
         results = await this.addOnQuoService.getAllById(postData).toPromise()
+        console.log("RESULT",results);
+      
       }
+      console.log("ITEM",this.addOnList);
+        
       for (const item of this.addOnList) {
         item['show'] = true
         if (item.validationFun) {
           item['show'] = this.globalFun[item.validationFun] ? this.globalFun[item.validationFun](this.parentData) : true
         }
-        if (this.product.code == "CLFR01") {
-          item["sumInsuredStr"] = "0"
-          item["unitStr"] = "0"
-          item["premiumStr"] = "0"
-        }
+        // if (this.product.code == "CLFR01") {
+        //   item["sumInsuredStr"] = "0"
+        //   item["unitStr"] = "0"
+        //   item["premiumStr"] = "0"
+        // }
+       
+        console.log("ITEM",item);
+        
         let response = results.find(x => x.addonId == item.id)
+        console.log("RESPONSE",response);
+        
         // if (item['show']) {
         this.addOnsData[item.id] = {
           checked: response && item['show'] ? true : false,
@@ -204,6 +215,8 @@ export class AddonPageComponent implements OnInit {
         }
       }
     } else if (this.product.code == "CLFR01" && subKey == "premium") {
+      console.log("addondDa",addon);
+      
       this[mainObj][mainKey][subKey] = this.rateByValue(addon)
     }
     else {
@@ -440,12 +453,14 @@ export class AddonPageComponent implements OnInit {
       let keyId = addon.code + "-" + this.addOnsData[addon.id].option
       rate = this.fireAddonRate[keyId] || 0
     }
-    //  else {
-    //   console.log("rete_EKSE",this.fireAddonRate[addon.code] )
-    //   rate = this.fireAddonRate[addon.code] || 0
-    // }
+     else {
+      console.log("rete_EKSE",this.fireAddonRate[addon.code] )
+      rate = this.fireAddonRate[addon.code] || 0
+    }
+    console.log("RATE",rate);
+    
     let parentData = this.globalFun.tempFormData[FireRiskID]
-    // console.log(parentData);
+    console.log("parentData",parentData);
 
     let totalRisk = 0
     if (parentData) {
@@ -453,6 +468,8 @@ export class AddonPageComponent implements OnInit {
       //   totalRisk += parseFloat(element.riskSi)
       // });
       let parent = parentData.find(x => x.id == this.optionId)
+      console.log("parentparent",parent);
+      
       totalRisk += parent ? parent.riskSi : 0
       
     }
