@@ -31,5 +31,7 @@ export class StartEndDateComponent implements OnInit {
     let monthDay = new Date(date.setMonth(date.getMonth() + 1))
     this.formInput.controls['startDate'].setValue(lastMonthDay.toISOString());
     this.formInput.controls['endDate'].setValue(monthDay.toISOString());
+    this.formInput.controls['expiredStart'].setValue(lastMonthDay.toISOString());
+    this.formInput.controls['expiredEnd'].setValue(lastMonthDay.toISOString());
   }
 }

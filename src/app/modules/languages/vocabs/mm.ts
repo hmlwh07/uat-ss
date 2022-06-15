@@ -460,6 +460,9 @@ export const locale = {
       'Option': "Option",
       'Unit': "ယူနစ်",
       'Premium': "အာမခံပရီမီယံ",
+      expired_start_date:"Expired Start Date",
+      expired_end_date:"Expired End Date",
+      expiredDate:"Expired Date",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",
