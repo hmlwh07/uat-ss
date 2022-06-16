@@ -14,8 +14,7 @@ export class FireRiskAddressService extends BizOperationService<FireProductDTO, 
     super(httpClient, API_RISK_ADDRESS);
   }
 
-  getOne(quo: string){
-    console.log(quo,"data");
-    return this.httpClient.get(API_RISK_ADDRESS+"/"+quo)
+  getOne(resourceId: string){
+    return this.httpClient.get(API_RISK_ADDRESS+"/"+resourceId)
   }
 }

@@ -27,7 +27,14 @@ export class LeadListService {
     } 
     if (search.endDate) {
       url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
-    }if (search.productId) {
+    }
+    if (search.expiredStart) {
+      url = url + "expiredStart=" + moment(search.expiredStart).format("YYYY-MM-DD") + "&"
+    } 
+    if (search.expiredEnd) {
+      url = url + "expiredEnd=" + moment(search.expiredEnd).format("YYYY-MM-DD") + "&"
+    }
+    if (search.productId) {
       url = url + "productId=" + search.productId + "&"
     } 
     if (search.sourceCode) {

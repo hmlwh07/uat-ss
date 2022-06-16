@@ -1,8 +1,6 @@
-
-
 <div class="addon-print" *ngIf="policyHolder">
   <div class="title-style mt-5 mb-3">Policy Holder</div>
-  <div class="row" >
+  <div class="row">
     <div class="col-sm-3 text-bold">
       Name
     </div>
@@ -15,7 +13,7 @@
       ID
     </div>
     <div class="col-sm-6">
-    {{policyHolder.cprNumber}} 
+      {{policyHolder.cprNumber}}
     </div>
   </div>
   <div class="row">
@@ -56,7 +54,7 @@
       </ng-container>
     </div>
   </div>
-  
+
 </div>
 
 <div class="addon-print">
@@ -65,20 +63,20 @@
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Effective Date
       </td>
-      <td class="value-col">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="value-col">{{policyInfo.startDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Expiry Date
       </td>
-      <td class="value-col">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="value-col">{{policyInfo.endDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Duration
       </td>
-      <td class="value-col">{{detail.policyDuration}}</td>
+      <td class="value-col">{{policyInfo.policyDuration}}</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Plan</td>
-      <td class="value-col" colspan="2">{{detail.policyType == "T-001" ? "Normal" : "Declaration"}}</td>
+      <td class="value-col" colspan="2">{{policyInfo.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Payment Frequency</td>
-      <td class="value-col" colspan="2">{{detail.currency}}</td>
-     
+      <td class="value-col" colspan="2">{{policyInfo.currency}}</td>
+
     </tr>
     <!-- <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Risk Address</td>
@@ -100,7 +98,7 @@
       <td class="field-col">Father Name</td>
       <td class="field-col">Phone Number</td>
     </tr>
-     <tbody class="tbody-align val-col">
+    <tbody class="tbody-align val-col">
       <ng-container *ngFor="let riskDetail of riskDetails;">
         <tr>
           <td class="field-value">{{riskDetail.name}}</td>
@@ -127,7 +125,7 @@
       <td class="field-col" style="width: 17%;">Date of Birth</td>
       <td class="field-col" style="width: 17%;">Share %</td>
     </tr>
-     <tbody class="tbody-align val-col" style="width: 100%;">
+    <tbody class="tbody-align val-col" style="width: 100%;">
       <ng-container *ngFor="let data of beneficiaries;">
         <tr>
           <td class="field-value" style="width: 50px;">{{data.no}}</td>
@@ -150,16 +148,16 @@
       <td class="field-col" style="width: 70%;">Coverage Name</td>
       <td class="field-col" style="width: 20%;">Units</td>
     </tr>
-     <tbody class="tbody-align val-col">
-      <ng-container >
-        <tr *ngFor="let data of coverages;">
-          <td class="field-value" style="width: 50px;">{{data.no}}</td>
-          <td class="field-value" style="width: 70%;">{{data.coverageName}}</td>
-          <td class="field-value" style="width: 20%;">{{data.unit}}</td>
+    <tbody class="tbody-align val-col">
+      <ng-container>
+        <tr *ngFor="let data of coverages; let i=index">
+          <td class="field-value" style="width: 50px;">{{i+1}}</td>
+          <td class="field-value" style="width: 70%;">{{data.keyName}}</td>
+          <td class="field-value" style="width: 20%;">{{data.value}} Units</td>
         </tr>
         <tr *ngIf="coverages.length > 0">
           <td class="field-value" colspan="2">Total</td>
-          <td class="field-value">1254</td>
+          <td class="field-value">{{coveragesTotalValue}} Units </td>
         </tr>
       </ng-container>
     </tbody>
@@ -175,19 +173,19 @@
       <td class="field-col" style="width: 25%;">Stamp Duty</td>
       <td class="field-col" style="width: 25%;">Total Premium</td>
     </tr>
-     <tbody class="tbody-align val-col">
-      <ng-container >
-        <tr *ngFor="let data of paymentSchedule;">
-          <td class="field-value" style="width: 25%;">{{data.noofInstallment}}</td>
-          <td class="field-value" style="width: 25%;">{{data.installmentPremium}}</td>
-          <td class="field-value" style="width: 25%;">{{data.stampDuty}}</td>
-          <td class="field-value" style="width: 25%;">{{data.totalPremium}}</td>
+    <tbody class="tbody-align val-col">
+      <ng-container>
+        <tr *ngFor="let data of tempPaymentSchedule; let i=index">
+          <td class="field-value" style="width: 25%;">{{i+1}}</td>
+          <td class="field-value" style="width: 25%;">{{data.premium | number}}</td>
+          <td class="field-value" style="width: 25%;">{{data.levy | number}}</td>
+          <td class="field-value" style="width: 25%;">{{(data.premium + data.levy) | number}}</td>
         </tr>
-        <tr *ngIf="paymentSchedule.length > 0">
+        <tr *ngIf="tempPaymentSchedule.length > 0">
           <td class="field-value">Annual Premium</td>
-          <td class="field-value">100</td>
+          <td class="field-value">{{totalP | number}}</td>
           <td class="field-value">Total payable premium</td>
-          <td class="field-value">300</td>
+          <td class="field-value">{{(totalP+totalL) | number}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -200,8 +198,11 @@
   </div>
   <div class="row">
     <div class="col">
-       <p>I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between the insurance company and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
-        Remark:  The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.</p>
+      <p>I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned
+        statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of
+        the agreement between the insurance company and me. I also know that if any information, declarations and
+        supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
+        Remark: The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.</p>
     </div>
   </div>
 </div>

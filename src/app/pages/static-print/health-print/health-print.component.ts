@@ -17,4 +17,6 @@ export class HealthPrintComponent implements OnInit {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
   }
 
+  
+
 }
