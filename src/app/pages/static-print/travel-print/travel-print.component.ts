@@ -17,16 +17,16 @@ import { TravelRiskDetailComponent } from '../../static-pages/travel-page/travel
 export class TravelPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
-  @Input() premiumAmt:any
+  @Input() premiumAmt: any
   listData: any[] = []
   policyInfo: any = {}
-  riskInfo:any=[]
+  riskInfo: any = []
   policyHolder: any = {
     partyAddress: []
   }
   totalPremium: number = 0
   totalSI: number = 0
-  numberOfTraveller:number=0
+  numberOfTraveller: number = 0
   @Input() signId?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
@@ -57,7 +57,6 @@ export class TravelPrintComponent implements OnInit {
           }
         })
       }
-      console.log("getPolicyHolder: ", this.policyHolder)
     })
   }
 
@@ -83,18 +82,16 @@ export class TravelPrintComponent implements OnInit {
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-  getTravelPrintData(){
-    this.travelService.getData(this.resourcesId).toPromise().then((res:any)=>{
-      console.log(res);
-      
-      if(res){
-        this.policyInfo=res.policyInfo.travelBasic
-        this.numberOfTraveller=res.policyInfo.numberOfTraveller
-        this.riskInfo=res.riskDetails
-        for(let data of res.riskDetails){
-          console.log("data",data);
-          
-          this.totalSI +=parseInt(data.travelRisk.insuredUnitValue)
+
+  getTravelPrintData() {
+    this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
+      console.log("get Detail: travel => ", res)
+      if (res) {
+        this.policyInfo = res.policyInfo.travelBasic
+        this.numberOfTraveller = res.policyInfo.numberOfTraveller
+        this.riskInfo = res.riskDetails
+        for (let data of res.riskDetails) {
+          this.totalSI += parseInt(data.travelRisk.insuredUnitValue)
         }
       }
     })
