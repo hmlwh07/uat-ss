@@ -404,6 +404,9 @@ export const locale = {
       submit_application: "Submit Application",
       medical_expense: "Medical Expense",
       cross_border: "Cross Border",
+      expired_start_date:"Expired Start Date",
+      expired_end_date:"Expired End Date",
+      expiredDate:"Expired Date",
     },
     NAV: {
       my_acc: "My Account",

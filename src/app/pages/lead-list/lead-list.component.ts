@@ -59,7 +59,7 @@ export class LeadListComponent implements OnInit {
     private masterDataService: MasterDataService,
     private productService: ProductDataService,
     private modalService: NgbModal,
-    private translate:LanguagesService
+    private translate: LanguagesService
   ) {
     this.loadForm();
   }
@@ -93,6 +93,8 @@ export class LeadListComponent implements OnInit {
       leadId: new FormControl(null),
       startDate: new FormControl(null),
       endDate: new FormControl(null),
+      expiredStart: new FormControl(null),
+      expiredEnd: new FormControl(null),
       productId: new FormControl(null),
       sourceCode: new FormControl(null),
       statusCode: new FormControl(null),
@@ -185,7 +187,7 @@ export class LeadListComponent implements OnInit {
           this.LeadList = res
           this.cdf.detectChanges();
           this.commonList.detchChange()
-         // this.matTable.reChangeData();
+          // this.matTable.reChangeData();
         }
       });
   }
@@ -222,9 +224,9 @@ export class LeadListComponent implements OnInit {
   onActionEdit() {
 
   }
-  clearDate(key){
+  clearDate(key) {
     this.LeadForm.controls[key].setValue(null)
-    if(key=='existingCustomerName'){
+    if (key == 'existingCustomerName') {
       this.LeadForm.controls[key].setValue(null)
       this.LeadForm.controls['existingCustomerId'].setValue(null)
 
