@@ -28,7 +28,7 @@
 
 
 <!--expired date-->
-<div [ngClass]="colClass" ng [formGroup]="formInput" *ngIf="formInput">
+<div [ngClass]="colClass"  [formGroup]="formInput" *ngIf="formInput && isLead">
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">{{"FORM.expired_start_date" | translate}}</label>
         <div class="col-sm-8">
@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<div [ngClass]="colClass" ng [formGroup]="formInput" *ngIf="formInput">
+<div [ngClass]="colClass" [formGroup]="formInput" *ngIf="formInput && isLead">
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">{{"FORM.expired_end_date" | translate}}</label>
         <div class="col-sm-8">
