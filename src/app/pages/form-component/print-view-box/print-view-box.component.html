@@ -167,7 +167,6 @@
             </table>
           </ng-container>
         </ng-template>
-
       </ng-container>
     </ng-container>
     <ng-template #staticPrint>
@@ -181,7 +180,7 @@
         <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-travel-print>
       </ng-container>
       <ng-container *ngIf="product.code=='PCHL01' ">
-        <app-health-ci-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-health-ci-print>
+        <app-health-ci-print  [product]="product" [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-health-ci-print>
       </ng-container>
       <ng-container *ngIf="product.code=='PLPA01' ">
         <app-personal-accident-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-personal-accident-print>

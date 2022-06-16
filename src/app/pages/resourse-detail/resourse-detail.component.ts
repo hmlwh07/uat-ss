@@ -60,6 +60,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail = this.productService.editData
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
+      console.log("RESOURCE", this.resourceDetail);
+
       if (!this.resourceDetail) {
         this.location.back()
         return
@@ -89,7 +91,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       // }
       let checkTravel = this.pageOrder.findIndex(x => x.id == 'static_1648784270356')
       // console.log(checkTravel);
-      
+
       if (checkTravel >= 0) {
         let checkProd = this.pageOrder.findIndex(x => x.tableName == "travel_detail")
         if (checkProd >= 0) {
@@ -109,7 +111,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         }
       }
       // console.log(this.pageOrder);
-      
+
       // if (this.item.coverages && this.item.coverages.length > 0) {
       //   this.coverage = {
       //     sumInsured: this.item.coverages[0].sumInsured,
@@ -169,7 +171,23 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   getDetail(tempFormData) {
     this.getOldData(this.resourceDetail, tempFormData)
   }
-
+  checkDisabled() {
+    let isDisabled=true
+    
+    if (this.resourceDetail.apiStatus!= null){
+      let status=this.resourceDetail.apiStatus.toLowerCase()
+        if (status!= 'fail'){
+          isDisabled= true
+          console.log(status,isDisabled);
+        }else{
+          isDisabled= false
+          console.log(status,isDisabled);
+        }
+      }else{
+        isDisabled=false
+      }
+      return isDisabled
+     }
   getOldData(oldData: any, tempFormData) {
     let index = 0
     // this.pageOrder.forEach((element) => {

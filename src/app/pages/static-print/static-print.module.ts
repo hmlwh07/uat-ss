@@ -25,6 +25,7 @@ import { TravelPrintComponent } from './travel-print/travel-print.component';
 import { HealthCiPrintComponent } from './health-ci-print/health-ci-print.component';
 import { PersonalAccidentPrintComponent } from './personal-accident-print/personal-accident-print.component';
 import { PaPrintService } from '../products/services/pa.service';
+import { HealthPrintService } from '../products/services/health-print.service';
 
 @NgModule({
   declarations: [StaticPrintDirective, FarmerPrintComponent, 
@@ -45,6 +46,6 @@ import { PaPrintService } from '../products/services/pa.service';
     NgApexchartsModule,
     LanguageModule,
   ],
-  providers: [MotorPrintService,PaPrintService]
+  providers: [MotorPrintService,PaPrintService,HealthPrintService]
 })
 export class StaticPrintModule { }
