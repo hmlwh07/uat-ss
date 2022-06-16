@@ -35,15 +35,15 @@ export class FirePrintComponent implements OnInit {
   totalproposedMachinerySI: number = 0
   totalproposeStockValue: number = 0
   totalriskSi: number = 0
-  policyUnit={
-    "F":"Months",
-    "G":"Years",
-    "D":"Days"
+  policyUnit = {
+    "F": "Months",
+    "G": "Years",
+    "D": "Days"
   }
   @Input() signId?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
-  constructor(private fireService: FireProductService,private productService:ProductDataService, private fireRsikService: FireRiskService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService) { }
+  constructor(private fireService: FireProductService, private productService: ProductDataService, private fireRsikService: FireRiskService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
@@ -56,9 +56,8 @@ export class FirePrintComponent implements OnInit {
   getDetail() {
     this.fireService.getOne(this.resourcesId).toPromise().then(res => {
       if (res)
-
         this.detail = res
-      console.log("DEtail", this.detail);
+      console.log("Detail", this.detail);
     })
   }
   getRiskDetail() {
@@ -70,10 +69,10 @@ export class FirePrintComponent implements OnInit {
           this.totalPremium += parseInt(data.premium)
           this.totalSi += parseInt(data.riskSi)
           this.totalbuildingSi += data.buildingSi || 0
-          this.totalproposedFurniture += data.proposedFurniture|| 0
-          this.totalproposedMachinerySI += data.proposedMachinerySI|| 0
-          this.totalproposeStockValue += data.proposeStockValue|| 0
-          this.totalriskSi += data.riskSi|| 0
+          this.totalproposedFurniture += data.proposedFurniture || 0
+          this.totalproposedMachinerySI += data.proposedMachinerySI || 0
+          this.totalproposeStockValue += data.proposeStockValue || 0
+          this.totalriskSi += data.riskSi || 0
         }
 
         this.getAddonCover()
@@ -84,10 +83,13 @@ export class FirePrintComponent implements OnInit {
 
   getPolicyHolder() {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
+      console.log("Policy",res)
       if (res) {
         this.policyHolder = res
-        this.getMasterValue(this.policyHolder.partyAddress[0].district, this.policyHolder.partyAddress[0].state, this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
-
+        this.getMasterValue(
+          this.policyHolder.partyAddress[0].district, 
+          this.policyHolder.partyAddress[0].state, 
+          this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
           this.policyHolder = {
             ...this.policyHolder,
             // phone: "0943044813",
@@ -98,6 +100,7 @@ export class FirePrintComponent implements OnInit {
         })
       }
     })
+    console.log("getPolicyHolder:", this.policyHolder)
   }
 
 
@@ -128,7 +131,7 @@ export class FirePrintComponent implements OnInit {
     this.fireRiskAddressService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.address = res
-        console.log("adderss", this.address);
+        console.log("address", this.address);
       }
     })
   }
