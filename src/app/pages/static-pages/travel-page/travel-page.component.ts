@@ -136,8 +136,9 @@ export class TravelComponent implements OnInit {
   }
 
   newData(type, detail?: any) {
-    console.log("DETAIL",detail);
-    
+    console.log("DETAIL", detail);
+    console.log("this.tempData['benefi']", this.tempData['benefi']);
+
     let modalRef = this.modalService.open(TravelRiskDetailComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type
     modalRef.componentInstance.riskId = detail ? detail.riskId : ""
@@ -153,8 +154,11 @@ export class TravelComponent implements OnInit {
     if (detail) {
       let travel = this.tempData['travelDetail'].find(x => x.refId == detail.riskId)
       let traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
-      let benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
-      this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
+      let benefi=[]
+      if (this.tempData['benefi']) {
+        benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
+        this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
+      }
       modalRef.componentInstance.tempData = {
         travelDetail: travel || {},
         traveler: traveler || {},
@@ -207,8 +211,11 @@ export class TravelComponent implements OnInit {
     }
   }
   changeBenefi(data, refId) {
-    let filtered = this.tempData['benefi'].filter(x => x.risk_id != refId)
-    this.tempData['benefi'] = [...filtered, ...data]
+    let filtered=[]
+    if(this.tempData['benefi']){
+      filtered = this.tempData['benefi'].filter(x => x.risk_id != refId)
+    }
+     this.tempData['benefi'] = [...filtered, ...data]
   }
 
   delete(index) {
