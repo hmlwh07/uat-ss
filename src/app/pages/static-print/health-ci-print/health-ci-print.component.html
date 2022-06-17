@@ -69,13 +69,13 @@
       <td class="value-col">{{policyInfo.insuranceEndDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Duration
       </td>
-      <td class="value-col">{{policyInfo.policyDuration}} Units</td>
+      <td class="value-col">{{policyInfo.sumInsuredMainCover}} Units</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Plan</td>
-      <td class="value-col" colspan="2">{{policyInfo.policyPlan}}</td>
+      <td class="value-col" colspan="2">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance':'Critical Illness Insurance'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Payment Frequency</td>
-      <td class="value-col" colspan="2">{{policyInfo.paymentFrequency}}</td>
+      <td class="value-col" colspan="2">{{policyInfo.paymentFrequency == 'S'? 'Semi-Annually':'Lump Sum'}}</td>
 
     </tr>
     <!-- <tr>
@@ -102,9 +102,10 @@
       <ng-container *ngFor="let riskDetail of riskDetails;">
         <tr>
           <td class="field-value">{{riskDetail.firstName}} {{riskDetail.middleName}} {{riskDetail.lastName}}</td>
-          <td class="field-value">{{riskDetail.occupation}}</td>
-          <td class="field-value">{{riskDetail.gender}}</td>
-          <td class="field-value">{{riskDetail.identityType}} - {{riskDetail.identityNrc}}</td>
+          <td class="field-value">{{riskDetail.occupationCdValue}}</td>
+          <td class="field-value">{{riskDetail.genderCdValue}}</td>
+          <td class="field-value">{{riskDetail.identityType}} -
+            {{riskDetail.identityType=='NRC'? riskDetail.identityNrc : riskDetail.identityNumber}}</td>
           <td class="field-value">{{riskDetail.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
           <td class="field-value">{{riskDetail.fatherName}}</td>
           <td class="field-value">{{riskDetail.phone}}</td>
@@ -130,8 +131,9 @@
         <tr>
           <td class="field-value" style="width: 50px;">{{i+1}}</td>
           <td class="field-value" style="width: 17%;">{{data.beneficiaryName}}</td>
-          <td class="field-value" style="width: 17%;">{{data.relationship}}</td>
-          <td class="field-value" style="width: 17%;">{{data.idType}} - {{data.idNumber}}</td>
+          <td class="field-value" style="width: 17%;">{{data.relationshipValue}}</td>
+          <td class="field-value" style="width: 17%;">{{data.idType}} - {{data.idType=='NRC'?data.idNrc : data.idNumber}}
+          </td>
           <td class="field-value" style="width: 17%;">{{data.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
           <td class="field-value" style="width: 17%;">{{data.share}} %</td>
         </tr>
