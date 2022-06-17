@@ -20,31 +20,41 @@
   text-align: center;
   padding   : 5px 5px;
   width     : 150px;
-  background-color: rgb(221, 235, 247);
-  font-size : 0.75rem;
+  // background-color: rgba(7, 180, 251, 0.2);
+  background-color: rgba(12, 180, 249, 0.09);
+  font-size : 0.9rem;
 }
 .field-col {
   text-align: center;
   padding   : 5px 5px;
   width     : 100px;
-  font-size : 0.75rem;
+  font-size : 0.9rem;
 }
 
 .value-col {
   padding   : 5px 5px;
   text-align: center;
   width     : 120px;
-  font-size : 0.75rem;
+  font-size : 0.9rem;
 }
 .field-value{
   background-color: #fff;
 }
 table td {
-  border         : 1px solid #9BC2E6;
+  border         : 1px solid #005F9975;
   border-collapse: collapse;
 }
+
 .title-style {
-  font-size: 0.9rem;
-  background-color: #f2f4f6db;
+  font-size: 1.1rem;
+  background-color: #85bceb52;
   text-align: center;
+}
+.form-txt{
+  font-size: 10pt;
+}
+
+.line-sp{
+  line-height: 25px;
+  margin-left: 5px;
 }
