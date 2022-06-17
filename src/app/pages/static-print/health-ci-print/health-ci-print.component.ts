@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { stream } from 'exceljs';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { environment } from '../../../../environments/environment';
 import { ProductDataService } from '../../products/services/products-data.service';
@@ -28,20 +27,20 @@ export class HealthCiPrintComponent implements OnInit {
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   policyHolder: any = {};
-  policyInfo:any={};
+  policyInfo: any = {};
 
-  riskDetails:any = [];
-  beneficiaries:any = [];
-  coverages:any = [];
-  AddonData:any=[]
-  paymentSchedule:any = []
-  tempPaymentSchedule:any=[]
-  refID:any;
-  tempResourcesId:any;
-  totalP:number=0
-  totalL:number=0
-  coveragesTotalValue:number=0
-  constructor(private policyHolderService: PolicyHolderService,private coverageQuo:CoverageQuoService,private addOnQuoService:AddOnQuoService,private prodService:ProductDataService,private coverageQuoService:CoverageQuoService,private healthPayService:HealthPaymentService,private cdf:ChangeDetectorRef,private productService:ProductDataService,private healthPrintService:HealthPrintService) { }
+  riskDetails: any = [];
+  beneficiaries: any = [];
+  coverages: any = [];
+  AddonData: any = []
+  paymentSchedule: any = []
+  tempPaymentSchedule: any = []
+  refID: any;
+  tempResourcesId: any;
+  totalP: number = 0
+  totalL: number = 0
+  coveragesTotalValue: number = 0
+  constructor(private policyHolderService: PolicyHolderService, private coverageQuo: CoverageQuoService, private addOnQuoService: AddOnQuoService, private prodService: ProductDataService, private coverageQuoService: CoverageQuoService, private healthPayService: HealthPaymentService, private cdf: ChangeDetectorRef, private productService: ProductDataService, private healthPrintService: HealthPrintService) { }
 
 
 
@@ -58,22 +57,21 @@ export class HealthCiPrintComponent implements OnInit {
   }
 
   getDetail() {
-  this.healthPrintService.getOne(this.resourcesId).toPromise().then((res:any)=>{
-    console.log(res);
-    if(res){
-      this.policyInfo=res.policyInfo
-      this.riskDetails=res.riskDetails
-      this.beneficiaries=res.beneficiaries
-    }
-    
-  })
+    this.healthPrintService.getOne(this.resourcesId).toPromise().then((res: any) => {
+      console.log(res);
+      if (res) {
+        this.policyInfo = res.policyInfo
+        this.riskDetails = res.riskDetails
+        this.beneficiaries = res.beneficiaries
+      }
+    })
   }
 
   getAddon() {
     this.product.addOns.forEach(async (addon) => {
       let response: any = {};
       try {
-        response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId,this.tempResourcesId).toPromise()
+        response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
           this.AddonData.push({ keyName: addon.description, value: response.sumInsured })
         }
@@ -87,12 +85,13 @@ export class HealthCiPrintComponent implements OnInit {
     this.product.coverages.forEach(async (coverage) => {
       let response: any = {};
       try {
-        response = await this.coverageQuo.getOne(coverage.id, this.tempResourcesId,this.tempResourcesId).toPromise()
+        response = await this.coverageQuo.getOne(coverage.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
           this.coverages.unshift({ keyName: coverage.description, value: response.sumInsured })
-          for(let data of this.coverages){
+          for (let data of this.coverages) {
             this.coveragesTotalValue += parseInt(data.value)
           }
+          console.log("getCoverage: ", this.coverages)
         }
       } catch (error) {
       }
@@ -135,11 +134,44 @@ export class HealthCiPrintComponent implements OnInit {
       .then((res: any) => {
         if (res) {
           this.policyHolder = res;
-          console.log('policy', this.policyHolder);
+          this.getMasterValue(
+            this.policyHolder.partyAddress[0].city,
+            this.policyHolder.partyAddress[0].district,
+            this.policyHolder.partyAddress[0].state
+          ).toPromise().then((res: any) => {
+            this.policyHolder = {
+              ...this.policyHolder,
+              townshipName: res['PT_TOWNSHIP'],
+              districtName: res['PT_DISTRICT'],
+              stateName: res['PT_STATE'],
+            }
+          })
+          console.log("getPolicyHolder: ", this.policyHolder)
         }
       });
   }
 
-  
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string) {
+    let data = {
+      "codeBookRequest": [
+        {
+          "codeId": "TA-" + townshipCd,
+          "codeType": "PT_TOWNSHIP",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + districtCd,
+          "codeType": "PT_DISTRICT",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + stateCd,
+          "codeType": "PT_STATE",
+          "langCd": "EN"
+        },
+      ]
+    }
+    return this.policyHolderService.getMasterDataSale(data)
+  }
 
 }

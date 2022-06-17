@@ -50,7 +50,7 @@
     </div>
     <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
       <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.partyAddress[0].city}}/{{policyHolder.partyAddress[0].district}}/{{policyHolder.partyAddress[0].state}}
+        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.townshipName}}/{{policyHolder.districtName}}/{{policyHolder.stateName}}
       </ng-container>
     </div>
   </div>
@@ -63,19 +63,19 @@
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Effective Date
       </td>
-      <td class="value-col">{{policyInfo.startDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="value-col">{{policyInfo.insuranceStartDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Expiry Date
       </td>
-      <td class="value-col">{{policyInfo.endDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="value-col">{{policyInfo.insuranceEndDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Duration
       </td>
-      <td class="value-col">{{policyInfo.policyDuration}}</td>
+      <td class="value-col">{{policyInfo.policyDuration}} Units</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Plan</td>
-      <td class="value-col" colspan="2">{{policyInfo.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
+      <td class="value-col" colspan="2">{{policyInfo.policyPlan}}</td>
       <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Payment Frequency</td>
-      <td class="value-col" colspan="2">{{policyInfo.currency}}</td>
+      <td class="value-col" colspan="2">{{policyInfo.paymentFrequency}}</td>
 
     </tr>
     <!-- <tr>
@@ -101,13 +101,13 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let riskDetail of riskDetails;">
         <tr>
-          <td class="field-value">{{riskDetail.name}}</td>
+          <td class="field-value">{{riskDetail.firstName}} {{riskDetail.middleName}} {{riskDetail.lastName}}</td>
           <td class="field-value">{{riskDetail.occupation}}</td>
           <td class="field-value">{{riskDetail.gender}}</td>
-          <td class="field-value">{{riskDetail.id}}</td>
-          <td class="field-value">{{riskDetail.dateOfBirth}}</td>
+          <td class="field-value">{{riskDetail.identityType}} - {{riskDetail.identityNrc}}</td>
+          <td class="field-value">{{riskDetail.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
           <td class="field-value">{{riskDetail.fatherName}}</td>
-          <td class="field-value">{{riskDetail.phoneNumber}}</td>
+          <td class="field-value">{{riskDetail.phone}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -126,13 +126,13 @@
       <td class="field-col" style="width: 17%;">Share %</td>
     </tr>
     <tbody class="tbody-align val-col" style="width: 100%;">
-      <ng-container *ngFor="let data of beneficiaries;">
+      <ng-container *ngFor="let data of beneficiaries;let i = index">
         <tr>
-          <td class="field-value" style="width: 50px;">{{data.no}}</td>
-          <td class="field-value" style="width: 17%;">{{data.name}}</td>
+          <td class="field-value" style="width: 50px;">{{i+1}}</td>
+          <td class="field-value" style="width: 17%;">{{data.beneficiaryName}}</td>
           <td class="field-value" style="width: 17%;">{{data.relationship}}</td>
-          <td class="field-value" style="width: 17%;">{{data.id}}</td>
-          <td class="field-value" style="width: 17%;">{{data.dateOfBirth}}</td>
+          <td class="field-value" style="width: 17%;">{{data.idType}} - {{data.idNumber}}</td>
+          <td class="field-value" style="width: 17%;">{{data.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
           <td class="field-value" style="width: 17%;">{{data.share}} %</td>
         </tr>
       </ng-container>
@@ -202,7 +202,7 @@
         statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of
         the agreement between the insurance company and me. I also know that if any information, declarations and
         supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
-        Remark: The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.</p>
+        Remark: The benefits will be issued to beneficiary's parents or guardians if he/she is under 18.</p>
     </div>
   </div>
 </div>
