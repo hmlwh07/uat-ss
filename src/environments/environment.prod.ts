@@ -4,6 +4,7 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'http://104.248.152.205:8083/sale/api/v1',
+  // apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1',
   // apiUrl: 'http://104.248.152.205:8082/sale/api/v1',
   // apiUrl: 'http://104.248.152.205:8082/sale/api/v1',
   // apiUrl: 'http://178.128.30.201:8010/sale/api/v1',

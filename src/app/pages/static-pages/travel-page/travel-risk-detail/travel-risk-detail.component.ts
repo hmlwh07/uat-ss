@@ -301,7 +301,17 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         for (let ref of data) {
           this.tempRef.push(ref.refId)
         }
-  
+      }
+      
+      if (page.pageType == 'table') {
+        return this.checkMasterValue(formData, page.controls, data)
+      }
+      return of(data)
+    })).toPromise().then((res) => {
+
+      if (res) {
+
+
         let postValue = {
           riskId: this.riskId,
           refId: this.tempRef,
@@ -316,15 +326,6 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
             }
           })
         }
-      }
-      
-      if (page.pageType == 'table') {
-        return this.checkMasterValue(formData, page.controls, data)
-      }
-      return of(data)
-    })).toPromise().then((res) => {
-
-      if (res) {
 
         if (!this.resourceId)
           this.resourceId = res[0].resourceId;
@@ -541,7 +542,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
-          benefi: this.tempData['benefi'],
+          benefi: this.tempData['benefi'] || [],
           // coverage: this.tempData['coverage']
         })
       }
