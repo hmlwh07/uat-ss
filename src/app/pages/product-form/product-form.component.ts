@@ -424,6 +424,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.prodService.createingProd.id,
+      productCode:this.prodService.createingProd.code,
       type: this.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -521,6 +522,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     let postData = {
       productId: this.prodService.createingProd.id,
+      productCode:this.prodService.createingProd.code,
       type: this.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,

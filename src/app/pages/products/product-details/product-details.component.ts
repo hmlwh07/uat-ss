@@ -205,6 +205,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   createOrEdit(type: string, data?, id?: string) {
     const modalRef = this.modalService.open(CoverageModalComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.prodId = this.product.id
+    modalRef.componentInstance.prodCode= this.product.code
     modalRef.componentInstance.type = type
     modalRef.componentInstance.prodName = this.product.name
     modalRef.componentInstance.id = id

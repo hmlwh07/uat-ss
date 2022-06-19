@@ -250,6 +250,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.product.id,
+      productCode:this.product.code,
       type: this.prodService.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -376,6 +377,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.prodService.createingProd.id,
+      productCode:this.prodService.createingProd.code,
       type: this.prodService.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,

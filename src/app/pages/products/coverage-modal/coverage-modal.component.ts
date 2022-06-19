@@ -18,6 +18,7 @@ import { CoverageDataService } from '../services/coverage-data.service';
 })
 export class CoverageModalComponent implements OnInit, OnDestroy {
   prodId: string = ""
+  prodCode:string=""
   prodName: string = ""
   isLoading$;
   formGroup: FormGroup;
@@ -80,6 +81,7 @@ export class CoverageModalComponent implements OnInit, OnDestroy {
         "premium": value.isPremium,
         "premiumStr": value.premiumFun,
         "productId": this.prodId,
+        "productCode":this.prodCode,
         "sumInsured": value.isSum,
         "sumInsuredStr": value.sumInsuredFun,
         "unit": value.isUnit,
