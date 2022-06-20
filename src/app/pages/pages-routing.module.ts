@@ -178,6 +178,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'lead/lead-new',
+        loadChildren: () =>
+          import('./lead-new/lead-new.module').then(
+            (m) => m.LeadNewModule
+          ),
+      },
+      {
         path: 'fna/fna-list',
         loadChildren: () =>
           import('./fna-list/fna-list.modules').then(

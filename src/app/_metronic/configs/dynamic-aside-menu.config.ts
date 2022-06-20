@@ -5,7 +5,7 @@ export const DynamicAsideMenuConfig = {
       root: true,
       icon: 'flaticon-squares-4',
       svg: './assets/media/svg/icons/Design/dashboard.svg',
-      png:'./assets/icon/exchange_rete.png',
+      png: './assets/icon/exchange_rete.png',
       page: '/dashboard/senior-lp-dashboard',
       bullet: 'dot',
       show: true,
@@ -55,6 +55,10 @@ export const DynamicAsideMenuConfig = {
           //     page: '/fna/fna-bram',
           //   }
           // ]
+        },
+        {
+          title: 'Opportunity New',
+          page: '/lead/lead-new',
         },
         {
           title: 'FNA LPP',
@@ -133,7 +137,7 @@ export const DynamicAsideMenuConfig = {
           title: 'Renewal Policies Detail',
           page: '/sales/renew-policy/detail',
         },
-        
+
       ]
     },
     {
