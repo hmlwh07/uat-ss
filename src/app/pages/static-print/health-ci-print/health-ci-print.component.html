@@ -1,6 +1,6 @@
 <div class="addon-print" *ngIf="policyHolder">
-  <div class="title-style mt-5 mb-3">Policy Holder</div>
-  <div class="row">
+  <div class="title-style text-bold mt-5 mb-3">Policy Holder</div>
+  <div class="row form-txt line-sp" style="padding-top:10px;">
     <div class="col-sm-3 text-bold">
       Name
     </div>
@@ -8,7 +8,7 @@
       {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
     </div>
   </div>
-  <div class="row">
+  <div class="row form-txt line-sp">
     <div class="col-sm-3 text-bold">
       ID
     </div>
@@ -16,7 +16,7 @@
       {{policyHolder.cprNumber}}
     </div>
   </div>
-  <div class="row">
+  <div class="row form-txt line-sp">
     <div class="col-sm-3 text-bold">
       Date of Birth
     </div>
@@ -24,7 +24,7 @@
       {{policyHolder.dateOfBirth}}
     </div>
   </div>
-  <div class="row">
+  <div class="row form-txt line-sp">
     <div class="col-sm-3 text-bold">
       Mobile
     </div>
@@ -34,7 +34,7 @@
       </ng-container>
     </div>
   </div>
-  <div class="row">
+  <div class="row form-txt line-sp">
     <div class="col-sm-3 text-bold">
       Email
     </div>
@@ -44,7 +44,7 @@
       </ng-container>
     </div>
   </div>
-  <div class="row">
+  <div class="row form-txt line-sp">
     <div class="col-sm-3 text-bold">
       Address
     </div>
@@ -58,28 +58,28 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style mt-5 mb-3">Policy Information Detail</div>
+  <div class="title-style text-bold mt-5 mb-5">Policy Information Detail</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Effective Date
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Effective Date
       </td>
       <td class="value-col">{{policyInfo.insuranceStartDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Expiry Date
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Expiry Date
       </td>
       <td class="value-col">{{policyInfo.insuranceEndDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Duration
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Duration
       </td>
       <td class="value-col">{{policyInfo.sumInsuredMainCover}} Units</td>
     </tr>
     <tr>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Policy Plan</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Plan</td>
       <td class="value-col" colspan="2">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance':'Critical Illness Insurance'}}</td>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Payment Frequency</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Payment Frequency</td>
       <td class="value-col" colspan="2">{{policyInfo.paymentFrequency == 'S'? 'Semi-Annually':'Lump Sum'}}</td>
 
     </tr>
     <!-- <tr>
-      <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Risk Address</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Risk Address</td>
       <td class="value-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
     </tr> -->
   </table>
@@ -87,8 +87,8 @@
  
 
 <div class="addon-print">
-  <div class="title-style mt-5 mb-3">Risk Detail Information</div>
-  <table width="100%">
+  <div class="title-style text-bold mt-5 mb-5">Risk Detail Information</div>
+  <table class="tbody-align" width="100%">
     <tr>
       <td class="field-col">Name</td>
       <td class="field-col">Occupation</td>
@@ -116,7 +116,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style mt-5 mb-3">Beneficiaries Detailed Information</div>
+  <div class="title-style text-bold mt-5 mb-5">Beneficiaries Detailed Information</div>
   <table class="tbody-align" style="width: 100%;">
     <tr>
       <td class="field-col" style="width: 50px;">No.</td>
@@ -143,7 +143,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style mt-5 mb-3">Coverage Detail</div>
+  <div class="title-style text-bold mt-5 mb-5">Coverage Detail</div>
   <table class="tbody-align" style="width: 100%;">
     <tr>
       <td class="field-col" style="width: 50px;">No.</td>
@@ -167,7 +167,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style mt-5 mb-3">Payment Schedule</div>
+  <div class="title-style text-bold mt-5 mb-5">Payment Schedule</div>
   <table class="tbody-align" style="width: 100%;">
     <tr>
       <td class="field-col" style="width: 25%;">No. of Installment</td>
@@ -179,15 +179,15 @@
       <ng-container>
         <tr *ngFor="let data of tempPaymentSchedule; let i=index">
           <td class="field-value" style="width: 25%;">{{i+1}}</td>
-          <td class="field-value" style="width: 25%;">{{data.premium | number}}</td>
-          <td class="field-value" style="width: 25%;">{{data.levy | number}}</td>
-          <td class="field-value" style="width: 25%;">{{(data.premium + data.levy) | number}}</td>
+          <td class="field-value" style="width: 25%;">{{data.premium | number  : '1.2-2'}}</td>
+          <td class="field-value" style="width: 25%;">{{data.levy | number  : '1.2-2'}}</td>
+          <td class="field-value" style="width: 25%;">{{(data.premium + data.levy) | number  : '1.2-2'}}</td>
         </tr>
         <tr *ngIf="tempPaymentSchedule.length > 0">
           <td class="field-value">Annual Premium</td>
-          <td class="field-value">{{totalP | number}}</td>
+          <td class="field-value">{{totalP | number  : '1.2-2'}}</td>
           <td class="field-value">Total payable premium</td>
-          <td class="field-value">{{(totalP+totalL) | number}}</td>
+          <td class="field-value">{{(totalP+totalL) | number  : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -196,11 +196,11 @@
 
 <div class="addon-print">
   <div class="row">
-    <div class="title-style text-bold mt-5 mb-3" style="margin-left: 12px;">Declaration By Proposer</div>
+    <div class="text-bold mt-10 mb-5" style="margin-left:10px;font-size:1.5rem">Declaration By Proposer</div>
   </div>
   <div class="row">
     <div class="col">
-      <p>I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned
+      <p style="font-size: 12pt;">I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned
         statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of
         the agreement between the insurance company and me. I also know that if any information, declarations and
         supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
@@ -211,13 +211,13 @@
 
 <div class="moter-print">
 
-  <div class="sign-row">
+  <div class="sign-row mt-5">
     <div class="sign-box">
-      <label>DATE</label>
+      <label class="text-bold">DATE</label>
       <div class="sign-area"></div>
     </div>
     <div class="sign-box">
-      <label>PROPOSER</label>
+      <label class="text-bold">PROPOSER SIGNATURE</label>
       <div class="sign-area">
         <ng-container *ngIf="signId">
           <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">

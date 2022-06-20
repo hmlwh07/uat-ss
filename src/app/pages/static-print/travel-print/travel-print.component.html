@@ -1,6 +1,6 @@
 <div class="addon-print" *ngIf="policyHolder">
-    <div class="title-style mt-5 mb-3">Policy Holder</div>
-    <div class="row">
+    <div class="title-style text-bold mt-5 mb-3">Policy Holder</div>
+    <div class="row form-txt line-sp" style="padding-top:10px;">
         <div class="col-sm-3 text-bold">
             Name
         </div>
@@ -8,7 +8,7 @@
             {{policyHolder.title}}{{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
         </div>
     </div>
-    <div class="row">
+    <div class="row form-txt line-sp">
         <div class="col-sm-3 text-bold">
             ID
         </div>
@@ -16,7 +16,7 @@
             {{policyHolder.cprNumber}}
         </div>
     </div>
-    <div class="row">
+    <div class="row form-txt line-sp">
         <div class="col-sm-3 text-bold">
             Date of Birth
         </div>
@@ -24,7 +24,7 @@
             {{policyHolder.dateOfBirth}}
         </div>
     </div>
-    <div class="row">
+    <div class="row form-txt line-sp">
         <div class="col-sm-3 text-bold">
             Mobile
         </div>
@@ -34,7 +34,7 @@
             </ng-container>
         </div>
     </div>
-    <div class="row">
+    <div class="row form-txt line-sp">
         <div class="col-sm-3 text-bold">
             Email
         </div>
@@ -44,7 +44,7 @@
             </ng-container>
         </div>
     </div>
-    <div class="row">
+    <div class="row form-txt line-sp">
         <div class="col-sm-3 text-bold">
             Address
         </div>
@@ -58,38 +58,38 @@
 </div>
 
 <div class="addon-print">
-    <div class="title-style mt-5 mb-3">Policy Information Detail</div>
+    <div class="title-style text-bold mt-5 mb-5">Policy Information Detail</div>
     <table width="100%">
         <tr>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Effective Date
             </td>
             <td class="value-col">{{policyInfo.policyInceptionDate | date: 'dd/MM/YYYY'}}</td>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Expiry Date
             </td>
             <td class="value-col">{{policyInfo.policyExpiryDate | date: 'dd/MM/YYYY'}}</td>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Duration
             </td>
             <td class="value-col">{{policyInfo.policyDurationValue}}</td>
         </tr>
         <tr>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Travel Plan
             </td>
             <td class="value-col" colspan="2">{{policyInfo.travelPlanValue}}</td>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Currency
             </td>
             <td class="value-col" colspan="2">{{policyInfo.currency || "MMK"}}</td>
         </tr>
         <tr>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 No. of Traveler
             </td>
             <td class="value-col" colspan="10">{{numberOfTraveller}}</td>
-            <!-- <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <!-- <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Vehicle Information
             </td>
             <td class="value-col" colspan="2">{{policyInfo.vehicleInformation}}</td> -->
@@ -99,7 +99,7 @@
 
 
 <div class="addon-print">
-    <div class="title-style mt-5 mb-3">Risk Detailed Information</div>
+    <div class="title-style text-bold mt-5 mb-5">Risk Detailed Information</div>
     <table class="tbody-align" width="100%">
         <tr>
             <td class="field-col">
@@ -143,14 +143,14 @@
 </div>
 
 <div class="addon-print">
-    <div class="title-style mt-5 mb-3">Insurance Detail</div>
+    <div class="title-style text-bold mt-5 mb-5">Insurance Detail</div>
     <table width="100%">
         <tr>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Total SI
             </td>
             <td class="value-col" colspan="4">{{totalSI || 0}}</td>
-            <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Total Premium
             </td>
             <td class="value-col" colspan="4">{{premiumAmt || 0}}</td>
@@ -160,11 +160,11 @@
 
 <div class="addon-print">
     <div class="row">
-        <div class="title-style text-bold mt-5 mb-3 ml-4">Declaration By Proposer</div>
+        <div class="text-bold mt-10 mb-5 ml-4" style="margin-left:10px;font-size: 1.5rem;">Declaration By Proposer</div>
     </div>
     <div class="row">
         <div class="col">
-            <p>
+            <p style="font-size:12pt;">
                 I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge
                 and belief and I hereby agree that this declaration shall from the basic of the contract between me and
                 KBZ MS Insurance Co., Ltd. in the event of the Proposal being accepted.
@@ -177,11 +177,11 @@
 
     <div class="sign-row">
         <div class="sign-box">
-            <label>DATE</label>
+            <label class="text-bold">DATE</label>
             <div class="sign-area"></div>
         </div>
         <div class="sign-box">
-            <label>PROPOSER SIGNATURE</label>
+            <label class="text-bold">PROPOSER SIGNATURE</label>
             <div class="sign-area">
                 <ng-container *ngIf="signId">
                     <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">

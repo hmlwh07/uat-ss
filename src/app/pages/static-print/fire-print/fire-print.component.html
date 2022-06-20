@@ -2,7 +2,7 @@
 
 <div class="addon-print" *ngIf="policyHolder">
   <div class="title-style text-bold mt-5 mb-3">Policy Holder</div>
-  <div class="row form-txt line-sp">
+  <div class="row form-txt line-sp" style="padding-top: 10px;">
     <div class="col-sm-3 text-bold">
       Name
     </div>
@@ -60,28 +60,28 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-3">Policy Information Detail</div>
+  <div class="title-style text-bold mt-5 mb-5">Policy Information Detail</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Policy Effective Date
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Effective Date
       </td>
       <td class="value-col">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Policy Expiry Date
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Expiry Date
       </td>
       <td class="value-col">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Policy Duration Days
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Duration Days
       </td>
       <td class="value-col">{{detail.policyDuration}} - {{policyUnit[detail.policyUnit]}}</td>
     </tr>
     <tr>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Policy Type</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Type</td>
       <td class="value-col" colspan="2">{{detail.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Currency</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Currency</td>
       <td class="value-col" colspan="2">{{detail.currency}}</td>
      
     </tr>
     <tr>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Risk Address</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Risk Address</td>
       <td class="value-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
     </tr>
   </table>
@@ -89,75 +89,74 @@
 
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-3">Risk Detail Information</div>
-  <table class="tbody-align">
+  <div class="title-style text-bold mt-5 mb-5">Risk Detail Information</div>
+  <table class="tbody-align" width="100%">
     <tr>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Building Description 
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Type of Building
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Occupation of Building
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Building Class
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
        Total Square Feet
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Year of Construction 
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Proposed Building SI
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Proposed Furniture
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Proposed Machinery SI
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Proposed Stock SI
       </td>
-      <td class="field-col">
+      <td class="field-pd" style="background-color: #e9f8fe;">
         Total SI
       </td>
     </tr>
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of listData;">
         <tr>
-          <td class="field-value">{{data.buildingDescription}}</td>
-          <td class="field-value">{{data.typeOfBuildingValue}}</td>
-          <td class="field-value">{{data.occupationOfBuildingValue}}</td>
-          <td class="field-value">{{data.buildingClassValue}}</td>
-          <td class="field-value">{{data.totalSquareFoot}}</td>
-          <td class="field-value">{{data.yearOfConstruction}}</td>
-          <td class="field-value">{{data.buildingSi|| 0 | number}}</td>
-          <td class="field-value">{{data.proposedFurniture|| 0 | number}}</td>
-          <td class="field-value">{{data.proposedMachinerySI|| 0 | number}}</td>
-          <td class="field-value">{{data.proposeStockValue|| 0 | number}}</td>
-          <td class="field-value">{{data.riskSi|| 0 | number}}</td>
+          <td class="field-pd">{{data.buildingDescription}}</td>
+          <td class="field-pd">{{data.typeOfBuildingValue}}</td>
+          <td class="field-pd">{{data.occupationOfBuildingValue}}</td>
+          <td class="field-pd">{{data.buildingClassValue}}</td>
+          <td class="field-pd">{{data.totalSquareFoot}}</td>
+          <td class="field-pd">{{data.yearOfConstruction}}</td>
+          <td class="field-pd">{{data.buildingSi|| 0 | number  : '1.2-2'}}</td>
+          <td class="field-pd">{{data.proposedFurniture|| 0 | number  : '1.2-2'}}</td>
+          <td class="field-pd">{{data.proposedMachinerySI|| 0 | number  : '1.2-2'}}</td>
+          <td class="field-pd">{{data.proposeStockValue|| 0 | number  : '1.2-2'}}</td>
+          <td class="field-pd">{{data.riskSi|| 0 | number  : '1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value" colspan="6"> Total SI</td>
-          <td class="field-value"> {{ totalbuildingSi | number}}</td>
-          <td class="field-value"> {{ totalproposedFurniture | number}}</td>
-          <td class="field-value"> {{ totalproposedMachinerySI | number}}</td>
-          <td class="field-value"> {{ totalproposeStockValue | number}}</td>
-          <td class="field-value"> {{ totalriskSi | number}}</td>
+          <td  colspan="6" style="text-align:center;font-size: 12pt;"> Total SI</td>
+          <td class="field-pd"> {{ totalbuildingSi | number  : '1.2-2'}}</td>
+          <td class="field-pd"> {{ totalproposedFurniture | number  : '1.2-2'}}</td>
+          <td class="field-pd"> {{ totalproposedMachinerySI | number  : '1.2-2'}}</td>
+          <td class="field-pd"> {{ totalproposeStockValue | number  : '1.2-2'}}</td>
+          <td class="field-pd"> {{ totalriskSi | number  : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
 </div>
 
-
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-3">Additional Cover Information</div>
-  <table class="tbody-align">
+  <div class="title-style text-bold mt-5 mb-5">Additional Cover Information</div>
+  <table class="tbody-align" width="100%">
     <tr>
       <td class="field-col">
         Building Description
@@ -196,7 +195,7 @@
         Explosion 
       </td>
       <td class="field-col">
-        Flood and Inundati 
+        Flood and Inundate 
       </td>
       <td class="field-col">
         Total Premium 
@@ -207,18 +206,18 @@
         <tr>
           <td class="field-value">{{data.description}}</td>
           <td class="field-value">{{data.firepremium || 0}}</td>
-          <td class="field-value">{{data.STHTC | number }}</td>
-          <td class="field-value">{{data.IMPD | number}}</td>
+          <td class="field-value">{{data.STHTC | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.IMPD | number  : '1.2-2'}}</td>
           <td class="field-value">{{data.RSMD}}</td>
-          <td class="field-value">{{data.BURGLARY | number }}</td>
-          <td class="field-value">{{data.ACD | number }}</td>
-          <td class="field-value">{{data.EQ | number }}</td>
-          <td class="field-value">{{data.SPONTCOMB | number }}</td>
-          <td class="field-value">{{data.SUBLSLD | number }}</td>
-          <td class="field-value">{{data.WARRISK | number }}</td>
-          <td class="field-value">{{data.EXPLOSION| number }}</td>
-          <td class="field-value">{{data.FLOOD | number }}</td>
-          <td class="field-value">{{data.premium | number }}</td>
+          <td class="field-value">{{data.BURGLARY | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.ACD | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.EQ | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.SPONTCOMB | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.SUBLSLD | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.WARRISK | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.EXPLOSION| number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.FLOOD | number  : '1.2-2' }}</td>
+          <td class="field-value">{{data.premium | number  : '1.2-2' }}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -226,12 +225,12 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style mt-5 mb-3">Insurance Detail</div>
+  <div class="title-style mt-5 mb-5 text-bold">Insurance Detail</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Total SI</td>
-      <td class="value-col" colspan="4">{{totalSi | number}}</td>
-      <td class="field-col" style="background-color: rgba(12, 180, 249, 0.09);color: rgb(31, 78, 120);">Total Premium</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Total SI</td>
+      <td class="value-col" colspan="4">{{totalSi | number  : '1.2-2'}}</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Total Premium</td>
       <td class="value-col" colspan="4">{{premiumAmt}}</td>
     </tr>
   </table>
@@ -239,24 +238,24 @@
 
 <div class="addon-print">
   <div class="row">
-    <div class="text-bold mt-5 mb-3" style="margin-left:10px;">Declaration By Proposer</div>
+    <div class="text-bold mt-10 mb-3" style="margin-left:10px;font-size: 1.5rem;">Declaration By Proposer</div>
   </div>
   <div class="row">
     <div class="col">
-       <p>I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge and belief and I hereby agree that this declaration  shall from  the basic of the contract between me and KBZ MS Insurance Co.,Ltd. in the event of the Proposal being accepted</p>
+       <p style="font-size: 12pt;">I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge and belief and I hereby agree that this declaration  shall from  the basic of the contract between me and KBZ MS Insurance Co.,Ltd. in the event of the Proposal being accepted</p>
     </div>
   </div>
 </div>
 
 <div class="moter-print">
 
-  <div class="sign-row">
+  <div class="sign-row mt-5">
     <div class="sign-box">
-      <label>DATE</label>
+      <label class="text-bold">DATE</label>
       <div class="sign-area"></div>
     </div>
     <div class="sign-box">
-      <label>PROPOSER SIGNATURE</label>
+      <label class="text-bold">PROPOSER SIGNATURE</label>
       <div class="sign-area">
         <ng-container *ngIf="signId">
           <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">
