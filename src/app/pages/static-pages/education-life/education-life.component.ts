@@ -167,7 +167,7 @@ export class EducationLifeComponent implements OnInit {
     if (year == 1) {
       console.log(this.frequencyValue);
       let tempPre = (this.globalFun.calculateDecimal(monthly * this.frequencyValue) + 1500)
-      this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / " + this.parentData['payment_frequency']
+      this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / " + this.parentData['payment_frequency']
       this.globalFun.paPremiumResult.next(this.premiumAmt)
     }
     return this.globalFun.calculateDecimal(monthly * 12) * year

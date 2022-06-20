@@ -40,7 +40,7 @@
           <mat-radio-group formControlName="basicCoverId" class="col-8" (change)="radioChange($event)" >
             <mat-radio-button class="mx-1" [value]="'HEALTH'">Health Insurance
             </mat-radio-button>
-            <mat-radio-button class="mx-1" [value]="'CRTILLNESS'">Critical Illness
+            <mat-radio-button class="mx-1" *ngIf="currentAge < 60"  [value]="'CRTILLNESS'">Critical Illness
             </mat-radio-button>
           </mat-radio-group>
         </div>

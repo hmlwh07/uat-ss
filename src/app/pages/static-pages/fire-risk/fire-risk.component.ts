@@ -179,7 +179,7 @@ export class FireRiskComponent implements OnInit {
     }
 
     finalPre = this.globalFun.calculateDecimal(finalPre * rate) + stampDuty
-    this.premiumAmt = this.numberPipe.transform(finalPre) + " " + currency
+    this.premiumAmt = this.numberPipe.transform(finalPre,"1.2-2") + " " + currency
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return finalPre
   }

@@ -259,7 +259,11 @@ export class TravelComponent implements OnInit {
     let amt = this.listData.reduce(function (sum, current) {
       return sum + parseInt(current.premium);
     }, 0)
-    this.premiumAmt = this.numberPipe.transform(amt) + " MMK"
+    let amount=(amt*1.00).toFixed(2)
+    console.log("AMOUNT",amount);
+    
+    // let premium=this.globalFun.calculateDecimal(amount)  
+    this.premiumAmt = this.numberPipe.transform(amount,"1.2-2") + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return this.premiumAmt
   }

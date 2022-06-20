@@ -134,7 +134,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   }
   radioChange(event) {
     if (this.staticForm.value.basicCoverId == "CRTILLNESS") {
-      if (this.currentAge > 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+      if (this.currentAge > 60 && this.staticForm.value.sumInsuredMainCover > 6) {
         this.alertService.activate("Medical check up is required", "Warning")
       }
       if (this.addValid) {
@@ -145,7 +145,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     } else {
       this.staticForm.get('medicalCardNo').clearValidators();
       this.staticForm.get('medicalCardNo').updateValueAndValidity();
-      if (this.currentAge < 50 && this.staticForm.value.sumInsuredMainCover > 4) {
+      if (this.currentAge < 60 && this.staticForm.value.sumInsuredMainCover > 6) {
         this.addValid = true
       }
     }

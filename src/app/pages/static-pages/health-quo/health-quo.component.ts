@@ -113,7 +113,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
             ]
           }
         }
-        this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / month"
+        this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
         this.globalFun.paPremiumResult.next(this.premiumAmt)
         if (this.parentData.basicCoverId == "CRTILLNESS") {
           this.cdf.detectChanges()
@@ -153,7 +153,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
           }
           if (i == this.product.addOns.length) {
             let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-            this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / month"
+            this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
             this.globalFun.paPremiumResult.next(this.premiumAmt)
             this.cdf.detectChanges()
           }
@@ -166,7 +166,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
 
   async nextPage() {
     let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-    this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / month"
+    this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     this.healthPayService.deleteMany(this.resourcesId).pipe(mergeMap((data) => {
       let postData = {

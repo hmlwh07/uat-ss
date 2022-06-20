@@ -85,7 +85,7 @@
                             </ng-container>
                             <ng-template #nomalValue>
                               <span *ngIf="cont.input == 'input' && cont.type == 'currency'">
-                                {{ (resultObj[page.tableName+page.id][cont.name] || 0 ) | number }}
+                                {{ (resultObj[page.tableName+page.id][cont.name] || 0 ) | number  }}
                               </span>
                               <span *ngIf="cont.input == 'date'">
                                 <!-- {{resultObj[page.tableName+page.id][cont.name].length > 0 ? true: false}} D -->

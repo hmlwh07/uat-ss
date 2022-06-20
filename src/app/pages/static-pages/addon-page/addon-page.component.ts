@@ -380,7 +380,7 @@ export class AddonPageComponent implements OnInit {
     }
     let stumd = currency == "MMK" ? 100 : 1
     let preAMT = (tempPre - discount) + stumd
-    this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
+    this.premiumAmt = this.numberPipe.transform(preAMT,"1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT
   }
@@ -405,7 +405,7 @@ export class AddonPageComponent implements OnInit {
       }
     }
     let finalPre = (premiumTotal + addOnPre) * precent
-    this.premiumAmt = this.numberPipe.transform(finalPre) + " MMK"
+    this.premiumAmt = this.numberPipe.transform(finalPre,"1.2-2") + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return finalPre
   }

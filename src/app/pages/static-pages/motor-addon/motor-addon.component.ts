@@ -268,7 +268,7 @@ export class MotorAddonComponent implements OnInit {
   async savePremimun() {
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let premiumAmt = await this.caluMotorPremimun()
-    let premiumAmtView=await this.numberPipe.transform(premiumAmt | 0) + " " + currency.toUpperCase()
+    let premiumAmtView=await this.numberPipe.transform(premiumAmt || 0,"1.2-2") + " " + currency.toUpperCase()
     let postData = {
       "premium": Number(premiumAmt|| 0) + "",
       "premiumView": premiumAmtView,
@@ -362,7 +362,7 @@ export class MotorAddonComponent implements OnInit {
 
     preAMT = (preAMT * percent) + stumd
     console.log("preAMT--preAMT", preAMT);
-    this.premiumAmt = this.numberPipe.transform(preAMT) + " " + currency.toUpperCase()
+    this.premiumAmt = this.numberPipe.transform(preAMT,"1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT
   }

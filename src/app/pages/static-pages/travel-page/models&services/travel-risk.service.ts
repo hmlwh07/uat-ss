@@ -5,6 +5,7 @@ import { BizOperationService } from "../../../../core/biz.operation.service";
 import { TravelRiskDTO } from "./travel-risk.dto";
 
 const API_TRAVEL_RISK_URL = `${environment.apiUrl}/travel-risk/`;
+const API_TRAVEL_RISK_DELETE_URL = `${environment.apiUrl}/travel-risk`;
 const API_TRAVEL_PRINT_URL = `${environment.apiUrl}/travel/dynamic/info`;
 
 @Injectable({
@@ -12,7 +13,7 @@ const API_TRAVEL_PRINT_URL = `${environment.apiUrl}/travel/dynamic/info`;
 })
 export class TravelRiskService extends BizOperationService<TravelRiskDTO, number>{
   constructor(protected httpClient: HttpClient) {
-    super(httpClient, API_TRAVEL_RISK_URL);
+    super(httpClient, API_TRAVEL_RISK_DELETE_URL);
   }
 
   deleteMany(redId: string) {

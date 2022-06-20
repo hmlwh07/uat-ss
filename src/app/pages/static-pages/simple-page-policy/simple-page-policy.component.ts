@@ -226,7 +226,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
       return false
     }
     let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-    this.premiumAmt = this.numberPipe.transform(tempPre) + " MMK / month"
+    this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     let postData = {
       basicCoverId: formValue.basicCoverId,

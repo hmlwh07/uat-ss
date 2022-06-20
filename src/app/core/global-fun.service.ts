@@ -96,7 +96,7 @@ export class GlobalFunctionService {
     let stumDuty = currency == "MMK" ? 100 : 1
     let result = this.calculateDecimal((sumIn * (0.707 / 100)) * fector) + stumDuty
     // if()
-    this.paPremiumResult.next(this.numberPipe.transform(result) + " " + currency)
+    this.paPremiumResult.next(this.numberPipe.transform(result,"1.2-2") + " " + currency)
     return true
   }
   snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
@@ -118,7 +118,7 @@ export class GlobalFunctionService {
   snakePremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let sumInsured = parseFloat(activeForm.sum_insured_amount)
     let premium = this.calculateDecimal(sumInsured * 0.001)
-    this.paPremiumResult.next(this.numberPipe.transform(premium) + " MMK")
+    this.paPremiumResult.next(this.numberPipe.transform(premium,"1.2-2") + " MMK")
     return true
   }
 
@@ -217,7 +217,7 @@ export class GlobalFunctionService {
       sumIn = this.tempFormData['farmer_product_detail']['sum_insured'] || 0
     }
     let calculatedAmt = sumIn * rate
-    this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt) + " MMK")
+    this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt,"1.2-2") + " MMK")
     return true
   }
 
@@ -692,7 +692,7 @@ export class GlobalFunctionService {
     }
     console.log("SUMIN",sumIn);
     
-    this.paCoverageResult.next(this.numberPipe.transform(sumIn) +" "+ currency)
+    this.paCoverageResult.next(this.numberPipe.transform(sumIn,"1.2-2") +" "+ currency)
   }
 
   paPolicyValidation(value, option?: any[]) {
@@ -772,7 +772,7 @@ export class GlobalFunctionService {
       if (type == 'T-001') {
         calculatedAmt = this.calculateDecimal(calculatedAmt / 12)
       }
-      this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt) + " MMK / month")
+      this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt,"1.2-2") + " MMK / month")
     }
     return true
   }
@@ -801,8 +801,13 @@ export class GlobalFunctionService {
     if (plan && duration && unit) {
       searchData = plan == 'T-INBOUND' ? IN_BOUND : OUT_BOUND
       let premium = searchData.find(x => (x.travel_duration + "").toLowerCase() == duration.toLowerCase() && x.travel_unit.toLowerCase() == unit.toLowerCase())
+      console.log("TRAVELPRE",premium);
+      
       if (premium) {
-        let prem = parseInt(premium.rate) * travelNo
+        let prem =((parseInt(premium.rate) * travelNo)*1.00).toFixed(2);
+      
+        console.log("TRAVEL",prem);
+        
         this.travelPremiumResult.next(prem)
       }
 
@@ -831,6 +836,8 @@ export class GlobalFunctionService {
   }
 
   calculateDecimal(value: any) {
+    console.log("value",value);
+    
     return Math.round(value * 100) / 100
   }
 
