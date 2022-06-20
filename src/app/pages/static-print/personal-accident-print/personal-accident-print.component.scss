@@ -2,7 +2,7 @@
     display        : flex;
     justify-content: space-between;
     margin-top     : 15px;
-    font-size      : 0.9rem;
+    font-size      : 12pt;
   
     .sign-area {
       width        : 150px;
@@ -19,32 +19,48 @@
   .field-col,.field-value{
     text-align: center;
     padding   : 5px 5px;
-    width     : 150px;
-    background-color: rgb(221, 235, 247);
-    font-size : 0.75rem;
+    // width     : 150px;
+    // background-color: rgb(221, 235, 247);
+    background-color:  #e9f8fe;
+    font-size : 12pt;
   }
   .field-col {
     text-align: center;
     padding   : 5px 5px;
-    width     : 100px;
-    font-size : 0.75rem;
+   // width     : 100px;
+    font-size : 12pt;
   }
   
   .value-col {
     padding   : 5px 5px;
     text-align: center;
-    width     : 120px;
-    font-size : 0.75rem;
+   // width     : 120px;
+    font-size : 12pt;
   }
   .field-value{
     background-color: #fff;
   }
   table td {
-    border         : 1px solid #9BC2E6;
+    border         : 1px solid #005f99eb;
     border-collapse: collapse;
   }
   .title-style {
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     background-color: #f2f4f6db;
     text-align: center;
+    padding:5px;
+  }
+  .form-txt{
+    font-size: 12pt;
+  }
+  
+  .line-sp{
+    line-height: 28px;
+    margin-left: 5px;
+  }
+  
+  .field-pd{
+    padding:5px 5px;
+    text-align: center;
+    font-size: 12pt;
   }
