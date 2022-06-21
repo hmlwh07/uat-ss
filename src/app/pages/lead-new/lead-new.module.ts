@@ -12,11 +12,13 @@ import { LeadListShareModule } from '../lead-list/lead-list.share.module';
 import { LeadNewComponent } from './lead-new.component';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
+import { LeadDetailShareModule } from '../lead-detail/lead-detail.share.module';
 
 
 @NgModule({
-  // declarations:[LeadNewComponent],
-  // exports:[LeadNewComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -29,7 +31,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     NgSelectModule,
     ShareComponentModule,
     LanguageModule,
+    MatRadioModule, 
+    NgSelectModule,
     MatDatepickerModule,
+    MatTabsModule,
+    LeadDetailShareModule,
+    MatInputModule,
     RouterModule.forChild([
       {
         path: '',

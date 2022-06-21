@@ -57,7 +57,7 @@ export const DynamicAsideMenuConfig = {
           // ]
         },
         {
-          title: 'Opportunity New',
+          title: 'Opportunity Create',
           page: '/lead/lead-new',
         },
         {

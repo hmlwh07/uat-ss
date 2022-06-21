@@ -117,14 +117,8 @@ export class LeadListComponent implements OnInit {
     });
   }
 
-  navigateToNew(data, id?: string, secondaryId?: string) {
-    this.router.navigate(["/lead/lead-new"], {
-      queryParams: {
-        pageStatus: data,
-        pageId: id,
-        pageSecondaryId: secondaryId
-      },
-    });
+  navigateToNew() {
+    this.router.navigate(["/lead/lead-new"])
   }
   
   getStatus() {
