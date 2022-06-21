@@ -1,24 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LeadListComponent } from './lead-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
-import { LeadListShareModule } from './lead-list.share.module';
 import { RouterModule } from '@angular/router';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { StaticPagesModule } from './../static-pages/static-pages.module';
+import { StaticPagesModule } from '../static-pages/static-pages.module';
 import { ShareComponentModule } from '../share-components/share-component.module';
-import { LeadNewComponent } from '../lead-new/lead-new.component';
+import { LeadListShareModule } from '../lead-list/lead-list.share.module';
+import { LeadNewComponent } from './lead-new.component';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
-import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
-  declarations: [LeadNewComponent],
-  exports: [LeadNewComponent],
+  // declarations:[LeadNewComponent],
+  // exports:[LeadNewComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -35,10 +33,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     RouterModule.forChild([
       {
         path: '',
-        component: LeadListComponent,
+        component: LeadNewComponent,
       },
     ]),
 
   ]
 })
-export class LeadListModule { }
+export class LeadNewModule { }

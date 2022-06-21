@@ -24,6 +24,8 @@ import { forkJoin, catchError, of } from 'rxjs';
 import { environment } from "../../../environments/environment";
 import { LanguagesService } from "src/app/modules/languages/languages.service";
 import { CommonList2Component } from "../share-components/common-list/common-list.component";
+import { AlertService } from "src/app/modules/loading-toast/alert-model/alert.service";
+import { LeadNewComponent } from "../lead-new/lead-new.component";
 @Component({
   selector: "app-lead-list",
   templateUrl: "./lead-list.component.html",
@@ -59,7 +61,8 @@ export class LeadListComponent implements OnInit {
     private masterDataService: MasterDataService,
     private productService: ProductDataService,
     private modalService: NgbModal,
-    private translate: LanguagesService
+    private translate: LanguagesService,
+    private alertService: AlertService
   ) {
     this.loadForm();
   }
@@ -102,6 +105,7 @@ export class LeadListComponent implements OnInit {
   }
 
   navigateToDetail(data, id?: string, secondaryId?: string) {
+    
     this.router.navigate(["/lead/lead-detail"], {
       queryParams: {
         pageStatus: data,
@@ -112,6 +116,17 @@ export class LeadListComponent implements OnInit {
       // skipLocationChange: true, replaceUrl: true
     });
   }
+
+  navigateToNew(data, id?: string, secondaryId?: string) {
+    this.router.navigate(["/lead/lead-new"], {
+      queryParams: {
+        pageStatus: data,
+        pageId: id,
+        pageSecondaryId: secondaryId
+      },
+    });
+  }
+  
   getStatus() {
     return this.masterDataService
       .getDataByType("LEAD_STATUS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
@@ -247,8 +262,29 @@ export class LeadListComponent implements OnInit {
         }
       }
     })
+  }
 
+  addData() {
+    console.log("addData")
+    const modalRef = this.modalService.open(LeadNewComponent, { size: 'lg', backdrop: false });
+    modalRef.componentInstance.isModal = true
+    modalRef.result.then(() => { }, (res) => {
+      if (res) {
+        if (res.cmd == 'save') {
+          this.saveData(res.data)
+        }
+      }
+    })
+  }
 
+  saveData(event: any) {
+    let postData = event
+    // this.LeadListService.save(postData).toPromise().then((res: any) => {
+    //   if (res) {
+    //     this.getList()
+    //     this.alertService.activate('This record was created', 'Success Message');
+    //   }
+    // })
   }
 
   //for view
