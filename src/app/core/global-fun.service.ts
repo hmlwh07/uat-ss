@@ -66,9 +66,9 @@ export class GlobalFunctionService {
     let term = "0"
     let sumIn = 0
     if (form)
-      if (!this.sumInsuredValidation("form", activeForm, [], true)) {
-        return false
-      }
+      // if (!this.sumInsuredValidation("form", activeForm, [], true)) {
+      //   return false
+      // }
 
     if (activeForm.pa_policy_term) {
       term = activeForm.pa_policy_term
@@ -96,7 +96,7 @@ export class GlobalFunctionService {
     let stumDuty = currency == "MMK" ? 100 : 1
     let result = this.calculateDecimal((sumIn * (0.707 / 100)) * fector) + stumDuty
     // if()
-    this.paPremiumResult.next(this.numberPipe.transform(result,"1.2-2") + " " + currency)
+    this.paPremiumResult.next(this.numberPipe.transform(result, "1.2-2") + " " + currency)
     return true
   }
   snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
@@ -118,7 +118,7 @@ export class GlobalFunctionService {
   snakePremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let sumInsured = parseFloat(activeForm.sum_insured_amount)
     let premium = this.calculateDecimal(sumInsured * 0.001)
-    this.paPremiumResult.next(this.numberPipe.transform(premium,"1.2-2") + " MMK")
+    this.paPremiumResult.next(this.numberPipe.transform(premium, "1.2-2") + " MMK")
     return true
   }
 
@@ -217,7 +217,7 @@ export class GlobalFunctionService {
       sumIn = this.tempFormData['farmer_product_detail']['sum_insured'] || 0
     }
     let calculatedAmt = sumIn * rate
-    this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt,"1.2-2") + " MMK")
+    this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt, "1.2-2") + " MMK")
     return true
   }
 
@@ -690,9 +690,9 @@ export class GlobalFunctionService {
     } else if (this.tempFormData['pa_product_detail']) {
       sumIn = this.tempFormData['pa_product_detail']['sum_insured'] || 0
     }
-    console.log("SUMIN",sumIn);
-    
-    this.paCoverageResult.next(this.numberPipe.transform(sumIn,"1.2-2") +" "+ currency)
+    console.log("SUMIN", sumIn);
+
+    this.paCoverageResult.next(this.numberPipe.transform(sumIn, "1.2-2") + " " + currency)
   }
 
   paPolicyValidation(value, option?: any[]) {
@@ -721,20 +721,20 @@ export class GlobalFunctionService {
   validSharePercent(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let oldData = option ? JSON.parse(JSON.stringify(option)) : []
     let currentPercent = parseFloat(activeForm.share)
-    console.log("CURRENT%",currentPercent)
+    console.log("CURRENT%", currentPercent)
     if (activeForm.refId) {
       let index = oldData.findIndex(x => x.refId == activeForm.refId)
-      console.log("INDEX",index); 
+      console.log("INDEX", index);
       if (index >= 0)
-      oldData.splice(index, 1)
+        oldData.splice(index, 1)
     }
-    console.log(oldData,activeForm);
+    console.log(oldData, activeForm);
     let total = oldData.reduce(function (a, b) {
-       return a + parseFloat(b.share); 
-      }, 0);
-    console.log("CURRENT%total",total)
-    let tempTotal = currentPercent + total 
-    console.log("CURRENT%tempTotal",tempTotal)
+      return a + parseFloat(b.share);
+    }, 0);
+    console.log("CURRENT%total", total)
+    let tempTotal = currentPercent + total
+    console.log("CURRENT%tempTotal", tempTotal)
     if (tempTotal > 100) {
       this.alert.activate("Total Share Percent can't over 100%", "Validation")
       return false
@@ -772,7 +772,7 @@ export class GlobalFunctionService {
       if (type == 'T-001') {
         calculatedAmt = this.calculateDecimal(calculatedAmt / 12)
       }
-      this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt,"1.2-2") + " MMK / month")
+      this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt, "1.2-2") + " MMK / month")
     }
     return true
   }
@@ -783,6 +783,7 @@ export class GlobalFunctionService {
     let duration = ''
     let unit = ''
     let travelNo = 1
+    let unitData = ''
     if (activeForm.travel_plan) {
       plan = activeForm.travel_plan
     }
@@ -793,6 +794,9 @@ export class GlobalFunctionService {
 
     if (activeForm.insured_unit) {
       unit = activeForm.insured_unit
+      let uData = parseInt((unit).replace("T-", ""))
+      unitData = "T-" + uData
+
     }
     if (activeForm.no_of_traveler) {
       travelNo = activeForm.no_of_traveler
@@ -800,14 +804,14 @@ export class GlobalFunctionService {
 
     if (plan && duration && unit) {
       searchData = plan == 'T-INBOUND' ? IN_BOUND : OUT_BOUND
-      let premium = searchData.find(x => (x.travel_duration + "").toLowerCase() == duration.toLowerCase() && x.travel_unit.toLowerCase() == unit.toLowerCase())
-      console.log("TRAVELPRE",premium);
-      
+      let premium = searchData.find(x => (x.travel_duration + "").toLowerCase() == duration.toLowerCase() && x.travel_unit.toLowerCase() == unitData.toLowerCase())
+      console.log("TRAVELPRE", premium);
+
       if (premium) {
-        let prem =((parseInt(premium.rate) * travelNo)*1.00).toFixed(2);
-      
-        console.log("TRAVEL",prem);
-        
+        let prem = ((parseInt(premium.rate) * travelNo) * 1.00).toFixed(2);
+
+        console.log("TRAVEL", prem);
+
         this.travelPremiumResult.next(prem)
       }
 
@@ -823,7 +827,13 @@ export class GlobalFunctionService {
       noTraveler = parseInt(activeForm['no_of_traveler'])
     }
     if (activeForm['insured_unit']) {
-      insuredUnit = parseInt(activeForm['insured_unit'].replace("T-", ""))
+      let data = String(activeForm['insured_unit']).padStart(5, '0');
+      insuredUnit = parseInt((data).replace("T-", ""))
+      console.log("INSUREDUNIT", insuredUnit, data);
+
+      //OLD-CODE
+      // insuredUnit = parseInt(activeForm['insured_unit'].replace("T-", ""))
+
     }
     let total = noTraveler * insuredUnit
     if (options) {
@@ -835,9 +845,15 @@ export class GlobalFunctionService {
     this.totalTravelUnitResult.next(total)
   }
 
+  pad(num: number, size: number): string {
+    let s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
+  }
+
   calculateDecimal(value: any) {
-    console.log("value",value);
-    
+    console.log("value", value);
+
     return Math.round(value * 100) / 100
   }
 

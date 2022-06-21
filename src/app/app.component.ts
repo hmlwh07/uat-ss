@@ -177,8 +177,8 @@ console.log("PLat", this.plat);
     // console.log(now, fiveMin);
 
     if (now > fiveMin) {
+      this.router.navigateByUrl('/auth/login', { replaceUrl: true })
       this.auth.logout();
-      this.router.navigate(['/auth/login'], { replaceUrl: true })
     }
   }
   ngOnDestroy() {

@@ -424,7 +424,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.prodService.createingProd.id,
-      productCode:this.prodService.createingProd.code,
+      productCode: this.prodService.createingProd.code,
       type: this.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -522,7 +522,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     let postData = {
       productId: this.prodService.createingProd.id,
-      productCode:this.prodService.createingProd.code,
+      productCode: this.prodService.createingProd.code,
       type: this.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -560,6 +560,15 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         "party": input ? input.party || false : false
       })
 
+    }
+    console.log("page.tableName", page.tableName);
+
+    if (page.tableName == 'motor_driver') {
+      postData.pageData[0].data.push({
+        column: "resource_id",
+        party: false,
+        value: this.resourceId
+      })
     }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
       if (page.pageType == 'table') {
