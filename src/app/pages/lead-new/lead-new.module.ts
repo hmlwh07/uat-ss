@@ -19,6 +19,8 @@ import { LeadDetailShareModule } from '../lead-detail/lead-detail.share.module';
 
 
 @NgModule({
+  declarations: [LeadNewComponent],
+  exports: [LeadNewComponent],
   imports: [
     CommonModule,
     FormsModule,
