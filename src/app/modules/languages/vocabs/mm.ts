@@ -56,7 +56,7 @@ export const locale = {
       language: "ဘာသာစကား",
       lead_list: 'Opportunity List',
       lead_detail: 'Opportunity Detail',
-      create_lead: 'Create Opportunity',
+      create_lead: 'Create New Opportunity',
       start_date: 'စတင်သည့်ရက်စွဲ',
       end_date: 'နောက်ဆုံး ရက်စွဲ',
       open_date: 'စာရင်းသွင်းသည့် နေ့',

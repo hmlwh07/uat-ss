@@ -60,7 +60,7 @@ export const locale = {
       exp_date: 'Expiration Date',
       lead_list: 'Opportunity List',
       lead_detail: 'Opportunity Detail',
-      create_lead: 'Create Opportunity',
+      create_lead: 'Create New Opportunity',
       product: 'Product',
       lead_id: 'Opportunity ID',
       lead_name: 'Opportunity Name',

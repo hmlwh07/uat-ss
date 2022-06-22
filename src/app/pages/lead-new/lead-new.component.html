@@ -2,13 +2,16 @@
   <div class="col-12">
 
     <form action="#" class="form" [formGroup]="leadForm" (ngSubmit)="createLead()">
+
       <div class="card card-custom gutter-b">
         <div class="card-header" *ngIf="!isPopup">
           <div class="card-title">
             <h3 class="card-label left-border-image">{{"FORM.create_lead" | translate}}</h3>
           </div>
         </div>
+
         <div class="card-body px-10 py-3">
+
           <div>
             <div class="row" style="align-items: center">
               <div class="col-sm-6">
@@ -31,9 +34,8 @@
                   </div>
                 </div>
               </div>
-
-
             </div>
+
             <div class="row" style="align-items: center">
               <div class="col-sm-6">
                 <div class="form-group row">
@@ -55,7 +57,6 @@
                         formControlName="openedDate" [matDatepicker]="openDate" readonly>
                       <mat-datepicker-toggle matSuffix [for]="openDate"></mat-datepicker-toggle>
                       <mat-datepicker #openDate disabled="true"></mat-datepicker>
-
                     </div>
                   </div>
                 </div>
@@ -63,19 +64,16 @@
             </div>
 
             <div class="row" style="align-items: center">
-
               <div class="col-sm-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label">{{"FORM.name" | translate}}</label>
                   <div class="col-sm-8">
-
                     <input type="text" class="form-control form-control-sm" name="contactName" autocomplete="off"
                       [class.is-invalid]="isControlInvalid('contactName')"
                       [class.is-valid]="isControlValid('contactName')" formControlName="contactName" />
                   </div>
                 </div>
               </div>
-
               <div class="col-sm-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label">{{"FORM.act_date" | translate}}</label>
@@ -90,7 +88,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
 
             <div class="row" style="align-items: center">
@@ -253,7 +250,7 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label">{{"FORM.distribution_channel" | translate}}</label>
                   <div class="col-sm-8">
-                    <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                    <ng-select class="ng-custom-select" (change)="getLeadQuality()" (clear)="clearLeadQuality()"
                       [class.is-invalid]="isControlInvalid('channelCode')"
                       [class.is-valid]="isControlValid('channelCode')" [items]="channelOption" bindLabel="value"
                       bindValue="code" formControlName="channelCode">
@@ -279,8 +276,9 @@
                   <label class="col-sm-4 col-form-label">{{"FORM.product" | translate}}</label>
                   <div class="col-sm-8">
                     <ng-select class="ng-custom-select" (change)="calculateLeadQuality('product')"
-                      [class.is-invalid]="isControlInvalid('productId')" [class.is-valid]="isControlValid('productId')"
-                      [items]="productOption2" bindLabel="value" bindValue="code" formControlName="productId">
+                      (clear)="clear('product')" [class.is-invalid]="isControlInvalid('productId')"
+                      [class.is-valid]="isControlValid('productId')" [items]="productOption2" bindLabel="value"
+                      bindValue="code" formControlName="productId">
                     </ng-select>
                   </div>
                 </div>
@@ -358,7 +356,7 @@
                   <label class="col-sm-4 col-form-label">{{"FORM.source" | translate}}</label>
                   <div class="col-sm-8">
                     <ng-select class="ng-custom-select" (change)="calculateScore(leadForm.value.sourceCode,null)"
-                      [class.is-invalid]="isControlInvalid('sourceCode')"
+                      [class.is-invalid]="isControlInvalid('sourceCode')" (clear)="clear('source')"
                       [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption" bindLabel="value"
                       bindValue="code" formControlName="sourceCode">
                     </ng-select>
@@ -369,8 +367,6 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label">{{"FORM.existing_customer" | translate}}</label>
                   <div class="col-sm-5">
-                    <!-- <ng-select class="ng-custom-select" [class.is-invalid]="isControlInvalid('existingCustomerName')"  [class.is-valid]="isControlValid('existingCustomerName')" [items]="existingOption" bindLabel="value" bindValue="code" formControlName="existingCustomerName">
-                                    </ng-select>  (click)="viewExistingCustomer()"  -->
                     <input type="text" class="form-control form-control-sm " name="existingCustomerName"
                       autocomplete="off" readonly formControlName="existingCustomerName" />
                     <span class="ng-clear-wrapper" (click)="clearDate('existingCustomerName');$event.stopPropagation()"
@@ -378,13 +374,13 @@
                   </div>
                   <div class="col-sm-1" *ngIf="!isAddProspect">
                     <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
-                      (click)="viewProspectCustomer()">
+                      (click)="checkExisting('customer')">
                       <span class="flaticon2-check-mark"></span>
                     </a>
                   </div>
                   <div class="col-sm-1" *ngIf="!isAddProspect">
                     <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
-                      (click)="viewProspectCustomer()">
+                      (click)="viewExisting('customer')">
                       <span class="flaticon2-user"></span>
                     </a>
                   </div>
@@ -396,7 +392,7 @@
               <div class="col-sm-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label">{{"FORM.referral_customer" | translate}}</label>
-                  <div class="col-sm-8" (click)="viewExistingCustomer('ref')">
+                  <div class="col-sm-8" (click)="viewExisting('referral')">
                     <input type="text" class="form-control form-control-sm" name="referralCustomerName" readonly
                       autocomplete="off" [class.is-invalid]="isControlInvalid('referralCustomerName')"
                       [class.is-valid]="isControlValid('referralCustomerName')" readonly
@@ -409,7 +405,7 @@
               <div class="col-sm-6">
                 <div class="form-group row">
                   <label class="col-sm-4  col-form-label">{{"FORM.existing_prospect" | translate}}</label>
-                  <div class="col-sm-5" (click)="viewExistingCustomer('prosp')">
+                  <div class="col-sm-5">
                     <input type="text" readonly class="form-control form-control-sm " name="prospectCustomer"
                       autocomplete="off" formControlName="prospectCustomer" />
                     <span class="ng-clear-wrapper" *ngIf="!isAddProspect"
@@ -418,13 +414,13 @@
                   </div>
                   <div class="col-sm-1" *ngIf="!isAddProspect">
                     <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
-                      (click)="viewProspectCustomer()">
+                      (click)="checkExisting('prospect')" readonly="leadForm.value.existingCustomerName">
                       <span class="flaticon2-check-mark"></span>
                     </a>
                   </div>
                   <div class="col-sm-1" *ngIf="!isAddProspect">
                     <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
-                      (click)="viewProspectCustomer()">
+                      (click)="viewExisting('prospect')">
                       <span class="flaticon2-user"></span>
                     </a>
                   </div>
