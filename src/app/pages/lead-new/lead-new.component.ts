@@ -113,8 +113,6 @@ export class LeadNewComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private alertService: AlertService,
-    private prodctService: ProductDataService,
-    private customerService: CustomerService,
     private productService: ProductDataService,
     private authService: AuthService,
     private ngZone: NgZone,
@@ -131,7 +129,7 @@ export class LeadNewComponent implements OnInit {
 
     this.leadForm.controls.openedDate.setValue(new Date());
     this.leadForm.controls.statusCode.setValue("A");
-    this.leadForm.controls.assignToName.setValue(this.user.username)
+    this.leadForm.controls.assignTo.setValue(this.user.username)
   }
 
   loadForm() {
@@ -157,7 +155,7 @@ export class LeadNewComponent implements OnInit {
       validityPeriod: new FormControl({ value: null, disabled: true }),
       reason: new FormControl(null),
       townshipCode: new FormControl(null),
-      assignToName: new FormControl({ value: null, disabled: true }),
+      assignTo: new FormControl({ value: null, disabled: true }),
       productId: new FormControl(null),
       email: new FormControl(null),
       campaignName: new FormControl(null),
@@ -169,15 +167,15 @@ export class LeadNewComponent implements OnInit {
       existingCustomerId: new FormControl(null),
       referralCustomerName: new FormControl(null),
       referralCustomerId: new FormControl(null),
-      monthlyIncome: new FormControl(null),
+      estimatedMonthlyIncome: new FormControl(null),
       facebookAcc: new FormControl(null),
       maritalStatus: new FormControl(null),
       financialPlan: new FormControl(null),
-      numberOfChildren: new FormControl(null),
+      noOfChildren: new FormControl(null),
       existingInsuranceCoverage: new FormControl(null),
       existingInsurancePlan: new FormControl(null),
       score: new FormControl({ value: null, disabled: true }),
-      asset: new FormControl(null),
+      assets: new FormControl(null),
       prospectCustomer: new FormControl({ value: null, disabled: true }),
       prospectCustomerId: new FormControl(null),
       lostReason: new FormControl(null),
@@ -466,19 +464,40 @@ export class LeadNewComponent implements OnInit {
       && this.leadForm.controls.email.value == null
       && this.leadForm.controls.identityType.value == null) {
       this.alertService.activate('Did not find any existing customer profile related to Identity type, email and phone number.', 'No found existing customer profile');
+      return true;
     }
     console.log("checkExisting", type)
 
     let postData = {
-      phoneNo: this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : null,
-      email: this.leadForm.controls.email.value ? this.leadForm.controls.email.value : null,
-      identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : null,
-      identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : null,
+      phoneNo: this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
+      email: this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
+      identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : "",
+      identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
     }
+    console.log("postData; ", postData)
     if (type == "customer") {
-      this.LeadDetailService.checkExistingCustomer(postData)
+      this.LeadDetailService.checkExistingCustomer(postData).toPromise().then((res: any) => {
+        console.log(res)
+        if (res.customerId) {
+          let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
+          this.leadForm.controls.existingCustomerName.setValue(fullName)
+          this.leadForm.controls.existingCustomerId.setValue(res.customerId)
+          console.log(this.leadForm.controls.existingCustomerName, this.leadForm.controls.existingCustomerId)
+        } else {
+          this.alertService.activate(res.title, "Warning Message");
+        }
+      })
     } else {
-      this.LeadDetailService.checkExistingProspect(postData)
+      this.LeadDetailService.checkExistingProspect(postData).toPromise().then((res: any) => {
+        console.log(res)
+        if (res.customerId) {
+          this.leadForm.controls.prospectCustomer.setValue(res.firstName + " " + res.middleName + " " + res.lastName)
+          this.leadForm.controls.prospectCustomerId.setValue(res.customerId)
+        } else {
+          this.alertService.activate(res.title, "Warning Message");
+        }
+
+      })
     }
   }
 
@@ -584,37 +603,37 @@ export class LeadNewComponent implements OnInit {
   }
 
   createLead() {
-    console.log("Create Opportunity")
+    console.log("Create Opportunity", this.leadForm)
+
     if (this.leadForm.invalid) {
       validateAllFields(this.leadForm);
       return true;
     }
-    if (this.leadForm.controls.existingCustomer == undefined) {
-      this.alertService.activate('Please check Prospect Customer before you save.', 'Message');
+    if (this.leadForm.controls.existingCustomerId.value == null) {
+      this.alertService.activate('Please check Existing Customer before you save.', 'Message');
       return true;
     }
 
     let postData = this.leadForm.getRawValue();
     postData.contact = []
-    if (postData.sms) {
+    if (postData.PCsms) {
       postData.contact.push("sms")
     }
-    if (postData.pemail) {
+    if (postData.PCemail) {
       postData.contact.push("email")
     }
-    if (postData.phone) {
+    if (postData.PCphone) {
       postData.contact.push("phone")
     }
     postData.contact = postData.contact.join(",")
     console.log("PostData: ", postData)
-    // this.LeadDetailService.updateNoID(postData)
-    // .toPromise()
-    // .then((res) => {
-    //   if (res) {
-    //     this.alertService.activate('This record was created', 'Success Message');
-    //     // this.location.back();
-    //   }
-    // });
+    this.LeadDetailService.createLead(postData).toPromise()
+      .then((res) => {
+        if (res) {
+          this.alertService.activate('This record was created', 'Success Message');
+          this.location.back();
+        }
+      });
   }
 
   getProductOption() {
@@ -690,4 +709,3 @@ export class LeadNewComponent implements OnInit {
   }
 
 }
-

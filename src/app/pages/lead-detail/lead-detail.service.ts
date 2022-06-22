@@ -12,8 +12,8 @@ const API_LEAD_SOURCE_URL = `${environment.apiUrl}/leadSource`;
 const API_LEAD_SCORE_URL = `${environment.apiUrl}/leadSource/score`;
 const API_LEAD_QUALITY_URL = `${environment.apiUrl}/leadQuality`;
 const API_VALIDITY_URL = `${environment.apiUrl}/validity-period/filter`;
-const API_EXISTING_CUSTOMER_URL = `${environment.apiUrl}/`;
-const API_EXISTING_PROSPECT_URL = `${environment.apiUrl}/`;
+const API_EXISTING_CUSTOMER_URL = `${environment.apiUrl}/customer/checkExistingCustomer`;
+const API_EXISTING_PROSPECT_URL = `${environment.apiUrl}/customer/checkExistingProspect`;
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +58,8 @@ export class LeadDetailService extends BizOperationService<Lead, number>{
   }
   checkExistingProspect(postData: any) {
     return this.httpClient.post(API_EXISTING_PROSPECT_URL, postData)
+  }
+  createLead(postData: any) {
+    return this.httpClient.post(API_LEAD_URL, postData)
   }
 }
