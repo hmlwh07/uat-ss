@@ -66,6 +66,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private travelRikService: TravelRiskService,
     private modalService: NgbModal,
+    private modal:NgbActiveModal,
     private alert: AlertService,
     private ngModal: NgbActiveModal
   ) { }
@@ -98,6 +99,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     } else {
       this.saveTravelRisk()
     }
+  }
+  closeModal(){
+    this.modal.close()
   }
 
   nextCover() {
