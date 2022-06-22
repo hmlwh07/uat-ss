@@ -113,6 +113,9 @@
     padding: 0 !important;
     .modal{
        backdrop-filter: brightness(.75);
+       position: static;
+       height: unset;
+       max-height: unset;
     }
 }
 

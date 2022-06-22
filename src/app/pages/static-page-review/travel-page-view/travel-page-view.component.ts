@@ -45,6 +45,10 @@ export class TravelViewComponent implements OnInit {
   replaceT(stringVal: string){
     return stringVal.replace("T-","").replace("TU-","")
   }
+  replaceTInsured(stringVal: string){
+    let insure=stringVal.replace("T-", "").replace("TU-", "")
+    return parseInt(insure)
+  }
 
 
 }

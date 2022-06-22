@@ -26,8 +26,11 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   ngOnDestroy() { }
 
   printPDf() {
+    
     window.scrollTo(0,0)
-    window.print();
+    setTimeout(()=>{
+      window.print();
+    },1000)
     // const printContent = document.getElementById("componentID").cloneNode(true);;
     // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
     // WindowPrt.document.body.append(printContent);
@@ -36,5 +39,6 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     // WindowPrt.print();
     // WindowPrt.close();
   }
+  
 
 }

@@ -105,6 +105,7 @@ body,
     background-color: #ffffff;
 }
 
+
 // Header themes
 // .header-base-light {
 //     @import "./assets/sass/themes/layout/header/base/light.scss";
@@ -130,6 +131,8 @@ body,
 
 body {
     background: #fff;
+    position: static;
+    display: block;
 }
 
 // Aside themes
