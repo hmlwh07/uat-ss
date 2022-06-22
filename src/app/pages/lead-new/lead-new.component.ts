@@ -8,7 +8,6 @@ import { defaultAccessObj } from 'src/app/core/menu-data.service';
 import { UserModel, AuthService } from 'src/app/modules/auth';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
-import { CustomerService } from '../customer-detail/customer.service';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
 import { IdentityType } from '../customer-list/customer-list.const';
 import { NrcPopupPage } from '../form-component/nrc-popup/nrc-popup.page';
@@ -16,6 +15,7 @@ import { CampaignListComponent } from '../lead-detail/campaign-list/campaign-lis
 import { LeadDetailService } from '../lead-detail/lead-detail.service';
 import { ProductDataService } from '../products/services/products-data.service';
 import { validateAllFields } from 'src/app/core/valid-all-feild';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-lead-new',
@@ -28,7 +28,7 @@ export class LeadNewComponent implements OnInit {
   isPopup: boolean = false;
   disabled = true
   pageStatus: any;
-  description: string = ""
+  product: any = [];
   channelOption: any = [];
   typeOption: any = [];
   stateOption: any = [];
@@ -126,9 +126,8 @@ export class LeadNewComponent implements OnInit {
     this.user = this.authService.currentUserValue;
     this.getMaster()
     this.getProduct()
-
     this.leadForm.controls.openedDate.setValue(new Date());
-    this.leadForm.controls.statusCode.setValue("A");
+    this.leadForm.controls.statusCode.setValue("02");
     this.leadForm.controls.assignTo.setValue(this.user.username)
   }
 
@@ -137,7 +136,7 @@ export class LeadNewComponent implements OnInit {
       leadId: new FormControl({ value: null, disabled: true }),
       phoneNo: new FormControl(null),
       subject: new FormControl(null),
-      openedDate: new FormControl(null),
+      openedDate: new FormControl(null, Validators.required),
       companyCode: new FormControl(null, Validators.required),
       PCsms: new FormControl(null),
       PCemail: new FormControl(null),
@@ -284,8 +283,13 @@ export class LeadNewComponent implements OnInit {
     this.productService.getAll('all').toPromise()
       .then((res: any) => {
         if (res) {
+          this.product = res;
           this.productOption = res.map((x) => {
-            return { code: x.id, value: x.name, type: x.type };
+            return {
+              code: x.id,
+              value: x.name,
+              type: x.type
+            };
           });
           this.cdf.detectChanges();
           this.getProductOption()
@@ -466,7 +470,6 @@ export class LeadNewComponent implements OnInit {
       this.alertService.activate('Did not find any existing customer profile related to Identity type, email and phone number.', 'No found existing customer profile');
       return true;
     }
-    console.log("checkExisting", type)
 
     let postData = {
       phoneNo: this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
@@ -474,29 +477,24 @@ export class LeadNewComponent implements OnInit {
       identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : "",
       identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
     }
-    console.log("postData; ", postData)
     if (type == "customer") {
       this.LeadDetailService.checkExistingCustomer(postData).toPromise().then((res: any) => {
-        console.log(res)
         if (res.customerId) {
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.existingCustomerName.setValue(fullName)
           this.leadForm.controls.existingCustomerId.setValue(res.customerId)
-          console.log(this.leadForm.controls.existingCustomerName, this.leadForm.controls.existingCustomerId)
         } else {
           this.alertService.activate(res.title, "Warning Message");
         }
       })
     } else {
       this.LeadDetailService.checkExistingProspect(postData).toPromise().then((res: any) => {
-        console.log(res)
         if (res.customerId) {
           this.leadForm.controls.prospectCustomer.setValue(res.firstName + " " + res.middleName + " " + res.lastName)
           this.leadForm.controls.prospectCustomerId.setValue(res.customerId)
         } else {
           this.alertService.activate(res.title, "Warning Message");
         }
-
       })
     }
   }
@@ -603,8 +601,6 @@ export class LeadNewComponent implements OnInit {
   }
 
   createLead() {
-    console.log("Create Opportunity", this.leadForm)
-
     if (this.leadForm.invalid) {
       validateAllFields(this.leadForm);
       return true;
@@ -615,6 +611,7 @@ export class LeadNewComponent implements OnInit {
     }
 
     let postData = this.leadForm.getRawValue();
+    //contact
     postData.contact = []
     if (postData.PCsms) {
       postData.contact.push("sms")
@@ -626,8 +623,86 @@ export class LeadNewComponent implements OnInit {
       postData.contact.push("phone")
     }
     postData.contact = postData.contact.join(",")
-    console.log("PostData: ", postData)
-    this.LeadDetailService.createLead(postData).toPromise()
+    //product code
+    let productCode = ""
+    if (this.leadForm.controls.productId.value) {
+      let product = this.product.find(p => p.id == this.leadForm.controls.productId.value)
+      productCode = product.code;
+    }
+
+    let data = {
+      "activationDate": this.leadForm.controls.activationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.activationDate.value) : "",
+      "activationDateStr": this.leadForm.controls.activationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.activationDate.value) : "",
+      "assets": this.leadForm.controls.assets.value ? this.leadForm.controls.assets.value : "",
+      "assignTo": this.user.id,
+      "campaignName": this.leadForm.controls.campaignName.value ? this.leadForm.controls.campaignName.value : "",
+      "campaignNo": this.leadForm.controls.campaignNo.value ? this.leadForm.controls.campaignNo.value : "",
+      "channelCode": this.leadForm.controls.channelCode.value ? this.leadForm.controls.channelCode.value : "",
+      "closedDate": this.leadForm.controls.closedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.closedDate.value) : "",
+      "closedDateStr": this.leadForm.controls.closedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.closedDate.value) : "",
+      "companyCode": this.leadForm.controls.companyCode.value ? this.leadForm.controls.companyCode.value : "",
+      "contact": postData.contact,
+      "contactName": this.leadForm.controls.contactName.value ? this.leadForm.controls.contactName.value : "",
+      "customerPlan": "",
+      "description": "",
+      "districtCode": this.leadForm.controls.districtCode.value ? this.leadForm.controls.districtCode.value : "",
+      "dueDate": "",
+      "dueDateStr": "",
+      "email": this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
+      "existingInsuranceCoverage": this.leadForm.controls.existingInsuranceCoverage.value ? this.leadForm.controls.existingInsuranceCoverage.value : "",
+      "existingInsurancePlan": this.leadForm.controls.existingInsurancePlan.value ? this.leadForm.controls.existingInsurancePlan.value : "",
+      "expirationDate": this.leadForm.controls.expirationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.expirationDate.value) : "",
+      "expirationDateStr": this.leadForm.controls.expirationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.expirationDate.value) : "",
+      "facebookAcc": this.leadForm.controls.facebookAcc.value ? this.leadForm.controls.facebookAcc.value : "",
+      "financialPlan": this.leadForm.controls.financialPlan.value ? this.leadForm.controls.financialPlan.value : "",
+      "frc": "",
+      "identityNumber": this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
+      "identityType": this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : "",
+      "leadId": "",
+      "lostReason": "",
+      "maritalStatus": this.leadForm.controls.maritalStatus.value ? this.leadForm.controls.maritalStatus.value : "",
+      "estimatedMonthlyIncome": this.leadForm.controls.estimatedMonthlyIncome.value ? this.leadForm.controls.estimatedMonthlyIncome.value : "",
+      "name": "",
+      "nrcRegionCode": "",
+      "nrcTownshipCode": "",
+      "nrcTypeCode": "",
+      "noOfChildren": "" + (this.leadForm.controls.noOfChildren.value ? this.leadForm.controls.noOfChildren.value : "") + "",
+      "occupationCode": this.leadForm.controls.occupationCode.value ? this.leadForm.controls.occupationCode.value : "",
+      "openedDate": this.leadForm.controls.openedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.openedDate.value) : "",
+      "openedDateStr": this.leadForm.controls.openedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.openedDate.value) : "",
+      "operationDate": "",
+      "operationDateStr": "",
+      "others": "",
+      "ownerId": 0,
+      "passport": "",
+      "phoneNo": this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
+      "productCode": productCode,
+      "productId": this.leadForm.controls.productId.value ? this.leadForm.controls.productId.value : "",
+      "productName": "",
+      "reason": "",
+      "referralCustomerId": this.leadForm.controls.referralCustomerId.value ? this.leadForm.controls.referralCustomerId.value : 0,
+      "remark": "",
+      "score": this.leadForm.controls.score.value ? this.leadForm.controls.score.value : "",
+      "sourceCode": this.leadForm.controls.sourceCode.value ? this.leadForm.controls.sourceCode.value : "",
+      "startDate": "",
+      "startDateStr": "",
+      "stateCode": this.leadForm.controls.stateCode.value ? this.leadForm.controls.stateCode.value : "",
+      "statusCode": "02",
+      "subTypeCode": "",
+      "subject": this.leadForm.controls.subject.value ? this.leadForm.controls.subject.value : "",
+      "townshipCode": this.leadForm.controls.townshipCode.value ? this.leadForm.controls.townshipCode.value : "",
+      "typeCode": this.leadForm.controls.typeCode.value ? this.leadForm.controls.typeCode.value : "",
+      "validityPeriod": this.leadForm.controls.validityPeriod.value ? this.leadForm.controls.validityPeriod.value : 0,
+    }
+    if (this.leadForm.controls.existingCustomerId.value) {
+      data["existingCustomerId"] = this.leadForm.controls.existingCustomerId.value
+    }
+    if (this.leadForm.controls.prospectCustomerId.value) {
+      data["prospectCustomerId"] = this.leadForm.controls.prospectCustomerId.value
+    }
+
+    console.log("PostData: ", data)
+    this.LeadDetailService.createLead(data).toPromise()
       .then((res) => {
         if (res) {
           this.alertService.activate('This record was created', 'Success Message');
@@ -645,6 +720,30 @@ export class LeadNewComponent implements OnInit {
     if (index < 0 && this.leadForm.controls["productId"].value && type.length > 0)
       this.leadForm.controls["productId"].setValue("");
     this.productOption2 = type || []
+  }
+
+  getFormatOpt(res) {
+    return res.map(x => {
+      return {
+        'code': x.codeId,
+        'value': x.codeName || x.codeValue
+      }
+    })
+  }
+
+  getCampaignId() {
+    let campaignName = this.leadForm.controls.campaignName.value
+    let campaignNumber
+    if (campaignName) {
+      this.LeadDetailService.getCampaignId(campaignName).toPromise().then((res: any) => {
+        if (res.length > 0) {
+          campaignNumber = res[0].cpmNumber
+        } else {
+          campaignNumber = ''
+        }
+        this.leadForm.controls.campaignNo.setValue(campaignNumber)
+      })
+    }
   }
 
   //for View
@@ -682,30 +781,6 @@ export class LeadNewComponent implements OnInit {
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
     return dd + '/' + mm + '/' + yyyy;
-  }
-
-  getFormatOpt(res) {
-    return res.map(x => {
-      return {
-        'code': x.codeId,
-        'value': x.codeName || x.codeValue
-      }
-    })
-  }
-
-  getCampaignId() {
-    let campaignName = this.leadForm.controls.campaignName.value
-    let campaignNumber
-    if (campaignName) {
-      this.LeadDetailService.getCampaignId(campaignName).toPromise().then((res: any) => {
-        if (res.length > 0) {
-          campaignNumber = res[0].cpmNumber
-        } else {
-          campaignNumber = ''
-        }
-        this.leadForm.controls.campaignNo.setValue(campaignNumber)
-      })
-    }
   }
 
 }
