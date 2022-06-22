@@ -9,9 +9,9 @@
               <th>{{"FORM.travel_plan" | translate }}</th>
               <th>{{"FORM.insured_unit" | translate }}</th>
               <th>{{"FORM.travel_duration" | translate }}</th>
-              <th>{{"FORM.no_of_traveller" | translate }}</th>
+              <th>{{"FORM.no_of_traveler" | translate }}</th>
               <th>{{"FORM.total_unit" | translate }}</th>
-              <th>{{"FORM.traveller_name" | translate }}</th>
+              <th>{{"FORM.traveler_name" | translate }}</th>
               <th>{{"FORM.premium" | translate }}</th>
               <th>{{"FORM.action" | translate }}</th>
           </tr>
@@ -26,7 +26,7 @@
                 <td>{{item.noOfTraveller}}</td>
                 <td>{{item.totalUnit}}</td>
                 <td>{{item.travellerName}}</td>
-                <td>{{item.premium | number}}</td>
+                <td>{{item.premium | number:'1.2-2'}}</td>
                   <td>
                       <a title="Edit" class="btn btn-primary btn-cus btn-sm mx-1" (click)="newData('edit',item)">
                           <span class="flaticon-edit"></span>

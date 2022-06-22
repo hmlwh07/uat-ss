@@ -94,7 +94,14 @@
       visibility: hidden;
 
     }
-
+    .modal-open>.modal {
+    overflow: auto !important;
+    padding: 0 !important;
+   
+       backdrop-filter: brightness(.75);
+       position: static;
+       height: unset;
+    }
     #printable,
     #printable * {
       visibility: visible;
