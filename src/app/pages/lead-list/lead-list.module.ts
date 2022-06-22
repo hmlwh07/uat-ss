@@ -17,8 +17,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
-  declarations: [LeadNewComponent],
-  exports: [LeadNewComponent],
   imports: [
     CommonModule,
     FormsModule,
