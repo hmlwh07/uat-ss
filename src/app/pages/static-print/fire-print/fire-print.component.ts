@@ -174,5 +174,7 @@ export class FirePrintComponent implements OnInit {
     }
   }
   // }
-
+  print(){
+    window.print()
+  }
 }
