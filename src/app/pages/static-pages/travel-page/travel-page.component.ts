@@ -191,6 +191,9 @@ export class TravelComponent implements OnInit {
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
           this.changeBenefi(res.benefi, res.detail.refId)
+          this.savePremimunFire().toPromise().then(res => {
+            
+          })
         }
       }
     })
@@ -198,13 +201,17 @@ export class TravelComponent implements OnInit {
 
   changeTravelDetail(data) {
     let index = -1
-    if (this.tempData['travelDetail'])
+    if (this.tempData['travelDetail']){
       index = this.tempData['travelDetail'].findIndex(x => x.refId == data.refId)
-    if (index < 0) {
-      this.tempData['travelDetail'].push(data)
-    } else {
-      this.tempData['travelDetail'][index] = data
+      console.log("INDXEDX",index);
+      
+      if (index < 0) {
+        this.tempData['travelDetail'].push(data)
+      } else {
+        this.tempData['travelDetail'][index] = data
+      }
     }
+   
   }
   changeTraveler(data) {
     let index = this.tempData['traveler'].findIndex(x => x.refId == data.refId)
