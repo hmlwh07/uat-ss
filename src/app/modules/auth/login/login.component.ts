@@ -29,7 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string;
   firstPage:string;
   isLoading$: Observable<boolean>;
-
+  public showPassword: boolean;
+  public showoldPassword: boolean;
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 

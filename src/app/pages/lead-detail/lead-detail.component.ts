@@ -647,7 +647,7 @@ export class LeadDetailComponent implements OnInit {
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
 
       this.score += value ? element.score : 0
-     
+
     });
     if (this.sourceScore != 0) {
       this.score += this.sourceScore
@@ -664,7 +664,7 @@ export class LeadDetailComponent implements OnInit {
         if (res) {
           this.oldData = res;
           if (res.existingCustomerId != 0) {
-            this.isAddProspect=true
+            this.isAddProspect = true
             this.customer = {
               customerId: res.existingCustomerId,
               customerName: res.existingCustomerName,
@@ -692,7 +692,11 @@ export class LeadDetailComponent implements OnInit {
           // this.oldData.resourcePolicies[0].apiStatus='draft_application'
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
           this.applicationList.forEach((value, index) => {
-            this.applicationList[index].agentFirstName = value.agentFirstName + " " + value.agentLastName
+            this.applicationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
+            this.cdf.detectChanges()
+          })
+          this.quatationList.forEach((value, index) => {
+            this.quatationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
             this.cdf.detectChanges()
           })
 
@@ -754,30 +758,36 @@ export class LeadDetailComponent implements OnInit {
           }
         })
       } else {
-        this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
-          if (result) {
-            let data = {
-              email: this.oldData.email,
-              identityNumber: this.oldData.identityNumber,
-              identityType: this.oldData.identityType,
-              nrcRegionCd: this.oldData.nrcRegionCode,
-              nrcTownshipCd: this.oldData.nrcTownshipCode,
-              nrcTypeCd: this.oldData.nrcTypeCode,
-              phone: this.oldData.phoneNo
-            }
-            this.LeadDetailService.checkLead(data).toPromise().then((res) => {
-              if (res) {
-                this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
-                });
-              } else {
-                this.updateStatus(status);
-                this.alertService.activate('This record was approved', 'Success Message').then(result => {
-                });
+        console.log("his.leadForm.getRawValue().assignTo",this.leadForm.getRawValue().assignTo);
+        
+        if (this.leadForm.getRawValue().assignTo != 0) {
+          this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
+            if (result) {
+              let data = {
+                email: this.oldData.email,
+                identityNumber: this.oldData.identityNumber,
+                identityType: this.oldData.identityType,
+                nrcRegionCd: this.oldData.nrcRegionCode,
+                nrcTownshipCd: this.oldData.nrcTownshipCode,
+                nrcTypeCd: this.oldData.nrcTypeCode,
+                phone: this.oldData.phoneNo
               }
+              this.LeadDetailService.checkLead(data).toPromise().then((res) => {
+                if (res) {
+                  this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
+                  });
+                } else {
+                  this.updateStatus(status);
+                  this.alertService.activate('This record was approved', 'Success Message').then(result => {
+                  });
+                }
 
-            });
-          }
-        })
+              });
+            }
+          })
+        }else {
+          this.alertService.activate('Please assign producer/agent', 'Warning')
+        }
       }
     }
 
@@ -1027,16 +1037,16 @@ export class LeadDetailComponent implements OnInit {
     this.loadForm(this.oldData);
   }
   clearDate(key) {
-    if(!this.disabledForm && !this.isExisting){
+    if (!this.disabledForm && !this.isExisting) {
       if (key == 'existingCustomerName') {
         this.leadForm.controls[key].setValue(null)
         this.leadForm.controls['existingCustomerId'].setValue(null)
         console.log("TESTexistingCustomerName");
-      
+
       }
-    }else{
+    } else {
       console.log("TEST");
-      
+
       return false
     }
     if (key == 'referralCustomerName') {
@@ -1044,7 +1054,7 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls['referralCustomerId'].setValue(null)
 
     }
-   
+
     if (key == 'campaignName' || key == 'campaignNo') {
       this.leadForm.controls['campaignName'].setValue(null)
       this.leadForm.controls['campaignNo'].setValue(null)
@@ -1165,7 +1175,7 @@ export class LeadDetailComponent implements OnInit {
     if (type == 'Quotation') {
       const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = 'modal'
-      modalRef.componentInstance.isShowList='yes'
+      modalRef.componentInstance.isShowList = 'yes'
       modalRef.result.then(() => { }, (prod) => {
         if (prod) {
           if (prod.type == 'save') {
