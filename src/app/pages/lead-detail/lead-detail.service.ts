@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { SearchDropdownInnerComponent } from "src/app/_metronic/partials/layout/extras/dropdown-inner/search-dropdown-inner/search-dropdown-inner.component";
 import { environment } from "../../../environments/environment";
 import { BizOperationService } from "../../core/biz.operation.service";
 import { Lead } from "./lead.dto";
@@ -11,6 +12,8 @@ const API_LEAD_SOURCE_URL = `${environment.apiUrl}/leadSource`;
 const API_LEAD_SCORE_URL = `${environment.apiUrl}/leadSource/score`;
 const API_LEAD_QUALITY_URL = `${environment.apiUrl}/leadQuality`;
 const API_VALIDITY_URL = `${environment.apiUrl}/validity-period/filter`;
+const API_EXISTING_CUSTOMER_URL = `${environment.apiUrl}/customer/checkExistingCustomer`;
+const API_EXISTING_PROSPECT_URL = `${environment.apiUrl}/customer/checkExistingProspect`;
 
 @Injectable({
   providedIn: 'root'
@@ -35,17 +38,28 @@ export class LeadDetailService extends BizOperationService<Lead, number>{
   getLeadSource() {
     return this.httpClient.get(API_LEAD_SOURCE_URL)
   }
-  getLeadQuality(channel:string) {
-    return this.httpClient.get(API_LEAD_QUALITY_URL+"?distributionChannelCode="+channel)
+  getLeadQuality(channel: string) {
+    return this.httpClient.get(API_LEAD_QUALITY_URL + "?distributionChannelCode=" + channel)
   }
-  getLeadScore(sourceCode:string,channel:string) {
-    return this.httpClient.get(API_LEAD_SCORE_URL + "?sourceCode=" + sourceCode+"&distributionChannelCode="+channel)
+  getLeadScore(sourceCode: string, channel: string) {
+    return this.httpClient.get(API_LEAD_SCORE_URL + "?sourceCode=" + sourceCode + "&distributionChannelCode=" + channel)
   }
   getValidityPeriod(leadSource, productId) {
     return this.httpClient.get(API_VALIDITY_URL + "?leadSource=" + leadSource + "&" + "productId=" + productId)
   }
-  checkLead(postData){
-    console.log(postData);
+  checkLead(postData) {
     return this.httpClient.post(API_LEAD_URL + "/check", postData)
+  }
+  getCampaignId(campaignName: string) {
+    return this.httpClient.get(API_CAMPAIGN_URL + "?cpmName=" + campaignName)
+  }
+  checkExistingCustomer(postData: any) {
+    return this.httpClient.post(API_EXISTING_CUSTOMER_URL, postData)
+  }
+  checkExistingProspect(postData: any) {
+    return this.httpClient.post(API_EXISTING_PROSPECT_URL, postData)
+  }
+  createLead(postData: any) {
+    return this.httpClient.post(API_LEAD_URL, postData)
   }
 }

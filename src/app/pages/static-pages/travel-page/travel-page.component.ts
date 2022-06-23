@@ -128,6 +128,8 @@ export class TravelComponent implements OnInit {
   getRiskList() {
     this.travelRikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
+        console.log("RES", res);
+
         this.globalFun.tempFormData[TRAVELID] = res
         this.listData = res || []
         this.cdf.detectChanges()
@@ -138,6 +140,8 @@ export class TravelComponent implements OnInit {
   newData(type, detail?: any) {
     console.log("DETAIL", detail);
     console.log("this.tempData['benefi']", this.tempData['benefi']);
+    console.log("this.tempData['travelDetail']", this.tempData['travelDetail']);
+    console.log("this.tempData['traveler']", this.tempData['traveler']);
 
     let modalRef = this.modalService.open(TravelRiskDetailComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type
@@ -154,7 +158,7 @@ export class TravelComponent implements OnInit {
     if (detail) {
       let travel = this.tempData['travelDetail'].find(x => x.refId == detail.riskId)
       let traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
-      let benefi=[]
+      let benefi = []
       if (this.tempData['benefi']) {
         benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
         this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
@@ -187,6 +191,9 @@ export class TravelComponent implements OnInit {
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
           this.changeBenefi(res.benefi, res.detail.refId)
+          this.savePremimunFire().toPromise().then(res => {
+            
+          })
         }
       }
     })
@@ -194,13 +201,17 @@ export class TravelComponent implements OnInit {
 
   changeTravelDetail(data) {
     let index = -1
-    if (this.tempData['travelDetail'])
+    if (this.tempData['travelDetail']){
       index = this.tempData['travelDetail'].findIndex(x => x.refId == data.refId)
-    if (index < 0) {
-      this.tempData['travelDetail'].push(data)
-    } else {
-      this.tempData['travelDetail'][index] = data
+      console.log("INDXEDX",index);
+      
+      if (index < 0) {
+        this.tempData['travelDetail'].push(data)
+      } else {
+        this.tempData['travelDetail'][index] = data
+      }
     }
+   
   }
   changeTraveler(data) {
     let index = this.tempData['traveler'].findIndex(x => x.refId == data.refId)
@@ -211,11 +222,11 @@ export class TravelComponent implements OnInit {
     }
   }
   changeBenefi(data, refId) {
-    let filtered=[]
-    if(this.tempData['benefi']){
+    let filtered = []
+    if (this.tempData['benefi']) {
       filtered = this.tempData['benefi'].filter(x => x.risk_id != refId)
     }
-     this.tempData['benefi'] = [...filtered, ...data]
+    this.tempData['benefi'] = [...filtered, ...data]
   }
 
   delete(index) {
@@ -227,7 +238,8 @@ export class TravelComponent implements OnInit {
               this.listData.splice(index, 1)
               this.cdf.detectChanges()
               this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-
+                this.getRiskList()
+                this.callback()
               });
             }
           });
@@ -259,11 +271,11 @@ export class TravelComponent implements OnInit {
     let amt = this.listData.reduce(function (sum, current) {
       return sum + parseInt(current.premium);
     }, 0)
-    let amount=(amt*1.00).toFixed(2)
-    console.log("AMOUNT",amount);
-    
+    let amount = (amt * 1.00).toFixed(2)
+    console.log("AMOUNT", amount);
+
     // let premium=this.globalFun.calculateDecimal(amount)  
-    this.premiumAmt = this.numberPipe.transform(amount,"1.2-2") + " MMK"
+    this.premiumAmt = this.numberPipe.transform(amount, "1.2-2") + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return this.premiumAmt
   }
@@ -271,8 +283,8 @@ export class TravelComponent implements OnInit {
   replaceT(stringVal: string) {
     return stringVal.replace("T-", "").replace("TU-", "")
   }
-  replaceTInsured(stringVal: string){
-    let insure=stringVal.replace("T-", "").replace("TU-", "")
+  replaceTInsured(stringVal: string) {
+    let insure = stringVal.replace("T-", "").replace("TU-", "")
     return parseInt(insure)
   }
 

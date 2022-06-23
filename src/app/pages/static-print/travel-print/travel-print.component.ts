@@ -91,7 +91,7 @@ export class TravelPrintComponent implements OnInit {
         this.numberOfTraveller = res.policyInfo.numberOfTraveller
         this.riskInfo = res.riskDetails
         for (let data of res.riskDetails) {
-          this.totalSI += parseInt(data.travelDetail.insuredUnitValue)
+          this.totalSI += parseInt(data.travelRisk.insuredUnitValue)
         }
       }
     })

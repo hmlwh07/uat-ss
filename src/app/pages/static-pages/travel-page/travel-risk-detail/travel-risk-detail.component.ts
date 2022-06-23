@@ -66,6 +66,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private travelRikService: TravelRiskService,
     private modalService: NgbModal,
+    private modal: NgbActiveModal,
     private alert: AlertService,
     private ngModal: NgbActiveModal
   ) { }
@@ -98,6 +99,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     } else {
       this.saveTravelRisk()
     }
+  }
+  closeModal() {
+    this.modal.close()
   }
 
   nextCover() {
@@ -250,7 +254,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.product.id,
-      productCode:this.product.code,
+      productCode: this.product.code,
       type: this.prodService.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -289,21 +293,21 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       })
 
     }
-    if (type != "travelDetail") {
-      postData.pageData[0].data.push({
-        "column": 'risk_id',
-        "value": this.riskId,
-        "party": false
-      })
-    }
+    // if (type != "travelDetail") {
+    //   postData.pageData[0].data.push({
+    //     "column": 'risk_id',
+    //     "value": this.riskId,
+    //     "party": false
+    //   })
+    // }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
       console.log("DATA", data);
-      if(type == "travelDetail"){
+      if (type == "travelDetail") {
         for (let ref of data) {
           this.tempRef.push(ref.refId)
         }
       }
-      
+
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
       }
@@ -311,23 +315,6 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     })).toPromise().then((res) => {
 
       if (res) {
-
-
-        let postValue = {
-          riskId: this.riskId,
-          refId: this.tempRef,
-          tableName: 'travel_detail'
-        }
-        console.log("POSt", postValue);
-  
-        if (this.tempRef) {
-          this.pageDataService.updateRiskId(postValue).toPromise().then(res => {
-            if (res) {
-  
-            }
-          })
-        }
-
         if (!this.resourceId)
           this.resourceId = res[0].resourceId;
         if (page.pageType == 'table') {
@@ -342,7 +329,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         } else {
           this.tempData[type] = { ...formData, refId: res[0].refId, pageId: page.id, risk_id: this.riskId }
           if (type == "travelDetail") {
-            this.riskId = res[0].refId
+            // this.riskId = res[0].refId
             this.stepData.step1 = true
             this.activeBox = "TRAVELER"
           }
@@ -377,7 +364,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.prodService.createingProd.id,
-      productCode:this.prodService.createingProd.code,
+      productCode: this.prodService.createingProd.code,
       type: this.prodService.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -421,24 +408,17 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       })
       // }
     }
-    this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
-      if(type=="travelDetail"){
-      this.tempRef.push(data.refId)
-      let postValue = {
-        riskId: this.riskId,
-        refId: this.tempRef,
-        tableName: 'travel_detail'
-      }
-      console.log("POSt", postValue);
-
-      if (this.tempRef) {
-        this.pageDataService.updateRiskId(postValue).toPromise().then(res => {
-          if (res) {
-
-          }
-        })
-      }
+    if (type != "travelDetail") {
+      postData.data.push({
+        "column": 'risk_id',
+        "value": this.riskId,
+        "party": false
+      })
     }
+    this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
+      if (type == "travelDetail") {
+        this.tempRef.push(data.refId)
+      }
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
       }
@@ -502,6 +482,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     }
     this.travelRikService.save(postData).toPromise().then((result: any) => {
       if (result) {
+
+        this.updateTravelRisk(result)
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
@@ -512,9 +494,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     })
   }
 
-  updateTravelRisk() {
+  updateTravelRisk(oldId?) {
     let postData: TravelRiskDTO = {
-      id: this.oldData.id,
+      id: oldId ? oldId : this.oldData.id,
       insuredUnit: this.tempData['travelDetail'].insured_unit,
       noOfTraveller: this.tempData['travelDetail'].no_of_traveler,
       premium: this.premium,
@@ -524,7 +506,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       travelPlan: this.tempData['travelDetail'].travel_plan,
       travellerName: this.tempData['traveler'].traveler_name,
       sumInsured: 0,
-      riskId: this.tempData['travelDetail'].refId,
+      riskId: oldId ? oldId : this.tempData['travelDetail'].refId,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId,
@@ -541,6 +523,18 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     }
     this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
       if (result) {
+        if (this.tempRef) {
+          let postValue = {
+            riskId: result,
+            refId: this.tempRef,
+            tableName: 'travel_detail'
+          }
+
+          this.pageDataService.updateRiskId(postValue).toPromise().then(res => {
+            if (res) {
+            }
+          })
+        }
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],

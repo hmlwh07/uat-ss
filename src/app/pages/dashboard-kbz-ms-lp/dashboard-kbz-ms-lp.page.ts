@@ -74,6 +74,7 @@ export class DashboardKbzMsLpPage implements OnInit {
     'Mar',
     'APR',
     'MAY',
+    'JUN',
     'JUL',
     'AUG',
     'SEP',
