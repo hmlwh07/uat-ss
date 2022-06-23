@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MasterDataService } from "src/app/modules/master-data/master-data.service";
 import { LeadListService } from "../lead-list/lead-list.service";
@@ -54,6 +54,9 @@ import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/produc
 import { map } from 'rxjs/operators';
 import { defaultAccessObj, MenuDataService } from "../../core/menu-data.service";
 import { LanguagesService } from "src/app/modules/languages/languages.service";
+import { validateAllFields } from "src/app/core/valid-all-feild";
+import { throws } from "assert";
+import { isThisISOWeek } from "date-fns";
 
 @Component({
   selector: "app-lead-detail",
@@ -101,6 +104,7 @@ export class LeadDetailComponent implements OnInit {
   disabled = true
   pageStatus: any;
   description: string = ""
+  product: any = []
   oldId: any;
   oldData: any;
   oldSecondaryId: any;
@@ -117,13 +121,15 @@ export class LeadDetailComponent implements OnInit {
   companyOption: any = []
   sourceOption: any = [];
   existingOption: any = [];
-  martialOption: any = [];
+  // martialOption: any = [];
+  maritalOption: any = [];
   occupationOption: any = [];
   isExisting: boolean = false
   isProspectCustomer: boolean = false
   isAddProspect: boolean = false
   disabledForm: boolean = false
   statusCode: number = 0
+  newLeadId: number = 0
   maritialOption: any = [
     // SINGLE, MARRIED, WIDOWER, DIVORCED
     {
@@ -189,6 +195,8 @@ export class LeadDetailComponent implements OnInit {
   quoAccess = defaultAccessObj
   attachAccess = defaultAccessObj
   fnaAccess = defaultAccessObj
+  switchObj: {};
+  isUpdateNew: boolean = false;
   constructor(
     private fb: FormBuilder,
     private location: Location,
@@ -274,6 +282,12 @@ export class LeadDetailComponent implements OnInit {
     //   this.getOld();
     //   this.loadForm();
     // }
+    if (this.oldData == null) {
+      this.leadForm.controls.assignTo.setValue(this.user.id)
+      this.leadForm.controls.assignToName.setValue(this.user.username)
+      this.leadForm.controls.openedDate.setValue(new Date())
+      this.leadForm.controls.statusCode.setValue("01")
+    }
   }
 
   getMaster() {
@@ -492,6 +506,7 @@ export class LeadDetailComponent implements OnInit {
       .toPromise()
       .then((res: any) => {
         if (res) {
+          this.product = res;
           this.productOption = res.map((x) => {
             return { code: x.id, value: x.name, type: x.type };
           });
@@ -647,7 +662,7 @@ export class LeadDetailComponent implements OnInit {
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
 
       this.score += value ? element.score : 0
-     
+
     });
     if (this.sourceScore != 0) {
       this.score += this.sourceScore
@@ -662,9 +677,10 @@ export class LeadDetailComponent implements OnInit {
       .then((res) => {
         // console.log('lead detail =====> ', res);
         if (res) {
+          console.log("getOld", res)
           this.oldData = res;
           if (res.existingCustomerId != 0) {
-            this.isAddProspect=true
+            this.isAddProspect = true
             this.customer = {
               customerId: res.existingCustomerId,
               customerName: res.existingCustomerName,
@@ -910,7 +926,7 @@ export class LeadDetailComponent implements OnInit {
         identityNumber: this.leadForm.getRawValue().identityNumber,
         phone: this.leadForm.getRawValue().phoneNo,
         email: this.leadForm.getRawValue().email,
-        occupationCode: this.leadForm.getRawValue().occupationCode,
+        occupationCd: this.leadForm.getRawValue().occupationCd,
         townshipCode: this.leadForm.getRawValue().townshipCode,
         districtCode: this.leadForm.getRawValue().districtCode,
         stateCode: this.leadForm.getRawValue().stateCode,
@@ -942,101 +958,168 @@ export class LeadDetailComponent implements OnInit {
   }
 
   loadForm(oldData?) {
-    this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
-    this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
-    this.leadForm = null
-    this.cdf.detectChanges()
-    this.leadForm = new FormGroup({
-      leadId: new FormControl({ value: oldData ? oldData.leadId : '', disabled: true }),
-      phoneNo: new FormControl({ value: oldData ? oldData.phoneNo : '', disabled: this.disabledForm }),
-      openedDate: new FormControl({ value: oldData ? moment(oldData.openedDate) : '', disabled: true }),
-      subject: new FormControl({ value: oldData ? oldData.subject : '', disabled: this.disabledForm }),
-      companyCode: new FormControl({ value: oldData ? oldData.companyCode : '', disabled: true }),
-      // contact: new FormControl(oldData ? oldData.contact : ""),
-      sms: new FormControl({ value: oldData ? (oldData.contact + "").includes('sms') : false, disabled: this.disabledForm }),
-      pemail: new FormControl({ value: oldData ? (oldData.contact + "").includes('email') : false, disabled: this.disabledForm }),
-      phone: new FormControl({ value: oldData ? (oldData.contact + "").includes('phone') : false, disabled: this.disabledForm }),
-      contactName: new FormControl({ value: oldData ? oldData.contactName : '', disabled: this.disabledForm }),
-      activationDate: new FormControl({ value: oldData ? moment(oldData.activationDate) : '', disabled: true }),
-      channelCode: new FormControl({ value: oldData ? oldData.channelCode : '', disabled: true }),
-      occupationCode: new FormControl({ value: oldData ? oldData.occupationCode : '', disabled: this.disabledForm }),
-      closedDate: new FormControl({ value: oldData ? moment(oldData.closedDate) : '', disabled: this.disabledForm }),
-      typeCode: new FormControl({ value: oldData ? oldData.typeCode : '', disabled: true }),
-      stateCode: new FormControl({ value: oldData ? oldData.stateCode : '', disabled: this.disabledForm }),
-      expirationDate: new FormControl({ value: oldData ? moment(oldData.expirationDate) : '', disabled: this.disabledForm }),
-      statusCode: new FormControl({ value: oldData ? oldData.statusCode : '', disabled: true }),
-      // oldData ? oldData.statusCode : ''
-      districtCode: new FormControl({ value: oldData ? oldData.districtCode : '', disabled: this.disabledForm }),
-      validityPeriod: new FormControl({ value: oldData ? oldData.validityPeriod : '', disabled: true }),
-      reason: new FormControl({ value: oldData ? oldData.reason : '', disabled: true }),
-      townshipCode: new FormControl({ value: oldData ? oldData.townshipCode : '', disabled: this.disabledForm }),
-      assignTo: new FormControl({ value: oldData ? oldData.ownerId : '', disabled: this.disabledForm }),
-      assignToName: new FormControl({ value: oldData ? oldData.ownerName : '', disabled: this.disabledForm }),
-      productId: new FormControl({ value: oldData ? oldData.productId : '', disabled: true }),
-      email: new FormControl({ value: oldData ? oldData.email : '', disabled: this.disabledForm }),
-      campaignName: new FormControl({ value: oldData ? oldData.campaignName : '', disabled: this.disabledForm }),
-      identityType: new FormControl({ value: oldData ? oldData.identityType == 'OTHER' ? "OTHERS" : oldData.identityType : 'NRC', disabled: true }),
-      sourceCode: new FormControl({ value: oldData ? oldData.sourceCode : '', disabled: this.disabledForm }),
-      campaignNo: new FormControl({ value: oldData ? oldData.campaignNo : '', disabled: this.disabledForm }),
-      identityNumber: new FormControl({ value: oldData ? oldData.nrcValue || oldData.identityNumber : '', disabled: true }),
-      existingCustomerName: new FormControl(
-        { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }
-      ),
-      existingCustomerId: new FormControl(
-        { value: oldData ? oldData.existingCustomerId : "", disabled: true }
-      ),
-      referralCustomerName: new FormControl(
-        { value: oldData ? oldData.referralCustomerName.trim() : "", disabled: this.disabledForm }
-      ),
-      referralCustomerId: new FormControl(
-        { value: oldData ? oldData.referralCustomerId : "", disabled: this.disabledForm }
-      ),
-      monthlyIncome: new FormControl({ value: oldData ? oldData.monthlyIncome : '', disabled: this.disabledForm }),
-      facebookAcc: new FormControl({ value: oldData ? oldData.facebookAcc : '', disabled: this.disabledForm }),
-      maritalStatus: new FormControl({ value: oldData ? oldData.maritalStatus : '', disabled: this.disabledForm }),
-      financialPlan: new FormControl({ value: oldData ? oldData.financialPlan : '', disabled: this.disabledForm }),
-      numberOfChildren: new FormControl(
-        { value: oldData ? oldData.numberOfChildren : '', disabled: this.disabledForm }
-      ),
-      existingInsuranceCoverage: new FormControl(
-        { value: oldData ? oldData.existingInsuranceCoverage : '', disabled: this.disabledForm }
-      ),
-      existingInsurancePlan: new FormControl(
-        { value: oldData ? oldData.existingInsurancePlan : '', disabled: this.disabledForm }
-      ),
-      score: new FormControl({ value: oldData ? oldData.score : '', disabled: this.disabledForm }),
-      asset: new FormControl({ value: oldData ? oldData.asset : '', disabled: this.disabledForm }),
-      prospectCustomer: new FormControl(
-        { value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: this.disabledForm }
-      ),
-      prospectCustomerId: new FormControl(
-        { value: oldData ? oldData.prospectCustomerId : "", disabled: this.disabledForm }
-      ),
-      lostReason: new FormControl({ value: oldData ? oldData.lostReason : '', disabled: true }),
-    });
-    this.cdf.detectChanges()
+    console.log("OldData: ", oldData)
+    if (oldData != null) {
+      this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
+      this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
+      this.leadForm = null
+      this.cdf.detectChanges()
+      this.leadForm = new FormGroup({
+        leadId: new FormControl({ value: oldData ? oldData.leadId : '', disabled: true }),
+        phoneNo: new FormControl({ value: oldData ? oldData.phoneNo : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        openedDate: new FormControl({ value: oldData ? moment(oldData.openedDate) : '', disabled: true }),
+        subject: new FormControl({ value: oldData ? oldData.subject : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        companyCode: new FormControl({ value: oldData ? oldData.companyCode : '', disabled: oldData.statusCode == '02' ? false : true }),
+        sms: new FormControl({ value: oldData ? (oldData.contact + "").includes('sms') : false, disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        pemail: new FormControl({ value: oldData ? (oldData.contact + "").includes('email') : false, disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        phone: new FormControl({ value: oldData ? (oldData.contact + "").includes('phone') : false, disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        contactName: new FormControl({ value: oldData ? oldData.contactName : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        activationDate: new FormControl({ value: oldData ? moment(oldData.activationDate) : '', disabled: oldData.statusCode == '02' ? false : true }),
+        channelCode: new FormControl({ value: oldData ? oldData.channelCode : '', disabled: oldData.statusCode == '02' ? false : true }),
+        occupationCd: new FormControl({ value: oldData ? oldData.occupationCd : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        closedDate: new FormControl({ value: oldData ? moment(oldData.closedDate) : '', disabled: this.disabledForm }),
+        typeCode: new FormControl({ value: oldData ? oldData.typeCode : '', disabled: oldData.statusCode == '02' ? false : true }),
+        stateCode: new FormControl({ value: oldData ? oldData.stateCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        expirationDate: new FormControl({ value: oldData ? moment(oldData.expirationDate) : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        statusCode: new FormControl({ value: oldData ? oldData.statusCode : '', disabled: true }),
+        districtCode: new FormControl({ value: oldData ? oldData.districtCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        validityPeriod: new FormControl({ value: oldData ? oldData.validityPeriod : '', disabled: oldData.statusCode == '02' ? false : true }),
+        reason: new FormControl({ value: oldData ? oldData.reason : '', disabled: oldData.statusCode == '02' ? false : true }),
+        townshipCode: new FormControl({ value: oldData ? oldData.townshipCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        assignTo: new FormControl({ value: oldData ? oldData.ownerId : '', disabled: oldData.statusCode == '02' ? true : this.disabledForm }),
+        assignToName: new FormControl({ value: oldData ? oldData.ownerName : '', disabled: oldData.statusCode == '02' ? true : this.disabledForm }),
+        productId: new FormControl({ value: oldData ? oldData.productId : '', disabled: oldData.statusCode == '02' ? false : true }),
+        email: new FormControl({ value: oldData ? oldData.email : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        campaignName: new FormControl({ value: oldData ? oldData.campaignName : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        identityType: new FormControl({ value: oldData ? oldData.identityType == 'OTHER' ? "OTHERS" : oldData.identityType : 'NRC', disabled: oldData.statusCode == '02' ? false : true }),
+        sourceCode: new FormControl({ value: oldData ? oldData.sourceCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        campaignNo: new FormControl({ value: oldData ? oldData.campaignNo : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        identityNumber: new FormControl({ value: oldData ? oldData.nrcValue || oldData.identityNumber : '', disabled: oldData.statusCode == '02' ? false : true }),
+        existingCustomerName: new FormControl(
+          { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }
+        ),
+        existingCustomerId: new FormControl(
+          { value: oldData ? oldData.existingCustomerId : "", disabled: oldData.statusCode == '02' ? false : true }
+        ),
+        referralCustomerName: new FormControl(
+          { value: oldData ? oldData.referralCustomerName.trim() : "", disabled: oldData.statusCode == '02' ? false : this.disabledForm }
+        ),
+        referralCustomerId: new FormControl(
+          { value: oldData ? oldData.referralCustomerId : "", disabled: oldData.statusCode == '02' ? false : this.disabledForm }
+        ),
+        estimatedMonthlyIncome: new FormControl({ value: oldData ? oldData.monthlyIncome : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        facebookAcc: new FormControl({ value: oldData ? oldData.facebookAcc : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        maritalStatus: new FormControl({ value: oldData ? oldData.maritalStatus : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        financialPlan: new FormControl({ value: oldData ? oldData.financialPlan : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        noOfChildren: new FormControl(
+          { value: oldData ? oldData.numberOfChildren : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }
+        ),
+        existingInsuranceCoverage: new FormControl(
+          { value: oldData ? oldData.existingInsuranceCoverage : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }
+        ),
+        existingInsurancePlan: new FormControl(
+          { value: oldData ? oldData.existingInsurancePlan : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }
+        ),
+        score: new FormControl({ value: oldData ? oldData.score : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        assets: new FormControl({ value: oldData ? oldData.assets : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        prospectCustomer: new FormControl(
+          { value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: this.disabledForm }
+        ),
+        prospectCustomerId: new FormControl(
+          { value: oldData ? oldData.prospectCustomerId : "", disabled: oldData.statusCode == '02' ? false : this.disabledForm }
+        ),
+        lostReason: new FormControl({ value: oldData ? oldData.lostReason : '', disabled: oldData.statusCode == '02' ? false : true }),
+      });
+      this.cdf.detectChanges()
 
-    if (this.oldData) {
-      this.getLeadQuality()
-      this.calculateScore(null, this.oldData.sourceCode)
+      if (this.oldData) {
+        this.getLeadQuality()
+        this.calculateScore(null, this.oldData.sourceCode)
+      }
+    } else {
+      this.createNewLeadForm();
     }
 
+  }
+
+  createNewLeadForm() {
+
+    this.leadForm = new FormGroup({
+      leadId: new FormControl({ value: null, disabled: true }),
+      phoneNo: new FormControl(null),
+      subject: new FormControl(null),
+      openedDate: new FormControl({ value: new Date() }, Validators.required),
+      openedDateStr: new FormControl(null),
+      companyCode: new FormControl(null, Validators.required),
+      PCsms: new FormControl(null),
+      PCemail: new FormControl(null),
+      PCphone: new FormControl(null),
+      contactName: new FormControl(null, Validators.required),
+      activationDate: new FormControl(null, Validators.required),
+      activationDateStr: new FormControl(null),
+      channelCode: new FormControl(null),
+      occupationCd: new FormControl(null),
+      closedDate: new FormControl({ value: null, disabled: true }),
+      closedDateStr: new FormControl(null),
+      typeCode: new FormControl(null),
+      stateCode: new FormControl(null),
+      expirationDate: new FormControl(null),
+      expirationDateStr: new FormControl(null),
+      statusCode: new FormControl({ value: null, disabled: true }, Validators.required),
+      districtCode: new FormControl(null),
+      validityPeriod: new FormControl({ value: null, disabled: true }),
+      reason: new FormControl(null),
+      townshipCode: new FormControl(null),
+      assignTo: new FormControl({ value: this.user.id }),
+      assignToName: new FormControl({ value: this.user.username, disabled: true }),
+      productId: new FormControl(null),
+      email: new FormControl(null),
+      campaignName: new FormControl(null),
+      identityType: new FormControl(null),
+      sourceCode: new FormControl(null, Validators.required),
+      campaignNo: new FormControl(null),
+      identityNumber: new FormControl(null),
+      existingCustomerName: new FormControl({ value: null, disabled: true }),
+      existingCustomerId: new FormControl(null),
+      referralCustomerName: new FormControl(null),
+      referralCustomerId: new FormControl(null),
+      estimatedMonthlyIncome: new FormControl(null),
+      facebookAcc: new FormControl(null),
+      maritalStatus: new FormControl(null),
+      financialPlan: new FormControl(null),
+      noOfChildren: new FormControl(null),
+      existingInsuranceCoverage: new FormControl(null),
+      existingInsurancePlan: new FormControl(null),
+      score: new FormControl({ value: null, disabled: true }),
+      assets: new FormControl(null),
+      prospectCustomer: new FormControl({ value: null, disabled: true }),
+      prospectCustomerId: new FormControl(null),
+      lostReason: new FormControl(null),
+    });
+    // console.log(this.user)
+    // this.leadForm.controls.assignTo.setValue(this.user.id)
+    // this.leadForm.controls.assignToName.setValue("May Thu Kha")
+    // if (this.leadForm.controls.openedDate.value == null)
+    //   this.leadForm.controls.openedDate.setValue("23-06-2022")
+    // if (this.leadForm.controls.statusCode.value == null)
+    //   this.leadForm.controls.statusCode.setValue("01")
+    // console.log(this.leadForm)
   }
 
   backLocation() {
     this.loadForm(this.oldData);
   }
   clearDate(key) {
-    if(!this.disabledForm && !this.isExisting){
+    if (!this.disabledForm && !this.isExisting) {
       if (key == 'existingCustomerName') {
         this.leadForm.controls[key].setValue(null)
         this.leadForm.controls['existingCustomerId'].setValue(null)
         console.log("TESTexistingCustomerName");
-      
+
       }
-    }else{
+    } else {
       console.log("TEST");
-      
+
       return false
     }
     if (key == 'referralCustomerName') {
@@ -1044,7 +1127,7 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls['referralCustomerId'].setValue(null)
 
     }
-   
+
     if (key == 'campaignName' || key == 'campaignNo') {
       this.leadForm.controls['campaignName'].setValue(null)
       this.leadForm.controls['campaignNo'].setValue(null)
@@ -1096,11 +1179,83 @@ export class LeadDetailComponent implements OnInit {
 
   edit(postData) {
     let data = { ...postData, leadId: this.oldId, ownerId: postData.assignTo };
-    this.LeadDetailService.updateNoID(data)
+    let requestData: any = {
+      "activationDate": "",
+      "activationDateStr": postData.activationDate.toDate() != 'Invalid Date' ? this.convertDateFormatDDMMYYY(postData.activationDate) || this.convertDateFormatDDMMYYY(postData.activationDate) : "",
+      "assets": postData.assets ? postData.assets : "",
+      "assignTo": postData.assignTo ? postData.assignTo : this.user.id,
+      "campaignName": postData.campaignName ? postData.campaignName : "",
+      "campaignNo": postData.campaignNo ? postData.campaignNo : "",
+      "channelCode": postData.channelCode ? postData.channelCode : "",
+      "closedDate": "",
+      "closedDateStr": postData.closedDate.toDate() != 'Invalid Date' ? this.convertDateFormatDDMMYYY(postData.closedDate) : "",
+      "companyCode": postData.companyCode ? postData.companyCode : "",
+      "contact": postData.contact,
+      "contactName": postData.contactName ? postData.contactName : "",
+      "customerPlan": "",
+      "description": "",
+      "districtCode": postData.districtCode ? postData.districtCode : "",
+      "dueDate": "",
+      "dueDateStr": "",
+      "email": postData.email ? postData.email : "",
+      "existingInsuranceCoverage": postData.existingInsuranceCoverage ? postData.existingInsuranceCoverage : "",
+      "existingInsurancePlan": postData.existingInsurancePlan ? postData.existingInsurancePlan : "",
+      "expirationDate": "",
+      "expirationDateStr": postData.expirationDate.toDate() != 'Invalid Date' ? this.convertDateFormatDDMMYYY(postData.expirationDate) : "",
+      "facebookAcc": postData.facebookAcc ? postData.facebookAcc : "",
+      "financialPlan": postData.financialPlan ? postData.financialPlan : "",
+      "frc": "",
+      "identityNumber": postData.identityNumber ? postData.identityNumber : "",
+      "identityType": postData.identityType ? postData.identityType : null,
+      "leadId": postData.leadId ? postData.leadId : "",
+      "lostReason": "",
+      "maritalStatus": postData.maritalStatus ? postData.maritalStatus : null,
+      "estimatedMonthlyIncome": postData.estimatedMonthlyIncome ? postData.estimatedMonthlyIncome : "",
+      "name": "",
+      "nrcRegionCode": "",
+      "nrcTownshipCode": "",
+      "nrcTypeCode": "",
+      "noOfChildren": "" + (postData.noOfChildren ? postData.noOfChildren : "") + "",
+      "occupationCd": postData.occupationCd ? postData.occupationCd : "",
+      "openedDate": "",
+      "openedDateStr": postData.openedDate.toDate() != 'Invalid Date' ? this.convertDateFormatDDMMYYY(postData.openedDate) : "",
+      "operationDate": "",
+      "operationDateStr": "",
+      "others": "",
+      "ownerId": postData.assignTo ? postData.assignTo : 0,
+      "passport": "",
+      "phoneNo": postData.phoneNo ? postData.phoneNo : "",
+      "productCode": postData.productCode ? postData.productCode : "",
+      "productId": postData.productId ? postData.productId : "",
+      "productName": "",
+      "reason": "",
+      "referralCustomerId": postData.referralCustomerId ? postData.referralCustomerId : 0,
+      "remark": "",
+      "score": postData.score ? postData.score : 0,
+      "sourceCode": postData.sourceCode ? postData.sourceCode : "",
+      "startDate": "",
+      "startDateStr": "",
+      "stateCode": postData.stateCode ? postData.stateCode : "",
+      "statusCode": postData.statusCode ? postData.statusCode : "",
+      "subTypeCode": "",
+      "subject": postData.subject ? postData.subject : "",
+      "townshipCode": postData.townshipCode ? postData.townshipCode : "",
+      "typeCode": postData.typeCode ? postData.typeCode : "",
+      "validityPeriod": postData.validityPeriod ? postData.validityPeriod : 0,
+    }
+    if (postData.existingCustomerId) {
+      data["existingCustomerId"] = postData.existingCustomerId
+    }
+    if (postData.prospectCustomerId) {
+      data["prospectCustomerId"] = postData.prospectCustomerId
+    }
+    this.LeadDetailService.updateNoID(requestData)
       .toPromise()
       .then((res) => {
         if (res) {
-          this.getOld()
+          if (!this.isUpdateNew) {
+            this.getOld()
+          }
           this.alertService.activate('This record was updated', 'Success Message');
           // this.location.back();
         }
@@ -1165,7 +1320,7 @@ export class LeadDetailComponent implements OnInit {
     if (type == 'Quotation') {
       const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.type = 'modal'
-      modalRef.componentInstance.isShowList='yes'
+      modalRef.componentInstance.isShowList = 'yes'
       modalRef.result.then(() => { }, (prod) => {
         if (prod) {
           if (prod.type == 'save') {
@@ -1377,11 +1532,9 @@ export class LeadDetailComponent implements OnInit {
   }
   getProductOption() {
     let array: any[] = this.productOption || []
-    console.log("this.leadForm.getRawValue().typeCode", this.leadForm.getRawValue().typeCode);
 
     let type = array.filter(x => x.type == this.leadType[this.leadForm.getRawValue().typeCode])
     let index = type.findIndex(x => x.code == this.leadForm.controls["productId"].value)
-    console.log(type, index);
 
     if (index < 0 && this.leadForm.controls["productId"].value && type.length > 0)
       this.leadForm.controls["productId"].setValue("");
@@ -1579,6 +1732,274 @@ export class LeadDetailComponent implements OnInit {
     return res.map(x => {
       return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
     })
+  }
+
+
+
+  clearLeadQuality() {
+    this.leadQuality = []
+    this.leadForm.controls.score.setValue(0)
+  }
+
+
+
+  clear(type?: string) {
+    if (type == 'source' || type == 'product') {
+      this.leadForm.controls.validityPeriod.setValue(0)
+    }
+  }
+
+  getCampaignName() {
+    let campaignNo = this.leadForm.controls.campaignNo.value
+    let campaignName = ""
+    if (campaignNo) {
+      this.LeadDetailService.getCampaignNameById(campaignNo).toPromise().then((res: any) => {
+        if (res.length > 0) {
+          campaignName = res[0].cpmName
+        } else {
+          campaignName = ''
+        }
+        this.leadForm.controls.campaignName.setValue(campaignName)
+      })
+    }
+  }
+  checkExisting(type?: string) {
+    if (this.leadForm.controls.phoneNo.value == null
+      && this.leadForm.controls.email.value == null
+      && this.leadForm.controls.identityType.value == null) {
+      this.alertService.activate('Did not find any existing customer profile related to Identity type, email and phone number.', 'No found existing customer profile');
+      return true;
+    }
+
+    let postData = {
+      phoneNo: this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
+      email: this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
+      identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : "",
+      identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
+    }
+    if (type == "customer") {
+      this.LeadDetailService.checkExistingCustomer(postData).toPromise().then((res: any) => {
+        if (res.customerId) {
+          let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
+          this.leadForm.controls.existingCustomerName.setValue(fullName)
+          this.leadForm.controls.existingCustomerId.setValue(res.customerId)
+        } else {
+          this.alertService.activate(res.title, "Warning Message");
+        }
+      })
+    } else {
+      this.LeadDetailService.checkExistingProspect(postData).toPromise().then((res: any) => {
+        if (res.customerId) {
+          this.leadForm.controls.prospectCustomer.setValue(res.firstName + " " + res.middleName + " " + res.lastName)
+          this.leadForm.controls.prospectCustomerId.setValue(res.customerId)
+        } else {
+          this.alertService.activate(res.title, "Warning Message");
+        }
+      })
+    }
+  }
+  viewExisting(type?: string) {
+    if (type == 'referral') {
+      let modalRef;
+      modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
+      modalRef.componentInstance.isPopup = true
+      modalRef.componentInstance.party = true
+      modalRef.result.then(() => { }, (res) => {
+        if (res) {
+          if (res.type == "save") {
+            let customer = res.data
+
+            if (type == "referral") {
+              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+              this.leadForm.controls.referralCustomerName.setValue(name)
+              this.leadForm.controls.referralCustomerId.setValue(customer.customerId)
+            }
+          }
+        }
+      })
+    }
+    else if (!this.isExisting && !this.isAddProspect) {
+      let modalRef;
+      modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
+      modalRef.componentInstance.isPopup = true
+      modalRef.componentInstance.party = type == "prospect" ? false : true
+      modalRef.result.then(() => { }, (res) => {
+        if (res) {
+          if (res.type == "save") {
+            let customer = res.data
+            if (type == "referral") {
+              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+              this.leadForm.controls.referralCustomerName.setValue(name)
+              this.leadForm.controls.referralCustomerId.setValue(customer.customerId)
+
+            } else if (type == "prospect") {
+              this.leadForm.controls.existingCustomerName.setValue("")
+              this.leadForm.controls.existingCustomerId.setValue("")
+              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+              this.leadForm.controls.prospectCustomer.setValue(name)
+              this.leadForm.controls.prospectCustomerId.setValue(customer.customerId)
+              this.prospCustomer = {
+                customerId: customer.customerId,
+                customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
+                customerDob: customer.dateOfBirth
+              }
+            } else {
+              this.existingCustomer = {
+                customerId: customer.customerId,
+                customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
+                customerDob: customer.dateOfBirth
+              }
+              this.leadForm.controls.prospectCustomer.setValue("")
+              this.leadForm.controls.prospectCustomerId.setValue("")
+              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+              this.leadForm.controls.existingCustomerName.setValue(name)
+              this.leadForm.controls.existingCustomerId.setValue(customer.customerId)
+            }
+          }
+        }
+      })
+    }
+  }
+
+  async createNewLeadStatus(status) {
+    console.log("LeadForm: ", this.leadForm)
+    if (status == "save") {
+      if (this.leadForm.controls.leadId.value) {
+        this.leadForm.controls.activationDate.setValue(moment(this.leadForm.controls.activationDateStr.value))
+        this.leadForm.controls.closedDate.setValue(moment(this.leadForm.controls.closedDateStr.value))
+        this.leadForm.controls.openedDate.setValue(moment(this.leadForm.controls.openedDateStr.value))
+        this.leadForm.controls.expirationDate.setValue(moment(this.leadForm.controls.expirationDateStr.value))
+        this.isUpdateNew = true
+        this.edit(this.leadForm.getRawValue())
+      } else {
+        this.createNewLead();
+      }
+    } else {
+      this.ngZone.run(() => {
+        this.location.back()
+      })
+    }
+  }
+
+  createNewLead() {
+    console.log("createNewLead", this.leadForm.value)
+
+    if (this.leadForm.invalid) {
+      validateAllFields(this.leadForm);
+      return true;
+    }
+    if (this.leadForm.controls.existingCustomerId.value == null) {
+      this.alertService.activate('Please check Existing Customer before you save.', 'Message');
+      return true;
+    }
+    let postData = this.leadForm.getRawValue();
+    //contact
+    postData.contact = []
+    if (postData.PCsms) {
+      postData.contact.push("sms")
+    }
+    if (postData.PCemail) {
+      postData.contact.push("email")
+    }
+    if (postData.PCphone) {
+      postData.contact.push("phone")
+    }
+    postData.contact = postData.contact.join(",")
+    //product code
+    let productCode = ""
+    if (this.leadForm.controls.productId.value) {
+      let product = this.product.find(p => p.id == this.leadForm.controls.productId.value)
+      productCode = product.code;
+    }
+
+    let data = {
+      "activationDate": "",
+      "activationDateStr": this.leadForm.controls.activationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.activationDate.value) : "",
+      "assets": this.leadForm.controls.assets.value ? this.leadForm.controls.assets.value : "",
+      "assignTo": this.user.id,
+      "campaignName": this.leadForm.controls.campaignName.value ? this.leadForm.controls.campaignName.value : "",
+      "campaignNo": this.leadForm.controls.campaignNo.value ? this.leadForm.controls.campaignNo.value : "",
+      "channelCode": this.leadForm.controls.channelCode.value ? this.leadForm.controls.channelCode.value : "",
+      "closedDate": "",
+      "closedDateStr": this.leadForm.controls.closedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.closedDate.value) : "",
+      "companyCode": this.leadForm.controls.companyCode.value ? this.leadForm.controls.companyCode.value : "",
+      "contact": postData.contact,
+      "contactName": this.leadForm.controls.contactName.value ? this.leadForm.controls.contactName.value : "",
+      "customerPlan": "",
+      "description": "",
+      "districtCode": this.leadForm.controls.districtCode.value ? this.leadForm.controls.districtCode.value : "",
+      "dueDate": "",
+      "dueDateStr": "",
+      "email": this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
+      "existingInsuranceCoverage": this.leadForm.controls.existingInsuranceCoverage.value ? this.leadForm.controls.existingInsuranceCoverage.value : "",
+      "existingInsurancePlan": this.leadForm.controls.existingInsurancePlan.value ? this.leadForm.controls.existingInsurancePlan.value : "",
+      "expirationDate":  "",
+      "expirationDateStr": this.leadForm.controls.expirationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.expirationDate.value) : "",
+      "facebookAcc": this.leadForm.controls.facebookAcc.value ? this.leadForm.controls.facebookAcc.value : "",
+      "financialPlan": this.leadForm.controls.financialPlan.value ? this.leadForm.controls.financialPlan.value : "",
+      "frc": "",
+      "identityNumber": this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
+      "identityType": this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : null,
+      "leadId": "",
+      "lostReason": "",
+      "maritalStatus": this.leadForm.controls.maritalStatus.value ? this.leadForm.controls.maritalStatus.value : null,
+      "estimatedMonthlyIncome": this.leadForm.controls.estimatedMonthlyIncome.value ? this.leadForm.controls.estimatedMonthlyIncome.value : "",
+      "name": "",
+      "nrcRegionCode": "",
+      "nrcTownshipCode": "",
+      "nrcTypeCode": "",
+      "noOfChildren": "" + (this.leadForm.controls.noOfChildren.value ? this.leadForm.controls.noOfChildren.value : "") + "",
+      "occupationCd": this.leadForm.controls.occupationCd.value ? this.leadForm.controls.occupationCd.value : "",
+      "openedDate": "",
+      "openedDateStr": this.leadForm.controls.openedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.openedDate.value) : "",
+      "operationDate": "",
+      "operationDateStr": "",
+      "others": "",
+      "ownerId": this.user.id,
+      "passport": "",
+      "phoneNo": this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
+      "productCode": productCode,
+      "productId": this.leadForm.controls.productId.value ? this.leadForm.controls.productId.value : "",
+      "productName": "",
+      "reason": "",
+      "referralCustomerId": this.leadForm.controls.referralCustomerId.value ? this.leadForm.controls.referralCustomerId.value : 0,
+      "remark": "",
+      "score": this.leadForm.controls.score.value ? this.leadForm.controls.score.value : 0,
+      "sourceCode": this.leadForm.controls.sourceCode.value ? this.leadForm.controls.sourceCode.value : "",
+      "startDate": "",
+      "startDateStr": "",
+      "stateCode": this.leadForm.controls.stateCode.value ? this.leadForm.controls.stateCode.value : "",
+      "statusCode": "02",
+      "subTypeCode": "",
+      "subject": this.leadForm.controls.subject.value ? this.leadForm.controls.subject.value : "",
+      "townshipCode": this.leadForm.controls.townshipCode.value ? this.leadForm.controls.townshipCode.value : "",
+      "typeCode": this.leadForm.controls.typeCode.value ? this.leadForm.controls.typeCode.value : "",
+      "validityPeriod": this.leadForm.controls.validityPeriod.value ? this.leadForm.controls.validityPeriod.value : 0,
+    }
+    if (this.leadForm.controls.existingCustomerId.value) {
+      data["existingCustomerId"] = this.leadForm.controls.existingCustomerId.value
+    }
+    if (this.leadForm.controls.prospectCustomerId.value) {
+      data["prospectCustomerId"] = this.leadForm.controls.prospectCustomerId.value
+    }
+
+    console.log("PostData: ", data)
+    this.LeadDetailService.createLead(data).toPromise()
+      .then((res: any) => {
+        console.log("Result: ", res)
+        if (res) {
+          this.newLeadId = res
+          this.leadForm.controls.leadId.setValue(res)
+          this.leadForm.controls.statusCode.setValue("02")
+          this.alertService.activate('This record was created', 'Success Message');
+        }
+      });
+
+  }
+
+
+  switchForm() {
+
   }
 
 }

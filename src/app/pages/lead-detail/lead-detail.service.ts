@@ -50,8 +50,11 @@ export class LeadDetailService extends BizOperationService<Lead, number>{
   checkLead(postData) {
     return this.httpClient.post(API_LEAD_URL + "/check", postData)
   }
-  getCampaignId(campaignName: string) {
+  getCampaignIdByName(campaignName: string) {
     return this.httpClient.get(API_CAMPAIGN_URL + "?cpmName=" + campaignName)
+  }
+  getCampaignNameById(campaignId: string) {
+    return this.httpClient.get(API_CAMPAIGN_URL + "?cpmNumber=" + campaignId)
   }
   checkExistingCustomer(postData: any) {
     return this.httpClient.post(API_EXISTING_CUSTOMER_URL, postData)

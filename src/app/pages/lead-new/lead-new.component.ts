@@ -701,6 +701,22 @@ export class LeadNewComponent implements OnInit {
       data["prospectCustomerId"] = this.leadForm.controls.prospectCustomerId.value
     }
 
+    // let data = {
+    //   activationDateStr: postData.activationDate,
+    //   companyCode: postData.companyCode,
+    //   contactName: postData.contactName,
+    //   phoneNo: postData.phoneNo,
+    //   openedDateStr: postData.openedDate,
+    //   sourceCode: postData.sourceCode,
+    //   statusCode: postData.statusCode,
+    //   channelCode: postData.channelCode
+    // }
+    // if (postData.existingCustomerId) {
+    //   data["existingCustomerId"] = postData.existingCustomerId
+    // }
+    // if (postData.prospectCustomerId) {
+    //   data["prospectCustomerId"] = postData.prospectCustomerId
+    // }
     console.log("PostData: ", data)
     this.LeadDetailService.createLead(data).toPromise()
       .then((res) => {
@@ -735,7 +751,7 @@ export class LeadNewComponent implements OnInit {
     let campaignName = this.leadForm.controls.campaignName.value
     let campaignNumber
     if (campaignName) {
-      this.LeadDetailService.getCampaignId(campaignName).toPromise().then((res: any) => {
+      this.LeadDetailService.getCampaignIdByName(campaignName).toPromise().then((res: any) => {
         if (res.length > 0) {
           campaignNumber = res[0].cpmNumber
         } else {
