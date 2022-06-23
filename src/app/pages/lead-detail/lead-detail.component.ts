@@ -708,7 +708,11 @@ export class LeadDetailComponent implements OnInit {
           // this.oldData.resourcePolicies[0].apiStatus='draft_application'
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
           this.applicationList.forEach((value, index) => {
-            this.applicationList[index].agentFirstName = value.agentFirstName + " " + value.agentLastName
+            this.applicationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
+            this.cdf.detectChanges()
+          })
+          this.quatationList.forEach((value, index) => {
+            this.quatationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
             this.cdf.detectChanges()
           })
 
@@ -770,30 +774,36 @@ export class LeadDetailComponent implements OnInit {
           }
         })
       } else {
-        this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
-          if (result) {
-            let data = {
-              email: this.oldData.email,
-              identityNumber: this.oldData.identityNumber,
-              identityType: this.oldData.identityType,
-              nrcRegionCd: this.oldData.nrcRegionCode,
-              nrcTownshipCd: this.oldData.nrcTownshipCode,
-              nrcTypeCd: this.oldData.nrcTypeCode,
-              phone: this.oldData.phoneNo
-            }
-            this.LeadDetailService.checkLead(data).toPromise().then((res) => {
-              if (res) {
-                this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
-                });
-              } else {
-                this.updateStatus(status);
-                this.alertService.activate('This record was approved', 'Success Message').then(result => {
-                });
+        console.log("his.leadForm.getRawValue().assignTo",this.leadForm.getRawValue().assignTo);
+        
+        if (this.leadForm.getRawValue().assignTo != 0) {
+          this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
+            if (result) {
+              let data = {
+                email: this.oldData.email,
+                identityNumber: this.oldData.identityNumber,
+                identityType: this.oldData.identityType,
+                nrcRegionCd: this.oldData.nrcRegionCode,
+                nrcTownshipCd: this.oldData.nrcTownshipCode,
+                nrcTypeCd: this.oldData.nrcTypeCode,
+                phone: this.oldData.phoneNo
               }
+              this.LeadDetailService.checkLead(data).toPromise().then((res) => {
+                if (res) {
+                  this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
+                  });
+                } else {
+                  this.updateStatus(status);
+                  this.alertService.activate('This record was approved', 'Success Message').then(result => {
+                  });
+                }
 
-            });
-          }
-        })
+              });
+            }
+          })
+        }else {
+          this.alertService.activate('Please assign producer/agent', 'Warning')
+        }
       }
     }
 

@@ -36,7 +36,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   @Input() sumInsured: number
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
-  tempRef: any = []
+  tempRefTravel: any = []
+  tempRefTraveler: any = []
+  tempRefBeni: any = []
   @Input() tempData: any = {
     travelDetail: null,
     traveler: null,
@@ -66,7 +68,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     private cdRef: ChangeDetectorRef,
     private travelRikService: TravelRiskService,
     private modalService: NgbModal,
-    private modal:NgbActiveModal,
+    private modal: NgbActiveModal,
     private alert: AlertService,
     private ngModal: NgbActiveModal
   ) { }
@@ -95,12 +97,12 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
   calPremimun() {
     if (this.oldData.id) {
-      this.updateTravelRisk()
+      this.updateTravelRisk(this.oldData.id)
     } else {
       this.saveTravelRisk()
     }
   }
-  closeModal(){
+  closeModal() {
     this.modal.close()
   }
 
@@ -254,7 +256,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.product.id,
-      productCode:this.product.code,
+      productCode: this.product.code,
       type: this.prodService.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -301,13 +303,26 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     //   })
     // }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
-      console.log("DATA", data);
-      if(type == "travelDetail"){
-        for (let ref of data) {
-          this.tempRef.push(ref.refId)
+
+      console.log("DATA", data,"TTYPE",type);
+      console.log("TYPE",type);
+      
+      if (type == "travelDetail") {
+        for(let travel of data){
+          this.tempRefTravel.push(travel.refId)
         }
       }
-      
+      if (type == "traveler") {
+        for(let travel of data){
+          this.tempRefTraveler.push(travel.refId)
+        }
+      }
+      if(type=='benefi'){
+        for(let travel of data){
+          this.tempRefBeni.push(travel.refId)
+        }
+      }
+
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
       }
@@ -364,7 +379,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
     let postData = {
       productId: this.prodService.createingProd.id,
-      productCode:this.prodService.createingProd.code,
+      productCode: this.prodService.createingProd.code,
       type: this.prodService.viewType,
       tableName: page.tableName,
       resourceId: this.resourceId,
@@ -408,7 +423,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       })
       // }
     }
-     if (type != "travelDetail") {
+    if (type != "travelDetail") {
       postData.data.push({
         "column": 'risk_id',
         "value": this.riskId,
@@ -416,9 +431,24 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       })
     }
     this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
-      if(type=="travelDetail"){
-      this.tempRef.push(data.refId)
+      console.log("TYPE",type,"Data",data);
+      
+      if (type == "travelDetail") {
+        // for(let travel of data){
+          this.tempRefTravel.push(data.refId)
+        // }
       }
+      if (type == "traveler") {
+        // for(let travel of data){
+          this.tempRefTraveler.push(data.refId)
+        // }
+      }
+      if(type=='benefi'){
+        // for(let travel of data){
+          this.tempRefBeni.push(data.refId)
+        // }
+      }
+
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
       }
@@ -482,17 +512,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     }
     this.travelRikService.save(postData).toPromise().then((result: any) => {
       if (result) {
-        let postValue = {
-          riskId: this.riskId,
-          refId: this.tempRef,
-          tableName: 'travel_detail'
-        }
-        if (this.tempRef) {
-          this.pageDataService.updateRiskId(postValue).toPromise().then(res => {
-            if (res) {
-            }
-          })
-        }
+
         this.updateTravelRisk(result)
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
@@ -506,7 +526,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
   updateTravelRisk(oldId?) {
     let postData: TravelRiskDTO = {
-      id: oldId?oldId:this.oldData.id,
+      id: oldId ? oldId : this.oldData.id,
       insuredUnit: this.tempData['travelDetail'].insured_unit,
       noOfTraveller: this.tempData['travelDetail'].no_of_traveler,
       premium: this.premium,
@@ -533,6 +553,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     }
     this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
       if (result) {
+       this.updateRiskId(this.tempRefTravel,result,'travel_detail')
+       this.updateRiskId(this.tempRefTraveler,result,'traveler_detail')
+       this.updateRiskId(this.tempRefBeni,result,'trave_beneficiary')
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
@@ -541,6 +564,21 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         })
       }
     })
+  }
+
+  updateRiskId(refId,riskId,table){
+    if (refId) {
+      let postValue = {
+        refId:refId,
+        riskId: riskId,
+        tableName: table
+      }
+
+      this.pageDataService.updateRiskId(postValue).toPromise().then(res => {
+        if (res) {
+        }
+      })
+    }
   }
 
   getOtherData(cols: any[], data: any) {

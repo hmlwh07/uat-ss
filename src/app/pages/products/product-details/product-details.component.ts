@@ -173,17 +173,17 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             quotation_input: temp.quotation_input || {},
             application_input: temp.application_input || {}
           }
-          // if (IsJsonString(this.product.pdfConfig) && this.product.pdfConfig) {
+          if (IsJsonString(this.product.pdfConfig) && this.product.pdfConfig) {
 
-          //   this.printConfig = JSON.parse(this.product.pdfConfig)
+            this.printConfig = JSON.parse(this.product.pdfConfig)
 
-          // } else {
-          //   this.printConfig = {
-          //     default: [],
-          //     prinitUI: [],
-          //     printFormat: []
-          //   }
-          // }
+          } else {
+            this.printConfig = {
+              default: [],
+              prinitUI: [],
+              printFormat: []
+            }
+          }
           this.product.productUIs.forEach(x => {
             if (x.type == 'application') {
               this.product.application_ui.push(x)
@@ -307,7 +307,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         icon: formData.icon,
         smallIcon: formData.smallIcon,
         coverIcon: formData.coverIcon,
-        // pdfConfig: this.product.pdfConfig
+        pdfConfig: this.product.pdfConfig
       }
       this.itemService.updateNoID(postData).toPromise().then(res => {
         if (res) {
@@ -522,15 +522,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       smallIcon: this.product.smallIcon,
       coverIcon: this.product.coverIcon,
       config: JSON.stringify({ application: this.product.application_page, application_view: this.product.application_view, quotation: this.product.quotation_page, quotation_view: this.product.quotation_view, application_input: this.product.application_input, quotation_input: this.product.quotation_input }),
-      // pdfConfig: JSON.stringify(this.printConfig)
+      pdfConfig: JSON.stringify(this.printConfig)
     }
 
-    // this.itemService.updateNoID(postData).toPromise().then(res => {
-    //   if (res) {
-    //     this.product.config = postData.config
-    //     this.product.pdfConfig = postData.pdfConfig
-    //   }
-    // })
+    this.itemService.updateNoID(postData).toPromise().then(res => {
+      if (res) {
+        this.product.config = postData.config
+        this.product.pdfConfig = postData.pdfConfig
+      }
+    })
   }
 
   pageReorder(type: string) {

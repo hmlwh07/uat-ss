@@ -13,6 +13,10 @@
     }
 }
 
+
+.hide {
+    display: none;
+}
 .logo-text {
     margin-top: 10px;
     font-size  : 30px;
@@ -27,10 +31,34 @@
     }
 }
 
+
+.inner-addon .fas {
+    position: absolute;
+    padding: 16px 17px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.left-addon .fas {
+    left: 0px;
+}
+
+.right-addon .fas {
+    right: 0px;
+}
+
+
 .input-icons i {
     position : absolute;
     font-size: 2.50rem;
     padding  : 0px 7px;
+   
+}
+.input-icons .eye{
+    position: absolute;
+    font-size: 1.2rem;
+    padding: 15px 10px;
+    right: 15px;
 }
 
 .input-icons {
