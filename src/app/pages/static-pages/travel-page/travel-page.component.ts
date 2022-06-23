@@ -156,7 +156,7 @@ export class TravelComponent implements OnInit {
     modalRef.componentInstance.benefiForm = this.requiredForm.benefi
     modalRef.componentInstance.tableReform = this.tableReform
     if (detail) {
-      let travel = this.tempData['travelDetail'].find(x => x.refId == detail.riskId)
+      let travel = this.tempData['travelDetail'].find(x => x.risk_id == detail.riskId)
       let traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
       let benefi = []
       if (this.tempData['benefi']) {
@@ -191,6 +191,8 @@ export class TravelComponent implements OnInit {
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
           this.changeBenefi(res.benefi, res.detail.refId)
+          this.getRiskList()
+          this.callback()
           this.savePremimunFire().toPromise().then(res => {
             
           })

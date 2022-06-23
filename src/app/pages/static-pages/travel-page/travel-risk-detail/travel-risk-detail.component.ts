@@ -36,7 +36,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   @Input() sumInsured: number
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
-  tempRef: any = []
+  tempRefTravel: any = []
+  tempRefTraveler: any = []
+  tempRefBeni: any = []
   @Input() tempData: any = {
     travelDetail: null,
     traveler: null,
@@ -95,7 +97,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
   calPremimun() {
     if (this.oldData.id) {
-      this.updateTravelRisk()
+      this.updateTravelRisk(this.oldData.id)
     } else {
       this.saveTravelRisk()
     }
@@ -301,10 +303,23 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     //   })
     // }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
-      console.log("DATA", data);
+
+      console.log("DATA", data,"TTYPE",type);
+      console.log("TYPE",type);
+      
       if (type == "travelDetail") {
-        for (let ref of data) {
-          this.tempRef.push(ref.refId)
+        for(let travel of data){
+          this.tempRefTravel.push(travel.refId)
+        }
+      }
+      if (type == "traveler") {
+        for(let travel of data){
+          this.tempRefTraveler.push(travel.refId)
+        }
+      }
+      if(type=='benefi'){
+        for(let travel of data){
+          this.tempRefBeni.push(travel.refId)
         }
       }
 
@@ -416,9 +431,24 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       })
     }
     this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
+      console.log("TYPE",type,"Data",data);
+      
       if (type == "travelDetail") {
-        this.tempRef.push(data.refId)
+        // for(let travel of data){
+          this.tempRefTravel.push(data.refId)
+        // }
       }
+      if (type == "traveler") {
+        // for(let travel of data){
+          this.tempRefTraveler.push(data.refId)
+        // }
+      }
+      if(type=='benefi'){
+        // for(let travel of data){
+          this.tempRefBeni.push(data.refId)
+        // }
+      }
+
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
       }
@@ -523,18 +553,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     }
     this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
       if (result) {
-        if (this.tempRef) {
-          let postValue = {
-            riskId: result,
-            refId: this.tempRef,
-            tableName: 'travel_detail'
-          }
-
-          this.pageDataService.updateRiskId(postValue).toPromise().then(res => {
-            if (res) {
-            }
-          })
-        }
+       this.updateRiskId(this.tempRefTravel,result,'travel_detail')
+       this.updateRiskId(this.tempRefTraveler,result,'traveler_detail')
+       this.updateRiskId(this.tempRefBeni,result,'trave_beneficiary')
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
@@ -543,6 +564,21 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         })
       }
     })
+  }
+
+  updateRiskId(refId,riskId,table){
+    if (refId) {
+      let postValue = {
+        refId:refId,
+        riskId: riskId,
+        tableName: table
+      }
+
+      this.pageDataService.updateRiskId(postValue).toPromise().then(res => {
+        if (res) {
+        }
+      })
+    }
   }
 
   getOtherData(cols: any[], data: any) {
