@@ -99,21 +99,27 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
           firstTimeValue = 0
           this.schedule.push({ premium: pre, coverage: this.parentData.basicCoverId, sumInsured: this.parentData.sumInsuredMainCover, levy: 0 })
         }
-        let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
+        console.log("this.parentData.paymentTerm ",this.parentData.paymentFrequency );
+        
+        // let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
+        let tempPre = this.globalFun.calculateDecimal(this.totalP) + this.totalL
         if (this.schedule.length > 0) {
-          if (this.schedule[0].paymentTerm == "L") {
+          if (this.parentData.paymentFrequency == "L") {
             this.tempSchedule = [
               { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
             ]
           } else {
-            let tempTotal = this.totalP / 2
+            // let tempTotal = this.totalP / 2
+            let tempTotal=this.totalP
             this.tempSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },
             ]
           }
         }
-        this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+        this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK"
+        console.log("THIS>PREMIUM",this.premiumAmt);
+        
         this.globalFun.paPremiumResult.next(this.premiumAmt)
         if (this.parentData.basicCoverId == "CRTILLNESS") {
           this.cdf.detectChanges()
@@ -152,8 +158,12 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
             }
           }
           if (i == this.product.addOns.length) {
-            let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-            this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+            // let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
+            // this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+            let tempPre = this.globalFun.calculateDecimal(this.totalP) + this.totalL
+            this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK "
+            console.log("THIS>PREMIUM",this.premiumAmt);
+        
             this.globalFun.paPremiumResult.next(this.premiumAmt)
             this.cdf.detectChanges()
           }
@@ -165,8 +175,10 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
   }
 
   async nextPage() {
-    let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-    this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+    // let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
+    // this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+     let tempPre = this.globalFun.calculateDecimal(this.totalP) + this.totalL
+    this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     this.healthPayService.deleteMany(this.resourcesId).pipe(mergeMap((data) => {
       let postData = {
