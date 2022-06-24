@@ -5,10 +5,9 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MasterDataService } from "src/app/modules/master-data/master-data.service";
-import { LeadListService } from "../lead-list/lead-list.service";
 import { Location } from "@angular/common";
 import {
   DateAdapter,
@@ -53,10 +52,7 @@ import { AssectDto } from "../fna-detail/asset/asset-manage.dto";
 import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/product-manage.dto";
 import { map } from 'rxjs/operators';
 import { defaultAccessObj, MenuDataService } from "../../core/menu-data.service";
-import { LanguagesService } from "src/app/modules/languages/languages.service";
 import { validateAllFields } from "src/app/core/valid-all-feild";
-import { throws } from "assert";
-import { isThisISOWeek } from "date-fns";
 
 @Component({
   selector: "app-lead-detail",
@@ -78,9 +74,6 @@ export class LeadDetailComponent implements OnInit {
   @ViewChild('attachment') attachmentmatTable: MaterialTableViewComponent;
   @ViewChild('quotation') quotationmatTable: MaterialTableViewComponent;
 
-  // FNAELEMENT_COL = FNAListCol;
-  // FNAdisplayedColumns = FNADisplayCol;
-
   FNAELEMENT_COL = JSON.parse(JSON.stringify(FNACol));
   FNAdisplayedColumns = JSON.parse(JSON.stringify(FNADisplayCol));
   ACTIVITY_ELEMENT_COL = JSON.parse(JSON.stringify(ActivityCol));
@@ -91,9 +84,7 @@ export class LeadDetailComponent implements OnInit {
   ApplicationdisplayedColumns = JSON.parse(JSON.stringify(PolicyDisplayCol));
   ATTACHMENT_ELEMENT_COL = JSON.parse(JSON.stringify(AttachmentCol));
   AttachmentdisplayedColumns = JSON.parse(JSON.stringify(AttachmentDisplayCol));
-  // ATTACHMENT_ELEMENT_COL = JSON.parse(JSON.stringify(FNAListCol));
 
-  // AttachmentdisplayedColumns = JSON.parse(JSON.stringify(FNADisplayCol));
   fnaList: any[] = [];
   activityList: any[] = [];
   quatationList: any[] = [];
@@ -121,7 +112,6 @@ export class LeadDetailComponent implements OnInit {
   companyOption: any = []
   sourceOption: any = [];
   existingOption: any = [];
-  // martialOption: any = [];
   maritalOption: any = [];
   occupationOption: any = [];
   isExisting: boolean = false
@@ -201,14 +191,14 @@ export class LeadDetailComponent implements OnInit {
   prospectClass1
   customerClass2
   prospectClass2
+  isCustomerCheck: boolean = false;
+  isProspectCheck: boolean = false;
   constructor(
-    private fb: FormBuilder,
     private location: Location,
     private masterDataService: MasterDataService,
     private route: ActivatedRoute,
     private LeadDetailService: LeadDetailService,
     private cdf: ChangeDetectorRef,
-    private LeadListService: LeadListService,
     private modalService: NgbModal,
     private router: Router,
     private prodctService: ProductDataService,
@@ -233,8 +223,6 @@ export class LeadDetailComponent implements OnInit {
       if (params) {
         this.pageStatus = params.pageStatus;
         if (this.pageStatus != "create") {
-          // console.log("<==========>", params);
-
           this.oldId = params.leadId;
           this.oldSecondaryId = params.pageSecondaryId;
           this.getOld();
@@ -266,8 +254,6 @@ export class LeadDetailComponent implements OnInit {
         if (!this.policyAccess.edit) {
           this.APPLICATION_ELEMENT_COL[8].btn.edit = false
         }
-
-        // this.attachAccess= 
         if (!this.leadAccess.view) {
           this.location.back()
         }
@@ -280,15 +266,10 @@ export class LeadDetailComponent implements OnInit {
     this.user = this.authService.currentUserValue;
     this.getMaster()
     this.getProduct()
-    // this.getLeadQuality()
-    // if (FNAConstant.LEAD_ID) {
-    //   this.oldId = FNAConstant.LEAD_ID;
-    //   this.getOld();
-    //   this.loadForm();
-    // }
+
     if (this.oldData == null) {
       this.leadForm.controls.assignTo.setValue(this.user.id)
-      this.leadForm.controls.assignToName.setValue(this.user.username)
+      this.leadForm.controls.assignToName.setValue(this.user.firstName + this.user.lastName)
       this.leadForm.controls.openedDate.setValue(new Date())
       this.leadForm.controls.statusCode.setValue("01")
 
@@ -322,9 +303,7 @@ export class LeadDetailComponent implements OnInit {
     })
   }
 
-
   onInitAddress(oldData) {
-    // this.getState();
     this.getDistrict(oldData.stateCode);
     this.getTownship(oldData.districtCode);
     this.cdf.detectChanges();
@@ -333,7 +312,6 @@ export class LeadDetailComponent implements OnInit {
   onChangeState() {
     this.distinctOption = [];
     this.townshipOption = [];
-
     this.leadForm.controls["districtCode"].setValue("");
     this.leadForm.controls["townshipCode"].setValue("");
     this.getDistrict(this.leadForm.controls["stateCode"].value);
@@ -355,109 +333,40 @@ export class LeadDetailComponent implements OnInit {
     this.sourceScore = 0
   }
 
-
-
-
   getCompany() {
     return this.masterDataService.getDataByType("COMPANY_TYPE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
-    // .toPromise().then((res: any) => {
-    //   console.log("COMPANY_TYPE", res);
-    //   if (res) {
-    //     this.companyOption = res.map((x) => {
-    //       return { code: x.codeId, value: x.codeName };
-    //     });
-    //     console.log(this.companyOption);
-    //     this.cdf.detectChanges();
-    //   }
-    // });
   }
   getState() {
     return this.masterDataService
       .getDataByType("PT_STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-    // .toPromise()
-    // .then((res: any) => {
-    //   console.log(res);
-    //   if (res) {
-    //     this.stateOption = res.map((x) => {
-    //       return { code: x.codeId, value: x.codeValue };
-    //     });
-    //     console.log(this.stateOption);
-    //     this.cdf.detectChanges();
-    //   }
-    // });
   }
   getChannel() {
     return this.masterDataService
       .getDataByType("LEAD_DISTRIBUTION_CHANNEL").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-    // .toPromise()
-    // .then((res: any) => {
-    //   console.log(res);
-    //   if (res) {
-    //     this.channelOption = res.map((x) => {
-    //       return { code: x.codeId, value: x.codeName };
-    //     });
-    //     console.log(this.channelOption);
-    //     this.cdf.detectChanges();
-    //   }
-    // });
   }
   getType() {
     return this.masterDataService
       .getDataByType("LEAD_TYPE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-    // .toPromise()
-    // .then((res: any) => {
-    //   console.log(res);
-    //   if (res) {
-    //     this.typeOption = res.map((x) => {
-    //       return { code: x.codeId, value: x.codeName };
-    //     });
-    //     console.log(this.typeOption);
-    //     this.cdf.detectChanges();
-    //   }
-    // });
   }
   getStatus() {
     return this.masterDataService
       .getDataByType("LEAD_STATUS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-
-    // .toPromise()
-    // .then((res: any) => {
-    //   console.log(res);
-    //   if (res) {
-    //     this.statusOption = res.map((x) => {
-    //       return { code: x.codeId, value: x.codeName };
-    //     });
-    //     console.log(this.statusOption);
-    //     this.cdf.detectChanges();
-    //   }
-    // });
   }
   getSource() {
     return this.masterDataService
       .getDataByType("LEAD_SOURCE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-    // .toPromise()
-    // .then((res: any) => {
-    //   console.log(res);
-    //   if (res) {
-    //     this.sourceOption = res.map((x) => {
-    //       return { code: x.codeId, value: x.codeName };
-    //     });
-    //     console.log(this.sourceOption);
-    //     this.cdf.detectChanges();
-    //   }
-    // });
   }
 
   getOccupation() {
@@ -465,49 +374,8 @@ export class LeadDetailComponent implements OnInit {
       .getDataByType("OCCUPATION").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
-    // .toPromise()
-    // .then((res: any) => {
-    //   console.log(res);
-    //   if (res) {
-    //     this.occupationOption = res.map((x) => {
-    //       return { code: x.codeId, value: x.codeName };
-    //     });
-    //     console.log(this.occupationOption);
-    //     this.cdf.detectChanges();
-    //   }
-    // });
 
   }
-  // getmaritialOption() {
-  //   this.masterDataService
-  //     .getDataByType("MARITAL_STATUS")
-  //     .toPromise()
-  //     .then((res: any) => {
-  //       console.log(res);
-  //       if (res) {
-  //         this.maritialOption = res.map((x) => {
-  //           return { code: x.codeId, value: x.codeName };
-  //         });
-  //         console.log(this.maritialOption);
-  //         this.cdf.detectChanges();
-  //       }
-  //     });
-  // }
-
-  // getCampaign() {
-  //   this.LeadDetailService.getCampaignList().toPromise()
-  //     .then((res: any) => {
-  //       console.log("getCampaign", res)
-  //       if (res) {
-  //         this.campaignNameOption = res.map((x) => {
-  //           return { code: x.campaiginCode, value: x.name };
-  //         });
-  //         console.log(this.campaignNameOption);
-  //         this.cdf.detectChanges();
-  //       }
-
-  //     })
-  // }
 
   getProduct() {
     this.productService
@@ -520,7 +388,6 @@ export class LeadDetailComponent implements OnInit {
             return { code: x.id, value: x.name, type: x.type };
           });
           this.cdf.detectChanges();
-
           this.getProductOption()
         }
       });
@@ -538,11 +405,9 @@ export class LeadDetailComponent implements OnInit {
             this.calculateLeadQuality()
             this.getValidityPeriod()
           }
-
         })
     }
   }
-
 
   getDistrict(parentId: string) {
     this.masterDataService
@@ -586,30 +451,15 @@ export class LeadDetailComponent implements OnInit {
           }
         })
     }
-
   }
-  // getLeadSource(){
-  //   this.LeadDetailService.getLeadSource().toPromise()
-  //   .then((res: any) => {
-  //     console.log("getLeadSource", res)
-  //     if (res) {
-  //       this.sourceOption = res.map((x) => {
-  //         return { code: x.sourceCode, value: x.sourceValue, score:x.score };
-  //       });
-  //       console.log(this.sourceOption);
-  //       this.cdf.detectChanges();
-  //     }
 
-  //   })
-  // }
   actActionBtn(event) {
     if (event.cmd == 'edit') {
-      // this.navigateToDetail('edit', event.data.activityNo)
       this.router.navigate(["/activity/activity-management-detail"], { queryParams: { pageStatus: 'edit', pageId: event.data.activityNo } })
     }
   }
-  calculateScore(code?, data?) {
 
+  calculateScore(code?, data?) {
     let sourceCode;
     if (data) {
       sourceCode = data
@@ -620,23 +470,15 @@ export class LeadDetailComponent implements OnInit {
     let channel = this.leadForm.getRawValue().channelCode
     if (sourceCode && channel) {
       this.LeadDetailService.getLeadScore(sourceCode, channel).toPromise().then((res: any) => {
-        // this.leadForm.controls.score.setValue(res)
         this.sourceScore = res
-        console.log("test1", this.score);
-
         this.calculateLeadQuality()
         this.getValidityPeriod()
       })
-
     }
-
-
   }
 
   calculateLeadQuality(type?: string) {
     this.score = 0
-
-    console.log("Test");
 
     if (type == "typeCode") {
       this.getProductOption()
@@ -679,13 +521,12 @@ export class LeadDetailComponent implements OnInit {
     this.leadForm.controls.score.setValue(this.score)
   }
 
-
   getOld() {
     this.LeadDetailService.findOne(this.oldId)
       .toPromise()
       .then((res) => {
         if (res) {
-          console.log("getOld", res)
+          console.log("getOld => response", res)
           this.oldData = res;
           if (res.existingCustomerId != 0) {
             this.isAddProspect = true
@@ -713,7 +554,6 @@ export class LeadDetailComponent implements OnInit {
           this.fnaList = this.oldData.fnas != null ? this.oldData.fnas : []
           this.activityList = this.oldData.activities != null ? this.oldData.activities : []
           this.quatationList = this.oldData.resourceQuotations != null ? this.oldData.resourceQuotations : []
-          // this.oldData.resourcePolicies[0].apiStatus='draft_application'
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
           this.applicationList.forEach((value, index) => {
             this.applicationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
@@ -729,22 +569,14 @@ export class LeadDetailComponent implements OnInit {
             this.isAddProspect = true
             this.cdf.detectChanges()
           }
-          // getDistrictis 
-          // getTownship
           this.onInitAddress(this.oldData);
           this.getProductOption()
 
           if (res.fnas.length) {
             this.fnaList = res.fnas;
-            // for (var i = 0; i < this.fnaList.length; i++) {
-            //   //this.fnaList[i].createdAt = this.convertDateFormatMMDDYYY(this.fnaList[i].createdAt);
-            //  //this.fnaList[i].conductedBy = this.user.username;
-            // }
           }
           if (this.applicationList.length > 0) {
-            // this.applicationList.find((x)=>x.status=='')
             this.isValidWin = true
-
           }
 
           this.cdf.detectChanges();
@@ -777,7 +609,6 @@ export class LeadDetailComponent implements OnInit {
         modalRef.result.then(() => { }, (data) => {
 
           if (data) {
-            // this.leadForm.controls.lostReason.setValue(data)
             this.updateStatus(status, data)
           }
         })
@@ -826,7 +657,6 @@ export class LeadDetailComponent implements OnInit {
       this.customer.customerName = this.existingCustomer.customerName
       this.customer.customerDob = this.existingCustomer.customerDob
     }
-
   }
 
   updateStatus(status, reason?) {
@@ -964,7 +794,6 @@ export class LeadDetailComponent implements OnInit {
         }
       })
     }
-
   }
   openNRCModal() {
     let modalRef;
@@ -975,7 +804,7 @@ export class LeadDetailComponent implements OnInit {
   }
 
   loadForm(oldData?) {
-    console.log("OldData: ", oldData)
+    console.log("LoadForm => OldData? ", oldData)
     if (oldData != null) {
       this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
       this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
@@ -993,7 +822,7 @@ export class LeadDetailComponent implements OnInit {
         contactName: new FormControl({ value: oldData ? oldData.contactName : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
         activationDate: new FormControl({ value: oldData ? moment(oldData.activationDate) : '', disabled: oldData.statusCode == '02' ? false : true }),
         channelCode: new FormControl({ value: oldData ? oldData.channelCode : '', disabled: oldData.statusCode == '02' ? false : true }),
-        occupationCd: new FormControl({ value: oldData ? oldData.occupationCd : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
+        occupationCd: new FormControl({ value: oldData ? oldData.occupationCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
         closedDate: new FormControl({ value: oldData ? moment(oldData.closedDate) : '', disabled: this.disabledForm }),
         typeCode: new FormControl({ value: oldData ? oldData.typeCode : '', disabled: oldData.statusCode == '02' ? false : true }),
         stateCode: new FormControl({ value: oldData ? oldData.stateCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
@@ -1001,7 +830,7 @@ export class LeadDetailComponent implements OnInit {
         statusCode: new FormControl({ value: oldData ? oldData.statusCode : '', disabled: true }),
         districtCode: new FormControl({ value: oldData ? oldData.districtCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
         validityPeriod: new FormControl({ value: oldData ? oldData.validityPeriod : '', disabled: oldData.statusCode == '02' ? false : true }),
-        reason: new FormControl({ value: oldData ? oldData.reason : '', disabled: oldData.statusCode == '02' ? false : true }),
+        reason: new FormControl({ value: oldData ? oldData.reason : '', disabled: oldData.statusCode == '04' ? false : true }),
         townshipCode: new FormControl({ value: oldData ? oldData.townshipCode : '', disabled: oldData.statusCode == '02' ? false : this.disabledForm }),
         assignTo: new FormControl({ value: oldData ? oldData.ownerId : '', disabled: oldData.statusCode == '02' ? true : this.disabledForm }),
         assignToName: new FormControl({ value: oldData ? oldData.ownerName : '', disabled: oldData.statusCode == '02' ? true : this.disabledForm }),
@@ -1045,7 +874,7 @@ export class LeadDetailComponent implements OnInit {
         prospectCustomerId: new FormControl(
           { value: oldData ? oldData.prospectCustomerId : "", disabled: oldData.statusCode == '02' ? false : this.disabledForm }
         ),
-        lostReason: new FormControl({ value: oldData ? oldData.lostReason : '', disabled: oldData.statusCode == '02' ? false : true }),
+        lostReason: new FormControl({ value: oldData ? oldData.lostReason : '', disabled: true }),
       });
       this.cdf.detectChanges()
 
@@ -1088,7 +917,7 @@ export class LeadDetailComponent implements OnInit {
       reason: new FormControl(null),
       townshipCode: new FormControl(null),
       assignTo: new FormControl({ value: this.user.id }),
-      assignToName: new FormControl({ value: this.user.username, disabled: true }),
+      assignToName: new FormControl({ value: null, disabled: true }),
       productId: new FormControl(null),
       email: new FormControl(null),
       campaignName: new FormControl(null),
@@ -1217,7 +1046,7 @@ export class LeadDetailComponent implements OnInit {
       "identityNumber": postData.identityNumber ? postData.identityNumber : "",
       "identityType": postData.identityType ? postData.identityType : null,
       "leadId": postData.leadId ? postData.leadId : "",
-      "lostReason": "",
+      "lostReason": postData.lostReason ? postData.lostReason : "",
       "maritalStatus": postData.maritalStatus ? postData.maritalStatus : null,
       "estimatedMonthlyIncome": postData.estimatedMonthlyIncome ? postData.estimatedMonthlyIncome : "",
       "name": "",
@@ -1232,12 +1061,12 @@ export class LeadDetailComponent implements OnInit {
       "operationDateStr": "",
       "others": "",
       "ownerId": postData.assignTo ? postData.assignTo : 0,
-      "passport": "",
+      "passport": postData.passport ? postData.passport : "",
       "phoneNo": postData.phoneNo ? postData.phoneNo : "",
       "productCode": postData.productCode ? postData.productCode : "",
       "productId": postData.productId ? postData.productId : "",
       "productName": "",
-      "reason": "",
+      "reason": postData.reason ? postData.reason : "",
       "referralCustomerId": postData.referralCustomerId ? postData.referralCustomerId : 0,
       "remark": "",
       "score": postData.score ? postData.score : 0,
@@ -1559,19 +1388,6 @@ export class LeadDetailComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-
-  // async actionBtn(event) {
-  //   // console.log('actionBtn', event)
-  //   this.fnaService.fnaUpdateProducts = [];
-  //   if (event.cmd == 'edit') {
-  //     this.indexObj = event.data;
-  //     this.createOrEdit('edit', event.data.id)
-  //   } else {
-  //     this.indexObj = null;
-  //     await this.delete(event.data.id)
-  //   }
-  // }
-
   displayFNAType() {
     this.fnaService.fnaUpdateProducts = [];
     this.fnaService.fnaIncome = new IncomeDto();
@@ -1758,11 +1574,24 @@ export class LeadDetailComponent implements OnInit {
     }
   }
   checkExisting(type?: string) {
-    if (this.leadForm.controls.phoneNo.value == null
-      && this.leadForm.controls.email.value == null
-      && this.leadForm.controls.identityType.value == null) {
-      this.alertService.activate('Did not find any existing customer profile related to Identity type, email and phone number.', 'No found existing customer profile');
-      return true;
+
+    if (type == "customer") {
+      this.isCustomerCheck = true;
+      if (this.leadForm.controls.phoneNo.value == null
+        && this.leadForm.controls.email.value == null
+        && this.leadForm.controls.identityType.value == null) {
+        this.alertService.activate('Did not find any existing customer profile related to Identity type, email and phone number.', 'No found existing customer profile');
+        return true;
+      }
+    } else {
+      this.isProspectCheck = true;
+      if (this.leadForm.controls.phoneNo.value == null
+        && this.leadForm.controls.email.value == null
+        && this.leadForm.controls.identityType.value == null) {
+        this.alertService.activate('Did not find any existing prospect profile related to Identity type, email and phone number.', 'No found existing prospect profile');
+        return true
+      }
+
     }
 
     let postData = {
@@ -1779,10 +1608,10 @@ export class LeadDetailComponent implements OnInit {
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.existingCustomerName.setValue(fullName)
           this.leadForm.controls.existingCustomerId.setValue(res.customerId)
-          this.customerClass1.classList.add('disabled');
-          this.customerClass2.classList.add('disabled');
-          this.prospectClass1.classList.remove('disabled');
-          this.prospectClass2.classList.remove('disabled');
+          this.customerClass1.classList.remove('disabled');
+          this.customerClass2.classList.remove('disabled');
+          this.prospectClass1.classList.add('disabled');
+          this.prospectClass2.classList.add('disabled');
         } else {
           this.alertService.activate(res.title, "Warning Message");
         }
@@ -1855,6 +1684,8 @@ export class LeadDetailComponent implements OnInit {
               this.customerClass2.classList.add('disabled');
               this.prospectClass1.classList.remove('disabled');
               this.prospectClass2.classList.remove('disabled');
+              this.isProspectCheck = true;
+              this.isCustomerCheck = true;
             } else {
               this.existingCustomer = {
                 customerId: customer.customerId,
@@ -1870,6 +1701,8 @@ export class LeadDetailComponent implements OnInit {
               this.customerClass2.classList.remove('disabled');
               this.prospectClass1.classList.add('disabled');
               this.prospectClass2.classList.add('disabled');
+              this.isCustomerCheck = true;
+              this.isProspectCheck = true;
             }
           }
         }
@@ -1897,120 +1730,123 @@ export class LeadDetailComponent implements OnInit {
       validateAllFields(this.leadForm);
       return true;
     }
-    if (this.leadForm.controls.existingCustomerId.value == null) {
+    console.log("check", this.isCustomerCheck, this.isProspectCheck)
+    if (!this.isCustomerCheck) {
       this.alertService.activate('Please check Existing Customer before you save.', 'Message');
-      return true;
-    }
-    let postData = this.leadForm.getRawValue();
-    //contact
-    postData.contact = []
-    if (postData.PCsms) {
-      postData.contact.push("sms")
-    }
-    if (postData.PCemail) {
-      postData.contact.push("email")
-    }
-    if (postData.PCphone) {
-      postData.contact.push("phone")
-    }
-    postData.contact = postData.contact.join(",")
-    //product code
-    let productCode = ""
-    if (this.leadForm.controls.productId.value) {
-      let product = this.product.find(p => p.id == this.leadForm.controls.productId.value)
-      productCode = product.code;
-    }
+    } else if (!this.isProspectCheck) {
+      this.alertService.activate('Please check Prospect Customer before you save.', 'Message');
+    } else {
+      let postData = this.leadForm.getRawValue();
+      //contact
+      postData.contact = []
+      if (postData.PCsms) {
+        postData.contact.push("sms")
+      }
+      if (postData.PCemail) {
+        postData.contact.push("email")
+      }
+      if (postData.PCphone) {
+        postData.contact.push("phone")
+      }
+      postData.contact = postData.contact.join(",")
+      //product code
+      let productCode = ""
+      if (postData.productId) {
+        let product = this.product.find(p => p.id == postData.productId)
+        productCode = product.code;
+      }
+      console.log("Create PostData: ", postData)
 
-    let data = {
-      "activationDate": "",
-      "activationDateStr": this.leadForm.controls.activationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.activationDate.value) : "",
-      "assets": this.leadForm.controls.assets.value ? this.leadForm.controls.assets.value : "",
-      "assignTo": this.user.id,
-      "campaignName": this.leadForm.controls.campaignName.value ? this.leadForm.controls.campaignName.value : "",
-      "campaignNo": this.leadForm.controls.campaignNo.value ? this.leadForm.controls.campaignNo.value : "",
-      "channelCode": this.leadForm.controls.channelCode.value ? this.leadForm.controls.channelCode.value : "",
-      "closedDate": "",
-      "closedDateStr": this.leadForm.controls.closedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.closedDate.value) : "",
-      "companyCode": this.leadForm.controls.companyCode.value ? this.leadForm.controls.companyCode.value : "",
-      "contact": postData.contact,
-      "contactName": this.leadForm.controls.contactName.value ? this.leadForm.controls.contactName.value : "",
-      "customerPlan": "",
-      "description": "",
-      "districtCode": this.leadForm.controls.districtCode.value ? this.leadForm.controls.districtCode.value : "",
-      "dueDate": "",
-      "dueDateStr": "",
-      "email": this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
-      "existingInsuranceCoverage": this.leadForm.controls.existingInsuranceCoverage.value ? this.leadForm.controls.existingInsuranceCoverage.value : "",
-      "existingInsurancePlan": this.leadForm.controls.existingInsurancePlan.value ? this.leadForm.controls.existingInsurancePlan.value : "",
-      "expirationDate": "",
-      "expirationDateStr": this.leadForm.controls.expirationDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.expirationDate.value) : "",
-      "facebookAcc": this.leadForm.controls.facebookAcc.value ? this.leadForm.controls.facebookAcc.value : "",
-      "financialPlan": this.leadForm.controls.financialPlan.value ? this.leadForm.controls.financialPlan.value : "",
-      "frc": "",
-      "identityNumber": this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
-      "identityType": this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : null,
-      "leadId": "",
-      "lostReason": "",
-      "maritalStatus": this.leadForm.controls.maritalStatus.value ? this.leadForm.controls.maritalStatus.value : null,
-      "estimatedMonthlyIncome": this.leadForm.controls.estimatedMonthlyIncome.value ? this.leadForm.controls.estimatedMonthlyIncome.value : "",
-      "name": "",
-      "nrcRegionCode": "",
-      "nrcTownshipCode": "",
-      "nrcTypeCode": "",
-      "noOfChildren": "" + (this.leadForm.controls.noOfChildren.value ? this.leadForm.controls.noOfChildren.value : "") + "",
-      "occupationCd": this.leadForm.controls.occupationCd.value ? this.leadForm.controls.occupationCd.value : "",
-      "openedDate": "",
-      "openedDateStr": this.leadForm.controls.openedDate.value ? this.convertDateFormatDDMMYYY(this.leadForm.controls.openedDate.value) : "",
-      "operationDate": "",
-      "operationDateStr": "",
-      "others": "",
-      "ownerId": this.user.id,
-      "passport": "",
-      "phoneNo": this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
-      "productCode": productCode,
-      "productId": this.leadForm.controls.productId.value ? this.leadForm.controls.productId.value : "",
-      "productName": "",
-      "reason": "",
-      "referralCustomerId": this.leadForm.controls.referralCustomerId.value ? this.leadForm.controls.referralCustomerId.value : 0,
-      "remark": "",
-      "score": this.leadForm.controls.score.value ? this.leadForm.controls.score.value : 0,
-      "sourceCode": this.leadForm.controls.sourceCode.value ? this.leadForm.controls.sourceCode.value : "",
-      "startDate": "",
-      "startDateStr": "",
-      "stateCode": this.leadForm.controls.stateCode.value ? this.leadForm.controls.stateCode.value : "",
-      "statusCode": "02",
-      "subTypeCode": "",
-      "subject": this.leadForm.controls.subject.value ? this.leadForm.controls.subject.value : "",
-      "townshipCode": this.leadForm.controls.townshipCode.value ? this.leadForm.controls.townshipCode.value : "",
-      "typeCode": this.leadForm.controls.typeCode.value ? this.leadForm.controls.typeCode.value : "",
-      "validityPeriod": this.leadForm.controls.validityPeriod.value ? this.leadForm.controls.validityPeriod.value : 0,
+      let data = {
+        "activationDate": "",
+        "activationDateStr": postData.activationDate ? this.convertDateFormatDDMMYYY(postData.activationDate) : "",
+        "assets": postData.assets ? postData.assets : "",
+        "assignTo": this.user.id,
+        "campaignName": postData.campaignName ? postData.campaignName : "",
+        "campaignNo": postData.campaignNo ? postData.campaignNo : "",
+        "channelCode": postData.channelCode ? postData.channelCode : "",
+        "closedDate": "",
+        "closedDateStr": postData.closedDate ? this.convertDateFormatDDMMYYY(postData.closedDate) : "",
+        "companyCode": postData.companyCode ? postData.companyCode : "",
+        "contact": postData.contact,
+        "contactName": postData.contactName ? postData.contactName : "",
+        "customerPlan": "",
+        "description": "",
+        "districtCode": postData.districtCode ? postData.districtCode : "",
+        "dueDate": "",
+        "dueDateStr": "",
+        "email": postData.email ? postData.email : "",
+        "existingInsuranceCoverage": postData.existingInsuranceCoverage ? postData.existingInsuranceCoverage : "",
+        "existingInsurancePlan": postData.existingInsurancePlan ? postData.existingInsurancePlan : "",
+        "expirationDate": "",
+        "expirationDateStr": postData.expirationDate ? this.convertDateFormatDDMMYYY(postData.expirationDate) : "",
+        "facebookAcc": postData.facebookAcc ? postData.facebookAcc : "",
+        "financialPlan": postData.financialPlan ? postData.financialPlan : "",
+        "frc": "",
+        "identityNumber": postData.identityNumber ? postData.identityNumber : "",
+        "identityType": postData.identityType ? postData.identityType : null,
+        "leadId": "",
+        "lostReason": "",
+        "maritalStatus": postData.maritalStatus ? postData.maritalStatus : null,
+        "estimatedMonthlyIncome": postData.estimatedMonthlyIncome ? postData.estimatedMonthlyIncome : "",
+        "name": "",
+        "nrcRegionCode": "",
+        "nrcTownshipCode": "",
+        "nrcTypeCode": "",
+        "noOfChildren": "" + (postData.noOfChildren ? postData.noOfChildren : "") + "",
+        "occupationCd": postData.occupationCd ? postData.occupationCd : "",
+        "openedDate": "",
+        "openedDateStr": postData.openedDate ? this.convertDateFormatDDMMYYY(postData.openedDate) : "",
+        "operationDate": "",
+        "operationDateStr": "",
+        "others": "",
+        "ownerId": this.user.id,
+        "passport": "",
+        "phoneNo": postData.phoneNo ? postData.phoneNo : "",
+        "productCode": productCode,
+        "productId": postData.productId ? postData.productId : "",
+        "productName": "",
+        "reason": postData.reason ? postData.reason : "",
+        "referralCustomerId": postData.referralCustomerId ? postData.referralCustomerId : 0,
+        "remark": "",
+        "score": postData.score ? postData.score : 0,
+        "sourceCode": postData.sourceCode ? postData.sourceCode : "",
+        "startDate": "",
+        "startDateStr": "",
+        "stateCode": postData.stateCode ? postData.stateCode : "",
+        "statusCode": "02",
+        "subTypeCode": "",
+        "subject": postData.subject ? postData.subject : "",
+        "townshipCode": postData.townshipCode ? postData.townshipCode : "",
+        "typeCode": postData.typeCode ? postData.typeCode : "",
+        "validityPeriod": postData.validityPeriod ? postData.validityPeriod : 0,
+      }
+      if (postData.existingCustomerId) {
+        data["existingCustomerId"] = postData.existingCustomerId
+      }
+      if (postData.prospectCustomerId) {
+        data["prospectCustomerId"] = postData.prospectCustomerId
+      }
+      console.log("Request to API => Data: ", data)
+      this.LeadDetailService.createLead(data).toPromise()
+        .then((res: any) => {
+          if (res) {
+            this.newLeadId = res
+            this.leadForm.controls.leadId.setValue(res)
+            this.leadForm.controls.statusCode.setValue("02")
+            this.alertService.activate('This record was created', 'Success Message').then(result => {
+              if (result) {
+                this.router.navigate([], {
+                  queryParams: {
+                    pageStatus: data,
+                    pageId: this.newLeadId,
+                    leadId: this.newLeadId,
+                  },
+                });
+              }
+            });
+          }
+        });
     }
-    if (this.leadForm.controls.existingCustomerId.value) {
-      data["existingCustomerId"] = this.leadForm.controls.existingCustomerId.value
-    }
-    if (this.leadForm.controls.prospectCustomerId.value) {
-      data["prospectCustomerId"] = this.leadForm.controls.prospectCustomerId.value
-    }
-
-    this.LeadDetailService.createLead(data).toPromise()
-      .then((res: any) => {
-        if (res) {
-          this.newLeadId = res
-          this.leadForm.controls.leadId.setValue(res)
-          this.leadForm.controls.statusCode.setValue("02")
-          this.alertService.activate('This record was created', 'Success Message').then(result => {
-            if (result) {
-              this.router.navigate([], {
-                queryParams: {
-                  pageStatus: data,
-                  pageId: this.newLeadId,
-                  leadId: this.newLeadId,
-                },
-              });
-            }
-          });
-
-        }
-      });
   }
 }
