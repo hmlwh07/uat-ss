@@ -1141,15 +1141,15 @@
                                             <span class="ng-clear-wrapper"
                                                 (click)="clearDate('existingCustomerName');$event.stopPropagation()"
                                                 title="Clear all"><span aria-hidden="true"
-                                                    class="ng-clear">×</span></span>
+                                                    class="ng-clear">×</span> </span>
                                         </div>
-                                        <div class="col-sm-1" *ngIf="!isAddProspect">
+                                        <div class="col-sm-1" *ngIf="!isAddProspect" id="customerClass1">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="checkExisting('customer')">
                                                 <span class="flaticon2-check-mark"></span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-1" *ngIf="!isAddProspect">
+                                        <div class="col-sm-1" *ngIf="!isAddProspect" id="customerClass2">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="viewExisting('customer')">
                                                 <span class="flaticon2-user"></span>
@@ -1190,13 +1190,13 @@
                                                 title="Clear all"><span aria-hidden="true"
                                                     class="ng-clear">×</span></span>
                                         </div>
-                                        <div class="col-sm-1" *ngIf="!isAddProspect">
+                                        <div class="col-sm-1" *ngIf="!isAddProspect" id="prospectClass1">
                                             <a title=" Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="checkExisting('prospect')">
                                                 <span class="flaticon2-check-mark"></span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-1" *ngIf="!isAddProspect">
+                                        <div class="col-sm-1" *ngIf="!isAddProspect" id="prospectClass2">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="viewExisting('prospect')">
                                                 <span class="flaticon2-user"></span>
