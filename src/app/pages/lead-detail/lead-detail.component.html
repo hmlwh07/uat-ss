@@ -693,7 +693,8 @@
                                         <span class="">{{"FORM.btn_lost" | translate}}</span>
                                     </button>
                                 </div> -->
-                                <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode =='03' || leadForm.getRawValue().statusCode =='02'">
+                                <div class="col-sm-2"
+                                    *ngIf="leadForm.getRawValue().statusCode =='03' || leadForm.getRawValue().statusCode =='02'">
                                     <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
                                         (click)="updateLeadStatus('save')">
                                         <span class="">{{"FORM.btn_save" | translate}}</span>
@@ -1190,9 +1191,8 @@
                                                     class="ng-clear">×</span></span>
                                         </div>
                                         <div class="col-sm-1" *ngIf="!isAddProspect">
-                                            <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
-                                                (click)="checkExisting('prospect')"
-                                                readonly="leadForm.value.existingCustomerName">
+                                            <a title=" Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
+                                                (click)="checkExisting('prospect')">
                                                 <span class="flaticon2-check-mark"></span>
                                             </a>
                                         </div>
@@ -1372,13 +1372,15 @@
                                         <span class="">{{"FORM.btn_reject" | translate}}</span>
                                     </button>
                                 </div>
-                                <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='01' || leadForm.getRawValue().statusCode=='02' || leadForm.getRawValue().statusCode =='03'">
+                                <div class="col-sm-2"
+                                    *ngIf="leadForm.getRawValue().statusCode=='01' || leadForm.getRawValue().statusCode=='02' || leadForm.getRawValue().statusCode =='03'">
                                     <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
                                         (click)="createNewLeadStatus('save')">
                                         <span class="">{{"FORM.btn_save" | translate}}</span>
                                     </button>
                                 </div>
-                                <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='01' || leadForm.getRawValue().statusCode =='03'">
+                                <div class="col-sm-2"
+                                    *ngIf="leadForm.getRawValue().statusCode=='01' || leadForm.getRawValue().statusCode =='03'">
                                     <button type="button" class="btn btn-sm btn-secondary ml-2" style="width: 100%;"
                                         (click)="createNewLeadStatus('cancel')">
                                         <span class="">{{"FORM.btn_cancel" | translate}}</span>
