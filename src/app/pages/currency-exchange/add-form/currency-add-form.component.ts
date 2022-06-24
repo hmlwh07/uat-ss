@@ -32,7 +32,7 @@ export class CurrencyAddFormComponent implements OnInit, AfterViewInit {
     this.formGroup = new FormGroup({
       type: new FormControl(this.oldData.type || "usd", [Validators.required]),
       amount: new FormControl(this.oldData.amount || null, [Validators.required]),
-      date: new FormControl(this.oldData.date ? moment(this.oldData.date) : null,Validators.required),
+      date: new FormControl(this.oldData.date ? moment(this.oldData.date) : null,[Validators.required]),
     })
   }
 
@@ -74,6 +74,7 @@ export class CurrencyAddFormComponent implements OnInit, AfterViewInit {
   }
 
   saveData() {
+    
     if (this.formGroup.valid) {
       if (this.isModal) {
         let date=this.convertDateFormatDDMMYYY(this.formGroup.value.date)

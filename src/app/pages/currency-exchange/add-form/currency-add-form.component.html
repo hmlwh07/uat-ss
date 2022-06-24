@@ -1,19 +1,19 @@
-<div class="card card-custom gutter-b">
-    <div class="card-header">
+<div lass="modal-content">
+    <div class="modal-header">
         <div class="card-title" *ngIf="isEdit">
             <h3 class="card-label">{{"FORM.edit_currency_exchange" | translate}}</h3>
         </div>
         <div class="card-title" *ngIf="!isEdit">
             <h3 class="card-label">{{"FORM.create_currency_exchange" | translate}}</h3>
-        </div>
+        </div> 
     </div>
-    <div class="card-body">
+    <div class="modal-body">
         <form action="#" class="form form-label-right" [formGroup]="formGroup" (ngSubmit)="saveData()">
             <!-- type -->
             <div class="form-group ">
                 <label class="form-label">{{"FORM.date" | translate}}</label>
                 <div class="input-group ">
-                    <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="Date" [class.is-invalid]="isControlInvalid('date')" [class.is-valid]="isControlValid('date')" [matDatepicker]="picker" readonly>
+                    <input matInput class="form-control-sm date-input" style="width: 100%;" placeholder="Date" formControlName="date" [class.is-invalid]="isControlInvalid('date')" [class.is-valid]="isControlValid('date')" [matDatepicker]="picker" readonly>
                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker disabled="false"></mat-datepicker>
 
@@ -37,10 +37,11 @@
 
             </div>
             <!-- Amount -->
-            <div class="form-group ">
-                <button type="button" *ngIf="isModal" class="btn btn-default" (click)="modal.dismissAll()">{{"FORM.btn_close" | translate}}</button>
-                <button type="submit" class="btn btn-primary mx-2">{{"FORM.btn_save" | translate}}</button>
-            </div>
+           
         </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" *ngIf="isModal" class="btn btn-light btn-elevate mr-2" (click)="modal.dismissAll()">{{"FORM.btn_close" | translate}}</button>
+        <button type="submit" class="btn btn-primary btn-elevate" (click)="saveData()">{{"FORM.btn_save" | translate}}</button>
     </div>
 </div>
