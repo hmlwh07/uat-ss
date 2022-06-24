@@ -367,8 +367,7 @@ export class EditInputModalComponent implements OnInit, OnDestroy {
       // 
 
       this.config = { ...this.config, ...this.formGroup.getRawValue(), options: this.optionData, input: this.input }
-      console.log("CONFIG",this.config);
-      
+     
       if (this.input == InputBoxType.DIALOG) {
         this.config.options = null
         this.config.autoFields = this.optionData

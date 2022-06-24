@@ -60,7 +60,6 @@ export class DynamicFormComponent implements OnInit {
 
   ngOnInit() {
     this.internalConfig = JSON.parse(JSON.stringify(this.config))
-    console.log("CONFIG",this.internalConfig);
     this.form = this.createGroup();
   }
 
