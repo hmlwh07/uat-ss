@@ -197,6 +197,10 @@ export class LeadDetailComponent implements OnInit {
   fnaAccess = defaultAccessObj
   switchObj: {};
   isUpdateNew: boolean = false;
+  customerClass1
+  prospectClass1
+  customerClass2
+  prospectClass2
   constructor(
     private fb: FormBuilder,
     private location: Location,
@@ -287,6 +291,11 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls.assignToName.setValue(this.user.username)
       this.leadForm.controls.openedDate.setValue(new Date())
       this.leadForm.controls.statusCode.setValue("01")
+
+      this.customerClass1 = document.getElementById('customerClass1');
+      this.customerClass2 = document.getElementById('customerClass2');
+      this.prospectClass1 = document.getElementById('prospectClass1')
+      this.prospectClass2 = document.getElementById('prospectClass2')
     }
   }
 
@@ -502,7 +511,7 @@ export class LeadDetailComponent implements OnInit {
 
   getProduct() {
     this.productService
-      .getAll('all')
+      .getAll('yes')
       .toPromise()
       .then((res: any) => {
         if (res) {
@@ -1114,6 +1123,8 @@ export class LeadDetailComponent implements OnInit {
       if (key == 'existingCustomerName') {
         this.leadForm.controls[key].setValue(null)
         this.leadForm.controls['existingCustomerId'].setValue(null)
+        this.prospectClass1.classList.remove('disabled');
+        this.prospectClass2.classList.remove('disabled');
       }
     } else {
       return false
@@ -1132,6 +1143,8 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls['prospectCustomer'].setValue(null)
       this.leadForm.controls['prospectCustomerId'].setValue(null)
       this.isAddProspect = false
+      this.customerClass1.classList.remove('disabled');
+      this.customerClass2.classList.remove('disabled');
     }
   }
 
@@ -1766,6 +1779,10 @@ export class LeadDetailComponent implements OnInit {
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.existingCustomerName.setValue(fullName)
           this.leadForm.controls.existingCustomerId.setValue(res.customerId)
+          this.customerClass1.classList.add('disabled');
+          this.customerClass2.classList.add('disabled');
+          this.prospectClass1.classList.remove('disabled');
+          this.prospectClass2.classList.remove('disabled');
         } else {
           this.alertService.activate(res.title, "Warning Message");
         }
@@ -1778,6 +1795,10 @@ export class LeadDetailComponent implements OnInit {
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.prospectCustomer.setValue(fullName)
           this.leadForm.controls.prospectCustomerId.setValue(res.customerId)
+          this.customerClass1.classList.add('disabled');
+          this.customerClass2.classList.add('disabled');
+          this.prospectClass1.classList.remove('disabled');
+          this.prospectClass2.classList.remove('disabled');
         } else {
           this.alertService.activate(res.title, "Warning Message");
         }
@@ -1830,6 +1851,10 @@ export class LeadDetailComponent implements OnInit {
               let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
               this.leadForm.controls.prospectCustomer.setValue(name)
               this.leadForm.controls.prospectCustomerId.setValue(customer.customerId)
+              this.customerClass1.classList.add('disabled');
+              this.customerClass2.classList.add('disabled');
+              this.prospectClass1.classList.remove('disabled');
+              this.prospectClass2.classList.remove('disabled');
             } else {
               this.existingCustomer = {
                 customerId: customer.customerId,
@@ -1841,6 +1866,10 @@ export class LeadDetailComponent implements OnInit {
               let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
               this.leadForm.controls.existingCustomerName.setValue(name)
               this.leadForm.controls.existingCustomerId.setValue(customer.customerId)
+              this.customerClass1.classList.remove('disabled');
+              this.customerClass2.classList.remove('disabled');
+              this.prospectClass1.classList.add('disabled');
+              this.prospectClass2.classList.add('disabled');
             }
           }
         }
@@ -1984,5 +2013,4 @@ export class LeadDetailComponent implements OnInit {
         }
       });
   }
-
 }
