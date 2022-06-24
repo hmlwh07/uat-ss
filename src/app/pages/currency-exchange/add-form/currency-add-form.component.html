@@ -13,9 +13,9 @@
             <div class="form-group ">
                 <label class="form-label">{{"FORM.date" | translate}}</label>
                 <div class="input-group ">
-                    <input matInput class="form-control form-control-sm date-input" placeholder="Date" formControlName="date" [matDatepicker]="picker" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="picker" style="z-index: 99999;"></mat-datepicker-toggle>
-                    <mat-datepicker #picker disabled="false" style="z-index: 99999;"></mat-datepicker>
+                    <input matInput class="form-control-sm date-input" style="width: 100%;" formControlName="Date" [class.is-invalid]="isControlInvalid('date')" [class.is-valid]="isControlValid('date')" [matDatepicker]="picker" readonly>
+                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
 
                 </div>
             </div>

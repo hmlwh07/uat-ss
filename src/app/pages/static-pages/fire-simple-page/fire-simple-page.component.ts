@@ -252,6 +252,7 @@ export class FirePageComponent implements OnInit, OnDestroy {
       },
       resourceId: this.resourcesId,
     }
+    this.globalFun.currenyValueObs.next(formValue.currency)
     // console.log(postData);
     if (!id) {
       this.fireService.save(postData).toPromise().then((res: any) => {
