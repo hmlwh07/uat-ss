@@ -443,19 +443,19 @@
                                             <input type="text" class="form-control form-control-sm "
                                                 name="existingCustomerName" autocomplete="off" readonly
                                                 formControlName="existingCustomerName" />
-                                            <span class="ng-clear-wrapper"
+                                            <span class="ng-clear-wrapper" *ngIf="!isAddProspect"
                                                 (click)="clearData('existingCustomerName');$event.stopPropagation()"
                                                 title="Clear all">
                                                 <span aria-hidden="true" class="ng-clear">×</span>
                                             </span>
                                         </div>
-                                        <div class="col-sm-1" id="customerClass1">
+                                        <div class="col-sm-1" *ngIf="!isAddProspect" id="customerClass1">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="checkExisting('customer')">
                                                 <span class="flaticon2-check-mark"></span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-1" id="customerClass2">
+                                        <div class="col-sm-1" *ngIf="!isAddProspect" id="customerClass2">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="viewExisting('customer')">
                                                 <span class="flaticon2-user"></span>
@@ -492,24 +492,24 @@
                                             <input type="text" readonly class="form-control form-control-sm "
                                                 name="prospectCustomer" autocomplete="off"
                                                 formControlName="prospectCustomer" />
-                                            <span class="ng-clear-wrapper" title="Clear all"
+                                            <span class="ng-clear-wrapper" title="Clear all" *ngIf="!isAddProspect"
                                                 (click)="clearData('prospectCustomer');$event.stopPropagation()">
                                                 <span aria-hidden="true" class="ng-clear">×</span>
                                             </span>
                                         </div>
-                                        <div class="col-sm-1" id="prospectClass1">
+                                            <div class="col-sm-1" *ngIf="!isAddProspect" id="prospectClass1">
                                             <a title=" Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="checkExisting('prospect')">
                                                 <span class="flaticon2-check-mark"></span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-1" id="prospectClass2">
+                                            <div class="col-sm-1" *ngIf="!isAddProspect" id="prospectClass2">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="viewExisting('prospect')">
                                                 <span class="flaticon2-user"></span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-1" id="prospectClass3">
+                                        <div class="col-sm-1" *ngIf="!isAddProspect" id="prospectClass3">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="viewProspectCustomer()">
                                                 <span class="flaticon2-plus"></span>
@@ -1208,13 +1208,13 @@
                                                 <span aria-hidden="true" class="ng-clear">×</span>
                                             </span>
                                         </div>
-                                        <div class="col-sm-1" id="prospectClass1">
+                                            <div class="col-sm-1"  id="prospectClass1">
                                             <a title=" Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="checkExisting('prospect')">
                                                 <span class="flaticon2-check-mark"></span>
                                             </a>
                                         </div>
-                                        <div class="col-sm-1" id="prospectClass2">
+                                            <div class="col-sm-1" id="prospectClass2">
                                             <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
                                                 (click)="viewExisting('prospect')">
                                                 <span class="flaticon2-user"></span>
