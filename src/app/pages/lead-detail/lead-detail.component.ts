@@ -191,6 +191,7 @@ export class LeadDetailComponent implements OnInit {
   prospectClass1
   customerClass2
   prospectClass2
+  prospectClass3
   isCustomerCheck: boolean = false;
   isProspectCheck: boolean = false;
   constructor(
@@ -270,14 +271,15 @@ export class LeadDetailComponent implements OnInit {
 
     if (this.oldData == null) {
       this.leadForm.controls.assignTo.setValue(this.user.id)
-      this.leadForm.controls.assignToName.setValue(this.user.firstName + this.user.lastName)
+      this.leadForm.controls.assignToName.setValue(this.user.empName)
       this.leadForm.controls.openedDate.setValue(new Date())
       this.leadForm.controls.statusCode.setValue("01")
 
-      this.customerClass1 = document.getElementById('customerClass1');
-      this.customerClass2 = document.getElementById('customerClass2');
+      this.customerClass1 = document.getElementById('customerClass1')
+      this.customerClass2 = document.getElementById('customerClass2')
       this.prospectClass1 = document.getElementById('prospectClass1')
       this.prospectClass2 = document.getElementById('prospectClass2')
+      this.prospectClass3 = document.getElementById('prospectClass3')
     }
   }
 
@@ -619,7 +621,7 @@ export class LeadDetailComponent implements OnInit {
                 agentId: this.oldData.ownerId,
                 phone: this.oldData.phoneNo,
                 email: this.oldData.email,
-                identityType: this.oldData.identityType == null ? "" : this.oldData.identityType,
+                identityType: this.oldData.identityType == "" ? null : this.oldData.identityType,
                 identityNumber: this.oldData.identityNumber,
                 nrcRegionCd: this.oldData.nrcRegionCode,
                 nrcTownshipCd: this.oldData.nrcTownshipCode,
@@ -758,8 +760,7 @@ export class LeadDetailComponent implements OnInit {
 
   viewProspectCustomer() {
     console.log("viewProspectCustomer")
-    if (!this.disabledForm) {
-      console.log("Hi")
+    if (this.leadForm.getRawValue().stateCode != '03') {
       let modalRef;
       modalRef = this.modalService.open(CustomerDetailComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.isPopup = true
@@ -800,6 +801,7 @@ export class LeadDetailComponent implements OnInit {
 
   loadForm(oldData?) {
     console.log("LoadForm => OldData? ", oldData)
+    console.log("LoadForm ==> statusCode ", oldData ? oldData.stateCode : null)
     if (oldData != null) {
       this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
       this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
@@ -876,7 +878,7 @@ export class LeadDetailComponent implements OnInit {
         existingInsurancePlan: new FormControl(
           { value: oldData ? oldData.existingInsurancePlan : '', disabled: oldData.statusCode == '01' || '02' || '03' || '04' ? false : true }),
         score: new FormControl(
-          { value: oldData ? oldData.score : '', disabled: oldData.statusCode == '01' || '02' || '03' || '04' ? false : true }),
+          { value: oldData ? oldData.score : '', disabled: true }),
         validityPeriod: new FormControl(
           { value: oldData ? oldData.validityPeriod : '', disabled: true }),
         assets: new FormControl(
@@ -898,6 +900,10 @@ export class LeadDetailComponent implements OnInit {
         prospectCustomerId: new FormControl(
           { value: oldData ? oldData.prospectCustomerId : "", disabled: oldData.statusCode == '01' || '02' || '04' ? false : true }),
       });
+      if (oldData.statusCode == '03' && oldData.existingCustomerId != 0) {
+        console.log("Prospect Disabled")
+        // ToDo: need to disabled
+      }
 
       this.cdf.detectChanges()
       if (this.oldData) {
@@ -966,17 +972,24 @@ export class LeadDetailComponent implements OnInit {
   backLocation() {
     this.loadForm(this.oldData);
   }
-  clearDate(key) {
-    if (!this.disabledForm && !this.isExisting) {
-      if (key == 'existingCustomerName') {
-        this.leadForm.controls[key].setValue(null)
-        this.leadForm.controls['existingCustomerId'].setValue(null)
-        this.prospectClass1.classList.remove('disabled');
-        this.prospectClass2.classList.remove('disabled');
-      }
-    } else {
-      return false
+
+  clearData(key) {
+    if (key == 'existingCustomerName') {
+      this.leadForm.controls[key].setValue(null)
+      this.leadForm.controls['existingCustomerId'].setValue(null)
+      this.prospectClass1.classList.remove('disabled');
+      this.prospectClass2.classList.remove('disabled');
+      this.prospectClass3.classList.remove('disabled');
     }
+
+    if (key == 'prospectCustomer') {
+      this.leadForm.controls[key].setValue(null)
+      this.leadForm.controls['prospectCustomerId'].setValue(null)
+      this.isAddProspect = false
+      this.customerClass1.classList.remove('disabled');
+      this.customerClass2.classList.remove('disabled');
+    }
+
     if (key == 'referralCustomerName') {
       this.leadForm.controls[key].setValue(null)
       this.leadForm.controls['referralCustomerId'].setValue(null)
@@ -985,13 +998,6 @@ export class LeadDetailComponent implements OnInit {
     if (key == 'campaignName' || key == 'campaignNo') {
       this.leadForm.controls['campaignName'].setValue(null)
       this.leadForm.controls['campaignNo'].setValue(null)
-    }
-    if (key == 'prospectCustomer') {
-      this.leadForm.controls['prospectCustomer'].setValue(null)
-      this.leadForm.controls['prospectCustomerId'].setValue(null)
-      this.isAddProspect = false
-      this.customerClass1.classList.remove('disabled');
-      this.customerClass2.classList.remove('disabled');
     }
   }
 
@@ -1108,10 +1114,12 @@ export class LeadDetailComponent implements OnInit {
       "validityPeriod": postData.validityPeriod ? postData.validityPeriod : 0,
     }
     if (postData.existingCustomerId) {
-      data["existingCustomerId"] = postData.existingCustomerId
+      requestData["existingCustomerId"] = postData.existingCustomerId
+      requestData["existingCustomerName"] = postData.existingCustomerName
     }
     if (postData.prospectCustomerId) {
-      data["prospectCustomerId"] = postData.prospectCustomerId
+      requestData["prospectCustomerId"] = postData.prospectCustomerId
+      requestData["prospectCustomer"] = postData.prospectCustomer
     }
     console.log("Edit RequestData: ", requestData)
     this.LeadDetailService.updateNoID(requestData).toPromise()
@@ -1579,17 +1587,16 @@ export class LeadDetailComponent implements OnInit {
     let campaignName = ""
     if (campaignNo) {
       this.LeadDetailService.getCampaignNameById(campaignNo).toPromise().then((res: any) => {
-        if (res.length > 0) {
-          campaignName = res[0].cpmName
-        } else {
-          campaignName = ''
+        if (res) {
+          campaignName = res.cpmName
         }
         this.leadForm.controls.campaignName.setValue(campaignName)
       })
     }
   }
-  checkExisting(type?: string) {
 
+  checkExisting(type?: string) {
+    console.log("checkExisting: ", this.leadForm)
     if (type == "customer") {
       this.isCustomerCheck = true;
       if (this.leadForm.controls.phoneNo.value == null
@@ -1606,15 +1613,15 @@ export class LeadDetailComponent implements OnInit {
         this.alertService.activate('Did not find any existing prospect profile related to Identity type, email and phone number.', 'No found existing prospect profile');
         return true
       }
-
     }
 
     let postData = {
       phoneNo: this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
       email: this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
-      identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : "",
+      identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : null,
       identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
     }
+    console.log("checkExisting: ", postData)
     if (type == "customer") {
       this.LeadDetailService.checkExistingCustomer(postData).toPromise().then((res: any) => {
         if (res.customerId) {
@@ -1627,6 +1634,9 @@ export class LeadDetailComponent implements OnInit {
           this.customerClass2.classList.remove('disabled');
           this.prospectClass1.classList.add('disabled');
           this.prospectClass2.classList.add('disabled');
+          this.prospectClass3.classList.add('disabled');
+          this.isProspectCheck = true;
+          this.isCustomerCheck = true;
         } else {
           this.alertService.activate(res.title, "Warning Message");
         }
@@ -1643,6 +1653,9 @@ export class LeadDetailComponent implements OnInit {
           this.customerClass2.classList.add('disabled');
           this.prospectClass1.classList.remove('disabled');
           this.prospectClass2.classList.remove('disabled');
+          this.prospectClass3.classList.remove('disabled');
+          this.isProspectCheck = true;
+          this.isCustomerCheck = true;
         } else {
           this.alertService.activate(res.title, "Warning Message");
         }
@@ -1699,6 +1712,7 @@ export class LeadDetailComponent implements OnInit {
               this.customerClass2.classList.add('disabled');
               this.prospectClass1.classList.remove('disabled');
               this.prospectClass2.classList.remove('disabled');
+              this.prospectClass3.classList.remove('disabled');
               this.isProspectCheck = true;
               this.isCustomerCheck = true;
             } else {
@@ -1716,6 +1730,7 @@ export class LeadDetailComponent implements OnInit {
               this.customerClass2.classList.remove('disabled');
               this.prospectClass1.classList.add('disabled');
               this.prospectClass2.classList.add('disabled');
+              this.prospectClass3.classList.add('disabled');
               this.isCustomerCheck = true;
               this.isProspectCheck = true;
             }
@@ -1745,11 +1760,18 @@ export class LeadDetailComponent implements OnInit {
       validateAllFields(this.leadForm);
       return true;
     }
+    console.log("createNewLead:", this.leadForm.value)
     console.log("check", this.isCustomerCheck, this.isProspectCheck)
     if (!this.isCustomerCheck) {
-      this.alertService.activate('Please check Existing Customer before you save.', 'Message');
+      console.log("existingProspectId", this.leadForm.controls.prospectCustomerId.value)
+      if (this.leadForm.controls.prospectCustomerId.value == 0) {
+        this.alertService.activate('Please check Existing Customer before you save.', 'Message');
+      }
     } else if (!this.isProspectCheck) {
-      this.alertService.activate('Please check Prospect Customer before you save.', 'Message');
+      console.log("existingCustomerId", this.leadForm.controls.existingCustomerId.value)
+      if (this.leadForm.controls.existingCustomerId.value == 0) {
+        this.alertService.activate('Please check Prospect Customer before you save.', 'Message');
+      }
     } else {
       let postData = this.leadForm.getRawValue();
       //contact

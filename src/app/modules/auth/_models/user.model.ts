@@ -17,7 +17,9 @@ export class UserModel extends AuthModel {
   socialNetworks?: SocialNetworksModel;
   // personal information
   firstName?: string;
+  middleName?: string;
   lastName?: string;
+  empName?: string;
   website?: string;
   // account information
   language?: string;
@@ -52,7 +54,9 @@ export class UserModel extends AuthModel {
     this.id = user.id;
     this.username = user.username || '';
     this.firstName = user.firstName || '';
+    this.middleName = user.middleName || '';
     this.lastName = user.lastName || '';
+    this.empName = user.empName || '';
     this.password = user.password || '';
     this.fullname = user.fullname || '';
     this.email = user.email || '';

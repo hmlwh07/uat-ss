@@ -7,7 +7,7 @@ import { Lead } from "./lead.dto";
 
 
 const API_LEAD_URL = `${environment.apiUrl}/lead`;
-const API_CAMPAIGN_URL = `${environment.apiUrl}/campaigns`;
+const API_CAMPAIGN_URL = `${environment.apiUrl}/campaign`;
 const API_LEAD_SOURCE_URL = `${environment.apiUrl}/leadSource`;
 const API_LEAD_SCORE_URL = `${environment.apiUrl}/leadSource/score`;
 const API_LEAD_QUALITY_URL = `${environment.apiUrl}/leadQuality`;
