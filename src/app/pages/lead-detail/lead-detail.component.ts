@@ -612,9 +612,11 @@ export class LeadDetailComponent implements OnInit {
         })
       } else {
         if (this.leadForm.getRawValue().assignTo != 0) {
+          console.log(this.oldData)
           this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
             if (result) {
               let data = {
+                agentId: this.oldData.ownerId,
                 phone: this.oldData.phoneNo,
                 email: this.oldData.email,
                 identityType: this.oldData.identityType == null ? "" : this.oldData.identityType,
