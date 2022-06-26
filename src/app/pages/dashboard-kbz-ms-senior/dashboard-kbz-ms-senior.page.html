@@ -14,7 +14,7 @@
       </div>
       <div class="premium" [ngStyle]="{'padding': productPadding}">
         <ion-label class="premuim-color">{{"CARD.premium" | translate}} </ion-label>
-        <ion-label>{{ data?.agentInfo?.totalPremium | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
+        <ion-label>{{ data?.agentInfo?.totalPremium||0 | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
       </div>
     </div>
     <div class="product">
@@ -35,7 +35,7 @@
               alt="" srcset="">-->
           </ion-thumbnail>
           <ion-text>{{ product.productName }}</ion-text>
-          <ion-text>{{ product.premium | number: '1.2-2' }} MMK</ion-text>
+          <ion-text>{{ product.premium||0 | number: '1.2-2' }} MMK</ion-text>
         </ion-item>
       </ion-list>
     </div>
