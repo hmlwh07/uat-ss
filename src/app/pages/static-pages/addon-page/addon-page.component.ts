@@ -133,10 +133,7 @@ export class AddonPageComponent implements OnInit {
         //   item["premiumStr"] = "0"
         // }
        
-        console.log("ITEM",item);
-        
         let response = results.find(x => x.addonId == item.id)
-        console.log("RESPONSE",response);
         
         // if (item['show']) {
         this.addOnsData[item.id] = {
@@ -307,7 +304,6 @@ export class AddonPageComponent implements OnInit {
   }
 
   rechangeOption(addOn) {
-    console.log('ADDON',addOn);
     
     this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
   }
