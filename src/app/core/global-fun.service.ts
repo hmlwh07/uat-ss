@@ -34,6 +34,12 @@ export class GlobalFunctionService {
 
   optionResultChange = new Subject()
   sumInsuredResult = new Subject()
+  crossPercent = {
+    "T-004": 0.35,
+    "T-003": 0.60,
+    "T-002": 0.85,
+    "T-001": 1,
+  }
   constructor(private numberPipe: DecimalPipe, private alert: AlertService, private exChangeService: LatestCurrencyExchangeService, private motorService: MotorRateService) {
 
   }
@@ -320,22 +326,32 @@ export class GlobalFunctionService {
   }
 
   motorOwnDamage(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     return this.getMotorRate(motorDetail).pipe(map((res: any) => {
       if (res)
-        return res.rate
+      console.log("motorOwnDamage",res);
+      
+        return (res.rate*term)
       return 0
     }))
   }
 
   motorThirdParty(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     return this.getMotorThirdRate(motorDetail).pipe(map((res: any) => {
       if (res)
-        return res.rate
+      console.log("MOTORThird",res);
+      
+        return (res.rate*term)
       return 0
     }))
   }
 
   motorSRCC(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let currency = ""
     let typeOfVehicle = ""
     let sumIn = 0
@@ -358,13 +374,15 @@ export class GlobalFunctionService {
       } else if (typeOfVehicle == "T-MCC") {
         rate = 0.0005
       }
-      return of(sumIn * rate)
+      return of((sumIn * rate)*term)
     }
     return of(0)
     // }))
   }
 
   motorWindScreen(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let windscreen_value = 0
     let currency = ""
     let typeOfCoverage = ""
@@ -387,10 +405,12 @@ export class GlobalFunctionService {
     } else if (typeOfVehicle == "T-MCC") {
       rate = 0.05
     }
-    return of(windscreen_value * rate)
+    return of((windscreen_value * rate))
   }
 
   motorMedicalExpense(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let currency = ""
     let typeOfVehicle = ""
     if (motorDetail) {
@@ -410,6 +430,8 @@ export class GlobalFunctionService {
   }
 
   motorWarRisk(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let currency = ""
     let typeOfCoverage = ""
     let typeOfVehicle = ""
@@ -434,13 +456,15 @@ export class GlobalFunctionService {
       if (typeOfVehicle == "T-MCC") {
         rate = 0.0005
       }
-      return of(sumIn * rate)
+      return of ((sumIn * rate)*term)
     }
     return of(0)
     // }))
   }
 
   motorActOfGod(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let currency = ""
     let typeOfCoverage = ""
     let typeOfVehicle = ""
@@ -468,13 +492,15 @@ export class GlobalFunctionService {
       } else if (typeOfVehicle == "T-MCC") {
         rate = 0.0005
       }
-      return of(sumIn * rate)
+      return of((sumIn * rate)*term)
     }
     return of(0)
     // }))
   }
 
   motorTheft(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let currency = ""
     let typeOfCoverage = ""
     let typeOfVehicle = ""
@@ -499,13 +525,17 @@ export class GlobalFunctionService {
         } else if (typeOfVehicle == "T-MCC") {
           rate = 0.15
         }
-        return res * rate
+        console.log("THEFT",res,rate);
+        
+        return ((res * rate))
       }
       return 0
     }))
   }
 
   motorEndorsement(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let currency = ""
     let typeOfCoverage = ""
     let typeOfVehicle = ""
@@ -521,15 +551,19 @@ export class GlobalFunctionService {
     }
 
     return this.motorOwnDamage(motorDetail).pipe(map(res => {
+      console.log("motorEndorsement",res);
+      
       if (res > 0) {
         let rate = 0.30
-        return res * rate
+        return ((res * rate))
       }
       return 0
     }))
   }
 
   motorLuggage(motorDetail) {
+    let m_term=motorDetail['m_policy_term']
+    let term=this.crossPercent[m_term]
     let currency = ""
     let typeOfVehicle = ""
     if (motorDetail) {
@@ -546,7 +580,7 @@ export class GlobalFunctionService {
     // else if (typeOfVehicle == "T-006") {
     //   fixed = 50
     // }
-    return of(fixed)
+    return of(fixed*term)
   }
 
   motorLiability() {
@@ -852,8 +886,6 @@ export class GlobalFunctionService {
   }
 
   calculateDecimal(value: any) {
-    console.log("value", value);
-
     return Math.round(value * 100) / 100
   }
 

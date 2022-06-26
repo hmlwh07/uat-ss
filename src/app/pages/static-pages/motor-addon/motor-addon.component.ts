@@ -58,12 +58,14 @@ export class MotorAddonComponent implements OnInit {
     "T-002": 0.85,
     "T-001": 1,
   }
-  constructor(private globalFun: GlobalFunctionService,private productService:ProductDataService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
+  constructor(private globalFun: GlobalFunctionService, private productService: ProductDataService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
     this.optionId = this.optionId ? this.optionId : this.resourcesId
     this.parentData = this.getParnet()
+    console.log("PARENDT",this.parentData);
+    
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
     let postData = {
@@ -119,8 +121,8 @@ export class MotorAddonComponent implements OnInit {
 
     if (type == 'medical') {
       this.isMedical = !this.isMedical
-      if(!this.isMedical){
-        this.medPremium=0
+      if (!this.isMedical) {
+        this.medPremium = 0
         this.caluMotorPremimun()
       }
       this.changePlan()
@@ -130,8 +132,8 @@ export class MotorAddonComponent implements OnInit {
     }
     if (type == 'cross') {
       this.isCross = !this.isCross
-      if(!this.isCross){
-        this.crossPremium=0
+      if (!this.isCross) {
+        this.crossPremium = 0
         this.caluMotorPremimun()
       }
       // this.crossPremium = this.isCross ? this.calcuCross() : 0
@@ -170,8 +172,8 @@ export class MotorAddonComponent implements OnInit {
     }
 
     if (this.isMedical) {
-      console.log("isMedical",this.isMedical);
-      
+      console.log("isMedical", this.isMedical);
+
       tempPre += this.medPremium
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
@@ -185,10 +187,19 @@ export class MotorAddonComponent implements OnInit {
     let excessAmt = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']
+      let vehicle=this.parentData['m_type_of_vehicle']
+      let purpose=this.parentData['m_purpose_of_use']
       console.log("EXCESS", excess);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        excessAmt = 50000
+        if(vehicle='T-MCC'&& purpose=='T-PRI'){
+          excessAmt=5000
+        }else if (vehicle='T-MCC'&& purpose=='T-COM'){
+          excessAmt=10000
+        }
+        else{
+          excessAmt = 50000
+        }
       }
       else if (excess == 'T-STNDEX' && currency == "MMK") {
         excessAmt = 100000
@@ -204,8 +215,8 @@ export class MotorAddonComponent implements OnInit {
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
     // * percent
-    let cross=((tempPre + excessAmt) * 0.15)
-    this.crossPremium =  this.globalFun.calculateDecimal(cross||0)
+    let cross = ((tempPre + excessAmt) * 0.15)
+    this.crossPremium = this.globalFun.calculateDecimal(cross || 0)
   }
   backPage() {
     this.actionEvent.emit({ type: StaticActionType.PREV })
@@ -262,21 +273,20 @@ export class MotorAddonComponent implements OnInit {
     }
     await this.savePremimun()
     // this.globalFun.tempFormData[AddOnID] = pageData
-  
+
   }
 
   async savePremimun() {
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let premiumAmt = await this.caluMotorPremimun()
-    let premiumAmtView=await this.numberPipe.transform(premiumAmt || 0,"1.2-2") + " " + currency.toUpperCase()
+    let premiumAmtView = await this.numberPipe.transform(premiumAmt || 0, "1.2-2") + " " + currency.toUpperCase()
     let postData = {
-      "premium": Number(premiumAmt|| 0) + "",
+      "premium": Number(premiumAmt || 0) + "",
       "premiumView": premiumAmtView,
       "resourceId": this.resourcesId,
       "type": this.prodService.viewType
     }
-    console.log("PSOTDATA",postData);
-    
+  
     this.pageDataService.updatePremimun(postData).toPromise().then((res) => {
       if (res) {
         this.actionEvent.emit({ type: StaticActionType.NEXT })
@@ -286,12 +296,9 @@ export class MotorAddonComponent implements OnInit {
 
   async caluMotorPremimun() {
     let tempPre = 0
+    let tempPre2 = 0
     let tempArray = this.globalFun.tempFormData['addon_1634010770155'] || []
     for (let addon of tempArray) {
-
-
-
-      
       // if (this.addOnsData[addon.id].checked) {
       console.log("addonPremium", this.globalFun.calculateDecimal(addon.premium));
 
@@ -301,33 +308,42 @@ export class MotorAddonComponent implements OnInit {
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
       console.log("covPremium", this.globalFun.calculateDecimal(cov.premium));
-
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
-
-
-
-
     if (this.isMedical) {
-      console.log("isMedical",this.isMedical);
-      
+      console.log("isMedical", this.isMedical);
+
       tempPre += this.globalFun.calculateDecimal(this.medPremium || 0)
     }
     console.log("TEMPPRE", tempPre);
 
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
+    let discount2 = 0
     console.log("PARENT", this.parentData);
 
     if (this.parentData) {
       let excess = this.parentData['m_excess']
       let excess_discount = this.parentData['m_excess_discount']
+      let vehicle=this.parentData['m_type_of_vehicle']
+      let purpose=this.parentData['m_purpose_of_use']
       console.log(excess, excess_discount);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        discount = -50000
+        if(vehicle='T-MCC'&& purpose=='T-PRI'){
+          discount = -5000
+          discount2 = -5000
+        }else if (vehicle='T-MCC'&& purpose=='T-COM'){
+          discount = -10000
+          discount2 = -10000
+        }
+        else{
+          discount = -50000
+          discount2 = -50000
+        }
       } else if (excess == "TU-NILEX" && currency == "USD") {
         discount = -25
+        discount2 = -25
       }
       else if (excess == "TU-STNDEX" && currency == "USD") {
         discount = -100
@@ -349,21 +365,26 @@ export class MotorAddonComponent implements OnInit {
     console.log("discount", discount);
 
     let stumd = currency == "MMK" ? 100 : 1
-    console.log("TOTAL", (tempPre + Number(this.crossPremium || 0)));
+    console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
 
     let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)
-    console.log("preAMT", preAMT);
+    let preAMT2 = ((tempPre + Number(this.crossPremium || 0)) - discount2)
+    console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
 
     let term = this.parentData['m_policy_term']
-    console.log("TERM", term);
+    console.log("Policy-TERM", term);
 
     let percent = this.crossPercent[term] || 1
-    console.log("percent", percent);
+    console.log("TERM-Percent", percent);
 
-    preAMT = (preAMT * percent) + stumd
-    console.log("preAMT--preAMT", preAMT);
-    this.premiumAmt = this.numberPipe.transform(preAMT,"1.2-2") + " " + currency.toUpperCase()
+    // preAMT = (preAMT * percent) + stumd
+    preAMT = (preAMT) + stumd
+    preAMT2 = (preAMT2)
+    console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
+
+
+    this.premiumAmt = this.numberPipe.transform(preAMT2, "1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
-    return preAMT
+    return preAMT2
   }
 }

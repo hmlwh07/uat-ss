@@ -33,6 +33,13 @@ export class CoveragePageComponent implements OnInit {
   parentData: any = {}
   isLoading = true
   @Input() isPopup: boolean = false
+  crossPercent = {
+    "T-004": 0.35,
+    "T-003": 0.60,
+    "T-002": 0.85,
+    "T-001": 1,
+  }
+  termPercent=1
   constructor(private coverageQuoService: CoverageQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private loadingService: LoadingService) { }
 
   async ngOnInit() {
@@ -40,6 +47,10 @@ export class CoveragePageComponent implements OnInit {
     this.optionId = this.optionId ? this.optionId : this.resourcesId
     if (this.product.code == "PLMO02" || this.product.code=="PLMO01") {
       this.parentData = this.getParnet()
+      let term = this.parentData['m_policy_term']
+      console.log("Policy-TERM", term);
+      this.termPercent = this.crossPercent[term] || 1
+      console.log("TERM-Percent", this.termPercent);  
     }
     if (this.product.coverages && this.product.coverages.length > 0) {
       await this.loadingService.activate()
@@ -68,7 +79,7 @@ export class CoveragePageComponent implements OnInit {
         this.coverageData[item.id] = {
           sum: response ? response.sumInsured || 0 : 0,
           unit: response ? response.unit || 0 : 0,
-          premium: response ? response.premium || 0 : 0
+          premium: response ? (response.premium || 0): 0
         }
 
         if (item.sumInsured) {

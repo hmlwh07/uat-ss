@@ -65,7 +65,7 @@
   </div>
   <!-- static area -->
   <ng-container *ngIf="formatedData">
-    <ng-container *ngIf="(product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLTR01'  && product.code !='PCHL01' && product.code !='PLPA01' );else staticPrint">
+    <ng-container *ngIf="product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLMO01' && product.code !='PLTR01'  && product.code !='PCHL01' && product.code !='PLPA01' ;else staticPrint">
       <ng-container *ngFor="let page of temConfig">
         <ng-container *ngIf="page.type == 'static';else dynPrint">
           <ng-container staticPirint [compId]="page.id" [resourcesId]="resourcesId"></ng-container>
