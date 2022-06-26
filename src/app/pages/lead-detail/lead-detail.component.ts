@@ -987,9 +987,6 @@ export class LeadDetailComponent implements OnInit {
         prospectCustomerId: new FormControl(
           { value: oldData ? oldData.prospectCustomerId : "", disabled: true }),
       });
-      if (oldData.statusCode == '03' && oldData.existingCustomerId != 0 || oldData.prospectCustomerId != 0) {
-        this.isAddProspect = true
-      }
 
       this.cdf.detectChanges()
       if (this.oldData) {
