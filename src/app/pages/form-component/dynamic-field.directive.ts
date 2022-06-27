@@ -98,7 +98,6 @@ export class DynamicFieldDirective implements Field, OnChanges, OnInit, AfterVie
   }
 
   ngOnInit() {
-    console.log("CONFIG",this.config);
     
     // this.config.show = this.config.input == "label" ? true : this.config.show
     if (this.config.show || this.editStage) {

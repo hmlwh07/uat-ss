@@ -82,12 +82,12 @@ export class FirePageComponent implements OnInit, OnDestroy {
     this.staticForm = this.fb.group({
       startDate: [null, Validators.compose([Validators.required])],
       endDate: [null, Validators.compose([Validators.required])],
-      policyType: ['T-001', Validators.compose([Validators.required])],
-      policyDuration: [null, Validators.compose([Validators.required, Validators.max(30)])],
-      currency: ['T-001', Validators.compose([Validators.required])],
+      policyType: ['T-NM', Validators.compose([Validators.required])],
+      policyDuration: [null, Validators.compose([Validators.required, Validators.max(365)])],
+      currency: ['MMK', Validators.compose([Validators.required])],
       policyUnit: ['D', Validators.compose([Validators.required])]
     })
-    this.options3 = Array.from({ length: 10 }, (_, i) => i + 1)
+    this.options3 = Array.from({ length: 10 }, (_, i) => i + 1);
   }
 
   updateValidation(oldDataType?) {
@@ -99,16 +99,16 @@ export class FirePageComponent implements OnInit, OnDestroy {
 
     if (type == 'D') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.required, Validators.max(30)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required, Validators.max(365)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
-      this.validValue = 30
+      this.validValue = 365
       this.doValid()
     }
     else if (type == 'F') {
       this.staticForm.controls.policyDuration.clearValidators()
-      this.staticForm.controls.policyDuration.setValidators([Validators.required, Validators.max(11)])
+      this.staticForm.controls.policyDuration.setValidators([Validators.required, Validators.max(12)])
       this.staticForm.controls.policyDuration.updateValueAndValidity()
-      this.validValue = 11
+      this.validValue = 12
       this.doValid()
     } else {
       this.staticForm.controls.policyDuration.clearValidators()
@@ -122,7 +122,7 @@ export class FirePageComponent implements OnInit, OnDestroy {
     this.unsub.forEach(x => x.unsubscribe())
   }
   async ngOnInit() {
-
+   
     this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
         this.currencyType = res
@@ -157,6 +157,9 @@ export class FirePageComponent implements OnInit, OnDestroy {
     //   }
     //   this.addOns[item.id + 'opt'] = response ? response.sumInsured || 0 : 0
     // }
+
+    this.staticForm.controls.policyType.setValue('T-NM');
+    this.staticForm.controls.currency.setValue('MMK');
   }
 
 
@@ -252,6 +255,7 @@ export class FirePageComponent implements OnInit, OnDestroy {
       },
       resourceId: this.resourcesId,
     }
+    this.globalFun.currenyValueObs.next(formValue.currency)
     // console.log(postData);
     if (!id) {
       this.fireService.save(postData).toPromise().then((res: any) => {

@@ -33,11 +33,11 @@ export class PrintViewBoxComponent implements OnInit {
   //wait for the component to render completely
   async ngOnInit() {
     console.log(this.product);
-
     if (this.resourcesId)
       this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
     await this.loadingService.activate()
     if (this.config) {
+      
       let temp: PrintFormat[] = JSON.parse(JSON.stringify(this.config))
       for (let formObj of this.configOrder) {
         if (formObj.type == PageUIType.DYN) {
@@ -96,6 +96,14 @@ export class PrintViewBoxComponent implements OnInit {
       }
       this.formatedData = true
     }
+    if (this.productService.editData) {
+      this.premimunAmt = this.productService.editData.premiumView
+      this.getAgentData()
+      
+      // this.today = this.productService.editData.createdAt
+      this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
+    }
+    this.formatedData = true
     await this.loadingService.deactivate()
     // this.temConfig = this.configOrder.map(x => {
     //   if (x.type == PageUIType.DYN) {

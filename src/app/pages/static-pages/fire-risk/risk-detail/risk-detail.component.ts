@@ -65,6 +65,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     this.unsub[0] = this.globalService.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
         this.currencyType = res
+        console.log("  this.currencyType ",  this.currencyType );
+        
       }
     })
     this.loadForm()

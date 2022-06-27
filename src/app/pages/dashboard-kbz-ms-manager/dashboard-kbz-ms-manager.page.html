@@ -6,7 +6,7 @@
         <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
           <img *ngIf="data?.agentInfo?.attId" [src]="DEFAULT_DOWNLOAD_URL + data?.agentInfo?.attId" style="width: 100%; height: 100%;"
           alt="profile" />  
-          <img *ngIf="!data?.agentInfo?.attId" src="./assets/temp-img/manager.jpeg" alt="profile">          
+          <img *ngIf="!data?.agentInfo?.attId" src="./assets/temp-img/user_profile.png" alt="profile">          
 
           <!-- <img src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
         </div>
@@ -15,7 +15,7 @@
       </div>
       <div class="premium" [ngStyle]="{'padding': productPadding}">
         <ion-label class="premuim-color">{{"CARD.premium" | translate}}</ion-label>
-        <ion-label>{{ data?.agentInfo?.totalPremium | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
+        <ion-label>{{ data?.agentInfo?.totalPremium||0 | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
       </div>
     </div>
     <div class="product">
@@ -35,7 +35,7 @@
               alt="" srcset="">
           </ion-thumbnail>
           <ion-text>{{ product.productName }}</ion-text>
-          <ion-text>{{ product.premium | number: '1.2-2' }} MMK</ion-text>
+          <ion-text>{{ product.premium||0 | number: '1.2-2' }} MMK</ion-text>
         </ion-item>
       </ion-list>
     </div>

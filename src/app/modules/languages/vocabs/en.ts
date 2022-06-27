@@ -54,7 +54,7 @@ export const locale = {
       change: 'Change Language',
       start_date: 'Start Date',
       end_date: 'End Date',
-      open_date: 'Open Date',
+      open_date: 'Opened Date',
       act_date: 'Activation Date',
       close_date: 'Closed Date',
       exp_date: 'Expiration Date',

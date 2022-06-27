@@ -58,7 +58,13 @@ export class TravelComponent implements OnInit {
     }
   }
 
-  callback() {
+  callback(ref?) {
+    if (ref) {
+      console.log("ref",ref);
+      
+      this.resourcesId = ref
+      this.getOldData({ id:ref })
+    }
     if (this.prodService.editData) {
       this.resourcesId = this.prodService.editData.id
       this.getOldData(this.prodService.editData)
@@ -188,13 +194,15 @@ export class TravelComponent implements OnInit {
           }
           // })
           this.cdf.detectChanges()
+          console.log("DISMISS", res);
+
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
           this.changeBenefi(res.benefi, res.detail.refId)
           this.getRiskList()
-          this.callback()
+          this.callback(res.data.resourceId)
           this.savePremimunFire().toPromise().then(res => {
-            
+
           })
         }
       }
@@ -203,24 +211,27 @@ export class TravelComponent implements OnInit {
 
   changeTravelDetail(data) {
     let index = -1
-    if (this.tempData['travelDetail']){
-      index = this.tempData['travelDetail'].findIndex(x => x.refId == data.refId)
-      console.log("INDXEDX",index);
-      
+    if (this.tempData['travelDetail']) {
+      index = this.tempData['travelDetail'].findIndex(x => x.risk_id == data.refId)
+      console.log("INDXEDX", index);
+
       if (index < 0) {
         this.tempData['travelDetail'].push(data)
       } else {
         this.tempData['travelDetail'][index] = data
       }
     }
-   
+
   }
   changeTraveler(data) {
-    let index = this.tempData['traveler'].findIndex(x => x.refId == data.refId)
-    if (index < 0) {
-      this.tempData['traveler'].push(data)
-    } else {
-      this.tempData['traveler'][index] = data
+    if (this.tempData['traveler']) {
+      let index = this.tempData['traveler'].findIndex(x => x.risk_id == data.refId)
+
+      if (index < 0) {
+        this.tempData['traveler'].push(data)
+      } else {
+        this.tempData['traveler'][index] = data
+      }
     }
   }
   changeBenefi(data, refId) {

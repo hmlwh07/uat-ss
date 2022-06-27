@@ -30,9 +30,7 @@ export class PageDataService extends BizOperationService<any, number>{
     return this.httpClient.delete(API_PAGEDATA_URL + "/" + table + "/" + refID + "/" + id)
   }
 
-  updatePremimun(postData: any): Observable<any> {
-    console.log("PREMIUM",postData);
-    
+  updatePremimun(postData: any): Observable<any> { 
     return this.httpClient.put(API_PAGEDATA_URL + "/resource", postData)
   }
 
