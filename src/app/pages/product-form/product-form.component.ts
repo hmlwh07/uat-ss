@@ -245,6 +245,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           let prodDetail = this.findPageValue(tempFormData, this.pageOrder[checkProd].id)
           let data: PageUI = { ...this.pageOrder[checkProd], function: prodDetail.function, controls: prodDetail.controls, buttons: prodDetail.buttons }
           this.pageOrder.splice(checkProd, 1)
+          this.formData.splice(checkProd,1)
           this.travelFormss.push(data)
         }
         let checkTraveler = this.pageOrder.findIndex(x => x.unitCode == 'traveler_0002')
@@ -252,6 +253,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           let traveler = this.findPageValue(tempFormData, this.pageOrder[checkTraveler].id)
           let data: PageUI = { ...this.pageOrder[checkTraveler], function: traveler.function, controls: traveler.controls, buttons: traveler.buttons }
           this.pageOrder.splice(checkTraveler, 1)
+          this.formData.splice(checkTraveler,1)
           this.travelFormss.push(data)
         }
         let checkBeneficiary = this.pageOrder.findIndex(x => x.unitCode == "trave_benefi_0003")
@@ -259,12 +261,14 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           let benefi = this.findPageValue(tempFormData, this.pageOrder[checkBeneficiary].id)
           let data: PageUI = { ...this.pageOrder[checkBeneficiary], function: benefi.function, controls: benefi.controls, buttons: benefi.buttons }
           this.pageOrder.splice(checkBeneficiary, 1)
+          this.formData.splice(checkBeneficiary,1)
           this.travelFormss.push(data)
         }
         let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
         if (checkCoverage >= 0) {
           this.travelFormss.push(this.pageOrder[checkCoverage])
           this.pageOrder.splice(checkCoverage, 1)
+          this.formData.splice(checkCoverage,1)
         }
       }
 
