@@ -22,13 +22,66 @@
         </button>
                 </div>
             </div>
+            <!-- card-body px-10 py-3 -->
             <div class="card-body px-10 py-3">
                 <form action="#" class="form" [formGroup]="policyForm">
-                    <div class="row" style="align-items: center;">
-                        <app-start-end-date [formInput]="policyForm" remove-host [colClass]="'col-md-6'"></app-start-end-date>
-                    </div>
+                     <div class="row" style="align-items: center;"  > 
+                        <app-start-end-date [formInput]="policyForm" remove-host  [colClass]="'col-xl-4 col-sm-6'" ></app-start-end-date>   
+
+                        <div class="col-xl-4 col-sm-6" >
+                            <div class="form-group row"> 
+                                <label class="col-sm-4 col-form-label"> Product Name</label>
+                                <div class="col-sm-8">
+                                    <select name="product_name" FormControlName="productName" class="form-control form-control-sm">
+                                        <option [value]="null"> Select Product Name</option>
+                                        <option value="T">Travel </option>
+                                        <option value="M">Motor </option>
+                                    </select>
+                                </div>
+                            </div>      
+                        </div>
+                        <div class="col-xl-4 col-sm-6" >
+                            <div class="form-group row" >
+                                <label class="col-sm-4 col-form-label"> Policy Holder Name</label>
+                                 <div class="col-sm-8">
+                                    <input class="form-control form-control-sm" formControlName="policyholderName" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6" >
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"> Application ID</label>
+                                 <div class="col-sm-8">
+                                        <input class="form-control form-control-sm" formControlName="applicationId" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6" >
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">QTG</label>
+                                 <div class="col-sm-8">
+                                        <input class="form-control form-control-sm" formControlName="quotationId"  readonly autocomplete="off">   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6" >
+                            <div class="form-group row"> 
+                                <label class="col-sm-4 col-form-label">Application submission status</label>
+                                <div class="col-sm-8">
+                                    <select name="product_name" FormControlName="applicationStatus" class="form-control form-control-sm">
+                                        <option [value]="null"> Select Application submission status</option>
+                                        <option value="T">Travel </option>
+                                        <option value="M">Motor </option>
+                                    </select>
+                                </div>
+                            </div>      
+                        </div>
+                        
+                 </div>
                 </form>
-            </div>
+            
+             </div>
+   <!--end-->
         </div>
     </div>
 </div>
@@ -47,6 +100,9 @@
                     (emitter)="actionBtn($event)">
                 </app-material-table-view> -->
                 <!-- end: Table -->
+
+
+                
             </div>
         </div>
     </div>

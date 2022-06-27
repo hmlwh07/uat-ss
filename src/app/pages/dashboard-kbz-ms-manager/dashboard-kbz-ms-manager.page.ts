@@ -383,7 +383,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       this.salesHpx = mainContentHeight - 40 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '7px';
       this.productPadding = '7px 0';
@@ -393,7 +393,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';
@@ -403,7 +403,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';

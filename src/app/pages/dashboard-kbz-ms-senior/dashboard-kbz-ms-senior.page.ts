@@ -209,7 +209,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           toolbar: {
             show: true
           },
-          height: this.chartH - 20,
+          height: this.chartH - 8,
           type: "bar",
           events: {
             click: function (w, e) {
@@ -232,7 +232,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           max: type == 'lead' ? this.leadObj.leadAssignCount || 10 : this.data.assigned || 10,
           labels: {
             style: {
-              fontSize: "0.79rem",
+              fontSize: "0.7rem",
               fontFamily: "Roboto"
             }
           }
@@ -283,7 +283,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           }
         ],
         chart: {
-          height: this.chartH - 20,
+          height: this.chartH - 8,
           // width: 280,
           type: "line",
           toolbar: {
@@ -296,7 +296,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           offsetY: 10,
           floating: false,
           style: {
-            fontSize: "0.79rem",
+            fontSize: "0.7rem",
             fontFamily: "Roboto"
           }
 
@@ -306,7 +306,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           categories: this.agentLineChartCategories,
           labels: {
             style: {
-              fontSize: "0.79rem",
+              fontSize: "0.7rem",
               fontFamily: "Roboto"
             }
           },
@@ -318,7 +318,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           labels: {
             show: false,
             style: {
-              fontSize: "0.79rem",
+              fontSize: "0.7rem",
               fontFamily: "Roboto"
             }
           }
@@ -359,7 +359,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.salesHpx = mainContentHeight - 40 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '7px';
       this.productPadding = '7px 0';
@@ -369,7 +369,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';
@@ -379,7 +379,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';

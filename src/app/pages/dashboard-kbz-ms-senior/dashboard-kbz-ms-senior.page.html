@@ -62,8 +62,9 @@
       </ion-item>
     </ion-list>
   </section>
+
   <section class="chart" [ngStyle]="{'height': mainContentHeightPx}">
-    <div class="sub-chart" [ngStyle]="{'height': chartHpx}">
+    <div class="sub-chart" [ngStyle]="{'height': chartHpx}" >
       <h2 class="title-color">{{"FORM.opportunity_conversion" | translate }}</h2>
       <div class="branch">
         <div>{{ data?.agentInfo?.branchName }}</div>

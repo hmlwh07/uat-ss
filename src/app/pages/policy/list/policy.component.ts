@@ -59,7 +59,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.policyForm = new FormGroup({
       startDate: new FormControl(lastMonthDay),
       endDate: new FormControl(monthDay),
-      isTeam: new FormControl(this.isTeam)
+      isTeam: new FormControl(this.isTeam),
+      //productName: new FormControl(this.productName)
     })
   }
   ngOnDestroy() {
