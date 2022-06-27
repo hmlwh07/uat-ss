@@ -448,6 +448,16 @@ export class AddonPageComponent implements OnInit {
     if (addon.code == "BURGLARY" || addon.code == "STHTC") {
       let keyId = addon.code + "-" + this.addOnsData[addon.id].option
       rate = this.fireAddonRate[keyId] || 0
+
+      if(addon.code == "BURGLARY"){
+        console.log(' BURGLARY rate', rate = this.fireAddonRate[keyId] || 0);
+      }
+
+      if(addon.code == "STHTC"){
+        console.log(' STHTC rate', rate = this.fireAddonRate[keyId] || 0);
+      }
+      
+
     }
      else {
       console.log("rete_EKSE",this.fireAddonRate[addon.code] )
@@ -469,16 +479,100 @@ export class AddonPageComponent implements OnInit {
       totalRisk += parent ? parent.riskSi : 0
       
     }
+
+    let parentData2 = this.globalFun.tempFormData[FirePageID];
+    let dateRate = 1;
+    switch (true) {
+      case parentData2.policyUnit == 'G' && parentData2.policyDuration == 1:
+        dateRate = 1;
+        break;
+      case parentData2.policyUnit == 'D' && parentData2.policyDuration <= 10:
+        dateRate = 1 / 8;
+        break;
+      case parentData2.policyUnit == 'D' && parentData2.policyDuration <= 15:
+        dateRate = 1 / 6;
+        break;
+      case parentData2.policyUnit == 'D' && parentData2.policyDuration > 15:
+        dateRate = this.calculateDaysToMonth(parentData2.policyDuration);
+        console.log('calculateDaysToMonth', dateRate);
+       // dateRate = 2 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 1:
+        dateRate = 2 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 2:
+        dateRate = 3 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 3:
+        dateRate = 4 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 4:
+        dateRate = 5 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 5:
+        dateRate = 6 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 6:
+        dateRate = 6 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration > 6:
+        dateRate = 1;
+        break;
+    }
+    // }
+    let currency = parentData2.currency;
+    let stampDuty = 0;
+    if (currency == 'MMK') {
+      stampDuty = 100;
+    } else {
+      stampDuty = 1;
+    }
+
+   
+
     if (rate > 0 && totalRisk > 0) {
-      let amt = totalRisk * (rate / 100)
-      // NEED_TO_CONFIRM
+      console.log("totalRisk",totalRisk);
+
+      console.log("addon.code =====> ", addon.code +', rate' + rate +'date rate'+ dateRate);
+      let amt = totalRisk * rate * dateRate;
       if (addon.code == "BURGLARY") {
-        let dis = amt * 0.1
-        amt = amt - dis
+          amt = amt * 0.9
       }
-      return amt
+     // let amt = totalRisk * (rate / 100)
+      // NEED_TO_CONFIRM
+      // if (addon.code == "BURGLARY") {
+      //   let dis = amt * 0.1
+      //   amt = amt - dis
+      // }
+      console.log('amt =====> ', amt );
+      //return amt;
+      return this.globalFun.calculateDecimal(amt)
     }
     return 0
+  }
+
+
+  
+
+  calculateDaysToMonth(days) {
+    let rate: any;
+    let divided = days / 31;
+    if (divided > 0 && divided <=1) {
+      rate = 2 / 8;
+    } else if (divided > 1 && divided <=2) {
+      rate = 3 / 8;
+    } else if (divided > 2 && divided <=3) {
+      rate = 4 / 8;
+    } else if (divided > 3 && divided <=4) {
+      rate = 5 / 8;
+    } else if (divided > 3 && divided <=5) {
+      rate = 6 / 8;
+    } else if (divided > 5 && divided <=6) {
+      rate = 6 / 8;
+    } else {
+      rate = 1;
+    }
+    return rate;
   }
 
 }

@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } fr
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
+import { ActionSheetController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 import {
   ChartComponent,
@@ -21,7 +23,8 @@ import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Platform } from '@ionic/angular';
-import { DashboardService } from './dashboard.service';
+import { DashboardAttachmentService, DashboardService } from './dashboard.service';
+import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -77,7 +80,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   agentLineChartDatas: number[] = [];
   currentMonthIndex: number = new Date().getUTCMonth();
   currentYear: number = new Date().getUTCFullYear();
-  months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN','JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   radioW: number;
@@ -93,12 +96,15 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   mainContentHeight: number;
   mainContentHeightPx: string;
 
-  constructor(private platform: Platform, 
-    private cdf: ChangeDetectorRef, 
-    private auth: AuthService, 
-    private dashboardService: DashboardService, 
-    private router: Router, 
-    private ngzone: NgZone
+  constructor(private platform: Platform,
+    private cdf: ChangeDetectorRef,
+    private auth: AuthService,
+    private dashboardService: DashboardService,
+    private router: Router,
+    private ngzone: NgZone,
+    private alertCtrl: ActionSheetController,
+    private AttachmentUploadService: AttachmentUploadService,
+    private DashboardAttachmentService: DashboardAttachmentService
   ) {
     this.unsub = this.auth.currentUserSubject.subscribe((res) => {
       if (res) {
@@ -138,7 +144,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   }
 
   getLeadList() {
-    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res:any) => {
+    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res: any) => {
       if (res) {
         this.leadObj = res;
         // this.todayActiveAgent = res.todayActiveAgent
@@ -209,7 +215,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           toolbar: {
             show: true
           },
-          height: this.chartH - 20,
+          height: this.chartH - 8,
           type: "bar",
           events: {
             click: function (w, e) {
@@ -232,7 +238,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           max: type == 'lead' ? this.leadObj.leadAssignCount || 10 : this.data.assigned || 10,
           labels: {
             style: {
-              fontSize: "0.79rem",
+              fontSize: "0.7rem",
               fontFamily: "Roboto"
             }
           }
@@ -283,7 +289,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           }
         ],
         chart: {
-          height: this.chartH - 20,
+          height: this.chartH - 8,
           // width: 280,
           type: "line",
           toolbar: {
@@ -296,7 +302,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           offsetY: 10,
           floating: false,
           style: {
-            fontSize: "0.79rem",
+            fontSize: "0.7rem",
             fontFamily: "Roboto"
           }
 
@@ -306,7 +312,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           categories: this.agentLineChartCategories,
           labels: {
             style: {
-              fontSize: "0.79rem",
+              fontSize: "0.7rem",
               fontFamily: "Roboto"
             }
           },
@@ -318,7 +324,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           labels: {
             show: false,
             style: {
-              fontSize: "0.79rem",
+              fontSize: "0.7rem",
               fontFamily: "Roboto"
             }
           }
@@ -359,7 +365,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.salesHpx = mainContentHeight - 40 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '7px';
       this.productPadding = '7px 0';
@@ -369,7 +375,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';
@@ -379,7 +385,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';
@@ -389,8 +395,85 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   }
 
-  changeSource(event){
+  changeSource(event) {
     event.target.src = "./assets/images/user_profile-01.svg"
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.alertCtrl.create({
+      cssClass: 'custom-modal',
+      buttons: [{
+        icon: 'camera',
+        text: 'Take a picture',
+        handler: () => {
+          this.getPictures(CameraSource.Camera);
+          console.log('Open Camera');;
+        }
+      }, {
+        icon: 'images',
+        text: 'Choose picture from gallery',
+        handler: () => {
+          this.getPictures(CameraSource.Photos);
+          console.log('Open Gallery');
+        }
+      }, {
+        icon: 'close',
+        text: 'Close',
+        role: 'cancel',
+        handler: () => { console.log('Cancel clicked'); }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  async getPictures(type) {
+    const image = await Camera.getPhoto({
+      quality: 100,
+      width: 400,
+      allowEditing: true,
+      resultType: CameraResultType.Base64,
+      source: type
+    }).catch((e) => {
+
+    });
+    if (image) {
+
+      this.uploadImage(image)
+    }
+
+  }
+  async uploadImage(image) {
+    console.log(image);
+    image.name = "Profile"
+    image.size = ((image.base64String).length - 814) / 1.37
+    let data = {
+      fileStr: image.base64String,
+      fileName: image.name,
+      fileType: image.format,
+      fileSize: image.size,
+      contentType: image.format,
+      fileExtension: image.format,
+    }
+    console.log("data", data);
+    this.AttachmentUploadService.save(data).toPromise().then((res) => {
+      if (res) {
+        let postData = {
+          attId: res,
+          employeeId: this.data.agentInfo.empId
+        }
+        // this.data.agentInfo.attId=851
+        // this.cdf.detectChanges()
+        this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
+          if (res) {
+            this.data.agentInfo.attId=res
+            this.cdf.detectChanges()
+          }
+        })
+
+      }
+    })
+
+
   }
 
 }

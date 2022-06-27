@@ -78,6 +78,9 @@ export const Status: any[] = [
   },{
     code : "I",
     value : "Inactive"
+  },{
+    code : "T",
+    value : "Terminated"
   }
 ]
 

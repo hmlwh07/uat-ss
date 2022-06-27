@@ -25,8 +25,11 @@ import {
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Platform } from '@ionic/angular';
-import { DashboardService } from '../dashboard-kbz-ms-senior/dashboard.service';
+import { ActionSheetController, Platform } from '@ionic/angular';
+import { DashboardAttachmentService, DashboardService } from '../dashboard-kbz-ms-senior/dashboard.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
+
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
   categories?: any;
@@ -116,7 +119,10 @@ export class DashboardKbzMsManagerPage implements OnInit {
     private route: ActivatedRoute,
     public auth: AuthService,
     private dashboardService: DashboardService,
-    private router: Router
+    private router: Router,
+    private alertCtrl:ActionSheetController,
+    private AttachmentUploadService:AttachmentUploadService,
+    private DashboardAttachmentService:DashboardAttachmentService
   ) {
     this.route.queryParams.subscribe(async (params) => {
       if (params.empId) {
@@ -383,7 +389,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       this.salesHpx = mainContentHeight - 40 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '7px';
       this.productPadding = '7px 0';
@@ -393,7 +399,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';
@@ -403,7 +409,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 20 + 'px';
+      this.chartHpx = this.chartH + 30 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';
@@ -417,6 +423,83 @@ export class DashboardKbzMsManagerPage implements OnInit {
     event.target.src = "./assets/images/user_profile-01.svg"
   }
   //
+
+  async presentActionSheet() {
+    const actionSheet = await this.alertCtrl.create({
+      cssClass: 'custom-modal',
+      buttons: [{
+        icon: 'camera',
+        text: 'Take a picture',
+        handler: () => {
+          this.getPictures(CameraSource.Camera);
+          console.log('Open Camera');;
+        }
+      }, {
+        icon: 'images',
+        text: 'Choose picture from gallery',
+        handler: () => {
+          this.getPictures(CameraSource.Photos);
+          console.log('Open Gallery');
+        }
+      }, {
+        icon: 'close',
+        text: 'Close',
+        role: 'cancel',
+        handler: () => { console.log('Cancel clicked'); }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  async getPictures(type) {
+    const image = await Camera.getPhoto({
+      quality: 100,
+      width: 400,
+      allowEditing: true,
+      resultType: CameraResultType.Base64,
+      source: type
+    }).catch((e) => {
+
+    });
+    if (image) {
+
+      this.uploadImage(image)
+    }
+
+  }
+  async uploadImage(image) {
+    console.log(image);
+    image.name = "Profile"
+    image.size = ((image.base64String).length - 814) / 1.37
+    let data = {
+      fileStr: image.base64String,
+      fileName: image.name,
+      fileType: image.format,
+      fileSize: image.size,
+      contentType: image.format,
+      fileExtension: image.format,
+    }
+    console.log("data", data);
+    this.AttachmentUploadService.save(data).toPromise().then((res) => {
+      if (res) {
+        let postData = {
+          attId: res,
+          employeeId: this.data.agentInfo.empId
+        }
+        // this.data.agentInfo.attId=851
+        // this.cdf.detectChanges()
+        this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
+          if (res) {
+            this.data.agentInfo.attId=res
+            this.cdf.detectChanges()
+          }
+        })
+
+      }
+    })
+
+
+  }
 
 }
 

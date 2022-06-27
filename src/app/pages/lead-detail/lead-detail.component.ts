@@ -195,6 +195,8 @@ export class LeadDetailComponent implements OnInit {
   prospectClass3
   isCustomerCheck: boolean = false;
   isProspectCheck: boolean = false;
+  // toMinDate = null
+  // toMaxDate = null
   constructor(
     private location: Location,
     private masterDataService: MasterDataService,
@@ -235,7 +237,6 @@ export class LeadDetailComponent implements OnInit {
         this.location.back()
       }
     });
-
   }
 
   checkPremission() {
@@ -281,6 +282,8 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls.openedDate.setValue(new Date())
       this.leadForm.controls.statusCode.setValue("01")
     }
+    // let toDate = moment().subtract(0, `days`)
+    // this.toMinDate = toDate.format('YYYY-MM-DD')
   }
 
   getMaster() {

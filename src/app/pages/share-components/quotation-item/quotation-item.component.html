@@ -17,13 +17,15 @@
     </section>
   </div>
 </div>
+
 <div class="data-content row">
   <div class="col-4">
     <label *ngIf="itemData.agentFirstName"> {{ itemData.agentFirstName }} {{ itemData.agentLastName }}</label>
     <label *ngIf="itemData.productName"> {{ itemData.productName }} </label>
   </div>
   <div class="col-4">
-    <label *ngIf="itemData.createdAt"> {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
+    <label *ngIf="itemData.createdAt">Inception Date : {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
+    <label *ngIf="itemData.expiryAt">Expiry Date : {{ itemData.expiryAt | date:'dd/MM/YYYY' }} </label>
     <label *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' "
       style="color: #FF8100 !important;"> In Progress </label>
     <label *ngIf="itemData.status == 'cancel' || itemData.status == 'Cancel' " style="color: #00ACEA !important;">
@@ -39,6 +41,8 @@
   </div>
   <div class="col-4">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
+    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
+    <label>SI : <span>{{ itemData.siView || 0 |number:'1.2-2'}}</span> </label>
   </div>
 </div>
 <!-- </div> -->

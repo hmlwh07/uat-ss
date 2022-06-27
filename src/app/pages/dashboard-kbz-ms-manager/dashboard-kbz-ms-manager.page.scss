@@ -249,3 +249,21 @@ ion-list {
         margin: 10px !important;
     }
 }
+
+@media screen and (max-width:600px) {
+    .icon-style {
+        left: 55%;
+        position: relative;
+        font-size: 40px;
+        top: -42px;
+    }
+}
+
+@media screen and (min-width:600px) {
+    .icon-style {
+        left: 55%;
+        position: relative;
+        font-size: 40px;
+        top: -42px;
+    }
+}
