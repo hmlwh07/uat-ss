@@ -4,11 +4,13 @@
     <div style="margin: 0 0 10px 0;">
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
         <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
-          <img *ngIf="data.agentInfo?.attId!=null" [src]="DEFAULT_DOWNLOAD_URL+ data?.agentInfo?.attId"
+          <img *ngIf="data?.agentInfo?.attId!=null" [src]="DEFAULT_DOWNLOAD_URL+ data?.agentInfo?.attId"
             style="width: 100%; height: 100%;" alt="profile" />
           <!-- <img  src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
-          <img *ngIf="data.agentInfo?.attId==null" src="./assets/temp-img/user_profile.png" alt="profile">
+          <img *ngIf="data?.agentInfo?.attId==null" src="./assets/temp-img/user_profile.png" alt="profile">
         </div>
+        <ion-icon class="text-left icon-style" name="camera"  (click)="presentActionSheet()"></ion-icon>
+
         <ion-label class="title-color">{{ data?.agentInfo?.employeeName }}</ion-label>
         <ion-label>{{ data?.role }}</ion-label>
       </div>

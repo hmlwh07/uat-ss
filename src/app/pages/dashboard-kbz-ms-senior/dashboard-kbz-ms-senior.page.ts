@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } fr
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
+import { ActionSheetController } from '@ionic/angular';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 import {
   ChartComponent,
@@ -98,7 +100,8 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     private auth: AuthService, 
     private dashboardService: DashboardService, 
     private router: Router, 
-    private ngzone: NgZone
+    private ngzone: NgZone,
+    private alertCtrl:ActionSheetController
   ) {
     this.unsub = this.auth.currentUserSubject.subscribe((res) => {
       if (res) {
@@ -391,6 +394,49 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   changeSource(event){
     event.target.src = "./assets/images/user_profile-01.svg"
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.alertCtrl.create({
+      cssClass: 'custom-modal',
+      buttons: [{
+        icon: 'camera',
+        text: 'Take a picture',
+        handler: () => {
+          this.getPictures(CameraSource.Camera);
+          console.log('Open Camera');;
+        }
+      }, {
+        icon: 'images',
+        text: 'Choose picture from gallery',
+        handler: () => {
+          this.getPictures(CameraSource.Photos);
+          console.log('Open Gallery');
+        }
+      }, {
+        icon: 'close',
+        text: 'Close',
+        role: 'cancel',
+        handler: () => { console.log('Cancel clicked'); }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  async getPictures(type) {
+    const image = await Camera.getPhoto({
+      quality: 100,
+      width: 400,
+      allowEditing: true,
+      resultType: CameraResultType.Base64,
+      source: type
+    }).catch((e)=>{
+      
+    });
+    if (image) {
+      // this.uploadImage(image)
+    }
+
   }
 
 }
