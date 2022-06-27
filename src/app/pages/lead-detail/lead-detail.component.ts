@@ -117,6 +117,7 @@ export class LeadDetailComponent implements OnInit {
   isExisting: boolean = false
   isProspectCustomer: boolean = false
   isAddProspect: boolean = false
+  isExisted: boolean = false;
   disabledForm: boolean = false
   statusCode: number = 0
   newLeadId: string
@@ -537,12 +538,14 @@ export class LeadDetailComponent implements OnInit {
           this.oldData = res;
           if (res.existingCustomerId != 0) {
             this.isAddProspect = true
+            this.isExisted = this.oldData.statusCode == '03' ? true : false;
             this.customer = {
               customerId: res.existingCustomerId,
               customerName: res.existingCustomerName,
               customerDob: res.existingCustomerDateOfBirth
             }
           } else {
+            this.isExisted = this.oldData.statusCode == '03' ? true : false;
             this.customer = {
               customerId: res.prospectCustomerId,
               customerName: res.prospectCustomerName,
@@ -788,7 +791,8 @@ export class LeadDetailComponent implements OnInit {
         }
       })
     }
-    else if (!this.isExisting && !this.isAddProspect) {
+    // else if (!this.isExisting && !this.isAddProspect) {
+    else {
       let modalRef;
       modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
       modalRef.componentInstance.isPopup = true
@@ -888,7 +892,7 @@ export class LeadDetailComponent implements OnInit {
 
   loadForm(oldData?) {
     console.log("LoadForm => OldData? ", oldData)
-    console.log("LoadForm ==> statusCode ", oldData ? oldData.stateCode : null)
+    console.log("LoadForm ==> statusCode ", oldData ? oldData.statusCode : null)
     if (oldData != null) {
       this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
       this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
@@ -897,9 +901,9 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm = new FormGroup({
         leadId: new FormControl({ value: oldData ? oldData.leadId : '', disabled: true }),
         openedDate: new FormControl(
-          { value: oldData ? moment(oldData.openedDate) : '', disabled: oldData.statusCode == '01' ? false : true }),
+          { value: oldData ? moment(oldData.openedDate) : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : true }),
         activationDate: new FormControl(
-          { value: oldData ? moment(oldData.activationDate) : '', disabled: oldData.statusCode == '01' || '02' || '04' ? false : true }),
+          { value: oldData ? moment(oldData.activationDate) : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         closedDate: new FormControl(
           { value: oldData ? moment(oldData.closedDate) : '', disabled: true }),
         expirationDate: new FormControl(
@@ -937,17 +941,17 @@ export class LeadDetailComponent implements OnInit {
         productId: new FormControl(
           { value: oldData ? oldData.productId : '', disabled: oldData.statusCode == '01' || '02' || '03' || '04' ? false : true }),
         phoneNo: new FormControl(
-          { value: oldData ? oldData.phoneNo : '', disabled: oldData.statusCode == '01' || '02' || '04' ? false : true }),
+          { value: oldData ? oldData.phoneNo : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         email: new FormControl(
-          { value: oldData ? oldData.email : '', disabled: oldData.statusCode == '01' || '02' || '04' ? false : true }),
+          { value: oldData ? oldData.email : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         identityType: new FormControl(
-          { value: oldData ? oldData.identityType : '', disabled: oldData.statusCode == '01' || '02' || '04' ? false : true }),
+          { value: oldData ? oldData.identityType : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         identityNumber: new FormControl(
-          { value: oldData ? oldData.nrcValue || oldData.identityNumber : '', disabled: oldData.statusCode == '01' || '02' || '04' ? false : true }),
+          { value: oldData ? oldData.nrcValue || oldData.identityNumber : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         sourceCode: new FormControl(
           { value: oldData ? oldData.sourceCode : '', disabled: oldData.statusCode == '01' || '02' || '03' || '04' ? false : true }),
         campaignNo: new FormControl(
-          { value: oldData ? oldData.campaignNo : '', disabled: oldData.statusCode == '01' || '02' || '03' || '04' ? false : true }),
+          { value: oldData ? oldData.campaignNo : '', disabled : true }),
         campaignName: new FormControl(
           { value: oldData ? oldData.campaignName : '', disabled: oldData.statusCode == '01' || '02' || '03' || '04' ? false : true }),
         estimatedMonthlyIncome: new FormControl(
@@ -973,7 +977,7 @@ export class LeadDetailComponent implements OnInit {
         lostReason: new FormControl(
           { value: oldData ? oldData.lostReason : '', disabled: true }),
         reason: new FormControl(
-          { value: oldData ? oldData.reason : '', disabled: oldData.statusCode == '03' ? false : true }),
+          { value: oldData ? oldData.reason : '', disabled: true }),
         existingCustomerName: new FormControl(
           { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }),
         existingCustomerId: new FormControl(
