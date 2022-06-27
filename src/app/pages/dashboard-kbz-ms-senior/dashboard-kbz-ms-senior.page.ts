@@ -23,7 +23,8 @@ import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Platform } from '@ionic/angular';
-import { DashboardService } from './dashboard.service';
+import { DashboardAttachmentService, DashboardService } from './dashboard.service';
+import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -79,7 +80,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   agentLineChartDatas: number[] = [];
   currentMonthIndex: number = new Date().getUTCMonth();
   currentYear: number = new Date().getUTCFullYear();
-  months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN','JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   radioW: number;
@@ -95,13 +96,15 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   mainContentHeight: number;
   mainContentHeightPx: string;
 
-  constructor(private platform: Platform, 
-    private cdf: ChangeDetectorRef, 
-    private auth: AuthService, 
-    private dashboardService: DashboardService, 
-    private router: Router, 
+  constructor(private platform: Platform,
+    private cdf: ChangeDetectorRef,
+    private auth: AuthService,
+    private dashboardService: DashboardService,
+    private router: Router,
     private ngzone: NgZone,
-    private alertCtrl:ActionSheetController
+    private alertCtrl: ActionSheetController,
+    private AttachmentUploadService: AttachmentUploadService,
+    private DashboardAttachmentService: DashboardAttachmentService
   ) {
     this.unsub = this.auth.currentUserSubject.subscribe((res) => {
       if (res) {
@@ -141,7 +144,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   }
 
   getLeadList() {
-    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res:any) => {
+    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res: any) => {
       if (res) {
         this.leadObj = res;
         // this.todayActiveAgent = res.todayActiveAgent
@@ -392,7 +395,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   }
 
-  changeSource(event){
+  changeSource(event) {
     event.target.src = "./assets/images/user_profile-01.svg"
   }
 
@@ -430,12 +433,46 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       allowEditing: true,
       resultType: CameraResultType.Base64,
       source: type
-    }).catch((e)=>{
-      
+    }).catch((e) => {
+
     });
     if (image) {
-      // this.uploadImage(image)
+
+      this.uploadImage(image)
     }
+
+  }
+  async uploadImage(image) {
+    console.log(image);
+    image.name = "Profile"
+    image.size = ((image.base64String).length - 814) / 1.37
+    let data = {
+      fileStr: image.base64String,
+      fileName: image.name,
+      fileType: image.format,
+      fileSize: image.size,
+      contentType: image.format,
+      fileExtension: image.format,
+    }
+    console.log("data", data);
+    this.AttachmentUploadService.save(data).toPromise().then((res) => {
+      if (res) {
+        let postData = {
+          attId: res,
+          employeeId: this.data.agentInfo.empId
+        }
+        // this.data.agentInfo.attId=851
+        // this.cdf.detectChanges()
+        this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
+          if (res) {
+            this.data.agentInfo.attId=res
+            this.cdf.detectChanges()
+          }
+        })
+
+      }
+    })
+
 
   }
 

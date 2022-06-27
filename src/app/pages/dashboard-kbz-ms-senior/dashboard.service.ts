@@ -11,8 +11,7 @@ const API_Followup_URL = `${environment.apiUrl}/dashboard/follow-up`;
 const API_Backlog_URL = `${environment.apiUrl}/dashboard/backlog`;
 const API_AssignLead_URL = `${environment.apiUrl}/dashboard/assign-lead`;
 const API_Agent_URL = `${environment.apiUrl}/dashboard/sale-active-agent`;
-
-
+const API_DASHBOARD_PROFILE_URL=`${environment.apiUrl}/dashboard/upload-profile`;
 @Injectable({
   providedIn: 'root'
 })
@@ -88,3 +87,12 @@ export class DashboardService extends BizOperationService<any, number>{
     return this.httpClient.get(url)
   }
 }
+@Injectable({
+  providedIn: 'root'
+})
+export class DashboardAttachmentService extends BizOperationService<any, number>{
+  constructor(protected httpClient: HttpClient) {
+    super(httpClient, API_DASHBOARD_PROFILE_URL);
+  }
+}
+
