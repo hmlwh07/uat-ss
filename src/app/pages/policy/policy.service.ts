@@ -27,6 +27,21 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     if (search.endDate) {
       url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
     }
+    if (search.productId) {
+      url = url + "productId=" + search.productId + "&"
+    }
+    if (search.policyholderName) {
+      url = url + "policyholderName=" + search.policyholderName + "&"
+    }
+    if (search.applicationId) {
+      url = url + "applicationId=" + search.applicationId + "&"
+    }
+    if (search.quotationId) {
+      url = url + "quotationId=" + search.quotationId + "&"
+    }
+    if (search.applicationStatus) {
+      url = url + "applicationStatus=" + search.applicationStatus + "&"
+    }
     return this.httpClient.get(url)
   }
 

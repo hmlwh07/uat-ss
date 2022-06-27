@@ -148,18 +148,30 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
             if (this.parentData.paymentFrequency == 'L') {
               let pre = res.lumpSum * value
               this.totalP = this.totalP + pre
-              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: this.totalP, coverage: addon.code, sumInsured: value, levy: 0 })
             } else {
               let pre = res.semiAnnual * value
               this.totalP = this.totalP + pre
               this.totalP = this.totalP + pre
-              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
-              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: this.totalP, coverage: addon.code, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: this.totalP, coverage: addon.code, sumInsured: value, levy: 0 })
             }
           }
           if (i == this.product.addOns.length) {
             // let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
             // this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+            if (this.parentData.paymentFrequency == "L") {
+              this.tempSchedule = [
+                { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
+              ]
+            } else {
+              let tempTotal = this.totalP / 2
+              // let tempTotal=this.totalP
+              this.tempSchedule = [
+                { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
+                { premium: tempTotal, levy: 0, total: tempTotal },
+              ]
+            }
             let tempPre = this.globalFun.calculateDecimal(this.totalP) + this.totalL
             this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK "
             console.log("THIS>PREMIUM",this.premiumAmt);

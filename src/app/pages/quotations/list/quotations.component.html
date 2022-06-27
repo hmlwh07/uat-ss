@@ -32,11 +32,9 @@
                             <div class="form-group row"> 
                                 <label class="col-sm-4 col-form-label"> Product Name</label>
                                 <div class="col-sm-8">
-                                    <select name="product_name" FormControlName="productName" class="form-control form-control-sm">
-                                        <option [value]="null"> Select Product Name</option>
-                                        <option value="T">Travel </option>
-                                        <option value="M">Motor </option>
-                                    </select>
+                                    <ng-select class="ng-custom-select" (clear)="clear('productId')" [items]="productOption"
+                                    bindLabel="value" bindValue="code" formControlName="productId">
+                                </ng-select>
                                 </div>
                             </div>      
                         </div>

@@ -26,8 +26,18 @@ export class QuotationService extends BizOperationService<QuotationDTO, number>{
     if (search.endDate) {
       url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
     }
-
+    if (search.productId) {
+      url = url + "productId=" + search.productId + "&"
+    }
+    if (search.policyholderName) {
+      url = url + "policyholderName=" + search.policyholderName + "&"
+    }
+    if (search.applicationId) {
+      url = url + "applicationId=" + search.applicationId + "&"
+    }
     return this.httpClient.get(url)
 
   }
 }
+
+
