@@ -13,7 +13,7 @@
                     <!-- <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="getList()">
                         <span class="flaticon2-magnifier-tool search-tool"></span>
                     </button> -->
-                    <span class="flaticon2-magnifier-tool search-tool" (click)="getList()"></span>
+                    <span class="flaticon2-magnifier-tool search-tool" (click)="searchCustomer()"></span>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="cancel()">
                         <span class="">{{"FORM.btn_cancel" | translate}}</span>
                     </button>
@@ -25,7 +25,21 @@
                         <app-start-end-date [formInput]="customerForm" remove-host [colClass]="'col-md-6'">
                         </app-start-end-date>
                     </div>
+
                     <div class="row" style="align-items: center;">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">{{"FORM.identity_type" | translate}}</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm"
+                                        [class.is-invalid]="isControlInvalid('identityType')"
+                                        [class.is-valid]="isControlValid('identityType')" [items]="identityTypeOption"
+                                        bindLabel="value" bindValue="code" formControlName="identityType">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.name" | translate}}</label>
@@ -36,17 +50,33 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6">
+                    </div>
+
+                    <div class="row" style="align-items: center;">
+                        <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Party Code</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.nrc_frc_passport" | translate}}</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="partyCode"
-                                        autocomplete="off" [class.is-invalid]="isControlInvalid('partyCode')"
-                                        [class.is-valid]="isControlValid('partyCode')" formControlName="partyCode" />
+                                    <input type="text" class="form-control form-control-sm " name="identityNumber"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
+                                        [class.is-valid]="isControlValid('identityNumber')"
+                                        formControlName="identityNumber" />
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">{{"FORM.phone_number" | translate}}</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm " name="phoneNo"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('phoneNo')"
+                                        [class.is-valid]="isControlValid('phoneNo')" formControlName="phoneNo" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        </div> -->
+                    <div class="row" style="align-items: center;">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
@@ -59,54 +89,14 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="row" style="align-items: center;">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">{{"FORM.id_type" | translate}}</label>
-                                <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm"
-                                        [class.is-invalid]="isControlInvalid('identityType')"
-                                        [class.is-valid]="isControlValid('identityType')" [items]="identityTypeOption"
-                                        bindLabel="value" bindValue="code" formControlName="identityType">
-                                    </ng-select>
 
-                                </div>
-                            </div>
-                        </div>
-                        <!-- </div> -->
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">{{"FORM.id_no" | translate}}</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " name="identityNumber"
-                                        autocomplete="off" [class.is-invalid]="isControlInvalid('identityNumber')"
-                                        [class.is-valid]="isControlValid('identityNumber')"
-                                        formControlName="identityNumber" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Status</label>
-                                <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm"
-                                        [class.is-invalid]="isControlInvalid('statusCode')"
-                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusOption"
-                                        bindLabel="value" bindValue="code" formControlName="statusCode">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
         <div class="card card-custom gutter-b data" [class.remove-p]="isPopup">
@@ -117,7 +107,6 @@
                     (rowselect)="rowSelected($event)" [selectable]="isPopup">
                 </app-material-table-view>
                 </div>
-                
                 <ng-template #no_popup>
                     <app-common-list-2 *ngIf="customerList.length > 0"  class="data-list" #commonList [data]="customerList" [type]="'customer'" (btnEvent)="actionBtn($event)"></app-common-list-2>
                 </ng-template>
