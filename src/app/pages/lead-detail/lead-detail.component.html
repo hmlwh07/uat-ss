@@ -480,7 +480,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label">{{"FORM.referral_customer" |
                                             translate}}</label>
-                                        <div class="col-sm-8" (click)="viewExisting('referral')">
+                                        <div class="col-sm-6">
                                             <input type="text" class="form-control form-control-sm"
                                                 name="referralCustomerName" readonly autocomplete="off"
                                                 [class.is-invalid]="isControlInvalid('referralCustomerName')"
@@ -491,6 +491,12 @@
                                                 title="Clear all">
                                                 <span aria-hidden="true" class="ng-clear">×</span>
                                             </span>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
+                                                (click)="viewExisting('referral')">
+                                                <span class="flaticon2-user"></span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -589,12 +595,14 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-5  col-form-label">{{"FORM.asset" | translate}}</label>
+                                            <label class="col-sm-5  col-form-label">{{"FORM.existing_insurance_plan" |
+                                                translate}}</label>
                                             <div class="col-sm-7">
-                                                <input type="text" class="form-control form-control-sm" name="assets"
-                                                    autocomplete="off" [class.is-invalid]="isControlInvalid('assets')"
-                                                    [class.is-valid]="isControlValid('assets')"
-                                                    formControlName="assets" />
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="existingInsurancePlan" autocomplete="off"
+                                                    [class.is-invalid]="isControlInvalid('existingInsurancePlan')"
+                                                    [class.is-valid]="isControlValid('existingInsurancePlan')"
+                                                    formControlName="existingInsurancePlan" />
                                             </div>
                                         </div>
                                     </div>
@@ -632,14 +640,12 @@
                                 <div class="row" style="align-items: center">
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-5  col-form-label">{{"FORM.existing_insurance_plan" |
-                                                translate}}</label>
+                                            <label class="col-sm-5  col-form-label">{{"FORM.asset" | translate}}</label>
                                             <div class="col-sm-7">
-                                                <input type="text" class="form-control form-control-sm"
-                                                    name="existingInsurancePlan" autocomplete="off"
-                                                    [class.is-invalid]="isControlInvalid('existingInsurancePlan')"
-                                                    [class.is-valid]="isControlValid('existingInsurancePlan')"
-                                                    formControlName="existingInsurancePlan" />
+                                                <input type="text" class="form-control form-control-sm" name="assets"
+                                                    autocomplete="off" [class.is-invalid]="isControlInvalid('assets')"
+                                                    [class.is-valid]="isControlValid('assets')"
+                                                    formControlName="assets" />
                                             </div>
                                         </div>
                                     </div>
@@ -1199,7 +1205,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label">{{"FORM.referral_customer" |
                                             translate}}</label>
-                                        <div class="col-sm-8" (click)="viewExisting('referral')">
+                                        <div class="col-sm-6">
                                             <input type="text" class="form-control form-control-sm"
                                                 name="referralCustomerName" readonly autocomplete="off"
                                                 [class.is-invalid]="isControlInvalid('referralCustomerName')"
@@ -1210,6 +1216,12 @@
                                                 title="Clear all">
                                                 <span aria-hidden="true" class="ng-clear">×</span>
                                             </span>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
+                                                (click)="viewExisting('referral')">
+                                                <span class="flaticon2-user"></span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -1302,12 +1314,14 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-5  col-form-label">{{"FORM.asset" | translate}}</label>
+                                            <label class="col-sm-5  col-form-label">{{"FORM.existing_insurance_plan" |
+                                                translate}}</label>
                                             <div class="col-sm-7">
-                                                <input type="text" class="form-control form-control-sm" name="assets"
-                                                    autocomplete="off" [class.is-invalid]="isControlInvalid('assets')"
-                                                    [class.is-valid]="isControlValid('assets')"
-                                                    formControlName="assets" />
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="existingInsurancePlan" autocomplete="off"
+                                                    [class.is-invalid]="isControlInvalid('existingInsurancePlan')"
+                                                    [class.is-valid]="isControlValid('existingInsurancePlan')"
+                                                    formControlName="existingInsurancePlan" />
                                             </div>
                                         </div>
                                     </div>
@@ -1329,33 +1343,6 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-5  col-form-label">{{"FORM.score" | translate}}</label>
-                                            <div class="col-sm-7">
-                                                <input type="text" class="form-control form-control-sm" name="score"
-                                                    autocomplete="off" [class.is-invalid]="isControlInvalid('score')"
-                                                    [class.is-valid]="isControlValid('score')" formControlName="score"
-                                                    readonly />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row" style="align-items: center">
-                                    <div class="col-sm-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-5  col-form-label">{{"FORM.existing_insurance_plan" |
-                                                translate}}</label>
-                                            <div class="col-sm-7">
-                                                <input type="text" class="form-control form-control-sm"
-                                                    name="existingInsurancePlan" autocomplete="off"
-                                                    [class.is-invalid]="isControlInvalid('existingInsurancePlan')"
-                                                    [class.is-valid]="isControlValid('existingInsurancePlan')"
-                                                    formControlName="existingInsurancePlan" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group row">
                                             <label class="col-sm-5  col-form-label">{{"FORM.existing_insurance_coverage"
                                                 | translate}}</label>
                                             <div class="col-sm-7">
@@ -1364,6 +1351,31 @@
                                                     [class.is-invalid]="isControlInvalid('existingInsuranceCoverage')"
                                                     [class.is-valid]="isControlValid('existingInsuranceCoverage')"
                                                     formControlName="existingInsuranceCoverage" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="align-items: center">
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-5  col-form-label">{{"FORM.asset" | translate}}</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control form-control-sm" name="assets"
+                                                    autocomplete="off" [class.is-invalid]="isControlInvalid('assets')"
+                                                    [class.is-valid]="isControlValid('assets')"
+                                                    formControlName="assets" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-5  col-form-label">{{"FORM.score" | translate}}</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control form-control-sm" name="score"
+                                                    autocomplete="off" [class.is-invalid]="isControlInvalid('score')"
+                                                    [class.is-valid]="isControlValid('score')" formControlName="score"
+                                                    readonly />
                                             </div>
                                         </div>
                                     </div>
