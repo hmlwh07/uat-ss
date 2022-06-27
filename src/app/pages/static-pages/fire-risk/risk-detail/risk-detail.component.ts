@@ -55,7 +55,12 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   step3Com: boolean = false
   currencyType: string = "MMK"
   unsub: Subscription[] = []
-  constructor(private modalService: NgbModal, public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private fireRiskService: FireRiskService, private auth: AuthService, private PremiumRateService: PremiumRateService, private prodService: ProductDataService, private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService, private firebuildingService: SurroundingBuildingService) { }
+  constructor(private modalService: NgbModal, public modal: NgbActiveModal, 
+    private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, 
+    private fireRiskService: FireRiskService, private auth: AuthService, 
+    private PremiumRateService: PremiumRateService, private prodService: ProductDataService, 
+    private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService,
+     private firebuildingService: SurroundingBuildingService) { }
 
   ngOnDestroy(): void {
     this.unsub.forEach(x => x.unsubscribe())
@@ -438,6 +443,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   }
 
   async calPremimun(close: boolean = true) {
+
+
     console.log("rateData,rate1,rate2,", this.oldData);
     if (this.oldData.id) {
       if (this.productDetail.policyType == 'T-NM') {
@@ -464,12 +471,80 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
           rateData = (rate1 + rate2) / 2
         }
       }
-      this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100))
+
+      let parentData2 = this.globalService.tempFormData[FirePageID];
+    let dateRate = 1;
+    switch (true) {
+      case parentData2.policyUnit == 'G' && parentData2.policyDuration == 1:
+        dateRate = 1;
+        break;
+      case parentData2.policyUnit == 'D' && parentData2.policyDuration <= 10:
+        dateRate = 1 / 8;
+        break;
+      case parentData2.policyUnit == 'D' && parentData2.policyDuration <= 15:
+        dateRate = 1 / 6;
+        break;
+      case parentData2.policyUnit == 'D' && parentData2.policyDuration > 15:
+        dateRate = this.calculateDaysToMonth(parentData2.policyDuration);
+        console.log('calculateDaysToMonth', dateRate);
+       // dateRate = 2 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 1:
+        dateRate = 2 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 2:
+        dateRate = 3 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 3:
+        dateRate = 4 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 4:
+        dateRate = 5 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 5:
+        dateRate = 6 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration == 6:
+        dateRate = 6 / 8;
+        break;
+      case parentData2.policyUnit == 'F' && parentData2.policyDuration > 6:
+        dateRate = 1;
+        break;
+    }
+
+      //this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100))
+      this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * rateData * dateRate);
+  
+      console.log('Fire cover calculate =====> ',  this.oldData.premium);
+
       this.createRisk(close, true)
     } else {
       this.modal.dismiss()
     }
   }
+
+
+  calculateDaysToMonth(days) {
+    let rate: any;
+    let divided = days / 31;
+    if (divided > 0 && divided <=1) {
+      rate = 2 / 8;
+    } else if (divided > 1 && divided <=2) {
+      rate = 3 / 8;
+    } else if (divided > 2 && divided <=3) {
+      rate = 4 / 8;
+    } else if (divided > 3 && divided <=4) {
+      rate = 5 / 8;
+    } else if (divided > 3 && divided <=5) {
+      rate = 6 / 8;
+    } else if (divided > 5 && divided <=6) {
+      rate = 6 / 8;
+    } else {
+      rate = 1;
+    }
+    return rate;
+  }
+
   getFireContent() {
     this.fireRiskService.getContent(this.oldData.id).toPromise().then((res: any) => {
       if (res) {

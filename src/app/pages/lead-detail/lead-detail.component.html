@@ -66,12 +66,14 @@
                                         <label class="col-sm-4 col-form-label"> {{"FORM.open_date" | translate}}
                                             <span>*</span></label>
                                         <div class="col-sm-8">
-                                            <div class="input-group ">
+                                            <div class="input-group "> 
+                                                <!-- [min]="toMinDate" [max]="toMaxDate"  -->
                                                 <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                                    formControlName="openedDate" [matDatepicker]="openDate" readonly>
+                                                    formControlName="openedDate"
+                                                    [matDatepicker]="openDate" readonly>
                                                 <mat-datepicker-toggle matSuffix [for]="openDate">
                                                 </mat-datepicker-toggle>
-                                                <mat-datepicker #openDate disabled="true"></mat-datepicker>
+                                                <mat-datepicker #openDate></mat-datepicker>
 
                                             </div>
                                         </div>
@@ -104,7 +106,7 @@
                                                     readonly>
                                                 <mat-datepicker-toggle matSuffix [for]="activationDate">
                                                 </mat-datepicker-toggle>
-                                                <mat-datepicker #activationDate disabled="true"></mat-datepicker>
+                                                <mat-datepicker #activationDate></mat-datepicker>
 
                                             </div>
                                         </div>
