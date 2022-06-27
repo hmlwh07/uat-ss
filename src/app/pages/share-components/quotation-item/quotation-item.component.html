@@ -41,8 +41,8 @@
   </div>
   <div class="col-4">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
-    <label >SI : </label>
-    <label> Draft Application : <span>{{ itemData.draftApplication }}</span> </label>
+    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
+    <label>SI : <span>{{ itemData.siView || 0 |number:'1.2-2'}}</span> </label>
   </div>
 </div>
 <!-- </div> -->

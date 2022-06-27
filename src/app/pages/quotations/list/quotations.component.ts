@@ -39,8 +39,10 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   policyAccess = defaultAccessObj
   quotationForm: FormGroup
   isTeam: boolean = false
+  product: any = []
+  productOption: any = []
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
+  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
     this.loadForm()
   }
 
@@ -50,7 +52,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.checkPremission()
     this.getQuoList()
-
+    this.getProduct()
     // })
   }
   loadForm() {
@@ -60,7 +62,10 @@ export class QuotationsComponent implements OnInit, OnDestroy {
     this.quotationForm = new FormGroup({
       startDate: new FormControl(lastMonthDay),
       endDate: new FormControl(monthDay),
-      isTeam: new FormControl(this.isTeam)
+      isTeam: new FormControl(this.isTeam),
+      productId: new FormControl(null),
+      policyholderName: new FormControl(null),
+      applicationId: new FormControl(null),
     })
   }
   checkPremission() {
@@ -83,6 +88,27 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   }
   cancel() {
 
+  }
+  getProduct() {
+    this.prodctService
+      .getAll('yes')
+      .toPromise()
+      .then((res: any) => {
+        if (res) {
+          this.product = res;
+          this.productOption = res.map((x) => {
+            return { code: x.id, value: x.name, type: x.type };
+          });
+          this.cdf.detectChanges();
+          // this.getProductOption()
+        }
+      });
+  }
+
+  clear(key) {
+    if (key == 'productId') {
+      this.quotationForm.controls[key].setValue(null)
+    }
   }
   changeView(type) {
     if (type == 'team') {

@@ -10,6 +10,7 @@ import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { PolicyPageComponent } from './policy-page.component';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { ShareComponentModule } from '../share-components/share-component.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { ShareComponentModule } from '../share-components/share-component.module
     ProductsModule,
     LanguageModule,
     CRUDTableModule,
+    NgSelectModule,
     ShareComponentModule,
     RouterModule.forChild([
       {

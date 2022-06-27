@@ -11,6 +11,7 @@ import { CRUDTableModule } from '../../_metronic/shared/crud-table';
 import { CustomerListShareModule } from '../customer-list/customer-list.share.module';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { ShareComponentModule } from '../share-components/share-component.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { ShareComponentModule } from '../share-components/share-component.module
     NgbModalModule,
     CRUDTableModule,
     LanguageModule,
+    NgSelectModule,
     ShareComponentModule,
     RouterModule.forChild([
       {

@@ -32,11 +32,9 @@
                             <div class="form-group row"> 
                                 <label class="col-sm-4 col-form-label"> Product Name</label>
                                 <div class="col-sm-8">
-                                    <select name="product_name" FormControlName="productName" class="form-control form-control-sm">
-                                        <option [value]="null"> Select Product Name</option>
-                                        <option value="T">Travel </option>
-                                        <option value="M">Motor </option>
-                                    </select>
+                                    <ng-select class="ng-custom-select" (clear)="clear('productId')" [items]="productOption"
+                                    bindLabel="value" bindValue="code" formControlName="productId">
+                                </ng-select>
                                 </div>
                             </div>      
                         </div>
@@ -44,7 +42,7 @@
                             <div class="form-group row" >
                                 <label class="col-sm-4 col-form-label"> Policy Holder Name</label>
                                  <div class="col-sm-8">
-                                    <input class="form-control form-control-sm" formControlName="policyholderName" autocomplete="off" readonly>
+                                    <input class="form-control form-control-sm" formControlName="policyholderName" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -52,7 +50,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label"> Application ID</label>
                                  <div class="col-sm-8">
-                                        <input class="form-control form-control-sm" formControlName="applicationId" autocomplete="off" readonly>
+                                        <input class="form-control form-control-sm" formControlName="applicationId" autocomplete="off">
                                 </div>
                             </div>
                         </div>
@@ -60,7 +58,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">QTG</label>
                                  <div class="col-sm-8">
-                                        <input class="form-control form-control-sm" formControlName="quotationId"  readonly autocomplete="off">   
+                                        <input class="form-control form-control-sm" formControlName="quotationId"  autocomplete="off">   
                                 </div>
                             </div>
                         </div>
@@ -68,10 +66,9 @@
                             <div class="form-group row"> 
                                 <label class="col-sm-4 col-form-label">Application submission status</label>
                                 <div class="col-sm-8">
-                                    <select name="product_name" FormControlName="applicationStatus" class="form-control form-control-sm">
-                                        <option [value]="null"> Select Application submission status</option>
-                                        <option value="T">Travel </option>
-                                        <option value="M">Motor </option>
+                                    <select name="product_name" formControlName="applicationStatus" class="form-control form-control-sm">
+                                        <option value="D">DRAFT </option>
+                                        <option value="S">SUBMIT </option>
                                     </select>
                                 </div>
                             </div>      

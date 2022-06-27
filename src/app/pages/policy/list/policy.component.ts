@@ -37,9 +37,11 @@ export class PolicyComponent implements OnInit, OnDestroy {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   @ViewChild(CommonList2Component) commonList: CommonList2Component;
   policyAccess = defaultAccessObj;
+  product: any = []
+  productOption: any = []
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
 
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
+  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService, private cdf: ChangeDetectorRef) {
     this.loadForm()
   }
 
@@ -49,7 +51,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.checkPremission()
     this.getPolicyList()
-
+    this.getProduct()
     // })
   }
   loadForm() {
@@ -59,7 +61,12 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.policyForm = new FormGroup({
       startDate: new FormControl(lastMonthDay),
       endDate: new FormControl(monthDay),
-      isTeam: new FormControl(this.isTeam),
+      isTeam: new FormControl(null),
+      productId: new FormControl(null),
+      policyholderName: new FormControl(null),
+      applicationId: new FormControl(null),
+      quotationId: new FormControl(null),
+      applicationStatus: new FormControl(null),
       //productName: new FormControl(this.productName)
     })
   }
@@ -126,7 +133,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res: any) => {
       if (res) {
         console.log(res);
-        
+
         this.quoList = res
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
@@ -156,6 +163,27 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl("/product-form")
       }
     })
+  }
+  getProduct() {
+    this.prodctService
+      .getAll('yes')
+      .toPromise()
+      .then((res: any) => {
+        if (res) {
+          this.product = res;
+          this.productOption = res.map((x) => {
+            return { code: x.id, value: x.name, type: x.type };
+          });
+          this.cdf.detectChanges();
+          // this.getProductOption()
+        }
+      });
+  }
+
+  clear(key) {
+    if (key == 'productId') {
+      this.policyForm.controls[key].setValue(null)
+    }
   }
 
   FormatedDate(date) {

@@ -26,7 +26,7 @@
 
   <div class="col-4">
     <label *ngIf="itemData.createdAt">Inception Date :  {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
-    <label *ngIf="itemData.createdAt">Expiry Date :  {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
+    <label *ngIf="itemData.expiryAt">Expiry Date :  {{ itemData.expiryAt | date:'dd/MM/YYYY' }} </label>
     <label *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' "
       style="color: #FF8100 !important;"> In Progress </label>
     <label *ngIf="itemData.status == 'cancel' || itemData.status == 'Cancel' " style="color: #00ACEA !important;">
@@ -44,7 +44,7 @@
   <div class="col-4" style="padding: 10px 0">
 
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
-    <label *ngIf="itemData.apiStatus">SI : {{ itemData.apiStatus  | titlecase }}</label>
-    <label> Draft Application : <span>{{ itemData.draftApplication }}</span> </label>
+    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
+    <label>SI : <span>{{ itemData.siView || 0 | number:'1.2-2'}}</span> </label>
   </div>
 </div>
