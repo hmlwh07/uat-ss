@@ -72,3 +72,94 @@ export const PolicyDisplayCol: string[] = [
   "createdAt",
   "actions",
 ]
+
+export const ApplicationStatus: any[] = [
+  {
+    code: "D",
+    value: "DRAFT APPLICATION"
+  },
+  {
+    code: "A",
+    value: "APPROVED APPLICATION"
+  },
+  {
+    code: "R",
+    value: "REJECT APPLICATION"
+  },
+  {
+    code: "05",
+    value: "ACTIVE POLICY"
+  },
+  {
+    code: "04",
+    value: "APPROVE RENEWAL"
+  },
+  {
+    code: "25",
+    value: "CANCELLATION IN PROGRESS"
+  },
+  {
+    code: "09",
+    value: "CANCELLED"
+  },
+  {
+    code: "06",
+    value: "DNDORSEMENT/ALTERTION STARTED"
+  },
+  {
+    code: "13",
+    value: "EXPIRED/MATURED"
+  },
+  {
+    code: "17",
+    value: "FORFEITED"
+  },
+  {
+    code: "15",
+    value: "LAPSED"
+  },
+  {
+    code: "19",
+    value: "PAID UP"
+  },
+  {
+    code: "10",
+    value: "QUICK QUOTE"
+  },
+  {
+    code: "07",
+    value: "REFFERED TO UNDERWRITE"
+  },
+  {
+    code: "12",
+    value: "RENEWAL IN PROGRESS"
+  },
+  {
+    code: "16",
+    value: "REVIVAL IN PROGRESS"
+  },
+  {
+    code: "18",
+    value: "REVIVED POLICY"
+  },
+  {
+    code: "14",
+    value: "SPECIAL REVIVAL IN PROGRESS"
+  },
+  {
+    code: "08",
+    value: "SUSPENDED"
+  },
+  {
+    code: "11",
+    value: "WITHDRAW/SURRENDERED"
+  },
+  {
+    code: "F",
+    value: "FAIL"
+  },
+  {
+    code: "S",
+    value: "SENDING"
+  }
+]
