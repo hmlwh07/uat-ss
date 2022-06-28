@@ -200,8 +200,8 @@ export class LeadDetailComponent implements OnInit {
   prospectClass3
   isCustomerCheck: boolean = false;
   isProspectCheck: boolean = false;
-  // toMinDate = null
-  // toMaxDate = null
+  toMinDate = null
+  toMaxDate = null
   constructor(
     private location: Location,
     private masterDataService: MasterDataService,
@@ -287,8 +287,8 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls.openedDate.setValue(new Date())
       this.leadForm.controls.statusCode.setValue("01")
     }
-    // let toDate = moment().subtract(0, `days`)
-    // this.toMinDate = toDate.format('YYYY-MM-DD')
+    let toDate = moment().subtract(0, `days`)
+    this.toMinDate = toDate.format('YYYY-MM-DD')
   }
 
   getMaster() {
@@ -629,33 +629,38 @@ export class LeadDetailComponent implements OnInit {
           }
         })
       } else {
+        console.log(this.leadForm.controls)
         if (this.leadForm.getRawValue().assignTo != 0) {
-          console.log(this.oldData)
-          this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
-            if (result) {
-              let data = {
-                agentId: this.oldData.ownerId,
-                phone: this.oldData.phoneNo,
-                email: this.oldData.email,
-                identityType: this.oldData.identityType == "" ? null : this.oldData.identityType,
-                identityNumber: this.oldData.identityNumber,
-                nrcRegionCd: this.oldData.nrcRegionCode,
-                nrcTownshipCd: this.oldData.nrcTownshipCode,
-                nrcTypeCd: this.oldData.nrcTypeCode,
-              }
-              console.log("Request Data: ", data)
-              this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
-                if (res) {
-                  this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
-                  });
-                } else {
-                  this.updateStatus(status, 'approve');
-                  this.alertService.activate('This record was approved', 'Success Message').then(result => {
-                  });
+          if (this.leadForm.controls.existingCustomerId.value == 0 && this.leadForm.controls.prospectCustomerId.value == 0) {
+            this.alertService.activate('Please add Existing Customer/Prospect before you approve.', 'Message');
+          }
+          else {
+            this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
+              if (result) {
+                let data = {
+                  agentId: this.oldData.ownerId,
+                  phone: this.oldData.phoneNo,
+                  email: this.oldData.email,
+                  identityType: this.oldData.identityType == "" ? null : this.oldData.identityType,
+                  identityNumber: this.oldData.identityNumber,
+                  nrcRegionCd: this.oldData.nrcRegionCode,
+                  nrcTownshipCd: this.oldData.nrcTownshipCode,
+                  nrcTypeCd: this.oldData.nrcTypeCode,
                 }
-              });
-            }
-          })
+                console.log("Request Data: ", data)
+                this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
+                  if (res) {
+                    this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
+                    });
+                  } else {
+                    this.updateStatus(status, 'approve');
+                    this.alertService.activate('This record was approved', 'Success Message').then(result => {
+                    });
+                  }
+                });
+              }
+            })
+          }
         } else {
           this.alertService.activate('Please assign producer/agent', 'Warning')
         }
@@ -679,21 +684,21 @@ export class LeadDetailComponent implements OnInit {
     if (reason == 'approve') {
       let postValue = { ...this.leadForm.getRawValue(), statusCode: status }
       this.edit(postValue)
-    }else{
-    let postData = {
-      leadId: this.oldId,
-      statusCode: status,
-      reason: reason || ""
-    }
-    let data = { ...postData, leadId: this.oldId, };
+    } else {
+      let postData = {
+        leadId: this.oldId,
+        statusCode: status,
+        reason: reason || ""
+      }
+      let data = { ...postData, leadId: this.oldId, };
 
-    this.LeadDetailService.updateLeadStatus(data, this.oldId)
-      .toPromise()
-      .then((res) => {
-        if (res) {
-          this.getOld()
-        }
-      });
+      this.LeadDetailService.updateLeadStatus(data, this.oldId)
+        .toPromise()
+        .then((res) => {
+          if (res) {
+            this.getOld()
+          }
+        });
     }
   }
 
@@ -746,7 +751,7 @@ export class LeadDetailComponent implements OnInit {
       this.LeadDetailService.checkExistingCustomer(postData).toPromise().then((res: any) => {
         if (res.customerId) {
           this.leadForm.controls.prospectCustomer.setValue("")
-          this.leadForm.controls.prospectCustomerId.setValue("")
+          this.leadForm.controls.prospectCustomerId.setValue(0)
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.existingCustomerName.setValue(fullName)
           this.leadForm.controls.existingCustomerId.setValue(res.customerId)
@@ -765,7 +770,7 @@ export class LeadDetailComponent implements OnInit {
       this.LeadDetailService.checkExistingProspect(postData).toPromise().then((res: any) => {
         if (res.customerId) {
           this.leadForm.controls.existingCustomerName.setValue("")
-          this.leadForm.controls.existingCustomerId.setValue("")
+          this.leadForm.controls.existingCustomerId.setValue(0)
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.prospectCustomer.setValue(fullName)
           this.leadForm.controls.prospectCustomerId.setValue(res.customerId)
@@ -854,7 +859,7 @@ export class LeadDetailComponent implements OnInit {
                   customerDob: customer.dateOfBirth
                 }
                 this.leadForm.controls.prospectCustomer.setValue("")
-                this.leadForm.controls.prospectCustomerId.setValue("")
+                this.leadForm.controls.prospectCustomerId.setValue(0)
                 let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
                 this.leadForm.controls.existingCustomerName.setValue(name)
                 this.leadForm.controls.existingCustomerId.setValue(customer.customerId)
@@ -1018,15 +1023,15 @@ export class LeadDetailComponent implements OnInit {
         existingCustomerName: new FormControl(
           { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }),
         existingCustomerId: new FormControl(
-          { value: oldData ? oldData.existingCustomerId : "", disabled: true }),
+          { value: oldData ? oldData.existingCustomerId : 0, disabled: true }),
         referralCustomerName: new FormControl(
           { value: oldData ? oldData.referralCustomerName.trim() : "", disabled: true }),
         referralCustomerId: new FormControl(
-          { value: oldData ? oldData.referralCustomerId : "", disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.referralCustomerId : 0, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
         prospectCustomer: new FormControl(
           { value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: true }),
         prospectCustomerId: new FormControl(
-          { value: oldData ? oldData.prospectCustomerId : "", disabled: true }),
+          { value: oldData ? oldData.prospectCustomerId : 0, disabled: true }),
       });
 
       this.cdf.detectChanges()
@@ -1081,9 +1086,9 @@ export class LeadDetailComponent implements OnInit {
       nrcNumber: new FormControl(null),
       identityNRC: new FormControl(null),
       existingCustomerName: new FormControl({ value: null, disabled: true }),
-      existingCustomerId: new FormControl(null),
+      existingCustomerId: new FormControl(0),
       referralCustomerName: new FormControl({ value: null, disabled: true }),
-      referralCustomerId: new FormControl(null),
+      referralCustomerId: new FormControl(0),
       estimatedMonthlyIncome: new FormControl(null),
       facebookAcc: new FormControl(null),
       maritalStatus: new FormControl(null),
@@ -1094,7 +1099,7 @@ export class LeadDetailComponent implements OnInit {
       score: new FormControl({ value: null, disabled: true }),
       assets: new FormControl(null),
       prospectCustomer: new FormControl({ value: null, disabled: true }),
-      prospectCustomerId: new FormControl(null),
+      prospectCustomerId: new FormControl(0),
     });
   }
 
@@ -1105,7 +1110,7 @@ export class LeadDetailComponent implements OnInit {
   clearData(key) {
     if (key == 'existingCustomerName') {
       this.leadForm.controls[key].setValue(null)
-      this.leadForm.controls['existingCustomerId'].setValue(null)
+      this.leadForm.controls['existingCustomerId'].setValue(0)
       this.prospectClass1.classList.remove('disabled');
       this.prospectClass2.classList.remove('disabled');
       this.prospectClass3.classList.remove('disabled');
@@ -1113,7 +1118,7 @@ export class LeadDetailComponent implements OnInit {
 
     if (key == 'prospectCustomer') {
       this.leadForm.controls[key].setValue(null)
-      this.leadForm.controls['prospectCustomerId'].setValue(null)
+      this.leadForm.controls['prospectCustomerId'].setValue(0)
       this.isAddProspect = false
       this.customerClass1.classList.remove('disabled');
       this.customerClass2.classList.remove('disabled');
@@ -1121,7 +1126,7 @@ export class LeadDetailComponent implements OnInit {
 
     if (key == 'referralCustomerName') {
       this.leadForm.controls[key].setValue(null)
-      this.leadForm.controls['referralCustomerId'].setValue(null)
+      this.leadForm.controls['referralCustomerId'].setValue(0)
     }
 
     if (key == 'campaignName' || key == 'campaignNo') {
@@ -1307,10 +1312,10 @@ export class LeadDetailComponent implements OnInit {
     console.log("createNewLead:", this.leadForm.value)
     console.log("check", this.isCustomerCheck, this.isProspectCheck)
     // if (this.leadForm.controls.prospectCustomerId.value == null && this.leadForm.controls.existingCustomerId.value == null) {
-    if (!this.isCustomerCheck && this.leadForm.controls.prospectCustomerId.value == null) {
+    if (!this.isCustomerCheck && this.leadForm.controls.prospectCustomerId.value == 0) {
       this.alertService.activate('Please check Existing Customer before you save.', 'Message');
     }
-    else if (!this.isProspectCheck && this.leadForm.controls.existingCustomerId.value == null) {
+    else if (!this.isProspectCheck && this.leadForm.controls.existingCustomerId.value == 0) {
       this.alertService.activate('Please check Prospect Customer before you save.', 'Message');
     }
     else {

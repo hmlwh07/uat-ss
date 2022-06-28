@@ -9,9 +9,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ShareComponentModule } from '../share-components/share-component.module';
 import { throwIfAlreadyLoaded } from 'src/app/modules/loading-toast/module-import-guard';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
+import { ProspectCustomerListShareModule } from './prospect-customer-list.share.module';
 
 @NgModule({
-  declarations:[ProspectCustomerListComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,7 +20,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     NgSelectModule,
     CRUDTableModule,
     LanguageModule,
-    ShareComponentModule,
+    ProspectCustomerListShareModule,
     RouterModule.forChild([
       {
         path: '',
