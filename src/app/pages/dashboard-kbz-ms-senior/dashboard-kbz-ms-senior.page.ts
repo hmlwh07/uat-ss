@@ -437,18 +437,16 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
     });
     if (image) {
-
       this.uploadImage(image)
     }
 
   }
   async uploadImage(image) {
-    console.log(image);
-    image.name = "Profile"
     image.size = ((image.base64String).length - 814) / 1.37
+    image.fileName=Date.now() + this.data.agentInfo.empId
     let data = {
       fileStr: image.base64String,
-      fileName: image.name,
+      fileName: image.fileName,
       fileType: "image/"+image.format,
       fileSize: image.size,
       contentType: "image/"+image.format,
@@ -461,8 +459,6 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           attId: res,
           empId: this.data.agentInfo.empId
         }
-        // this.data.agentInfo.attId=851
-        // this.cdf.detectChanges()
         this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
           if (res) {
             this.data.agentInfo.attId=postData.attId
