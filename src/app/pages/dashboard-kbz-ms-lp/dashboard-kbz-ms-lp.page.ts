@@ -440,7 +440,7 @@ export class DashboardKbzMsLpPage implements OnInit {
       if (res) {
         let postData = {
           attId: res,
-          employeeId: this.data.agentInfo.empId
+          empId: this.data.agentInfo.empId
         }
         // this.data.agentInfo.attId=851
         // this.cdf.detectChanges()
