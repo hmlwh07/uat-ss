@@ -19,7 +19,7 @@ import { ProductDataService } from '../../products/services/products-data.servic
 import { CommonList2Component } from '../../share-components/common-list/common-list.component';
 import { PolicyDTO } from '../policy.dto';
 import { PolicyService } from '../policy.service';
-import { PolicyDisplayCol, PolicyCol } from './policy.const';
+import { PolicyDisplayCol, PolicyCol, ApplicationStatus } from './policy.const';
 
 @Component({
   selector: 'app-policy',
@@ -39,6 +39,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   policyAccess = defaultAccessObj;
   product: any = []
   productOption: any = []
+  applicationStatusOption : any = ApplicationStatus
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
 
   constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService, private cdf: ChangeDetectorRef) {
