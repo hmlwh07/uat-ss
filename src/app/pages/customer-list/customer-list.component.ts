@@ -85,12 +85,15 @@ export class CustomerListComponent implements OnInit {
   }
 
   searchCustomer() {
+    console.log("searchCustomer", this.customerForm.controls)
     if (this.customerForm.controls.startDate.value != null ||
       this.customerForm.controls.endDate.value != null ||
       this.customerForm.controls.name.value != null ||
       this.customerForm.controls.phoneNo.value != null ||
       this.customerForm.controls.partyCode.value != null ||
-      this.customerForm.controls.statusCode.value != null) {
+      this.customerForm.controls.statusCode.value != null ||
+      this.customerForm.controls.identityType.value != null ||
+      this.customerForm.controls.identityNumber.value != null) {
       this.getList()
     } else {
       this.cancel()
