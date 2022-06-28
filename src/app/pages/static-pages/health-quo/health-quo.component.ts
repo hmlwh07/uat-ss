@@ -210,7 +210,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
         "resourceId": this.resourcesId,
         "requests": []
       }
-      postData.requests = this.schedule.map((x) => {
+      postData.requests = this.tempSchedule.map((x) => {
         return {
           "paymentTerm": this.parentData.paymentFrequency,
           "plan": this.parentData.basicCoverId,

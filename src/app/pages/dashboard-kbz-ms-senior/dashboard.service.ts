@@ -11,7 +11,7 @@ const API_Followup_URL = `${environment.apiUrl}/dashboard/follow-up`;
 const API_Backlog_URL = `${environment.apiUrl}/dashboard/backlog`;
 const API_AssignLead_URL = `${environment.apiUrl}/dashboard/assign-lead`;
 const API_Agent_URL = `${environment.apiUrl}/dashboard/sale-active-agent`;
-const API_DASHBOARD_PROFILE_URL=`${environment.apiUrl}/dashboard/upload-profile`;
+const API_DASHBOARD_PROFILE_URL=`${environment.apiUrl}/dashboard/agent/attachment`;
 @Injectable({
   providedIn: 'root'
 })

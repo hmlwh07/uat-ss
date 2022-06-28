@@ -201,15 +201,15 @@ export class MotorAddonComponent implements OnInit {
           excessAmt = 50000
         }
       }
-      else if (excess == 'T-STNDEX' && currency == "MMK") {
-        excessAmt = 100000
-      }
+      // else if (excess == 'T-STNDEX' && currency == "MMK") {
+      //   excessAmt = 100000
+      // }
       else if (excess == "TU-NILEX" && currency == "USD") {
         excessAmt = 25
       }
-      else if (excess == "TU-STNDEX" && currency == "USD") {
-        excessAmt = 100
-      }
+      // else if (excess == "TU-STNDEX" && currency == "USD") {
+      //   excessAmt = 100
+      // }
     }
 
     let term = this.parentData['m_policy_term']
@@ -345,12 +345,12 @@ export class MotorAddonComponent implements OnInit {
         discount = -25
         discount2 = -25
       }
-      else if (excess == "TU-STNDEX" && currency == "USD") {
-        discount = -100
-      }
-      else if (excess == 'T-STNDEX' && currency == "MMK") {
-        discount = -100000
-      }
+      // else if (excess == "TU-STNDEX" && currency == "USD") {
+      //   discount = -100
+      // }
+      // else if (excess == 'T-STNDEX' && currency == "MMK") {
+      //   discount = -100000
+      // }
       else if (excess == "T-ED" && currency == "MMK") {
         if (excess_discount == "T-EXD1") {
 
@@ -383,8 +383,8 @@ export class MotorAddonComponent implements OnInit {
     console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
 
 
-    this.premiumAmt = this.numberPipe.transform(preAMT2, "1.2-2") + " " + currency.toUpperCase()
+    this.premiumAmt = this.numberPipe.transform(preAMT, "1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
-    return preAMT2
+    return preAMT
   }
 }

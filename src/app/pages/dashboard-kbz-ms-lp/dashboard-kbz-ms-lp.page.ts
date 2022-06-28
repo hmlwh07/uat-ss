@@ -430,9 +430,9 @@ export class DashboardKbzMsLpPage implements OnInit {
     let data = {
       fileStr: image.base64String,
       fileName: image.name,
-      fileType: image.format,
+      fileType: "image/"+image.format,
       fileSize: image.size,
-      contentType: image.format,
+      contentType: "image/"+image.format,
       fileExtension: image.format,
     }
     console.log("data", data);
