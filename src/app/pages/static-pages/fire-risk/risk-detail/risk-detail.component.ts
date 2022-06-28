@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -55,12 +56,14 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   step3Com: boolean = false
   currencyType: string = "MMK"
   unsub: Subscription[] = []
+  totalPremium: any;
   constructor(private modalService: NgbModal, public modal: NgbActiveModal, 
     private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, 
     private fireRiskService: FireRiskService, private auth: AuthService, 
     private PremiumRateService: PremiumRateService, private prodService: ProductDataService, 
     private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService,
-     private firebuildingService: SurroundingBuildingService) { }
+     private firebuildingService: SurroundingBuildingService,
+     private numberPipe: DecimalPipe) { }
 
   ngOnDestroy(): void {
     this.unsub.forEach(x => x.unsubscribe())
@@ -252,9 +255,9 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     this.riskSi = oldData ? oldData.riskSi : 0
     this.buildingSi = oldData ? oldData.buildingSi : 0
     let occupationOfBuilding = this.fireRiskform.value.occupationOfBuilding
-    let typeOfBuilding = this.fireRiskform.value.typeOfBuilding
+    let typeOfBuilding = this.fireRiskform.value.typeOfBuildings
     if(this.currencyType =='USD'){
-      this.fireRiskform.get('sumInsure').clearAsyncValidators();
+      this.fireRiskform.get('sumInsure').clearAsyncValidators();  
     }
 
     if (oldData)
@@ -290,8 +293,10 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,
         policyNumber: null,
-        premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
-        premiumView: this.premiumAmt,
+        //premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
+        //premiumView: this.premiumAmt,
+        premium: this.totalPremium,
+        premiumView:  this.numberPipe.transform( this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2")  + ' MMK',
         productId: this.prodService.createingProd.id,
         productCode:this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
@@ -517,9 +522,23 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     }
 
       //this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100))
-      this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * rateData * dateRate);
+      this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100) * dateRate);
   
-      console.log('Fire cover calculate =====> ',  this.oldData.premium);
+      //this.totalPremium = premiumView
+      console.log('Fire cover basic calculate =====> ',  this.oldData.premium);
+      console.log(' this.prodService.totalPremium =====> ',   this.prodService.totalPremium);
+     
+      this.totalPremium  = this.oldData.premium + this.prodService.totalPremium;
+
+     
+
+      if (this.currencyType == 'MMK') {
+        this.totalPremium = this.totalPremium + 100;
+      } else {
+        this.totalPremium = this.totalPremium + 0.05;
+      }
+
+      console.log('totalPremium =====> ',   this.totalPremium);
 
       this.createRisk(close, true)
     } else {

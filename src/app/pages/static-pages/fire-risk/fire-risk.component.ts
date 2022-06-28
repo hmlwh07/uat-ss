@@ -202,7 +202,7 @@ export class FireRiskComponent implements OnInit {
     if (currency == 'MMK') {
       stampDuty = 100;
     } else {
-      stampDuty = 1;
+      stampDuty = 0.05;
     }
 
     finalPre = this.globalFun.calculateDecimal(finalPre * rate) + stampDuty;

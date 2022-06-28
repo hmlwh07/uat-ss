@@ -24,6 +24,9 @@ export class ProductDataService extends BizOperationService<Product, number>{
   referenceID: string = null
   creatingLeadId: string = "0"
   referenceStatus: string = null
+  private _totalPremium: any = 0;
+ 
+
   constructor(protected httpClient: HttpClient) {
     super(httpClient, API_PRODUCT_URL);
   }
@@ -38,6 +41,14 @@ export class ProductDataService extends BizOperationService<Product, number>{
       url = url + "empId=" +empId 
     
     return this.httpClient.get(url)
+  }
+
+  get totalPremium(): any  {
+    return this._totalPremium;
+  }
+
+  set totalPremium(value: any) {
+      this._totalPremium = value;
   }
 
 }
