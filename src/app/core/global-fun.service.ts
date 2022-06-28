@@ -99,7 +99,7 @@ export class GlobalFunctionService {
     }
     // let exChange = await this.getRate(currency)
     // if (exChange < 0) return false
-    let stumDuty = currency == "MMK" ? 100 : 1
+    let stumDuty = currency == "MMK" ? 100 : 0.05
     let result = this.calculateDecimal((sumIn * (0.707 / 100)) * fector) + stumDuty
     // if()
     this.paPremiumResult.next(this.numberPipe.transform(result, "1.2-2") + " " + currency)

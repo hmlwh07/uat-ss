@@ -44,7 +44,7 @@ export class NrcPopupPage implements OnInit {
     ]).toPromise().then((res: any) => {
       if (res) {
         // console.log(res);
-        
+
         this.stageOption = res[0]
         this.typeOption = res[1]
         this.cdf.detectChanges()
@@ -69,7 +69,7 @@ export class NrcPopupPage implements OnInit {
           this.townshipOption = res.map((x) => {
             return { code: x.codeId, value: x.codeName };
           });
-          if(this.townshipOption.length>0){
+          if (this.townshipOption.length > 0) {
 
             this.nrcForm.controls['township'].setValue(this.townshipOption[0].value)
           }
@@ -90,11 +90,23 @@ export class NrcPopupPage implements OnInit {
 
 
   save() {
+    console.log("NRC Save: ", this.nrcForm.value)
     this.submited = true
     if (this.nrcForm.invalid) return false
     let value = this.nrcForm.value
     let nrc = `${value.stage}/${value.township}(${value.prefix})${value.nrc}`
-    this.group.controls[this.config.name].setValue(nrc)
+    if (this.config.name)
+      this.group.controls[this.config.name].setValue(nrc)
+    if (this.config.nrcRegionCode)
+      this.group.controls[this.config.nrcRegionCode].setValue(value.stage)
+    if (this.config.nrcTownshipCode)
+      this.group.controls[this.config.nrcTownshipCode].setValue(value.township)
+    if (this.config.nrcTypeCode)
+      this.group.controls[this.config.nrcTypeCode].setValue(value.prefix)
+    if (this.config.nrcNumber)
+      this.group.controls[this.config.nrcNumber].setValue(value.nrc)
+    if (this.config.identityNRC)
+      this.group.controls[this.config.identityNRC].setValue(nrc)
     this.modal.dismiss('save');
   }
 
@@ -108,7 +120,7 @@ export class NrcPopupPage implements OnInit {
 
     if (value) {
       let stage = this.stageOption.find((p) => p.value == value);
-      
+
       this.getTownship(stage.code)
       this.cdf.detectChanges()
     }

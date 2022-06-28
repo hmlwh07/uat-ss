@@ -424,23 +424,21 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   }
   async uploadImage(image) {
-    console.log(image);
-    image.name = "Profile"
     image.size = ((image.base64String).length - 814) / 1.37
+    image.fileName=Date.now() + this.data.agentInfo.empId
     let data = {
       fileStr: image.base64String,
-      fileName: image.name,
-      fileType: image.format,
+      fileName: image.fileName,
+      fileType: "image/"+image.format,
       fileSize: image.size,
-      contentType: image.format,
+      contentType: "image/"+image.format,
       fileExtension: image.format,
     }
-    console.log("data", data);
     this.AttachmentUploadService.save(data).toPromise().then((res) => {
       if (res) {
         let postData = {
           attId: res,
-          employeeId: this.data.agentInfo.empId
+          empId: this.data.agentInfo.empId
         }
         // this.data.agentInfo.attId=851
         // this.cdf.detectChanges()

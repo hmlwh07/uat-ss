@@ -30,7 +30,7 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     QuotationItemComponent,
     CommonList2Component,
     ListingsPagerComponent,
-    NrcPopupPage
+    NrcPopupPage,
   ],
   exports: [
     ListingSortPipe,

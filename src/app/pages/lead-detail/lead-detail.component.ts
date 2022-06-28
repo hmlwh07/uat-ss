@@ -53,6 +53,7 @@ import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/produc
 import { map } from 'rxjs/operators';
 import { defaultAccessObj, MenuDataService } from "../../core/menu-data.service";
 import { validateAllFields } from "src/app/core/valid-all-feild";
+import { ProspectCustomerListComponent } from "../prospect-customer-list/prospect-customer-list.component";
 
 @Component({
   selector: "app-lead-detail",
@@ -145,7 +146,11 @@ export class LeadDetailComponent implements OnInit {
   status: any = "";
   config: any = {
     type: "user",
-    name: "identityNumber"
+    nrcRegionCode: "nrcRegionCode",
+    nrcTownshipCode: "nrcTownshipCode",
+    nrcTypeCode: "nrcTypeCode",
+    nrcNumber: "nrcNumber",
+    identityNRC: "identityNRC"
   }
   sourceScore: number = 0
   qualityScore: number = 0
@@ -195,8 +200,8 @@ export class LeadDetailComponent implements OnInit {
   prospectClass3
   isCustomerCheck: boolean = false;
   isProspectCheck: boolean = false;
-  // toMinDate = null
-  // toMaxDate = null
+  toMinDate = null
+  toMaxDate = null
   constructor(
     private location: Location,
     private masterDataService: MasterDataService,
@@ -282,8 +287,8 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls.openedDate.setValue(new Date())
       this.leadForm.controls.statusCode.setValue("01")
     }
-    // let toDate = moment().subtract(0, `days`)
-    // this.toMinDate = toDate.format('YYYY-MM-DD')
+    let toDate = moment().subtract(0, `days`)
+    this.toMinDate = toDate.format('YYYY-MM-DD')
   }
 
   getMaster() {
@@ -624,34 +629,38 @@ export class LeadDetailComponent implements OnInit {
           }
         })
       } else {
+        console.log(this.leadForm.controls)
         if (this.leadForm.getRawValue().assignTo != 0) {
-          console.log(this.oldData)
-          this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
-            if (result) {
-              let data = {
-                agentId: this.oldData.ownerId,
-                phone: this.oldData.phoneNo,
-                email: this.oldData.email,
-                identityType: this.oldData.identityType == "" ? null : this.oldData.identityType,
-                identityNumber: this.oldData.identityNumber,
-                nrcRegionCd: this.oldData.nrcRegionCode,
-                nrcTownshipCd: this.oldData.nrcTownshipCode,
-                nrcTypeCd: this.oldData.nrcTypeCode,
-              }
-              console.log("Request Data: ", data)
-              this.LeadDetailService.checkLead(data).toPromise().then((res) => {
-                if (res) {
-                  this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
-                  });
-                } else {
-                  this.createLead();
-                  this.updateStatus(status);
-                  this.alertService.activate('This record was approved', 'Success Message').then(result => {
-                  });
+          if (this.leadForm.controls.existingCustomerId.value == 0 && this.leadForm.controls.prospectCustomerId.value == 0) {
+            this.alertService.activate('Please add Existing Customer/Prospect before you approve.', 'Message');
+          }
+          else {
+            this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
+              if (result) {
+                let data = {
+                  agentId: this.oldData.ownerId,
+                  phone: this.oldData.phoneNo,
+                  email: this.oldData.email,
+                  identityType: this.oldData.identityType == "" ? null : this.oldData.identityType,
+                  identityNumber: this.oldData.identityNumber,
+                  nrcRegionCd: this.oldData.nrcRegionCode,
+                  nrcTownshipCd: this.oldData.nrcTownshipCode,
+                  nrcTypeCd: this.oldData.nrcTypeCode,
                 }
-              });
-            }
-          })
+                console.log("Request Data: ", data)
+                this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
+                  if (res) {
+                    this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
+                    });
+                  } else {
+                    this.updateStatus(status, 'approve');
+                    this.alertService.activate('This record was approved', 'Success Message').then(result => {
+                    });
+                  }
+                });
+              }
+            })
+          }
         } else {
           this.alertService.activate('Please assign producer/agent', 'Warning')
         }
@@ -672,20 +681,25 @@ export class LeadDetailComponent implements OnInit {
   }
 
   updateStatus(status, reason?) {
-    let postData = {
-      leadId: this.oldId,
-      statusCode: status,
-      reason: reason || ""
-    }
-    let data = { ...postData, leadId: this.oldId, };
+    if (reason == 'approve') {
+      let postValue = { ...this.leadForm.getRawValue(), statusCode: status }
+      this.edit(postValue)
+    } else {
+      let postData = {
+        leadId: this.oldId,
+        statusCode: status,
+        reason: reason || ""
+      }
+      let data = { ...postData, leadId: this.oldId, };
 
-    this.LeadDetailService.updateLeadStatus(data, this.oldId)
-      .toPromise()
-      .then((res) => {
-        if (res) {
-          this.getOld()
-        }
-      });
+      this.LeadDetailService.updateLeadStatus(data, this.oldId)
+        .toPromise()
+        .then((res) => {
+          if (res) {
+            this.getOld()
+          }
+        });
+    }
   }
 
   viewCampaignList() {
@@ -737,7 +751,7 @@ export class LeadDetailComponent implements OnInit {
       this.LeadDetailService.checkExistingCustomer(postData).toPromise().then((res: any) => {
         if (res.customerId) {
           this.leadForm.controls.prospectCustomer.setValue("")
-          this.leadForm.controls.prospectCustomerId.setValue("")
+          this.leadForm.controls.prospectCustomerId.setValue(0)
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.existingCustomerName.setValue(fullName)
           this.leadForm.controls.existingCustomerId.setValue(res.customerId)
@@ -756,7 +770,7 @@ export class LeadDetailComponent implements OnInit {
       this.LeadDetailService.checkExistingProspect(postData).toPromise().then((res: any) => {
         if (res.customerId) {
           this.leadForm.controls.existingCustomerName.setValue("")
-          this.leadForm.controls.existingCustomerId.setValue("")
+          this.leadForm.controls.existingCustomerId.setValue(0)
           let fullName = (res.firstName ? res.firstName : "") + " " + (res.middleName ? res.middleName : "") + " " + (res.lastName ? res.lastName : "")
           this.leadForm.controls.prospectCustomer.setValue(fullName)
           this.leadForm.controls.prospectCustomerId.setValue(res.customerId)
@@ -797,19 +811,14 @@ export class LeadDetailComponent implements OnInit {
     // else if (!this.isExisting && !this.isAddProspect) {
     else {
       let modalRef;
-      modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
-      modalRef.componentInstance.isPopup = true
-      modalRef.componentInstance.party = type == "prospect" ? false : true
-      modalRef.result.then(() => { }, (res) => {
-        if (res) {
-          if (res.type == "save") {
-            let customer = res.data
-            if (type == "referral") {
-              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
-              this.leadForm.controls.referralCustomerName.setValue(name)
-              this.leadForm.controls.referralCustomerId.setValue(customer.customerId)
-
-            } else if (type == "prospect") {
+      if (type == "prospect") {
+        modalRef = this.modalService.open(ProspectCustomerListComponent, { size: 'xl', backdrop: false });
+        modalRef.componentInstance.isPopup = true
+        modalRef.componentInstance.party = false
+        modalRef.result.then(() => { }, (res) => {
+          if (res) {
+            if (res.type == "save") {
+              let customer = res.data
               this.prospCustomer = {
                 customerId: customer.customerId,
                 customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
@@ -827,28 +836,45 @@ export class LeadDetailComponent implements OnInit {
               this.prospectClass3.classList.remove('disabled');
               this.isProspectCheck = true;
               this.isCustomerCheck = true;
-            } else {
-              this.existingCustomer = {
-                customerId: customer.customerId,
-                customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
-                customerDob: customer.dateOfBirth
-              }
-              this.leadForm.controls.prospectCustomer.setValue("")
-              this.leadForm.controls.prospectCustomerId.setValue("")
-              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
-              this.leadForm.controls.existingCustomerName.setValue(name)
-              this.leadForm.controls.existingCustomerId.setValue(customer.customerId)
-              this.customerClass1.classList.remove('disabled');
-              this.customerClass2.classList.remove('disabled');
-              this.prospectClass1.classList.add('disabled');
-              this.prospectClass2.classList.add('disabled');
-              this.prospectClass3.classList.add('disabled');
-              this.isCustomerCheck = true;
-              this.isProspectCheck = true;
             }
           }
-        }
-      })
+        })
+      } else {
+        modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
+        modalRef.componentInstance.isPopup = true
+        modalRef.componentInstance.party = true
+        modalRef.result.then(() => { }, (res) => {
+          if (res) {
+            if (res.type == "save") {
+              let customer = res.data
+              if (type == "referral") {
+                let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+                this.leadForm.controls.referralCustomerName.setValue(name)
+                this.leadForm.controls.referralCustomerId.setValue(customer.customerId)
+
+              } else {
+                this.existingCustomer = {
+                  customerId: customer.customerId,
+                  customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
+                  customerDob: customer.dateOfBirth
+                }
+                this.leadForm.controls.prospectCustomer.setValue("")
+                this.leadForm.controls.prospectCustomerId.setValue(0)
+                let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+                this.leadForm.controls.existingCustomerName.setValue(name)
+                this.leadForm.controls.existingCustomerId.setValue(customer.customerId)
+                this.customerClass1.classList.remove('disabled');
+                this.customerClass2.classList.remove('disabled');
+                this.prospectClass1.classList.add('disabled');
+                this.prospectClass2.classList.add('disabled');
+                this.prospectClass3.classList.add('disabled');
+                this.isCustomerCheck = true;
+                this.isProspectCheck = true;
+              }
+            }
+          }
+        })
+      }
     }
   }
 
@@ -950,7 +976,20 @@ export class LeadDetailComponent implements OnInit {
         identityType: new FormControl(
           { value: oldData ? oldData.identityType : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         identityNumber: new FormControl(
-          { value: oldData ? oldData.nrcValue || oldData.identityNumber : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+          { value: oldData ? oldData.identityType != 'NRC' ? oldData.identityNumber : "" : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+        nrcRegionCode: new FormControl(
+          { value: oldData ? oldData.nrcRegionCode : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+        nrcTownshipCode: new FormControl(
+          { value: oldData ? oldData.nrcTownshipCode : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+        nrcTypeCode: new FormControl(
+          { value: oldData ? oldData.nrcTypeCode : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+        nrcNumber: new FormControl(
+          { value: oldData ? oldData.identityNumber : '', disabled: oldData.nrcNumber == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+        identityNRC: new FormControl(
+          {
+            value: oldData ? oldData.identityType == 'NRC' ? oldData.nrcRegionCode + "/" + oldData.nrcTownshipCode + "(" + oldData.nrcTypeCode + ")" + oldData.identityNumber : "" : '',
+            disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true
+          }),
         sourceCode: new FormControl(
           { value: oldData ? oldData.sourceCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
         campaignNo: new FormControl(
@@ -984,15 +1023,15 @@ export class LeadDetailComponent implements OnInit {
         existingCustomerName: new FormControl(
           { value: oldData ? oldData.existingCustomerName.trim() : "", disabled: true }),
         existingCustomerId: new FormControl(
-          { value: oldData ? oldData.existingCustomerId : "", disabled: true }),
+          { value: oldData ? oldData.existingCustomerId : 0, disabled: true }),
         referralCustomerName: new FormControl(
           { value: oldData ? oldData.referralCustomerName.trim() : "", disabled: true }),
         referralCustomerId: new FormControl(
-          { value: oldData ? oldData.referralCustomerId : "", disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.referralCustomerId : 0, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
         prospectCustomer: new FormControl(
           { value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: true }),
         prospectCustomerId: new FormControl(
-          { value: oldData ? oldData.prospectCustomerId : "", disabled: true }),
+          { value: oldData ? oldData.prospectCustomerId : 0, disabled: true }),
       });
 
       this.cdf.detectChanges()
@@ -1036,15 +1075,20 @@ export class LeadDetailComponent implements OnInit {
       assignToName: new FormControl({ value: null, disabled: true }),
       productId: new FormControl(null),
       email: new FormControl(null),
-      identityType: new FormControl(null),
       sourceCode: new FormControl(null, Validators.required),
       campaignNo: new FormControl(null),
       campaignName: new FormControl({ value: null, disabled: true }),
+      identityType: new FormControl(null),
       identityNumber: new FormControl(null),
+      nrcRegionCode: new FormControl(null),
+      nrcTownshipCode: new FormControl(null),
+      nrcTypeCode: new FormControl(null),
+      nrcNumber: new FormControl(null),
+      identityNRC: new FormControl(null),
       existingCustomerName: new FormControl({ value: null, disabled: true }),
-      existingCustomerId: new FormControl(null),
+      existingCustomerId: new FormControl(0),
       referralCustomerName: new FormControl({ value: null, disabled: true }),
-      referralCustomerId: new FormControl(null),
+      referralCustomerId: new FormControl(0),
       estimatedMonthlyIncome: new FormControl(null),
       facebookAcc: new FormControl(null),
       maritalStatus: new FormControl(null),
@@ -1055,7 +1099,7 @@ export class LeadDetailComponent implements OnInit {
       score: new FormControl({ value: null, disabled: true }),
       assets: new FormControl(null),
       prospectCustomer: new FormControl({ value: null, disabled: true }),
-      prospectCustomerId: new FormControl(null),
+      prospectCustomerId: new FormControl(0),
     });
   }
 
@@ -1066,7 +1110,7 @@ export class LeadDetailComponent implements OnInit {
   clearData(key) {
     if (key == 'existingCustomerName') {
       this.leadForm.controls[key].setValue(null)
-      this.leadForm.controls['existingCustomerId'].setValue(null)
+      this.leadForm.controls['existingCustomerId'].setValue(0)
       this.prospectClass1.classList.remove('disabled');
       this.prospectClass2.classList.remove('disabled');
       this.prospectClass3.classList.remove('disabled');
@@ -1074,7 +1118,7 @@ export class LeadDetailComponent implements OnInit {
 
     if (key == 'prospectCustomer') {
       this.leadForm.controls[key].setValue(null)
-      this.leadForm.controls['prospectCustomerId'].setValue(null)
+      this.leadForm.controls['prospectCustomerId'].setValue(0)
       this.isAddProspect = false
       this.customerClass1.classList.remove('disabled');
       this.customerClass2.classList.remove('disabled');
@@ -1082,7 +1126,7 @@ export class LeadDetailComponent implements OnInit {
 
     if (key == 'referralCustomerName') {
       this.leadForm.controls[key].setValue(null)
-      this.leadForm.controls['referralCustomerId'].setValue(null)
+      this.leadForm.controls['referralCustomerId'].setValue(0)
     }
 
     if (key == 'campaignName' || key == 'campaignNo') {
@@ -1187,27 +1231,26 @@ export class LeadDetailComponent implements OnInit {
       "expirationDateStr": postData.expirationDate.toDate() != 'Invalid Date' ? this.convertDateFormatDDMMYYY(postData.expirationDate) : "",
       "facebookAcc": postData.facebookAcc ? postData.facebookAcc : "",
       "financialPlan": postData.financialPlan ? postData.financialPlan : "",
-      "frc": postData.identityType == "FRC" ? postData.identityNumber : "",
-      "identityNumber": postData.identityNumber ? postData.identityNumber : "",
-      "identityNRC": postData.identityType == "NRC" ? postData.identityNumber : "",
-      "identityType": postData.identityType ? postData.identityType : null,
+      "frc": "",
       "leadId": postData.leadId ? postData.leadId : "",
       "lostReason": postData.lostReason ? postData.lostReason : "",
       "maritalStatus": postData.maritalStatus ? postData.maritalStatus : null,
       "estimatedMonthlyIncome": postData.estimatedMonthlyIncome ? postData.estimatedMonthlyIncome : "",
       "name": "",
-      "nrcRegionCode": "",
-      "nrcTownshipCode": "",
-      "nrcTypeCode": "",
+      "identityType": postData.identityType ? postData.identityType : null,
+      "identityNumber": postData.identityType == "NRC" ? postData.nrcNumber : postData.identityType != "NRC" ? postData.identityNumber : "",
+      "nrcRegionCode": postData.identityType == "NRC" ? postData.nrcRegionCode : "",
+      "nrcTownshipCode": postData.identityType == "NRC" ? postData.nrcTownshipCode : "",
+      "nrcTypeCode": postData.identityType == "NRC" ? postData.nrcTypeCode : "",
       "noOfChildren": "" + (postData.noOfChildren ? postData.noOfChildren : "") + "",
       "occupationCd": postData.occupationCd ? postData.occupationCd : "",
       "openedDate": "",
       "openedDateStr": postData.openedDate.toDate() != 'Invalid Date' ? this.convertDateFormatDDMMYYY(postData.openedDate) : "",
       "operationDate": "",
       "operationDateStr": "",
-      "others": postData.identityType == "Others" ? postData.identityNumber : "",
+      "others": "",
       "ownerId": postData.assignTo ? postData.assignTo : 0,
-      "passport": postData.identityType == "Password" ? postData.identityNumber : "",
+      "passport": "",
       "phoneNo": postData.phoneNo ? postData.phoneNo : "",
       "productCode": postData.productCode ? postData.productCode : "",
       "productId": postData.productId ? postData.productId : "",
@@ -1269,10 +1312,10 @@ export class LeadDetailComponent implements OnInit {
     console.log("createNewLead:", this.leadForm.value)
     console.log("check", this.isCustomerCheck, this.isProspectCheck)
     // if (this.leadForm.controls.prospectCustomerId.value == null && this.leadForm.controls.existingCustomerId.value == null) {
-    if (!this.isCustomerCheck && this.leadForm.controls.prospectCustomerId.value == null) {
+    if (!this.isCustomerCheck && this.leadForm.controls.prospectCustomerId.value == 0) {
       this.alertService.activate('Please check Existing Customer before you save.', 'Message');
     }
-    else if (!this.isProspectCheck && this.leadForm.controls.existingCustomerId.value == null) {
+    else if (!this.isProspectCheck && this.leadForm.controls.existingCustomerId.value == 0) {
       this.alertService.activate('Please check Prospect Customer before you save.', 'Message');
     }
     else {
@@ -1322,27 +1365,26 @@ export class LeadDetailComponent implements OnInit {
         "expirationDateStr": postData.expirationDate ? this.convertDateFormatDDMMYYY(postData.expirationDate) : "",
         "facebookAcc": postData.facebookAcc ? postData.facebookAcc : "",
         "financialPlan": postData.financialPlan ? postData.financialPlan : "",
-        "frc": postData.identityType == "FRC" ? postData.identityNumber : "",
-        "identityNumber": postData.identityNumber ? postData.identityNumber : "",
-        "identityNRC": postData.identityType == "NRC" ? postData.identityNumber : "",
-        "identityType": postData.identityType ? postData.identityType : null,
+        "frc": "",
         "leadId": "",
         "lostReason": "",
         "maritalStatus": postData.maritalStatus ? postData.maritalStatus : null,
         "estimatedMonthlyIncome": postData.estimatedMonthlyIncome ? postData.estimatedMonthlyIncome : "",
         "name": "",
-        "nrcRegionCode": "",
-        "nrcTownshipCode": "",
-        "nrcTypeCode": "",
+        "identityType": postData.identityType ? postData.identityType : null,
+        "identityNumber": postData.identityType == 'NRC' ? postData.nrcNumber : postData.identityType != 'NRC' ? postData.identityNumber : "",
+        "nrcRegionCode": postData.nrcRegionCode ? postData.nrcRegionCode : "",
+        "nrcTownshipCode": postData.nrcTownshipCode ? postData.nrcTownshipCode : "",
+        "nrcTypeCode": postData.nrcTypeCode ? postData.nrcTypeCode : "",
         "noOfChildren": "" + (postData.noOfChildren ? postData.noOfChildren : "") + "",
         "occupationCd": postData.occupationCd ? postData.occupationCd : "",
         "openedDate": "",
         "openedDateStr": postData.openedDate ? this.convertDateFormatDDMMYYY(postData.openedDate) : "",
         "operationDate": "",
         "operationDateStr": "",
-        "others": postData.identityType == "others" ? postData.identityNumber : "",
+        "others": "",
         "ownerId": this.user.id,
-        "passport": postData.identityType == "Passport" ? postData.identityNumber : "",
+        "passport": "",
         "phoneNo": postData.phoneNo ? postData.phoneNo : "",
         "productCode": productCode,
         "productId": postData.productId ? postData.productId : "",

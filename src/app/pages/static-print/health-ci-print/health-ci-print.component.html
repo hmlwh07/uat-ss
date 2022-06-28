@@ -152,12 +152,12 @@
     </tr>
     <tbody class="tbody-align val-col">
       <ng-container>
-        <tr *ngFor="let data of coverages; let i=index">
+        <tr *ngFor="let data of AddonData; let i=index">
           <td class="field-value" style="width: 50px;">{{i+1}}</td>
           <td class="field-value" style="width: 70%;">{{data.keyName}}</td>
           <td class="field-value" style="width: 20%;">{{data.value}} Units</td>
         </tr>
-        <tr *ngIf="coverages.length > 0">
+        <tr *ngIf="AddonData.length > 0">
           <td class="field-value" colspan="2">Total</td>
           <td class="field-value">{{coveragesTotalValue}} Units </td>
         </tr>

@@ -90,7 +90,9 @@ export class CustomerListComponent implements OnInit {
       this.customerForm.controls.name.value != null ||
       this.customerForm.controls.phoneNo.value != null ||
       this.customerForm.controls.partyCode.value != null ||
-      this.customerForm.controls.statusCode.value != null) {
+      this.customerForm.controls.statusCode.value != null ||
+      this.customerForm.controls.identityType.value != null ||
+      this.customerForm.controls.identityNumber.value != null) {
       this.getList()
     } else {
       this.cancel()
@@ -127,6 +129,7 @@ export class CustomerListComponent implements OnInit {
 
   cancel() {
     this.customerForm.reset();
+    this.customerList = []
   }
 
   actionBtn(event) {

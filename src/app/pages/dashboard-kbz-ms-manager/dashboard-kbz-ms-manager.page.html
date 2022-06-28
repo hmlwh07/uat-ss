@@ -11,7 +11,7 @@
 
           <!-- <img src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
         </div>
-        <ion-icon class="text-left icon-style" name="camera"></ion-icon>
+        <ion-icon class="text-left icon-style" name="camera"  (click)="presentActionSheet()"></ion-icon>
 
         <ion-label class="title-color">{{ data?.agentInfo?.employeeName }}</ion-label>
         <ion-label>{{ data?.role }}</ion-label>

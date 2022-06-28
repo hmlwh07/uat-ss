@@ -83,7 +83,9 @@ export class AddonPageComponent implements OnInit {
       { "code": "T-CL4", "value": "Class 4" },
     ]
   }
-  constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe, private pageDataService: PageDataService, private loadingService: LoadingService) { }
+  constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService, 
+    private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe,
+    private pageDataService: PageDataService, private loadingService: LoadingService) { }
 
   async ngOnInit() {
     this.refID = this.prodService.referenceID
@@ -240,11 +242,16 @@ export class AddonPageComponent implements OnInit {
       this.globalFun.tempFormData['addon_1634010770155'] = []
     }
     for (let addon of this.addOnList) {
+      console.log('addon save ', addon);
       if (posDataArray[addon.id].checked) {
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
         let premium = posDataArray[addon.id].premium ? posDataArray[addon.id].premium + "" : ""
         let option = posDataArray[addon.id].option ? posDataArray[addon.id].option + "" : ""
+
+        console.log('addon save ', premium);
+        this.prodService.totalPremium += parseFloat(premium);
+
         try {
           let postData = {
             addonId: addon.id,
@@ -525,7 +532,7 @@ export class AddonPageComponent implements OnInit {
     if (currency == 'MMK') {
       stampDuty = 100;
     } else {
-      stampDuty = 1;
+      stampDuty = 0.05;
     }
 
    
@@ -534,7 +541,7 @@ export class AddonPageComponent implements OnInit {
       console.log("totalRisk",totalRisk);
 
       console.log("addon.code =====> ", addon.code +', rate' + rate +'date rate'+ dateRate);
-      let amt = totalRisk * rate * dateRate;
+      let amt = totalRisk * (rate / 100) * dateRate;
       if (addon.code == "BURGLARY") {
           amt = amt * 0.9
       }
@@ -545,8 +552,8 @@ export class AddonPageComponent implements OnInit {
       //   amt = amt - dis
       // }
       console.log('amt =====> ', amt );
-      //return amt;
-      return this.globalFun.calculateDecimal(amt)
+      return amt;
+      //return this.globalFun.calculateDecimal(amt)
     }
     return 0
   }
