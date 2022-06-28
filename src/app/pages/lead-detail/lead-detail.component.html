@@ -401,12 +401,12 @@
                                             translate}}</label>
                                         <div class="col-sm-8">
                                             <input type="text" *ngIf="leadForm.get('identityType').value == 'NRC'"
-                                                class="form-control form-control-sm " name="identityNumber"
+                                                class="form-control form-control-sm " name="identityNRC"
                                                 autocomplete="off"
-                                                [class.is-invalid]="isControlInvalid('identityNumber')"
+                                                [class.is-invalid]="isControlInvalid('identityNRC')"
                                                 (click)="openNRCModal()"
-                                                [class.is-valid]="isControlValid('identityNumber')"
-                                                formControlName="identityNumber" readonly />
+                                                [class.is-valid]="isControlValid('identityNRC')"
+                                                formControlName="identityNRC" readonly />
                                             <input type="text" *ngIf="leadForm.get('identityType').value != 'NRC'"
                                                 class="form-control form-control-sm " name="identityNumber"
                                                 autocomplete="off"
