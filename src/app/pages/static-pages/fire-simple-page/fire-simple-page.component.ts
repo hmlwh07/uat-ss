@@ -127,7 +127,10 @@ export class FirePageComponent implements OnInit, OnDestroy {
       if (this.currencyType != res) {
         this.currencyType = res
       }
-    })
+    });
+
+   
+
     this.options = this.product.coverages
     this.options2 = this.product.addOns
     this.refID = this.prodService.referenceID

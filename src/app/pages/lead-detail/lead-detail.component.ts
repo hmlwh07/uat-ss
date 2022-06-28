@@ -644,13 +644,12 @@ export class LeadDetailComponent implements OnInit {
                 nrcTypeCd: this.oldData.nrcTypeCode,
               }
               console.log("Request Data: ", data)
-              this.LeadDetailService.checkLead(data).toPromise().then((res) => {
+              this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
                 if (res) {
                   this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
                   });
                 } else {
-                  this.createLead();
-                  this.updateStatus(status);
+                  this.updateStatus(status, 'approve');
                   this.alertService.activate('This record was approved', 'Success Message').then(result => {
                   });
                 }
@@ -677,6 +676,10 @@ export class LeadDetailComponent implements OnInit {
   }
 
   updateStatus(status, reason?) {
+    if (reason == 'approve') {
+      let postValue = { ...this.leadForm.getRawValue(), statusCode: status }
+      this.edit(postValue)
+    }else{
     let postData = {
       leadId: this.oldId,
       statusCode: status,
@@ -691,6 +694,7 @@ export class LeadDetailComponent implements OnInit {
           this.getOld()
         }
       });
+    }
   }
 
   viewCampaignList() {
