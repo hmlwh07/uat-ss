@@ -65,7 +65,6 @@ export class ProspectCustomerListComponent implements OnInit {
       "identityType": new FormControl(null),
       "identityNumber": new FormControl(null),
       "statusCode": new FormControl(null),
-      "partyCode": new FormControl(null),
       "startDate": new FormControl(null),
       "endDate": new FormControl(null),
     });
@@ -123,6 +122,7 @@ export class ProspectCustomerListComponent implements OnInit {
 
   cancel() {
     this.customerForm.reset();
+    this.customerList = []
   }
 
   actionBtn(event) {

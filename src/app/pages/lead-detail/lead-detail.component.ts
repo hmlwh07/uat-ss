@@ -53,6 +53,7 @@ import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/produc
 import { map } from 'rxjs/operators';
 import { defaultAccessObj, MenuDataService } from "../../core/menu-data.service";
 import { validateAllFields } from "src/app/core/valid-all-feild";
+import { ProspectCustomerListComponent } from "../prospect-customer-list/prospect-customer-list.component";
 
 @Component({
   selector: "app-lead-detail",
@@ -797,19 +798,14 @@ export class LeadDetailComponent implements OnInit {
     // else if (!this.isExisting && !this.isAddProspect) {
     else {
       let modalRef;
-      modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
-      modalRef.componentInstance.isPopup = true
-      modalRef.componentInstance.party = type == "prospect" ? false : true
-      modalRef.result.then(() => { }, (res) => {
-        if (res) {
-          if (res.type == "save") {
-            let customer = res.data
-            if (type == "referral") {
-              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
-              this.leadForm.controls.referralCustomerName.setValue(name)
-              this.leadForm.controls.referralCustomerId.setValue(customer.customerId)
-
-            } else if (type == "prospect") {
+      if (type == "prospect") {
+        modalRef = this.modalService.open(ProspectCustomerListComponent, { size: 'xl', backdrop: false });
+        modalRef.componentInstance.isPopup = true
+        modalRef.componentInstance.party = false
+        modalRef.result.then(() => { }, (res) => {
+          if (res) {
+            if (res.type == "save") {
+              let customer = res.data
               this.prospCustomer = {
                 customerId: customer.customerId,
                 customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
@@ -827,28 +823,45 @@ export class LeadDetailComponent implements OnInit {
               this.prospectClass3.classList.remove('disabled');
               this.isProspectCheck = true;
               this.isCustomerCheck = true;
-            } else {
-              this.existingCustomer = {
-                customerId: customer.customerId,
-                customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
-                customerDob: customer.dateOfBirth
-              }
-              this.leadForm.controls.prospectCustomer.setValue("")
-              this.leadForm.controls.prospectCustomerId.setValue("")
-              let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
-              this.leadForm.controls.existingCustomerName.setValue(name)
-              this.leadForm.controls.existingCustomerId.setValue(customer.customerId)
-              this.customerClass1.classList.remove('disabled');
-              this.customerClass2.classList.remove('disabled');
-              this.prospectClass1.classList.add('disabled');
-              this.prospectClass2.classList.add('disabled');
-              this.prospectClass3.classList.add('disabled');
-              this.isCustomerCheck = true;
-              this.isProspectCheck = true;
             }
           }
-        }
-      })
+        })
+      } else {
+        modalRef = this.modalService.open(CustomerListComponent, { size: 'xl', backdrop: false });
+        modalRef.componentInstance.isPopup = true
+        modalRef.componentInstance.party = true
+        modalRef.result.then(() => { }, (res) => {
+          if (res) {
+            if (res.type == "save") {
+              let customer = res.data
+              if (type == "referral") {
+                let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+                this.leadForm.controls.referralCustomerName.setValue(name)
+                this.leadForm.controls.referralCustomerId.setValue(customer.customerId)
+
+              } else {
+                this.existingCustomer = {
+                  customerId: customer.customerId,
+                  customerName: customer.firstName + ' ' + customer.middleName + ' ' + customer.lastName,
+                  customerDob: customer.dateOfBirth
+                }
+                this.leadForm.controls.prospectCustomer.setValue("")
+                this.leadForm.controls.prospectCustomerId.setValue("")
+                let name = (customer.firstName || "") + " " + (customer.middleName || "") + " " + (customer.lastName || "")
+                this.leadForm.controls.existingCustomerName.setValue(name)
+                this.leadForm.controls.existingCustomerId.setValue(customer.customerId)
+                this.customerClass1.classList.remove('disabled');
+                this.customerClass2.classList.remove('disabled');
+                this.prospectClass1.classList.add('disabled');
+                this.prospectClass2.classList.add('disabled');
+                this.prospectClass3.classList.add('disabled');
+                this.isCustomerCheck = true;
+                this.isProspectCheck = true;
+              }
+            }
+          }
+        })
+      }
     }
   }
 

@@ -85,7 +85,6 @@ export class CustomerListComponent implements OnInit {
   }
 
   searchCustomer() {
-    console.log("searchCustomer", this.customerForm.controls)
     if (this.customerForm.controls.startDate.value != null ||
       this.customerForm.controls.endDate.value != null ||
       this.customerForm.controls.name.value != null ||
@@ -130,6 +129,7 @@ export class CustomerListComponent implements OnInit {
 
   cancel() {
     this.customerForm.reset();
+    this.customerList = []
   }
 
   actionBtn(event) {
