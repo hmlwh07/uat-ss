@@ -364,7 +364,7 @@ export class MotorAddonComponent implements OnInit {
     }
     console.log("discount", discount);
 
-    let stumd = currency == "MMK" ? 100 : 1
+    let stumd = currency == "MMK" ? 100 : 0.05
     console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
 
     let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)
