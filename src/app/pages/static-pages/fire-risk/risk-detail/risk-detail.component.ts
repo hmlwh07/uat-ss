@@ -253,6 +253,10 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     this.buildingSi = oldData ? oldData.buildingSi : 0
     let occupationOfBuilding = this.fireRiskform.value.occupationOfBuilding
     let typeOfBuilding = this.fireRiskform.value.typeOfBuilding
+    if(this.currencyType =='USD'){
+      this.fireRiskform.get('sumInsure').clearAsyncValidators();
+    }
+
     if (oldData)
       this.step1Com = oldData.id ? true : false
     if (occupationOfBuilding && typeOfBuilding && this.occupationOfBuildingOptions.length > 0) {

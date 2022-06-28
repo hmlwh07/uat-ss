@@ -71,7 +71,8 @@ export class FireRiskViewComponent implements OnInit {
       count += 1
       let obj = {
         description: riskID.buildingDescription,
-        premium: 0
+        premium: this.totalPremium,
+        firepremium: this.totalPremium
       }
       for (const item of this.product.addOns) {
         this.optionId = riskID.id

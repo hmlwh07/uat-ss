@@ -545,8 +545,8 @@ export class AddonPageComponent implements OnInit {
       //   amt = amt - dis
       // }
       console.log('amt =====> ', amt );
-      //return amt;
-      return this.globalFun.calculateDecimal(amt)
+      return amt;
+      //return this.globalFun.calculateDecimal(amt)
     }
     return 0
   }
