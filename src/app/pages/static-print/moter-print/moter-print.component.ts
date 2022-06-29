@@ -23,6 +23,7 @@ export class MoterPrintComponent implements OnInit {
   motorDriver: any = {}
   policyHolder: any = {}
   address: any = {}
+  isTonnage:boolean=false
   vehicleDetail: any = {}
   policyTerm = {
     "T-004": "3 Months",
@@ -109,6 +110,10 @@ export class MoterPrintComponent implements OnInit {
         this.motorDetail = res.motorDetail
       if (res.motorDetail.mExcessDiscount == "" || res.motorDetail.mExcessDiscount == null) {
         this.motorDetail.mExcessDiscount = res.motorDetail.mExcess
+      }
+      
+      if(res.motorDetail.mTypeOfVehicleValue=='Motor Commercial' && res.motorDetail.mTypeOfCoverageValue=='Commercial Car (Goods Carrying Vehicle)' && res.motorDetail.mCurrency=='USD'){
+        this.isTonnage=true
       }
       if (res.motorDriver)
         this.listData = res.motorDriver
