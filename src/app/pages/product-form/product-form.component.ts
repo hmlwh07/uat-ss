@@ -26,6 +26,7 @@ import { MasterDataService } from '../../modules/master-data/master-data.service
 import { map, switchMap } from 'rxjs/operators';
 import { GlobalFunctionService } from '../../core/global-fun.service';
 import { Customer } from '../customer-detail/custmer.dto';
+import * as moment from 'moment';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   activePage: number = 0
 
   premiumAmt: string = '0'
+  sumInsured: string = '0'
   private unsubscribe: Subscription[] = []
   coverage = {
     isSum: false,
@@ -93,11 +95,18 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.editData = this.prodService.editData || {}
       this.creatingCustomer = this.prodService.creatingCustomer
       this.premiumAmt = this.editData.premiumView || this.editData.premium || "0";
+      this.sumInsured = this.editData.sumInsuredView || this.editData.sumInsured || "0";
+
       let unsub = this.globalFun.paPremiumResult.subscribe((res: any) => {
         this.premiumAmt = res || "0"
         this.cdRef.detectChanges()
       })
       this.unsubscribe.push(unsub)
+      let unsubSum = this.globalFun.sumInsuredResult.subscribe((res: any) => {
+        this.sumInsured = res || "0"
+        this.cdRef.detectChanges()
+      })
+      this.unsubscribe.push(unsubSum)
       this.initProductConfig()
 
     }
@@ -245,7 +254,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           let prodDetail = this.findPageValue(tempFormData, this.pageOrder[checkProd].id)
           let data: PageUI = { ...this.pageOrder[checkProd], function: prodDetail.function, controls: prodDetail.controls, buttons: prodDetail.buttons }
           this.pageOrder.splice(checkProd, 1)
-          this.formData.splice(checkProd,1)
+          this.formData.splice(checkProd, 1)
           this.travelFormss.push(data)
         }
         let checkTraveler = this.pageOrder.findIndex(x => x.unitCode == 'traveler_0002')
@@ -253,7 +262,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           let traveler = this.findPageValue(tempFormData, this.pageOrder[checkTraveler].id)
           let data: PageUI = { ...this.pageOrder[checkTraveler], function: traveler.function, controls: traveler.controls, buttons: traveler.buttons }
           this.pageOrder.splice(checkTraveler, 1)
-          this.formData.splice(checkTraveler,1)
+          this.formData.splice(checkTraveler, 1)
           this.travelFormss.push(data)
         }
         let checkBeneficiary = this.pageOrder.findIndex(x => x.unitCode == "trave_benefi_0003")
@@ -261,14 +270,14 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           let benefi = this.findPageValue(tempFormData, this.pageOrder[checkBeneficiary].id)
           let data: PageUI = { ...this.pageOrder[checkBeneficiary], function: benefi.function, controls: benefi.controls, buttons: benefi.buttons }
           this.pageOrder.splice(checkBeneficiary, 1)
-          this.formData.splice(checkBeneficiary,1)
+          this.formData.splice(checkBeneficiary, 1)
           this.travelFormss.push(data)
         }
         let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
         if (checkCoverage >= 0) {
           this.travelFormss.push(this.pageOrder[checkCoverage])
           this.pageOrder.splice(checkCoverage, 1)
-          this.formData.splice(checkCoverage,1)
+          this.formData.splice(checkCoverage, 1)
         }
       }
 
@@ -438,11 +447,14 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       agentId: this.auth.currentUserValue.id || 1,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
+      sumInsuredView: '',
+      sumInsured: 0,
       policyNumber: null,
       pageId: page.id,
       leadId: this.creatingLeadId || null,
       currency: this.currencyType,
       party: page.party || false,
+      inceptionDate: null,
       data: [
 
       ]
@@ -471,6 +483,16 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         "party": input ? input.party || false : false
       })
       // }
+    }
+    console.log("page.tableName", page.tableName);
+    if (page.tableName == 'm_detail') {
+      let inceptionDate = postData.data.find(x => x.column == "m_period_of_insurance_from")
+      let sum = postData.data.find(x => x.column == "m_total_risk_si")
+      let currency = postData.data.find(x => x.column == "m_currency")
+      let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
+      postData.inceptionDate = inceptionDate.value
+      postData.sumInsuredView = sumInsuredView
+      postData.sumInsured = sum.value
     }
     this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
       if (page.pageType == 'table') {
@@ -538,8 +560,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
+      sumInsuredView: '',
+      sumInsured: 0,
       policyNumber: null,
       party: page.party || false,
+      inceptionDate: null,
       pageData: [
         {
           data: []
@@ -573,6 +598,15 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         party: false,
         value: this.resourceId
       })
+    }
+    if (page.tableName == 'm_detail') {
+      let inceptionDate = postData.pageData[0].data.find(x => x.column == "m_period_of_insurance_from")
+      let sum = postData.pageData[0].data.find(x => x.column == "m_total_risk_si")
+      let currency = postData.pageData[0].data.find(x => x.column == "m_currency")
+      let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
+      postData.inceptionDate = inceptionDate.value
+      postData.sumInsuredView = sumInsuredView
+      postData.sumInsured = sum.value
     }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
       if (page.pageType == 'table') {

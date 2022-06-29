@@ -28,7 +28,19 @@
                     </div>
 
                     <div class="row" style="align-items: center;">
-                        <div class="col-md-6">
+                        <div class="col-md-6" *ngIf="isCustom">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm"
+                                        [class.is-invalid]="isControlInvalid('statusCode')"
+                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusCustomOption"
+                                        bindLabel="value" bindValue="code" formControlName="statusCode">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"*ngIf="!isCustom">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
                                 <div class="col-sm-8">

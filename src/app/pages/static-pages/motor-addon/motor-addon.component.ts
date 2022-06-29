@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from 'angular-calendar';
+import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { IsJsonString, MY_FORMATS } from 'src/app/core/is-json';
 import { PolicyDTO } from '../../policy/policy.dto';
@@ -30,11 +31,13 @@ export class MotorAddonComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
   @Input() premiumAmt: string = ''
+  @Input() sumInsured:string=''
   @Output() changeCheck = new EventEmitter<any>();
   primary = 'primary'
   isMedical: boolean = false
   isCross: boolean = false
   planOption: any = 'basic';
+  unsubscribe: Subscription[] = []
   planOptionOption: any = [
     {
       code: 'basic', value: 'Basic Plan'
@@ -280,11 +283,14 @@ export class MotorAddonComponent implements OnInit {
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let premiumAmt = await this.caluMotorPremimun()
     let premiumAmtView = await this.numberPipe.transform(premiumAmt || 0, "1.2-2") + " " + currency.toUpperCase()
+    let inception:string=''
     let postData = {
       "premium": Number(premiumAmt || 0) + "",
       "premiumView": premiumAmtView,
       "resourceId": this.resourcesId,
-      "type": this.prodService.viewType
+      "type": this.prodService.viewType,
+      "sumInsured":(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+      "sumInsuredView":this.sumInsured,
     }
   
     this.pageDataService.updatePremimun(postData).toPromise().then((res) => {

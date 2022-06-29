@@ -29,6 +29,7 @@ export class GlobalFunctionService {
   totalTravelUnitResult = new BehaviorSubject(null)
   travelPlanResult = new BehaviorSubject(null)
   currenyValueObs = new BehaviorSubject("MMK")
+  InceptionDateResult=new BehaviorSubject(null)
   tempFormData = {}
   exChange: number = 1650
 
@@ -64,7 +65,9 @@ export class GlobalFunctionService {
   fireBurgery(currentValue: string, activeForm?: any, option?: any[], form?: boolean) {
     this.fireBurgeryResult.next(currentValue)
   }
-
+  InceptionDate(currentValue: string, activeForm?: any, option?: any[], form?: boolean){
+    this.InceptionDateResult.next(currentValue)
+  }
 
   async paPremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     //console.log("call paPremiumCalculation",activeForm);
@@ -104,6 +107,17 @@ export class GlobalFunctionService {
     // if()
     this.paPremiumResult.next(this.numberPipe.transform(result, "1.2-2") + " " + currency)
     return true
+  }
+
+  sumInsured(currentValue: any, activeForm: any, option?: any[], form?: boolean){
+    let currency=""
+    let stumDuty = currency == "MMK" ? 100 : 1
+    if (activeForm.currency) {
+      currency = activeForm.currency
+    }
+
+    let result = this.calculateDecimal((currentValue)) + stumDuty
+    this.sumInsuredResult.next(this.numberPipe.transform(result) + " " + currency)
   }
   snakeSumInsured(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let valInt = 0

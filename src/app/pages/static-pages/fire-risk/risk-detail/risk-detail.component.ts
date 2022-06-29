@@ -41,6 +41,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   resourcesId: string = ""
   @Input() oldData: any = {}
   premiumAmt: string = ""
+  sumInsured:any
   viewPage = "form"
   buildingSi: number = 0
   riskSi: number = 0
@@ -293,10 +294,10 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,
         policyNumber: null,
-        //premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
-        //premiumView: this.premiumAmt,
         premium: this.totalPremium,
         premiumView:  this.numberPipe.transform( this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2")  + ' MMK',
+        sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+        sumInsuredView:this.sumInsured,
         productId: this.prodService.createingProd.id,
         productCode:this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
