@@ -15,7 +15,7 @@ export interface ConfigInput {
   input?: string,
   isLabel?: boolean,
   name?: string,
-  nameMM?:string,
+  nameMM?: string,
   coreName?: string,
   label?: string,
   labelMM?: string,
@@ -55,8 +55,13 @@ export interface ConfigInput {
   tableTitle?: string
   party?: boolean
   cols?: any
-  static?:any
+  static?: any
   title?: any
+  nrcRegionCode?: any,
+  nrcTownshipCode?: any,
+  nrcTypeCode?: any,
+  nrcNumber?: any,
+  identityNRC?: any,
 }
 
 export interface InputDependency {

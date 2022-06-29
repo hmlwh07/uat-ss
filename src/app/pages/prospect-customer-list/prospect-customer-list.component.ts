@@ -7,7 +7,7 @@ import { CustomerListService } from './../customer-list/customer-list.service';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomDateParserFormatter } from '../../_metronic/core';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../core/is-json';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 
@@ -53,35 +53,59 @@ export class ProspectCustomerListComponent implements OnInit {
     this.displayedColumns.splice(3, 1)
     this.show = true
   }
+
   ngAfterViewInit() {
-    this.getList();
+    this.cancel()
   }
+
   loadForm() {
     this.customerForm = new FormGroup({
       "name": new FormControl(null),
+      "phoneNo": new FormControl(null),
       "identityType": new FormControl(null),
       "identityNumber": new FormControl(null),
       "statusCode": new FormControl(null),
-      "partyCode": new FormControl(null),
       "startDate": new FormControl(null),
       "endDate": new FormControl(null),
     });
   }
 
   navigateToDetail(data, id?: string, secondaryId?: string) {
-    this.router.navigate(["/customer/customer-detail"], { queryParams: { pageStatus: data, pageId: id, pageSecondaryId: secondaryId,page:'Prospect' } })
+    this.router.navigate(["/customer/customer-detail"], {
+      queryParams: {
+        pageStatus: data,
+        pageId: id,
+        pageSecondaryId: secondaryId,
+        page: 'Prospect'
+      }
+    })
+  }
+
+  searchCustomer() {
+    if (this.customerForm.controls.startDate.value != null ||
+      this.customerForm.controls.endDate.value != null ||
+      this.customerForm.controls.name.value != null ||
+      this.customerForm.controls.phoneNo.value != null ||
+      this.customerForm.controls.statusCode.value != null||
+      this.customerForm.controls.identityType.value != null ||
+      this.customerForm.controls.identityNumber.value != null) {
+      this.getList()
+    } else {
+      this.cancel()
+    }
   }
 
   getList() {
     let check = this.isPopup && !this.isDynamic ? true : false
-    this.customerListService.getCustomerList(this.customerForm.value, this.party, check).toPromise().then((res: any) => {
-      if (res) {
-        this.customerList = res
-        this.cdf.detectChanges()
-        if (this.matTable)
-          this.matTable.reChangeData()
-      }
-    })
+    this.customerListService.getCustomerList(this.customerForm.value, this.party, check)
+      .toPromise().then((res: any) => {
+        if (res) {
+          this.customerList = res
+          this.cdf.detectChanges()
+          if (this.matTable)
+            this.matTable.reChangeData()
+        }
+      })
   }
 
   get selected() {
@@ -98,7 +122,7 @@ export class ProspectCustomerListComponent implements OnInit {
 
   cancel() {
     this.customerForm.reset();
-    this.getList();
+    this.customerList = []
   }
 
   actionBtn(event) {

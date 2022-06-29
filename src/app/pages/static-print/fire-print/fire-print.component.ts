@@ -61,6 +61,13 @@ export class FirePrintComponent implements OnInit {
     })
   }
   getRiskDetail() {
+    this.totalPremium = 0;
+    this.totalSi = 0;
+    this.totalbuildingSi = 0;
+    this.totalproposedFurniture = 0;
+    this.totalproposedMachinerySI = 0;
+    this.totalproposeStockValue = 0;
+    this.totalriskSi = 0;
     this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.listData = res
@@ -143,7 +150,8 @@ export class FirePrintComponent implements OnInit {
     for (let riskID of this.listData) {
       let obj = {
         description: riskID.buildingDescription,
-        premium: 0
+        premium: this.totalPremium || 0,
+        firepremium: this.totalPremium
       }
       for (const item of this.product.addOns) {
         this.optionId = riskID.id

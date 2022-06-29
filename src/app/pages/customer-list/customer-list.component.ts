@@ -5,10 +5,9 @@ import { MaterialTableViewComponent } from 'src/app/_metronic/shared/crud-table/
 import { CustomerCol, CustomerDisplayCol, IdentityType, Status } from './customer-list.const';
 import { CustomerListService } from './customer-list.service';
 
-import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CustomAdapter, CustomDateParserFormatter } from '../../_metronic/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../core/is-json';
 import { CommonList2Component } from '../share-components/common-list/common-list.component';
 
@@ -17,7 +16,6 @@ import { CommonList2Component } from '../share-components/common-list/common-lis
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
   providers: [
-    // { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
@@ -32,6 +30,10 @@ export class CustomerListComponent implements OnInit {
   customerList: any[] = [];
 
   statusOption = Status;
+  statusCustomOption=[{
+    code:"A",
+    value:"Active"
+  }]
   identityTypeOption = IdentityType;
 
   customerForm: FormGroup;
@@ -41,7 +43,12 @@ export class CustomerListComponent implements OnInit {
   @Input() isDynamic: boolean = false
   @Input() isCustom: boolean = false
   show: boolean = false
-  constructor(private router: Router, private cdf: ChangeDetectorRef, private customerListService: CustomerListService, private modalService: NgbModal) {
+  constructor(
+    private router: Router,
+    private cdf: ChangeDetectorRef,
+    private customerListService: CustomerListService,
+    private modalService: NgbModal
+  ) {
     this.loadForm();
   }
 
@@ -50,16 +57,18 @@ export class CustomerListComponent implements OnInit {
       this.ELEMENT_COL.splice(9, 1)
       this.displayedColumns.splice(9, 1)
     }
-    console.log(this.isCustom);
-    
     this.show = true
   }
+
   ngAfterViewInit() {
-    this.getList();
+
+    this.cancel()
   }
+
   loadForm() {
     this.customerForm = new FormGroup({
       "name": new FormControl(null),
+      "phoneNo": new FormControl(null),
       "identityType": new FormControl(null),
       "identityNumber": new FormControl(null),
       "statusCode": new FormControl(null),
@@ -70,22 +79,45 @@ export class CustomerListComponent implements OnInit {
   }
 
   navigateToDetail(data, id?: string, secondaryId?: string) {
-    this.router.navigate(["/customer/customer-detail"], { queryParams: { pageStatus: data, pageId: id, pageSecondaryId: secondaryId,page:'Customer' } })
+    this.router.navigate(["/customer/customer-detail"], {
+      queryParams: {
+        pageStatus: data,
+        pageId: id,
+        pageSecondaryId: secondaryId,
+        page: 'Customer'
+      }
+    })
+  }
+
+  searchCustomer() {
+    if (this.customerForm.controls.startDate.value != null ||
+      this.customerForm.controls.endDate.value != null ||
+      this.customerForm.controls.name.value != null ||
+      this.customerForm.controls.phoneNo.value != null ||
+      this.customerForm.controls.partyCode.value != null ||
+      this.customerForm.controls.statusCode.value != null ||
+      this.customerForm.controls.identityType.value != null ||
+      this.customerForm.controls.identityNumber.value != null) {
+      this.getList()
+    } else {
+      this.cancel()
+    }
   }
 
   getList() {
     let check = this.isPopup && !this.isDynamic ? true : false
-    this.customerListService.getCustomerList(this.customerForm.value, this.party, check,this.isCustom).toPromise().then((res: any) => {
-      if (res) {
-        this.customerList = res
-        // console.log("customerList", this.customerList);
-        this.cdf.detectChanges()
-        if(this.commonList)
-        this.commonList.detchChange()
-        if (this.matTable)
-          this.matTable.reChangeData()
-      }
-    })
+    this.customerListService.getCustomerList(this.customerForm.value, this.party, check, this.isCustom)
+      .toPromise().then((res: any) => {
+        if (res) {
+          this.customerList = res
+          // console.log("customerList", this.customerList);
+          this.cdf.detectChanges()
+          if (this.commonList)
+            this.commonList.detchChange()
+          if (this.matTable)
+            this.matTable.reChangeData()
+        }
+      })
   }
 
   get selected() {
@@ -102,7 +134,7 @@ export class CustomerListComponent implements OnInit {
 
   cancel() {
     this.customerForm.reset();
-    this.getList();
+    this.customerList = []
   }
 
   actionBtn(event) {

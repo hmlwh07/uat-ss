@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from 'angular-calendar';
+import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { IsJsonString, MY_FORMATS } from 'src/app/core/is-json';
 import { PolicyDTO } from '../../policy/policy.dto';
@@ -30,11 +31,13 @@ export class MotorAddonComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
   @Input() premiumAmt: string = ''
+  @Input() sumInsured:string=''
   @Output() changeCheck = new EventEmitter<any>();
   primary = 'primary'
   isMedical: boolean = false
   isCross: boolean = false
   planOption: any = 'basic';
+  unsubscribe: Subscription[] = []
   planOptionOption: any = [
     {
       code: 'basic', value: 'Basic Plan'
@@ -189,32 +192,34 @@ export class MotorAddonComponent implements OnInit {
       let excess = this.parentData['m_excess']
       let vehicle=this.parentData['m_type_of_vehicle']
       let purpose=this.parentData['m_purpose_of_use']
-      console.log("EXCESS", excess);
+      console.log("EXCESS", excess,"vehicle",vehicle,"purpose",purpose);
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if(vehicle='T-MCC'&& purpose=='T-PRI'){
           excessAmt=5000
-        }else if (vehicle='T-MCC'&& purpose=='T-COM'){
+        }else if (vehicle=='T-MCC' && purpose=='T-COM'){
           excessAmt=10000
         }
         else{
           excessAmt = 50000
         }
       }
-      else if (excess == 'T-STNDEX' && currency == "MMK") {
-        excessAmt = 100000
-      }
+      // else if (excess == 'T-STNDEX' && currency == "MMK") {
+      //   excessAmt = 100000
+      // }
       else if (excess == "TU-NILEX" && currency == "USD") {
         excessAmt = 25
       }
-      else if (excess == "TU-STNDEX" && currency == "USD") {
-        excessAmt = 100
-      }
+      // else if (excess == "TU-STNDEX" && currency == "USD") {
+      //   excessAmt = 100
+      // }
     }
 
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
     // * percent
+    console.log("TEMP",tempPre,"excessAmt",excessAmt);
+    
     let cross = ((tempPre + excessAmt) * 0.15)
     this.crossPremium = this.globalFun.calculateDecimal(cross || 0)
   }
@@ -280,11 +285,14 @@ export class MotorAddonComponent implements OnInit {
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let premiumAmt = await this.caluMotorPremimun()
     let premiumAmtView = await this.numberPipe.transform(premiumAmt || 0, "1.2-2") + " " + currency.toUpperCase()
+    let inception:string=''
     let postData = {
       "premium": Number(premiumAmt || 0) + "",
       "premiumView": premiumAmtView,
       "resourceId": this.resourcesId,
-      "type": this.prodService.viewType
+      "type": this.prodService.viewType,
+      // "sumInsured":(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+      // "sumInsuredView":this.sumInsured,
     }
   
     this.pageDataService.updatePremimun(postData).toPromise().then((res) => {
@@ -333,7 +341,7 @@ export class MotorAddonComponent implements OnInit {
         if(vehicle='T-MCC'&& purpose=='T-PRI'){
           discount = -5000
           discount2 = -5000
-        }else if (vehicle='T-MCC'&& purpose=='T-COM'){
+        }else if (vehicle=='T-MCC'&& purpose=='T-COM'){
           discount = -10000
           discount2 = -10000
         }
@@ -345,12 +353,12 @@ export class MotorAddonComponent implements OnInit {
         discount = -25
         discount2 = -25
       }
-      else if (excess == "TU-STNDEX" && currency == "USD") {
-        discount = -100
-      }
-      else if (excess == 'T-STNDEX' && currency == "MMK") {
-        discount = -100000
-      }
+      // else if (excess == "TU-STNDEX" && currency == "USD") {
+      //   discount = -100
+      // }
+      // else if (excess == 'T-STNDEX' && currency == "MMK") {
+      //   discount = -100000
+      // }
       else if (excess == "T-ED" && currency == "MMK") {
         if (excess_discount == "T-EXD1") {
 
@@ -364,7 +372,7 @@ export class MotorAddonComponent implements OnInit {
     }
     console.log("discount", discount);
 
-    let stumd = currency == "MMK" ? 100 : 1
+    let stumd = currency == "MMK" ? 100 : 0.05
     console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
 
     let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)
@@ -383,8 +391,8 @@ export class MotorAddonComponent implements OnInit {
     console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
 
 
-    this.premiumAmt = this.numberPipe.transform(preAMT2, "1.2-2") + " " + currency.toUpperCase()
+    this.premiumAmt = this.numberPipe.transform(preAMT, "1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
-    return preAMT2
+    return preAMT
   }
 }

@@ -14,6 +14,7 @@ import { CustomerListShareModule } from '../customer-list/customer-list.share.mo
 import { ProductShareModule } from '../products/products-share.module';
 import { CustomerDetailShareModule } from '../customer-detail/customer-detail.share.module';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
+import { ProspectCustomerListShareModule } from '../prospect-customer-list/prospect-customer-list.share.module';
 
 
 
@@ -30,6 +31,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     NgSelectModule,
     MatDatepickerModule,
     CustomerListShareModule,
+    ProspectCustomerListShareModule,
     ProductShareModule,
     CustomerDetailShareModule,
     MatRadioModule,

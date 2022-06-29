@@ -20,7 +20,8 @@
             <tr>
               <td>{{item.buildingDescription}}</td>
               <td style="text-align: right;">{{item.riskSi | number}}</td>
-              <td style="text-align: right;">{{item.premium | number}}</td>
+              <!-- <td style="text-align: right;">{{item.premium | number}}</td> -->
+              <td style="text-align: right;">{{item.totalPremium | number}}</td>
               <!-- <td>
                 <span class="text-primary" style="text-decoration: underline;white-space: nowrap;cursor: pointer;"
                   (click)="createPolicyBtn(item)">Other Info</span>
@@ -89,11 +90,11 @@
               <td>{{data.buildingClassValue}}</td>
               <td>{{data.totalSquareFoot}}</td>
               <td>{{data.yearOfConstruction}}</td>
-              <td>{{data.buildingSi}}</td>
-              <td>{{data.proposedFurniture}}</td>
-              <td>{{data.proposedMachinerySI}}</td>
-              <td>{{data.proposeStockValue}}</td>
-              <td>{{data.riskSi | number}}</td>
+              <td>{{data.buildingSi | number:'1.2-2' }}</td>
+              <td>{{data.proposedFurniture | number:'1.2-2' }}</td>
+              <td>{{data.proposedMachinerySI | number:'1.2-2' }}</td>
+              <td>{{data.proposeStockValue | number:'1.2-2' }}</td>
+              <td>{{data.riskSi | number:'1.2-2' }}</td>
             </tr>
           </ng-container>
         </tbody>
@@ -162,19 +163,19 @@
           <ng-container *ngFor="let data of addOnData;">
             <tr>
               <td>{{data.description}}</td>
-              <td>{{data.firepremium || 0}}</td>
-              <td>{{data.STHTC}}</td>
-              <td>{{data.IMPD}}</td>
-              <td>{{data.RSMD}}</td>
-              <td>{{data.BURGLARY}}</td>
-              <td>{{data.ACD}}</td>
-              <td>{{data.EQ}}</td>
-              <td>{{data.SPONTCOMB}}</td>
-              <td>{{data.SUBLSLD}}</td>
-              <td>{{data.WARRISK}}</td>
-              <td>{{data.EXPLOSION}}</td>
-              <td>{{data.FLOOD}}</td>
-              <td>{{data.premium}}</td>
+              <td>{{data.firepremium || 0 | number:'1.2-2' }}</td>
+              <td>{{data.STHTC | number:'1.2-2' }}</td>
+              <td>{{data.IMPD | number:'1.2-2' }}</td>
+              <td>{{data.RSMD | number:'1.2-2' }}</td>
+              <td>{{data.BURGLARY | number:'1.2-2' }}</td>
+              <td>{{data.ACD | number:'1.2-2' }}</td>
+              <td>{{data.EQ | number:'1.2-2' }}</td>
+              <td>{{data.SPONTCOMB | number:'1.2-2' }}</td>
+              <td>{{data.SUBLSLD | number:'1.2-2' }}</td>
+              <td>{{data.WARRISK | number:'1.2-2' }}</td>
+              <td>{{data.EXPLOSION | number:'1.2-2' }}</td>
+              <td>{{data.FLOOD | number:'1.2-2' }}</td>
+              <td>{{data.premium | number:'1.2-2' }}</td>
             </tr>
           </ng-container>
         </tbody>

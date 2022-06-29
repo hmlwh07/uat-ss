@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -40,6 +41,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   resourcesId: string = ""
   @Input() oldData: any = {}
   premiumAmt: string = ""
+  sumInsured: any
   viewPage = "form"
   buildingSi: number = 0
   riskSi: number = 0
@@ -55,7 +57,14 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   step3Com: boolean = false
   currencyType: string = "MMK"
   unsub: Subscription[] = []
-  constructor(private modalService: NgbModal, public modal: NgbActiveModal, private masterDataService: MasterDataService, private cdf: ChangeDetectorRef, private fireRiskService: FireRiskService, private auth: AuthService, private PremiumRateService: PremiumRateService, private prodService: ProductDataService, private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService, private firebuildingService: SurroundingBuildingService) { }
+  totalPremium: any;
+  constructor(private modalService: NgbModal, public modal: NgbActiveModal,
+    private masterDataService: MasterDataService, private cdf: ChangeDetectorRef,
+    private fireRiskService: FireRiskService, private auth: AuthService,
+    private PremiumRateService: PremiumRateService, private prodService: ProductDataService,
+    private globalService: GlobalFunctionService, private fireRiskRate: FireRiskRateService,
+    private firebuildingService: SurroundingBuildingService,
+    private numberPipe: DecimalPipe) { }
 
   ngOnDestroy(): void {
     this.unsub.forEach(x => x.unsubscribe())
@@ -65,8 +74,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     this.unsub[0] = this.globalService.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
         this.currencyType = res
-        console.log("  this.currencyType ",  this.currencyType );
-        
+        console.log("  this.currencyType ", this.currencyType);
+
       }
     })
     this.loadForm()
@@ -220,8 +229,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     // 10. Total square in Feet
     // 11. Special Decoration
     let formValidate = []
-    if(this.productDetail.policyType == 'T-NM' )
-    formValidate.push(Validators.required)
+    if (this.productDetail.policyType == 'T-NM')
+      formValidate.push(Validators.required)
     this.fireRiskform = new FormGroup({
       buildingClass: new FormControl(oldData ? oldData.buildingClass : "", Validators.required),
       buildingDescription: new FormControl(oldData ? oldData.buildingDescription : "", Validators.required),
@@ -247,7 +256,11 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     this.riskSi = oldData ? oldData.riskSi : 0
     this.buildingSi = oldData ? oldData.buildingSi : 0
     let occupationOfBuilding = this.fireRiskform.value.occupationOfBuilding
-    let typeOfBuilding = this.fireRiskform.value.typeOfBuilding
+    let typeOfBuilding = this.fireRiskform.value.typeOfBuildings
+    if (this.currencyType == 'USD') {
+      this.fireRiskform.get('sumInsure').clearAsyncValidators();
+    }
+
     if (oldData)
       this.step1Com = oldData.id ? true : false
     if (occupationOfBuilding && typeOfBuilding && this.occupationOfBuildingOptions.length > 0) {
@@ -281,10 +294,12 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,
         policyNumber: null,
-        premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
-        premiumView: this.premiumAmt,
+        premium: this.totalPremium,
+        premiumView: this.numberPipe.transform(this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2") + ' MMK',
+        sumInsure: data.sumInsure || 0 ,
+        sumInsureView: this.numberPipe.transform(data.sumInsure || 0, "1.2-2")+ ' MMK',
         productId: this.prodService.createingProd.id,
-        productCode:this.prodService.createingProd.code,
+        productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
         currency: this.currencyType,
@@ -408,27 +423,27 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       this.riskSi = this.otherSi + this.buildingSi
     else
       this.riskSi = this.otherSi
-    
+
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi
       this.oldData.riskSi = this.riskSi
     }
 
   }
-  calBuildingSiD(){
+  calBuildingSiD() {
     this.buildingSi = 0
     this.buildingSi = this.oldData.sumInsure
     if (this.otherSi == 0) {
       this.otherSi = this.fireContentSi + this.firePlatSi + this.fireStockSi
     }
     if (this.productDetail.currency == 'MMK')
-      this.riskSi = (this.otherSi *0.75) + this.buildingSi
+      this.riskSi = (this.otherSi * 0.75) + this.buildingSi
     else
-      this.riskSi = this.otherSi *0.75
-    
+      this.riskSi = this.otherSi * 0.75
+
     if (this.oldData) {
-      this.riskSi = this.oldData.proposeStockValue|| 0
-        this.oldData.riskSi = this.riskSi
+      this.riskSi = this.oldData.proposeStockValue || 0
+      this.oldData.riskSi = this.riskSi
     }
   }
 
@@ -438,6 +453,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   }
 
   async calPremimun(close: boolean = true) {
+
+
     console.log("rateData,rate1,rate2,", this.oldData);
     if (this.oldData.id) {
       if (this.productDetail.policyType == 'T-NM') {
@@ -464,12 +481,94 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
           rateData = (rate1 + rate2) / 2
         }
       }
-      this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100))
+
+      let parentData2 = this.globalService.tempFormData[FirePageID];
+      let dateRate = 1;
+      switch (true) {
+        case parentData2.policyUnit == 'G' && parentData2.policyDuration == 1:
+          dateRate = 1;
+          break;
+        case parentData2.policyUnit == 'D' && parentData2.policyDuration <= 10:
+          dateRate = 1 / 8;
+          break;
+        case parentData2.policyUnit == 'D' && parentData2.policyDuration <= 15:
+          dateRate = 1 / 6;
+          break;
+        case parentData2.policyUnit == 'D' && parentData2.policyDuration > 15:
+          dateRate = this.calculateDaysToMonth(parentData2.policyDuration);
+          console.log('calculateDaysToMonth', dateRate);
+          // dateRate = 2 / 8;
+          break;
+        case parentData2.policyUnit == 'F' && parentData2.policyDuration == 1:
+          dateRate = 2 / 8;
+          break;
+        case parentData2.policyUnit == 'F' && parentData2.policyDuration == 2:
+          dateRate = 3 / 8;
+          break;
+        case parentData2.policyUnit == 'F' && parentData2.policyDuration == 3:
+          dateRate = 4 / 8;
+          break;
+        case parentData2.policyUnit == 'F' && parentData2.policyDuration == 4:
+          dateRate = 5 / 8;
+          break;
+        case parentData2.policyUnit == 'F' && parentData2.policyDuration == 5:
+          dateRate = 6 / 8;
+          break;
+        case parentData2.policyUnit == 'F' && parentData2.policyDuration == 6:
+          dateRate = 6 / 8;
+          break;
+        case parentData2.policyUnit == 'F' && parentData2.policyDuration > 6:
+          dateRate = 1;
+          break;
+      }
+
+      //this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100))
+      this.oldData.premium = this.globalService.calculateDecimal(this.oldData.riskSi * (rateData / 100) * dateRate);
+
+      //this.totalPremium = premiumView
+      console.log('Fire cover basic calculate =====> ', this.oldData.premium);
+      console.log(' this.prodService.totalPremium =====> ', this.prodService.totalPremium);
+
+      this.totalPremium = this.oldData.premium + this.prodService.totalPremium;
+
+
+
+      if (this.currencyType == 'MMK') {
+        this.totalPremium = this.totalPremium + 100;
+      } else {
+        this.totalPremium = this.totalPremium + 0.05;
+      }
+
+      console.log('totalPremium =====> ', this.totalPremium);
+
       this.createRisk(close, true)
     } else {
       this.modal.dismiss()
     }
   }
+
+
+  calculateDaysToMonth(days) {
+    let rate: any;
+    let divided = days / 31;
+    if (divided > 0 && divided <= 1) {
+      rate = 2 / 8;
+    } else if (divided > 1 && divided <= 2) {
+      rate = 3 / 8;
+    } else if (divided > 2 && divided <= 3) {
+      rate = 4 / 8;
+    } else if (divided > 3 && divided <= 4) {
+      rate = 5 / 8;
+    } else if (divided > 3 && divided <= 5) {
+      rate = 6 / 8;
+    } else if (divided > 5 && divided <= 6) {
+      rate = 6 / 8;
+    } else {
+      rate = 1;
+    }
+    return rate;
+  }
+
   getFireContent() {
     this.fireRiskService.getContent(this.oldData.id).toPromise().then((res: any) => {
       if (res) {

@@ -1,7 +1,9 @@
 <div class="row">
     <div class="col-12 text-right pb-5">
-        <button class="btn btn-light-dark new-btn-dark-gray mr-2 btn-round" [ngClass]="{'activated' : !isTeam}" (click)="changeView('myview')">{{"FORM.my_view" | translate}}</button>
-        <button class="btn btn-light-dark new-btn-dark-gray btn-round" [ngClass]="{'activated' : isTeam}" (click)="changeView('team')">{{"FORM.team_veiw" | translate}}</button>
+        <button class="btn btn-light-dark new-btn-dark-gray mr-2 btn-round" [ngClass]="{'activated' : !isTeam}"
+            (click)="changeView('myview')">{{"FORM.my_view" | translate}}</button>
+        <button class="btn btn-light-dark new-btn-dark-gray btn-round" [ngClass]="{'activated' : isTeam}"
+            (click)="changeView('team')">{{"FORM.team_veiw" | translate}}</button>
     </div>
     <div class="col-12">
         <div class="card card-custom gutter-b data">
@@ -11,74 +13,82 @@
                 </div>
                 <div class="card-toolbar">
                     <!-- <button type="button" class="btn btn-primary btn-circle" (click)="navigateToDetail('create')">
-            <span class="flaticon2-plus"></span>
-          </button> -->
-                    <!-- <button type="button" class="btn btn-primary ml-2" style="min-width: 75px;" (click)="getPolicyList()">
-          
-          </button> -->
+                    <span class="flaticon2-plus"></span>
+                    </button> -->
+                    <!-- <button type="button" class="btn btn-primary ml-2" style="min-width: 75px;" (click)="getQuoList()">
+                    <span class="flaticon2-magnifier-tool search-tool"></span>
+                    </button> -->
                     <span class="flaticon2-magnifier-tool search-tool" (click)="getPolicyList()"></span>
                     <button type="button" class="btn btn-primary ml-2" style="min-width: 50px;" (click)="cancel()">
-            <span class="">{{"FORM.btn_cancel" | translate}}</span>
-        </button>
+                        <span class="">{{"FORM.btn_cancel" | translate}}</span>
+                    </button>
                 </div>
             </div>
             <!-- card-body px-10 py-3 -->
             <div class="card-body px-10 py-3">
                 <form action="#" class="form" [formGroup]="policyForm">
-                     <div class="row" style="align-items: center;"  > 
-                        <app-start-end-date [formInput]="policyForm" remove-host  [colClass]="'col-xl-4 col-sm-6'" ></app-start-end-date>   
+                    <div class="row" style="align-items: center;">
+                        <app-start-end-date [formInput]="policyForm" remove-host [colClass]="'col-xl-4 col-sm-6'">
+                        </app-start-end-date>
 
-                        <div class="col-xl-4 col-sm-6" >
-                            <div class="form-group row"> 
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label"> Product Name</label>
                                 <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select" (clear)="clear('productId')" [items]="productOption"
-                                    bindLabel="value" bindValue="code" formControlName="productId">
-                                </ng-select>
-                                </div>
-                            </div>      
-                        </div>
-                        <div class="col-xl-4 col-sm-6" >
-                            <div class="form-group row" >
-                                <label class="col-sm-4 col-form-label"> Policy Holder Name</label>
-                                 <div class="col-sm-8">
-                                    <input class="form-control form-control-sm" formControlName="policyholderName" autocomplete="off">
+                                    <ng-select class="ng-custom-select" (clear)="clear('productId')"
+                                        [items]="productOption" bindLabel="value" bindValue="code"
+                                        formControlName="productId">
+                                    </ng-select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-sm-6" >
+
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"> Policy Holder Name</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-sm" formControlName="policyholderName"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-sm-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label"> Application ID</label>
-                                 <div class="col-sm-8">
-                                        <input class="form-control form-control-sm" formControlName="applicationId" autocomplete="off">
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-sm" formControlName="applicationId"
+                                        autocomplete="off">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-sm-6" >
+
+                        <div class="col-xl-4 col-sm-6">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">QTG</label>
-                                 <div class="col-sm-8">
-                                        <input class="form-control form-control-sm" formControlName="quotationId"  autocomplete="off">   
+                                <div class="col-sm-8">
+                                    <input class="form-control form-control-sm" formControlName="quotationId"
+                                        autocomplete="off">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-sm-6" >
-                            <div class="form-group row"> 
+
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Application submission status</label>
                                 <div class="col-sm-8">
-                                    <select name="product_name" formControlName="applicationStatus" class="form-control form-control-sm">
-                                        <option value="D">DRAFT </option>
-                                        <option value="S">SUBMIT </option>
-                                    </select>
+                                    <ng-select class="ng-custom-select" [items]="applicationStatusOption"
+                                        bindLabel="value" bindValue="value" formControlName="applicationStatus">
+                                    </ng-select>
                                 </div>
-                            </div>      
+                            </div>
                         </div>
-                        
-                 </div>
+
+                    </div>
                 </form>
-            
-             </div>
-   <!--end-->
+
+            </div>
+            <!--end-->
         </div>
     </div>
 </div>
@@ -88,7 +98,8 @@
     <div class="col-12">
         <div class="card card-custom gutter-b data">
             <div class="card-body customer-card-body">
-                <app-common-list-2 *ngIf="quoList.length > 0"  class="data-list" #commonList [data]="quoList" [type]="'policy'" (btnEvent)="actionBtn($event)"></app-common-list-2>
+                <app-common-list-2 *ngIf="quoList.length > 0" class="data-list" #commonList [data]="quoList"
+                    [type]="'policy'" (btnEvent)="actionBtn($event)"></app-common-list-2>
 
                 <!-- <app-application-data-list [applications]="quoList"></app-application-data-list> -->
 
@@ -98,8 +109,6 @@
                 </app-material-table-view> -->
                 <!-- end: Table -->
 
-
-                
             </div>
         </div>
     </div>

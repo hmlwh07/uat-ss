@@ -42,7 +42,7 @@ export class EndoComponent implements OnInit,OnDestroy {
   lists: number[] = []
   currentAge: number
   premimuRateNum: number
-  sumInsured: number
+  sumInsured: any
   frequencyValue: number
   policyTermCode: string
   premiumRate: any[] = []
@@ -222,6 +222,8 @@ export class EndoComponent implements OnInit,OnDestroy {
             "policyNumber": null,
             "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
             "premiumView": this.premiumAmt,
+            // "sumInsured":(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+            // "sumInsuredView":this.sumInsured,
             "productId": this.product.id,
             "productCode":this.product.code,
             "quotationId": this.prodService.referenceID,

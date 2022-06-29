@@ -38,6 +38,7 @@ export class FirePageComponent implements OnInit, OnDestroy {
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId?: string
   @Input() premiumAmt: string
+  @Input() sumInsured:any
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   staticForm: FormGroup
   toMinDate = null
@@ -127,7 +128,10 @@ export class FirePageComponent implements OnInit, OnDestroy {
       if (this.currencyType != res) {
         this.currencyType = res
       }
-    })
+    });
+
+   
+
     this.options = this.product.coverages
     this.options2 = this.product.addOns
     this.refID = this.prodService.referenceID
@@ -245,6 +249,9 @@ export class FirePageComponent implements OnInit, OnDestroy {
         policyNumber: null,
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
+        // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+        // sumInsuredView:this.sumInsured,
+        policyInceptionDate: moment(this.staticForm.controls['startDate'].value).format("YYYY-MM-DD"),
         productId: this.prodService.createingProd.id,
         productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,

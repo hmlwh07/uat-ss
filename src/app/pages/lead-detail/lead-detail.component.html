@@ -66,12 +66,16 @@
                                         <label class="col-sm-4 col-form-label"> {{"FORM.open_date" | translate}}
                                             <span>*</span></label>
                                         <div class="col-sm-8">
-                                            <div class="input-group ">
+                                            <div class="input-group "> 
+                                                <!-- [min]="toMinDate" [max]="toMaxDate"  -->
                                                 <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                                    formControlName="openedDate" [matDatepicker]="openDate" readonly>
+                                                    formControlName="openedDate" [min]="toMinDate" [max]="toMaxDate" 
+                                                    [class.is-invalid]="isControlInvalid('openedDate')"
+                                                    [class.is-valid]="isControlValid('openedDate')"
+                                                    [matDatepicker]="openDate" readonly>
                                                 <mat-datepicker-toggle matSuffix [for]="openDate">
                                                 </mat-datepicker-toggle>
-                                                <mat-datepicker #openDate disabled="true"></mat-datepicker>
+                                                <mat-datepicker #openDate></mat-datepicker>
 
                                             </div>
                                         </div>
@@ -100,11 +104,13 @@
                                         <div class="col-sm-8">
                                             <div class="input-group ">
                                                 <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                                    formControlName="activationDate" [matDatepicker]="activationDate"
-                                                    readonly>
+                                                    formControlName="activationDate" [min]="toMinDate" [max]="toMaxDate" 
+                                                    [class.is-invalid]="isControlInvalid('activationDate')"
+                                                    [class.is-valid]="isControlValid('activationDate')"
+                                                    [matDatepicker]="activationDate" readonly>
                                                 <mat-datepicker-toggle matSuffix [for]="activationDate">
                                                 </mat-datepicker-toggle>
-                                                <mat-datepicker #activationDate disabled="true"></mat-datepicker>
+                                                <mat-datepicker #activationDate></mat-datepicker>
 
                                             </div>
                                         </div>
@@ -399,12 +405,12 @@
                                             translate}}</label>
                                         <div class="col-sm-8">
                                             <input type="text" *ngIf="leadForm.get('identityType').value == 'NRC'"
-                                                class="form-control form-control-sm " name="identityNumber"
+                                                class="form-control form-control-sm " name="identityNRC"
                                                 autocomplete="off"
-                                                [class.is-invalid]="isControlInvalid('identityNumber')"
+                                                [class.is-invalid]="isControlInvalid('identityNRC')"
                                                 (click)="openNRCModal()"
-                                                [class.is-valid]="isControlValid('identityNumber')"
-                                                formControlName="identityNumber" readonly />
+                                                [class.is-valid]="isControlValid('identityNRC')"
+                                                formControlName="identityNRC" readonly />
                                             <input type="text" *ngIf="leadForm.get('identityType').value != 'NRC'"
                                                 class="form-control form-control-sm " name="identityNumber"
                                                 autocomplete="off"
@@ -800,7 +806,7 @@
                                         <div class="col-sm-8">
                                             <div class="input-group ">
                                                 <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                                    formControlName="openedDate"
+                                                    formControlName="openedDate" [min]="toMinDate" [max]="toMaxDate" 
                                                     [class.is-invalid]="isControlInvalid('openedDate')"
                                                     [class.is-valid]="isControlValid('openedDate')"
                                                     [matDatepicker]="openDate">
@@ -834,7 +840,7 @@
                                         <div class="col-sm-8">
                                             <div class="input-group ">
                                                 <input matInput class="form-control-sm date-input" style="width: 100%;"
-                                                    formControlName="activationDate"
+                                                    formControlName="activationDate" [min]="toMinDate" [max]="toMaxDate" 
                                                     [class.is-invalid]="isControlInvalid('activationDate')"
                                                     [class.is-valid]="isControlValid('activationDate')"
                                                     [matDatepicker]="activationDate">
@@ -1134,12 +1140,12 @@
                                             translate}}</label>
                                         <div class="col-sm-8">
                                             <input type="text" *ngIf="leadForm.get('identityType').value == 'NRC'"
-                                                class="form-control form-control-sm " name="identityNumber"
+                                                class="form-control form-control-sm " name="identityNRC"
                                                 autocomplete="off"
-                                                [class.is-invalid]="isControlInvalid('identityNumber')"
+                                                [class.is-invalid]="isControlInvalid('identityNRC')"
                                                 (click)="openNRCModal()"
-                                                [class.is-valid]="isControlValid('identityNumber')"
-                                                formControlName="identityNumber" readonly />
+                                                [class.is-valid]="isControlValid('identityNRC')"
+                                                formControlName="identityNRC" readonly />
                                             <input type="text" *ngIf="leadForm.get('identityType').value != 'NRC'"
                                                 class="form-control form-control-sm " name="identityNumber"
                                                 autocomplete="off"

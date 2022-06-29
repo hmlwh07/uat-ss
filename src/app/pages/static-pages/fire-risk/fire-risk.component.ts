@@ -13,6 +13,7 @@ import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { PolicyDTO } from '../../policy/policy.dto';
 import { PageDataService } from '../../product-form/page-data.service';
 import { Product } from '../../products/models/product.dto';
+import { ProductDataService } from '../../products/services/products-data.service';
 import { QuotationDTO } from '../../quotations/quotation.dto';
 import { StaticActionType, StaticPageAction } from '../static-field.interface';
 import { FirePageID, FireRiskID } from '../static-pages.data';
@@ -38,7 +39,8 @@ export class FireRiskComponent implements OnInit {
     private cdf: ChangeDetectorRef,
     private numberPipe: DecimalPipe,
     private pageDataService: PageDataService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private prodService: ProductDataService,
   ) {}
 
   ngOnInit(): void {
@@ -135,8 +137,10 @@ export class FireRiskComponent implements OnInit {
     let parentData1 = this.globalFun.tempFormData[FireRiskID];
     let parentData2 = this.globalFun.tempFormData[FirePageID];
     let precent = parentData2.policyType == 'T-NM' ? 1 : 0.75;
+
     let premiumTotal = 0;
     let addOnPre = 0;
+    console.log('parentData1 =====> ', parentData1);
     for (let element of parentData1) {
       premiumTotal += this.globalFun.calculateDecimal(element.premium);
       const posDataArray =
@@ -150,7 +154,12 @@ export class FireRiskComponent implements OnInit {
     //   premiumTotal += parseFloat(element.premium)
     // });this.addOnsData
 
+    console.log('premiumTotal =====> ', premiumTotal);
+    console.log('addOnPre =====> ', addOnPre + addOnPre );
+    console.log('precent =====> ', precent);
+
     let finalPre = (premiumTotal + addOnPre) * precent;
+
     // if (parentData2.policyUnit == "D") {
     let rate = 1;
     switch (true) {
@@ -195,12 +204,18 @@ export class FireRiskComponent implements OnInit {
     if (currency == 'MMK') {
       stampDuty = 100;
     } else {
-      stampDuty = 1;
+      stampDuty = 0.05;
     }
 
     finalPre = this.globalFun.calculateDecimal(finalPre * rate) + stampDuty;
     this.premiumAmt =
       this.numberPipe.transform(finalPre, '1.2-2') + ' ' + currency;
+
+      // if(this.prodService.totalPremium){
+      //   this.premiumAmt =
+      //   this.numberPipe.transform(this.prodService.totalPremium, '1.2-2') + ' ' + currency;
+      // }
+
     this.globalFun.paPremiumResult.next(this.premiumAmt);
     return finalPre;
   }
@@ -208,17 +223,17 @@ export class FireRiskComponent implements OnInit {
   calculateDaysToMonth(days) {
     let rate: any;
     let divided = days / 31;
-    if (divided <= 1) {
+    if (divided > 0 && divided <=1) {
       rate = 2 / 8;
-    } else if (divided <= 1) {
+    } else if (divided > 1 && divided <=2) {
       rate = 3 / 8;
-    } else if (divided <= 2) {
+    } else if (divided > 2 && divided <=3) {
       rate = 4 / 8;
-    } else if (divided <= 3) {
+    } else if (divided > 3 && divided <=4) {
       rate = 5 / 8;
-    } else if (divided <= 4) {
+    } else if (divided > 3 && divided <=5) {
       rate = 6 / 8;
-    } else if (divided <= 5) {
+    } else if (divided > 5 && divided <=6) {
       rate = 6 / 8;
     } else {
       rate = 1;
@@ -227,7 +242,12 @@ export class FireRiskComponent implements OnInit {
   }
 
   savePremimunFire() {
-    let premiumAmt = this.caluFirePremimun();
+   // console.log('totalPremiumView =====> ', this.prodService.totalPremiumView)
+    // if(this.prodService.totalPremiumView){
+    //   this.premiumAmt = this.prodService.totalPremiumView
+    // }
+
+   // let premiumAmt = this.caluFirePremimun();
     let postData = {
       premium:
         (Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
@@ -235,6 +255,9 @@ export class FireRiskComponent implements OnInit {
       resourceId: this.resourcesId,
       type: 'policy',
     };
+
+    console.log('updatePremimun', postData);
+    
     return this.pageDataService.updatePremimun(postData);
   }
 }

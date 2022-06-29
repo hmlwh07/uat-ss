@@ -74,6 +74,7 @@ export class HealthCiPrintComponent implements OnInit {
         response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
           this.AddonData.push({ keyName: addon.description, value: response.sumInsured })
+          this.coveragesTotalValue +=parseInt(response.sumInsured )
         }
       } catch (error) {
       }
@@ -87,11 +88,8 @@ export class HealthCiPrintComponent implements OnInit {
       try {
         response = await this.coverageQuo.getOne(coverage.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
-          this.coverages.unshift({ keyName: coverage.description, value: response.sumInsured })
-          for (let data of this.coverages) {
-            this.coveragesTotalValue += parseInt(data.value)
-          }
-          console.log("getCoverage: ", this.coverages)
+          this.AddonData.unshift({ keyName: coverage.description, value: response.sumInsured })
+         this.coveragesTotalValue +=parseInt(response.sumInsured )
         }
       } catch (error) {
       }

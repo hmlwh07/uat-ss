@@ -1,6 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';
 import { PolicyDTO } from '../../policy/policy.dto';
@@ -27,33 +28,45 @@ export class FireRiskViewComponent implements OnInit {
   optionId: any
   additionalData: any
   addOnData: any = [] = []
+  stampDuty: number = 0;
+  unsub: Subscription[] = []
+  currencyType: string;
   constructor(
-    private fireRiskService: FireRiskService, private fireRsikService: FireRiskService, private productSerice: ProductDataService, private addonQuo: AddOnQuoService, private cdf: ChangeDetectorRef
+    private fireRiskService: FireRiskService, private fireRsikService: FireRiskService, 
+    private productSerice: ProductDataService, private addonQuo: AddOnQuoService, 
+    private cdf: ChangeDetectorRef,  private globalFun: GlobalFunctionService
   ) { }
 
   ngOnInit(): void {
     this.getRiskList()
     this.getRiskDetail()
+    this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
+      if (res) {
+        this.currencyType = res;
+      }
+    });
+
   }
 
 
   getRiskList() {
     this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
-      // console.log(res);
-
+      console.log('getRiskList', res);
       if (res) {
         this.listData = res
       }
     })
   }
   getRiskDetail() {
+    this.totalPremium = 0
+    this.totalSi = 0;
     this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.riskData = res
         console.log("riskDetail", this.listData);
         for (let data of this.listData) {
-          this.totalPremium += parseInt(data.premium)
-          this.totalSi += parseInt(data.riskSi)
+          this.totalPremium += parseFloat(data.premium)
+          this.totalSi += parseFloat(data.riskSi)
         }
         console.log(this.totalPremium, this.totalSi);
 
@@ -67,14 +80,16 @@ export class FireRiskViewComponent implements OnInit {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
     console.log(this.product, this.listData);
     let count = 0
-    for (let riskID of this.listData) {
+    for (var i= 0; i < this.listData.length; i++) {
+
       count += 1
       let obj = {
-        description: riskID.buildingDescription,
-        premium: 0
+        description: this.listData[i].buildingDescription,
+        premium: this.totalPremium ,
+        firepremium: this.totalPremium
       }
       for (const item of this.product.addOns) {
-        this.optionId = riskID.id
+        this.optionId = this.listData[i].id
 
         try {
           if (this.resourcesId) {
@@ -85,7 +100,8 @@ export class FireRiskViewComponent implements OnInit {
 
             if (this.additionalData) {
               obj[item.code] = this.additionalData.premium || 0
-              obj.premium += parseInt(this.additionalData.premium)
+              obj.premium += parseFloat(this.additionalData.premium)
+              
             } else {
               obj[item.code] = 0
             }
@@ -94,10 +110,18 @@ export class FireRiskViewComponent implements OnInit {
         } catch (error) {
         }
       }
-      console.log("ADDON", obj);
+      //console.log("ADDON", obj);
 
       this.addOnData.push(obj)
-      console.log("ADDONDATA", this.addOnData);
+      //console.log("ADDONDATA", this.addOnData);
+      let stampDuty: number = 0;
+      if (this.currencyType == 'MMK') {
+        stampDuty = 100;
+      } else {
+        stampDuty = 0.05;
+      }
+     this.listData[i].totalPremium  = this.globalFun.calculateDecimal(obj.premium + stampDuty);
+
       if (count == this.listData.length)
         this.cdf.detectChanges()
     }

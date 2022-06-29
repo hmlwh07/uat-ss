@@ -26,6 +26,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
   @Input() resourcesId: string
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() premiumAmt: string
+  @Input() sumInsured:any
   showData: any = []
   schedule: any = []
   tempSchedule: any = []
@@ -148,18 +149,30 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
             if (this.parentData.paymentFrequency == 'L') {
               let pre = res.lumpSum * value
               this.totalP = this.totalP + pre
-              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: this.totalP, coverage: addon.code, sumInsured: value, levy: 0 })
             } else {
               let pre = res.semiAnnual * value
               this.totalP = this.totalP + pre
               this.totalP = this.totalP + pre
-              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
-              this.schedule.push({ premium: pre, coverage: addon.code, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: this.totalP, coverage: addon.code, sumInsured: value, levy: 0 })
+              this.schedule.push({ premium: this.totalP, coverage: addon.code, sumInsured: value, levy: 0 })
             }
           }
           if (i == this.product.addOns.length) {
             // let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
             // this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+            if (this.parentData.paymentFrequency == "L") {
+              this.tempSchedule = [
+                { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
+              ]
+            } else {
+              let tempTotal = this.totalP / 2
+              // let tempTotal=this.totalP
+              this.tempSchedule = [
+                { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
+                { premium: tempTotal, levy: 0, total: tempTotal },
+              ]
+            }
             let tempPre = this.globalFun.calculateDecimal(this.totalP) + this.totalL
             this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK "
             console.log("THIS>PREMIUM",this.premiumAmt);
@@ -188,6 +201,8 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
           "policyNumber": null,
           "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
           "premiumView": this.premiumAmt,
+          // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+          // sumInsuredView:this.sumInsured,
           "productId": this.product.id,
           "productCode":this.product.code,
           "quotationId": this.prodService.referenceID,
@@ -198,7 +213,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
         "resourceId": this.resourcesId,
         "requests": []
       }
-      postData.requests = this.schedule.map((x) => {
+      postData.requests = this.tempSchedule.map((x) => {
         return {
           "paymentTerm": this.parentData.paymentFrequency,
           "plan": this.parentData.basicCoverId,
