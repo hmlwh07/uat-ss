@@ -638,14 +638,14 @@ export class LeadDetailComponent implements OnInit {
             this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
               if (result) {
                 let data = {
-                  agentId: this.oldData.ownerId,
-                  phone: this.oldData.phoneNo,
-                  email: this.oldData.email,
-                  identityType: this.oldData.identityType == "" ? null : this.oldData.identityType,
-                  identityNumber: this.oldData.identityNumber,
-                  nrcRegionCd: this.oldData.nrcRegionCode,
-                  nrcTownshipCd: this.oldData.nrcTownshipCode,
-                  nrcTypeCd: this.oldData.nrcTypeCode,
+                  agentId: this.leadForm.controls.ownerId ? this.leadForm.controls.ownerId.value : "",
+                  phone: this.leadForm.controls.phoneNo ? this.leadForm.controls.phoneNo.value : "",
+                  email: this.leadForm.controls.email ? this.leadForm.controls.email.value : "",
+                  identityType: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value : null,
+                  nrcRegionCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcRegionCode.value : "" : "",
+                  nrcTownshipCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcTownshipCode.value : "" : "",
+                  nrcTypeCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcTypeCode.value : "" : "",
+                  identityNumber: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcNumber.value : this.leadForm.controls.identityNumber.value : "",
                 }
                 console.log("Request Data: ", data)
                 this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
