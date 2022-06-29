@@ -309,7 +309,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       resourceId: this.resourcesId
     }
     this.globalService.fireBurgery(data.buildingClass)
-
+    this.globalService.paPremiumResult.next(this.numberPipe.transform(this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2") + ' MMK',)
+    this.globalService.sumInsuredResult.next(this.numberPipe.transform(data.sumInsure || 0, "1.2-2")+ ' MMK');
     // if (this.type != 'create') {
     if (postData.id) {
       this.fireRiskService.updateNoID(postData)
