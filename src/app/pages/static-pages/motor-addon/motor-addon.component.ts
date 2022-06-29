@@ -289,8 +289,8 @@ export class MotorAddonComponent implements OnInit {
       "premiumView": premiumAmtView,
       "resourceId": this.resourcesId,
       "type": this.prodService.viewType,
-      "sumInsured":(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
-      "sumInsuredView":this.sumInsured,
+      // "sumInsured":(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+      // "sumInsuredView":this.sumInsured,
     }
   
     this.pageDataService.updatePremimun(postData).toPromise().then((res) => {

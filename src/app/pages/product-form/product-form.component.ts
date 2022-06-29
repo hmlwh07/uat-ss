@@ -447,14 +447,14 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       agentId: this.auth.currentUserValue.id || 1,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
-      sumInsuredView: '',
-      sumInsured: 0,
+      sumInsureView: '',
+      sumInsure: 0,
       policyNumber: null,
       pageId: page.id,
       leadId: this.creatingLeadId || null,
       currency: this.currencyType,
       party: page.party || false,
-      inceptionDate: null,
+      policyInceptionDate: null,
       data: [
 
       ]
@@ -490,9 +490,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       let sum = postData.data.find(x => x.column == "m_total_risk_si")
       let currency = postData.data.find(x => x.column == "m_currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
-      postData.inceptionDate = inceptionDate.value
-      postData.sumInsuredView = sumInsuredView
-      postData.sumInsured = sum.value
+      postData.policyInceptionDate = moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.sumInsureView = sumInsuredView
+      postData.sumInsure = sum.value
     }
     this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
       if (page.pageType == 'table') {
@@ -560,11 +560,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
-      sumInsuredView: '',
-      sumInsured: 0,
+      sumInsureView: '',
+      sumInsure: 0,
       policyNumber: null,
       party: page.party || false,
-      inceptionDate: null,
+      policyInceptionDate: null,
       pageData: [
         {
           data: []
@@ -604,9 +604,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       let sum = postData.pageData[0].data.find(x => x.column == "m_total_risk_si")
       let currency = postData.pageData[0].data.find(x => x.column == "m_currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
-      postData.inceptionDate = inceptionDate.value
-      postData.sumInsuredView = sumInsuredView
-      postData.sumInsured = sum.value
+      postData.policyInceptionDate = moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.sumInsureView = sumInsuredView
+      postData.sumInsure = sum.value
     }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
       if (page.pageType == 'table') {
