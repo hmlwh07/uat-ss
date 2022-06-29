@@ -402,14 +402,16 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   async presentActionSheet() {
     const actionSheet = await this.alertCtrl.create({
       cssClass: 'custom-modal',
-      buttons: [{
-        icon: 'camera',
-        text: 'Take a picture',
-        handler: () => {
-          this.getPictures(CameraSource.Camera);
-          console.log('Open Camera');;
-        }
-      }, {
+      buttons: [
+      //   {
+      //   icon: 'camera',
+      //   text: 'Take a picture',
+      //   handler: () => {
+      //     this.getPictures(CameraSource.Camera);
+      //     console.log('Open Camera');;
+      //   }
+      // },
+       {
         icon: 'images',
         text: 'Choose picture from gallery',
         handler: () => {
