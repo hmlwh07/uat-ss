@@ -1,6 +1,6 @@
-<div class="box-grid" style="background: #fff; border: 1px solid #d3cbcb; ">
+<div class="box-grid" style="background: #fff; border: 1px solid #d3cbcb;">
   <div class="financial-grid">
-    <div style="width: 97%; border-bottom: medium dashed #d9d9d9;">
+    <div style="width: 97%; border-bottom: medium dashed #d9d9d9;margin:10px;">
       <h3 class="card-label left-border-image">Financial Needs Analysis</h3>
       <div class="financial">
         <div>
@@ -33,15 +33,15 @@
         </div>
       </div>
     </div>
-    <div [ngStyle]="{'color':fnaTextColor? '#00acea' : '#ff8100' }"><label style="width: 80px; margin: 0 auto; display: block">FNA Progress
+    <div [ngStyle]="{'color':fnaTextColor? '#00acea' : '#ff8100' }"><label style="width: 80px; margin: 10px auto; display: block;text-align: center;">FNA Progress
       </label></div>
   </div>
   <div class="chart-grid" [ngSwitch]="fnaSwitch">
     <div *ngIf="selected == '' " class="fna-segment">
       <div>
-        <button type="button" class="btn"
+        <button type="button" class="btn" style="margin-top: 10px;"
           [ngStyle]="{'background-color': fnaSwitch === 'aboutLLP' ? '#005f99' : '#A6A6A6' }"><label>{{"FORM.about_lpp" | translate}}</label></button>
-        <button type="button" class="btn"
+        <button type="button" class="btn" style="margin-top: 10px;"
           [ngStyle]="{'background-color': fnaSwitch === 'product' ? '#005f99' : '#A6A6A6' }"><label>{{"FORM.product_recommendation" | translate}}</label></button>
       </div>
     </div>
