@@ -13,6 +13,7 @@ import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { PolicyDTO } from '../../policy/policy.dto';
 import { PageDataService } from '../../product-form/page-data.service';
 import { Product } from '../../products/models/product.dto';
+import { ProductDataService } from '../../products/services/products-data.service';
 import { QuotationDTO } from '../../quotations/quotation.dto';
 import { StaticActionType, StaticPageAction } from '../static-field.interface';
 import { FirePageID, FireRiskID } from '../static-pages.data';
@@ -38,7 +39,8 @@ export class FireRiskComponent implements OnInit {
     private cdf: ChangeDetectorRef,
     private numberPipe: DecimalPipe,
     private pageDataService: PageDataService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private prodService: ProductDataService,
   ) {}
 
   ngOnInit(): void {
@@ -208,6 +210,12 @@ export class FireRiskComponent implements OnInit {
     finalPre = this.globalFun.calculateDecimal(finalPre * rate) + stampDuty;
     this.premiumAmt =
       this.numberPipe.transform(finalPre, '1.2-2') + ' ' + currency;
+
+      // if(this.prodService.totalPremium){
+      //   this.premiumAmt =
+      //   this.numberPipe.transform(this.prodService.totalPremium, '1.2-2') + ' ' + currency;
+      // }
+
     this.globalFun.paPremiumResult.next(this.premiumAmt);
     return finalPre;
   }
@@ -234,7 +242,12 @@ export class FireRiskComponent implements OnInit {
   }
 
   savePremimunFire() {
-    let premiumAmt = this.caluFirePremimun();
+   // console.log('totalPremiumView =====> ', this.prodService.totalPremiumView)
+    // if(this.prodService.totalPremiumView){
+    //   this.premiumAmt = this.prodService.totalPremiumView
+    // }
+
+   // let premiumAmt = this.caluFirePremimun();
     let postData = {
       premium:
         (Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
@@ -242,6 +255,9 @@ export class FireRiskComponent implements OnInit {
       resourceId: this.resourcesId,
       type: 'policy',
     };
+
+    console.log('updatePremimun', postData);
+    
     return this.pageDataService.updatePremimun(postData);
   }
 }
