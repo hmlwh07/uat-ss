@@ -58,13 +58,15 @@ export class FireRiskViewComponent implements OnInit {
     })
   }
   getRiskDetail() {
+    this.totalPremium = 0
+    this.totalSi = 0;
     this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.riskData = res
         console.log("riskDetail", this.listData);
         for (let data of this.listData) {
-          this.totalPremium += parseInt(data.premium)
-          this.totalSi += parseInt(data.riskSi)
+          this.totalPremium += parseFloat(data.premium)
+          this.totalSi += parseFloat(data.riskSi)
         }
         console.log(this.totalPremium, this.totalSi);
 
@@ -118,7 +120,7 @@ export class FireRiskViewComponent implements OnInit {
       } else {
         stampDuty = 0.05;
       }
-     this.listData[i].totalPremium  = obj.premium + stampDuty;
+     this.listData[i].totalPremium  = this.globalFun.calculateDecimal(obj.premium + stampDuty);
 
       if (count == this.listData.length)
         this.cdf.detectChanges()

@@ -25,6 +25,7 @@ export class ProductDataService extends BizOperationService<Product, number>{
   creatingLeadId: string = "0"
   referenceStatus: string = null
   private _totalPremium: any = 0;
+  private _totalPremiumView: any = 0;
  
 
   constructor(protected httpClient: HttpClient) {
@@ -49,6 +50,14 @@ export class ProductDataService extends BizOperationService<Product, number>{
 
   set totalPremium(value: any) {
       this._totalPremium = value;
+  }
+
+  get totalPremiumView(): any  {
+    return this._totalPremiumView;
+  }
+
+  set totalPremiumView(value: any) {
+      this._totalPremiumView = value;
   }
 
 }
