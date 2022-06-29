@@ -1,13 +1,17 @@
-<div>
-    <h3 class="card-label left-border-image">{{"FORM.health" | translate }}</h3>
+<div class="title">
+    <h4 class="card-label left-border-image">{{"FORM.health" | translate }}</h4>
     <form action="#" class="form" [formGroup]="formGroup">
-        <div class="set" *ngIf="selectedIndex == 2">
-            <div class="col-12">We need health to work, so whatever it costs we need to
-                protect our health</div>
-            <h4 class="col-12 sub-title" style="padding-left: 13px;">Current health protection self</h4>
+        <div class="set" *ngIf="selectedIndex == 2" style="margin-top: 1.3rem;">
+            <div class="col-12" >
+                <ion-label> 
+                    We need health to work, so whatever it costs we need to
+                    protect our health
+                </ion-label></div>
+            <h4 class="col-12 sub-title" style="padding: 10px 0px 0px 13px;">Current health protection self</h4>
             <div class="row form-group">
                 <div class="col-4">
-                    <div class="form-group"> <label class="form-label">{{"FORM.with_protection" | translate}}</label> </div>
+                    <div class="form-group"> 
+                        <label class="form-label" style="padding-top: 1rem;">{{"FORM.with_protection" | translate}}</label> </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
@@ -23,7 +27,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_insurance" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_insurance" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -39,7 +43,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_employer" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_employer" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -55,7 +59,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_social_benefit" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_social_benefit" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -81,7 +85,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label"> {{"FORM.name_of_spouse" | translate}}</label>
+                        <label class="form-label" style="padding-top: 1rem;"> {{"FORM.name_of_spouse" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -91,10 +95,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding: 5px 0px;">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label"> {{"FORM.date_of_birth" | translate}}</label>
+                        <label class="form-label" style="padding-top: 1rem;"> {{"FORM.date_of_birth" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-7">
@@ -120,7 +124,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label"> {{"FORM.with_protection" | translate}}</label>
+                        <label class="form-label" style="padding-top: 1rem;"> {{"FORM.with_protection" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-sm-8">
@@ -136,7 +140,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_insurance" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_insurance" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -152,7 +156,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_employer" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_employer" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -168,7 +172,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_social_benefit" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_social_benefit" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -202,7 +206,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">{{"FORM.name_of_child" | translate}}</label>
+                        <label class="form-label" style="padding-top: 1rem;">{{"FORM.name_of_child" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -212,10 +216,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding: 5px 0px;">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">{{"FORM.date_of_birth" | translate}}</label>
+                        <label class="form-label" style="padding-top: 1rem;">{{"FORM.date_of_birth" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-7">
@@ -241,7 +245,7 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-label">{{"FORM.with_protection" | translate}}</label>
+                        <label class="form-label" style="padding-top: 1rem;">{{"FORM.with_protection" | translate}}</label>
                     </div>
                 </div>
                 <div class="col-8">
@@ -258,7 +262,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_insurance" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_insurance" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -274,7 +278,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_employer" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_employer" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">
@@ -290,7 +294,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-label">{{"FORM.amount_protected_by_social_benefit" | translate }}</label>
+                            <label class="form-label" style="padding-top: 1rem;">{{"FORM.amount_protected_by_social_benefit" | translate }}</label>
                         </div>
                     </div>
                     <div class="col-8">

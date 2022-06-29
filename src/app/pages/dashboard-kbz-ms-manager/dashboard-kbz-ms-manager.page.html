@@ -77,7 +77,7 @@
       <h2 class="title-color">{{"CARD.active_agents_today" | translate}}</h2>
       <div style="font-weight: bold;">{{ todayActiveAgent }}</div>
       <div id="chart" style="position: relative;
-      top: -15px;" *ngIf="chartOptionsAgent">
+      top: -20px;" *ngIf="chartOptionsAgent">
         <apx-chart [series]="chartOptionsAgent.series" [chart]="chartOptionsAgent.chart"
           [xaxis]="chartOptionsAgent.xaxis" [yaxis]="chartOptionsAgent.yaxis" [title]="chartOptionsAgent.title"
           [legend]="chartOptionsAgent.legend" [dataLabels]="chartOptionsAgent.dataLabels"

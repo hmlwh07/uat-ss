@@ -209,7 +209,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           toolbar: {
             show: true
           },
-          height: this.chartH - 8,
+          height: this.chartH - 10,
           type: "bar",
           events: {
             click: function (w, e) {
