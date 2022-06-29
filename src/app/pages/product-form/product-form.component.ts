@@ -494,6 +494,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       postData.sumInsureView = sumInsuredView
       postData.sumInsure = sum.value
     }
+    if(page.tableName=='travel_basic'){
+      let inceptionDate = postData.data.find(x => x.column == "policy_inception_date")
+      postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
+    }
+    if(page.tableName=='pa_product_detail'){
+      let inceptionDate = postData.data.find(x => x.column == "formdate")
+      let sum = postData.data.find(x => x.column == "sum_insured")
+      let currency = postData.data.find(x => x.column == "m_currency")
+      let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
+      postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.sumInsureView = sumInsuredView
+      postData.sumInsure = sum.value
+    }
     this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
       if (page.pageType == 'table') {
         return this.checkMasterValue(formData, page.controls, data)
@@ -605,6 +618,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       let currency = postData.pageData[0].data.find(x => x.column == "m_currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
       postData.policyInceptionDate = moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.sumInsureView = sumInsuredView
+      postData.sumInsure = sum.value
+    }
+    if(page.tableName=='travel_basic'){
+      let inceptionDate = postData.pageData[0].data.find(x => x.column == "policy_inception_date")
+      postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
+    }
+    if(page.tableName=='pa_product_detail'){
+      let inceptionDate = postData.pageData[0].data.find(x => x.column == "formdate")
+      let sum = postData.pageData[0].data.find(x => x.column == "sum_insured")
+      let currency = postData.pageData[0].data.find(x => x.column == "m_currency")
+      let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
+      postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
       postData.sumInsureView = sumInsuredView
       postData.sumInsure = sum.value
     }
