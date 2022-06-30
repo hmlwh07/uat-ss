@@ -455,6 +455,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       currency: this.currencyType,
       party: page.party || false,
       policyInceptionDate: null,
+      policyExpireDate:null,
       data: [
 
       ]
@@ -487,23 +488,29 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     console.log("page.tableName", page.tableName);
     if (page.tableName == 'm_detail') {
       let inceptionDate = postData.data.find(x => x.column == "m_period_of_insurance_from")
+      let expireDate = postData.data.find(x => x.column == "m_period_of_insurance_to")
       let sum = postData.data.find(x => x.column == "m_total_risk_si")
       let currency = postData.data.find(x => x.column == "m_currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
       postData.policyInceptionDate = moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.policyExpireDate= moment(expireDate.value).format("YYYY-MM-DD")
       postData.sumInsureView = sumInsuredView
       postData.sumInsure = sum.value
     }
     if(page.tableName=='travel_basic'){
       let inceptionDate = postData.data.find(x => x.column == "policy_inception_date")
+      let expireDate = postData.data.find(x => x.column == "policy_expiry_date")
       postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.policyExpireDate= moment(expireDate.value).format("YYYY-MM-DD")
     }
     if(page.tableName=='pa_product_detail'){
       let inceptionDate = postData.data.find(x => x.column == "formdate")
+      let expireDate = postData.data.find(x => x.column == "todate")
       let sum = postData.data.find(x => x.column == "sum_insured")
       let currency = postData.data.find(x => x.column == "currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
       postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.policyExpireDate= moment(expireDate.value).format("YYYY-MM-DD")
       postData.sumInsureView = sumInsuredView
       postData.sumInsure = sum.value
     }
@@ -578,6 +585,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       policyNumber: null,
       party: page.party || false,
       policyInceptionDate: null,
+      policyExpireDate:null,
       pageData: [
         {
           data: []
@@ -614,23 +622,29 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     }
     if (page.tableName == 'm_detail') {
       let inceptionDate = postData.pageData[0].data.find(x => x.column == "m_period_of_insurance_from")
+      let expireDate = postData.pageData[0].data.find(x => x.column == "m_period_of_insurance_to")
       let sum = postData.pageData[0].data.find(x => x.column == "m_total_risk_si")
       let currency = postData.pageData[0].data.find(x => x.column == "m_currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
       postData.policyInceptionDate = moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.policyExpireDate= moment(expireDate.value).format("YYYY-MM-DD")
       postData.sumInsureView = sumInsuredView
       postData.sumInsure = sum.value
     }
     if(page.tableName=='travel_basic'){
       let inceptionDate = postData.pageData[0].data.find(x => x.column == "policy_inception_date")
+      let expireDate = postData.pageData[0].data.find(x => x.column == "policy_expiry_date")
       postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.policyExpireDate= moment(expireDate.value).format("YYYY-MM-DD")
     }
     if(page.tableName=='pa_product_detail'){
       let inceptionDate = postData.pageData[0].data.find(x => x.column == "formdate")
+      let expireDate = postData.pageData[0].data.find(x => x.column == "todate")
       let sum = postData.pageData[0].data.find(x => x.column == "sum_insured")
       let currency = postData.pageData[0].data.find(x => x.column == "currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
       postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
+      postData.policyExpireDate= moment(expireDate.value).format("YYYY-MM-DD")
       postData.sumInsureView = sumInsuredView
       postData.sumInsure = sum.value
     }

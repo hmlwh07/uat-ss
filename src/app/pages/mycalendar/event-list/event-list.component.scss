@@ -32,18 +32,26 @@
 .prod-icon {
     width: 1.5rem;
     position: absolute;
-    left: 15px;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
 }
 .event-list{
-height: 1.5rem;
+//height: 1.5rem;
+padding: 10px 0 0 40px;
 }
 .event-label{
-    position: absolute;
-    left: 20%;
+    // position: absolute;
+    // left: 20%;
+    // top: 50%;
+    // transform: translateY(-50%);
+    position: relative;
+    left: 23%;
     top: 50%;
     transform: translateY(-50%);
+    width: 100%;
+    display: contents;
+    overflow: hidden;
 }
 
 .card.card-custom,
@@ -55,9 +63,9 @@ height: 1.5rem;
 }
 
 .event-modal-body {
-    padding: 0px;
+    padding: 0 0 15px 0;
     max-height: 400px;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .cal-day-badge {
