@@ -106,7 +106,7 @@ export const locale = {
       create_bpm: 'Create BPM',
       create_by: 'Created By',
       create_date: 'Created',
-      btn_approve: 'Approve',
+      btn_accept: 'Accept',
       btn_delete: 'Delete',
       btn_reject: 'Reject',
       btn_win: 'Win',
