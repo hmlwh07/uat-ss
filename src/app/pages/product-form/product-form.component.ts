@@ -447,7 +447,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       agentId: this.auth.currentUserValue.id || 1,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
-      sumInsureView: '',
+      sumInsureView: null,
       sumInsure: 0,
       policyNumber: null,
       pageId: page.id,
@@ -501,7 +501,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     if(page.tableName=='pa_product_detail'){
       let inceptionDate = postData.data.find(x => x.column == "formdate")
       let sum = postData.data.find(x => x.column == "sum_insured")
-      let currency = postData.data.find(x => x.column == "m_currency")
+      let currency = postData.data.find(x => x.column == "currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
       postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
       postData.sumInsureView = sumInsuredView
@@ -573,7 +573,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
-      sumInsureView: '',
+      sumInsureView: null,
       sumInsure: 0,
       policyNumber: null,
       party: page.party || false,
@@ -628,7 +628,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     if(page.tableName=='pa_product_detail'){
       let inceptionDate = postData.pageData[0].data.find(x => x.column == "formdate")
       let sum = postData.pageData[0].data.find(x => x.column == "sum_insured")
-      let currency = postData.pageData[0].data.find(x => x.column == "m_currency")
+      let currency = postData.pageData[0].data.find(x => x.column == "currency")
       let sumInsuredView = this.numberPipe.transform(sum.value || 0, "1.2-2") + " " + currency.value.toUpperCase()
       postData.policyInceptionDate= moment(inceptionDate.value).format("YYYY-MM-DD")
       postData.sumInsureView = sumInsuredView

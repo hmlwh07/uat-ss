@@ -297,7 +297,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         premium: this.totalPremium,
         premiumView: this.numberPipe.transform(this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2") + ' MMK',
         sumInsure: data.sumInsure || 0 ,
-        sumInsureView: this.numberPipe.transform(data.sumInsure || 0, "1.2-2")+ ' MMK',
+        sumInsureView: this.numberPipe.transform(data.sumInsure || 0, "1.2-2")+ ' MMK' || null,
         productId: this.prodService.createingProd.id,
         productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,

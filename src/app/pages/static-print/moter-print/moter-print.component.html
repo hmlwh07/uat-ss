@@ -122,7 +122,7 @@
         <tr>
           <td class="field-pd">{{vehicleDetail.mEngineNo}}</td>
           <td class="field-pd">{{motorDetail.mModelValue}}</td>
-          <td class="field-pd">{{motorDetail.mTonnage}}</td>
+          <td class="field-pd">{{isTonnage ? motorDetail.mTonnage : motorDetail.mCapacity}}</td>
           <td class="field-pd">{{vehicleDetail.mManufactureYearValue}}</td>
           <td class="field-pd">{{motorDetail.mTypeOfVehicleValue}}</td>
           <td class="field-pd">{{motorDetail.mTypeOfCoverageValue}}</td>
@@ -176,7 +176,7 @@
 
 <div class="addon-print">
   <div class="title-style text-bold mt-5 mb-5">Additional Cover Information</div>
-  <table class="tbody-align">
+  <table class="tbody-align" *ngIf="this.product.code=='PLMO02'">
     <tr>
       <td class="field-col">
         War Risk
@@ -215,7 +215,7 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of addOnData;">
         <tr>
-          <td class="field-value">{{data.WR|| 0 | number  : '1.2-2'}}</td>
+          <td class="field-value" >{{data.WR|| 0 | number  : '1.2-2'}}</td>
           <td class="field-value">{{data.AOG || 0| number  : '1.2-2'}}</td>
           <td class="field-value">{{data.THEFT|| 0 | number  : '1.2-2'}}</td>
           <td class="field-value">{{data.NOBTTRMNT|| 0|number  : '1.2-2'}}</td>
@@ -224,6 +224,36 @@
           <td class="field-value">{{data['MED EXP'] || 0 | number  : '1.2-2'}}</td>
           <td class="field-value">{{data.PASSRLBTY|| 0 | number  : '1.2-2'}}</td>
           <td class="field-value">{{data.PAIDDRIVER|| 0 | number  : '1.2-2'}}</td>
+          <td class="field-value">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
+          <td class="field-value">{{data.premium | number  : '1.2-2'}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <table class="tbody-align" *ngIf="this.product.code=='PLMO01'" width="100%">
+    <tr>
+      <td class="field-col">
+        War Risk
+      </td>
+      <td class="field-col">
+        Act of God
+      </td>
+      <td class="field-col">
+        Theft
+      </td>
+      <td class="field-col">
+        Excess 
+      </td>
+      <td class="field-col">
+        Total Premium of Additional Cover  
+      </td>
+    </tr>
+    <tbody class="tbody-align val-col">
+      <ng-container *ngFor="let data of addOnData;">
+        <tr>
+          <td class="field-value" >{{data.WR|| 0 | number  : '1.2-2'}}</td>
+          <td class="field-value">{{data.AOG || 0| number  : '1.2-2'}}</td>
+          <td class="field-value">{{data.THEFT|| 0 | number  : '1.2-2'}}</td>
           <td class="field-value">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
           <td class="field-value">{{data.premium | number  : '1.2-2'}}</td>
         </tr>
