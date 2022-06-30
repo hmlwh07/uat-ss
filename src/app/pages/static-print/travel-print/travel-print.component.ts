@@ -33,9 +33,11 @@ export class TravelPrintComponent implements OnInit {
   constructor(
     private policyHolderService: PolicyHolderService,
     private travelService: TravelRiskService,
+    private productService: ProductDataService
   ) { }
 
   ngOnInit() {
+    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     this.getPolicyHolder()
     this.getTravelPrintData()
   }

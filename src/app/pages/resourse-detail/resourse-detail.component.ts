@@ -47,8 +47,22 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   detailInput: any = {}
   private formatedData = {}
   printConfig: PrintConfig = {}
-  signFileId: any = "";
-  constructor(private productService: ProductDataService, private location: Location, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private router: Router, private cdf: ChangeDetectorRef, private downloadService: AttachmentDownloadService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private modalService: NgbModal, private policyService: PolicyService, private alertService: AlertService) { }
+  signFileId: any = null;
+  constructor(
+    private productService: ProductDataService,
+    private location: Location,
+    private pageDataService: PageDataService,
+    private addonQuo: AddOnQuoService,
+    private coverageQuo: CoverageQuoService,
+    private router: Router,
+    private cdf: ChangeDetectorRef,
+    private downloadService: AttachmentDownloadService,
+    private numberPipe: DecimalPipe,
+    private datePipe: DatePipe,
+    private modalService: NgbModal,
+    private policyService: PolicyService,
+    private alertService: AlertService
+  ) { }
 
   async ngOnInit() {
 
@@ -60,14 +74,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail = this.productService.editData
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
-      console.log("RESOURCE", this.resourceDetail);
 
       if (!this.resourceDetail) {
         this.location.back()
         return
       }
       let pageUI: ProductPages = JSON.parse(this.item.config);
-      // console.log(this.resourceDetail);
 
       if (this.productService.previewType == 'quotation') {
         this.pageOrder = pageUI.quotation || []
@@ -159,10 +171,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //     }
       //   }
       // }
-      console.log('resourceDetail', this.resourceDetail);
       this.cdf.detectChanges()
     }
   }
+
   ngOnDestroy() {
     this.productService.createingProd = null
     this.productService.editData = null;
@@ -171,23 +183,25 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   getDetail(tempFormData) {
     this.getOldData(this.resourceDetail, tempFormData)
   }
+
   checkDisabled() {
-    let isDisabled=true
-    
-    if (this.resourceDetail.apiStatus!= null){
-      let status=this.resourceDetail.apiStatus.toLowerCase()
-        if (status!= 'fail'){
-          isDisabled= true
-          console.log(status,isDisabled);
-        }else{
-          isDisabled= false
-          console.log(status,isDisabled);
-        }
-      }else{
-        isDisabled=false
+    let isDisabled = true
+
+    if (this.resourceDetail.apiStatus != null) {
+      let status = this.resourceDetail.apiStatus.toLowerCase()
+      if (status != 'fail') {
+        isDisabled = true
+        console.log(status, isDisabled);
+      } else {
+        isDisabled = false
+        console.log(status, isDisabled);
       }
-      return isDisabled
-     }
+    } else {
+      isDisabled = false
+    }
+    return isDisabled
+  }
+
   getOldData(oldData: any, tempFormData) {
     let index = 0
     // this.pageOrder.forEach((element) => {
@@ -456,7 +470,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
               this.alertService.activate('This record was created', 'Success Message');
               this.signFileId = res.data
               this.productService.editData['attachmentId'] = res.data
-
             }
           })
         }
@@ -465,13 +478,17 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
 
   submitPolicy() {
-    this.policyService.submitPolicy(this.resourceDetail.id).toPromise().then((res) => {
-      if (res) {
-        this.alertService.activate('This record was submitted', 'Success Message');
-        this.resourceDetail.apiStatus = 'sending'
-        this.resourceDetail.status = 'submitted'
-        this.cdf.detectChanges()
-      }
-    })
+    if (this.signFileId == null) {
+      this.alertService.activate('You have to signature first.', 'Warning Message')
+    } else {
+      this.policyService.submitPolicy(this.resourceDetail.id).toPromise().then((res) => {
+        if (res) {
+          this.alertService.activate('This record was submitted', 'Success Message');
+          this.resourceDetail.apiStatus = 'sending'
+          this.resourceDetail.status = 'submitted'
+          this.cdf.detectChanges()
+        }
+      })
+    }
   }
 }

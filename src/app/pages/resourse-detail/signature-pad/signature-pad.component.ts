@@ -18,37 +18,49 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
     'canvasHeight': 300
   };
 
-  constructor(public modal: NgbActiveModal,private fileUpload: AttachmentUploadService, private alertService: AlertService) { }
+  constructor(
+    public modal: NgbActiveModal,
+    private fileUpload: AttachmentUploadService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit(): void {
-
   }
+
   ngAfterViewInit() {
     // this.signaturePad is now available
     this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
     this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
   }
+
   clearSign() {
     this.signaturePad.clear()
   }
+
   saveSign() {
-    // console.log(this.signaturePad.toDataURL());
-    let base64 = this.signaturePad.toDataURL().toString().split(",")[1];
-    var sizeInBytes = 4 * Math.ceil((base64.length / 3)) * 0.5624896334383812;
-    let data = {
-      fileStr: base64,
-      fileName: new Date().getTime(),
-      fileType: 'png',
-      fileSize: sizeInBytes,
-      contentType: 'png',
-      fileExtension: 'png',
-    }
-    // this.loading.activate()
-    this.fileUpload.save(data).toPromise().then((res) => {
-      if (res) {
-        this.modal.dismiss({ data: res, type: 'save' })
+    if (this.signaturePad.isEmpty()) {
+      this.alertService.activate('You have to signature first.', 'Warning Message');
+    } else {
+      let base64 = this.signaturePad.toDataURL().toString().split(",")[1];
+      var sizeInBytes = 4 * Math.ceil((base64.length / 3)) * 0.5624896334383812;
+      let data = {
+        fileStr: base64,
+        fileName: new Date().getTime(),
+        fileType: 'png',
+        fileSize: sizeInBytes,
+        contentType: 'png',
+        fileExtension: 'png',
       }
-    })
+      // this.loading.activate()
+      this.fileUpload.save(data).toPromise().then((res) => {
+        if (res) {
+          this.modal.dismiss({
+            data: res,
+            type: 'save'
+          })
+        }
+      })
+    }
   }
 
   deleteEditModal() {
