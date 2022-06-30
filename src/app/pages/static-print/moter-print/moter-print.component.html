@@ -92,8 +92,11 @@
       <td class="field-pd">
         Make/ Model
       </td>
-      <td class="field-pd">
-        CC/ Tonnage
+      <td class="field-pd" *ngIf="isTonnage">
+         Tonnage
+      </td>
+      <td class="field-pd" *ngIf="!isTonnage">
+        CC
       </td>
       <td class="field-pd">
         Year of Manufacture

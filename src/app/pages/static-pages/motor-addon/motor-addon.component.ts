@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from 'angular-calendar';
+import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { IsJsonString, MY_FORMATS } from 'src/app/core/is-json';
 import { PolicyDTO } from '../../policy/policy.dto';
@@ -30,11 +31,13 @@ export class MotorAddonComponent implements OnInit {
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   @Input() optionId: string
   @Input() premiumAmt: string = ''
+  @Input() sumInsured: string = ''
   @Output() changeCheck = new EventEmitter<any>();
   primary = 'primary'
   isMedical: boolean = false
   isCross: boolean = false
   planOption: any = 'basic';
+  unsubscribe: Subscription[] = []
   planOptionOption: any = [
     {
       code: 'basic', value: 'Basic Plan'
@@ -64,8 +67,9 @@ export class MotorAddonComponent implements OnInit {
   async ngOnInit() {
     this.optionId = this.optionId ? this.optionId : this.resourcesId
     this.parentData = this.getParnet()
-    console.log("PARENDT",this.parentData);
-    
+    console.log("PARENDT", this.parentData);
+    console.log("this.product.addOns", this.product.addOns);
+
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
     let postData = {
@@ -80,23 +84,24 @@ export class MotorAddonComponent implements OnInit {
       postData.addOnIds.push(crossID.id)
     }
     let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
+    console.log("RESULT", results);
+
     if (medID) {
       let response = results.find(x => x.addonId == medID.id)
       if (response) {
         this.isMedical = true
         this.planOption = response.option
-        this.toggleChange('medical')
+        this.toggleChange('medical', true)
       }
     }
     if (crossID) {
       let response2 = results.find(x => x.addonId == crossID.id)
+      console.log("response2", response2);
       if (response2) {
         this.isCross = true
         this.startDate = response2.startDate
         this.endDate = response2.endDate
-        this.option1 = response2.option1
-        this.option2 = response2.option2
-        this.toggleChange('cross')
+        this.toggleChange('cross', true)
       }
     }
     // here detect change
@@ -116,11 +121,15 @@ export class MotorAddonComponent implements OnInit {
     return null
   }
 
-  toggleChange(type) {
+  toggleChange(type, isOld?) {
     // console.log(type);
 
     if (type == 'medical') {
-      this.isMedical = !this.isMedical
+      if (isOld) {
+        this.isMedical = isOld
+      } else {
+        this.isMedical = !this.isMedical
+      }
       if (!this.isMedical) {
         this.medPremium = 0
         this.caluMotorPremimun()
@@ -131,7 +140,11 @@ export class MotorAddonComponent implements OnInit {
       this.cdf.detectChanges()
     }
     if (type == 'cross') {
-      this.isCross = !this.isCross
+      if (isOld) {
+        this.isCross = isOld
+      } else {
+        this.isCross = !this.isCross
+      }
       if (!this.isCross) {
         this.crossPremium = 0
         this.caluMotorPremimun()
@@ -165,6 +178,25 @@ export class MotorAddonComponent implements OnInit {
   calcuCross() {
     let tempPre = 0
     let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
+    let medID = this.product.addOns.find(x => x.code == "MED EXP")
+    let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
+    console.log("crossIDcrossIDcrossID",crossID);
+    
+    if (crossID) {
+      addOnsData.forEach((element, index) => {
+        console.log(element);
+        if (element.addonId == crossID.id)
+          addOnsData.splice(index, 1);
+      });
+    }
+    if (medID) {
+      addOnsData.forEach((element, index) => {
+        console.log(element);
+        if (element.addonId == medID.id)
+          addOnsData.splice(index, 1);
+      });
+    }
+    console.log("addOnsData====>", addOnsData);
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked) {
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
@@ -187,17 +219,17 @@ export class MotorAddonComponent implements OnInit {
     let excessAmt = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']
-      let vehicle=this.parentData['m_type_of_vehicle']
-      let purpose=this.parentData['m_purpose_of_use']
-      console.log("EXCESS", excess);
+      let vehicle = this.parentData['m_type_of_vehicle']
+      let purpose = this.parentData['m_purpose_of_use']
+      console.log("EXCESS", excess, "vehicle", vehicle, "purpose", purpose);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        if(vehicle='T-MCC'&& purpose=='T-PRI'){
-          excessAmt=5000
-        }else if (vehicle='T-MCC'&& purpose=='T-COM'){
-          excessAmt=10000
+        if (vehicle = 'T-MCC' && purpose == 'T-PRI') {
+          excessAmt = 5000
+        } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+          excessAmt = 10000
         }
-        else{
+        else {
           excessAmt = 50000
         }
       }
@@ -215,6 +247,8 @@ export class MotorAddonComponent implements OnInit {
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
     // * percent
+    console.log("TEMP", tempPre, "excessAmt", excessAmt);
+
     let cross = ((tempPre + excessAmt) * 0.15)
     this.crossPremium = this.globalFun.calculateDecimal(cross || 0)
   }
@@ -224,8 +258,8 @@ export class MotorAddonComponent implements OnInit {
   async nextPage() {
     const quoService = this.addOnQuoService
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
-    if (medID)
-      await quoService.deleteOne(medID, this.resourcesId, this.resourcesId)
+    // if (medID)
+    //   await quoService.deleteOne(medID, this.resourcesId, this.resourcesId)
     if (this.isMedical) {
       this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium
       if (medID) {
@@ -246,8 +280,8 @@ export class MotorAddonComponent implements OnInit {
 
     }
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
-    if (crossID)
-      await quoService.deleteOne(crossID, this.resourcesId, this.resourcesId)
+    // if (crossID)
+    //   await quoService.deleteOne(crossID, this.resourcesId, this.resourcesId)
 
     if (this.isCross) {
       this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium
@@ -280,13 +314,16 @@ export class MotorAddonComponent implements OnInit {
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let premiumAmt = await this.caluMotorPremimun()
     let premiumAmtView = await this.numberPipe.transform(premiumAmt || 0, "1.2-2") + " " + currency.toUpperCase()
+    let inception: string = ''
     let postData = {
       "premium": Number(premiumAmt || 0) + "",
       "premiumView": premiumAmtView,
       "resourceId": this.resourcesId,
-      "type": this.prodService.viewType
+      "type": this.prodService.viewType,
+      // "sumInsured":(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+      // "sumInsuredView":this.sumInsured,
     }
-  
+
     this.pageDataService.updatePremimun(postData).toPromise().then((res) => {
       if (res) {
         this.actionEvent.emit({ type: StaticActionType.NEXT })
@@ -325,19 +362,19 @@ export class MotorAddonComponent implements OnInit {
     if (this.parentData) {
       let excess = this.parentData['m_excess']
       let excess_discount = this.parentData['m_excess_discount']
-      let vehicle=this.parentData['m_type_of_vehicle']
-      let purpose=this.parentData['m_purpose_of_use']
+      let vehicle = this.parentData['m_type_of_vehicle']
+      let purpose = this.parentData['m_purpose_of_use']
       console.log(excess, excess_discount);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        if(vehicle='T-MCC'&& purpose=='T-PRI'){
+        if (vehicle = 'T-MCC' && purpose == 'T-PRI') {
           discount = -5000
           discount2 = -5000
-        }else if (vehicle='T-MCC'&& purpose=='T-COM'){
+        } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
           discount = -10000
           discount2 = -10000
         }
-        else{
+        else {
           discount = -50000
           discount2 = -50000
         }

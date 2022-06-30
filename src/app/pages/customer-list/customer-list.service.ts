@@ -39,9 +39,8 @@ export class CustomerListService {
     }
     if (!isCustom) {
       url = url + "isPartyCode=" + party
-    } else {
-      url = url + "statusCode=A"
     }
+   
     return this.httpClient.get(url)
   }
 }

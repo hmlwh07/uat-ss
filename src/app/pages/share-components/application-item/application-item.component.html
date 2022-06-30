@@ -45,6 +45,6 @@
 
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
     <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
-    <label>SI : <span>{{ itemData.siView || 0 | number:'1.2-2'}}</span> </label>
+    <label>SI : <span>{{ itemData.sunInsureView || 0 }}</span> </label>
   </div>
 </div>

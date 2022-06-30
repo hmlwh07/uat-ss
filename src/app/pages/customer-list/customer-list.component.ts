@@ -30,6 +30,10 @@ export class CustomerListComponent implements OnInit {
   customerList: any[] = [];
 
   statusOption = Status;
+  statusCustomOption=[{
+    code:"A",
+    value:"Active"
+  }]
   identityTypeOption = IdentityType;
 
   customerForm: FormGroup;
@@ -57,6 +61,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
     this.cancel()
   }
 
