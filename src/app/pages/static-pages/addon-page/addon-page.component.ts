@@ -233,6 +233,7 @@ export class AddonPageComponent implements OnInit {
   }
 
   async nextPage() {
+    this.prodService.totalPremium = 0;
     const quoService = this.addOnQuoService
     const posDataArray = this.addOnsData
     await quoService.deleteAll(this.resourcesId, this.optionId, this.crossAddons.join(",")).toPromise()
@@ -250,6 +251,7 @@ export class AddonPageComponent implements OnInit {
         let option = posDataArray[addon.id].option ? posDataArray[addon.id].option + "" : ""
 
         console.log('addon save ', premium);
+
         this.prodService.totalPremium += parseFloat(premium);
 
         try {

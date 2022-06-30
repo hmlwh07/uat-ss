@@ -57,7 +57,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   step3Com: boolean = false
   currencyType: string = "MMK"
   unsub: Subscription[] = []
-  totalPremium: any;
+  totalPremium: any = 0;
+  tempTotalPremium: any = 0;
   constructor(private modalService: NgbModal, public modal: NgbActiveModal,
     private masterDataService: MasterDataService, private cdf: ChangeDetectorRef,
     private fireRiskService: FireRiskService, private auth: AuthService,
@@ -71,6 +72,9 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if(this.totalPremium == 0){
+      this.totalPremium = 0;
+    }
     this.unsub[0] = this.globalService.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
         this.currencyType = res
@@ -465,7 +469,10 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   }
 
   async calPremimun(close: boolean = true) {
-
+    if(this.totalPremium == 0){
+      this.totalPremium = 0;
+    }
+   
 
     console.log("rateData,rate1,rate2,", this.oldData);
     if (this.oldData.id) {
@@ -551,7 +558,14 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         this.totalPremium = this.totalPremium + 0.05;
       }
 
-      console.log('totalPremium =====> ', this.totalPremium);
+      // console.log('totalPremium =====> ', this.totalPremium);
+      // if(this.totalPremium > 0){
+      //   this.tempTotalPremium += this.totalPremium
+      //   this.totalPremium = this.tempTotalPremium;
+      // }else{
+      //   this.tempTotalPremium =  this.totalPremium;
+      // }
+
 
       this.createRisk(close, true)
     } else {
