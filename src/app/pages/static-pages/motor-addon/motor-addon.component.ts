@@ -67,8 +67,6 @@ export class MotorAddonComponent implements OnInit {
   async ngOnInit() {
     this.optionId = this.optionId ? this.optionId : this.resourcesId
     this.parentData = this.getParnet()
-    console.log("PARENDT", this.parentData);
-    console.log("this.product.addOns", this.product.addOns);
 
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
@@ -127,40 +125,42 @@ export class MotorAddonComponent implements OnInit {
     if (type == 'medical') {
       if (isOld) {
         this.isMedical = isOld
+        this.caluMotorPremimun()
       } else {
         this.isMedical = !this.isMedical
+        this.caluMotorPremimun()
       }
       if (!this.isMedical) {
         this.medPremium = 0
         this.caluMotorPremimun()
       }
       this.changePlan()
-      // this.premium = this.globalFun.motorMedicalExpense(this.parentData)
+
       // console.log(this.premium);
       this.cdf.detectChanges()
     }
     if (type == 'cross') {
       if (isOld) {
         this.isCross = isOld
+        this.calcuCross()
+        this.caluMotorPremimun()
       } else {
         this.isCross = !this.isCross
+        this.calcuCross()
+        this.caluMotorPremimun()
       }
       if (!this.isCross) {
         this.crossPremium = 0
+        console.log("this.crossPremium",this.crossPremium); 
         this.caluMotorPremimun()
       }
-      // this.crossPremium = this.isCross ? this.calcuCross() : 0
-      this.calcuCross()
       this.cdf.detectChanges()
     }
   }
   changePlan() {
     if (this.planOption == 'basic') {
-      // this.premium = this.globalFun.motorMedicalExpense(this.parentData)
       this.medPremium = this.calcumotorMedical()
-      this.premiumAmt
     } else {
-      // this.premium =  this.globalFun.motorMedicalExpense(this.parentData)
       this.medPremium = this.calcumotorMedical()
     }
 
@@ -180,8 +180,6 @@ export class MotorAddonComponent implements OnInit {
     let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
-    console.log("crossIDcrossIDcrossID",crossID);
-    
     if (crossID) {
       addOnsData.forEach((element, index) => {
         console.log(element);
@@ -196,7 +194,6 @@ export class MotorAddonComponent implements OnInit {
           addOnsData.splice(index, 1);
       });
     }
-    console.log("addOnsData====>", addOnsData);
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked) {
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
@@ -204,14 +201,10 @@ export class MotorAddonComponent implements OnInit {
     }
 
     if (this.isMedical) {
-      console.log("isMedical", this.isMedical);
-
       tempPre += this.medPremium
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      console.log("COV", cov);
-
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     // let crossPre = tempPre * 0.15
@@ -224,7 +217,7 @@ export class MotorAddonComponent implements OnInit {
       console.log("EXCESS", excess, "vehicle", vehicle, "purpose", purpose);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        if (vehicle = 'T-MCC' && purpose == 'T-PRI') {
+        if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
           excessAmt = 5000
         } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
           excessAmt = 10000
@@ -258,55 +251,82 @@ export class MotorAddonComponent implements OnInit {
   async nextPage() {
     const quoService = this.addOnQuoService
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
-    // if (medID)
-    //   await quoService.deleteOne(medID, this.resourcesId, this.resourcesId)
-    if (this.isMedical) {
-      this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium
-      if (medID) {
-        let postData = {
-          addonId: medID.id,
-          quotationNo: this.resourcesId,
-          optionalKey: this.resourcesId,
-          premium: this.medPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
-          option: this.planOption,
-        }
-        let res = await quoService.save(postData).toPromise()
-        if (this.globalFun.tempFormData['addon_1634010770155']) {
-          this.globalFun.tempFormData['addon_1634010770155'].push(postData)
-        } else {
-          this.globalFun.tempFormData['addon_1634010770155'] = [postData]
-        }
-      }
-
-    }
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
-    // if (crossID)
-    //   await quoService.deleteOne(crossID, this.resourcesId, this.resourcesId)
-
-    if (this.isCross) {
-      this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium
-      if (crossID) {
-        let postData = {
-          addonId: crossID.id,
-          quotationNo: this.resourcesId,
-          optionalKey: this.resourcesId,
-          premium: this.crossPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
-          startDate: this.startDate,
-          endDate: this.endDate,
-          option: this.option1,
-          option2: this.option2
-        }
-        let res = await quoService.save(postData).toPromise()
-        // if (this.globalFun.tempFormData['addon_1634010770155']) {
-        //   this.globalFun.tempFormData['addon_1634010770155'].push(postData)
-        // } else {
-        //   this.globalFun.tempFormData['addon_1634010770155'] = [postData]
-        // }
-      }
-
+    let postData = {
+      quotationNo: this.resourcesId,
+      addOnIds: [],
+      optionalKey: this.optionId
     }
+    if (medID) {
+      postData.addOnIds.push(medID.id)
+    }
+    if (crossID) {
+      postData.addOnIds.push(crossID.id)
+    }
+    let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
+    console.log("RESULT", results);
+
+    if (medID) {
+      let response = results.find(x => x.addonId == medID.id)
+      if (response) {
+        if (!this.isMedical) {
+          if (medID)
+            quoService.deleteOne(medID.id, this.resourcesId, this.resourcesId).toPromise().then((res) => {
+              this.medPremium = 0
+            })
+        }
+        if (this.isMedical) {
+          this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium
+          if (medID) {
+            let postData = {
+              addonId: medID.id,
+              quotationNo: this.resourcesId,
+              optionalKey: this.resourcesId,
+              premium: this.medPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
+              option: this.planOption,
+            }
+            let res = await quoService.save(postData).toPromise()
+            if (this.globalFun.tempFormData['addon_1634010770155']) {
+              this.globalFun.tempFormData['addon_1634010770155'].push(postData)
+            } else {
+              this.globalFun.tempFormData['addon_1634010770155'] = [postData]
+            }
+          }
+
+        }
+      }
+    }
+    if (crossID) {
+      let response2 = results.find(x => x.addonId == crossID.id)
+      console.log("response2", response2);
+      if (response2) {
+        if (!this.isCross) {
+          if (crossID)
+            quoService.deleteOne(crossID.id, this.resourcesId, this.resourcesId).toPromise().then((res) => {
+              this.crossPremium = 0
+            })
+        }
+        if (this.isCross) {
+          this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium
+          if (crossID) {
+            let postData = {
+              addonId: crossID.id,
+              quotationNo: this.resourcesId,
+              optionalKey: this.resourcesId,
+              premium: this.crossPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
+              startDate: this.startDate,
+              endDate: this.endDate,
+              option: this.option1,
+              option2: this.option2
+            }
+            let res = await quoService.save(postData).toPromise()
+          }
+
+        }
+      }
+    }
+
     await this.savePremimun()
-    // this.globalFun.tempFormData[AddOnID] = pageData
 
   }
 
@@ -335,12 +355,11 @@ export class MotorAddonComponent implements OnInit {
     let tempPre = 0
     let tempPre2 = 0
     let tempArray = this.globalFun.tempFormData['addon_1634010770155'] || []
-    for (let addon of tempArray) {
-      // if (this.addOnsData[addon.id].checked) {
-      console.log("addonPremium", this.globalFun.calculateDecimal(addon.premium));
+    console.log("tempArray", tempArray);
 
+    for (let addon of tempArray) {
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
-      // }
+      console.log("addOnPremium", this.globalFun.calculateDecimal(addon.premium));
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
@@ -367,7 +386,7 @@ export class MotorAddonComponent implements OnInit {
       console.log(excess, excess_discount);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        if (vehicle = 'T-MCC' && purpose == 'T-PRI') {
+        if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
           discount = -5000
           discount2 = -5000
         } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {

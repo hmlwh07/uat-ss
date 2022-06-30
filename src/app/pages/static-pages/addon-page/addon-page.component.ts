@@ -58,6 +58,12 @@ export class AddonPageComponent implements OnInit {
     "EQ": 0.1,
     "Fire": 0.1,
   }
+  crossPercent = {
+    "T-004": 0.35,
+    "T-003": 0.60,
+    "T-002": 0.85,
+    "T-001": 1,
+  }
   //   RSMD
   // ACD
   // IMPD
@@ -83,22 +89,22 @@ export class AddonPageComponent implements OnInit {
       { "code": "T-CL4", "value": "Class 4" },
     ]
   }
-  constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService, 
+  constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService,
     private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe,
     private pageDataService: PageDataService, private loadingService: LoadingService) { }
 
   async ngOnInit() {
     this.refID = this.prodService.referenceID
     this.optionId = this.optionId ? this.optionId : this.resourcesId
-    if (this.product.code == "PLMO02" || this.product.code =="PLMO01") {
+    if (this.product.code == "PLMO02" || this.product.code == "PLMO01") {
       this.parentData = this.getParnet()
     }
-    this.addOnList = this.product.addOns.filter(x =>(x.code != "MED EXP") || (x.code != "CROSSBRDR"))
-    this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP"&& (this.product.code != "PLMO01") || (x.code == "CROSSBRDR"&& this.product.code != "PLMO01")).map(x => x.id)
-    console.log("ADDON",this.addOnList);
-    console.log("PRODUCTLIST",this.product);
-    
-    
+    this.addOnList = this.product.addOns.filter(x => (x.code != "MED EXP") || (x.code != "CROSSBRDR"))
+    this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP" && (this.product.code != "PLMO01") || (x.code == "CROSSBRDR" && this.product.code != "PLMO01")).map(x => x.id)
+    console.log("ADDON", this.addOnList);
+    console.log("PRODUCTLIST", this.product);
+
+
     if (this.addOnList && this.addOnList.length > 0) {
       await this.loadingService.activate()
       this.addOns = {
@@ -113,17 +119,17 @@ export class AddonPageComponent implements OnInit {
         optionalKey: this.optionId
       }
       let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
-      console.log("RESULT",results);
-      
+      console.log("RESULT", results);
+
       if (results.length == 0) {
         postData.quotationNo = this.refID
         postData.optionalKey = this.refID
         results = await this.addOnQuoService.getAllById(postData).toPromise()
-        console.log("RESULT",results);
-      
+        console.log("RESULT", results);
+
       }
-      console.log("ITEM",this.addOnList);
-        
+      console.log("ITEM", this.addOnList);
+
       for (const item of this.addOnList) {
         item['show'] = true
         if (item.validationFun) {
@@ -134,9 +140,9 @@ export class AddonPageComponent implements OnInit {
         //   item["unitStr"] = "0"
         //   item["premiumStr"] = "0"
         // }
-       
+
         let response = results.find(x => x.addonId == item.id)
-        
+
         // if (item['show']) {
         this.addOnsData[item.id] = {
           checked: response && item['show'] ? true : false,
@@ -149,7 +155,7 @@ export class AddonPageComponent implements OnInit {
           this.addOnsData[item.id].option = "T-BFMGS"
         } else if (item.code == "BURGLARY" && this.addOnsData[item.id].option == "") {
           this.addOnsData[item.id].option = "T-CL1"
-          let unsub =this.globalFun.fireBurgeryResult.subscribe((value)=> this.addOnsData[item.id].option=value)
+          let unsub = this.globalFun.fireBurgeryResult.subscribe((value) => this.addOnsData[item.id].option = value)
           // this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
           this.unsubscribe.push(unsub)
         }
@@ -162,7 +168,7 @@ export class AddonPageComponent implements OnInit {
         }
         if (item.premium) {
           if (item.code == "CROSSBRDR" && this.addOnsData[item.id].checked) {
-
+            
           } else {
             this.getGlobalFun(item.premiumStr, 'addOnsData', item.id, 'premium', item)
           }
@@ -214,8 +220,8 @@ export class AddonPageComponent implements OnInit {
         }
       }
     } else if (this.product.code == "CLFR01" && subKey == "premium") {
-      console.log("addondDa",addon);
-      
+      console.log("addondDa", addon);
+
       this[mainObj][mainKey][subKey] = this.rateByValue(addon)
     }
     else {
@@ -243,7 +249,6 @@ export class AddonPageComponent implements OnInit {
       this.globalFun.tempFormData['addon_1634010770155'] = []
     }
     for (let addon of this.addOnList) {
-      console.log('addon save ', addon);
       if (posDataArray[addon.id].checked) {
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
@@ -305,7 +310,7 @@ export class AddonPageComponent implements OnInit {
       }
     } else if (this.addOnsData[addon.id].checked && addon.code == "CROSSBRDR") {
       let tempPre = this.calcuCross()
-      this.addOnsData[addon.id]['premium'] = tempPre * 0.15
+      this.addOnsData[addon.id]['premium'] = tempPre
     }
     else if (!this.addOnsData[addon.id].checked && addon.code == "CROSSBRDR") {
       this.addOnsData[addon.id]['premium'] = 0
@@ -313,7 +318,7 @@ export class AddonPageComponent implements OnInit {
   }
 
   rechangeOption(addOn) {
-    
+
     this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
   }
 
@@ -321,11 +326,14 @@ export class AddonPageComponent implements OnInit {
     let tempPre = 0
     for (let addon of this.addOnList) {
       if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
+        console.log(this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0));
+        
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
       }
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
+      console.log(this.globalFun.calculateDecimal(cov.premium || 0));
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     // let crossPre = tempPre * 0.15
@@ -334,47 +342,90 @@ export class AddonPageComponent implements OnInit {
     let discount = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']
-      let excess_discount = this.parentData['excess_discount']
+      let vehicle = this.parentData['m_type_of_vehicle']
+      let purpose = this.parentData['m_purpose_of_use']
+      console.log("EXCESS", excess, "vehicle", vehicle, "purpose", purpose);
+
       if (excess == "T-NILEX" && currency == "MMK") {
-        discount = -50000
-      } else if (excess == "TU-NILEX") {
-        discount = -25
-      } else if (excess == "T-ED" && currency == "MMK") {
-        if (excess_discount == "T-EXD1") {
-          discount = 50000
-        } else if (excess_discount == "T-EXD2") {
-          discount = 70000
-        } else if (excess_discount == "T-EXD3") {
-          discount = 100000
+        if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
+          excessAmt = 5000
+        } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+          excessAmt = 10000
+        }
+        else {
+          excessAmt = 50000
         }
       }
+      // else if (excess == 'T-STNDEX' && currency == "MMK") {
+      //   excessAmt = 100000
+      // }
+      else if (excess == "TU-NILEX" && currency == "USD") {
+        excessAmt = 25
+      }
+      // else if (excess == "TU-STNDEX" && currency == "USD") {
+      //   excessAmt = 100
+      // }
     }
+    let term = this.parentData['m_policy_term']
+    let percent = this.crossPercent[term] || 1
+    // * percent
+    console.log("TEMP", tempPre, "excessAmt", excessAmt);
 
-    return  (tempPre - discount)
+    let cross = ((tempPre + excessAmt) * 0.15)
+    return (cross || 0)
   }
 
   caluMotorPremimun() {
     let tempPre = 0
     for (let addon of this.addOnList) {
+      console.log(this.addOnsData[addon.id]);
+
       if (this.addOnsData[addon.id].checked) {
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
+        console.log("tempPre", tempPre);
+
       }
     }
+    let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
+    let discount2 = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']
-      let excess_discount = this.parentData['excess_discount']
+      let excess_discount = this.parentData['m_excess_discount']
+      let vehicle = this.parentData['m_type_of_vehicle']
+      let purpose = this.parentData['m_purpose_of_use']
+      console.log(excess, excess_discount);
+
       if (excess == "T-NILEX" && currency == "MMK") {
-        discount = -50000
-      } else if (excess == "TU-NILEX") {
+        if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
+          discount = -5000
+          discount2 = -5000
+        } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+          discount = -10000
+          discount2 = -10000
+        }
+        else {
+          discount = -50000
+          discount2 = -50000
+        }
+      } else if (excess == "TU-NILEX" && currency == "USD") {
         discount = -25
-      } else if (excess == "T-ED" && currency == "MMK") {
+        discount2 = -25
+      }
+      // else if (excess == "TU-STNDEX" && currency == "USD") {
+      //   discount = -100
+      // }
+      // else if (excess == 'T-STNDEX' && currency == "MMK") {
+      //   discount = -100000
+      // }
+      else if (excess == "T-ED" && currency == "MMK") {
         if (excess_discount == "T-EXD1") {
+
           discount = 50000
         } else if (excess_discount == "T-EXD2") {
           discount = 70000
@@ -383,9 +434,32 @@ export class AddonPageComponent implements OnInit {
         }
       }
     }
-    let stumd = currency == "MMK" ? 100 : 1
-    let preAMT = (tempPre - discount) + stumd
-    this.premiumAmt = this.numberPipe.transform(preAMT,"1.2-2") + " " + currency.toUpperCase()
+
+    console.log("discount", discount);
+    let crossPremium=0
+    if(cross){
+      crossPremium= this.addOnsData[cross.id]['premium'] 
+    }
+    let stumd = currency == "MMK" ? 100 : 0.05
+    console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
+
+    let preAMT = ((tempPre + Number(crossPremium || 0)) - discount)
+    let preAMT2 = ((tempPre + Number(crossPremium || 0)) - discount2)
+    console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
+
+    let term = this.parentData['m_policy_term']
+    console.log("Policy-TERM", term);
+
+    let percent = this.crossPercent[term] || 1
+    console.log("TERM-Percent", percent);
+
+    // preAMT = (preAMT * percent) + stumd
+    preAMT = (preAMT) + stumd
+    preAMT2 = (preAMT2)
+    console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
+
+
+    this.premiumAmt = this.numberPipe.transform(preAMT, "1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT
   }
@@ -410,13 +484,14 @@ export class AddonPageComponent implements OnInit {
       }
     }
     let finalPre = (premiumTotal + addOnPre) * precent
-    this.premiumAmt = this.numberPipe.transform(finalPre,"1.2-2") + " MMK"
+    this.premiumAmt = this.numberPipe.transform(finalPre, "1.2-2") + " MMK"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return finalPre
   }
 
   savePremimun() {
     let premiumAmt = this.caluMotorPremimun()
+    
     let postData = {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,
@@ -451,31 +526,31 @@ export class AddonPageComponent implements OnInit {
   }
 
   rateByValue(addon: any) {
-    console.log("ADDON==>",addon);
-    
+    console.log("ADDON==>", addon);
+
     let rate = 0
     if (addon.code == "BURGLARY" || addon.code == "STHTC") {
       let keyId = addon.code + "-" + this.addOnsData[addon.id].option
       rate = this.fireAddonRate[keyId] || 0
 
-      if(addon.code == "BURGLARY"){
+      if (addon.code == "BURGLARY") {
         console.log(' BURGLARY rate', rate = this.fireAddonRate[keyId] || 0);
       }
 
-      if(addon.code == "STHTC"){
+      if (addon.code == "STHTC") {
         console.log(' STHTC rate', rate = this.fireAddonRate[keyId] || 0);
       }
-      
+
 
     }
-     else {
-      console.log("rete_EKSE",this.fireAddonRate[addon.code] )
+    else {
+      console.log("rete_EKSE", this.fireAddonRate[addon.code])
       rate = this.fireAddonRate[addon.code] || 0
     }
-    console.log("RATE",rate);
-    
+    console.log("RATE", rate);
+
     let parentData = this.globalFun.tempFormData[FireRiskID]
-    console.log("parentData",parentData);
+    console.log("parentData", parentData);
 
     let totalRisk = 0
     if (parentData) {
@@ -483,10 +558,10 @@ export class AddonPageComponent implements OnInit {
       //   totalRisk += parseFloat(element.riskSi)
       // });
       let parent = parentData.find(x => x.id == this.optionId)
-      console.log("parentparent",parent);
-      
+      console.log("parentparent", parent);
+
       totalRisk += parent ? parent.riskSi : 0
-      
+
     }
 
     let parentData2 = this.globalFun.tempFormData[FirePageID];
@@ -504,7 +579,7 @@ export class AddonPageComponent implements OnInit {
       case parentData2.policyUnit == 'D' && parentData2.policyDuration > 15:
         dateRate = this.calculateDaysToMonth(parentData2.policyDuration);
         console.log('calculateDaysToMonth', dateRate);
-       // dateRate = 2 / 8;
+        // dateRate = 2 / 8;
         break;
       case parentData2.policyUnit == 'F' && parentData2.policyDuration == 1:
         dateRate = 2 / 8;
@@ -537,23 +612,23 @@ export class AddonPageComponent implements OnInit {
       stampDuty = 0.05;
     }
 
-   
+
 
     if (rate > 0 && totalRisk > 0) {
-      console.log("totalRisk",totalRisk);
+      console.log("totalRisk", totalRisk);
 
-      console.log("addon.code =====> ", addon.code +', rate' + rate +'date rate'+ dateRate);
+      console.log("addon.code =====> ", addon.code + ', rate' + rate + 'date rate' + dateRate);
       let amt = totalRisk * (rate / 100) * dateRate;
       if (addon.code == "BURGLARY") {
-          amt = amt * 0.9
+        amt = amt * 0.9
       }
-     // let amt = totalRisk * (rate / 100)
+      // let amt = totalRisk * (rate / 100)
       // NEED_TO_CONFIRM
       // if (addon.code == "BURGLARY") {
       //   let dis = amt * 0.1
       //   amt = amt - dis
       // }
-      console.log('amt =====> ', amt );
+      console.log('amt =====> ', amt);
       return amt;
       //return this.globalFun.calculateDecimal(amt)
     }
@@ -561,22 +636,22 @@ export class AddonPageComponent implements OnInit {
   }
 
 
-  
+
 
   calculateDaysToMonth(days) {
     let rate: any;
     let divided = days / 31;
-    if (divided > 0 && divided <=1) {
+    if (divided > 0 && divided <= 1) {
       rate = 2 / 8;
-    } else if (divided > 1 && divided <=2) {
+    } else if (divided > 1 && divided <= 2) {
       rate = 3 / 8;
-    } else if (divided > 2 && divided <=3) {
+    } else if (divided > 2 && divided <= 3) {
       rate = 4 / 8;
-    } else if (divided > 3 && divided <=4) {
+    } else if (divided > 3 && divided <= 4) {
       rate = 5 / 8;
-    } else if (divided > 3 && divided <=5) {
+    } else if (divided > 3 && divided <= 5) {
       rate = 6 / 8;
-    } else if (divided > 5 && divided <=6) {
+    } else if (divided > 5 && divided <= 6) {
       rate = 6 / 8;
     } else {
       rate = 1;

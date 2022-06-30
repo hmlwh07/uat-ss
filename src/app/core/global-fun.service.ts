@@ -421,6 +421,12 @@ export class GlobalFunctionService {
     }
     return of((windscreen_value * rate))
   }
+  calcuCross(motorDetail) {
+    let value = 0
+    if (motorDetail)
+      value = 0
+    return of(value)
+  }
 
   motorMedicalExpense(motorDetail) {
     let m_term = motorDetail['m_policy_term']
@@ -434,12 +440,12 @@ export class GlobalFunctionService {
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    let fixed = 0
-    if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
-      fixed = 20
-    } else if (typeOfVehicle == "T-MCC") {
-      fixed = 20
-    }
+    let fixed = 20
+    // if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
+    //   fixed = 20
+    // } else if (typeOfVehicle == "T-MCC") {
+    //   fixed = 20
+    // }
     return of(fixed)
   }
 
@@ -498,7 +504,7 @@ export class GlobalFunctionService {
 
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
-      let rate = 0.05
+      let rate = 0.005
       if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
         rate = 0.00065
       } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {

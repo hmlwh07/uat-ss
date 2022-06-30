@@ -252,6 +252,7 @@ export class FirePageComponent implements OnInit, OnDestroy {
         // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
         // sumInsuredView:this.sumInsured,
         policyInceptionDate: moment(this.staticForm.controls['startDate'].value).format("YYYY-MM-DD"),
+        policyExpireDate: moment(this.staticForm.controls['endDate'].value).format("YYYY-MM-DD"),
         productId: this.prodService.createingProd.id,
         productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,

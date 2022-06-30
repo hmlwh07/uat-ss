@@ -278,6 +278,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
         // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
         // sumInsuredView:this.sumInsured,
         policyInceptionDate: moment(formValue.insuranceStartDate).format("YYYY-MM-DD"),
+        policyExpireDate: moment(formValue.insuranceEndDate).format("YYYY-MM-DD"),
         productId: this.prodService.createingProd.id,
         productCode:this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
