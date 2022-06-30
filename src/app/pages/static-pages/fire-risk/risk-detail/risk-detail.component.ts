@@ -257,9 +257,6 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     this.buildingSi = oldData ? oldData.buildingSi : 0
     let occupationOfBuilding = this.fireRiskform.value.occupationOfBuilding
     let typeOfBuilding = this.fireRiskform.value.typeOfBuildings
-    if (this.currencyType == 'USD') {
-      this.fireRiskform.get('sumInsure').clearAsyncValidators();
-    }
 
     if (oldData)
       this.step1Com = oldData.id ? true : false
@@ -270,9 +267,23 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         this.fireRiskform.controls.occupationOfBuilding.setValue(null)
       }
     }
+
+    if (this.currencyType == 'USD') {
+      this.sumInsure.clearValidators();
+      this.sumInsure.updateValueAndValidity();
+    }
+  }
+
+  get sumInsure() {
+    return this.fireRiskform.get('sumInsure');
   }
 
   createRisk(closeModal?: boolean, loop?: boolean) {
+    if (this.currencyType == 'USD') {
+      this.sumInsure.clearValidators();
+      this.sumInsure.updateValueAndValidity();
+    }
+
     if (this.fireRiskform.invalid) {
       validateAllFields(this.fireRiskform)
       return true
