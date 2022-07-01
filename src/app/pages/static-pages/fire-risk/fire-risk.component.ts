@@ -247,7 +247,7 @@ export class FireRiskComponent implements OnInit {
     //   this.premiumAmt = this.prodService.totalPremiumView
     // }
 
-   // let premiumAmt = this.caluFirePremimun();
+   let premiumAmt = this.caluFirePremimun();
     let postData = {
       premium:
         (Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
@@ -258,6 +258,6 @@ export class FireRiskComponent implements OnInit {
 
     console.log('updatePremimun', postData);
     
-    return this.pageDataService.updatePremimun(postData);
+    this.pageDataService.updatePremimun(postData);
   }
 }

@@ -550,8 +550,6 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
 
       this.totalPremium = this.oldData.premium + this.prodService.totalPremium;
 
-
-
       if (this.currencyType == 'MMK') {
         this.totalPremium = this.totalPremium + 100;
       } else {
