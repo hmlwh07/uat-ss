@@ -479,7 +479,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
 
   submitPolicy() {
     if (this.signFileId == null) {
-      this.alertService.activate('You have to signature first.', 'Warning Message')
+      this.alertService.activate("Please add Signature first", 'Warning Message')
     } else {
       this.policyService.submitPolicy(this.resourceDetail.id).toPromise().then((res) => {
         if (res) {

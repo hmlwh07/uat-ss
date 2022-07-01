@@ -39,7 +39,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
 
   saveSign() {
     if (this.signaturePad.isEmpty()) {
-      this.alertService.activate('You have to signature first.', 'Warning Message');
+      this.alertService.activate("Please add Signature first", 'Warning Message');
     } else {
       let base64 = this.signaturePad.toDataURL().toString().split(",")[1];
       var sizeInBytes = 4 * Math.ceil((base64.length / 3)) * 0.5624896334383812;
