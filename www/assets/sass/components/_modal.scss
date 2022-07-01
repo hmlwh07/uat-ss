@@ -115,7 +115,15 @@
        backdrop-filter: brightness(.75);
     }
 }
-
+// #print.modal-open {
+//     overflow: auto !important;
+//     padding: 0 !important;
+//     .modal{
+//        backdrop-filter: brightness(.75);
+//        position: static;
+//        height: unset;
+//     }
+// }
 // Responsive breakpoints
 @include media-breakpoint-up(xl) {
     .modal-dialog.modal-xl {
