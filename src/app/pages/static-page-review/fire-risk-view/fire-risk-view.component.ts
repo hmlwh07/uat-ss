@@ -85,8 +85,8 @@ export class FireRiskViewComponent implements OnInit {
       count += 1
       let obj = {
         description: this.listData[i].buildingDescription,
-        premium: this.totalPremium ,
-        firepremium: this.totalPremium
+        premium: this.listData[i].premium,
+        firepremium:  this.listData[i].premium
       }
       for (const item of this.product.addOns) {
         this.optionId = this.listData[i].id
@@ -121,6 +121,8 @@ export class FireRiskViewComponent implements OnInit {
         stampDuty = 0.05;
       }
      this.listData[i].totalPremium  = this.globalFun.calculateDecimal(obj.premium + stampDuty);
+
+      console.log('==========> ', this.listData[i]);
 
       if (count == this.listData.length)
         this.cdf.detectChanges()
