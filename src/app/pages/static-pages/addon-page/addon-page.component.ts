@@ -150,6 +150,8 @@ export class AddonPageComponent implements OnInit {
           unit: response ? response.unit || 0 : 0,
           premium: response ? response.premium || 0 : 0,
           option: response ? response.option || "" : "",
+          startDate: response ? response.startDate || "" : "",
+          endDate: response ? response.endDate || "" : "",
         }
         if (item.code == "STHTC" && this.addOnsData[item.id].option == "") {
           this.addOnsData[item.id].option = "T-BFMGS"
@@ -250,11 +252,14 @@ export class AddonPageComponent implements OnInit {
     }
     for (let addon of this.addOnList) {
       if (posDataArray[addon.id].checked) {
+        console.log("posDataArray[addon.id",posDataArray[addon.id]);
+        
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
         let premium = posDataArray[addon.id].premium ? posDataArray[addon.id].premium + "" : ""
         let option = posDataArray[addon.id].option ? posDataArray[addon.id].option + "" : ""
-
+        let startDate = posDataArray[addon.id].startDate ? posDataArray[addon.id].startDate + "" : ""
+        let endDate = posDataArray[addon.id].endDate ? posDataArray[addon.id].endDate + "" : ""
         console.log('addon save ', premium);
 
         this.prodService.totalPremium += parseFloat(premium);
@@ -265,6 +270,8 @@ export class AddonPageComponent implements OnInit {
             quotationNo: this.resourcesId,
             option: option,
             optionalKey: this.optionId,
+            startDate:startDate,
+            endDate:endDate,
             sumInsured: (sum).replace(',', '').replace('MMK', '').replace('USD', ''),
             unit: (unit).replace(',', '').replace('MMK', '').replace('USD', ''),
             premium: (premium).replace(',', '').replace('MMK', '').replace('USD', ''),
@@ -274,7 +281,9 @@ export class AddonPageComponent implements OnInit {
           } else {
             this.globalFun.tempFormData['addon_1634010770155'].push(postData)
           }
-          let res = await quoService.save(postData).toPromise()
+           quoService.save(postData).toPromise().then((res)=>{
+
+           })
         } catch (error) {
           // console.log(error);
 
