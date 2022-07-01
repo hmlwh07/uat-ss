@@ -45,8 +45,13 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     return this.httpClient.get(url)
   }
 
-  updateAttachment(resId: string, attId: any) {
-    return this.httpClient.put(API_QUOTATION_URL + "/attachment", { attachmentId: attId + "", policyNo: resId })
+  updateAttachment(resId: string, attId: any, signDate: string) {
+    return this.httpClient.put(API_QUOTATION_URL + "/attachment",
+    { 
+      attachmentId: attId + "",
+      signatureDate: signDate,
+      policyNo: resId 
+    })
   }
 
   submitPolicy(resId: string) {

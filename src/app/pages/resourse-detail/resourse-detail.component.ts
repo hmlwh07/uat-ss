@@ -52,8 +52,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     private productService: ProductDataService,
     private location: Location,
     private pageDataService: PageDataService,
-    private addonQuo: AddOnQuoService,
-    private coverageQuo: CoverageQuoService,
     private router: Router,
     private cdf: ChangeDetectorRef,
     private downloadService: AttachmentDownloadService,
@@ -74,6 +72,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail = this.productService.editData
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
+      console.log("RESOURCE", this.resourceDetail)
 
       if (!this.resourceDetail) {
         this.location.back()
@@ -465,11 +464,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (res.type == "save") {
-          this.policyService.updateAttachment(this.resourceDetail.id, res.data).toPromise().then((response) => {
+          this.policyService.updateAttachment(this.resourceDetail.id, res.data.signId, res.data.signDate).toPromise().then((response) => {
             if (response) {
               this.alertService.activate('This record was created', 'Success Message');
-              this.signFileId = res.data
-              this.productService.editData['attachmentId'] = res.data
+              this.signFileId = res.data.signId
+              this.productService.editData['attachmentId'] = this.signFileId
+              this.productService.editData['signatureDate'] = res.data.signDate
             }
           })
         }
