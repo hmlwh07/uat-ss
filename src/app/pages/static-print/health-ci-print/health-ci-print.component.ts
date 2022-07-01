@@ -18,6 +18,7 @@ export class HealthCiPrintComponent implements OnInit {
   @Input() signId?: string
   @Input() premiumAmt: any
   @Input() product: Product
+  signatureDate?: string
   coverage = {
     sumInsured: false,
     unit: false,
@@ -40,13 +41,20 @@ export class HealthCiPrintComponent implements OnInit {
   totalP: number = 0
   totalL: number = 0
   coveragesTotalValue: number = 0
-  constructor(private policyHolderService: PolicyHolderService, private coverageQuo: CoverageQuoService, private addOnQuoService: AddOnQuoService, private prodService: ProductDataService, private coverageQuoService: CoverageQuoService, private healthPayService: HealthPaymentService, private cdf: ChangeDetectorRef, private productService: ProductDataService, private healthPrintService: HealthPrintService) { }
-
-
-
+  constructor(
+    private policyHolderService: PolicyHolderService, 
+    private coverageQuo: CoverageQuoService, 
+    private addOnQuoService: AddOnQuoService, 
+    private prodService: ProductDataService, 
+    private coverageQuoService: CoverageQuoService, 
+    private healthPayService: HealthPaymentService, 
+    private cdf: ChangeDetectorRef, 
+    private productService: ProductDataService, 
+    private healthPrintService: HealthPrintService) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.refID = this.prodService.referenceID
     this.tempResourcesId = this.resourcesId
     this.getPolicyHolder()

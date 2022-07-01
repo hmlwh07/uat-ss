@@ -50,7 +50,7 @@
         </div>
         <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
             <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-                {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.townshipName}}/{{policyHolder.districtName}}/{{policyHolder.stateName}}
+                {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} , {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} , {{policyHolder.stateName}}
             </ng-container>
         </div>
     </div>
@@ -98,7 +98,7 @@
 </div>
 
 
-<div class="addon-print"  >
+<div class="addon-print">
     <div class="title-style text-bold mt-5 mb-5">Risk Detailed Information</div>
     <table class="tbody-align" width="100%">
         <tr>
@@ -133,7 +133,7 @@
                     <td class="field-value">{{data.travelerDetail.idType =='NRC'? data.travelerDetail.idNrc
                         :data.travelerDetail.idNumber}}</td>
                     <td class="field-value">{{data.travelRisk.noOfTraveller}}</td>
-                    <td class="field-value">{{data.travelDetail?data.travelDetail.vehicleTypeValue:""}} 
+                    <td class="field-value">{{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
                         {{data.travelDetail? data.travelDetail.vehicleNo:""}}</td>
                     <td class="field-value">{{data.travelRisk? data.travelRisk.insuredUnitValue:""}} - Units</td>
                 </tr>
@@ -178,7 +178,7 @@
     <div class="sign-row">
         <div class="sign-box">
             <label class="text-bold">DATE</label>
-            <div class="sign-area"></div>
+            <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
         </div>
         <div class="sign-box">
             <label class="text-bold">PROPOSER SIGNATURE</label>

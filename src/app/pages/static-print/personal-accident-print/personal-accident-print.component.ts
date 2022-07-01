@@ -15,8 +15,8 @@ import { TravelRiskService } from '../../static-pages/travel-page/models&service
 export class PersonalAccidentPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
-  @Input() premiumAmt:any
-  sumInsuredAmt:any
+  @Input() premiumAmt: any
+  sumInsuredAmt: any
   listData: any[] = []
   policyInfo: any = {}
   policyHolder: any = {
@@ -28,24 +28,26 @@ export class PersonalAccidentPrintComponent implements OnInit {
   totalPremium: number = 0
   totalSI: number = 0
   @Input() signId?: string
+  signatureDate?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
   unsubscribe: Subscription[] = []
   constructor(
     private policyHolderService: PolicyHolderService,
     private paService: PaPrintService,
     private productService: ProductDataService,
-    private globalFun:GlobalFunctionService,
+    private globalFun: GlobalFunctionService,
   ) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
-    let unsub =this.globalFun.paCoverageResult.subscribe((value)=>{
-      console.log("VALUE",value);
-      
-      this.sumInsuredAmt=value
-    } )
+    let unsub = this.globalFun.paCoverageResult.subscribe((value) => {
+      console.log("VALUE", value);
+
+      this.sumInsuredAmt = value
+    })
     this.unsubscribe.push(unsub)
   }
 

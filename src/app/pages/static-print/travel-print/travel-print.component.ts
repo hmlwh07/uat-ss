@@ -1,13 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { ProductDataService } from '../../products/services/products-data.service';
-import { FireRiskService } from '../../static-pages/fire-risk/models&services/fire-risk.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
-import { FireProductService } from '../../static-pages/fire-simple-page/models&services/fire-product.service';
-import { FireRiskAddressService } from '../../static-pages/fire-simple-page/models&services/fire-risk-address';
 import { TravelRiskService } from '../../static-pages/travel-page/models&services/travel-risk.service';
-import { TravelRiskDetailComponent } from '../../static-pages/travel-page/travel-risk-detail/travel-risk-detail.component';
 
 @Component({
   selector: 'app-travel-print',
@@ -28,6 +23,7 @@ export class TravelPrintComponent implements OnInit {
   totalSI: number = 0
   numberOfTraveller: number = 0
   @Input() signId?: string
+  signatureDate?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   constructor(
@@ -37,7 +33,9 @@ export class TravelPrintComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getTravelPrintData()
   }
@@ -87,7 +85,6 @@ export class TravelPrintComponent implements OnInit {
 
   getTravelPrintData() {
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
-      console.log("get Detail: travel => ", res)
       if (res) {
         this.policyInfo = res.policyInfo.travelBasic
         this.numberOfTraveller = res.policyInfo.numberOfTraveller

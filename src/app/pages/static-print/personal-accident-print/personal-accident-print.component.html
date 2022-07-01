@@ -50,7 +50,7 @@
     </div>
     <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
       <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-        {{policyHolder.partyAddress[0].address1}}/{{policyHolder.partyAddress[0].address2}}/{{policyHolder.partyAddress[0].address3}}/{{policyHolder.townshipName}}/{{policyHolder.districtName}}/{{policyHolder.stateName}}/{{policyHolder.cityName}}
+        {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} , {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} , {{policyHolder.stateName}}
       </ng-container>
     </div>
   </div>
@@ -207,7 +207,7 @@
   <div class="sign-row mt-5">
     <div class="sign-box">
       <label class="text-bold">DATE</label>
-      <div class="sign-area"></div>
+      <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
     <div class="sign-box">
       <label class="text-bold">PROPOSER SIGNATURE</label>
