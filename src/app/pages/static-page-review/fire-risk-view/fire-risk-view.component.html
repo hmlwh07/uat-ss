@@ -88,7 +88,7 @@
               <td>{{data.typeOfBuildingValue}}</td>
               <td>{{data.occupationOfBuildingValue}}</td>
               <td>{{data.buildingClassValue}}</td>
-              <td>{{data.totalSquareFoot}}</td>
+              <td>{{data.totalSquareFoot || 0 | number:'1.0-2'}}</td>
               <td>{{data.yearOfConstruction}}</td>
               <td>{{data.buildingSi | number:'1.2-2' }}</td>
               <td>{{data.proposedFurniture | number:'1.2-2' }}</td>

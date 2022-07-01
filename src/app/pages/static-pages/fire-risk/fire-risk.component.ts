@@ -138,6 +138,7 @@ export class FireRiskComponent implements OnInit {
                 let index = this.listData.findIndex((x) => x.id == data.id);
                 if (index >= 0) {
                   this.listData.splice(index, 1);
+                  this.savePremimunFire();
                   this.cdf.detectChanges();
                   this.alertService
                     .activate('This record was deleted', 'Success Message')
@@ -229,7 +230,7 @@ export class FireRiskComponent implements OnInit {
 
   async savePremimunFire() {
     await this.calculateFireTotalPremiumAmount();
-    
+
     let postData = {
       premium:
         (Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
@@ -271,7 +272,7 @@ export class FireRiskComponent implements OnInit {
 
     let finalPre = this.globalFun.calculateDecimal(totalPremium + totalAddOnPremium) + stampDuty;
     this.premiumAmt = this.numberPipe.transform(finalPre, '1.2-2') + ' ' + currency;
-    this.globalFun.paPremiumResult.next(this.premiumAmt)
+    this.globalFun.paPremiumResult.next(this.premiumAmt || "0")
   }
 
 
