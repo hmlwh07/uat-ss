@@ -326,6 +326,7 @@ export const locale = {
       unit: "Unit",
       base_coverage: "Base Coverage",
       product_code: "Product Code",
+      product_name: "Product Name",
       branch_name: "Branch Name",
       activity_name: "Activities Name",
       target: "Target",

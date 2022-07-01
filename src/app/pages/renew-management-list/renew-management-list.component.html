@@ -50,7 +50,7 @@
           </div>
 
           <div class="row" style="align-items: center;">
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">{{"FORM.product_code" | translate}}</label>
                 <div class="col-sm-8">
@@ -59,9 +59,29 @@
                     [class.is-valid]="isControlValid('productCode')" formControlName="productCode" />
                 </div>
               </div>
+            </div> -->
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label"> {{"FORM.product_name" | translate}}</label>
+                <div class="col-sm-8">
+                  <ng-select class="ng-custom-select" (clear)="clear('productCode')" [items]="productOption"
+                    bindLabel="value" bindValue="code" formControlName="productCode">
+                  </ng-select>
+                </div>
+              </div>
             </div>
+            <!-- <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label"> {{"FORM.status" | translate}}</label>
+                <div class="col-sm-8">
+                  <ng-select class="ng-custom-select" (clear)="clear('statusCode')" [items]="statusOption"
+                    bindLabel="value" bindValue="code" formControlName="statusCode">
+                  </ng-select>
+                </div>
+              </div>
+            </div> -->
+            
           </div>
-
         </form>
       </div>
     </div>
