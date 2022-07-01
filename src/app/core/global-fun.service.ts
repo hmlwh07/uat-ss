@@ -419,7 +419,7 @@ export class GlobalFunctionService {
     } else if (typeOfVehicle == "T-MCC") {
       rate = 0.05
     }
-    return of((windscreen_value * rate))
+    return of((windscreen_value * rate)*term)
   }
   calcuCross(motorDetail) {
     let value = 0

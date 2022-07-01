@@ -53,6 +53,7 @@ export class AddonViewComponent implements OnInit {
         try {
           if (this.resourcesId) {
             this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response:any) => {
+              
               if (response) {
                 this.addOnData[item.id] = {
                   sum: response ? response.sumInsured || 0 : 0,

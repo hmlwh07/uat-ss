@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from 'angular-calendar';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { IsJsonString, MY_FORMATS } from 'src/app/core/is-json';
@@ -97,8 +98,8 @@ export class MotorAddonComponent implements OnInit {
       console.log("response2", response2);
       if (response2) {
         this.isCross = true
-        this.startDate = response2.startDate
-        this.endDate = response2.endDate
+        this.startDate = moment(response2.startDate).format('YYYY-MM-DD')
+        this.endDate = moment(response2.endDate).format('YYYY-MM-DD')
         this.toggleChange('cross', true)
       }
     }
@@ -284,6 +285,7 @@ export class MotorAddonComponent implements OnInit {
               optionalKey: this.resourcesId,
               premium: this.medPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
               option: this.planOption,
+              sumInsured:this.parentData.m_total_risk_si || 0,
             }
             let res = await quoService.save(postData).toPromise()
             if (this.globalFun.tempFormData['addon_1634010770155']) {
@@ -317,13 +319,20 @@ export class MotorAddonComponent implements OnInit {
               startDate: this.startDate,
               endDate: this.endDate,
               option: this.option1,
-              option2: this.option2
+              option2: this.option2,
+              sumInsured:this.parentData.m_total_risk_si || 0,
             }
             let res = await quoService.save(postData).toPromise()
+            if (this.globalFun.tempFormData['addon_1634010770155']) {
+              this.globalFun.tempFormData['addon_1634010770155'].push(postData)
+            } else {
+              this.globalFun.tempFormData['addon_1634010770155'] = [postData]
+            }
           }
 
         }
       }
+      
     }
 
     await this.savePremimun()

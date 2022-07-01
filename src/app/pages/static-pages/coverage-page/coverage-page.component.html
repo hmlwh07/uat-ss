@@ -25,7 +25,7 @@
               <input type="text" class="form-control form-control-sm" [(ngModel)]="coverageData[coverage.id].sum">
             </ng-container>
             <ng-container *ngIf="coverage.sumInsuredStr">
-              {{ coverageData[coverage.id].sum > 0 ? (coverageData[coverage.id].sum | number) :
+              {{ coverageData[coverage.id].sum > 0 ? (coverageData[coverage.id].sum | number: '1.2-2') :
                 coverageData[coverage.id].sum}}
             </ng-container>
           </td>
@@ -45,7 +45,7 @@
             </ng-container>
             <ng-container *ngIf="coverage.premiumStr">
               <!-- {{coverageData[coverage.id].premium}} -->
-              {{ coverageData[coverage.id].premium > 0 ? (coverageData[coverage.id].premium | number) :
+              {{ coverageData[coverage.id].premium > 0 ? (coverageData[coverage.id].premium | number : '1.2-2') :
                 coverageData[coverage.id].premium}}
             </ng-container>
           </td>

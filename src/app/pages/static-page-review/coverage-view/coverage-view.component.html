@@ -29,8 +29,8 @@
               <td style="text-align: left;">{{coverage.description}}</td>
               <td *ngIf="coverage.sumInsured">
                 <!-- <ng-container *ngIf="coverageData[coverage.id]"> -->
-                {{coverageData[coverage.id].sum > 0 ? (coverageData[coverage.id].sum | number) :
-                coverageData[coverage.id].sum | number}}
+                {{coverageData[coverage.id].sum > 0 ? (coverageData[coverage.id].sum | number :'1.2-2') :
+                coverageData[coverage.id].sum | number:'1.2-2'}}
                 <!-- </ng-container> -->
               </td>
               <td *ngIf="coverage.unit">
@@ -38,8 +38,8 @@
               </td>
               <td *ngIf="coverage.premium">
                 <!-- <ng-container *ngIf="coverageData[coverage.id]"> -->
-                {{coverageData[coverage.id].premium > 0 ? (coverageData[coverage.id].premium | number) :
-                coverageData[coverage.id].premium | number}}
+                {{coverageData[coverage.id].premium > 0 ? (coverageData[coverage.id].premium | number:'1.2-2') :
+                coverageData[coverage.id].premium | number:'1.2-2'}}
                 <!-- </ng-container> -->
               </td>
             </tr>

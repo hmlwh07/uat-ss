@@ -45,7 +45,7 @@
             </ng-container>
             <ng-container *ngIf="addon.sumInsuredStr">
               <!-- {{addOnsData[addon.id].sum}} -->
-              {{addOnsData[addon.id].sum > 0 ? (addOnsData[addon.id].sum | number) : addOnsData[addon.id].sum}}
+              {{addOnsData[addon.id].sum > 0 ? (addOnsData[addon.id].sum | number:'1.2-2') : addOnsData[addon.id].sum}}
             </ng-container>
           </td>
           <td *ngIf="addon.unit">
@@ -65,7 +65,7 @@
                 [(ngModel)]="addOnsData[addon.id].premium">
             </ng-container>
             <ng-container *ngIf="addon.premiumStr">
-              {{addOnsData[addon.id].premium > 0 ? (addOnsData[addon.id].premium | number) :
+              {{addOnsData[addon.id].premium > 0 ? (addOnsData[addon.id].premium | number:'1.2-2') :
               addOnsData[addon.id].premium}}
             </ng-container>
           </td>
