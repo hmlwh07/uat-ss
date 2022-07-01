@@ -1032,6 +1032,8 @@ export class LeadDetailComponent implements OnInit {
           { value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: true }),
         prospectCustomerId: new FormControl(
           { value: oldData ? oldData.prospectCustomerId : 0, disabled: true }),
+        ownerId: new FormControl(
+          { value: oldData ? oldData.ownerId : 0, disabled: true }),
       });
 
       this.cdf.detectChanges()
