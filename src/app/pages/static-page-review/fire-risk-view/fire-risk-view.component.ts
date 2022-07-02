@@ -49,18 +49,18 @@ export class FireRiskViewComponent implements OnInit {
   }
 
 
-  getRiskList() {
-    this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
+  async getRiskList() {
+   await this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
       console.log('getRiskList', res);
       if (res) {
         this.listData = res
       }
     })
   }
-  getRiskDetail() {
+  async getRiskDetail() {
     this.totalPremium = 0
     this.totalSi = 0;
-    this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
+   await this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.riskData = res
         console.log("riskDetail", this.listData);
