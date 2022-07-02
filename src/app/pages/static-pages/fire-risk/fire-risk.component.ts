@@ -117,7 +117,7 @@ export class FireRiskComponent implements OnInit {
               if (index >= 0) this.listData[index] = res.data;
               else this.listData.push(res.data);
             }
-            //this.getRiskDetail()
+            this.savePremimunFire();
             this.cdf.detectChanges();
           }
         }
