@@ -172,15 +172,15 @@ export class FirePageComponent implements OnInit, OnDestroy {
     let duration = this.staticForm.controls['policyDuration'].value
     let type = this.staticForm.controls['policyUnit'].value
     if (value && duration && type == 'D') {
-      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'days')
+      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'days').subtract(1, 'days')
       // this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
       this.staticForm.controls['endDate'].setValue(toDate)
     } else if (value && duration && type == 'F') {
-      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'month')
+      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'month').subtract(1, 'days')
       this.staticForm.controls['endDate'].setValue(toDate)
     }
     else {
-      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'year')
+      let toDate = moment(this.staticForm.controls['startDate'].value).add(duration, 'year').subtract(1, 'days')
       this.staticForm.controls['endDate'].setValue(toDate)
     }
   }
