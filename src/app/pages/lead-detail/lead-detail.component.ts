@@ -271,7 +271,6 @@ export class LeadDetailComponent implements OnInit {
 
   ngAfterViewInit() {
     this.user = this.authService.currentUserValue;
-    console.log("Current Login User: ", this.user)
     this.getMaster()
     this.getProduct()
 
@@ -629,13 +628,12 @@ export class LeadDetailComponent implements OnInit {
           }
         })
       } else {
-        console.log(this.leadForm.controls)
         if (this.leadForm.getRawValue().assignTo != 0) {
           if (this.leadForm.controls.existingCustomerId.value == 0 && this.leadForm.controls.prospectCustomerId.value == 0) {
-            this.alertService.activate('Please add Existing Customer/Prospect before you approve.', 'Message');
+            this.alertService.activate('Please add Existing Customer/Prospect before you accept.', 'Message');
           }
           else {
-            this.alertService.activate('Are you sure you want to approve?', 'Warning Message').then(result => {
+            this.alertService.activate('Are you sure you want to accept?', 'Warning Message').then(result => {
               if (result) {
                 let data = {
                   agentId: this.leadForm.controls.ownerId ? this.leadForm.controls.ownerId.value : "",
@@ -647,14 +645,13 @@ export class LeadDetailComponent implements OnInit {
                   nrcTypeCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcTypeCode.value : "" : "",
                   identityNumber: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcNumber.value : this.leadForm.controls.identityNumber.value : "",
                 }
-                console.log("Request Data: ", data)
                 this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
                   if (res) {
                     this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
                     });
                   } else {
                     this.updateStatus(status, 'approve');
-                    this.alertService.activate('This record was approved', 'Success Message').then(result => {
+                    this.alertService.activate('This record was accepted', 'Success Message').then(result => {
                     });
                   }
                 });
@@ -721,7 +718,6 @@ export class LeadDetailComponent implements OnInit {
   }
 
   checkExisting(type?: string) {
-    console.log("checkExisting: ", this.leadForm)
     if (type == "customer") {
       this.isCustomerCheck = true;
       if (this.leadForm.controls.phoneNo.value == null
@@ -879,7 +875,6 @@ export class LeadDetailComponent implements OnInit {
   }
 
   viewProspectCustomer() {
-    console.log("viewProspectCustomer")
     if (this.leadForm.getRawValue().stateCode != '03') {
       let modalRef;
       modalRef = this.modalService.open(CustomerDetailComponent, { size: 'xl', backdrop: false });
@@ -921,7 +916,6 @@ export class LeadDetailComponent implements OnInit {
 
   loadForm(oldData?) {
     console.log("LoadForm => OldData? ", oldData)
-    console.log("LoadForm ==> statusCode ", oldData ? oldData.statusCode : null)
     if (oldData != null) {
       this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
       this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
@@ -987,7 +981,7 @@ export class LeadDetailComponent implements OnInit {
           { value: oldData ? oldData.identityNumber : '', disabled: oldData.nrcNumber == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         identityNRC: new FormControl(
           {
-            value: oldData ? oldData.identityType == 'NRC' ? oldData.nrcRegionCode + "/" + oldData.nrcTownshipCode + "(" + oldData.nrcTypeCode + ")" + oldData.identityNumber : "" : '',
+            value: oldData ? oldData.identityType == 'NRC' ? oldData.nrcRegionValue + "/" + oldData.nrcTownshipValue + "(" + oldData.nrcTypeValue + ")" + oldData.identityNumber : "" : '',
             disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true
           }),
         sourceCode: new FormControl(
@@ -1207,7 +1201,6 @@ export class LeadDetailComponent implements OnInit {
     if (postData.statusCode == '04') {
       postData.statusCode = '01'
     }
-    console.log("Edit Data: ", postData)
     let requestData: any = {
       "activationDate": "",
       "activationDateStr": postData.activationDate.toDate() != 'Invalid Date' ? this.convertDateFormatDDMMYYY(postData.activationDate) || this.convertDateFormatDDMMYYY(postData.activationDate) : "",
@@ -1280,11 +1273,9 @@ export class LeadDetailComponent implements OnInit {
       requestData["prospectCustomerId"] = postData.prospectCustomerId
       requestData["prospectCustomer"] = postData.prospectCustomer
     }
-    console.log("Edit RequestData: ", requestData)
     this.LeadDetailService.updateNoID(requestData).toPromise()
       .then((res) => {
         if (res) {
-          console.log(res)
           this.getOld()
           this.alertService.activate('This record was updated', 'Success Message');
         }
@@ -1311,9 +1302,6 @@ export class LeadDetailComponent implements OnInit {
       validateAllFields(this.leadForm);
       return true;
     }
-    console.log("createNewLead:", this.leadForm.value)
-    console.log("check", this.isCustomerCheck, this.isProspectCheck)
-    // if (this.leadForm.controls.prospectCustomerId.value == null && this.leadForm.controls.existingCustomerId.value == null) {
     if (!this.isCustomerCheck && this.leadForm.controls.prospectCustomerId.value == 0) {
       this.alertService.activate('Please check Existing Customer before you save.', 'Message');
     }
@@ -1340,7 +1328,6 @@ export class LeadDetailComponent implements OnInit {
         let product = this.product.find(p => p.id == postData.productId)
         productCode = product.code;
       }
-      console.log("Create PostData: ", postData)
 
       let data = {
         "activationDate": "",
@@ -1375,9 +1362,9 @@ export class LeadDetailComponent implements OnInit {
         "name": "",
         "identityType": postData.identityType ? postData.identityType : null,
         "identityNumber": postData.identityType == 'NRC' ? postData.nrcNumber : postData.identityType != 'NRC' ? postData.identityNumber : "",
-        "nrcRegionCode": postData.nrcRegionCode ? postData.nrcRegionCode : "",
-        "nrcTownshipCode": postData.nrcTownshipCode ? postData.nrcTownshipCode : "",
-        "nrcTypeCode": postData.nrcTypeCode ? postData.nrcTypeCode : "",
+        "nrcRegionCode": postData.identityType == "NRC" ? postData.nrcRegionCode : "",
+        "nrcTownshipCode": postData.identityType == "NRC" ? postData.nrcTownshipCode : "",
+        "nrcTypeCode": postData.identityType == "NRC" ? postData.nrcTypeCode : "",
         "noOfChildren": "" + (postData.noOfChildren ? postData.noOfChildren : "") + "",
         "occupationCd": postData.occupationCd ? postData.occupationCd : "",
         "openedDate": "",

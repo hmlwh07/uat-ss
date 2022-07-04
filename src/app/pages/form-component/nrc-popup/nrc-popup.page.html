@@ -12,7 +12,7 @@
                         <label class="form-label">State No</label>
                         <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('stage')" placeholder="State No" formControlName="stage" (change)="changeStage()">
                             <ng-container *ngFor="let item of stageOption">
-                                <ng-option [value]="item.value">{{item.value}}</ng-option>
+                                <ng-option [value]="item">{{item.value}}</ng-option>
                             </ng-container>
                             <!-- <ng-option [value]="'01'">01(Kachin)</ng-option>
               <ng-option [value]="'02'">02(Kayar)</ng-option>
@@ -37,7 +37,7 @@
                         <label class="form-label">District</label>
                         <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('township')" placeholder="District" formControlName="township">
                             <ng-container *ngFor="let item of townshipOption">
-                                <ng-option [value]="item.value">{{item.value}}</ng-option>
+                                <ng-option [value]="item">{{item.value}}</ng-option>
                             </ng-container>
                         </ng-select>
                         <div class="invalid-feedback" *ngIf="controlHasError('required', 'township')">District is required</div>
@@ -53,7 +53,7 @@
                             <ng-option [value]="'E'">E</ng-option>
                             <ng-option [value]="'T'">T</ng-option> -->
                             <ng-container *ngFor="let item of typeOption">
-                                <ng-option [value]="item.value">{{item.value}}</ng-option>
+                                <ng-option [value]="item">{{item.value}}</ng-option>
                             </ng-container>
                         </ng-select>
                         <div class="invalid-feedback" *ngIf="controlHasError('required', 'prefix')">Type is required</div>
