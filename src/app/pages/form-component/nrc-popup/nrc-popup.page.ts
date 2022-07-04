@@ -14,14 +14,22 @@ import { nrcData } from './nrc-data';
 export class NrcPopupPage implements OnInit {
   nrcStage = nrcData
   nrcForm: FormGroup
-  submited: boolean = false
+  submitted: boolean = false
   townShip: string[] = []
   stageOption: any[] = []
+  stageCode: string
   townshipOption: any[] = []
+  townshipCode: string
   typeOption: any[] = []
+  typeCode: string
   @Input() group: FormGroup;
   @Input() config: ConfigInput
-  constructor(public modal: NgbActiveModal, private cdf: ChangeDetectorRef, private masterDataService: MasterDataService) { }
+
+  constructor(
+    public modal: NgbActiveModal,
+    private cdf: ChangeDetectorRef,
+    private masterDataService: MasterDataService
+  ) { }
 
   ngOnInit() {
     this.setForm()
@@ -31,20 +39,19 @@ export class NrcPopupPage implements OnInit {
 
   setForm() {
     this.nrcForm = new FormGroup({
-      "stage": new FormControl(null, [Validators.required]),
-      "township": new FormControl(null, [Validators.required]),
-      "prefix": new FormControl('N', [Validators.required]),
-      "nrc": new FormControl(null, [Validators.required, Validators.maxLength(6), Validators.minLength(6), Validators.pattern("[0-9]*")]),
+      stage: new FormControl(null, [Validators.required]),
+      township: new FormControl(null, [Validators.required]),
+      prefix: new FormControl(null, [Validators.required]),
+      nrc: new FormControl(null, [Validators.required, Validators.maxLength(6), Validators.minLength(6), Validators.pattern("[0-9]*")]),
     })
   }
+
   getMaster() {
     forkJoin([
       this.getStage(),
       this.getType()
     ]).toPromise().then((res: any) => {
       if (res) {
-        // console.log(res);
-
         this.stageOption = res[0]
         this.typeOption = res[1]
         this.cdf.detectChanges()
@@ -57,52 +64,59 @@ export class NrcPopupPage implements OnInit {
       return of([])
     }))
   }
-  getTownship(parentId?) {
 
+  getTownship(parentId?) {
     this.masterDataService
       .getDataByParent("NRC_TOWNSHIP", parentId, "NRC_REGION")
       .toPromise()
       .then((res: any) => {
-        // console.log(res);
-
         if (res) {
           this.townshipOption = res.map((x) => {
-            return { code: x.codeId, value: x.codeName };
+            return {
+              code: x.codeId,
+              value: x.codeName
+            };
           });
           if (this.townshipOption.length > 0) {
-
-            this.nrcForm.controls['township'].setValue(this.townshipOption[0].value)
+            this.nrcForm.controls['township'].setValue(this.townshipOption[0])
+            this.nrcForm.controls['prefix'].setValue(this.typeOption[5])
           }
           this.cdf.detectChanges();
         }
       });
   }
+
   getType() {
     return this.masterDataService.getDataByType("NRC_TYPE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
   }
+
   getFormatOpt(res) {
     return res.map(x => {
-      return { 'code': x.codeId || x.code, 'value': (x.codeName || x.codeValue) || x.value }
+      return {
+        'code': x.codeId || x.code,
+        'value': (x.codeName || x.codeValue) || x.value
+      }
     })
   }
 
-
   save() {
-    console.log("NRC Save: ", this.nrcForm.value)
-    this.submited = true
+    this.submitted = true
     if (this.nrcForm.invalid) return false
     let value = this.nrcForm.value
-    let nrc = `${value.stage}/${value.township}(${value.prefix})${value.nrc}`
+    this.stageCode = value.stage.code ? value.stage.code : this.stageCode
+    this.townshipCode = value.township.code ? value.township.code : this.townshipCode
+    this.typeCode = value.prefix.code ? value.prefix.code : this.typeCode
+    let nrc = `${value.stage.value}/${value.township.value}(${value.prefix.value})${value.nrc}`
     if (this.config.name)
       this.group.controls[this.config.name].setValue(nrc)
     if (this.config.nrcRegionCode)
-      this.group.controls[this.config.nrcRegionCode].setValue(value.stage)
+      this.group.controls[this.config.nrcRegionCode].setValue(this.stageCode)
     if (this.config.nrcTownshipCode)
-      this.group.controls[this.config.nrcTownshipCode].setValue(value.township)
+      this.group.controls[this.config.nrcTownshipCode].setValue(this.townshipCode)
     if (this.config.nrcTypeCode)
-      this.group.controls[this.config.nrcTypeCode].setValue(value.prefix)
+      this.group.controls[this.config.nrcTypeCode].setValue(this.typeCode)
     if (this.config.nrcNumber)
       this.group.controls[this.config.nrcNumber].setValue(value.nrc)
     if (this.config.identityNRC)
@@ -115,16 +129,14 @@ export class NrcPopupPage implements OnInit {
   }
 
   changeStage() {
-    let value = this.nrcForm.value.stage
-    // console.log(value);
-
-    if (value) {
-      let stage = this.stageOption.find((p) => p.value == value);
-
+    let changeValue = this.nrcForm.controls.stage.value
+    if (changeValue) {
+      let stage = this.stageOption.find((p) => p.code == changeValue.code);
       this.getTownship(stage.code)
       this.cdf.detectChanges()
     }
   }
+
   isControlValid(controlName: string): boolean {
     const control = this.nrcForm.controls[controlName];
     return control.valid && (control.dirty || control.touched);

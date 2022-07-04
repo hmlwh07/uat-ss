@@ -82,6 +82,7 @@ export class FireRiskComponent implements OnInit {
         if (res) {
           this.globalFun.tempFormData[FireRiskID] = res;
           this.listData = res || [];
+          this.calculateFireTotalPremiumAmount();
           this.cdf.detectChanges();
         }
       });
@@ -248,6 +249,7 @@ export class FireRiskComponent implements OnInit {
     let parentData1 = this.globalFun.tempFormData[FireRiskID];
     let parentData2 = this.globalFun.tempFormData[FirePageID];
     for (var i = 0; i < parentData1.length; i++) {
+      let totalPremiumNotStampDuty: any = 0;
       totalPremium += parseFloat(parentData1[i].premium);
       let reqBody = {
         addOnIds: this.product.addOns.map(x => { return x.id }),
@@ -258,8 +260,10 @@ export class FireRiskComponent implements OnInit {
       if (results.length > 0) {
         for (var j = 0; j < results.length; j++) {
           totalAddOnPremium += parseFloat(results[j].premium);
+          totalPremiumNotStampDuty += parseFloat(results[j].premium);
         }
       }
+       parentData1[i].totalPremiumNotStampDuty = parseFloat(parentData1[i].premium) + totalPremiumNotStampDuty;
     }
 
     let currency = parentData2.currency;
@@ -269,6 +273,7 @@ export class FireRiskComponent implements OnInit {
     } else {
       stampDuty = 0.05 * parentData1.length;
     }
+    this.listData = parentData1;
 
     let finalPre = this.globalFun.calculateDecimal(totalPremium + totalAddOnPremium) + stampDuty;
     this.premiumAmt = this.numberPipe.transform(finalPre, '1.2-2') + ' ' + currency;
