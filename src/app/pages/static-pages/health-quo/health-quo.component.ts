@@ -111,7 +111,7 @@ export class HealthQuoComponent implements OnInit,OnDestroy {
             ]
           } else {
             // let tempTotal = this.totalP / 2
-            let tempTotal=this.totalP
+            let tempTotal=this.totalP/2
             this.tempSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },
