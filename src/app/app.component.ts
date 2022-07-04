@@ -173,7 +173,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // return false
     let now = new Date().getTime();
     let oldTime = await this.auth.getSection()
-    let fiveMin = parseInt(oldTime) > 0 ? parseInt(oldTime) + (1 * 6 * 1000) : 0;
+    let fiveMin = parseInt(oldTime) > 0 ? parseInt(oldTime) + (15 * 60 * 1000) : 0;
     console.log(now, fiveMin);
 
     if (now > fiveMin) {
