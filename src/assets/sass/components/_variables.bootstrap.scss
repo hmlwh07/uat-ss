@@ -354,7 +354,12 @@ $grid-breakpoints: (
   md: 768px,
   lg: 1000px,
   xl: 1200px,
-  xxl: 1400px  // custom breakpoint
+  xxl: 1400px  
+  sm: 768px,
+  //   md: 1000px,
+  //   lg: 1500px,
+  //   xl: 1700px,
+  //   xxl: 1900px // custom breakpoint
 ) !default;
 
 
