@@ -883,7 +883,7 @@ export class LeadDetailComponent implements OnInit {
       modalRef.componentInstance.isLead = true
       let oldData = {
         identityType: this.leadForm.getRawValue().identityType,
-        identityNumber: this.leadForm.getRawValue().identityNumber,
+        identityNumber:this.leadForm.getRawValue().identityType !='NRC'?this.leadForm.getRawValue().identityNumber: this.leadForm.getRawValue().identityNRC,
         phone: this.leadForm.getRawValue().phoneNo,
         email: this.leadForm.getRawValue().email,
         occupationCd: this.leadForm.getRawValue().occupationCd,

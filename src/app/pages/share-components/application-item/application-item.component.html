@@ -43,7 +43,7 @@
 
   <div class="col-4 text-left" style="padding: 10px 0">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
-    <label *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'">SI : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
+    <label *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
     <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
 
   </div>

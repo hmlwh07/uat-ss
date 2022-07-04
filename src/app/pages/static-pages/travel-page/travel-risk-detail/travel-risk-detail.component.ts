@@ -485,6 +485,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
 
   saveTravelRisk() {
+    let totalUnit=this.tempData['travelDetail'].travel_unit
+    this.sumInsured=this.numberPipe.transform(totalUnit*500000,'1.2-2')+" MMK"
     let postData: TravelRiskDTO = {
       insuredUnit: this.tempData['travelDetail'].insured_unit,
       noOfTraveller: this.tempData['travelDetail'].no_of_traveler,
@@ -494,7 +496,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       travelDuration: this.tempData['travelDetail'].travel_duration,
       travelPlan: this.tempData['travelDetail'].travel_plan,
       travellerName: this.tempData['traveler'].traveler_name,
-      sumInsured: 0,
+      sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+      sumInsuredView:this.sumInsured,
       riskId: this.tempData['travelDetail'].refId,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
@@ -502,8 +505,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         policyNumber: null,
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
-        // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
-        // sumInsuredView:this.sumInsured,
+        sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+        sumInsuredView:this.sumInsured,
         productId: this.prodService.createingProd.id,
         productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
@@ -527,6 +530,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   }
 
   updateTravelRisk(oldId?) {
+    let totalUnit=this.tempData['travelDetail'].travel_unit
+    this.sumInsured=this.numberPipe.transform(totalUnit*500000,'1.2-2')+" MMK"
     let postData: TravelRiskDTO = {
       id: oldId ? oldId : this.oldData.id,
       insuredUnit: this.tempData['travelDetail'].insured_unit,
@@ -537,7 +542,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       travelDuration: this.tempData['travelDetail'].travel_duration,
       travelPlan: this.tempData['travelDetail'].travel_plan,
       travellerName: this.tempData['traveler'].traveler_name,
-      sumInsured: 0,
+      sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+      sumInsuredView:this.sumInsured,
       riskId: oldId ? oldId : this.tempData['travelDetail'].refId,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
@@ -545,8 +551,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         policyNumber: null,
         premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
         premiumView: this.premiumAmt,
-        // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
-        // sumInsuredView:this.sumInsured,
+        sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
+        sumInsuredView:this.sumInsured,
         productId: this.prodService.createingProd.id,
         productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,

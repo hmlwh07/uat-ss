@@ -25,6 +25,8 @@ export class TravelComponent implements OnInit {
   @Input() referenceID?: string
   @Input() premiumAmt: string
   @Input() travelForm: PageUI[] = []
+  totalSiAmt:string
+  totalSiAmtView:string
   listData: any[] = []
   tempData: any = {}
   tableReform: any[] = []
@@ -138,6 +140,12 @@ export class TravelComponent implements OnInit {
 
         this.globalFun.tempFormData[TRAVELID] = res
         this.listData = res || []
+        for(let data of this.listData){
+          this.totalSiAmt+=parseInt(data.sumInsured)
+        }
+        this.totalSiAmtView=this.numberPipe.transform(this.totalSiAmt || 0,'1.2-2')+" MMK"
+        console.log("this.totalSiAmtView",this.totalSiAmtView);
+        
         this.cdf.detectChanges()
       }
     })
@@ -275,7 +283,9 @@ export class TravelComponent implements OnInit {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,
       "resourceId": this.resourcesId,
-      "type": 'policy'
+      "type": 'policy',
+      "sunInsured":(Number(this.totalSiAmtView.split(" ")[0].split(',').join("")) || 0) + "",
+      "sunInsuredView":this.totalSiAmtView
     }
     return this.pageDataService.updatePremimun(postData)
   }
