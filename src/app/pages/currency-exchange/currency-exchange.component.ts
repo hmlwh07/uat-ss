@@ -9,7 +9,7 @@ import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.se
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CurrencyAddFormComponent } from './add-form/currency-add-form.component';
 import { CurrencyExchange, CurrencyExchangeService } from './currency-exchange.service';
-import { CurrencyColWithAction, CurrencyColWithoutAction, CurrencyDisplayColWithAction, CurrencyDisplayColWithoutAction } from './currency.const';
+import { CurrencyCol, CurrencyDisplayCol } from './currency.const';
 import { Location } from "@angular/common";
 @Component({
   selector: 'app-currency-exchange',
@@ -23,10 +23,10 @@ import { Location } from "@angular/common";
 export class CurrencyExChangeComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   currencyList: CurrencyExchange[] = []
-  ELEMENT_COL
-  displayedColumns
+  ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyCol))
+  displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
   exchangeForm: FormGroup
-  leadAccess = defaultAccessObj
+  exchangeRateAccess = defaultAccessObj
   isViewUser: boolean = false
   constructor(
     private currencyService: CurrencyExchangeService,
@@ -38,24 +38,27 @@ export class CurrencyExChangeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.checkPermission()
     this.loadForm()
+    this.checkPermission()
   }
 
   checkPermission() {
     this.menuService.dataAccess.subscribe((res) => {
       if (res) {
-        this.leadAccess = res['leads']
-        if (this.leadAccess.view) {
-          this.isViewUser = true
-          this.ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyColWithAction))
-          this.displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayColWithAction))
-        } else {
+        this.exchangeRateAccess = res['exchange_rate']
+        console.log(this.displayedColumns)
+        if (!this.exchangeRateAccess.create) {
           this.isViewUser = false
-          this.ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyColWithoutAction))
-          this.displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayColWithoutAction))
         }
-
+        if (!this.exchangeRateAccess.delete) {
+          this.ELEMENT_COL[3].btn.delete = false
+        }
+        if (!this.exchangeRateAccess.edit) {
+          this.ELEMENT_COL[3].btn.edit = false
+        }
+        if (!this.exchangeRateAccess.delete && !this.exchangeRateAccess.edit) {
+          this.displayedColumns.pop()
+        }
         this.cdf.detectChanges()
       }
     })
