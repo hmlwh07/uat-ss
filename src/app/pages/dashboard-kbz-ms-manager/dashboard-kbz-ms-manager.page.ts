@@ -459,7 +459,8 @@ export class DashboardKbzMsManagerPage implements OnInit {
       width: 400,
       allowEditing: true,
       resultType: CameraResultType.Base64,
-      source: type
+      source: type,
+      height:400,
     }).catch((e) => {
 
     });
