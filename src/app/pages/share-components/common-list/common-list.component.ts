@@ -21,11 +21,14 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   @Input() colField: any; // col field
   @Input() order: string = 'asc' //ascending,descending
   // @Output() btnEvent?: EventEmitter<ListItemAction>;
+  @Input() total: number = 0;
+  @Input() totalpage: number = 0
   @Output() btnEvent?: EventEmitter<ListItemAction> = new EventEmitter();
+  @Output() pageEvent?: EventEmitter<ListItemAction> = new EventEmitter();
   @ViewChild(ListingsPagerComponent) listpager: ListingsPagerComponent;
   selectedPageSize = 5;
   selectedPageBtn = 1;
-
+  isPager: boolean = false
   start = 0;
   end = 5;
   listingargs;
@@ -33,6 +36,9 @@ export class CommonList2Component implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.listingargs = { direction: this.order, col: this.colField };
+    if (this.type == 'lead' || this.type == 'policy') {
+      this.isPager = true
+    }
   }
 
   ngAfterViewInit() {
@@ -49,8 +55,6 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   reponseFromPager(event) {
     this.selectedPageBtn = event.activePage;
     this.selectedPageSize = event.pageSize;
-    console.log("EVENT",event);
-    
     this.start = (this.selectedPageBtn - 1) * this.selectedPageSize;
     this.end = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.dataList.length ?
       (this.selectedPageBtn * this.selectedPageSize) : this.dataList.length;
@@ -58,6 +62,10 @@ export class CommonList2Component implements OnInit, AfterViewInit {
 
   reponseFromAtom(obj) {
 
+  }
+  getDatabyPage(event) {
+    console.log(event);
+    this.pageEvent.emit(event)
   }
 
   actionTrigger(event) {

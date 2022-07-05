@@ -99,7 +99,7 @@
         <div class="card card-custom gutter-b data">
             <div class="card-body customer-card-body">
                 <app-common-list-2 *ngIf="quoList.length > 0" class="data-list" #commonList [data]="quoList"
-                    [type]="'policy'" (btnEvent)="actionBtn($event)"></app-common-list-2>
+                    [type]="'policy'" [total]="totalElements" [totalpage]="totalPages" (btnEvent)="actionBtn($event)"  (pageEvent)="reponseFromPager($event)"></app-common-list-2>
 
                 <!-- <app-application-data-list [applications]="quoList"></app-application-data-list> -->
 
