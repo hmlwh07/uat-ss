@@ -24,7 +24,7 @@
     <label *ngIf="itemData.submittedCode"> {{ itemData.submittedCode }} </label>
   </div>
 
-  <div class="col-4">
+  <div class="col-4 text-left" >
     <label *ngIf="itemData.policyInceptionDate">Inception Date :  {{ itemData.policyInceptionDate | date:'dd/MM/YYYY' }} </label>
     <label *ngIf="itemData.policyExpireDate">Expiry Date :  {{ itemData.policyExpireDate | date:'dd/MM/YYYY' }} </label>
     <label *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' "
@@ -41,9 +41,10 @@
       Success </label>
   </div>
 
-  <div class="col-4" style="padding: 10px 0">
+  <div class="col-4 text-left" style="padding: 10px 0">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
+    <label *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
     <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
-    <label *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'">SI : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
+
   </div>
 </div>

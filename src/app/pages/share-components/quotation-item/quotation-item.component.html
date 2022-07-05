@@ -23,7 +23,7 @@
     <label *ngIf="itemData.agentFirstName"> {{ itemData.agentFirstName }} {{ itemData.agentLastName }}</label>
     <label *ngIf="itemData.productName"> {{ itemData.productName }} </label>
   </div>
-  <div class="col-4">
+  <div class="col-4 text-left">
     <label *ngIf="itemData.createdAt">Inception Date : {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
     <label *ngIf="itemData.expiryAt">Expiry Date : {{ itemData.expiryAt | date:'dd/MM/YYYY' }} </label>
     <label *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' "
@@ -39,10 +39,10 @@
     <label *ngIf="itemData.status == 'success' || itemData.status == 'Success' " style="color: #FFD300 !important;">
       Success </label>
   </div>
-  <div class="col-4">
+  <div class="col-4 text-left">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
-    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
     <label>SI : <span>{{ itemData.siView || 0 |number:'1.2-2'}}</span> </label>
+    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
   </div>
 </div>
 <!-- </div> -->

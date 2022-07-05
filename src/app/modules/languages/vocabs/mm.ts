@@ -351,6 +351,7 @@ export const locale = {
       unit: "ယူနစ်",
       base_coverage: "အခြေခံ အကာအကွယ်",
       product_code: "အာမခံ အမျိုးအစား ကုဒ်နံပါတ်",
+      product_name: "အာမခံ အမျိုးအစား ",
       branch_name: "Branch Name",
       activity_name: "Activities Name",
       target: "Target",

@@ -1,13 +1,9 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { ProductDataService } from '../../products/services/products-data.service';
-import { FireRiskService } from '../../static-pages/fire-risk/models&services/fire-risk.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
-import { FireProductService } from '../../static-pages/fire-simple-page/models&services/fire-product.service';
-import { FireRiskAddressService } from '../../static-pages/fire-simple-page/models&services/fire-risk-address';
 import { TravelRiskService } from '../../static-pages/travel-page/models&services/travel-risk.service';
-import { TravelRiskDetailComponent } from '../../static-pages/travel-page/travel-risk-detail/travel-risk-detail.component';
 
 @Component({
   selector: 'app-travel-print',
@@ -25,19 +21,23 @@ export class TravelPrintComponent implements OnInit {
     partyAddress: []
   }
   totalPremium: number = 0
-  totalSI: number = 0
+  totalSI: string = '0'
   numberOfTraveller: number = 0
   @Input() signId?: string
+  signatureDate?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   constructor(
     private policyHolderService: PolicyHolderService,
     private travelService: TravelRiskService,
-    private productService: ProductDataService
+    private productService: ProductDataService,
+    private numberPipe: DecimalPipe
   ) { }
 
   ngOnInit() {
+    console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getTravelPrintData()
   }
@@ -87,14 +87,16 @@ export class TravelPrintComponent implements OnInit {
 
   getTravelPrintData() {
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
-      console.log("get Detail: travel => ", res)
       if (res) {
         this.policyInfo = res.policyInfo.travelBasic
         this.numberOfTraveller = res.policyInfo.numberOfTraveller
         this.riskInfo = res.riskDetails
+        let totalUnit = 0
         for (let data of res.riskDetails) {
-          this.totalSI += parseInt(data.travelRisk.insuredUnitValue)
+          totalUnit += parseInt(data.travelRisk.totalUnit)
         }
+        let SI = totalUnit * 5000000
+        this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }
     })
   }

@@ -38,6 +38,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
   }
 
   saveSign() {
+    let date = new Date().getTime()
     if (this.signaturePad.isEmpty()) {
       this.alertService.activate("Please add Signature first", 'Warning Message');
     } else {
@@ -45,7 +46,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
       var sizeInBytes = 4 * Math.ceil((base64.length / 3)) * 0.5624896334383812;
       let data = {
         fileStr: base64,
-        fileName: new Date().getTime(),
+        fileName: date,
         fileType: 'png',
         fileSize: sizeInBytes,
         contentType: 'png',
@@ -54,8 +55,13 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
       // this.loading.activate()
       this.fileUpload.save(data).toPromise().then((res) => {
         if (res) {
+          let data = {
+            signId: res,
+            signDate: date
+          }
+          console.log("File Upload:", res)
           this.modal.dismiss({
-            data: res,
+            data: data,
             type: 'save'
           })
         }

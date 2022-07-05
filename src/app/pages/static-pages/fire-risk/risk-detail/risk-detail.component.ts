@@ -58,7 +58,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   currencyType: string = "MMK"
   unsub: Subscription[] = []
   totalPremium: any = 0;
-  tempTotalPremium: any = 0;
+  tempTotalPremiumAmount: any = 0;
+  countTotal: number;
   constructor(private modalService: NgbModal, public modal: NgbActiveModal,
     private masterDataService: MasterDataService, private cdf: ChangeDetectorRef,
     private fireRiskService: FireRiskService, private auth: AuthService,
@@ -299,6 +300,40 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       this.activeBox = "BUILDING"
     }
     // this.calBuildingSi()
+
+    // let index: number = 0
+    //   let unsub = this.globalService.paPremiumResult.subscribe((res: any) => {
+    //     this.countTotal = 0;
+    //     let position = res.search("MMK");
+    //     let currency: string = 'MMK'
+    //     if(position < 1){
+    //       currency = 'USD'
+    //     }
+
+    //     let replaceCurrency = parseFloat(res.replace(currency, '').replace(/,/g, ''));
+
+
+    //     //this.totalPremium += 
+    //     // if(this.prodService.totalPremium !=0){
+    //     //   this.totalPremium += 
+    //     // }
+        
+       
+
+    //     let total: any 
+    //     console.log('oldData =====> ', this.oldData);
+    //     if(!postData.id){
+    //       let total: any;
+    //       total = replaceCurrency + this.totalPremium;
+    //       this.totalPremium = total;
+    //       console.log('replaceCurrency =====> ', this.totalPremium);
+    //     }
+        
+
+    console.log('risk detail totalPremium ', this.totalPremium);
+    //   })
+
+     
     let postData = {
       ...this.oldData,
       ...data,
@@ -324,8 +359,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       resourceId: this.resourcesId
     }
     this.globalService.fireBurgery(data.buildingClass)
-    this.globalService.paPremiumResult.next(this.numberPipe.transform(this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2") + ' MMK',)
-    this.globalService.sumInsuredResult.next(this.numberPipe.transform(data.sumInsure || 0, "1.2-2")+ ' MMK');
+    //this.globalService.paPremiumResult.next(this.numberPipe.transform(this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2") + ' MMK',)
+    //this.globalService.sumInsuredResult.next(this.numberPipe.transform(data.sumInsure || 0, "1.2-2")+ ' MMK');
     // if (this.type != 'create') {
     if (postData.id) {
       this.fireRiskService.updateNoID(postData)
@@ -549,6 +584,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       console.log(' this.prodService.totalPremium =====> ', this.prodService.totalPremium);
 
       this.totalPremium = this.oldData.premium + this.prodService.totalPremium;
+      
 
       if (this.currencyType == 'MMK') {
         this.totalPremium = this.totalPremium + 100;
@@ -556,7 +592,23 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         this.totalPremium = this.totalPremium + 0.05;
       }
 
-      // console.log('totalPremium =====> ', this.totalPremium);
+      
+
+      //console.log('this.globalService.paPremiumResult =====> ', this.tempTotalPremiumAmount);
+
+      // if(this.prodService.totalPremium != 0){
+      //   this.tempTotalPremiumAmount = this.totalPremium
+      // }
+
+      // if(this.prodService.totalPremiumView != 0){
+      //   this.tempTotalPremiumAmount += this.totalPremium
+      // }
+
+
+
+      
+
+      //this.productService.totalPremiumView
       // if(this.totalPremium > 0){
       //   this.tempTotalPremium += this.totalPremium
       //   this.totalPremium = this.tempTotalPremium;
@@ -565,7 +617,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       // }
 
 
-      this.createRisk(close, true)
+     await this.createRisk(close, true)
     } else {
       this.modal.dismiss()
     }

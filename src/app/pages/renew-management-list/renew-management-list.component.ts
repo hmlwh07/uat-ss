@@ -10,6 +10,7 @@ import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attac
 import { AlertService } from '../../modules/loading-toast/alert-model/alert.service';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { ActivityStatus } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto';
+import { ProductDataService } from '../products/services/products-data.service';
 import { RenewCol, ActivityDisplayCol } from './renew-manage.const';
 import { RenewManageService } from './renew-manage.service';
 
@@ -27,18 +28,24 @@ export class RenewManagementListComponent implements OnInit {
   actForm: FormGroup;
   isTeam: boolean = false;
   activityStatus = ActivityStatus
+  productOption: any = []
+  statusOption:any=[
+    {code:'ACTIVE',value:'ACTIVE'},
+    {code:'CONFIRM',value:'CONFIRM'}
+  ]
+  product: any;
   private downED = "/attachment-downloader/tcs/fileName="
- // private fileNameURL = "attachment-downloader/tcs.htm?fileName="
+  // private fileNameURL = "attachment-downloader/tcs.htm?fileName="
 
   constructor(private fb: FormBuilder, private router: Router, private cdf: ChangeDetectorRef,
     private renewService: RenewManageService, private alertService: AlertService,
     private loadingService: LoadingService,
-    private attachmentDownloadService: AttachmentDownloadService) {
+    private attachmentDownloadService: AttachmentDownloadService, private prodctService: ProductDataService) {
     this.loadForm();
   }
 
   ngOnInit(): void {
-
+    this.getProduct()
   }
 
   ngAfterViewInit() {
@@ -58,7 +65,8 @@ export class RenewManagementListComponent implements OnInit {
       "productCode": new FormControl(""),
       startDate: new FormControl(""),
       endDate: new FormControl(""),
-      isTeam: new FormControl(this.isTeam)
+      isTeam: new FormControl(this.isTeam),
+      statusCode:new FormControl("")
     })
   }
 
@@ -82,14 +90,15 @@ export class RenewManagementListComponent implements OnInit {
       productCode: this.actForm.controls.productCode.value || "",
       fromDate: this.actForm.controls.startDate.value != null ? moment(this.actForm.controls.startDate.value).format("YYYY-MM-DD") : "",
       toDate: this.actForm.controls.endDate.value != null ? moment(this.actForm.controls.endDate.value).format("YYYY-MM-DD") : "",
+      statusCode:this.actForm.controls.statusCode.value || "",
       isTeam: this.isTeam
     }
 
     this.renewService.getRenewList(searchValues).toPromise().then((res: any) => {
       if (res) {
-      
+
         this.renewList = res
-        
+
         this.cdf.detectChanges()
         this.matTable.reChangeData()
       }
@@ -185,6 +194,29 @@ export class RenewManagementListComponent implements OnInit {
 
   getFileExt(fileName) {
     return this.attachmentDownloadService.get(this.downED + fileName).pipe(catchError(() => { return of(null) }))
+  }
+
+
+  getProduct() {
+    this.prodctService
+      .getAll('yes')
+      .toPromise()
+      .then((res: any) => {
+        if (res) {
+          this.product = res;
+          this.productOption = res.map((x) => {
+            return { code: x.code, value: x.name, type: x.type };
+          });
+          this.cdf.detectChanges();
+          // this.getProductOption()
+        }
+      });
+  }
+
+  clear(key) {
+    if (key == 'productCode') {
+      this.actForm.controls[key].setValue(null)
+    }
   }
 
   changeView(type) {

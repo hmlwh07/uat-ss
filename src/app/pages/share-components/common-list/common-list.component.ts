@@ -49,6 +49,8 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   reponseFromPager(event) {
     this.selectedPageBtn = event.activePage;
     this.selectedPageSize = event.pageSize;
+    console.log("EVENT",event);
+    
     this.start = (this.selectedPageBtn - 1) * this.selectedPageSize;
     this.end = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.dataList.length ?
       (this.selectedPageBtn * this.selectedPageSize) : this.dataList.length;

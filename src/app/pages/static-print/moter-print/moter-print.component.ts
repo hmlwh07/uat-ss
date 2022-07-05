@@ -41,6 +41,7 @@ export class MoterPrintComponent implements OnInit {
     "T-EXD3": "-100,000.00"
   }
   @Input() signId?: string
+  signatureDate?: string
   product: any
   optionId: any
   addOnData: any = []
@@ -54,9 +55,8 @@ export class MoterPrintComponent implements OnInit {
   constructor(private motorService: MotorPrintService, private productService: ProductDataService, private coverageService: CoverageQuoService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService) { }
 
   ngOnInit() {
-    console.log("M_resourcesId", this.resourcesId);
-
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
     this.getAddonCover()

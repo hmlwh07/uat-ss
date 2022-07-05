@@ -41,12 +41,14 @@ export class FirePrintComponent implements OnInit {
     "D": "Days"
   }
   @Input() signId?: string
+  signatureDate?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   constructor(private fireService: FireProductService, private productService: ProductDataService, private fireRsikService: FireRiskService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
     this.getRiskDetail()
@@ -90,21 +92,21 @@ export class FirePrintComponent implements OnInit {
 
   getPolicyHolder() {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
-      console.log("Policy",res)
+      console.log("Policy", res)
       if (res) {
         this.policyHolder = res
         this.getMasterValue(
-          this.policyHolder.partyAddress[0].district, 
-          this.policyHolder.partyAddress[0].state, 
+          this.policyHolder.partyAddress[0].district,
+          this.policyHolder.partyAddress[0].state,
           this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
-          this.policyHolder = {
-            ...this.policyHolder,
-            // phone: "0943044813",
-            townshipName: res['PT_TOWNSHIP'],
-            districtName: res['PT_DISTRICT'],
-            stateName: res['PT_STATE'],
-          }
-        })
+            this.policyHolder = {
+              ...this.policyHolder,
+              // phone: "0943044813",
+              townshipName: res['PT_TOWNSHIP'],
+              districtName: res['PT_DISTRICT'],
+              stateName: res['PT_STATE'],
+            }
+          })
       }
     })
     console.log("getPolicyHolder:", this.policyHolder)
@@ -182,7 +184,7 @@ export class FirePrintComponent implements OnInit {
     }
   }
   // }
-  print(){
+  print() {
     window.print()
   }
 }

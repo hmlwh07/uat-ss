@@ -14,7 +14,8 @@ export interface TravelRiskDTO {
   travelPlan?: string,
   travellerName?: string,
   riskId?: string,
-  sumInsured: number,
+  sumInsured: string,
+  sumInsuredView:string,
   updatedAt?: string,
   updatedBy?: string
 }

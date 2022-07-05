@@ -145,9 +145,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
       }
     })
-console.log("PLat", this.plat);
+    console.log("PLat", this.plat);
 
-    let unsublogin = this.plat.pause.subscribe((res) => {  
+    let unsublogin = this.plat.pause.subscribe((res) => {
       if (this.auth.isLoggedIn)
         this.setTimeout()
     })
@@ -155,16 +155,16 @@ console.log("PLat", this.plat);
 
     let unsubtime = this.plat.resume.subscribe((res) => {
       if (this.auth.isLoggedIn)
-      console.log("test",this.auth.isLoggedIn);
-      
-        this.checkTimeOut()
+        console.log("test", this.auth.isLoggedIn);
+
+      this.checkTimeOut()
     })
     this.plat.ready().then(async (res) => {
       let token = await this.auth.checkToken()
       if (token)
-      console.log("testtoken",token);
-      
-        this.checkTimeOut()
+        console.log("testtoken", token);
+
+      this.checkTimeOut()
     })
     this.unsubscribe.push(unsubtime);
   }
@@ -174,11 +174,11 @@ console.log("PLat", this.plat);
     let now = new Date().getTime();
     let oldTime = await this.auth.getSection()
     let fiveMin = parseInt(oldTime) > 0 ? parseInt(oldTime) + (15 * 60 * 1000) : 0;
-    // console.log(now, fiveMin);
+    console.log(now, fiveMin);
 
     if (now > fiveMin) {
-      this.router.navigateByUrl('/auth/login', { replaceUrl: true })
       this.auth.logout();
+      document.location.reload();
     }
   }
   ngOnDestroy() {
