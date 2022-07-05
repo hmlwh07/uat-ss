@@ -27,7 +27,7 @@ export class CurrencyExChangeComponent implements OnInit {
   displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
   exchangeForm: FormGroup
   exchangeRateAccess = defaultAccessObj
-  isViewUser: boolean = false
+  isViewUser: boolean = true
   constructor(
     private currencyService: CurrencyExchangeService,
     private cdf: ChangeDetectorRef,
