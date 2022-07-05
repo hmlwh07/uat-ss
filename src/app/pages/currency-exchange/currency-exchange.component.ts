@@ -1,14 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MY_FORMATS } from 'src/app/core/is-json';
+import { defaultAccessObj, MenuDataService } from 'src/app/core/menu-data.service';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CurrencyAddFormComponent } from './add-form/currency-add-form.component';
 import { CurrencyExchange, CurrencyExchangeService } from './currency-exchange.service';
-import { CurrencyCol, CurrencyDisplayCol } from './currency.const';
+import { CurrencyColWithAction, CurrencyColWithoutAction, CurrencyDisplayColWithAction, CurrencyDisplayColWithoutAction } from './currency.const';
+import { Location } from "@angular/common";
 @Component({
   selector: 'app-currency-exchange',
   templateUrl: './currency-exchange.component.html',
@@ -21,16 +23,40 @@ import { CurrencyCol, CurrencyDisplayCol } from './currency.const';
 export class CurrencyExChangeComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
   currencyList: CurrencyExchange[] = []
-  ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyCol))
-  displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
+  ELEMENT_COL
+  displayedColumns
   exchangeForm: FormGroup
-  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef,
-    private modalCrl: NgbModal, private alertService: AlertService) {
-
-  }
+  leadAccess = defaultAccessObj
+  constructor(
+    private currencyService: CurrencyExchangeService,
+    private cdf: ChangeDetectorRef,
+    private modalCrl: NgbModal,
+    private alertService: AlertService,
+    private location: Location,
+    private menuService: MenuDataService
+  ) { }
 
   ngOnInit() {
+    this.checkPermission()
     this.loadForm()
+  }
+
+  checkPermission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.leadAccess = res['leads']
+        console.log(this.leadAccess)
+        if (!this.leadAccess.view) {
+          this.ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyColWithAction))
+          this.displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayColWithAction))
+        } else {
+          this.ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyColWithoutAction))
+          this.displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayColWithoutAction))
+        }
+
+        this.cdf.detectChanges()
+      }
+    })
   }
 
   ngAfterViewInit() {

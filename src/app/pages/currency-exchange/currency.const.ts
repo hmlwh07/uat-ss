@@ -1,5 +1,5 @@
 import { COLTYPE, TableCol } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto'
-export const CurrencyCol: TableCol[] = [
+export const CurrencyColWithAction: TableCol[] = [
 
   {
     title: "Date",
@@ -29,11 +29,38 @@ export const CurrencyCol: TableCol[] = [
   },
 
 ]
+export const CurrencyColWithoutAction: TableCol[] = [
 
-export const CurrencyDisplayCol: string[] = [
+  {
+    title: "Date",
+    type: COLTYPE.FEILD,
+    field: "date",
+    isFromatDate: true
+  },
+  {
+    title: "Currency",
+    type: COLTYPE.FEILD,
+    field: "type",
+    isUpper: true
+  },
+  {
+    title: "Rate",
+    type: COLTYPE.FEILD,
+    field: "amount",
+  },
+]
+
+export const CurrencyDisplayColWithAction: string[] = [
   // "id",
   "date",
   "type",
   "amount",
   "actions",
+]
+
+export const CurrencyDisplayColWithoutAction: string[] = [
+  // "id",
+  "date",
+  "type",
+  "amount",
 ]
