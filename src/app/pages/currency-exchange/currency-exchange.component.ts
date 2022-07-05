@@ -1,14 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MY_FORMATS } from 'src/app/core/is-json';
+import { defaultAccessObj, MenuDataService } from 'src/app/core/menu-data.service';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { CurrencyAddFormComponent } from './add-form/currency-add-form.component';
 import { CurrencyExchange, CurrencyExchangeService } from './currency-exchange.service';
 import { CurrencyCol, CurrencyDisplayCol } from './currency.const';
+import { Location } from "@angular/common";
 @Component({
   selector: 'app-currency-exchange',
   templateUrl: './currency-exchange.component.html',
@@ -24,13 +26,42 @@ export class CurrencyExChangeComponent implements OnInit {
   ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyCol))
   displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayCol))
   exchangeForm: FormGroup
-  constructor(private currencyService: CurrencyExchangeService, private cdf: ChangeDetectorRef,
-    private modalCrl: NgbModal, private alertService: AlertService) {
-
-  }
+  exchangeRateAccess = defaultAccessObj
+  isViewUser: boolean = false
+  constructor(
+    private currencyService: CurrencyExchangeService,
+    private cdf: ChangeDetectorRef,
+    private modalCrl: NgbModal,
+    private alertService: AlertService,
+    private location: Location,
+    private menuService: MenuDataService
+  ) { }
 
   ngOnInit() {
     this.loadForm()
+    this.checkPermission()
+  }
+
+  checkPermission() {
+    this.menuService.dataAccess.subscribe((res) => {
+      if (res) {
+        this.exchangeRateAccess = res['exchange_rate']
+        console.log(this.displayedColumns)
+        if (!this.exchangeRateAccess.create) {
+          this.isViewUser = false
+        }
+        if (!this.exchangeRateAccess.delete) {
+          this.ELEMENT_COL[3].btn.delete = false
+        }
+        if (!this.exchangeRateAccess.edit) {
+          this.ELEMENT_COL[3].btn.edit = false
+        }
+        if (!this.exchangeRateAccess.delete && !this.exchangeRateAccess.edit) {
+          this.displayedColumns.pop()
+        }
+        this.cdf.detectChanges()
+      }
+    })
   }
 
   ngAfterViewInit() {

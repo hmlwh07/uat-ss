@@ -241,7 +241,7 @@ export const locale = {
       technology: "TECHNOLOGY",
       human_resources: "HUMAN RESOURCES",
       management_infrastructure: "MANAGEMENT INFRASTRUCTURE",
-      generate: "Generate",
+      generate: "Export",
       from_date: 'From Date',
       to_date: 'To Date ',
       channel: 'Channel',
