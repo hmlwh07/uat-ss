@@ -121,7 +121,7 @@ export class HealthCiPrintComponent implements OnInit {
               { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
             ]
           } else {
-            let tempTotal = this.totalP / 2
+            let tempTotal = this.totalP
             this.tempPaymentSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },

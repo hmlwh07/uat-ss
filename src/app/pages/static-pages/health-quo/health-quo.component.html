@@ -4,7 +4,7 @@
       <th>
         {{"FORM.Coverages / Benefit" | translate}}
       </th>
-      <th> 
+      <th>
         {{"FORM.Sum Insured" | translate}}
       </th>
     </tr>
@@ -46,9 +46,9 @@
   <tfoot class="tbody-align">
     <tr>
       <td><b>{{ "TABLE.Total" | translate }}</b></td>
-      <td>{{totalP | number:'1.2-2'}}</td>
-      <td>{{totalL | number:'1.2-2'}}</td>
-      <td>{{(totalP+totalL) | number:'1.2-2'}}</td>
+      <td>{{(parentData.paymentFrequency=='L'?totalP:totalSemi) | number:'1.2-2'}}</td>
+      <td>{{totalL| number:'1.2-2'}}</td>
+      <td>{{((parentData.paymentFrequency=='L'?totalP:totalSemi)+totalL) | number:'1.2-2'}}</td>
     </tr>
   </tfoot>
 </table>
