@@ -90,7 +90,7 @@ export class RenewManagementListComponent implements OnInit {
       productCode: this.actForm.controls.productCode.value || "",
       fromDate: this.actForm.controls.startDate.value != null ? moment(this.actForm.controls.startDate.value).format("YYYY-MM-DD") : "",
       toDate: this.actForm.controls.endDate.value != null ? moment(this.actForm.controls.endDate.value).format("YYYY-MM-DD") : "",
-      statusCode:this.actForm.controls.statusCode.value || "",
+      statusCode:this.actForm.controls.statusCode.value || null,
       isTeam: this.isTeam
     }
 
