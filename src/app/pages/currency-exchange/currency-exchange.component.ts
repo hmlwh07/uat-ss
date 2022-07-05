@@ -27,6 +27,7 @@ export class CurrencyExChangeComponent implements OnInit {
   displayedColumns
   exchangeForm: FormGroup
   leadAccess = defaultAccessObj
+  isViewUser: boolean = false
   constructor(
     private currencyService: CurrencyExchangeService,
     private cdf: ChangeDetectorRef,
@@ -45,11 +46,12 @@ export class CurrencyExChangeComponent implements OnInit {
     this.menuService.dataAccess.subscribe((res) => {
       if (res) {
         this.leadAccess = res['leads']
-        console.log(this.leadAccess)
-        if (!this.leadAccess.view) {
+        if (this.leadAccess.view) {
+          this.isViewUser = true
           this.ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyColWithAction))
           this.displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayColWithAction))
         } else {
+          this.isViewUser = false
           this.ELEMENT_COL = JSON.parse(JSON.stringify(CurrencyColWithoutAction))
           this.displayedColumns = JSON.parse(JSON.stringify(CurrencyDisplayColWithoutAction))
         }
