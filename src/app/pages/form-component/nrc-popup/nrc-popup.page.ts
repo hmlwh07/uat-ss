@@ -123,7 +123,7 @@ export class NrcPopupPage implements OnInit {
       this.group.controls[this.config.identityNRC].setValue(nrc)
     this.modal.dismiss('save');
   }
-
+ 
   dismiss() {
     this.modal.dismiss();
   }
