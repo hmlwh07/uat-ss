@@ -65,7 +65,8 @@ export class RenewManagementListComponent implements OnInit {
       "productCode": new FormControl(""),
       startDate: new FormControl(""),
       endDate: new FormControl(""),
-      isTeam: new FormControl(this.isTeam)
+      isTeam: new FormControl(this.isTeam),
+      statusCode:new FormControl("")
     })
   }
 
@@ -89,6 +90,7 @@ export class RenewManagementListComponent implements OnInit {
       productCode: this.actForm.controls.productCode.value || "",
       fromDate: this.actForm.controls.startDate.value != null ? moment(this.actForm.controls.startDate.value).format("YYYY-MM-DD") : "",
       toDate: this.actForm.controls.endDate.value != null ? moment(this.actForm.controls.endDate.value).format("YYYY-MM-DD") : "",
+      statusCode:this.actForm.controls.statusCode.value || "",
       isTeam: this.isTeam
     }
 
