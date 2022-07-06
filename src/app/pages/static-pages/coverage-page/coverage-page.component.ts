@@ -39,18 +39,18 @@ export class CoveragePageComponent implements OnInit {
     "T-002": 0.85,
     "T-001": 1,
   }
-  termPercent=1
+  termPercent = 1
   constructor(private coverageQuoService: CoverageQuoService, private globalFun: GlobalFunctionService, private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private loadingService: LoadingService) { }
 
   async ngOnInit() {
     this.refID = this.prodService.referenceID
     this.optionId = this.optionId ? this.optionId : this.resourcesId
-    if (this.product.code == "PLMO02" || this.product.code=="PLMO01") {
+    if (this.product.code == "PLMO02" || this.product.code == "PLMO01") {
       this.parentData = this.getParnet()
       let term = this.parentData['m_policy_term']
       console.log("Policy-TERM", term);
       this.termPercent = this.crossPercent[term] || 1
-      console.log("TERM-Percent", this.termPercent);  
+      console.log("TERM-Percent", this.termPercent);
     }
     if (this.product.coverages && this.product.coverages.length > 0) {
       await this.loadingService.activate()
@@ -79,7 +79,7 @@ export class CoveragePageComponent implements OnInit {
         this.coverageData[item.id] = {
           sum: response ? response.sumInsured || 0 : 0,
           unit: response ? response.unit || 0 : 0,
-          premium: response ? (response.premium || 0): 0
+          premium: response ? (response.premium || 0) : 0
         }
 
         if (item.sumInsured) {
@@ -104,8 +104,9 @@ export class CoveragePageComponent implements OnInit {
   }
 
   getGlobalFun(funName: string, mainObj: string, mainKey, subKey: string) {
-    if ((this.product.code == "PLMO02" || this.product.code=="PLMO01") && subKey == "premium") {
+    if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && subKey == "premium") {
       if (this.globalFun[funName]) {
+        this.parentData = { ...this.parentData, productCode: this.product.code }
         let unsub = this.globalFun[funName](this.parentData).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
           this.cdRef.detectChanges();

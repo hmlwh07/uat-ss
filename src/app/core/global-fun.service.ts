@@ -292,11 +292,14 @@ export class GlobalFunctionService {
 
 
   getMotorRate(motorDetail) {
+    console.log("motorDetail",motorDetail);
+    
     let cc = ""
     let currency = ""
     let sumIn = 0
     let typeOfCoverage = ""
     let typeOfVehicle = ""
+    let productCode=""
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
@@ -312,7 +315,10 @@ export class GlobalFunctionService {
     if (motorDetail) {
       cc = motorDetail['m_capacity'] || motorDetail['m_tonnage'] || 0
     }
-    return this.motorService.getOne(currency, sumIn, typeOfCoverage, typeOfVehicle, cc)
+    if(motorDetail){
+      productCode=motorDetail['productCode']
+    }
+    return this.motorService.getOne(currency, sumIn, typeOfCoverage, typeOfVehicle, cc,productCode)
   }
 
   getMotorThirdRate(motorDetail) {
@@ -321,6 +327,7 @@ export class GlobalFunctionService {
     let sumIn = 0
     let typeOfCoverage = ""
     let typeOfVehicle = ""
+    let productCode=""
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
@@ -336,7 +343,10 @@ export class GlobalFunctionService {
     if (motorDetail) {
       cc = motorDetail['m_capacity'] || motorDetail['m_tonnage'] || 0
     }
-    return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc)
+    if(motorDetail){
+      productCode=motorDetail['productCode']
+    }
+    return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc,productCode)
   }
 
   motorOwnDamage(motorDetail) {

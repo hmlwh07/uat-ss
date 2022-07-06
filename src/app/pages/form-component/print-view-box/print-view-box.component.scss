@@ -1,10 +1,37 @@
 .print-grid {
   font-size: 0.95rem;
-
   table {
     // width: 1200px;
   }
+}
 
+// .watermask {
+//   position: relative; 
+//   height: 100vh;
+//   width: 100%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+// .watermask::before {    
+//     content: "";
+//     background-image:url(../../.././../assets/logo.png);
+//     background-size: cover;
+//     position: absolute;
+//     top: 0px;
+//     right: 0px;
+//     bottom: 0px;
+//     left: 0px;
+//     opacity: 0.75;
+// }
+
+.watermask {
+  background-image: url(../../.././../assets/logo.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40% 40%;
+  // opacity: 0.5;
 }
 
 .product-detail {
@@ -12,22 +39,23 @@
     // width: 500px;
   }
 }
-.row{
+
+.row {
   margin: 5px 5px;
 }
 
 .field-col {
   text-align: center;
-  padding   : 5px 5px;
-  width     : 100px;
-  font-size : 0.95rem;
+  padding: 5px 5px;
+  width: 100px;
+  font-size: 0.95rem;
 }
 
 .value-col {
-  padding   : 5px 5px;
+  padding: 5px 5px;
   text-align: center;
-  width     : 120px;
-  font-size : 0.95rem;
+  width: 120px;
+  font-size: 0.95rem;
 }
 
 .title-style {
@@ -36,7 +64,7 @@
 
 
 table td {
-  border         : 1px solid #9BC2E6;
+  border: 1px solid #9BC2E6;
   border-collapse: collapse;
 }
 
@@ -45,59 +73,60 @@ table td {
 // }
 .print-header {
   background-color: rgb(255, 255, 255);
-  margin          : 0px;
+  margin: 0px;
   // padding         : 15px 10px;
-  margin-bottom   : 1.25rem;
+  margin-bottom: 1.25rem;
   position: relative;
 }
 
 .header-title {
-  display    : flex;
+  display: flex;
   align-items: center;
-  font-size  : 1rem;
+  font-size: 1rem;
   font-weight: bold;
-  color      : #005f99;
-  position   : absolute;
+  color: #005f99;
+  position: absolute;
 
   .logo {
-    width       : 30%;
+    width: 30%;
     margin-right: 10px;
   }
 }
-.header-logo{
+
+.header-logo {
   display: flex;
   justify-content: center;
+
   .logo {
-    width       : 30%;
+    width: 30%;
     margin-right: 10px;
   }
 }
 
 .product-name {
-  font-size  : 1.7rem;
+  font-size: 1.7rem;
   font-weight: bold;
-  width      : 100%;
-  text-align : center;
+  width: 100%;
+  text-align: center;
 }
 
 .print-footer {
-  display   : flex;
-  padding   : 5px;
+  display: flex;
+  padding: 5px;
   border-top: 1px solid #9BC2E6;
 
   .logo {
-    width       : 40px;
+    width: 40px;
     margin-right: 10px;
   }
 }
 
 .qr {
   position: absolute;
-  right   : 10px;
-  top     : 15px;
+  right: 10px;
+  top: 15px;
 }
 
-div>.col-sm-3{
-  font-size: 12pt ;
+div>.col-sm-3 {
+  font-size: 12pt;
 }
-
