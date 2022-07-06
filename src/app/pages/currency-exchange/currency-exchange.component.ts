@@ -47,13 +47,19 @@ export class CurrencyExChangeComponent implements OnInit {
       if (res) {
         this.exchangeRateAccess = res['exchange_rate']
         console.log(this.displayedColumns)
-        if (!this.exchangeRateAccess.create) {
+        if (this.exchangeRateAccess.create) {
+          this.isViewUser = true
+        } else {
           this.isViewUser = false
         }
-        if (!this.exchangeRateAccess.delete) {
+        if (this.exchangeRateAccess.delete) {
+          this.ELEMENT_COL[3].btn.delete = true
+        } else {
           this.ELEMENT_COL[3].btn.delete = false
         }
-        if (!this.exchangeRateAccess.edit) {
+        if (this.exchangeRateAccess.edit) {
+          this.ELEMENT_COL[3].btn.edit = true
+        } else {
           this.ELEMENT_COL[3].btn.edit = false
         }
         if (!this.exchangeRateAccess.delete && !this.exchangeRateAccess.edit) {
