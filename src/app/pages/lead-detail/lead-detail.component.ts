@@ -636,6 +636,7 @@ export class LeadDetailComponent implements OnInit {
             this.alertService.activate('Are you sure you want to accept?', 'Warning Message').then(result => {
               if (result) {
                 let data = {
+                  leadId: this.leadForm.controls.leadId? this.leadForm.controls.leadId.value: "",
                   agentId: this.leadForm.controls.ownerId ? this.leadForm.controls.ownerId.value : "",
                   phone: this.leadForm.controls.phoneNo ? this.leadForm.controls.phoneNo.value : "",
                   email: this.leadForm.controls.email ? this.leadForm.controls.email.value : "",
