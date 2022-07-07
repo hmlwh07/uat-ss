@@ -174,6 +174,8 @@ export const locale = {
       quotes: 'Quotes',
       all: 'All',
       policies: 'ပေါ်လစီများ',
+      policy_expiry_start: "Policy Expiry Start Date",
+      policy_expiry_end: "Policy Expiry End Date",
       campaign_for_today: 'Campaign for Today',
       things_to_follow_up: 'Things to Follow Up',
       calendar: 'Calendar',

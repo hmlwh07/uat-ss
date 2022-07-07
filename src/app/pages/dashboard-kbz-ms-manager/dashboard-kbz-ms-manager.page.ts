@@ -29,6 +29,7 @@ import { ActionSheetController, Platform } from '@ionic/angular';
 import { DashboardAttachmentService, DashboardService } from '../dashboard-kbz-ms-senior/dashboard.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
 
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
@@ -82,6 +83,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
   actForm: FormGroup;
   leadObj: any = {};
   id: any;
+  roleId: any;
   currentMonthIndex: number = new Date().getUTCMonth();
   currentYear: number = new Date().getUTCFullYear();
   months = [
@@ -112,7 +114,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
   productPadding: string;
   mainContentHeight: number;
   mainContentHeightPx: string;
-
+  activeRoute: any;
   constructor(
     private platform: Platform,
     private cdf: ChangeDetectorRef,
@@ -120,13 +122,15 @@ export class DashboardKbzMsManagerPage implements OnInit {
     public auth: AuthService,
     private dashboardService: DashboardService,
     private router: Router,
-    private alertCtrl:ActionSheetController,
-    private AttachmentUploadService:AttachmentUploadService,
-    private DashboardAttachmentService:DashboardAttachmentService
+    private alertCtrl: ActionSheetController,
+    private AttachmentUploadService: AttachmentUploadService,
+    private DashboardAttachmentService: DashboardAttachmentService,
+    private menuDataRoleService: MenuDataRoleService
   ) {
     this.route.queryParams.subscribe(async (params) => {
       if (params.empId) {
         this.id = JSON.parse(params.empId);
+        this.roleId = JSON.parse(params.roleId);
         this.loadForm();
       } else {
         this.id = this.auth.currentUserValue.id
@@ -136,6 +140,9 @@ export class DashboardKbzMsManagerPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.activeRoute = this.router.url
+    console.log(this.activeRoute);
+
     this.getList();
     this.getLeadList();
     this.getAgentList();
@@ -150,9 +157,12 @@ export class DashboardKbzMsManagerPage implements OnInit {
     });
   }
 
-  getList() {
+  getList(id?) {
+    let post = {
+      empId: id
+    }
     this.dashboardService
-      .getList(this.actForm.value)
+      .getList(id ? post : this.actForm.value)
       .toPromise()
       .then((res) => {
         if (res) {
@@ -163,11 +173,14 @@ export class DashboardKbzMsManagerPage implements OnInit {
       });
   }
 
-  getLeadList() {
+  getLeadList(id?) {
+    let post = {
+      empId: id
+    }
     this.dashboardService
-      .getLeadList(this.actForm.value)
+      .getLeadList(id ? post : this.actForm.value)
       .toPromise()
-      .then((res:any) => {
+      .then((res: any) => {
         if (res) {
           this.leadObj = res;
           // this.todayActiveAgent = res.todayActiveAgent
@@ -177,9 +190,12 @@ export class DashboardKbzMsManagerPage implements OnInit {
       });
   }
 
-  getAgentList() {
+  getAgentList(id?) {
+    let post = {
+      empId: id
+    }
     // this.agentLineChartCategories = this.agentLineChartDatas = [];
-    this.dashboardService.getAgentList(this.actForm.value).pipe(map((res: any) => {
+    this.dashboardService.getAgentList(id ? post : this.actForm.value).pipe(map((res: any) => {
       let weeks = []
       let data = []
       res.weeklyActiveAgents.map((x) => {
@@ -189,7 +205,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       return { ...res, data, weeks }
     })).toPromise().then((res) => {
       console.log(res);
-      
+
       if (res) {
         this.agentLineChart = res;
         this.todayActiveAgent = res.todayNoOfActiveAgent
@@ -211,9 +227,10 @@ export class DashboardKbzMsManagerPage implements OnInit {
   ngOnDestroy() { }
 
   goToLPDashboard(agent: any) {
-    this.router.navigate(['/dashboard/lp-dashboard'], {
-      queryParams: { empId: agent.empId },
-    });
+    this.getSaleRoleData(agent)
+    // this.router.navigate(['/dashboard/lp-manager-dashboard'], {
+    //   queryParams: { empId: agent.empId,roleId: agent.roleId },
+    // });
   }
 
   goToSalePolicies() {
@@ -222,6 +239,42 @@ export class DashboardKbzMsManagerPage implements OnInit {
 
   goToActivities() {
     this.router.navigate(['activity/activity-management-list'])
+  }
+
+  getSaleRoleData(agent: any) {
+    this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
+      console.log(res);
+      let page = ''
+      if (res) {
+        res.forEach(data => {
+          if (data.title == "Dashboard") {
+            if (data.submenu) {
+              data.submenu.forEach(res => {
+                if (res.dataAccess.view) {
+                  page = res.page
+                }
+              })
+            }
+          }
+        })
+
+      }
+      console.log(page);
+      if (page) {
+        let pg = "/" + page
+        if (pg == this.activeRoute) {
+          this.getList(agent.roleId)
+          this.getLeadList(agent.roleId);
+          this.getAgentList(agent.roleId);
+          this.radioW = this.platform.width();
+          this.radioH = this.platform.height();
+          this.calculateMainContentHeight(this.radioW, this.radioH);
+        }
+        else {
+          this.router.navigate([page], { queryParams: { empId: agent.empId, roleId: agent.roleId }, })
+        }
+      }
+    })
   }
 
   setChartOptions(type: string) {
@@ -419,7 +472,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
 
   }
 
-  changeSource(event){
+  changeSource(event) {
     event.target.src = "./assets/images/user_profile-01.svg"
   }
   //
@@ -428,27 +481,27 @@ export class DashboardKbzMsManagerPage implements OnInit {
     const actionSheet = await this.alertCtrl.create({
       cssClass: 'custom-modal',
       buttons: [
-      //   {
-      //   icon: 'camera',
-      //   text: 'Take a picture',
-      //   handler: () => {
-      //     this.getPictures(CameraSource.Camera);
-      //     console.log('Open Camera');;
-      //   }
-      // },
-       {
-        icon: 'images',
-        text: 'Choose picture from gallery',
-        handler: () => {
-          this.getPictures(CameraSource.Photos);
-          console.log('Open Gallery');
-        }
-      }, {
-        icon: 'close',
-        text: 'Close',
-        role: 'cancel',
-        handler: () => { console.log('Cancel clicked'); }
-      }]
+        //   {
+        //   icon: 'camera',
+        //   text: 'Take a picture',
+        //   handler: () => {
+        //     this.getPictures(CameraSource.Camera);
+        //     console.log('Open Camera');;
+        //   }
+        // },
+        {
+          icon: 'images',
+          text: 'Choose picture from gallery',
+          handler: () => {
+            this.getPictures(CameraSource.Photos);
+            console.log('Open Gallery');
+          }
+        }, {
+          icon: 'close',
+          text: 'Close',
+          role: 'cancel',
+          handler: () => { console.log('Cancel clicked'); }
+        }]
     });
     await actionSheet.present();
   }
@@ -460,7 +513,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       allowEditing: true,
       resultType: CameraResultType.Base64,
       source: type,
-      height:400,
+      height: 400,
     }).catch((e) => {
 
     });
@@ -472,13 +525,13 @@ export class DashboardKbzMsManagerPage implements OnInit {
   }
   async uploadImage(image) {
     image.size = ((image.base64String).length - 814) / 1.37
-    image.fileName=Date.now() + this.data.agentInfo.empId
+    image.fileName = Date.now() + this.data.agentInfo.empId
     let data = {
       fileStr: image.base64String,
       fileName: image.fileName,
-      fileType: "image/"+image.format,
+      fileType: "image/" + image.format,
       fileSize: image.size,
-      contentType: "image/"+image.format,
+      contentType: "image/" + image.format,
       fileExtension: image.format,
     }
     this.AttachmentUploadService.save(data).toPromise().then((res) => {
@@ -491,7 +544,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
         // this.cdf.detectChanges()
         this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
           if (res) {
-            this.data.agentInfo.attId=res
+            this.data.agentInfo.attId = res
             this.cdf.detectChanges()
           }
         })

@@ -17,6 +17,7 @@ import { ActionSheetController, AlertController, Platform } from '@ionic/angular
 import { DashboardAttachmentService, DashboardService } from '../dashboard-kbz-ms-senior/dashboard.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
 
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
@@ -71,6 +72,7 @@ export class DashboardKbzMsLpPage implements OnInit {
   backlogArray = [];
   unsub: any = {};
   id: any;
+  roleId:any;
   months = [
     'JAN',
     'FEB',
@@ -90,16 +92,16 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   icons = [
     {
-      activityType : 'Face to Face',
-      image : "./assets/images/group_chat_color-01.svg"
+      activityType: 'Face to Face',
+      image: "./assets/images/group_chat_color-01.svg"
     },
     {
-      activityType : 'Online',
-      image : "./assets/images/world_color-01.svg"
+      activityType: 'Online',
+      image: "./assets/images/world_color-01.svg"
     },
     {
-      activityType : 'Phone Call',
-      image : "./assets/images/phone_color-01.svg"
+      activityType: 'Phone Call',
+      image: "./assets/images/phone_color-01.svg"
     },
   ];
   radioW: any;
@@ -116,19 +118,20 @@ export class DashboardKbzMsLpPage implements OnInit {
   mainContentHeightPx: string;
   salesH: number;
   productImageWidth: string;
-  constructor(private platform: Platform, 
-    private cdf: ChangeDetectorRef, 
-    private ngzone: NgZone, 
-    private route: ActivatedRoute, 
-    public auth: AuthService, 
-    private dashboardService: DashboardService, 
+  constructor(private platform: Platform,
+    private cdf: ChangeDetectorRef,
+    private ngzone: NgZone,
+    private route: ActivatedRoute,
+    public auth: AuthService,
+    private dashboardService: DashboardService,
     private router: Router,
-    private AttachmentUploadService:AttachmentUploadService,
-    private alertCtrl:ActionSheetController,
-    private DashboardAttachmentService:DashboardAttachmentService) {
+    private AttachmentUploadService: AttachmentUploadService,
+    private alertCtrl: ActionSheetController,
+    private DashboardAttachmentService: DashboardAttachmentService,) {
     this.route.queryParams.subscribe(async params => {
       if (params.empId) {
         this.id = JSON.parse(params.empId);
+        this.roleId = JSON.parse(params.roleId);
         this.loadForm();
       } else {
         this.id = this.auth.currentUserValue.id;
@@ -148,10 +151,11 @@ export class DashboardKbzMsLpPage implements OnInit {
     this.radioH = this.platform.height();;
 
     this.calculateMainContentHeight(this.radioW, this.radioH)
+
   }
 
-  getImageURL(type){
-    let index = this.icons.findIndex(i=> i.activityType == type);
+  getImageURL(type) {
+    let index = this.icons.findIndex(i => i.activityType == type);
     return this.icons[index].image;
   }
   loadForm() {
@@ -339,7 +343,7 @@ export class DashboardKbzMsLpPage implements OnInit {
     this.chartH = 0;
     if (width < 1000) {
       mainContentHeight = height - (55 + 58.8 + 65 + 15);
-      this.profileHpx = (mainContentHeight / 2) - 15 + 'px';     
+      this.profileHpx = (mainContentHeight / 2) - 15 + 'px';
       this.salesH = mainContentHeight / 3;
       this.salesHpx = this.salesH - 25 + 'px';
       this.chartH = (mainContentHeight / 3);
@@ -376,7 +380,7 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   }
 
-  changeSource(event){
+  changeSource(event) {
     event.target.src = "./assets/images/user_profile-01.svg"
   }
 
@@ -384,27 +388,27 @@ export class DashboardKbzMsLpPage implements OnInit {
     const actionSheet = await this.alertCtrl.create({
       cssClass: 'custom-modal',
       buttons: [
-      //   {
-      //   icon: 'camera',
-      //   text: 'Take a picture',
-      //   handler: () => {
-      //     this.getPictures(CameraSource.Camera);
-      //     console.log('Open Camera');;
-      //   }
-      // },
-       {
-        icon: 'images',
-        text: 'Choose picture from gallery',
-        handler: () => {
-          this.getPictures(CameraSource.Photos);
-          console.log('Open Gallery');
-        }
-      }, {
-        icon: 'close',
-        text: 'Close',
-        role: 'cancel',
-        handler: () => { console.log('Cancel clicked'); }
-      }]
+        //   {
+        //   icon: 'camera',
+        //   text: 'Take a picture',
+        //   handler: () => {
+        //     this.getPictures(CameraSource.Camera);
+        //     console.log('Open Camera');;
+        //   }
+        // },
+        {
+          icon: 'images',
+          text: 'Choose picture from gallery',
+          handler: () => {
+            this.getPictures(CameraSource.Photos);
+            console.log('Open Gallery');
+          }
+        }, {
+          icon: 'close',
+          text: 'Close',
+          role: 'cancel',
+          handler: () => { console.log('Cancel clicked'); }
+        }]
     });
     await actionSheet.present();
   }
@@ -416,7 +420,7 @@ export class DashboardKbzMsLpPage implements OnInit {
       allowEditing: true,
       resultType: CameraResultType.Base64,
       source: type,
-      height:400,
+      height: 400,
     }).catch((e) => {
 
     });
@@ -428,13 +432,13 @@ export class DashboardKbzMsLpPage implements OnInit {
   }
   async uploadImage(image) {
     image.size = ((image.base64String).length - 814) / 1.37
-    image.fileName=Date.now() + this.data.agentInfo.empId
+    image.fileName = Date.now() + this.data.agentInfo.empId
     let data = {
       fileStr: image.base64String,
       fileName: image.fileName,
-      fileType: "image/"+image.format,
+      fileType: "image/" + image.format,
       fileSize: image.size,
-      contentType: "image/"+image.format,
+      contentType: "image/" + image.format,
       fileExtension: image.format,
     }
     this.AttachmentUploadService.save(data).toPromise().then((res) => {
@@ -447,7 +451,7 @@ export class DashboardKbzMsLpPage implements OnInit {
         // this.cdf.detectChanges()
         this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
           if (res) {
-            this.data.agentInfo.attId=res
+            this.data.agentInfo.attId = res
             this.cdf.detectChanges()
           }
         })
@@ -457,5 +461,6 @@ export class DashboardKbzMsLpPage implements OnInit {
 
 
   }
+
 }
 
