@@ -36,7 +36,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
   preLump: number = 0
   preSemi: number = 0
   totalSemi: number = 0
-  preAddon:number=0
+  preAddon: number = 0
   currencyType: string = "MMK"
   unsub: Subscription[] = []
   constructor(private globalFun: GlobalFunctionService, private alertService: AlertService,
@@ -150,18 +150,19 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
         console.log("VALUEE", value);
 
         i += 1
-        this.healthRateService.getOne(age, addon.code).toPromise().then(async(res: any) => {
+        this.healthRateService.getOne(age, addon.code).toPromise().then(async (res: any) => {
           console.log("healthRateService", res);
 
           if (res) {
             if (this.parentData.paymentFrequency == 'L') {
               pre = res.lumpSum * value
-              this.totalP = this.preLump + pre
+              this.preAddon += pre
+              this.totalP = this.preLump + this.preAddon
             } else {
-              
+
               pre = res.semiAnnual * value
-              this.preAddon+=pre
-              console.log("PREPRE",this.preAddon);
+              this.preAddon += pre
+              console.log("PREPRE", this.preAddon);
               this.totalP = this.preSemi + this.preAddon
             }
           }
