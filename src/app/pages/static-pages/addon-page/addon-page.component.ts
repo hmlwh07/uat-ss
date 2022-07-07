@@ -170,7 +170,7 @@ export class AddonPageComponent implements OnInit {
         }
         if (item.premium) {
           if (item.code == "CROSSBRDR" && this.addOnsData[item.id].checked) {
-            
+
           } else {
             this.getGlobalFun(item.premiumStr, 'addOnsData', item.id, 'premium', item)
           }
@@ -207,6 +207,7 @@ export class AddonPageComponent implements OnInit {
     if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && subKey == "premium") {
       if (this.globalFun[funName]) {
         let parentValueObj = addon.code == "PAIDDRIVER" ? this.getParnet('motor_driver') : this.parentData
+        parentValueObj = { ...parentValueObj, productCode: this.product.code }
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
           this.cdRef.detectChanges();
@@ -252,8 +253,8 @@ export class AddonPageComponent implements OnInit {
     }
     for (let addon of this.addOnList) {
       if (posDataArray[addon.id].checked) {
-        console.log("posDataArray[addon.id",posDataArray[addon.id]);
-        
+        console.log("posDataArray[addon.id", posDataArray[addon.id]);
+
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
         let premium = posDataArray[addon.id].premium ? posDataArray[addon.id].premium + "" : ""
@@ -270,8 +271,8 @@ export class AddonPageComponent implements OnInit {
             quotationNo: this.resourcesId,
             option: option,
             optionalKey: this.optionId,
-            startDate:startDate,
-            endDate:endDate,
+            startDate: startDate,
+            endDate: endDate,
             sumInsured: (sum).replace(',', '').replace('MMK', '').replace('USD', ''),
             unit: (unit).replace(',', '').replace('MMK', '').replace('USD', ''),
             premium: (premium).replace(',', '').replace('MMK', '').replace('USD', ''),
@@ -281,9 +282,9 @@ export class AddonPageComponent implements OnInit {
           } else {
             this.globalFun.tempFormData['addon_1634010770155'].push(postData)
           }
-           quoService.save(postData).toPromise().then((res)=>{
+          quoService.save(postData).toPromise().then((res) => {
 
-           })
+          })
         } catch (error) {
           // console.log(error);
 
@@ -336,7 +337,7 @@ export class AddonPageComponent implements OnInit {
     for (let addon of this.addOnList) {
       if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
         console.log(this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0));
-        
+
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
       }
     }
@@ -391,8 +392,7 @@ export class AddonPageComponent implements OnInit {
 
       if (this.addOnsData[addon.id].checked) {
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
-        console.log("tempPre", tempPre);
-
+        
       }
     }
     let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
@@ -400,6 +400,7 @@ export class AddonPageComponent implements OnInit {
     for (let cov of coverageData) {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
+    console.log("tempPre", tempPre);
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
     let discount2 = 0
@@ -408,46 +409,69 @@ export class AddonPageComponent implements OnInit {
       let excess_discount = this.parentData['m_excess_discount']
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
-      console.log(excess, excess_discount);
+      console.log(excess, excess_discount,vehicle,purpose);
+      if (this.product.code == 'PLMO02') {
+        if (excess == "T-NILEX" && currency == "MMK") {
+          if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
+            discount = -5000
+            discount2 = -5000
+          } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+            discount = -10000
+            discount2 = -10000
+          }
+          else {
+            discount = -50000
+            discount2 = -50000
+          }
+        } else if (excess == "TU-NILEX" && currency == "USD") {
+          discount = -25
+          discount2 = -25
+        }
+        // else if (excess == "TU-STNDEX" && currency == "USD") {
+        //   discount = -100
+        // }
+        // else if (excess == 'T-STNDEX' && currency == "MMK") {
+        //   discount = -100000
+        // }
+        else if (excess == "T-ED" && currency == "MMK") {
+          if (excess_discount == "T-EXD1") {
 
-      if (excess == "T-NILEX" && currency == "MMK") {
-        if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-          discount = -5000
-          discount2 = -5000
-        } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-          discount = -10000
-          discount2 = -10000
+            discount = 50000
+          } else if (excess_discount == "T-EXD2") {
+            discount = 70000
+          } else if (excess_discount == "T-EXD3") {
+            discount = 100000
+          }
         }
-        else {
-          discount = -50000
-          discount2 = -50000
-        }
-      } else if (excess == "TU-NILEX" && currency == "USD") {
-        discount = -25
-        discount2 = -25
       }
-      // else if (excess == "TU-STNDEX" && currency == "USD") {
-      //   discount = -100
-      // }
-      // else if (excess == 'T-STNDEX' && currency == "MMK") {
-      //   discount = -100000
-      // }
-      else if (excess == "T-ED" && currency == "MMK") {
-        if (excess_discount == "T-EXD1") {
-
-          discount = 50000
-        } else if (excess_discount == "T-EXD2") {
-          discount = 70000
-        } else if (excess_discount == "T-EXD3") {
-          discount = 100000
+      else {
+        if (excess == "T-NILEX" && currency == "MMK") {
+          if (purpose == 'T-PRI') {
+            discount = -5000
+            discount2 = -5000
+          }
+          if (purpose == 'T-COM') {
+            discount = -10000
+            discount2 = -10000
+          }
         }
+        if (excess == "T-STNDEX" && currency == "MMK") {
+          if (purpose == 'T-PRI') {
+            discount = -50000
+            discount2 = -50000
+          }
+          if (purpose == 'T-COM') {
+            discount = -100000
+            discount2 = -100000
+          }
+        }
+
       }
     }
-
     console.log("discount", discount);
-    let crossPremium=0
-    if(cross){
-      crossPremium= this.addOnsData[cross.id]['premium'] 
+    let crossPremium = 0
+    if (cross) {
+      crossPremium = this.addOnsData[cross.id]['premium']
     }
     let stumd = currency == "MMK" ? 100 : 0.05
     console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
@@ -500,7 +524,7 @@ export class AddonPageComponent implements OnInit {
 
   savePremimun() {
     let premiumAmt = this.caluMotorPremimun()
-    
+
     let postData = {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,

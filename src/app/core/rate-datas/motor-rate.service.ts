@@ -12,12 +12,12 @@ export class MotorRateService extends BizOperationService<any, number>{
     super(httpClient, API_HEALTH_URL);
   }
 
-  getOne(currency: string, si: number, typeOfCoverage: string, typeOfVehicle: string, cc: string = "") {
-    let query = "premium-rate?currency=" + currency + "&si=" + si + "&typeOfCoverage=" + typeOfCoverage + "&typeOfVehicle=" + typeOfVehicle + "&cc=" + cc
+  getOne(currency: string, si: number, typeOfCoverage: string, typeOfVehicle: string, cc: string = "",productCode:string="") {
+    let query = "premium-rate?currency=" + currency + "&si=" + si + "&typeOfCoverage=" + typeOfCoverage + "&typeOfVehicle=" + typeOfVehicle + "&cc=" + cc+"&productCode=" + productCode
     return this.httpClient.get(API_HEALTH_URL+query)
   }
-  getThrid(currency: string, typeOfCoverage: string, typeOfVehicle: string, cc: string = "") {
-    let query = "third-party/premium-rate?currency=" + currency + "&typeOfCoverage=" + typeOfCoverage + "&typeOfVehicle=" + typeOfVehicle + "&cc=" + cc
+  getThrid(currency: string, typeOfCoverage: string, typeOfVehicle: string, cc: string = "",productCode:string="") {
+    let query = "third-party/premium-rate?currency=" + currency + "&typeOfCoverage=" + typeOfCoverage + "&typeOfVehicle=" + typeOfVehicle + "&cc=" + cc+"&productCode=" + productCode
     return this.httpClient.get(API_HEALTH_URL+query)
   }
 }
