@@ -20,11 +20,12 @@ import {
 
 
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Platform } from '@ionic/angular';
 import { DashboardAttachmentService, DashboardService } from './dashboard.service';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -95,7 +96,9 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   productPadding: string;
   mainContentHeight: number;
   mainContentHeightPx: string;
-
+  activeRoute: any;
+  id: any;
+  roleId: any;
   constructor(private platform: Platform,
     private cdf: ChangeDetectorRef,
     private auth: AuthService,
@@ -104,11 +107,13 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     private ngzone: NgZone,
     private alertCtrl: ActionSheetController,
     private AttachmentUploadService: AttachmentUploadService,
-    private DashboardAttachmentService: DashboardAttachmentService
+    private DashboardAttachmentService: DashboardAttachmentService,
+    private menuDataRoleService: MenuDataRoleService,
   ) {
     this.unsub = this.auth.currentUserSubject.subscribe((res) => {
       if (res) {
         this.authObj = res;
+        this.id = res.id
       }
     })
 
@@ -117,6 +122,9 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
 
   async ngOnInit() {
+    let route = (this.router.url).split("?")
+    this.activeRoute = route[0]
+    console.log(this.activeRoute);
     this.getList();
     this.getLeadList();
     this.getAgentList();
@@ -127,13 +135,16 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   loadForm() {
     this.actForm = new FormGroup({
-      "empId": new FormControl(this.authObj.id)
+      "empId": new FormControl(this.id)
     })
   }
 
-  getList() {
+  getList(id?) {
+    let post = {
+      "empId":id
+    }
     this.ngzone.run(_ => {
-      this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
+      this.dashboardService.getList(id ? post : this.actForm.value).toPromise().then((res) => {
         if (res) {
           this.data = res;
           this.setChartOptions('agent');
@@ -143,8 +154,11 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     })
   }
 
-  getLeadList() {
-    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res: any) => {
+  getLeadList(id?) {
+    let post = {
+      "empId":id
+    }
+    this.dashboardService.getLeadList(id ? post : this.actForm.value).toPromise().then((res: any) => {
       if (res) {
         this.leadObj = res;
         // this.todayActiveAgent = res.todayActiveAgent
@@ -154,10 +168,13 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     })
   }
 
-  getAgentList() {
+  getAgentList(id?) {
+    let post = {
+      "empId":id
+    }
     this.ngzone.run(_ => {
       // this.agentLineChartCategories = this.agentLineChartDatas = [];
-      this.dashboardService.getAgentList(this.actForm.value).pipe(map((res: any) => {
+      this.dashboardService.getAgentList(id ? post : this.actForm.value).pipe(map((res: any) => {
         let weeks = []
         let data = []
         res.weeklyActiveAgents.map((x) => {
@@ -187,8 +204,45 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     this.unsub.unsubscribe();
   }
 
-  goToLPManager(agent: any) {
-    this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId: agent.empId } })
+  async goToLPManager(agent: any) {
+    this.getSaleRoleData(agent)
+    //  this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId: agent.empId } })
+  }
+
+  getSaleRoleData(agent: any) {
+    this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
+      console.log(res);
+      let page = ''
+      if (res) {
+        res.forEach(data => {
+          if (data.title == "Dashboard") {
+            if (data.submenu) {
+              data.submenu.forEach(res => {
+                if (res.dataAccess.view) {
+                  page = res.page
+                }
+              })
+            }
+          }
+        })
+
+      }
+      console.log(page);
+      if (page) {
+        let pg = "/" + page
+        if (pg == this.activeRoute) {
+          this.getList(agent.roleId)
+          this.getLeadList(agent.roleId);
+          this.getAgentList(agent.roleId);
+          this.radioW = this.platform.width();
+          this.radioH = this.platform.height();
+          this.calculateMainContentHeight(this.radioW, this.radioH);
+        }
+        else {
+          this.router.navigate([page], { queryParams: { empId: agent.empId, roleId: agent.roleId }, })
+        }
+      }
+    })
   }
 
   goToSalePolicies() {
@@ -403,27 +457,27 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     const actionSheet = await this.alertCtrl.create({
       cssClass: 'custom-modal',
       buttons: [
-      //   {
-      //   icon: 'camera',
-      //   text: 'Take a picture',
-      //   handler: () => {
-      //     this.getPictures(CameraSource.Camera);
-      //     console.log('Open Camera');;
-      //   }
-      // },
-       {
-        icon: 'images',
-        text: 'Choose picture from gallery',
-        handler: () => {
-          this.getPictures(CameraSource.Photos);
-          console.log('Open Gallery');
-        }
-      }, {
-        icon: 'close',
-        text: 'Close',
-        role: 'cancel',
-        handler: () => { console.log('Cancel clicked'); }
-      }]
+        //   {
+        //   icon: 'camera',
+        //   text: 'Take a picture',
+        //   handler: () => {
+        //     this.getPictures(CameraSource.Camera);
+        //     console.log('Open Camera');;
+        //   }
+        // },
+        {
+          icon: 'images',
+          text: 'Choose picture from gallery',
+          handler: () => {
+            this.getPictures(CameraSource.Photos);
+            console.log('Open Gallery');
+          }
+        }, {
+          icon: 'close',
+          text: 'Close',
+          role: 'cancel',
+          handler: () => { console.log('Cancel clicked'); }
+        }]
     });
     await actionSheet.present();
   }
@@ -435,7 +489,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       allowEditing: true,
       resultType: CameraResultType.Base64,
       source: type,
-      height:400,
+      height: 400,
     }).catch((e) => {
 
     });
@@ -446,13 +500,13 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   }
   async uploadImage(image) {
     image.size = ((image.base64String).length - 814) / 1.37
-    image.fileName=Date.now() + this.data.agentInfo.empId
+    image.fileName = Date.now() + this.data.agentInfo.empId
     let data = {
       fileStr: image.base64String,
       fileName: image.fileName,
-      fileType: "image/"+image.format,
+      fileType: "image/" + image.format,
       fileSize: image.size,
-      contentType: "image/"+image.format,
+      contentType: "image/" + image.format,
       fileExtension: image.format,
     }
     console.log("data", data);
@@ -464,7 +518,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
         }
         this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
           if (res) {
-            this.data.agentInfo.attId=postData.attId
+            this.data.agentInfo.attId = postData.attId
             this.cdf.detectChanges()
           }
         })

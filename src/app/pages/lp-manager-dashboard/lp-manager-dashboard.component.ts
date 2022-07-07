@@ -77,6 +77,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
   actForm: FormGroup;
   leadObj: any = {};
   id: any;
+  roleId:any;
   currentMonthIndex: number = new Date().getUTCMonth();
   currentYear: number = new Date().getUTCFullYear();
   months = [
@@ -105,6 +106,7 @@ export class LpManagerDashboardComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(async (params) => {
       if (params.empId) {
         this.id = JSON.parse(params.empId);
+        this.roleId = JSON.parse(params.roleId);
         this.loadForm();
       } else {
         this.id = this.auth.currentUserValue.id

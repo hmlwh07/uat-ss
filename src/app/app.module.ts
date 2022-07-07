@@ -34,10 +34,11 @@ import { LanguagesService } from './modules/languages/languages.service';
 import { LanguageModule } from './modules/languages/languages.modules';
 import { MenuDataService } from './core/menu-data.service';
 import { map, mergeMap } from 'rxjs';
+import { MenuDataRoleService } from './core/menu-data-role.service';
 
 // #fake-start#
 // #fake-end#
-function appInitializer(authService: AuthService,menuService: MenuDataService) {
+function appInitializer(authService: AuthService,menuService: MenuDataService,menuDataRoleService:MenuDataRoleService) {
   return () => {
     return new Promise((resolve: any) => {
       authService.getUserByToken().pipe(mergeMap((x)=> {
@@ -97,7 +98,7 @@ function appInitializer(authService: AuthService,menuService: MenuDataService) {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,
       multi: true,
-      deps: [AuthService,MenuDataService],
+      deps: [AuthService,MenuDataService,MenuDataRoleService],
     },
     File,
     LanguagesService,

@@ -67,6 +67,7 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
   backlogArray = [];
   unsub: any = {};
   id: any;
+  roleId:any;
   months = [
     'JAN',
     'FEB',
@@ -101,6 +102,7 @@ export class LpDashboardComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(async params => {
       if (params.empId) {
         this.id = JSON.parse(params.empId);
+        this.roleId = JSON.parse(params.roleId);
         this.loadForm();
       } else {
         this.id = this.auth.currentUserValue.id;

@@ -17,6 +17,7 @@ export class StartEndDateComponent implements OnInit {
 @Input() formInput:FormGroup
 @Input() colClass:any;
 @Input() isLead:boolean=false
+@Input() isRenewal:boolean=false
   constructor() { }
 
   ngOnInit() {

@@ -65,4 +65,11 @@ export abstract class BizOperationService<T, ID> implements BizOperationInterfac
             return of(null)
         }
     }
+    findAllWithRoleQuery(query: string = "") {
+        try {
+            return this.httpClient.get<T[]>(this.baseUri + query)
+        } catch (error) {
+            return of(null)
+        }
+    }
 }

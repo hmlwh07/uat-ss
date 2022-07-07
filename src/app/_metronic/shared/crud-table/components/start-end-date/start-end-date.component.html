@@ -1,25 +1,29 @@
-<div [ngClass]="colClass" ng [formGroup]="formInput" *ngIf="formInput && !isLead">
+<div [ngClass]="colClass" ng [formGroup]="formInput" *ngIf="formInput && !isLead  && !isRenewal">
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">{{"FORM.start_date" | translate}}</label>
         <div class="col-sm-8">
             <div class="input-group ">
-                <input matInput class="form-control-sm date-input" formControlName="startDate" [matDatepicker]="startDate" readonly>
+                <input matInput class="form-control-sm date-input" formControlName="startDate"
+                    [matDatepicker]="startDate" readonly>
                 <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                 <mat-datepicker #startDate disabled="false"></mat-datepicker>
-                <span class="ng-clear-wrapper" (click)="clearDate('startDate')" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+                <span class="ng-clear-wrapper" (click)="clearDate('startDate')" title="Clear all"><span
+                        aria-hidden="true" class="ng-clear">×</span></span>
             </div>
         </div>
     </div>
 </div>
-<div [ngClass]="colClass" [formGroup]="formInput" *ngIf="formInput && !isLead">
+<div [ngClass]="colClass" [formGroup]="formInput" *ngIf="formInput && !isLead  && !isLead&& !isRenewal">
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">{{"FORM.end_date" | translate}}</label>
         <div class="col-sm-8">
             <div class="input-group ">
-                <input matInput class="form-control-sm date-input" formControlName="endDate" [matDatepicker]="endDate" readonly>
+                <input matInput class="form-control-sm date-input" formControlName="endDate" [matDatepicker]="endDate"
+                    readonly>
                 <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                 <mat-datepicker #endDate disabled="false"></mat-datepicker>
-                <span class="ng-clear-wrapper" (click)="clearDate('endDate')" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+                <span class="ng-clear-wrapper" (click)="clearDate('endDate')" title="Clear all"><span aria-hidden="true"
+                        class="ng-clear">×</span></span>
 
             </div>
         </div>
@@ -28,15 +32,17 @@
 
 
 <!--expired date-->
-<div [ngClass]="colClass"  [formGroup]="formInput" *ngIf="formInput && isLead">
+<div [ngClass]="colClass" [formGroup]="formInput" *ngIf="formInput && isLead">
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">{{"FORM.expired_start_date" | translate}}</label>
         <div class="col-sm-8">
             <div class="input-group ">
-                <input matInput class="form-control-sm date-input" formControlName="expiredStart" [matDatepicker]="expiredStart" readonly>
+                <input matInput class="form-control-sm date-input" formControlName="expiredStart"
+                    [matDatepicker]="expiredStart" readonly>
                 <mat-datepicker-toggle matSuffix [for]="expiredStart"></mat-datepicker-toggle>
                 <mat-datepicker #expiredStart disabled="false"></mat-datepicker>
-                <span class="ng-clear-wrapper" (click)="clearDate('expiredStart')" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+                <span class="ng-clear-wrapper" (click)="clearDate('expiredStart')" title="Clear all"><span
+                        aria-hidden="true" class="ng-clear">×</span></span>
             </div>
         </div>
     </div>
@@ -47,16 +53,46 @@
         <label class="col-sm-4 col-form-label">{{"FORM.expired_end_date" | translate}}</label>
         <div class="col-sm-8">
             <div class="input-group ">
-                <input matInput class="form-control-sm date-input" formControlName="expiredEnd" [matDatepicker]="expiredEnd" readonly>
+                <input matInput class="form-control-sm date-input" formControlName="expiredEnd"
+                    [matDatepicker]="expiredEnd" readonly>
                 <mat-datepicker-toggle matSuffix [for]="expiredEnd"></mat-datepicker-toggle>
                 <mat-datepicker #expiredEnd disabled="false"></mat-datepicker>
-                <span class="ng-clear-wrapper" (click)="clearDate('expiredEnd')" title="Clear all"><span aria-hidden="true" class="ng-clear">×</span></span>
+                <span class="ng-clear-wrapper" (click)="clearDate('expiredEnd')" title="Clear all"><span
+                        aria-hidden="true" class="ng-clear">×</span></span>
             </div>
         </div>
     </div>
 </div>
 
 <!-- -->
+<div [ngClass]="colClass" ng [formGroup]="formInput" *ngIf="formInput && isRenewal">
+    <div class="form-group row">
+        <label class="col-sm-4 col-form-label">{{"FORM.policy_expiry_start" | translate}}</label>
+        <div class="col-sm-8">
+            <div class="input-group ">
+                <input matInput class="form-control-sm date-input" formControlName="startDate"
+                    [matDatepicker]="startDate" readonly>
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate disabled="false"></mat-datepicker>
+                <span class="ng-clear-wrapper" (click)="clearDate('startDate')" title="Clear all"><span
+                        aria-hidden="true" class="ng-clear">×</span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div [ngClass]="colClass" [formGroup]="formInput" *ngIf="formInput && isRenewal">
+    <div class="form-group row">
+        <label class="col-sm-4 col-form-label">{{"FORM.policy_expiry_end" | translate}}</label>
+        <div class="col-sm-8">
+            <div class="input-group ">
+                <input matInput class="form-control-sm date-input" formControlName="endDate" [matDatepicker]="endDate"
+                    readonly>
+                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                <mat-datepicker #endDate disabled="false"></mat-datepicker>
+                <span class="ng-clear-wrapper" (click)="clearDate('endDate')" title="Clear all"><span aria-hidden="true"
+                        class="ng-clear">×</span></span>
 
-
-
+            </div>
+        </div>
+    </div>
+</div>
