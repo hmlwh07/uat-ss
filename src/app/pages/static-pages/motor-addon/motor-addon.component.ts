@@ -62,6 +62,8 @@ export class MotorAddonComponent implements OnInit {
     "T-002": 0.85,
     "T-001": 1,
   }
+  isCrossExist: boolean = false;
+  isMedicalExist: boolean = false;
   constructor(private globalFun: GlobalFunctionService, private productService: ProductDataService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
 
@@ -88,6 +90,7 @@ export class MotorAddonComponent implements OnInit {
     if (medID) {
       let response = results.find(x => x.addonId == medID.id)
       if (response) {
+        this.isMedicalExist = true
         this.isMedical = true
         this.planOption = response.option
         this.toggleChange('medical', true)
@@ -97,6 +100,7 @@ export class MotorAddonComponent implements OnInit {
       let response2 = results.find(x => x.addonId == crossID.id)
       console.log("response2", response2);
       if (response2) {
+        this.isCrossExist = true
         this.isCross = true
         this.startDate = moment(response2.startDate).format('YYYY-MM-DD')
         this.endDate = moment(response2.endDate).format('YYYY-MM-DD')
@@ -152,7 +156,7 @@ export class MotorAddonComponent implements OnInit {
       }
       if (!this.isCross) {
         this.crossPremium = 0
-        console.log("this.crossPremium",this.crossPremium); 
+        console.log("this.crossPremium", this.crossPremium);
         this.caluMotorPremimun()
       }
       this.cdf.detectChanges()
@@ -181,6 +185,7 @@ export class MotorAddonComponent implements OnInit {
     let addOnsData = this.globalFun.tempFormData['addon_1634010770155']
     let medID = this.product.addOns.find(x => x.code == "MED EXP")
     let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
+
     if (crossID) {
       addOnsData.forEach((element, index) => {
         console.log(element);
@@ -195,6 +200,8 @@ export class MotorAddonComponent implements OnInit {
           addOnsData.splice(index, 1);
       });
     }
+    console.log("addOnsData", addOnsData);
+
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked) {
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
@@ -285,7 +292,7 @@ export class MotorAddonComponent implements OnInit {
               optionalKey: this.resourcesId,
               premium: this.medPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
               option: this.planOption,
-              sumInsured:this.parentData.m_total_risk_si || 0,
+              sumInsured: this.parentData.m_total_risk_si || 0,
             }
             let res = await quoService.save(postData).toPromise()
             if (this.globalFun.tempFormData['addon_1634010770155']) {
@@ -320,7 +327,7 @@ export class MotorAddonComponent implements OnInit {
               endDate: this.endDate,
               option: this.option1,
               option2: this.option2,
-              sumInsured:this.parentData.m_total_risk_si || 0,
+              sumInsured: this.parentData.m_total_risk_si || 0,
             }
             let res = await quoService.save(postData).toPromise()
             if (this.globalFun.tempFormData['addon_1634010770155']) {
@@ -332,7 +339,7 @@ export class MotorAddonComponent implements OnInit {
 
         }
       }
-      
+
     }
 
     await this.savePremimun()
@@ -364,6 +371,26 @@ export class MotorAddonComponent implements OnInit {
     let tempPre = 0
     let tempPre2 = 0
     let tempArray = this.globalFun.tempFormData['addon_1634010770155'] || []
+    let medID = this.product.addOns.find(x => x.code == "MED EXP")
+    let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
+    if (this.isCrossExist) {
+      if (crossID) {
+        tempArray.forEach((element, index) => {
+          console.log(element);
+          if (element.addonId == crossID.id)
+            tempArray.splice(index, 1);
+        });
+      }
+    }
+    if (this.isMedicalExist) {
+      if (medID) {
+        tempArray.forEach((element, index) => {
+          console.log(element);
+          if (element.addonId == medID.id)
+            tempArray.splice(index, 1);
+        });
+      }
+    }
     console.log("tempArray", tempArray);
 
     for (let addon of tempArray) {
@@ -420,16 +447,21 @@ export class MotorAddonComponent implements OnInit {
         if (excess_discount == "T-EXD1") {
 
           discount = 50000
+          discount2 = 50000
         } else if (excess_discount == "T-EXD2") {
           discount = 70000
+          discount2 = 70000
         } else if (excess_discount == "T-EXD3") {
           discount = 100000
+          discount2 = 100000
         }
       }
     }
     console.log("discount", discount);
 
     let stumd = currency == "MMK" ? 100 : 0.05
+    console.log(" Number(this.crossPremium || 0)", Number(this.crossPremium || 0));
+
     console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
 
     let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)

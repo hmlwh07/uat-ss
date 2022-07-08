@@ -437,10 +437,13 @@ export class AddonPageComponent implements OnInit {
           if (excess_discount == "T-EXD1") {
 
             discount = 50000
+            discount2 = 50000
           } else if (excess_discount == "T-EXD2") {
             discount = 70000
+            discount2 = 70000
           } else if (excess_discount == "T-EXD3") {
             discount = 100000
+            discount2 = 100000
           }
         }
       }
