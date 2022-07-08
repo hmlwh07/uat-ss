@@ -636,7 +636,7 @@ export class LeadDetailComponent implements OnInit {
             this.alertService.activate('Are you sure you want to accept?', 'Warning Message').then(result => {
               if (result) {
                 let data = {
-                  leadId: this.leadForm.controls.leadId? this.leadForm.controls.leadId.value: "",
+                  leadId: this.newLeadId ? this.newLeadId : this.leadForm.controls.leadId.value || "",
                   agentId: this.leadForm.controls.ownerId ? this.leadForm.controls.ownerId.value : "",
                   phone: this.leadForm.controls.phoneNo ? this.leadForm.controls.phoneNo.value : "",
                   email: this.leadForm.controls.email ? this.leadForm.controls.email.value : "",
@@ -884,7 +884,7 @@ export class LeadDetailComponent implements OnInit {
       modalRef.componentInstance.isLead = true
       let oldData = {
         identityType: this.leadForm.getRawValue().identityType,
-        identityNumber:this.leadForm.getRawValue().identityType !='NRC'?this.leadForm.getRawValue().identityNumber: this.leadForm.getRawValue().identityNRC,
+        identityNumber: this.leadForm.getRawValue().identityType != 'NRC' ? this.leadForm.getRawValue().identityNumber : this.leadForm.getRawValue().identityNRC,
         phone: this.leadForm.getRawValue().phoneNo,
         email: this.leadForm.getRawValue().email,
         occupationCd: this.leadForm.getRawValue().occupationCd,
