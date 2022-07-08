@@ -36,6 +36,7 @@ export class CommonList2Component implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.listingargs = { direction: this.order, col: this.colField };
+    // || this.type == 'activity'|| this.type == 'customer'
     if (this.type == 'lead' || this.type == 'policy') {
       this.isPager = true
     }

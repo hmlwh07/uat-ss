@@ -28,11 +28,15 @@ export class CustomerListComponent implements OnInit {
   displayedColumns = JSON.parse(JSON.stringify(CustomerDisplayCol))
 
   customerList: any[] = [];
-
+  totalElements: number = 0
+  totalPages: number = 0
+  selectedPageBtn: number = 1
+  currentPage: number = 1
+  postedData: any = {}
   statusOption = Status;
-  statusCustomOption=[{
-    code:"A",
-    value:"Active"
+  statusCustomOption = [{
+    code: "A",
+    value: "Active"
   }]
   identityTypeOption = IdentityType;
 
@@ -103,21 +107,54 @@ export class CustomerListComponent implements OnInit {
       this.cancel()
     }
   }
+  reponseFromPager(event) {
+    console.log("LEADEVENT", event);
+    this.currentPage = event
+    this.getDatabyPage(this.currentPage)
+  }
 
-  getList() {
+  getList(limit: number = 5, offset: number = 1) {
     let check = this.isPopup && !this.isDynamic ? true : false
-    this.customerListService.getCustomerList(this.customerForm.value, this.party, check, this.isCustom)
-      .toPromise().then((res: any) => {
+    let postData = { ...this.customerForm.getRawValue(), limit: 5, offset: offset }
+    this.postedData = postData
+    this.customerListService.getCustomerList(this.postedData, check, this.isCustom)
+      .toPromise()
+      .then((res: any) => {
         if (res) {
-          this.customerList = res
-          // console.log("customerList", this.customerList);
+          // console.log("RES", res)
+          this.customerList = res.content
+          this.totalElements = res.totalElements
+          this.totalPages = res.totalPages
+          this.selectedPageBtn = this.currentPage
           this.cdf.detectChanges()
           if (this.commonList)
             this.commonList.detchChange()
           if (this.matTable)
             this.matTable.reChangeData()
+          // this.matTable.reChangeData();
         }
-      })
+      });
+  }
+
+  async getDatabyPage(page) {
+    this.currentPage = page
+    let check = this.isPopup && !this.isDynamic ? true : false
+    let postData = { ...this.customerForm.getRawValue(), limit: 5, offset: page }
+    this.totalPages = 0
+    this.postedData = postData
+    await this.customerListService.getCustomerList(this.postedData, check, this.isCustom).toPromise().then((res: any) => {
+      if (res) {
+        this.customerList = res.content
+        this.totalElements = res.totalElements
+        this.totalPages = res.totalPages
+        this.selectedPageBtn = this.currentPage
+        this.cdf.detectChanges()
+        if (this.commonList)
+          this.commonList.detchChange()
+        if (this.matTable)
+          this.matTable.reChangeData()
+      }
+    })
   }
 
   get selected() {
