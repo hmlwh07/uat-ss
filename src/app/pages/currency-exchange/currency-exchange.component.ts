@@ -45,7 +45,9 @@ export class CurrencyExChangeComponent implements OnInit {
   checkPermission() {
     this.menuService.dataAccess.subscribe((res) => {
       if (res) {
+        
         this.exchangeRateAccess = res['exchange_rate']
+        console.log(res, this.exchangeRateAccess );
         console.log(this.displayedColumns)
         if (this.exchangeRateAccess.create) {
           this.isViewUser = true

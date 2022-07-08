@@ -95,7 +95,7 @@ export class TravelPrintComponent implements OnInit {
         for (let data of res.riskDetails) {
           totalUnit += parseInt(data.travelRisk.totalUnit)
         }
-        let SI = totalUnit * 5000000
+        let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }
     })
