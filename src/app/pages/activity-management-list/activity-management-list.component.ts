@@ -141,7 +141,8 @@ export class ActivityManagementListComponent implements OnInit {
     this.postedData = postData
     await this.activityService.getActivityList(this.postedData).toPromise().then((res: any) => {
       if (res) {
-        this.activityList = res.content
+        // this.activityList = res.content
+        this.activityList = res
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage

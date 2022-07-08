@@ -122,7 +122,8 @@ export class CustomerListComponent implements OnInit {
       .then((res: any) => {
         if (res) {
           // console.log("RES", res)
-          this.customerList = res.content
+          // this.customerList = res.content
+          this.customerList = res
           this.totalElements = res.totalElements
           this.totalPages = res.totalPages
           this.selectedPageBtn = this.currentPage
@@ -144,7 +145,8 @@ export class CustomerListComponent implements OnInit {
     this.postedData = postData
     await this.customerListService.getCustomerList(this.postedData, check, this.isCustom).toPromise().then((res: any) => {
       if (res) {
-        this.customerList = res.content
+        // this.customerList = res.content
+          this.customerList = res
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
