@@ -292,14 +292,14 @@ export class GlobalFunctionService {
 
 
   getMotorRate(motorDetail) {
-    console.log("motorDetail",motorDetail);
-    
+    console.log("motorDetail", motorDetail);
+
     let cc = ""
     let currency = ""
     let sumIn = 0
     let typeOfCoverage = ""
     let typeOfVehicle = ""
-    let productCode=""
+    let productCode = ""
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
@@ -315,10 +315,10 @@ export class GlobalFunctionService {
     if (motorDetail) {
       cc = motorDetail['m_capacity'] || motorDetail['m_tonnage'] || 0
     }
-    if(motorDetail){
-      productCode=motorDetail['productCode']
+    if (motorDetail) {
+      productCode = motorDetail['productCode']
     }
-    return this.motorService.getOne(currency, sumIn, typeOfCoverage, typeOfVehicle, cc,productCode)
+    return this.motorService.getOne(currency, sumIn, typeOfCoverage, typeOfVehicle, cc, productCode)
   }
 
   getMotorThirdRate(motorDetail) {
@@ -327,7 +327,7 @@ export class GlobalFunctionService {
     let sumIn = 0
     let typeOfCoverage = ""
     let typeOfVehicle = ""
-    let productCode=""
+    let productCode = ""
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
@@ -343,10 +343,10 @@ export class GlobalFunctionService {
     if (motorDetail) {
       cc = motorDetail['m_capacity'] || motorDetail['m_tonnage'] || 0
     }
-    if(motorDetail){
-      productCode=motorDetail['productCode']
+    if (motorDetail) {
+      productCode = motorDetail['productCode']
     }
-    return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc,productCode)
+    return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc, productCode)
   }
 
   motorOwnDamage(motorDetail) {
@@ -378,6 +378,7 @@ export class GlobalFunctionService {
     let term = this.crossPercent[m_term]
     let currency = ""
     let typeOfVehicle = ""
+    let productCode = ""
     let sumIn = 0
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
@@ -388,16 +389,25 @@ export class GlobalFunctionService {
     if (motorDetail) {
       sumIn = motorDetail['m_total_risk_si'] || 0
     }
+    if (motorDetail) {
+      productCode = motorDetail['productCode']
+    }
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0
-      if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
-        rate = 0.00065
-      } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
-        rate = 0.00065
-      } else if (typeOfVehicle == "T-MCC") {
+      if (productCode == 'PLMO01') {
         rate = 0.0005
+      } else {
+        if ((currency == 'MMK' && typeOfVehicle != "T-MCC")) {
+          rate = 0.00065
+        } else if ((currency == 'USD' && typeOfVehicle != "TU-MCC")) {
+          rate = 0.00065
+        } else if (typeOfVehicle == "T-MCC") {
+          rate = 0.0005
+        }
       }
+      console.log("SRCC-SUM-Rate", sumIn, rate);
+
       return of((sumIn * rate) * term)
     }
     return of(0)
@@ -411,6 +421,7 @@ export class GlobalFunctionService {
     let currency = ""
     let typeOfCoverage = ""
     let typeOfVehicle = ""
+    let productCode = ""
     if (motorDetail) {
       windscreen_value = motorDetail['m_windscreen_value'] || 0
     }
@@ -423,13 +434,20 @@ export class GlobalFunctionService {
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    let rate = 0.15
-    if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
-      rate = 0.065
-    } else if (typeOfVehicle == "T-MCC") {
-      rate = 0.05
+    if (motorDetail) {
+      productCode = motorDetail['productCode']
     }
-    return of((windscreen_value * rate)*term)
+    let rate = 0.15
+    if (productCode == 'PLMO01') {
+      rate = 0.05
+    } else {
+      if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
+        rate = 0.065
+      } else if (typeOfVehicle == "T-MCC") {
+        rate = 0.05
+      }
+    }
+    return of((windscreen_value * rate) * term)
   }
   calcuCross(motorDetail) {
     let value = 0
@@ -465,6 +483,7 @@ export class GlobalFunctionService {
     let currency = ""
     let typeOfCoverage = ""
     let typeOfVehicle = ""
+    let productCode = ""
     let sumIn = 0
     if (motorDetail) {
       sumIn = motorDetail['m_total_risk_si'] || 0
@@ -479,12 +498,19 @@ export class GlobalFunctionService {
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
+    if (motorDetail) {
+      productCode = motorDetail['productCode']
+    }
 
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0.00065
-      if (typeOfVehicle == "T-MCC") {
+      if (productCode == 'PLMO01') {
         rate = 0.0005
+      } else {
+        if (typeOfVehicle == "T-MCC") {
+          rate = 0.0005
+        }
       }
       return of((sumIn * rate) * term)
     }
@@ -498,6 +524,7 @@ export class GlobalFunctionService {
     let currency = ""
     let typeOfCoverage = ""
     let typeOfVehicle = ""
+    let productCode = ""
     let sumIn = 0
     if (motorDetail) {
       sumIn = motorDetail['m_total_risk_si'] || 0
@@ -511,16 +538,22 @@ export class GlobalFunctionService {
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-
+    if (motorDetail) {
+      productCode = motorDetail['productCode']
+    }
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0.005
-      if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
-        rate = 0.00065
-      } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
-        rate = 0.00065
-      } else if (typeOfVehicle == "T-MCC") {
+      if (productCode == 'PLMO01') {
         rate = 0.0005
+      } else {
+        if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
+          rate = 0.00065
+        } else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
+          rate = 0.00065
+        } else if (typeOfVehicle == "T-MCC") {
+          rate = 0.0005
+        }
       }
       return of((sumIn * rate) * term)
     }
