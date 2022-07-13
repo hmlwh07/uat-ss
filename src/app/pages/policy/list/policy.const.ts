@@ -10,11 +10,11 @@ export const PolicyCol: TableCol[] = [
     type: COLTYPE.FEILD,
     field: "productName",
   },
-  {
-    title: "Product Code",
-    type: COLTYPE.FEILD,
-    field: "productCode",
-  },
+  // {
+  //   title: "Product Code",
+  //   type: COLTYPE.FEILD,
+  //   field: "productCode",
+  // },
   {
     title: "Quotation ID",
     type: COLTYPE.FEILD,
@@ -28,8 +28,14 @@ export const PolicyCol: TableCol[] = [
   {
     title: "Premium",
     type: COLTYPE.FEILD,
-    field: "premium",
-    amtFormat: true,
+    field: "premiumView",
+    // amtFormat: true,
+  },
+  {
+    title: "Sum Insured",
+    type: COLTYPE.FEILD,
+    field: "sumInsureView",
+    // amtFormat: true,
   },
   {
     title: "Status",
@@ -64,9 +70,10 @@ export const PolicyCol: TableCol[] = [
 export const PolicyDisplayCol: string[] = [
   "id",
   "productName",
-  "productCode",
+  // "productCode",
   "agentFirstName",
-  "premium",
+  "premiumView",
+  "sumInsureView",
   "status",
   "apiStatus",
   "createdAt",

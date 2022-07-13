@@ -217,8 +217,11 @@ export class MotorAddonComponent implements OnInit {
     }
     // let crossPre = tempPre * 0.15
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
+
     let excessAmt = 0
     if (this.parentData) {
+      let term = this.parentData['m_policy_term']
+      let percent = this.crossPercent[term] || 1
       let excess = this.parentData['m_excess']
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
@@ -226,27 +229,26 @@ export class MotorAddonComponent implements OnInit {
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-          excessAmt = 5000
+          excessAmt = 5000 * percent
         } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-          excessAmt = 10000
+          excessAmt = 10000 * percent
         }
         else {
-          excessAmt = 50000
+          excessAmt = 50000 * percent
         }
       }
       // else if (excess == 'T-STNDEX' && currency == "MMK") {
       //   excessAmt = 100000
       // }
       else if (excess == "TU-NILEX" && currency == "USD") {
-        excessAmt = 25
+        excessAmt = 25 * percent
       }
       // else if (excess == "TU-STNDEX" && currency == "USD") {
       //   excessAmt = 100
       // }
     }
 
-    let term = this.parentData['m_policy_term']
-    let percent = this.crossPercent[term] || 1
+
     // * percent
     console.log("TEMP", tempPre, "excessAmt", excessAmt);
 
@@ -419,23 +421,28 @@ export class MotorAddonComponent implements OnInit {
       let excess_discount = this.parentData['m_excess_discount']
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
+      let term = this.parentData['m_policy_term']
+      console.log("Policy-TERM", term);
+
+      let percent = this.crossPercent[term] || 1
+      console.log("TERM-Percent", percent);
       console.log(excess, excess_discount);
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-          discount = -5000
-          discount2 = -5000
+          discount = -(5000 * percent)
+          discount2 = -(5000 * percent)
         } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-          discount = -10000
-          discount2 = -10000
+          discount = -(10000 * percent)
+          discount2 = -(10000 * percent)
         }
         else {
-          discount = -50000
-          discount2 = -50000
+          discount = -(50000 * percent)
+          discount2 = -(50000 * percent)
         }
       } else if (excess == "TU-NILEX" && currency == "USD") {
-        discount = -25
-        discount2 = -25
+        discount = -(25 * percent)
+        discount2 = -(25 * percent)
       }
       // else if (excess == "TU-STNDEX" && currency == "USD") {
       //   discount = -100
@@ -467,12 +474,6 @@ export class MotorAddonComponent implements OnInit {
     let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)
     let preAMT2 = ((tempPre + Number(this.crossPremium || 0)) - discount2)
     console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
-
-    let term = this.parentData['m_policy_term']
-    console.log("Policy-TERM", term);
-
-    let percent = this.crossPercent[term] || 1
-    console.log("TERM-Percent", percent);
 
     // preAMT = (preAMT * percent) + stumd
     preAMT = (preAMT) + stumd
