@@ -75,8 +75,8 @@ export class FirePrintComponent implements OnInit {
         this.listData = res
         console.log("riskDetail", this.listData);
         for (let data of this.listData) {
-          this.totalPremium += parseInt(data.premium)
-          this.totalSi += parseInt(data.riskSi)
+          this.totalPremium += Number(data.premium)
+          this.totalSi += Number(data.riskSi)
           this.totalbuildingSi += data.buildingSi || 0
           this.totalproposedFurniture += data.proposedFurniture || 0
           this.totalproposedMachinerySI += data.proposedMachinerySI || 0
@@ -167,7 +167,7 @@ export class FirePrintComponent implements OnInit {
 
             if (this.additionalData) {
               obj[item.code] = this.additionalData.premium || 0
-              obj.premium += parseInt(this.additionalData.premium)
+              obj.premium += Number(this.additionalData.premium)
             } else {
               obj[item.code] = 0
             }

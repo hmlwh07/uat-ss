@@ -145,7 +145,7 @@ export class MoterPrintComponent implements OnInit {
 
           if (this.additionalData) {
             obj[item.code] = this.additionalData.premium || 0
-            obj.premium += parseInt(this.additionalData.premium || 0)
+            obj.premium += Number(this.additionalData.premium || 0)
           } else {
             obj[item.code] = 0
           }
@@ -183,7 +183,7 @@ export class MoterPrintComponent implements OnInit {
 
           if (this.coverageData2) {
             obj[item.code] = this.coverageData2.premium || 0
-            obj.premium += parseInt(this.coverageData2.premium || 0)
+            obj.premium += Number(this.coverageData2.premium || 0)
           } else {
             obj[item.code] = 0
           }

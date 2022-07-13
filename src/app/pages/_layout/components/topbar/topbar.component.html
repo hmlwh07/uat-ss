@@ -3,8 +3,9 @@
     <!--begin::Notifications-->
     <div class="dropdown" ngbDropdown #myDrop="ngbDropdown" placement="bottom">
         <!--begin::Toggle-->
-        <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px" (click)="getNotiList()" ngbDropdownToggle>
+        <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px" (click)="getNotiList(1)" ngbDropdownToggle>
             <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2">
+                 <span class="noti-bage" *ngIf="notiCount > 0">{{notiCount}}</span>
                 <span [inlineSVG]="'./assets/media/svg/icons/General/Notifications1.svg'" [cacheSVG]="true" class="svg-icon svg-icon-xl cus svg-icon-primary"></span>
                 <!-- <span class="pulse-ring"></span> -->
             </div>

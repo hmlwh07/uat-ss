@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LayoutService } from '../../../../_metronic/core';
 import { AuthService } from '../../../../modules/auth/_services/auth.service';
 import { UserModel } from '../../../../modules/auth/_models/user.model';
@@ -16,6 +16,7 @@ import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { LanguagesService } from 'src/app/modules/languages/languages.service';
 import * as moment from 'moment';
 import { MenuDataService } from 'src/app/core/menu-data.service';
+import { MessagingService } from 'src/app/messaging.service';
 
 
 
@@ -53,6 +54,8 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   currentUser: UserModel = new UserModel()
   languageData: string = 'EN'
   language: LanguageFlag;
+  notiCount: number = 0
+  unsub: Subscription
   languages: LanguageFlag[] = [
     {
       lang: 'EN',
@@ -66,7 +69,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
       flag: './assets/media/svg/flags/058-myanmar.svg',
     },
   ];
-  constructor(private layout: LayoutService, private auth: AuthService, private notificationService: NotificationService, private lang: LanguagesService, private cdf: ChangeDetectorRef,) {
+  constructor(private layout: LayoutService, private messageService: MessagingService, private auth: AuthService, private notificationService: NotificationService, private lang: LanguagesService, private cdf: ChangeDetectorRef,) {
     this.user$ = this.auth.currentUserSubject.asObservable();
   }
   @ViewChild(NgbDropdown) myDrop: NgbDropdown
@@ -103,8 +106,15 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     this.extrasQuickPanelDisplay = this.layout.getProp(
       'extras.quickPanel.display'
     );
+
     this.user$.subscribe(res => {
       this.currentUser = res
+      this.unsub = this.messageService.notiCount.subscribe(notiCount => {
+        console.log("notiCount", notiCount);
+
+        this.notiCount = notiCount
+        this.cdf.detectChanges()
+      })
       this.getNotiList()
     })
   }
@@ -153,17 +163,37 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getNotiList() {
-    this.notificationService.getById(this.currentUser.username).toPromise()
-      .then(async (res: any) => {
-        if (res) {
-          for (let data of res) {
-            data.policyStatus = data.policyStatus.toUpperCase();
-            data.createdAt = moment(data.createdAt).format("yyyy-MM-DD HH:mm:ss")
+  getNotiList(index?) {
+    if (index) {
+      index++
+      this.notificationService.getById(this.currentUser.username).toPromise()
+        .then(async (res: any) => {
+          if (res) {
+            for (let data of res) {
+              data.policyStatus = data.policyStatus.toUpperCase();
+              data.createdAt = moment(data.createdAt).format("yyyy-MM-DD HH:mm:ss")
+              if (this.notiCount > 0) {
+                localStorage.setItem("KBZ_NOTI", 0 + "")
+                this.messageService.notiCount.next(0)
+              }
+            }
+            this.noti = res
           }
-          this.noti = res
-        }
-      });
+        });
+    } else {
+      this.notificationService.getById(this.currentUser.username).toPromise()
+        .then(async (res: any) => {
+          if (res) {
+            for (let data of res) {
+              data.policyStatus = data.policyStatus.toUpperCase();
+              data.createdAt = moment(data.createdAt).format("yyyy-MM-DD HH:mm:ss")
+
+            }
+            this.noti = res
+          }
+        });
+
+    }
   }
 
   getLanguage(event) {
