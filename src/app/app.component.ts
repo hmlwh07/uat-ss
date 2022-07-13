@@ -28,6 +28,14 @@ import { AlertComponet } from './modules/loading-toast/alert-model/alert.compone
 import { locale as enLang } from './modules/languages/vocabs/en';
 import { locale as mmLang } from './modules/languages/vocabs/mm';
 import { LanguagesService } from './modules/languages/languages.service';
+import { Capacitor } from '@capacitor/core';
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from '@capacitor/push-notifications';
+import { FireTopicService } from './fire-top.service';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-root',
@@ -39,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   private userToken = ""
   private user = null
+  private pushToken = ""
   constructor(
     private splashScreenService: SplashScreenService,
     private router: Router,
@@ -58,7 +67,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private userTokenService: UserTokenService,
     private langageService: LanguagesService,
     private auth: AuthService,
-    private plat: Platform
+    private plat: Platform,
+    private topicService: FireTopicService,
   ) {
     this.langageService.loadTranslations(
       enLang,
@@ -125,10 +135,14 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.userToken)
           this.updateCutomerToken(this.userToken)
         // this.master.getType()
+        let count = localStorage.getItem("KBZ_NOTI")
+        console.log("COUNT",count);
+        this.messagingService.notiCount.next(Number(count))
       }
     })
 
     this.unsubscribe.push(unsub);
+
     Device.getInfo().then((res) => {
       if (res.platform != "web") {
         CapacitorApp.addListener('backButton', ({ canGoBack }) => {
@@ -142,6 +156,13 @@ export class AppComponent implements OnInit, OnDestroy {
             window.history.back();
           }
         });
+        const isPushNotificationsAvailable = Capacitor.isPluginAvailable('PushNotifications');
+
+        if (isPushNotificationsAvailable) {
+          this.initNoti();
+        }
+      } else {
+        this.requestPermission()
 
       }
     })
@@ -168,6 +189,90 @@ export class AppComponent implements OnInit, OnDestroy {
     })
     this.unsubscribe.push(unsubtime);
   }
+
+  initNoti() {
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener('registration',
+      (token: Token) => {
+        // console.log('Push registration success, token: ' + token.value);
+        this.pushToken = token.value
+        this.subscribeTokenToTopic(token.value)
+        if (this.user.userId) {
+          this.updateCutomerToken(this.pushToken)
+        }
+      }
+    );
+
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener('registrationError',
+      (error: any) => {
+        // alert('Error on registration: ' + JSON.stringify(error));
+      }
+    );
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener('pushNotificationReceived',
+      (notification: PushNotificationSchema) => {
+        // alert('Push received: ' + JSON.stringify(notification));
+        // console.log('Push received: ' + JSON.stringify(notification));
+        let value = this.messagingService.notiCount.value + 1
+        this.messagingService.notiCount.next(value)
+        // let count = parseInt(localStorage.getItem("NOTI_KBZ")) || 0
+        // count += 1
+        // localStorage.setItem("NOTI_KBZ", count + "")
+      }
+    );
+    // Method called when tapping on a notification
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (notification: ActionPerformed) => {
+        // alert('Push action performed: ' + JSON.stringify(notification));
+        // console.log('Push received: ' + JSON.stringify(notification));
+        // this.navClt.navigateForward(['/app/notifications'])
+        this.messagingService.notiCount.next(0)
+      }
+    );
+  }
+
+
+  subscribeTokenToTopic(token) {
+    // console.log(`"all" is subscribed`, token);
+    if (!token)
+      return false
+    let postData = {
+      firebaseToken: token
+    }
+    this.topicService.doRegister(postData).toPromise().then(res => {
+      if (res) {
+        console.log(`"all" is subscribed`);
+      }
+    })
+    // fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/all`, {
+    //   method: 'POST',
+    //   headers: new Headers({
+    //     Authorization: `key=${environment.firebaseConfig.serverKey}`
+    //   })
+    // })
+    //   .then((response) => {
+    //     if (response.status < 200 || response.status >= 400) {
+    //       console.log(response.status, response);
+    //     }
+    //     console.log(`"all" is subscribed`);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error.result);
+    //   });
+    return true;
+  }
+
 
   async checkTimeOut() {
     // return false
@@ -215,19 +320,42 @@ export class AppComponent implements OnInit, OnDestroy {
     })
   }
 
-  requestPermission() {
-    console.log("request Noti Token");
+  // requestPermission() {
+  //   console.log("request Noti Token");
 
-    this.messagingService.requestPermission().subscribe({
-      next: (token) => {
-        console.log('Permission granted! Save to the server!', token);
-        if (this.user) {
-          this.updateCutomerToken(token)
+  //   this.messagingService.requestPermission().subscribe({
+  //     next: (token) => {
+  //       console.log('Permission granted! Save to the server!', token);
+  //       if (this.user) {
+  //         this.updateCutomerToken(token)
+  //       }
+  //       this.listenForMessages()
+  //     },
+  //     error: (error) => { console.error(error); },
+  //   });
+  // }
+
+  requestPermission() {
+    // console.log("premission request");
+    navigator.serviceWorker.register('./firebase-messaging-sw.js')
+      .then(async (registration) => {
+        console.log(registration);
+
+        // messaging.useServiceWorker(registration);
+        await this.messagingService.useWorker(registration)
+        await this.messagingService.requestPermission().subscribe({
+          next: (token) => {
+            console.log('Permission granted! Save to the server!', token);
+            if (this.user) {
+              this.updateCutomerToken(token)
+            }
+            this.listenForMessages()
+          },
+          error: (error) => { console.error(error); },
         }
-        this.listenForMessages()
-      },
-      error: (error) => { console.error(error); },
-    });
+        );
+        // Request permission and get token.....
+      });
   }
 
 
@@ -239,6 +367,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // this.kbzToast.activate(msg.notification.title, 'success')
         let value = this.messagingService.notiCount.value + 1
         this.messagingService.notiCount.next(value)
+        localStorage.setItem("KBZ_NOTI", value + "")
       }
     });
   }

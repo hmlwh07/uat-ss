@@ -22,6 +22,9 @@ export class MessagingService {
       await localForage.setItem("notiCount_E16237EJL2", "0")
     })
   }
+  useWorker(serviceWorker) {
+    // return this.afMessaging.useServiceWorker(serviceWorker)
+  }
 
   requestPermission() {
     return this.afMessaging.requestPermission.pipe(mergeMapTo(this.afMessaging.tokenChanges))

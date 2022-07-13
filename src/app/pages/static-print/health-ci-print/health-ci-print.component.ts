@@ -82,7 +82,7 @@ export class HealthCiPrintComponent implements OnInit {
         response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
           this.AddonData.push({ keyName: addon.description, value: response.sumInsured })
-          this.coveragesTotalValue +=parseInt(response.sumInsured )
+          this.coveragesTotalValue +=Number(response.sumInsured )
         }
       } catch (error) {
       }
@@ -97,7 +97,7 @@ export class HealthCiPrintComponent implements OnInit {
         response = await this.coverageQuo.getOne(coverage.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
           this.AddonData.unshift({ keyName: coverage.description, value: response.sumInsured })
-         this.coveragesTotalValue +=parseInt(response.sumInsured )
+         this.coveragesTotalValue +=Number(response.sumInsured )
         }
       } catch (error) {
       }

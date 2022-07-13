@@ -23,10 +23,10 @@ messaging.onBackgroundMessage(function (payload) {
 
   self.registration.showNotification(notificationTitle,
     notificationOptions);
-  localforage.getItem('notiCount_210382068330').then(async (res) => {
+  localforage.getItem('notiCount_E16237EJL2').then(async (res) => {
     let count = res ? parseInt(res) : 0
     count += 1
-    await localforage.setItem('notiCount_210382068330', count + '')
+    await localforage.setItem('notiCount_E16237EJL2', count + '')
   })
   // localforage.setItem('notiCount', '1').then(async () => {
   //   const value = await localforage.getItem('notiCount');
