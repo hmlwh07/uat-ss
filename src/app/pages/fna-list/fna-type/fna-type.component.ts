@@ -38,7 +38,7 @@ export class FnaTypeComponent implements OnInit {
         conductedBy: this.conductedBy,
         createdAt: this.formatDateDDMMYYY(new Date()),
         createdBy: this.user.id,
-        createdByName: this.user.username,
+        createdByName: this.user.empName,
         updatedAt: new Date(),
         fnaId: null,
         type: this.customer.customerType,
@@ -48,35 +48,9 @@ export class FnaTypeComponent implements OnInit {
         ]
       }
     }
-
-    // console.log('reqBody', reqBody);
-
-    // else {
-    //   reqBody = {
-    //     leadId: this.leadId,
-    //     customerId: '24',
-    //     customerName: '',
-    //     fnaType: type,
-    //     grandDiscount: 0,
-    //     highDiscount: 0,
-    //     id: 0,
-    //     conductedBy: this.user.username,
-    //     createdAt: new Date(),
-    //     createdBy: this.user.username,
-    //     updatedAt: new Date(),
-    //     fnaId: null,
-    //     type: type,
-    //     pageStatus: 'create',
-    //     products: [
-    //       ""
-    //     ]
-    //   }
-    // }
-
+    
     await this.fnaService.saveFNA(reqBody).toPromise().then(res => {
       if (res) {
-        // console.log('chooseFNA', res);
-
         reqBody.fnaId = res;
       }
     });
