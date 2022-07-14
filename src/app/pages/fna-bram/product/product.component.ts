@@ -181,9 +181,9 @@ export class ProductComponent implements OnInit {
             this.totalHighMonthlyRate = totalHighMonthlyRate
           }
 
-          // Fire, Motor, Personal Accident
+          // Fire, Motor, Personal Accident, Health
           if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' || res.highRisk[i].productCode=='PLMO01'||
-            res.highRisk[i].productCode == 'PLPA01' || res.highRisk[i].productCode == 'PCPA01') {
+            res.highRisk[i].productCode == 'PLPA01' || res.highRisk[i].productCode == 'PCPA01' || res.highRisk[i].productCode == 'PCHL01') {
             res.highRisk[i].action = 'Buy';
           } else {
             res.highRisk[i].action = '';
@@ -216,10 +216,10 @@ export class ProductComponent implements OnInit {
             res.lessRisk[i].monthlyRate = Number(res.lessRisk[i].monthlyRate);
             totalLessMonthlyRate += res.lessRisk[i].monthlyRate
           }
-
-          // Fire, Motor, Personal Accident
+          
+          // Fire, Motor, Personal Accident, Health
           if (res.lessRisk[i].productCode == 'CLFR01' || res.lessRisk[i].productCode == 'PLMO02' || res.lessRisk[i].productCode=="PLMO01"||
-            res.lessRisk[i].productCode == 'PLPA01' || res.lessRisk[i].productCode == 'PCPA01') {
+            res.lessRisk[i].productCode == 'PLPA01' || res.lessRisk[i].productCode == 'PCPA01' || res.lessRisk[i].productCode == 'PCHL01') {
             res.lessRisk[i].action = 'Buy';
           } else {
             res.lessRisk[i].action = '';
@@ -314,13 +314,12 @@ export class ProductComponent implements OnInit {
         this.totalGrantAnnualRate = totalGrantAnnualRate;
         this.totalGrantMonthlyRate = totalGrantMonthlyRate;
 
-        if (this.grantTotalList[i].productCode == 'CLFR01' || this.grantTotalList[i].productCode == 'PLMO02' || this.grantTotalList[i].productCode=="PLMO01"||
-          this.grantTotalList[i].productCode == 'PLPA01' || this.grantTotalList[i].productCode == 'PCPA01') {
-          this.grantTotalList[i].action = 'Buy';
-        } else {
-          this.grantTotalList[i].action = '';
-        }
-
+        // if (this.grantTotalList[i].productCode == 'CLFR01' || this.grantTotalList[i].productCode == 'PLMO02' || this.grantTotalList[i].productCode=="PLMO01"||
+        //   this.grantTotalList[i].productCode == 'PLPA01' || this.grantTotalList[i].productCode == 'PCPA01' || res.lessRisk[i].productCode == 'PCHL01') {
+        //   this.grantTotalList[i].action = 'Buy';
+        // } else {
+        //   this.grantTotalList[i].action = '';
+        // }
 
         let data = {
           packageOffer: packageOffer, product: [
