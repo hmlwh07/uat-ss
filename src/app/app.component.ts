@@ -191,6 +191,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initNoti() {
+    console.log("LOGIN");
+    
     PushNotifications.requestPermissions().then(result => {
       if (result.receive === 'granted') {
         // Register with Apple / Google to receive push via APNS/FCM
@@ -207,7 +209,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.pushToken = token.value
         this.subscribeTokenToTopic(token.value)
         if (this.user.userId) {
-          this.updateCutomerToken(this.pushToken)
+          // this.updateCutomerToken(this.pushToken)
         }
       }
     );

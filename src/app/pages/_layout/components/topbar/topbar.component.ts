@@ -164,7 +164,9 @@ export class TopbarComponent implements OnInit, AfterViewInit {
   }
 
   getNotiList(index?) {
-    if (index) {
+    if (index > 0) {
+      console.log("test");
+      
       index++
       this.notificationService.getById(this.currentUser.username).toPromise()
         .then(async (res: any) => {
@@ -178,9 +180,12 @@ export class TopbarComponent implements OnInit, AfterViewInit {
               }
             }
             this.noti = res
+            this.cdf.detectChanges()
           }
         });
     } else {
+      console.log("test2");
+      
       this.notificationService.getById(this.currentUser.username).toPromise()
         .then(async (res: any) => {
           if (res) {
@@ -190,6 +195,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
 
             }
             this.noti = res
+            this.cdf.detectChanges()
           }
         });
 
