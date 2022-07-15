@@ -100,7 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
       formObjs: [],
       configPage: []
     };
-    this.requestPermission()
+    // this.requestPermission()
     const itemsData = localStorage.getItem("itemsData")
     this.itemService.loadItems(JSON.parse(itemsData) || productData);
     const routerSubscription = this.router.events.subscribe((event) => {
@@ -162,7 +162,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.initNoti();
         }
       } else {
-        this.requestPermission()
+        // this.requestPermission()
 
       }
     })
@@ -337,28 +337,28 @@ export class AppComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  requestPermission() {
-    // console.log("premission request");
-    navigator.serviceWorker.register('./firebase-messaging-sw.js')
-      .then(async (registration) => {
-        console.log(registration);
+  // requestPermission() {
+  //   // console.log("premission request");
+  //   navigator.serviceWorker.register('./firebase-messaging-sw.js')
+  //     .then(async (registration) => {
+  //       console.log(registration);
 
-        // messaging.useServiceWorker(registration);
-        await this.messagingService.useWorker(registration)
-        await this.messagingService.requestPermission().subscribe({
-          next: (token) => {
-            console.log('Permission granted! Save to the server!', token);
-            if (this.user) {
-              this.updateCutomerToken(token)
-            }
-            this.listenForMessages()
-          },
-          error: (error) => { console.error(error); },
-        }
-        );
-        // Request permission and get token.....
-      });
-  }
+  //       // messaging.useServiceWorker(registration);
+  //       await this.messagingService.useWorker(registration)
+  //       await this.messagingService.requestPermission().subscribe({
+  //         next: (token) => {
+  //           console.log('Permission granted! Save to the server!', token);
+  //           if (this.user) {
+  //             this.updateCutomerToken(token)
+  //           }
+  //           this.listenForMessages()
+  //         },
+  //         error: (error) => { console.error(error); },
+  //       }
+  //       );
+  //       // Request permission and get token.....
+  //     });
+  // }
 
 
   listenForMessages() {
