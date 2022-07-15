@@ -1,7 +1,7 @@
 <!--begin::Signin-->
 
 <div class="row">
-
+    
     <div class="col-12 text-center">
         <img src="assets/ms-logo.png" style="width:180px" /><br>
         <!-- <span class="logo-text">KBZMS<br><small>General Insurance</small></span> -->
@@ -9,7 +9,7 @@
     </div>
     <!-- <div class="col-sm-6 text-center">
         <img src="assets/life-logo.png" style="width:150px" /><br> -->
-        <!-- <span class="logo-text">KBZ LIFE</span> -->
+    <!-- <span class="logo-text">KBZ LIFE</span> -->
     <!-- </div> -->
     <div class="col-12 pt-5 pb-5">
         <h5 class="font-weight-bolder text-white text-center" style="font-size: 1.1rem;">
@@ -20,7 +20,8 @@
     <!--begin::Form-->
     <div class="card card-custom-orange" style="width: 100%;">
         <div class="card-body">
-            <form class="form" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form" (ngSubmit)="submit()">
+            <form class="form" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+                (ngSubmit)="submit()">
 
 
                 <!--begin::Title-->
@@ -42,7 +43,9 @@
                         [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" /> -->
                     <div class="input-icons">
                         <i class="flaticon-avatar"></i>
-                        <input placeholder="User ID" class="input-field form-control h-3 py-7 px-11 rounded-lg" type="text" name="username" formControlName="email" autocomplete="off" [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" />
+                        <input placeholder="User ID" class="input-field form-control h-3 py-7 px-11 rounded-lg"
+                            type="text" name="username" formControlName="email" autocomplete="off"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" />
                     </div>
                 </div>
                 <!--end::Form group-->
@@ -53,11 +56,16 @@
                     <div class="input-icons">
                         <i class="flaticon-lock"></i>
                         <div *ngIf="loginForm.controls.password.valid">
-                        <i alt="show" class="fas fa-eye eye-show eye" (click)="showPassword = !showPassword" [class.hide]="showPassword"></i>
-                        <i alt="hide" class="fas fa-eye-slash eye-hide eye" eye (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
+                            <i alt="show" class="fas fa-eye eye-show eye" (click)="showPassword = !showPassword"
+                                [class.hide]="showPassword"></i>
+                            <i alt="hide" class="fas fa-eye-slash eye-hide eye" eye
+                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
                         </div>
-                        <input placeholder="Password" class="input-field form-control h-3 py-7 px-6 rounded-lg" [type]="showPassword ? 'text' : 'password'" id="password-field"  name="password" autocomplete="off" formControlName="password" [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
-                        </div>
+                        <input placeholder="Password" class="input-field form-control h-3 py-7 px-6 rounded-lg"
+                            [type]="showPassword ? 'text' : 'password'" id="password-field" name="password"
+                            autocomplete="off" formControlName="password"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
+                    </div>
                 </div>
                 <!--end::Form group-->
                 <!-- <div class="font-weight-bolder text-center">
@@ -67,7 +75,8 @@
                 </div> -->
                 <!--begin::Action-->
                 <div class="pb-lg-10 pb-10">
-                    <button style="width: 100%;" type="submit" id="kt_login_signin_submit" class="btn btn-new text-white font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">
+                    <button style="width: 100%;" type="submit" id="kt_login_signin_submit"
+                        class="btn btn-new text-white font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">
                         {{"CARD.signin" | translate}}
                     </button>
                     <ng-container *ngIf="isLoading$ | async">
