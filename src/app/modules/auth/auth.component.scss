@@ -3,3 +3,13 @@
 :host {
   height: 100%;
 }
+.change-language {
+  position: absolute;
+  top     : 20px;
+  left    : 20px;
+  z-index : 10;
+
+  img {
+    width: 40px;
+  }
+}
