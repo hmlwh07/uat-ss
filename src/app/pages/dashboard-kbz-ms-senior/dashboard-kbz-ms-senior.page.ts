@@ -132,6 +132,11 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     this.radioH = this.platform.height();
     this.calculateMainContentHeight(this.radioW, this.radioH);
   }
+  ngAfterViewInit() {
+    let route = this.router.url.split("?")
+    this.activeRoute = route[0]
+    console.log("this.activeRoute",this.activeRoute);
+  }
 
   loadForm() {
     this.actForm = new FormGroup({
