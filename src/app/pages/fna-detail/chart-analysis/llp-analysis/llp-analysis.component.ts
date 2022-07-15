@@ -9,6 +9,7 @@ import { AssectDto } from '../../asset/asset-manage.dto';
 import { ProductDto } from '../product-analysis/product-manage.dto';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 
 @Component({
   selector: 'app-llp-analysis',
@@ -38,8 +39,12 @@ export class LlpAnalysisComponent implements OnInit {
   fnaTextColor: number;
   isValue: boolean = false;
 
-  constructor(private fnaService: FANService, private cdf: ChangeDetectorRef, 
-    private modalService: NgbModal, private navController: NavController) { }
+  constructor(
+    private fnaService: FANService,
+    private cdf: ChangeDetectorRef,
+    private modalService: NgbModal,
+    private navController: NavController,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.oldId = this.aboutLLP;
@@ -152,11 +157,16 @@ export class LlpAnalysisComponent implements OnInit {
   }
 
   fnaSwitchEvent(type) {
-    if (this.isValue) {
-      this.fnaSwitch = type;
-      this.change.emit(type);
-      if (this.products.length > 0) {
-        this.update();
+    if (type == 'product' && this.fnaIncome == null && this.fnaRetirementSaving == null && this.fnaHealths.length == 0 && this.fnaEducations.length == 0 && this.fnaAssets.length == 0) {
+      this.alertService.activate('Please choose at least one product.', 'Warning Message').then(result => {
+      });
+    } else {
+      if (this.isValue) {
+        this.fnaSwitch = type;
+        this.change.emit(type);
+        if (this.products.length > 0) {
+          this.update();
+        }
       }
     }
   }

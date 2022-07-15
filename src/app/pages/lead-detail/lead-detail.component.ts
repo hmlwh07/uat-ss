@@ -1731,6 +1731,7 @@ export class LeadDetailComponent implements OnInit {
           }
 
           if (res.fnaType == "LPP") {
+            console.log("LPP ==========> ", res);
             this.router.navigate(["/fna/fna-detail"], {
               queryParams: { passValue: JSON.stringify(res) }
             })
@@ -1798,7 +1799,7 @@ export class LeadDetailComponent implements OnInit {
         this.fnaList = res
         for (var i = 0; i < this.fnaList.length; i++) {
           this.fnaList[i].createdAt = this.convertDateFormatMMDDYYY(this.fnaList[i].createdAt);
-          this.fnaList[i].conductedBy = this.user.username;
+          this.fnaList[i].conductedBy = this.user.empName;
         }
         this.cdf.detectChanges();
         this.fnamatTable.reChangeData();

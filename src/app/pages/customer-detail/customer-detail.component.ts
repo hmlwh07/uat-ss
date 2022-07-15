@@ -364,7 +364,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       "partyCode": new FormControl({ value: oldData ? oldData.partyCode : '', disabled: disabledForm }),
       "fatherName": new FormControl({ value: oldData ? oldData.fatherName : '', disabled: disabledForm },[Validators.required]),
       "phone": new FormControl({ value: oldData ? oldData.phone : '', disabled: disabledForm }, [Validators.required, Validators.maxLength(11), Validators.minLength(9)]),
-      "email": new FormControl({ value: oldData ? oldData.email : '', disabled: disabledForm }, [Validators.required]),
+      "email": new FormControl({ value: oldData ? oldData.email : '', disabled: disabledForm },),
       "dateOfBirth": new FormControl({ value: !oldData ? null : oldData.dateOfBirth ? moment(oldData.dateOfBirth) : null, disabled: disabledForm, }, Validators.required),
       "occupationCode": new FormControl({ value: oldData ? oldData.occupationCode : '', disabled: disabledForm }),
       "houseNumber": new FormControl({ value: oldData ? oldData.houseNumber : '', disabled: disabledForm }),
