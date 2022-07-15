@@ -231,9 +231,9 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {
-          this.getList(agent.roleId)
-          this.getLeadList(agent.roleId);
-          this.getAgentList(agent.roleId);
+          this.getList(agent.empId)
+          this.getLeadList(agent.empId);
+          this.getAgentList(agent.empId);
           this.radioW = this.platform.width();
           this.radioH = this.platform.height();
           this.calculateMainContentHeight(this.radioW, this.radioH);

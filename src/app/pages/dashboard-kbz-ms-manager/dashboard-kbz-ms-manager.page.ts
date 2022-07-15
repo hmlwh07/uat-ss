@@ -140,15 +140,20 @@ export class DashboardKbzMsManagerPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.activeRoute = this.router.url
-    console.log(this.activeRoute);
-
+    let route = this.router.url.split("?")
+    this.activeRoute = route[0]
+    console.log("this.activeRoute",this.activeRoute);
     this.getList();
     this.getLeadList();
     this.getAgentList();
     this.radioW = this.platform.width();
     this.radioH = this.platform.height();
     this.calculateMainContentHeight(this.radioW, this.radioH)
+  }
+  ngAfterViewInit() {
+    let route = this.router.url.split("?")
+    this.activeRoute = route[0]
+    console.log("this.activeRoute",this.activeRoute);
   }
 
   loadForm() {
@@ -263,9 +268,9 @@ export class DashboardKbzMsManagerPage implements OnInit {
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {
-          this.getList(agent.roleId)
-          this.getLeadList(agent.roleId);
-          this.getAgentList(agent.roleId);
+          this.getList(agent.empId)
+          this.getLeadList(agent.empId);
+          this.getAgentList(agent.empId);
           this.radioW = this.platform.width();
           this.radioH = this.platform.height();
           this.calculateMainContentHeight(this.radioW, this.radioH);
