@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { LanguagesService } from '../languages/languages.service';
+
+interface LanguageFlag {
+  lang: string;
+  name: string;
+  flag: string;
+  active?: boolean;
+}
 
 @Component({
   selector: 'app-auth',
@@ -6,12 +14,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-
   today: Date = new Date();
-
-  constructor() { }
+  lang: string = 'EN'
+  @Output() emitter = new EventEmitter();
+  constructor(private cdf: ChangeDetectorRef, private languageService: LanguagesService) { }
 
   ngOnInit(): void {
   }
+
+ 
+  changeLanguage() {
+    this.languageService.toggleLange()
+    this.lang = this.languageService.getSelectedLanguage()
+  }
+
 
 }
