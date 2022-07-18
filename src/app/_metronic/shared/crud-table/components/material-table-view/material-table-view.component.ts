@@ -23,7 +23,8 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   @Input() displayedColumns: string[] = []
   @Input() data: any[] = [];
   @Input() colum: TableCol[] = [];
-  @Input() pageSizeOptions: number[] = [5, 10, 20]
+  // @Input() pageSizeOptions: number[] = [5, 10, 20]
+  @Input() pageSizeOptions: number[] = [5]
   @Input() selectable: boolean = false
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(StylePaginatorDirective) customPaginator: StylePaginatorDirective
