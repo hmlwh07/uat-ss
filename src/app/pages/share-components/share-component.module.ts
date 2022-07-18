@@ -17,6 +17,8 @@ import { CustomerItemComponent } from "./customer-item/customer-item.component";
 import { LeadItemComponent } from "./lead-item/lead-item.component";
 import { ListingDirective } from "./listing-directive";
 import { ListingSortPipe } from "./listing-sort.pipe";
+import { PagentationComponent } from "./pagentation/pagentation.component";
+import { PagerService } from "./pagentation/pager.service";
 import { QuotationItemComponent } from "./quotation-item/quotation-item.component";
 
 @NgModule({
@@ -31,6 +33,7 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     CommonList2Component,
     ListingsPagerComponent,
     NrcPopupPage,
+    PagentationComponent,
   ],
   exports: [
     ListingSortPipe,
@@ -42,7 +45,8 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     QuotationItemComponent,
     CommonList2Component,
     ListingsPagerComponent,
-    NrcPopupPage
+    NrcPopupPage,
+    PagentationComponent
   ],
   entryComponents:[ 
     NrcPopupPage
@@ -57,7 +61,7 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     MatMenuModule,
     LanguageModule
   ],
-  providers: []
+  providers: [PagerService]
 })
 export class ShareComponentModule {
   // @Optional() @SkipSelf() parentModule: CustomerListShareModule

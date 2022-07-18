@@ -37,6 +37,12 @@ export class CustomerListService {
     if (search.identityNumber) {
       url = url + "identityNumber=" + search.identityNumber + "&"
     }
+    if(search.limit) {
+      url = url + "limit=" + search.limit + "&"
+    }
+    if(search.offset) {
+      url = url + "offset=" + search.offset + "&"
+    }
     if (!isCustom) {
       url = url + "isPartyCode=" + party
     }

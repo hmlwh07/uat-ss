@@ -141,8 +141,8 @@
                         (rowselect)="rowSelected($event)" [selectable]="isPopup">
                     </app-material-table-view>
                 </ng-container> -->
-                <app-common-list-2 *ngIf="LeadList.length > 0" class="data-list" #commonList [data]="LeadList"
-                    [type]="'lead'" (btnEvent)="actionBtn($event)"></app-common-list-2>
+                <app-common-list-2 *ngIf="LeadList.length > 0" class="data-list" #commonList [data]="LeadList" 
+                    [type]="'lead'" [total]="totalElements" [totalpage]="totalPages"  (btnEvent)="actionBtn($event)" (pageEvent)="reponseFromPager($event)"></app-common-list-2>
 
             </div>
         </div>

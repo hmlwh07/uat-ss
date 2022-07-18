@@ -5,7 +5,7 @@ import { environment } from "../../../environments/environment";
 import { BizOperationService } from "../../core/biz.operation.service";
 import { PolicyDTO } from "./policy.dto";
 
-const API_QUOTATION_URL = `${environment.apiUrl}/policy`
+const API_QUOTATION_URL = `${environment.apiUrl}/policy/page`
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +41,12 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     }
     if (search.applicationStatus) {
       url = url + "applicationStatus=" + search.applicationStatus + "&"
+    }
+    if(search.limit) {
+      url = url + "limit=" + search.limit + "&"
+    }
+    if(search.offset) {
+      url = url + "offset=" + search.offset + "&"
     }
     return this.httpClient.get(url)
   }

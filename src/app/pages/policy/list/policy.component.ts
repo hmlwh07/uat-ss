@@ -41,7 +41,11 @@ export class PolicyComponent implements OnInit, OnDestroy {
   productOption: any = []
   applicationStatusOption : any = ApplicationStatus
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-
+  currentPage:number=0
+  totalPages:number=0
+  totalElements:number=0
+  postedData:any
+  selectedPageBtn:number=1
   constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService, private cdf: ChangeDetectorRef) {
     this.loadForm()
   }
@@ -128,14 +132,23 @@ export class PolicyComponent implements OnInit, OnDestroy {
       }
     })
   }
+  reponseFromPager(event) {
+    console.log("POLICYEVENT", event);
+    this.currentPage = event
+    this.getDatabyPage(this.currentPage)
+  }
 
-
-  getPolicyList() {
-    this.policyService.getPolicyList(this.policyForm.getRawValue()).toPromise().then((res: any) => {
+  getPolicyList(offset:number=1) {
+    let postData = { ...this.policyForm.getRawValue(), limit: 5, offset: offset }
+    this.postedData = postData
+    this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
       if (res) {
-        console.log(res);
+        console.log(res); 
 
-        this.quoList = res
+        this.quoList = res.content
+        this.totalElements = res.totalElements
+        this.totalPages = res.totalPages
+        this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '/' + this.quoList[i].icon
@@ -147,6 +160,24 @@ export class PolicyComponent implements OnInit, OnDestroy {
         }
         //this.matTable.reChangeData()
         // })
+      }
+    })
+  }
+
+  async getDatabyPage(page) {
+    this.currentPage = page
+    let postData = { ...this.policyForm.getRawValue(), limit: 5, offset: page }
+    this.totalPages = 0
+    this.postedData = postData
+    await this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
+      if(res){
+        console.log(res); 
+        this.quoList = res.content
+        this.totalElements = res.totalElements
+        this.totalPages = res.totalPages
+        this.selectedPageBtn = this.currentPage
+        this.cdf.detectChanges();
+        this.commonList.detchChange()
       }
     })
   }
