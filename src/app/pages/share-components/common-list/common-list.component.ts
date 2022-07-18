@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, ElementRef, Output, EventEmitter, AfterViewInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { ListingsPagerComponent } from '../../static-pages/pager/pager.component';
 import { ListItemAction } from '../list-field.interface';
+import { PagentationComponent } from '../pagentation/pagentation.component';
 
 @Component({
   selector: 'app-common-list-2',
@@ -21,18 +22,27 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   @Input() colField: any; // col field
   @Input() order: string = 'asc' //ascending,descending
   // @Output() btnEvent?: EventEmitter<ListItemAction>;
+  @Input() total: number = 0;
+  @Input() totalpage: number = 0
   @Output() btnEvent?: EventEmitter<ListItemAction> = new EventEmitter();
+  @Output() pageEvent?: EventEmitter<ListItemAction> = new EventEmitter();
   @ViewChild(ListingsPagerComponent) listpager: ListingsPagerComponent;
+  @ViewChild(PagentationComponent) listpagination: PagentationComponent
   selectedPageSize = 5;
   selectedPageBtn = 1;
-
+  isPager: boolean = false
   start = 0;
   end = 5;
   listingargs;
   constructor(private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+
     this.listingargs = { direction: this.order, col: this.colField };
+    // || this.type == 'activity'|| this.type == 'customer'
+    if (this.type == 'lead' || this.type == 'policy') {
+      this.isPager = true
+    }
   }
 
   ngAfterViewInit() {
@@ -45,12 +55,22 @@ export class CommonList2Component implements OnInit, AfterViewInit {
     }
     this.cdf.detectChanges()
   }
+  detchChangePagination() {
+    if (this.listpagination) {
+      this.listpagination.ngOnInit()
+    }
+    this.cdf.detectChanges()
+  }
+  detechStartEnd() {
+    if (this.listpagination) {
+      this.listpagination.calcuStartEnd()
+    }
+    this.cdf.detectChanges()
+  }
 
   reponseFromPager(event) {
     this.selectedPageBtn = event.activePage;
     this.selectedPageSize = event.pageSize;
-    console.log("EVENT",event);
-    
     this.start = (this.selectedPageBtn - 1) * this.selectedPageSize;
     this.end = ((this.selectedPageBtn * this.selectedPageSize) - 1) < this.dataList.length ?
       (this.selectedPageBtn * this.selectedPageSize) : this.dataList.length;
@@ -58,6 +78,9 @@ export class CommonList2Component implements OnInit, AfterViewInit {
 
   reponseFromAtom(obj) {
 
+  }
+  getDatabyPage(event) {
+    this.pageEvent.emit(event)
   }
 
   actionTrigger(event) {

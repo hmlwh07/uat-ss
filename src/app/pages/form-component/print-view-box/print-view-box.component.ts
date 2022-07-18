@@ -21,6 +21,7 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() resourcesId: string = ""
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
+  branch:string=""
   today = new Date()
   agentName = ""
   agentData:any={}
@@ -89,6 +90,7 @@ export class PrintViewBoxComponent implements OnInit {
       }
       if (this.productService.editData) {
         this.premimunAmt = this.productService.editData.premiumView
+        this.branch = this.productService.editData.branch
         this.getAgentData()
         
         // this.today = this.productService.editData.createdAt

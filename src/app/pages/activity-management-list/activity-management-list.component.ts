@@ -26,11 +26,16 @@ export class ActivityManagementListComponent implements OnInit {
   activityList = [];
   actForm: FormGroup;
   activityStatus = ActivityStatus
+  totalElements: number = 0
+  totalPages: number = 0
+  selectedPageBtn: number = 0
+  currentPage: number = 1
   activityType: string[] = [
     "Face to Face",
     "Online",
     "Phone Call"
   ]
+  postedData: any = {}
   activityTypeOption = [
     {
       code: "",
@@ -72,13 +77,13 @@ export class ActivityManagementListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+
   }
   ngAfterViewInit() {
     this.getList()
   }
-  cancel(){
-    
+  cancel() {
+
   }
 
   loadForm() {
@@ -86,20 +91,62 @@ export class ActivityManagementListComponent implements OnInit {
       "type": new FormControl(""),
       "title": new FormControl(null),
       "status": new FormControl(""),
-      startDate:new FormControl(null),
-      endDate:new FormControl(null)
+      startDate: new FormControl(null),
+      endDate: new FormControl(null)
     })
   }
 
 
-  getList() {
+  // getList() {
+  //   this.activityService.getActivityList(this.actForm.value).toPromise().then((res: any) => {
+  //     if (res) {
+  //       console.log('getActivityList', res);
+
+  //       this.activityList = res
+  //       this.cdf.detectChanges()
+  //      // this.matTable.reChangeData()
+  //     }
+  //   })
+  // }
+
+  reponseFromPager(event) {
+    console.log("LEADEVENT", event);
+    this.currentPage = event
+    this.getDatabyPage(this.currentPage)
+  }
+
+  getList(limit: number = 5, offset: number = 1) {
+    let postData = { ...this.actForm.getRawValue(), limit: 5, offset: offset }
+    this.postedData = postData
+
     this.activityService.getActivityList(this.actForm.value).toPromise().then((res: any) => {
       if (res) {
         console.log('getActivityList', res);
-
+        // this.LeadList = res.content
+        this.totalElements = res.totalElements
+        this.totalPages = res.totalPages
+        this.selectedPageBtn = this.currentPage
+        this.cdf.detectChanges();
         this.activityList = res
         this.cdf.detectChanges()
-       // this.matTable.reChangeData()
+        // this.matTable.reChangeData()
+      }
+    })
+  }
+
+  async getDatabyPage(page) {
+    this.currentPage = page
+    let postData = { ...this.actForm.getRawValue(), limit: 5, offset: page }
+    this.totalPages = 0
+    this.postedData = postData
+    await this.activityService.getActivityList(this.postedData).toPromise().then((res: any) => {
+      if (res) {
+        // this.activityList = res.content
+        this.activityList = res
+        this.totalElements = res.totalElements
+        this.totalPages = res.totalPages
+        this.selectedPageBtn = this.currentPage
+        this.cdf.detectChanges();
       }
     })
   }

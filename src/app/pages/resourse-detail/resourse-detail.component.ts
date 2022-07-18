@@ -2,7 +2,9 @@ import { DatePipe, DecimalPipe, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, map, catchError, of } from 'rxjs';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
+import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
 import { checkVaidDep } from '../check-parent';
 import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../form-component/field.interface';
@@ -11,8 +13,6 @@ import { PageDataService } from '../product-form/page-data.service';
 import { PrintConfig } from '../products/models/print-config.interface';
 import { PageUIType, ProductPages } from '../products/models/product.dto';
 import { PrintPreviewModalComponent } from '../products/print-preview-modal/print-preview-modal.component';
-import { AddOnQuoService } from '../products/services/add-on-quo.service';
-import { CoverageQuoService } from '../products/services/coverage-quo.service';
 import { ProductDataService } from '../products/services/products-data.service';
 import { SignaturePadComponent } from './signature-pad/signature-pad.component';
 
@@ -25,6 +25,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   premiumAmt: string
   submittedCode: string;
   policyNumber: string;
+  branch: string;
   item: any
   resultObj: any = {}
   type: string
@@ -48,6 +49,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   private formatedData = {}
   printConfig: PrintConfig = {}
   signFileId: any = null;
+  branchOption = [];
+  selectedBranchCode: string = null;
+
   constructor(
     private productService: ProductDataService,
     private location: Location,
@@ -59,7 +63,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
     private modalService: NgbModal,
     private policyService: PolicyService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private masterDataService: MasterDataService,
   ) { }
 
   async ngOnInit() {
@@ -72,6 +77,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail = this.productService.editData
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
+      this.branch = this.resourceDetail.branchCode
       console.log("RESOURCE", this.resourceDetail)
 
       if (!this.resourceDetail) {
@@ -170,7 +176,14 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //     }
       //   }
       // }
-      this.cdf.detectChanges()
+      forkJoin([
+        this.getBranch()
+      ]).toPromise().then((res: any) => {
+        if (res) {
+          this.branchOption = res[0]
+          this.cdf.detectChanges()
+        }
+      })
     }
   }
 
@@ -410,6 +423,17 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     //   }
     // })
   }
+  saveBranch() {
+    if (this.branch) {
+      this.selectedBranchCode = this.branch
+      let branch = this.branchOption.find((p) => p.code == this.branch);
+      this.productService.editData.branch = branch.value
+      this.productService.editData.branchCode = this.selectedBranchCode
+      this.alertService.activate("This record was created", "Success Message")
+    } else {
+      this.selectedBranchCode = null
+    }
+  }
 
   goToList() {
     // if (this.type == 'quotation') {
@@ -448,15 +472,21 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
 
   viewPrint() {
-    const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl', backdrop: false });
-    modalRef.componentInstance.configData = this.printConfig.printFormat
-    modalRef.componentInstance.configOrder = this.printConfig.prinitUI
-    modalRef.componentInstance.product = this.item
-    modalRef.componentInstance.tempData = this.formatedData
-    modalRef.componentInstance.resourcesId = this.resourceDetail.id
-    modalRef.result.then(() => { }, (res) => {
+    if (!this.selectedBranchCode) {
+      this.alertService.activate("Please select Branch first", 'Warning Message')
+    } else {
 
-    })
+
+      const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl', backdrop: false });
+      modalRef.componentInstance.configData = this.printConfig.printFormat
+      modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+      modalRef.componentInstance.product = this.item
+      modalRef.componentInstance.tempData = this.formatedData
+      modalRef.componentInstance.resourcesId = this.resourceDetail.id
+      modalRef.result.then(() => { }, (res) => {
+
+      })
+    }
   }
 
   createSign() {
@@ -478,10 +508,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
 
   submitPolicy() {
-    if (this.signFileId == null) {
-      this.alertService.activate("Please add Signature first", 'Warning Message')
+    if (!this.selectedBranchCode) {
+      this.alertService.activate("Please select Branch first", 'Warning Message')
+    } else if (this.signFileId == null) {
+      this.alertService.activate("Please add Signature", 'Warning Message')
     } else {
-      this.policyService.submitPolicy(this.resourceDetail.id).toPromise().then((res) => {
+      this.policyService.submitPolicy(this.resourceDetail.id, this.selectedBranchCode).toPromise().then((res) => {
         if (res) {
           this.alertService.activate('This record was submitted', 'Success Message');
           this.resourceDetail.apiStatus = 'sending'
@@ -490,5 +522,27 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  getBranch() {
+    return this.masterDataService.getDataByType("CORE_BRANCH").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
+  }
+
+  getFormatOpt(res) {
+    return res.map(x => {
+      return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
+    })
+  }
+
+  changeBranch(event: any) {
+    // if (event) {
+    //   this.selectedBranchCode = event.code
+    //   this.productService.editData.branchCode=this.selectedBranchCode
+    // } else {
+    //   this.selectedBranchCode = null
+    // }
+
   }
 }

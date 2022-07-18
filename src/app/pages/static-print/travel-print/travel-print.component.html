@@ -64,31 +64,31 @@
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Effective Date
             </td>
-            <td class="value-col">{{policyInfo.policyInceptionDate | date: 'dd/MM/YYYY'}}</td>
+            <td class="field-col">{{policyInfo.policyInceptionDate | date: 'dd/MM/YYYY'}}</td>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Expiry Date
             </td>
-            <td class="value-col">{{policyInfo.policyExpiryDate | date: 'dd/MM/YYYY'}}</td>
+            <td class="field-col">{{policyInfo.policyExpiryDate | date: 'dd/MM/YYYY'}}</td>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Duration
             </td>
-            <td class="value-col">{{policyInfo.policyDurationValue}}</td>
+            <td class="field-col">{{policyInfo.policyDurationValue}}</td>
         </tr>
         <tr>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Travel Plan
             </td>
-            <td class="value-col" colspan="2">{{policyInfo.travelPlanValue}}</td>
+            <td class="field-value" colspan="2">{{policyInfo.travelPlanValue}}</td>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Currency
             </td>
-            <td class="value-col" colspan="2">{{policyInfo.currency || "MMK"}}</td>
+            <td class="field-value" colspan="2">{{policyInfo.currency || "MMK"}}</td>
         </tr>
         <tr>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 No. of Traveler
             </td>
-            <td class="value-col" colspan="10">{{numberOfTraveller}}</td>
+            <td class="field-value" colspan="10">{{numberOfTraveller}}</td>
             <!-- <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Vehicle Information
             </td>

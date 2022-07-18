@@ -2,7 +2,12 @@
     <ng-container listDirective [viewType]="type" [itemData]="atom" (btnEvent)="actionTrigger($event)"></ng-container>
 </ng-container>
 <!-- | dataSort: order : colField -->
-<div class="example-preview" *ngIf="dataList.length > 0">
-    <app-pager *ngIf="dataList.length > 0" [sourceData]="dataList" [formType]="type" (activePage)="reponseFromPager($event)">
+<div class="example-preview" *ngIf="dataList.length > 0 && isPager">
+    <pagentation [count]="total"  [sourceData]="dataList"  [totalpage]="totalpage" [pageSize]="5" (currentPage)="getDatabyPage($event)">
+    </pagentation>
+</div>
+<div class="example-preview" *ngIf="dataList.length > 0 && !isPager">
+    <app-pager *ngIf="dataList.length > 0" [sourceData]="dataList" [formType]="type"
+        (activePage)="reponseFromPager($event)">
     </app-pager>
 </div>
