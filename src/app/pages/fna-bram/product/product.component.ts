@@ -74,14 +74,14 @@ export class ProductComponent implements OnInit {
   updateProducts = [];
 
   constructor(
-    private productService: FNAProductService, 
+    private productService: FNAProductService,
     private productDataService: ProductDataService,
-    private cdf: ChangeDetectorRef, 
-    private customerService: CustomerService, 
+    private cdf: ChangeDetectorRef,
+    private customerService: CustomerService,
     private router: Router,
-    private fnaService: FANService, 
+    private fnaService: FANService,
     private alertService: AlertService,
-    public platform: Platform, 
+    public platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService,
     private _languageService: LanguagesService) {
 
@@ -131,7 +131,7 @@ export class ProductComponent implements OnInit {
   }
 
   buyProduct(product) {
-   // console.log('product =====> ', product);
+    // console.log('product =====> ', product);
     forkJoin([this.productDataService.findOne(product.productId), this.customerService.findOne(this.passValueData.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
         console.log(res)
@@ -159,10 +159,6 @@ export class ProductComponent implements OnInit {
     //472
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
       console.log('getAllProductRec', res);
-      // TODO: Need To Check API Response [Start]
-      (res.highRisk.find(x=> x.product == 'Health (GI)')).productId = '41';
-      (res.lessRisk.find(x=> x.product == 'Health (GI)')).productId = '41';
-      // TODO: Need To Check API Response [End]
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
         this.isData = true;
@@ -352,22 +348,22 @@ export class ProductComponent implements OnInit {
       this.originalData.push({
         packageOffer: this.transform('total'), product: [
           {
-            product: this.transform('Total'), 
-            policies: totalGrantPolicies || null, 
+            product: this.transform('Total'),
+            policies: totalGrantPolicies || null,
             sa: totalGrantSa || null,
-            annualRate: totalGrantAnnualRate || null, 
-            monthlyRate: totalGrantMonthlyRate || null, 
+            annualRate: totalGrantAnnualRate || null,
+            monthlyRate: totalGrantMonthlyRate || null,
             action: ''
           }]
       })
       this.originalData.push({
         packageOffer: this.transform('discount'), input: 'percent', product: [
           {
-            product: this.transform('Discount (%):'), 
-            policies: null, 
+            product: this.transform('Discount (%):'),
+            policies: null,
             sa: 'Premium after discount:',
-            annualRate: '', 
-            monthlyRate: '', 
+            annualRate: '',
+            monthlyRate: '',
             action: ''
           }]
       })
@@ -428,13 +424,13 @@ export class ProductComponent implements OnInit {
         next.product.forEach(b => {
           current.push({
             productId: b.productId,
-            packageOffer: next.packageOffer, 
-            input: next.input, 
-            product: b.product, 
+            packageOffer: next.packageOffer,
+            input: next.input,
+            product: b.product,
             policies: b.policies,
             sa: this.fnaService.currencyFormat(Number(b.sa)),
             annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
-            monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)), 
+            monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)),
             action: b.action
           })
         });
@@ -542,18 +538,18 @@ export class ProductComponent implements OnInit {
         this.originalData[this.originalData.length - 1].product[0].monthlyRate = this.grantMonthlyPercentageRate;
       }
     }
-    
+
     this.dataSource = this.originalData.reduce((current, next) => {
       next.product.forEach(b => {
         current.push({
           productId: b.productId,
-          packageOffer: next.packageOffer, 
-          product: b.product, 
-          input: next.input, 
+          packageOffer: next.packageOffer,
+          product: b.product,
+          input: next.input,
           policies: b.policies,
           sa: this.fnaService.currencyFormat(Number(b.sa)),
           annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
-          monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)), 
+          monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)),
           action: b.action
         })
       });
