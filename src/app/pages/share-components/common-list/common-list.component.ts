@@ -80,7 +80,6 @@ export class CommonList2Component implements OnInit, AfterViewInit {
 
   }
   getDatabyPage(event) {
-    console.log(event);
     this.pageEvent.emit(event)
   }
 
