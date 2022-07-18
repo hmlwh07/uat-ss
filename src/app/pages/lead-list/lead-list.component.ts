@@ -209,8 +209,7 @@ export class LeadListComponent implements OnInit {
           this.totalPages = res.totalPages
           this.selectedPageBtn = this.currentPage
           this.cdf.detectChanges();
-          this.commonList.detchChange()
-          // this.matTable.reChangeData();
+          this.commonList.detchChangePagination()
         }
       });
   }
@@ -227,7 +226,6 @@ export class LeadListComponent implements OnInit {
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
         this.cdf.detectChanges();
-        this.commonList.detchChange()
       }
     })
   }

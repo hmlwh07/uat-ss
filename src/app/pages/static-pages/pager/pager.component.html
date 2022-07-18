@@ -3,11 +3,12 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="pager_btn_wrapper mt_5 mb_10 right">
                 <div class="pager_atom">
-                    <span>Items per page:</span>
-                    <button mat-button [matMenuTriggerFor]="menu"
+                    <span>Items per page: 5</span>
+                    <!-- [matMenuTriggerFor]="menu" -->
+                    <button mat-button 
                     class="menu_bg">
-                        <div class="pager_btn_wrapper ml_15">{{ selectedPageSize }}<img
-                                src="./assets/images/down_arrow-01.svg" class="ml_30" alt="" /></div>
+                        <!-- <div class="pager_btn_wrapper ml_15">{{ selectedPageSize }}<img
+                                src="./assets/images/down_arrow-01.svg" class="ml_30" alt="" /></div> -->
                     </button>
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item *ngFor="let pagesize of pageSizeArray" (click)="clickMenuItem(pagesize)">

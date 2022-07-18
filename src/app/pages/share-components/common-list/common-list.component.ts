@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, ElementRef, Output, EventEmitter, AfterViewInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { ListingsPagerComponent } from '../../static-pages/pager/pager.component';
 import { ListItemAction } from '../list-field.interface';
+import { PagentationComponent } from '../pagentation/pagentation.component';
 
 @Component({
   selector: 'app-common-list-2',
@@ -26,6 +27,7 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   @Output() btnEvent?: EventEmitter<ListItemAction> = new EventEmitter();
   @Output() pageEvent?: EventEmitter<ListItemAction> = new EventEmitter();
   @ViewChild(ListingsPagerComponent) listpager: ListingsPagerComponent;
+  @ViewChild(PagentationComponent) listpagination: PagentationComponent
   selectedPageSize = 5;
   selectedPageBtn = 1;
   isPager: boolean = false
@@ -35,6 +37,7 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   constructor(private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+
     this.listingargs = { direction: this.order, col: this.colField };
     // || this.type == 'activity'|| this.type == 'customer'
     if (this.type == 'lead' || this.type == 'policy') {
@@ -49,6 +52,18 @@ export class CommonList2Component implements OnInit, AfterViewInit {
   detchChange() {
     if (this.listpager) {
       this.listpager.prepareBtnArray()
+    }
+    this.cdf.detectChanges()
+  }
+  detchChangePagination() {
+    if (this.listpagination) {
+      this.listpagination.ngOnInit()
+    }
+    this.cdf.detectChanges()
+  }
+  detechStartEnd() {
+    if (this.listpagination) {
+      this.listpagination.calcuStartEnd()
     }
     this.cdf.detectChanges()
   }

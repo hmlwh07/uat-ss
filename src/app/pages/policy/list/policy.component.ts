@@ -39,13 +39,13 @@ export class PolicyComponent implements OnInit, OnDestroy {
   policyAccess = defaultAccessObj;
   product: any = []
   productOption: any = []
-  applicationStatusOption : any = ApplicationStatus
+  applicationStatusOption: any = ApplicationStatus
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-  currentPage:number=0
-  totalPages:number=0
-  totalElements:number=0
-  postedData:any
-  selectedPageBtn:number=1
+  currentPage: number = 0
+  totalPages: number = 0
+  totalElements: number = 0
+  postedData: any
+  selectedPageBtn: number = 1
   constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService, private cdf: ChangeDetectorRef) {
     this.loadForm()
   }
@@ -138,12 +138,12 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.getDatabyPage(this.currentPage)
   }
 
-  getPolicyList(offset:number=1) {
+  getPolicyList(offset: number = 1) {
     let postData = { ...this.policyForm.getRawValue(), limit: 5, offset: offset }
     this.postedData = postData
     this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
       if (res) {
-        console.log(res); 
+        console.log(res);
 
         this.quoList = res.content
         this.totalElements = res.totalElements
@@ -155,9 +155,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
           }
         }
         this.cdRef.detectChanges()
-        if (this.commonList) {
-          this.commonList.detchChange()
-        }
+        this.commonList.detchChangePagination()
+       
         //this.matTable.reChangeData()
         // })
       }
@@ -170,14 +169,14 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.totalPages = 0
     this.postedData = postData
     await this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
-      if(res){
-        console.log(res); 
+      if (res) {
+        console.log(res);
         this.quoList = res.content
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
         this.cdf.detectChanges();
-        this.commonList.detchChange()
+        this.commonList.detechStartEnd();
       }
     })
   }

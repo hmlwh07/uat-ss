@@ -3,7 +3,7 @@
 </ng-container>
 <!-- | dataSort: order : colField -->
 <div class="example-preview" *ngIf="dataList.length > 0 && isPager">
-    <pagentation [count]="total" [totalpage]="totalpage" [pageSize]="5" (currentPage)="getDatabyPage($event)">
+    <pagentation [count]="total"  [sourceData]="dataList"  [totalpage]="totalpage" [pageSize]="5" (currentPage)="getDatabyPage($event)">
     </pagentation>
 </div>
 <div class="example-preview" *ngIf="dataList.length > 0 && !isPager">

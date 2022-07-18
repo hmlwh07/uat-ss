@@ -12,7 +12,8 @@ export class PagentationComponent implements OnInit {
   @Input() currentStatus = 1;
   @Input() count: number = 0
   @Input() pageSize: number = 5
-  @Input() totalpage:number=0
+  @Input() totalpage: number = 0
+  @Input() sourceData: any = []
   @Output() currentPage = new EventEmitter<number>()
   started: number = 0
   endPageIndex: number = 0
@@ -21,15 +22,16 @@ export class PagentationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.pageNum)
     this.pager = this.pagerService.getPager(this.count, this.currentStatus, this.pageSize);
     this.pager.currentPage = this.currentStatus
     this.calcuStartEnd()
   }
-  calcuStartEnd(){
-    let count = this.pager.currentPage* this.pageSize
+  calcuStartEnd() {
+
+    let count = this.pager.currentPage * this.pageSize
     this.started = count - this.pageSize + 1
-    this.endPageIndex = count > this.totalpage? this.totalpage: count 
+    this.endPageIndex = count
+
   }
 
   setPage(page: number) {
