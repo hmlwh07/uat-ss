@@ -67,7 +67,7 @@
                         <li *ngIf="cont.input == 'label'" class="list-group-item"
                           style="border-top: 0.5px solid #dad9d9 !important;">
                           <h5 style="margin-bottom: 0px;">{{"TABLE."+cont.name | translate}} </h5>
- 
+
                         </li>
                         <ng-container
                           *ngIf="!cont.isHideView && checkDep(cont.dependency,resultObj[page.tableName+page.id]) && cont.input != 'underline' && cont.input != 'label'">
@@ -75,7 +75,7 @@
                             <!-- <span class="pull-right"> -->
                             <!-- <span class="btn btn-xs btn-default"> -->
                             <!-- {{cont.input}}cont.input != 'label' ?  -->
-                            {{"TABLE."+cont.label || "TABLE."+cont.name | translate }} : 
+                            {{"TABLE."+cont.label || "TABLE."+cont.name | translate }} :
                             <!-- </span> -->
                             <!-- </span> -->
                             <ng-container
@@ -85,7 +85,7 @@
                             </ng-container>
                             <ng-template #nomalValue>
                               <span *ngIf="cont.input == 'input' && cont.type == 'currency'">
-                                {{ (resultObj[page.tableName+page.id][cont.name] || 0 ) | number  }}
+                                {{ (resultObj[page.tableName+page.id][cont.name] || 0 ) | number }}
                               </span>
                               <span *ngIf="cont.input == 'date'">
                                 <!-- {{resultObj[page.tableName+page.id][cont.name].length > 0 ? true: false}} D -->
@@ -163,6 +163,23 @@
   <div class="row">
     <div class="col-12">
       <div class="card card-custom gutter-b">
+        <div class="card-header">
+          <div class="card-title">
+            <h3 class="card-label">Branch Selection : </h3>
+          </div>
+        </div>
+        <div class="card-body customer-card-body mt-5">
+          <ng-select class="ng-custom-select" placeholder="Please Select" (change)="changeBranch($event)" [items]="branchOption" bindLabel="value"
+            bindValue="code">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-custom gutter-b">
         <div class="card-footer">
           <div class="row">
             <div class="{{type == 'quotation' ? 'col-sm-6' : 'col-sm-4'}}">
@@ -183,8 +200,7 @@
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy' ">
               <!-- [disabled]="resourceDetail.status == 'submitted'" -->
-              <button type="submit" class="btn btn-primary btn-block"
-                [disabled]="checkDisabled()"
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()"
                 (click)="submitPolicy()">
                 {{"FORM.submit_application" | translate}}
               </button>

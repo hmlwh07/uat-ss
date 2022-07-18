@@ -9,6 +9,7 @@ import { StaticPagesViewModule } from '../static-page-review/static-pages-reivew
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignaturePadComponent } from './signature-pad/signature-pad.component';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [ResourseDetailComponent, SignaturePadComponent],
@@ -21,6 +22,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     StaticPagesViewModule,
     SignaturePadModule,
     LanguageModule,
+    NgSelectModule,
     RouterModule.forChild([
       {
         path: '',
