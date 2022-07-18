@@ -63,24 +63,24 @@
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Effective Date
       </td>
-      <td class="value-col">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Expiry Date
       </td>
-      <td class="value-col">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Duration Days
       </td>
-      <td class="value-col">{{detail.policyDuration}} - {{policyUnit[detail.policyUnit]}}</td>
+      <td class="field-col">{{detail.policyDuration}} - {{policyUnit[detail.policyUnit]}}</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Type</td>
-      <td class="value-col" colspan="2">{{detail.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
+      <td class="field-col" colspan="2">{{detail.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Currency</td>
       <td class="value-col" colspan="2">{{detail.currency}}</td>
 
     </tr>
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Risk Address</td>
-      <td class="value-col" colspan="10">
+      <td class="field-col" colspan="10">
         {{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}
       </td>
     </tr>
@@ -135,21 +135,21 @@
           <td class="field-pd">{{data.buildingClassValue}}</td>
           <td class="field-pd">{{data.totalSquareFoot}}</td>
           <td class="field-pd">{{data.yearOfConstruction}}</td>
-          <td class="field-pd">{{data.buildingSi|| 0 | number : '1.2-2'}}</td>
-          <td class="field-pd">{{data.proposedFurniture|| 0 | number : '1.2-2'}}</td>
-          <td class="field-pd">{{data.proposedMachinerySI|| 0 | number : '1.2-2'}}</td>
-          <td class="field-pd">{{data.proposeStockValue|| 0 | number : '1.2-2'}}</td>
-          <td class="field-pd">{{data.riskSi|| 0 | number : '1.2-2'}}</td>
+          <td class="value-col">{{data.buildingSi|| 0 | number : '1.2-2'}}</td>
+          <td class="value-col">{{data.proposedFurniture|| 0 | number : '1.2-2'}}</td>
+          <td class="value-col">{{data.proposedMachinerySI|| 0 | number : '1.2-2'}}</td>
+          <td class="value-col">{{data.proposeStockValue|| 0 | number : '1.2-2'}}</td>
+          <td class="value-col">{{data.riskSi|| 0 | number : '1.2-2'}}</td>
         </tr>
        
       </ng-container>
       <tr>
         <td colspan="6" style="text-align:center;font-size: 12pt;"> Total SI</td>
-        <td class="field-pd"> {{ totalbuildingSi | number : '1.2-2'}}</td>
-        <td class="field-pd"> {{ totalproposedFurniture | number : '1.2-2'}}</td>
-        <td class="field-pd"> {{ totalproposedMachinerySI | number : '1.2-2'}}</td>
-        <td class="field-pd"> {{ totalproposeStockValue | number : '1.2-2'}}</td>
-        <td class="field-pd"> {{ totalriskSi | number : '1.2-2'}}</td>
+        <td class="value-col"> {{ totalbuildingSi | number : '1.2-2'}}</td>
+        <td class="value-col"> {{ totalproposedFurniture | number : '1.2-2'}}</td>
+        <td class="value-col"> {{ totalproposedMachinerySI | number : '1.2-2'}}</td>
+        <td class="value-col"> {{ totalproposeStockValue | number : '1.2-2'}}</td>
+        <td class="value-col"> {{ totalriskSi | number : '1.2-2'}}</td>
       </tr>
     </tbody>
   </table>
@@ -206,19 +206,19 @@
       <ng-container *ngFor="let data of addOnData;">
         <tr>
           <td class="field-value">{{data.description}}</td>
-          <td class="field-value">{{data.firepremium || 0 | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.STHTC | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.IMPD | number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.RSMD | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.BURGLARY | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.ACD | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.EQ | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.SPONTCOMB | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.SUBLSLD | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.WARRISK | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.EXPLOSION| number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.FLOOD | number  : '1.2-2' }}</td>
-          <td class="field-value">{{data.premium | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.firepremium || 0 | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.STHTC | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.IMPD | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.RSMD | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.BURGLARY | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.ACD | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.EQ | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.SPONTCOMB | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.SUBLSLD | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.WARRISK | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.EXPLOSION| number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.FLOOD | number  : '1.2-2' }}</td>
+          <td class="value-col">{{data.premium | number  : '1.2-2' }}</td>
         </tr>
       </ng-container>
     </tbody>

@@ -65,13 +65,13 @@
     <tr>
       <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Policy Effective Date
       </td>
-      <td class="value-col">{{motorDetail.mPeriodOfInsuranceFrom | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col">{{motorDetail.mPeriodOfInsuranceFrom | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Policy Expiry Date
       </td>
-      <td class="value-col">{{motorDetail.mPeriodOfInsuranceTo | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col">{{motorDetail.mPeriodOfInsuranceTo | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Policy Duration
       </td>
-      <td class="value-col">{{policyTerm[motorDetail.mPolicyTerm]}}</td>
+      <td class="field-col">{{policyTerm[motorDetail.mPolicyTerm]}}</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Currency</td>
@@ -127,8 +127,8 @@
           <td class="field-pd">{{motorDetail.mTypeOfVehicleValue}}</td>
           <td class="field-pd">{{motorDetail.mTypeOfCoverageValue}}</td>
           <td class="field-pd">{{motorDetail.mExcessValue}}</td>
-          <td class="field-pd">{{motorDetail.mWindscreenValue | number  : '1.2-2'}}</td>
-          <td class="field-pd">{{motorDetail.mTotalRiskSi | number  : '1.2-2'}}</td>
+          <td class="value-col">{{motorDetail.mWindscreenValue | number  : '1.2-2'}}</td>
+          <td class="value-col">{{motorDetail.mTotalRiskSi | number  : '1.2-2'}}</td>
         </tr>
       <!-- </ng-container> -->
     </tbody>
@@ -162,11 +162,11 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of coverageData;">
         <tr>
-          <td class="field-pd">{{data.OD | number  : '1.2-2'}}</td>
-          <td class="field-pd">{{data.TP | number  : '1.2-2'}}</td>
-          <td class="field-pd">{{data.SRCC | number  : '1.2-2'}}</td>
-          <td class="field-pd">{{data.WSC | number  : '1.2-2'}}</td>
-          <td class="field-pd">{{data.premium | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.OD | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.TP | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.SRCC | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.WSC | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.premium | number  : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -215,17 +215,17 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of addOnData;">
         <tr>
-          <td class="field-value" >{{data.WR|| 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.AOG || 0| number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.THEFT|| 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.NOBTTRMNT|| 0|number  : '1.2-2'}}</td>
-          <td class="field-value">{{data['CROSSBRDR'] || 0 |number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.LOSSOFLUGG|| 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{data['MED EXP'] || 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.PASSRLBTY|| 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.PAIDDRIVER|| 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
-          <td class="field-value">{{data.premium | number  : '1.2-2'}}</td>
+          <td class="value-col" >{{data.WR|| 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.AOG || 0| number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.THEFT|| 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.NOBTTRMNT|| 0|number  : '1.2-2'}}</td>
+          <td class="value-col">{{data['CROSSBRDR'] || 0 |number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.LOSSOFLUGG|| 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data['MED EXP'] || 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.PASSRLBTY|| 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.PAIDDRIVER|| 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
+          <td class="value-col">{{data.premium | number  : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -251,11 +251,11 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of addOnData;">
         <tr>
-          <td class="field-value" >{{data.WR|| 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.AOG || 0| number  : '1.2-2'}}</td>
-          <td class="field-value">{{data.THEFT|| 0 | number  : '1.2-2'}}</td>
-          <td class="field-value">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
-          <td class="field-value">{{data.premium | number  : '1.2-2'}}</td>
+          <td class="value-col" >{{data.WR|| 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.AOG || 0| number  : '1.2-2'}}</td>
+          <td class="value-col">{{data.THEFT|| 0 | number  : '1.2-2'}}</td>
+          <td class="value-col">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
+          <td class="value-col">{{data.premium | number  : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>

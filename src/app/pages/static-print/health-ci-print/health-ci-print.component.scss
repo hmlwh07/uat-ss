@@ -17,7 +17,7 @@
   }
   
   .field-col,.field-value{
-    text-align: center;
+    text-align: center !important;
     padding   : 5px 5px;
     // width     : 150px;
     // background-color: rgb(221, 235, 247);
@@ -33,7 +33,7 @@
   
   .value-col {
     padding   : 5px 5px;
-    text-align: center;
+    text-align: right !important;
     //width     : 120px;
     font-size : 12pt;
   }
@@ -47,7 +47,7 @@
   .title-style {
     font-size: 1.5rem;
     background-color: #85bceb52;
-    text-align: center;
+    text-align: center !important;
     padding:5px;
   }
   .form-txt{
@@ -70,5 +70,5 @@
   }
 
   .tbody-align > tr > td:not(:first-child) {
-    text-align: center !important;
+    text-align: center ;
 }
