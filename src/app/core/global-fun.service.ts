@@ -590,7 +590,7 @@ export class GlobalFunctionService {
         }
         console.log("THEFT", res, rate);
 
-        return ((res * rate))
+        return ((res * rate) * term)
       }
       return 0
     }))
