@@ -6,6 +6,7 @@ import { BizOperationService } from "../../core/biz.operation.service";
 import { PolicyDTO } from "./policy.dto";
 
 const API_QUOTATION_URL = `${environment.apiUrl}/policy/page`
+const API_QUOTATION__ATT_URL = `${environment.apiUrl}/policy`
 
 @Injectable({
   providedIn: 'root'
@@ -42,17 +43,17 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     if (search.applicationStatus) {
       url = url + "applicationStatus=" + search.applicationStatus + "&"
     }
-    if(search.limit) {
+    if (search.limit) {
       url = url + "limit=" + search.limit + "&"
     }
-    if(search.offset) {
+    if (search.offset) {
       url = url + "offset=" + search.offset + "&"
     }
     return this.httpClient.get(url)
   }
 
   updateAttachment(resId: string, attId: any, signDate: string) {
-    return this.httpClient.put(API_QUOTATION_URL + "/attachment",
+    return this.httpClient.put(API_QUOTATION__ATT_URL + "/attachment",
       {
         attachmentId: attId + "",
         signatureDate: signDate,
@@ -61,7 +62,14 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
   }
 
   submitPolicy(resId: string, branchCode: string) {
-    return this.httpClient.put(API_QUOTATION_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})
+    return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})
   }
 
+  submitBranch(resId: string, branchCode: string) {
+    return this.httpClient.put(API_QUOTATION__ATT_URL + "/branch",
+      {
+        resourceId: resId,
+        branchCode: branchCode
+      })
+  }
 }

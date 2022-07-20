@@ -99,6 +99,7 @@ export class PrintViewBoxComponent implements OnInit {
       this.formatedData = true
     }
     if (this.productService.editData) {
+      this.branch = this.productService.editData.branch
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
       
