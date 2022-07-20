@@ -73,11 +73,17 @@ export class ProductComponent implements OnInit {
   isData: boolean;
   updateProducts = [];
 
-  constructor(private productService: FNAProductService, private productDataService: ProductDataService,
-    private cdf: ChangeDetectorRef, private customerService: CustomerService, private router: Router,
-    private fnaService: FANService, private alertService: AlertService,
-    public platform: Platform, private attachmentDownloadService: AttachmentDownloadService,
-    private _languageService:LanguagesService) {
+  constructor(
+    private productService: FNAProductService,
+    private productDataService: ProductDataService,
+    private cdf: ChangeDetectorRef,
+    private customerService: CustomerService,
+    private router: Router,
+    private fnaService: FANService,
+    private alertService: AlertService,
+    public platform: Platform,
+    private attachmentDownloadService: AttachmentDownloadService,
+    private _languageService: LanguagesService) {
 
   }
 
@@ -125,13 +131,14 @@ export class ProductComponent implements OnInit {
   }
 
   buyProduct(product) {
-   // console.log('product =====> ', product);
+    // console.log('product =====> ', product);
     forkJoin([this.productDataService.findOne(product.productId), this.customerService.findOne(this.passValueData.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
+        console.log(res)
         this.productDataService.createingProd = res[0]
         this.productDataService.creatingCustomer = res[1]
-        this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLMO01" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
-        this.productDataService.viewType = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLMO01" || res[0].code == "PLTR01" ? 'policy' : 'quotation'
+        this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLMO01" || res[0].code == "PLTR01" || res[0].code == "PCHL01" ? 'policy' : 'quotation'
+        this.productDataService.viewType = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLMO01" || res[0].code == "PLTR01" || res[0].code == "PCHL01" ? 'policy' : 'quotation'
         this.productDataService.referenceID = null
         this.productDataService.creatingLeadId = this.passValueData.leadId
         this.router.navigateByUrl("/product-form")
@@ -151,7 +158,7 @@ export class ProductComponent implements OnInit {
     let nameList = []
     //472
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
-      // console.log('getAllProductRec', res);
+      console.log('getAllProductRec', res);
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
         this.isData = true;
@@ -182,7 +189,7 @@ export class ProductComponent implements OnInit {
           }
 
           // Fire, Motor, Personal Accident, Health
-          if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' || res.highRisk[i].productCode=='PLMO01'||
+          if (res.highRisk[i].productCode == 'CLFR01' || res.highRisk[i].productCode == 'PLMO02' || res.highRisk[i].productCode == 'PLMO01' ||
             res.highRisk[i].productCode == 'PLPA01' || res.highRisk[i].productCode == 'PCPA01' || res.highRisk[i].productCode == 'PCHL01') {
             res.highRisk[i].action = 'Buy';
           } else {
@@ -216,9 +223,9 @@ export class ProductComponent implements OnInit {
             res.lessRisk[i].monthlyRate = Number(res.lessRisk[i].monthlyRate);
             totalLessMonthlyRate += res.lessRisk[i].monthlyRate
           }
-          
+
           // Fire, Motor, Personal Accident, Health
-          if (res.lessRisk[i].productCode == 'CLFR01' || res.lessRisk[i].productCode == 'PLMO02' || res.lessRisk[i].productCode=="PLMO01"||
+          if (res.lessRisk[i].productCode == 'CLFR01' || res.lessRisk[i].productCode == 'PLMO02' || res.lessRisk[i].productCode == "PLMO01" ||
             res.lessRisk[i].productCode == 'PLPA01' || res.lessRisk[i].productCode == 'PCPA01' || res.lessRisk[i].productCode == 'PCHL01') {
             res.lessRisk[i].action = 'Buy';
           } else {
@@ -268,8 +275,11 @@ export class ProductComponent implements OnInit {
           }
         }
         this.grantTotalList.push({
-          product: nameList[j], policies: grantPolicies,
-          sa: grantSa, annualRate: grantAnnualRate, monthlyRate: grantMonthlyRate
+          product: nameList[j],
+          policies: grantPolicies,
+          sa: grantSa,
+          annualRate: grantAnnualRate,
+          monthlyRate: grantMonthlyRate
         });
       }
 
@@ -325,26 +335,36 @@ export class ProductComponent implements OnInit {
           packageOffer: packageOffer, product: [
             {
               productId: this.grantTotalList[i].productId,
-              product: this.grantTotalList[i].product, policies: this.grantTotalList[i].grantPolicies || null,
-              sa: this.grantTotalList[i].grantSa || '', annualRate: this.grantTotalList[i].grantAnnualRate || '',
-              monthlyRate: this.grantTotalList[i].grantMonthlyRate || '', action: this.grantTotalList[i].action
+              product: this.grantTotalList[i].product,
+              policies: this.grantTotalList[i].grantPolicies || null,
+              sa: this.grantTotalList[i].grantSa || '',
+              annualRate: this.grantTotalList[i].grantAnnualRate || '',
+              monthlyRate: this.grantTotalList[i].grantMonthlyRate || '',
+              action: this.grantTotalList[i].action
             }]
         }
-
         this.originalData.push(data)
       }
       this.originalData.push({
         packageOffer: this.transform('total'), product: [
           {
-            product: this.transform('Total'), policies: totalGrantPolicies || null, sa: totalGrantSa || null,
-            annualRate: totalGrantAnnualRate || null, monthlyRate: totalGrantMonthlyRate || null, action: ''
+            product: this.transform('Total'),
+            policies: totalGrantPolicies || null,
+            sa: totalGrantSa || null,
+            annualRate: totalGrantAnnualRate || null,
+            monthlyRate: totalGrantMonthlyRate || null,
+            action: ''
           }]
       })
       this.originalData.push({
         packageOffer: this.transform('discount'), input: 'percent', product: [
           {
-            product: this.transform('Discount (%):'), policies: null, sa: 'Premium after discount:',
-            annualRate: '', monthlyRate: '', action: ''
+            product: this.transform('Discount (%):'),
+            policies: null,
+            sa: 'Premium after discount:',
+            annualRate: '',
+            monthlyRate: '',
+            action: ''
           }]
       })
 
@@ -403,11 +423,15 @@ export class ProductComponent implements OnInit {
       this.dataSource = this.originalData.reduce((current, next) => {
         next.product.forEach(b => {
           current.push({
-            productId:  b.productId,
-            packageOffer: next.packageOffer, input: next.input, product: b.product, policies: b.policies,
+            productId: b.productId,
+            packageOffer: next.packageOffer,
+            input: next.input,
+            product: b.product,
+            policies: b.policies,
             sa: this.fnaService.currencyFormat(Number(b.sa)),
             annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
-            monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)), action: b.action
+            monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)),
+            action: b.action
           })
         });
         return current;
@@ -424,7 +448,7 @@ export class ProductComponent implements OnInit {
         try {
           return this._languageService.langs[current]['FNA'][value] || value
         } catch (error) {
-          return value        
+          return value
         }
       }
     }
@@ -515,15 +539,18 @@ export class ProductComponent implements OnInit {
       }
     }
 
-
     this.dataSource = this.originalData.reduce((current, next) => {
       next.product.forEach(b => {
         current.push({
           productId: b.productId,
-          packageOffer: next.packageOffer, product: b.product, input: next.input, policies: b.policies,
+          packageOffer: next.packageOffer,
+          product: b.product,
+          input: next.input,
+          policies: b.policies,
           sa: this.fnaService.currencyFormat(Number(b.sa)),
           annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
-          monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)), action: b.action
+          monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)),
+          action: b.action
         })
       });
       return current;
@@ -863,7 +890,7 @@ export class ProductComponent implements OnInit {
           HookData.cell.styles.fillColor = [255, 193, 51];
         }
       },
-     
+
       didDrawPage: (d) => {
         height = d.cursor.y;
       },

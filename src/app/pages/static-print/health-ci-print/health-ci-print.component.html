@@ -63,19 +63,19 @@
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Effective Date
       </td>
-      <td class="value-col">{{policyInfo.insuranceStartDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col">{{policyInfo.insuranceStartDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Expiry Date
       </td>
-      <td class="value-col">{{policyInfo.insuranceEndDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col">{{policyInfo.insuranceEndDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Duration
       </td>
-      <td class="value-col">{{policyInfo.sumInsuredMainCover}} Units</td>
+      <td class="field-col">{{policyInfo.sumInsuredMainCover}} Units</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Plan</td>
-      <td class="value-col" colspan="2">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance':'Critical Illness Insurance'}}</td>
+      <td class="field-col" colspan="2">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance':'Critical Illness Insurance'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Payment Frequency</td>
-      <td class="value-col" colspan="2">{{policyInfo.paymentFrequency == 'S'? 'Semi-Annually':'Lump Sum'}}</td>
+      <td class="field-col" colspan="2">{{policyInfo.paymentFrequency == 'S'? 'Semi-Annually':'Lump Sum'}}</td>
 
     </tr>
     <!-- <tr>
@@ -179,15 +179,15 @@
       <ng-container>
         <tr *ngFor="let data of tempPaymentSchedule; let i=index">
           <td class="field-value" style="width: 25%;">{{i+1}}</td>
-          <td class="field-value" style="width: 25%;">{{data.premium | number  : '1.2-2'}}</td>
-          <td class="field-value" style="width: 25%;">{{data.levy | number  : '1.2-2'}}</td>
-          <td class="field-value" style="width: 25%;">{{(data.premium + data.levy) | number  : '1.2-2'}}</td>
+          <td class="value-col" style="width: 25%;">{{data.premium | number  : '1.2-2'}}</td>
+          <td class="value-col" style="width: 25%;">{{data.levy | number  : '1.2-2'}}</td>
+          <td class="value-col" style="width: 25%;">{{(data.premium + data.levy) | number  : '1.2-2'}}</td>
         </tr>
         <tr *ngIf="tempPaymentSchedule.length > 0">
           <td class="field-value">Annual Premium</td>
-          <td class="field-value">{{totalP | number  : '1.2-2'}}</td>
+          <td class="value-col">{{totalP | number  : '1.2-2'}}</td>
           <td class="field-value">Total payable premium</td>
-          <td class="field-value">{{(totalP+totalL) | number  : '1.2-2'}}</td>
+          <td class="value-col">{{(totalP+totalL) | number  : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>

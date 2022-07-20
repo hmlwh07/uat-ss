@@ -109,9 +109,9 @@
 
       <tr *ngFor="let item of tempSchedule;let i =index">
         <td class="field-value">{{i+1}}</td>
-        <td class="field-value">{{item.premium | number}}</td>
-        <td class="field-value">{{item.levy | number}}</td>
-        <td class="field-value">{{(item.premium + item.levy) | number}}</td>
+        <td class="value-col" style="text-align: right !important;">{{item.premium | number}}</td>
+        <td class="value-col" style="text-align: right !important;">{{item.levy | number}}</td>
+        <td class="value-col" style="text-align: right !important;">{{(item.premium + item.levy) | number}}</td>
       </tr>
       <!-- </ng-container> -->
     </tbody>

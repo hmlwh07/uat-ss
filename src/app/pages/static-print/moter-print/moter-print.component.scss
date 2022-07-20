@@ -17,7 +17,7 @@
 }
 
 .field-col,.field-value{
-  text-align: center;
+  text-align: center !important;
   padding   : 5px 5px;
   // width     : 150px;
   // background-color: rgb(221, 235, 247);
@@ -25,7 +25,7 @@
   font-size : 12pt;
 }
 .field-col {
-  text-align: center;
+  text-align: center !important;
   padding   : 5px 5px;
   //width     : 100px;
   font-size : 12pt;
@@ -33,7 +33,7 @@
 
 .value-col {
   padding   : 5px 5px;
-  text-align: center;
+  text-align: right !important;
   //width     : 120px;
   font-size : 12pt;
 }
@@ -62,6 +62,6 @@ table td {
 
 .field-pd{
   padding:5px 5px;
-  text-align: center;
+  text-align: center !important;
   font-size: 12pt;
 }

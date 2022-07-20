@@ -77,7 +77,7 @@
       <div class="card-body customer-card-body">
 
         <app-common-list-2 *ngIf="activityList.length > 0" class="data-list" #commonList [data]="activityList"
-          [type]="'activity'" (btnEvent)="actionBtn($event)">
+          [type]="'activity'" [total]="totalElements" [totalpage]="totalPages"  (pageEvent)="reponseFromPager($event)"  (btnEvent)="actionBtn($event)">
         </app-common-list-2>
 
         <!-- begin:Table -->

@@ -44,6 +44,9 @@ export class LeadListComponent implements OnInit {
   displayedColumns = JSON.parse(JSON.stringify(LeadDisplayCol));
 
   LeadList: any[] = [];
+  totalElements: number = 0
+  totalPages: number = 0
+  selectedPageBtn: number = 1
   LeadForm: FormGroup;
   isTableView: boolean = true
   @Output() selectedUser = new EventEmitter();
@@ -52,8 +55,9 @@ export class LeadListComponent implements OnInit {
   statusOption: any[] = []
   sourceOption: any[] = []
   productOption: any[] = []
+  postedData: any
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
-
+  currentPage: number = 0
   constructor(
     private router: Router,
     private cdf: ChangeDetectorRef,
@@ -105,7 +109,7 @@ export class LeadListComponent implements OnInit {
   }
 
   navigateToDetail(data, id?: string, secondaryId?: string) {
-    
+
     this.router.navigate(["/lead/lead-detail"], {
       queryParams: {
         pageStatus: data,
@@ -120,7 +124,7 @@ export class LeadListComponent implements OnInit {
   navigateToNew() {
     this.router.navigate(["/lead/lead-new"])
   }
-  
+
   getStatus() {
     return this.masterDataService
       .getDataByType("LEAD_STATUS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
@@ -186,19 +190,44 @@ export class LeadListComponent implements OnInit {
     //     }
     //   });
   }
+  reponseFromPager(event) {
+    console.log("LEADEVENT", event);
+    this.currentPage = event
+    this.getDatabyPage(this.currentPage)
+  }
 
-  getList() {
-    this.LeadListService.getLeadList(this.LeadForm.getRawValue())
+  getList(limit: number = 5, offset: number = 1) {
+    let postData = { ...this.LeadForm.getRawValue(), limit: 5, offset: offset }
+    this.postedData = postData
+    this.LeadListService.getLeadList(this.postedData)
       .toPromise()
       .then((res: any) => {
         if (res) {
           // console.log("RES", res)
-          this.LeadList = res
+          this.LeadList = res.content
+          this.totalElements = res.totalElements
+          this.totalPages = res.totalPages
+          this.selectedPageBtn = this.currentPage
           this.cdf.detectChanges();
-          this.commonList.detchChange()
-          // this.matTable.reChangeData();
+          this.commonList.detchChangePagination()
         }
       });
+  }
+
+  async getDatabyPage(page) {
+    this.currentPage = page
+    let postData = { ...this.LeadForm.getRawValue(), limit: 5, offset: page }
+    this.totalPages = 0
+    this.postedData = postData
+    await this.LeadListService.getLeadList(this.postedData).toPromise().then((res: any) => {
+      if(res){
+        this.LeadList = res.content
+        this.totalElements = res.totalElements
+        this.totalPages = res.totalPages
+        this.selectedPageBtn = this.currentPage
+        this.cdf.detectChanges();
+      }
+    })
   }
   getFormatOpt(res) {
     return res.map(x => {

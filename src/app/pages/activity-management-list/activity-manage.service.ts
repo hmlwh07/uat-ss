@@ -30,7 +30,12 @@ export class ActivityManageService extends BizOperationService<ActivityManage, n
     if (search.endDate) {
        url = url + "endDate=" + moment(search.endDate).format("YYYY-MM-DD") + "&"
     }
-
+    if(search.limit) {
+      url = url + "limit=" + search.limit + "&"
+    }
+    if(search.offset) {
+      url = url + "offset=" + search.offset + "&"
+    }
     return this.httpClient.get(url)
 
   }
