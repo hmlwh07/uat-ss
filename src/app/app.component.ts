@@ -100,7 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
       formObjs: [],
       configPage: []
     };
-    this.requestPermission()
+    // this.requestPermission()
     const itemsData = localStorage.getItem("itemsData")
     this.itemService.loadItems(JSON.parse(itemsData) || productData);
     const routerSubscription = this.router.events.subscribe((event) => {
@@ -162,7 +162,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.initNoti();
         }
       } else {
-        this.requestPermission()
+        // this.requestPermission()
 
       }
     })

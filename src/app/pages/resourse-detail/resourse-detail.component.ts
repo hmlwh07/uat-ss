@@ -182,6 +182,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         if (res) {
           this.branchOption = res[0]
           this.cdf.detectChanges()
+          if (this.branch) {
+            this.selectedBranchCode = this.branch
+            let branch = this.branchOption.find((p) => p.code == this.branch)
+            console.log(branch);
+            
+            this.productService.editData.branch = branch.value
+          }
         }
       })
     }
@@ -427,9 +434,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     if (this.branch) {
       this.selectedBranchCode = this.branch
       let branch = this.branchOption.find((p) => p.code == this.branch);
-      this.productService.editData.branch = branch.value
-      this.productService.editData.branchCode = this.selectedBranchCode
-      this.alertService.activate("This record was created", "Success Message")
+      this.policyService.submitBranch(this.resourceDetail.id, this.selectedBranchCode).toPromise().then(res => {
+        if (res) {
+          this.alertService.activate("This record was created", "Success Message")
+          this.productService.editData.branch = branch.value
+          this.productService.editData.branchCode = this.selectedBranchCode
+        }
+      })
     } else {
       this.selectedBranchCode = null
     }

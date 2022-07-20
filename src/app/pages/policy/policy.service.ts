@@ -43,10 +43,10 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     if (search.applicationStatus) {
       url = url + "applicationStatus=" + search.applicationStatus + "&"
     }
-    if(search.limit) {
+    if (search.limit) {
       url = url + "limit=" + search.limit + "&"
     }
-    if(search.offset) {
+    if (search.offset) {
       url = url + "offset=" + search.offset + "&"
     }
     return this.httpClient.get(url)
@@ -65,4 +65,11 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})
   }
 
+  submitBranch(resId: string, branchCode: string) {
+    return this.httpClient.put(API_QUOTATION__ATT_URL + "/branch",
+      {
+        resourceId: resId,
+        branchCode: branchCode
+      })
+  }
 }

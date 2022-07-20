@@ -59,7 +59,7 @@
               </ng-select>
             </div>
             <div class="col-2">
-              <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'" style="margin-left: auto; float: right; width: 100%;" (click)="saveBranch()">
+              <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'" style="margin-left: auto; float: right; width: 100%;"  [disabled]="checkDisabled()" (click)="saveBranch()">
                 {{"FORM.btn_save" | translate}}
               </button>
             </div>
