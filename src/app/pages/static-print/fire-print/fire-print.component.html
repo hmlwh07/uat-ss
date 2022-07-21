@@ -154,7 +154,7 @@
     </tbody>
   </table>
 </div>
-
+<!-- 
 <div class="addon-print">
   <div class="title-style text-bold mt-5 mb-5">Additional Cover Information</div>
   <table class="tbody-align" width="100%">
@@ -223,11 +223,11 @@
       </ng-container>
     </tbody>
   </table>
-</div>
+</div> -->
 
 
 <!-- <div id="cover-table">  -->
-<!-- <div class="addon-print"  >
+<div class="addon-print"  >
   <div class="title-style text-bold mt-5 mb-5">Additional Cover Information</div>
   <table width="100%">
     <tr>
@@ -244,59 +244,62 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of addOnData;">
         <tr>
-          <td rowspan="11" class="field-value"> {{data.description}}</td>
-          <td rowspan="11" class="field-value align-left" *ngIf="data.STHTC  !=0">STHTC</td>
-          <td rowspan="11" class="field-value align-right" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td>
-        </tr>
-      
-        <tr>
-          <td class="field-value align-left" *ngIf="data.IMPD  !=0">Impact Damage</td>
-          <td class="field-value align-right" *ngIf="data.IMPD  !=0">{{data.IMPD | number:'1.2-2'}}</td>
+          <td rowspan="12" class="field-pd"> {{data.description}}</td>
+          <!-- <td rowspan="11" class="field-value align-left" *ngIf="data.STHTC  !=0">STHTC</td>
+          <td rowspan="11" class="field-value align-right" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td> -->
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.RSMD  !=0">RSMD</td>
-          <td class="field-value align-right" *ngIf="data.RSMD  !=0">{{data.RSMD | number:'1.2-2'}}</td>
+          <td class="field-pd"  *ngIf="data.STHTC  !=0">STHTC</td>
+          <td class="value-col" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.BURGLARY  !=0">Burglary</td>
-          <td class="field-value align-right" *ngIf="data.BURGLARY  !=0">{{data.BURGLARY | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.IMPD  !=0">Impact Damage</td>
+          <td class="value-col" *ngIf="data.IMPD  !=0">{{data.IMPD | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.ACD  !=0">Air Craft Damage</td>
-          <td class="field-value align-right" *ngIf="data.ACD  !=0">{{data.ACD | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.RSMD  !=0">RSMD</td>
+          <td class="value-col" *ngIf="data.RSMD  !=0">{{data.RSMD | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.EQ  !=0">EQ</td>
-          <td class="field-value align-right" *ngIf="data.EQ  !=0">{{data.EQ | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.BURGLARY  !=0">Burglary</td>
+          <td class="value-col" *ngIf="data.BURGLARY  !=0">{{data.BURGLARY | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.SPONTCOMB  !=0"> Spontaneous Combus</td>
-          <td class="field-value align-right" *ngIf="data.SPONTCOMB  !=0">{{data.SPONTCOMB | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.ACD  !=0">Air Craft Damage</td>
+          <td class="value-col" *ngIf="data.ACD  !=0">{{data.ACD | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.SUBLSLD  !=0"> Subsidence and Landslid</td>
-          <td class="field-value align-right" *ngIf="data.SUBLSLD  !=0">{{data.SUBLSLD | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.EQ  !=0">EQ</td>
+          <td class="value-col" *ngIf="data.EQ  !=0">{{data.EQ | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.WARRISK  !=0">War Risk</td>
-          <td class="field-value align-right" *ngIf="data.WARRISK  !=0">{{data.WARRISK | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.SPONTCOMB  !=0"> Spontaneous Combus</td>
+          <td class="value-col" *ngIf="data.SPONTCOMB  !=0">{{data.SPONTCOMB | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.EXPLOSION  !=0"> Explosion </td>
-          <td class="field-value align-right" *ngIf="data.EXPLOSION  !=0">{{data.EXPLOSION | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.SUBLSLD  !=0"> Subsidence and Landslid</td>
+          <td class="value-col" *ngIf="data.SUBLSLD  !=0">{{data.SUBLSLD | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-value align-left" *ngIf="data.FLOOD  !=0"> Flood and Inundate </td>
-          <td class="field-value align-right" *ngIf="data.FLOOD  !=0">{{data.FLOOD | number:'1.2-2'}}</td>
+          <td class="field-pd" *ngIf="data.WARRISK  !=0">War Risk</td>
+          <td class="value-col" *ngIf="data.WARRISK  !=0">{{data.WARRISK | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td class="field-pd" *ngIf="data.EXPLOSION  !=0"> Explosion </td>
+          <td class="value-col" *ngIf="data.EXPLOSION  !=0">{{data.EXPLOSION | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td class="field-pd" *ngIf="data.FLOOD  !=0"> Flood and Inundate </td>
+          <td class="value-col" *ngIf="data.FLOOD  !=0">{{data.FLOOD | number:'1.2-2'}}</td>
         </tr>
         <tr>
           <td class="field-col" colspan="2">Total Premium</td>
-          <td class="field-value">{{data.premium | number:'1.2-2'}}</td>
+          <td class="value-col">{{data.premium | number:'1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
-</div> -->
+</div>
 
 
 <div class="addon-print">
