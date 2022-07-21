@@ -20,10 +20,10 @@ export class MoterPrintComponent implements OnInit {
   @Input() premiumAmt?: any
   listData: any[] = []
   motorDetail: any = {}
-  motorDriver: any = {}
+  motorDriver: any = []
   policyHolder: any = {}
   address: any = {}
-  isTonnage:boolean=false
+  isTonnage: boolean = false
   vehicleDetail: any = {}
   policyTerm = {
     "T-004": "3 Months",
@@ -111,9 +111,9 @@ export class MoterPrintComponent implements OnInit {
       if (res.motorDetail.mExcessDiscount == "" || res.motorDetail.mExcessDiscount == null) {
         this.motorDetail.mExcessDiscount = res.motorDetail.mExcess
       }
-      
-      if(res.motorDetail.mTypeOfVehicleValue=='Motor Commercial' && res.motorDetail.mTypeOfCoverageValue=='Commercial Car (Goods Carrying Vehicle)' && res.motorDetail.mCurrency=='USD'){
-        this.isTonnage=true
+
+      if (res.motorDetail.mTypeOfVehicleValue == 'Motor Commercial' && res.motorDetail.mTypeOfCoverageValue == 'Commercial Car (Goods Carrying Vehicle)' && res.motorDetail.mCurrency == 'USD') {
+        this.isTonnage = true
       }
       if (res.motorDriver)
         this.listData = res.motorDriver
@@ -129,7 +129,8 @@ export class MoterPrintComponent implements OnInit {
 
     let obj = {
       description: 'MOTOR',
-      premium: 0
+      premium: 0,
+      num: 0
     }
     console.log("this.product.addOns", this.product.addOns);
 
