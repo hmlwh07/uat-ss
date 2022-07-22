@@ -102,7 +102,8 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
           let pre = res.semiAnnual * this.parentData.sumInsuredMainCover
           let levy = firstTimeValue * this.parentData.sumInsuredMainCover
           this.totalP = this.totalP + pre
-          this.totalP = this.totalP + pre
+          console.log("TOTALP", this.totalP);
+
           this.totalL = levy
           this.schedule.push({ premium: pre, coverage: this.parentData.basicCoverId, sumInsured: this.parentData.sumInsuredMainCover, levy: levy })
           firstTimeValue = 0
@@ -119,6 +120,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
           } else {
             // let tempTotal = this.totalP / 2
             let tempTotal = this.totalP
+            this.totalSemi = this.totalP
             this.tempSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },
