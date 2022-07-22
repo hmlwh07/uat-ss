@@ -1,4 +1,4 @@
-<div class="print-grid modal-body" id="componentID">
+<div class="print-grid modal-body" id="componentID" >
   <!-- static area -->
   <div class="print-header">
     <div class="header-logo">
@@ -65,8 +65,7 @@
   </div>
   <!-- static area -->
   <ng-container *ngIf="formatedData">
-    <ng-container
-      *ngIf="product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLMO01' && product.code !='PLTR01'  && product.code !='PCHL01' && product.code !='PLPA01' ;else staticPrint">
+    <ng-container *ngIf="product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLMO01' && product.code !='PLTR01'  && product.code !='PCHL01' && product.code !='PLPA01' ;else staticPrint">
       <ng-container *ngFor="let page of temConfig">
         <ng-container *ngIf="page.type == 'static';else dynPrint">
           <ng-container staticPirint [compId]="page.id" [resourcesId]="resourcesId"></ng-container>
@@ -171,39 +170,34 @@
       </ng-container>
     </ng-container>
     <ng-template #staticPrint>
-      <div class="watermask">
-        <ng-container *ngIf="product.code=='CLFR01'">
-          <app-fire-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-fire-print>
-        </ng-container>
-        <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
-          <app-moter-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-moter-print>
-        </ng-container>
-        <ng-container *ngIf="product.code=='PLTR01' ">
-          <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-travel-print>
-        </ng-container>
-        <ng-container *ngIf="product.code=='PCHL01' ">
-          <app-health-ci-print [product]="product" [resourcesId]="resourcesId" [premiumAmt]="premimunAmt">
-          </app-health-ci-print>
-        </ng-container>
-        <ng-container *ngIf="product.code=='PLPA01' ">
-          <app-personal-accident-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt">
-          </app-personal-accident-print>
-        </ng-container>
-      </div>
+      <ng-container *ngIf="product.code=='CLFR01'">
+        <app-fire-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-fire-print>
+      </ng-container>
+      <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
+        <app-moter-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-moter-print>
+      </ng-container>
+      <ng-container *ngIf="product.code=='PLTR01' ">
+        <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-travel-print>
+      </ng-container>
+      <ng-container *ngIf="product.code=='PCHL01' ">
+        <app-health-ci-print  [product]="product" [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-health-ci-print>
+      </ng-container>
+      <ng-container *ngIf="product.code=='PLPA01' ">
+        <app-personal-accident-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-personal-accident-print>
+      </ng-container>
     </ng-template>
-
   </ng-container>
   <!-- PCHL01 -->
-  <div class="print-footer mt-5">
-    <!-- <div>
-      <img src="assets/images/KBZms-pattern.png" alt="" class="logo">
-    </div> -->
-    <!-- <p>
+  <!-- <div class="print-footer mt-5">
+    <div>
+      <img src="assets/images/kbzms.png" alt="" class="logo">
+    </div>
+    <p>
       <u>Contact Us</u><br>
       No.53, Strand Square, Merchant Road, Pabedan Township, Yangon.<br>
       (+951) 2307000, 09 95 007 7000<br>
       Email: customercare@kbz.com, Sales Channel: IA<br>
-    </p> -->
-  </div>
+    </p>
+  </div> -->
 
 </div>
