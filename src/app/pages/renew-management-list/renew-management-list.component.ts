@@ -29,12 +29,13 @@ export class RenewManagementListComponent implements OnInit {
   isTeam: boolean = false;
   activityStatus = ActivityStatus
   productOption: any = []
-  statusOption:any=[
-    {code:'ACTIVE',value:'ACTIVE'},
-    {code:'CONFIRM',value:'CONFIRM'}
+  statusOption: any = [
+    { code: 'ACTIVE', value: 'ACTIVE' },
+    { code: 'CONFIRM', value: 'CONFIRM' }
   ]
   product: any;
-  private downED = "/attachment-downloader/tcs/fileName="
+  private downED = "/attachment-downloader/tcs/"
+  // private downEDTCS = "/attachment-downloader/tcs/"
   // private fileNameURL = "attachment-downloader/tcs.htm?fileName="
 
   constructor(private fb: FormBuilder, private router: Router, private cdf: ChangeDetectorRef,
@@ -66,7 +67,7 @@ export class RenewManagementListComponent implements OnInit {
       startDate: new FormControl(""),
       endDate: new FormControl(""),
       isTeam: new FormControl(this.isTeam),
-      statusCode:new FormControl("")
+      statusCode: new FormControl("")
     })
   }
 
@@ -90,15 +91,13 @@ export class RenewManagementListComponent implements OnInit {
       productCode: this.actForm.controls.productCode.value || "",
       fromDate: this.actForm.controls.startDate.value != null ? moment(this.actForm.controls.startDate.value).format("YYYY-MM-DD") : "",
       toDate: this.actForm.controls.endDate.value != null ? moment(this.actForm.controls.endDate.value).format("YYYY-MM-DD") : "",
-      statusCode:this.actForm.controls.statusCode.value || null,
+      statusCode: this.actForm.controls.statusCode.value || null,
       isTeam: this.isTeam
     }
 
     this.renewService.getRenewList(searchValues).toPromise().then((res: any) => {
       if (res) {
-
         this.renewList = res
-
         this.cdf.detectChanges()
         this.matTable.reChangeData()
       }
@@ -172,28 +171,36 @@ export class RenewManagementListComponent implements OnInit {
 
   async download(fileName: string) {
     await this.loadingService.activate()
-    this.getFileExt(fileName).pipe(mergeMap((x) => {
-      let ext = x ? x.docExtension : "pdf"
-      return this.attachmentDownloadService.getFile(this.downED + fileName + "." + ext).pipe(map((x) => {
-        return { data: x, ext: ext }
-      }))
+    let file = this.getFileExt(fileName)
+    console.log("FILE",file);
+    
+    // this.getFileExt(fileName).pipe(mergeMap((x) => {
+    //   // let ext = x ? x.docExtension : "pdf"
+    this.attachmentDownloadService.getFile(this.downED + file).pipe(map((x) => {
+      return { data: x }
     })).toPromise().then(async (res: any) => {
       if (res) {
         if (Capacitor.isNativePlatform()) {
-          this.attachmentDownloadService.mobileTCSDownload(fileName + "." + res.ext, res.data)
+          this.attachmentDownloadService.mobileTCSDownload(file, res.data)
         } else {
           await this.loadingService.deactivate()
-          this.attachmentDownloadService.downloadTCSFile(res.data, fileName + "." + res.ext)
+          this.attachmentDownloadService.downloadTCSFile(res.data, file)
         }
+        await this.loadingService.deactivate()
       }
-      await this.loadingService.deactivate()
-    }).catch(async (err) => {
-      await this.loadingService.deactivate()
+
     })
+    // })).toPromise().then(async (res: any) => {
+    //  ait this.loadingService.deactivate()
+
   }
 
   getFileExt(fileName) {
-    return this.attachmentDownloadService.get(this.downED + fileName).pipe(catchError(() => { return of(null) }))
+    if (fileName.includes(".pdf") || fileName.includes(".doc") || fileName.includes(".docx") || fileName.includes(".txt"))
+      return fileName
+    else
+      return fileName + ".pdf"
+    // return this.attachmentDownloadService.get(this.downED + fileName).pipe(catchError(() => { return of(null) }))
   }
 
 
