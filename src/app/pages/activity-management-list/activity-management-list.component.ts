@@ -119,15 +119,15 @@ export class ActivityManagementListComponent implements OnInit {
     let postData = { ...this.actForm.getRawValue(), limit: 5, offset: offset }
     this.postedData = postData
 
-    this.activityService.getActivityList(this.actForm.value).toPromise().then((res: any) => {
+    this.activityService.getActivityList( this.postedData ).toPromise().then((res: any) => {
       if (res) {
         console.log('getActivityList', res);
-        // this.LeadList = res.content
+        this.activityList = res.content
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
         this.cdf.detectChanges();
-        this.activityList = res
+        // this.activityList = res
         this.cdf.detectChanges()
         // this.matTable.reChangeData()
       }
@@ -141,8 +141,8 @@ export class ActivityManagementListComponent implements OnInit {
     this.postedData = postData
     await this.activityService.getActivityList(this.postedData).toPromise().then((res: any) => {
       if (res) {
-        // this.activityList = res.content
-        this.activityList = res
+        this.activityList = res.content
+        // this.activityList = res
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage

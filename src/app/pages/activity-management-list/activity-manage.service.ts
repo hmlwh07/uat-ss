@@ -5,7 +5,8 @@ import { environment } from "../../../environments/environment";
 import { BizOperationService } from "../../core/biz.operation.service";
 import { ActivityManage } from "./activity-manage.dto";
 
-const API_ADDON_URL = `${environment.apiUrl}/activity`;
+// const API_ADDON_URL = `${environment.apiUrl}/activity`;
+const API_ADDON_URL = `${environment.apiUrl}/activity/page`;
 @Injectable({
   providedIn: 'root'
 })

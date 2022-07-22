@@ -52,7 +52,7 @@ export class HealthQuoPrintComponent implements OnInit {
     this.product.addOns.forEach(async (addon) => {
       let response: any = {};
       try {
-        response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId,this.tempResourcesId).toPromise()
+        response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
           this.showData.push({ keyName: addon.description, value: response.sumInsured })
         }
@@ -66,7 +66,7 @@ export class HealthQuoPrintComponent implements OnInit {
     this.product.coverages.forEach(async (coverage) => {
       let response: any = {};
       try {
-        response = await this.coverageQuoService.getOne(coverage.id, this.tempResourcesId,this.tempResourcesId).toPromise()
+        response = await this.coverageQuoService.getOne(coverage.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
           this.showData.unshift({ keyName: coverage.description, value: response.sumInsured })
         }
@@ -96,7 +96,7 @@ export class HealthQuoPrintComponent implements OnInit {
               { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
             ]
           } else {
-            let tempTotal = this.totalP / 2
+            let tempTotal = this.totalP
             this.tempSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },

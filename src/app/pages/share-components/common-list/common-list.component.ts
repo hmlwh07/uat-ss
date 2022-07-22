@@ -40,7 +40,7 @@ export class CommonList2Component implements OnInit, AfterViewInit {
 
     this.listingargs = { direction: this.order, col: this.colField };
     // || this.type == 'activity'|| this.type == 'customer'
-    if (this.type == 'lead' || this.type == 'policy') {
+    if (this.type == 'lead' || this.type == 'policy' || this.type == 'activity') {
       this.isPager = true
     }
   }
