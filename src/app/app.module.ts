@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -35,17 +35,18 @@ import { LanguageModule } from './modules/languages/languages.modules';
 import { MenuDataService } from './core/menu-data.service';
 import { map, mergeMap } from 'rxjs';
 import { MenuDataRoleService } from './core/menu-data-role.service';
+import { AllErrorHandler } from './all-error.handler';
 
 // #fake-start#
 // #fake-end#
-function appInitializer(authService: AuthService,menuService: MenuDataService,menuDataRoleService:MenuDataRoleService) {
+function appInitializer(authService: AuthService, menuService: MenuDataService, menuDataRoleService: MenuDataRoleService) {
   return () => {
     return new Promise((resolve: any) => {
-      authService.getUserByToken().pipe(mergeMap((x)=> {
+      authService.getUserByToken().pipe(mergeMap((x) => {
         return menuService.getMenusData()
-      }),map((x)=> {
-        if(!x){
-         return authService.getUserByToken()
+      }), map((x) => {
+        if (!x) {
+          return authService.getUserByToken()
         }
       })).subscribe().add(resolve);
     });
@@ -98,8 +99,9 @@ function appInitializer(authService: AuthService,menuService: MenuDataService,me
       provide: APP_INITIALIZER,
       useFactory: appInitializer,
       multi: true,
-      deps: [AuthService,MenuDataService,MenuDataRoleService],
+      deps: [AuthService, MenuDataService, MenuDataRoleService],
     },
+    { provide: ErrorHandler, useClass: AllErrorHandler },
     File,
     LanguagesService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },

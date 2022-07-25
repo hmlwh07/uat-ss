@@ -39,10 +39,10 @@
                         <!--  -->
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="form-label">{{"FORM.policy_status" | translate}}</label>
-                                <input type="text" class="form-control form-control-sm" name="actTitle"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('status')"
-                                    [class.is-valid]="isControlValid('status')" formControlName="status" />
+                                <label class="form-label">{{"FORM.product" | translate}}</label>
+                                <input type="text" class="form-control form-control-sm" name="productName"
+                                    autocomplete="off" [class.is-invalid]="isControlInvalid('productName')"
+                                    [class.is-valid]="isControlValid('productName')" formControlName="productName" />
                             </div>
                         </div>
 
@@ -59,25 +59,19 @@
                         </div>
                         <!--  -->
                         <div class="col-sm-6">
-                            <div class="form-group ">
-                                <label class="form-label">{{"FORM.qoute_no" | translate}} </label>
-                                <div class="input-group ">
-                                    <input type="text" class="form-control form-control-sm" name="quoteNumber"
-                                        autocomplete="off" [class.is-invalid]="isControlInvalid('quoteNumber')"
-                                        [class.is-valid]="isControlValid('quoteNumber')"
-                                        formControlName="quoteNumber" />
-
-                                </div>
+                            <div class="form-group">
+                                <label class="form-label">{{"FORM.policy_status" | translate}}</label>
+                                <input type="text" class="form-control form-control-sm" name="status" autocomplete="off"
+                                    [class.is-invalid]="isControlInvalid('status')"
+                                    [class.is-valid]="isControlValid('status')" formControlName="status" />
                             </div>
                         </div>
-
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.gross_premium" | translate}}</label>
-                                <input type="tel" currencyMask
-                                    [options]="{ prefix: '', thousands: ',',allowNegative:false,align:'left' }"
-                                    class="form-control form-control-sm currency-input-tag" name="grossPremium"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('grossPremium')"
+                                <input type="tel" class="form-control form-control-sm currency-input-tag"
+                                    name="grossPremium" autocomplete="off"
+                                    [class.is-invalid]="isControlInvalid('grossPremium')"
                                     [class.is-valid]="isControlValid('grossPremium')" formControlName="grossPremium" />
                             </div>
                         </div>
@@ -94,10 +88,9 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.net_premium" | translate}}</label>
-                                <input type="tel" currencyMask
-                                    [options]="{ prefix: '', thousands: ',',allowNegative:false,align:'left' }"
-                                    class="form-control form-control-sm currency-input-tag" name="netPremium"
-                                    autocomplete="off" [class.is-invalid]="isControlInvalid('netPremium')"
+                                <input type="tel" class="form-control form-control-sm currency-input-tag"
+                                    name="netPremium" autocomplete="off"
+                                    [class.is-invalid]="isControlInvalid('netPremium')"
                                     [class.is-valid]="isControlValid('netPremium')" formControlName="netPremium" />
                             </div>
                         </div>
@@ -110,11 +103,25 @@
                                     [class.is-valid]="isControlValid('policyHolder')" formControlName="policyHolder" />
                             </div>
                         </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label class="form-label">{{"FORM.renew_quotation_no" | translate}} </label>
+                                <div class="input-group ">
+                                    <input type="text" class="form-control form-control-sm" name="quoteNumber"
+                                        autocomplete="off" [class.is-invalid]="isControlInvalid('quoteNumber')"
+                                        [class.is-valid]="isControlValid('quoteNumber')"
+                                        formControlName="quoteNumber" />
+
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
-                    <button type="button" class="btn btn-default btn-elevate mt-2" (click)="backLocation()">{{"FORM.btn_back" |
+                    <button type="button" class="btn btn-default btn-elevate mt-2"
+                        (click)="backLocation()">{{"FORM.btn_back" |
                         translate}}</button>
-                    <button type="button" class="btn btn-primary btn-elevate mt-2" (click)="confirmRenew()">{{"FORM.btn_confirm" |
+                    <button type="button" class="btn btn-primary btn-elevate mt-2"
+                        (click)="confirmRenew()">{{"FORM.btn_confirm" |
                         translate}}</button>
                     <!-- <button type="button" class="btn btn-primary btn-elevate mx-2"
                         (click)="backLocation()">{{"FORM.btn_save" | translate}}</button> -->

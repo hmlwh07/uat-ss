@@ -282,7 +282,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
 
     }
-    console.log('==========> ', this.item)
+    console.log('=============> ',this.formData)
   }
 
   callback(tempFormData) {
