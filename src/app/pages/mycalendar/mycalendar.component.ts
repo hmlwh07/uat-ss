@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, } from 'date-fns';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, } from 'angular-calendar';
 import { Subject } from 'rxjs';
-import { ActivityManageService } from '../activity-management-list/activity-manage.service';
+import { ActivityManageService, ActivityService } from '../activity-management-list/activity-manage.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { EventListComponent } from './event-list/event-list.component';
@@ -119,7 +119,7 @@ export class MycalendarComponent implements OnInit {
   activeDayIsOpen: boolean = false;
   language:any='EN'
 
-  constructor(private lang:LanguagesService,private cdf:ChangeDetectorRef, private loadingService:LoadingService,  private modal: NgbModal, private activityService: ActivityManageService, private router: Router,private modalCrl:NgbModal) {
+  constructor(private lang:LanguagesService,private cdf:ChangeDetectorRef, private loadingService:LoadingService,  private modal: NgbModal, private activityService: ActivityService, private router: Router,private modalCrl:NgbModal) {
   }
 
   ngOnInit(): void {
@@ -134,7 +134,7 @@ export class MycalendarComponent implements OnInit {
     let postData = {
       status: "Open"
     }
-    this.activityService.getActivityList(postData).subscribe((res: any) => {
+    this.activityService.getActivity(postData).subscribe((res: any) => {
       if (res) {
         this.loadingService.activate()
         // console.log("RES", res)

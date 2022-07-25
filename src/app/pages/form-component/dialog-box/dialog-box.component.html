@@ -5,8 +5,8 @@
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <div class="row">
         <div class="{{ isNrc ? 'col-12' : 'col-10'}}" (click)="openModal()">
-          <input type="text" class="form-control form-control-sm" name="{{config.name}}"
-            placeholder="{{config.placeholder}}" [formControlName]="config.name" />
+          <input type="text" class="form-control form-control-sm readonly" name="{{config.name}}"
+            placeholder="{{config.placeholder}}"  readonly="true" [formControlName]="config.name" />
         </div>
         <div class="col-2" *ngIf="!isNrc">
           <button type="button" class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled"
@@ -19,8 +19,8 @@
     </div>
     <ng-template #InlineForm>
       <div class="col-{{isNrc ? config.inputSize : config.inputSize-2}}" (click)="openModal()" >
-        <input type="{{config.type}}" class="form-control form-control-sm" name="{{config.name}}"
-          placeholder="{{config.placeholder}}" [formControlName]="config.name" />
+        <input type="{{config.type}}" class="form-control form-control-sm readonly" name="{{config.name}}"
+          placeholder="{{config.placeholder}}" readonly="true" [formControlName]="config.name" />
         <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
       </div>
       <div class="col-2" *ngIf="!isNrc">
