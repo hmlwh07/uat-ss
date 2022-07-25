@@ -83,7 +83,8 @@ export class DynamicFormComponent implements OnInit {
   createControl(config: ConfigInput, type?: string) {
     let { disabled, value, name, validation, endName } = config;
     let valid = []
-    if (this.editStage || config.input == InputBoxType.DIALOG || (config.input == InputBoxType.INPUT && config.type == "nrc")) {
+    // || (config.input == InputBoxType.INPUT && config.type == "nrc")
+    if (this.editStage || config.input == InputBoxType.DIALOG ) {
       disabled = true
     }
     if (validation && config.show) {
@@ -123,6 +124,8 @@ export class DynamicFormComponent implements OnInit {
   reCreateFrom() {
     this.internalConfig = JSON.parse(JSON.stringify(this.config))
     this.form = this.createGroup(true);
+    console.log("reCreateFrom==>",this.form);
+    
     // if (i == this.controls.length && reCreate) {
     // console.log("trgi");
     this.globalFun.optionResultChange.next(true)
@@ -146,6 +149,7 @@ export class DynamicFormComponent implements OnInit {
       }
     });
     this.form = group
+    console.log("newFormCreate=======>",this.form);
   }
 
   Edited(event) {

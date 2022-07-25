@@ -111,7 +111,6 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
         }
 
         // let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-        let tempPre = this.globalFun.calculateDecimal(this.totalP) + this.totalL
         if (this.schedule.length > 0) {
           if (this.parentData.paymentFrequency == "L") {
             this.tempSchedule = [
@@ -119,14 +118,18 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
             ]
           } else {
             // let tempTotal = this.totalP / 2
+
             let tempTotal = this.totalP
-            this.totalSemi = this.totalP
             this.tempSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },
             ]
+            this.totalSemi = this.tempSchedule[0].premium + this.tempSchedule[1].premium
+
           }
         }
+        let total = this.parentData.paymentFrequency == 'L' ? this.totalP : this.totalSemi
+        let tempPre = this.globalFun.calculateDecimal(total) + this.totalL
         this.premiumAmt = this.numberPipe.transform(tempPre, "1.2-2") + " MMK"
         console.log("THIS>PREMIUM", this.premiumAmt);
 
