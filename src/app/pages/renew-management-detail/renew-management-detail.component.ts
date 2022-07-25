@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { DecimalPipe, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { MenuDataService } from '../../core/menu-data.service';
 import { validateAllFields } from '../../core/valid-all-feild';
 import { RenewManageService } from '../renew-management-list/renew-manage.service';
 import { Subscription } from 'rxjs';
+import { timeStamp } from 'console';
 @Component({
   selector: 'app-renew-management-detail',
   templateUrl: './renew-management-detail.component.html',
@@ -38,6 +39,8 @@ export class RenewManagementDetailComponent implements OnInit {
   relatedType: string
   oldData: any
   leadId: any
+  grossCurrency: string = ""
+  netCurrency: string = ""
   dataAccess = {
     view: true,
     create: true,
@@ -52,7 +55,8 @@ export class RenewManagementDetailComponent implements OnInit {
     private alertService: AlertService,
     private menuService: MenuDataService,
     private ngZone: NgZone,
-    private renewService: RenewManageService
+    private renewService: RenewManageService,
+    private numberPipe: DecimalPipe
   ) {
 
   }
@@ -64,7 +68,7 @@ export class RenewManagementDetailComponent implements OnInit {
       .subscribe(params => {
         let data = JSON.parse(params.data)
         console.log(data);
-        
+
         if (!data) this.location.back()
         this.loadForm(data);
       }
@@ -92,18 +96,24 @@ export class RenewManagementDetailComponent implements OnInit {
   loadForm(oldData?) {
     // if(oldData)
     // console.log(moment(oldData.dueDate).format('DD/MM/YYYY'));
-    console.log(oldData);
+    if (oldData && oldData.grossPremium) {
+      this.grossCurrency = oldData.currency
+    }
+    if (oldData && oldData.netPremium) {
+      this.netCurrency = oldData.currency
+    }
+    
     this.actForm = new FormGroup({
       "policyNumber": new FormControl({ value: oldData ? oldData.policyNumber : null, disabled: true }),
-      "productName": new FormControl({value: oldData? oldData.productName: null, disabled: true}),
+      "productName": new FormControl({ value: oldData ? oldData.productName : null, disabled: true }),
       // "renewalPolicyNumber": new FormControl({ value: oldData ? oldData.renewalPolicyNumber : null, disabled: true }),
-      "policyInceptionDate": new FormControl({ value: oldData ? moment(oldData.policyInceptionDate,"DD/MM/YYYY") : null, disabled: true }),
+      "policyInceptionDate": new FormControl({ value: oldData ? moment(oldData.policyInceptionDate, "DD/MM/YYYY") : null, disabled: true }),
       "status": new FormControl({ value: oldData ? oldData.policyStatus : null, disabled: true }),
-      "policyExpiryDate": new FormControl({ value: oldData ? moment(oldData.policyExpiryDate,"DD/MM/YYYY") : null, disabled: true }),
+      "policyExpiryDate": new FormControl({ value: oldData ? moment(oldData.policyExpiryDate, "DD/MM/YYYY") : null, disabled: true }),
       "quoteNumber": new FormControl({ value: oldData ? oldData.quoteNumber : null, disabled: true }),
-      "grossPremium": new FormControl({ value: oldData ? oldData.grossPremium : null, disabled: true }),
+      "grossPremium": new FormControl({ value: this.grossCurrency ? this.numberPipe.transform(oldData.grossPremium, "1.2-2") + " " + this.grossCurrency : null, disabled: true }),
       "policyHolderCode": new FormControl({ value: oldData ? oldData.policyHolderCode : null, disabled: true }),
-      "netPremium": new FormControl({ value: oldData ? oldData.netPremium : null, disabled: true }),
+      "netPremium": new FormControl({ value: oldData ? this.numberPipe.transform(oldData.netPremium, "1.2-2") + " " + this.netCurrency : null, disabled: true }),
       "policyHolder": new FormControl({ value: oldData ? oldData.policyHolder : null, disabled: true }),
     })
     this.cdf.detectChanges()
