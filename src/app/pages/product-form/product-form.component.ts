@@ -282,7 +282,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
 
     }
-    console.log('=============> ',this.formData)
+    // console.log('=============> ',this.formData)
   }
 
   callback(tempFormData) {
@@ -485,7 +485,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       })
       // }
     }
-    console.log("page.tableName", page.tableName);
+    // console.log("page.tableName", page.tableName);
     if (page.tableName == 'm_detail') {
       let inceptionDate = postData.data.find(x => x.column == "m_period_of_insurance_from")
       let expireDate = postData.data.find(x => x.column == "m_period_of_insurance_to")
@@ -611,7 +611,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       })
 
     }
-    console.log("page.tableName", page.tableName);
+    // console.log("page.tableName", page.tableName);
 
     if (page.tableName == 'motor_driver') {
       postData.pageData[0].data.push({

@@ -35,7 +35,7 @@ export class TravelPrintComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log("Signature", this.productService.editData)
+    // console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()

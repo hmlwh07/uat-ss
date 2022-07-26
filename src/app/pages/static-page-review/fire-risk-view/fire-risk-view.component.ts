@@ -51,7 +51,7 @@ export class FireRiskViewComponent implements OnInit {
 
   async getRiskList() {
    await this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
-      console.log('getRiskList', res);
+      // console.log('getRiskList', res);
       if (res) {
         this.listData = res
       }
@@ -63,12 +63,12 @@ export class FireRiskViewComponent implements OnInit {
    await this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.riskData = res
-        console.log("riskDetail", this.listData);
+        // console.log("riskDetail", this.listData);
         for (let data of this.listData) {
           this.totalPremium += parseFloat(data.premium)
           this.totalSi += parseFloat(data.riskSi)
         }
-        console.log(this.totalPremium, this.totalSi);
+        // console.log(this.totalPremium, this.totalSi);
 
         this.getAddonCover()
 
@@ -78,7 +78,7 @@ export class FireRiskViewComponent implements OnInit {
 
   async getAddonCover() {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
-    console.log(this.product, this.listData);
+    // console.log(this.product, this.listData);
     let count = 0
     for (var i= 0; i < this.listData.length; i++) {
 
@@ -96,7 +96,7 @@ export class FireRiskViewComponent implements OnInit {
             this.additionalData = await this.addonQuo.getOne(item.id, this.resourcesId, this.optionId).toPromise()
             // this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response: any) => {
             //   console.log("response",response);
-            console.log("response", this.additionalData);
+            // console.log("response", this.additionalData);
 
             if (this.additionalData) {
               obj[item.code] = this.additionalData.premium || 0
@@ -122,7 +122,7 @@ export class FireRiskViewComponent implements OnInit {
       }
      this.listData[i].totalPremium  = this.globalFun.calculateDecimal(obj.premium + stampDuty);
 
-      console.log('==========> ', this.listData[i]);
+      // console.log('==========> ', this.listData[i]);
 
       if (count == this.listData.length)
         this.cdf.detectChanges()

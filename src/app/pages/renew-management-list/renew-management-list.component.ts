@@ -155,7 +155,7 @@ export class RenewManagementListComponent implements OnInit {
               .toPromise()
               .then((res) => {
                 if (res) {
-                  console.log(res);
+                  // console.log(res);
 
                   this.alertService.activate(
                     'This record was updated',
@@ -172,7 +172,7 @@ export class RenewManagementListComponent implements OnInit {
   async download(fileName: string) {
     await this.loadingService.activate()
     let file = this.getFileExt(fileName)
-    console.log("FILE",file);
+    // console.log("FILE",file);
     
     // this.getFileExt(fileName).pipe(mergeMap((x) => {
     //   // let ext = x ? x.docExtension : "pdf"

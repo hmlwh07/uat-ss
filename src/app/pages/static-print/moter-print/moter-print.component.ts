@@ -23,7 +23,7 @@ export class MoterPrintComponent implements OnInit {
   motorDriver: any = {}
   policyHolder: any = {}
   address: any = {}
-  isTonnage:boolean=false
+  isTonnage: boolean = false
   vehicleDetail: any = {}
   policyTerm = {
     "T-004": "3 Months",
@@ -31,7 +31,7 @@ export class MoterPrintComponent implements OnInit {
     "T-002": "9 Months",
     "T-001": "1 year",
   }
-  mExcessType = {
+  mExcessTypeMO02 = {
     "T-NILEX": "+50,000.00",
     "TU-NILEX": "+25.00",
     "TU-STNDEX": "+100.00",
@@ -39,6 +39,10 @@ export class MoterPrintComponent implements OnInit {
     "T-EXD1": "-50,000.00",
     "T-EXD2": "-70,000.00",
     "T-EXD3": "-100,000.00"
+  }
+  mExcessTypeMO01 = {
+    "T-NILEX": "+5,000.00",
+    "TU-NILEX": "+25.00",
   }
   @Input() signId?: string
   signatureDate?: string
@@ -106,15 +110,36 @@ export class MoterPrintComponent implements OnInit {
 
   getDetail() {
     this.motorService.getOne(this.resourcesId).toPromise().then((res: any) => {
-      if (res.motorDetail)
+      let vehicle = ""
+      let purpose = ""
+      let currency = ""
+      let excess = ""
+      if (res.motorDetail) {
+        vehicle = res.motorDetail.mTypeOfVehicle
+        purpose = res.motorDetail.mPurposeOfUse
+        excess = res.motorDetail.mExcessValue
+        currency = res.motorDetail.mCurrency
+
         this.motorDetail = res.motorDetail
-      if (res.motorDetail.mExcessDiscount == "" || res.motorDetail.mExcessDiscount == null) {
-        this.motorDetail.mExcessDiscount = res.motorDetail.mExcess
+        if (res.motorDetail.mExcessDiscount == "" || res.motorDetail.mExcessDiscount == null) {
+          this.motorDetail.mExcessDiscount = res.motorDetail.mExcess
+        }
+        if (excess == "T-NILEX" && currency == "MMK") {
+          if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
+            this.mExcessTypeMO01['T-NILEX'] = "+ 5,000"
+          } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+            this.mExcessTypeMO01['T-NILEX'] = "+ 10,000"
+          } else {
+            this.mExcessTypeMO01['T-NILEX'] = "+ 50,000"
+          }
+        } else if (excess == "TU-NILEX" && currency == "USD") {
+          this.mExcessTypeMO01['TU-NILEX'] = "+ 25"
+        }
       }
-      
-      if(res.motorDetail.mTypeOfVehicleValue=='Motor Commercial' && res.motorDetail.mTypeOfCoverageValue=='Commercial Car (Goods Carrying Vehicle)' && res.motorDetail.mCurrency=='USD'){
-        this.isTonnage=true
-      }
+      if (res.mTypeOfVehicle && res.mPurposeOfUse)
+        if (res.motorDetail.mTypeOfVehicleValue == 'Motor Commercial' && res.motorDetail.mTypeOfCoverageValue == 'Commercial Car (Goods Carrying Vehicle)' && res.motorDetail.mCurrency == 'USD') {
+          this.isTonnage = true
+        }
       if (res.motorDriver)
         this.listData = res.motorDriver
       if (res.vehicleDetail)
@@ -124,14 +149,14 @@ export class MoterPrintComponent implements OnInit {
 
   async getAddonCover() {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
-    console.log(this.product, this.listData);
+    // console.log(this.product, this.listData);
 
 
     let obj = {
       description: 'MOTOR',
       premium: 0
     }
-    console.log("this.product.addOns", this.product.addOns);
+    // console.log("this.product.addOns", this.product.addOns);
 
     for (const item of this.product.addOns) {
       this.optionId = this.resourcesId
@@ -141,7 +166,7 @@ export class MoterPrintComponent implements OnInit {
           this.additionalData = await this.addonQuo.getOne(item.id, this.resourcesId, this.optionId).toPromise()
           // this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response: any) => {
           //   console.log("response",response);
-          console.log("response", this.additionalData);
+          // console.log("response", this.additionalData);
 
           if (this.additionalData) {
             obj[item.code] = this.additionalData.premium || 0
@@ -154,17 +179,17 @@ export class MoterPrintComponent implements OnInit {
       } catch (error) {
       }
 
-      console.log("ADDON", obj);
+      // console.log("ADDON", obj);
 
 
     }
     this.addOnData.push(obj)
-    console.log("ADDONDATA", this.addOnData);
+    // console.log("ADDONDATA", this.addOnData);
 
   }
   async getCoverage() {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
-    console.log(this.product, this.listData);
+    // console.log(this.product, this.listData);
 
 
     let obj = {
@@ -178,8 +203,8 @@ export class MoterPrintComponent implements OnInit {
         if (this.resourcesId) {
           this.coverageData2 = await this.coverageService.getOne(item.id, this.resourcesId, this.optionId).toPromise()
           // this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response: any) => {
-          //   console.log("response",response);
-          console.log("response", this.coverageData2);
+            // console.log("response",response);
+          // console.log("response", this.coverageData2);
 
           if (this.coverageData2) {
             obj[item.code] = this.coverageData2.premium || 0
@@ -192,12 +217,12 @@ export class MoterPrintComponent implements OnInit {
       } catch (error) {
       }
 
-      console.log("ADDON", obj);
+      // console.log("ADDON", obj);
 
 
     }
     this.coverageData.push(obj)
-    console.log("coverageData", this.coverageData);
+    // console.log("coverageData", this.coverageData);
 
   }
 

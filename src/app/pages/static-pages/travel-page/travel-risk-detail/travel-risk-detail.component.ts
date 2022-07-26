@@ -82,7 +82,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.unsub.forEach(x => x.unsubscribe())
   }
   ngOnInit(): void {
-    console.log("tableReform", this.tableReform);
+    // console.log("tableReform", this.tableReform);
 
     this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
@@ -304,8 +304,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     // }
     this.pageDataService.save(postData).pipe(switchMap((data: any) => {
 
-      console.log("DATA", data,"TTYPE",type);
-      console.log("TYPE",type);
+      // console.log("DATA", data,"TTYPE",type);
+      // console.log("TYPE",type);
       
       if (type == "travelDetail") {
         for(let travel of data){
@@ -431,7 +431,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       })
     }
     this.pageDataService.updateNoID(postData).pipe(switchMap((data: any) => {
-      console.log("TYPE",type,"Data",data);
+      // console.log("TYPE",type,"Data",data);
       
       if (type == "travelDetail") {
         // for(let travel of data){

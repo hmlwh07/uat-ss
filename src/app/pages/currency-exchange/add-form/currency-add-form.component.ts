@@ -78,7 +78,7 @@ export class CurrencyAddFormComponent implements OnInit, AfterViewInit {
     if (this.formGroup.valid) {
       if (this.isModal) {
         let date=this.convertDateFormatDDMMYYY(this.formGroup.value.date)
-        console.log("date",date);
+        // console.log("date",date);
         
         this.formGroup.controls['date'].setValue(date)  
         this.modal.dismissAll({ data: { ...this.formGroup.value, id: this.id }, cmd: 'save' })

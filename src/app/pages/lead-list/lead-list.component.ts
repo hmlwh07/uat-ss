@@ -191,7 +191,7 @@ export class LeadListComponent implements OnInit {
     //   });
   }
   reponseFromPager(event) {
-    console.log("LEADEVENT", event);
+    // console.log("LEADEVENT", event);
     this.currentPage = event
     this.getDatabyPage(this.currentPage)
   }
@@ -288,7 +288,7 @@ export class LeadListComponent implements OnInit {
   }
 
   addData() {
-    console.log("addData")
+    // console.log("addData")
     const modalRef = this.modalService.open(LeadNewComponent, { size: 'lg', backdrop: false });
     modalRef.componentInstance.isModal = true
     modalRef.result.then(() => { }, (res) => {
@@ -332,6 +332,6 @@ export class LeadListComponent implements OnInit {
   }
 
   reponseFromListing(event) {
-    console.log('event', event)
+    // console.log('event', event)
   }
 }

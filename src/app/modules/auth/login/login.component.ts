@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .login(this.f.email.value, this.f.password.value)
       .pipe(first(), mergeMap((x) => {
         return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
-          console.log("DATAMENU", data[0].page);
+          // console.log("DATAMENU", data[0].page);
           this.firstPage = data[0].page
           return of(x)
         }))

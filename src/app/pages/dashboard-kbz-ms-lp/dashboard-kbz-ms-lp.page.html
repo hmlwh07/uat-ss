@@ -3,14 +3,14 @@
     <div style="margin: 0 0 10px 0;">
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
         <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
-          <!-- assets/images/dashboard-usr.svg -->         
+          <!-- assets/images/dashboard-usr.svg -->
           <img *ngIf="data?.agentInfo?.attId!=null" [src]="DEFAULT_DOWNLOAD_URL+ data?.agentInfo?.attId"
-          style="width: 100%; height: 100%;" alt="profile" />
-        <!-- <img  src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
-        <img *ngIf="data?.agentInfo?.attId==null" src="./assets/temp-img/user_profile.png" alt="profile">
+            style="width: 100%; height: 100%;" alt="profile" />
+          <!-- <img  src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
+          <img *ngIf="data?.agentInfo?.attId==null" src="./assets/temp-img/user_profile.png" alt="profile">
 
         </div>
-        <ion-icon class="text-left icon-style" name="camera"  (click)="presentActionSheet()"></ion-icon>
+        <ion-icon class="text-left icon-style" name="camera" (click)="presentActionSheet()"></ion-icon>
 
         <ion-label class="title-color">{{ data?.agentInfo?.employeeName }}</ion-label>
         <ion-label>{{ data?.role }}</ion-label>
@@ -26,15 +26,14 @@
           <h2>{{"CARD.products" | translate}}</h2>
         </div>
         <div class="col-sm-6">
-        
-        <h2  style="margin-left: 50%;">{{"CARD.premium" | translate}}</h2>
-        </div>  
+
+          <h2 style="margin-left: 50%;">{{"CARD.premium" | translate}}</h2>
+        </div>
       </div>
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
-            <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon"
-              alt="" srcset="" >
+            <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
             <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
               (error)="changeSource($event)"
               srcset=""> -->
@@ -78,8 +77,8 @@
         <div style="width: 100%;">Campaign for Today</div>
         <div></div>
       </div>
-      <ion-list [ngStyle]="{'height': salesHpx}">
-        <ion-row *ngFor="let c of campaignArray | slice:0:3">
+      <ion-list style="height:100px;overflow: scroll;">
+        <ion-row *ngFor="let c of campaignArray">
           <ion-col>{{ c.campaignName }}</ion-col>
           <ion-col>{{ c.status }}</ion-col>
         </ion-row>
