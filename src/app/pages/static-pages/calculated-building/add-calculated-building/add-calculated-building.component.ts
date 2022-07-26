@@ -71,7 +71,7 @@ export class AddCalculatedBuildingComponent implements OnInit {
     this.cdf.detectChanges()
     let quantity = this.calculatedbuildingForm.value.quantity
     let value = this.calculatedbuildingForm.value.valuePerQuantity
-    console.log("quantity,value",quantity,value)
+    // console.log("quantity,value",quantity,value)
     if (quantity && value)
       this.calculatedbuildingForm.controls.totalValue.setValue(quantity * value)
   }

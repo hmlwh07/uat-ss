@@ -62,7 +62,7 @@ export class TravelComponent implements OnInit {
 
   callback(ref?) {
     if (ref) {
-      console.log("ref", ref);
+      // console.log("ref", ref);
 
       this.resourcesId = ref
       this.getOldData({ id: ref })
@@ -136,16 +136,16 @@ export class TravelComponent implements OnInit {
   getRiskList() {
     this.travelRikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
-        console.log("RES", res);
+        // console.log("RES", res);
 
         this.globalFun.tempFormData[TRAVELID] = res
         this.listData = res || []
         this.listData.forEach(data => {
           this.totalSiAmt += parseInt(data.sumInsured)
-          console.log(this.totalSiAmt, data.sumInsured);
+          // console.log(this.totalSiAmt, data.sumInsured);
         })
         this.totalSiAmtView = this.numberPipe.transform(this.totalSiAmt || 0, '1.2-2') + " MMK"
-        console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
+        // console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
 
         this.cdf.detectChanges()
       }
@@ -153,10 +153,10 @@ export class TravelComponent implements OnInit {
   }
 
   newData(type, detail?: any) {
-    console.log("DETAIL", detail);
-    console.log("this.tempData['benefi']", this.tempData['benefi']);
-    console.log("this.tempData['travelDetail']", this.tempData['travelDetail']);
-    console.log("this.tempData['traveler']", this.tempData['traveler']);
+    // console.log("DETAIL", detail);
+    // console.log("this.tempData['benefi']", this.tempData['benefi']);
+    // console.log("this.tempData['travelDetail']", this.tempData['travelDetail']);
+    // console.log("this.tempData['traveler']", this.tempData['traveler']);
 
     let modalRef = this.modalService.open(TravelRiskDetailComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type
@@ -203,7 +203,7 @@ export class TravelComponent implements OnInit {
           }
           // })
           this.cdf.detectChanges()
-          console.log("DISMISS", res);
+          // console.log("DISMISS", res);
 
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
@@ -222,7 +222,7 @@ export class TravelComponent implements OnInit {
     let index = -1
     if (this.tempData['travelDetail']) {
       index = this.tempData['travelDetail'].findIndex(x => x.risk_id == data.refId)
-      console.log("INDXEDX", index);
+      // console.log("INDXEDX", index);
 
       if (index < 0) {
         this.tempData['travelDetail'].push(data)
@@ -296,7 +296,7 @@ export class TravelComponent implements OnInit {
       return sum + parseInt(current.premium);
     }, 0)
     let amount = (amt * 1.00).toFixed(2)
-    console.log("AMOUNT", amount);
+    // console.log("AMOUNT", amount);
 
     // let premium=this.globalFun.calculateDecimal(amount)  
     this.premiumAmt = this.numberPipe.transform(amount, "1.2-2") + " MMK"

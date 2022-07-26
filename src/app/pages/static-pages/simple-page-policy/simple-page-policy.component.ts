@@ -188,7 +188,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
       let resId = this.refID
       if (!resId) return false
       if (this.editData.id) {
-        console.log(this.editData);
+        // console.log(this.editData);
 
         let resId = this.resourcesId
         this.healthService.getOne(resId).pipe(switchMap((res: any) => {
@@ -303,7 +303,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
           this.totalResult.unit += x.sumInsured
           this.totalResult.premium += x.premium
         })
-        console.log(this.totalResult, "Total");
+        // console.log(this.totalResult, "Total");
         this.optionArray = this.optionArray.sort((a, b) => (a.coverage > b.coverage ? 1 : -1))
         this.tempArray = this.optionArray.filter((thing, index, self) =>
           index === self.findIndex((t) => (

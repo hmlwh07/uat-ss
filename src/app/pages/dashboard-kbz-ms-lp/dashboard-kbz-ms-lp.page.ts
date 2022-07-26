@@ -181,7 +181,7 @@ export class DashboardKbzMsLpPage implements OnInit {
       this.dashboardService.getRecentList(this.actForm.value).toPromise().then((res) => {
         if (res) {
           this.recentObj = res;
-          console.log('recentObj', this.recentObj)
+          // console.log('recentObj', this.recentObj)
           this.cdf.detectChanges();
         }
       })

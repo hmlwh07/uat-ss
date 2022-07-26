@@ -78,7 +78,7 @@ export class ReRerunJobPage implements OnInit {
       })
     })).toPromise().then((res) => {
       if (res) {
-        console.log("res", res);
+        // console.log("res", res);
         this.listFromCRM = res
         this.cdf.detectChanges()
         this.matTableCRM.reChangeData()
@@ -94,7 +94,7 @@ export class ReRerunJobPage implements OnInit {
   }
 
   actionBtn(event) {
-    console.log(event);
+    // console.log(event);
 
     if (event.cmd == "view") {
       this.viewErrorDetail(event.data)
@@ -121,7 +121,7 @@ export class ReRerunJobPage implements OnInit {
 
   reRunRenewal() {
     this.reRunService.reRunRenewal().toPromise().then((res: any) => {
-      console.log(res);
+      // console.log(res);
       if (res) {
         this.alertService.activate('This job was re-run successful', 'Success Message');
         this.getList()

@@ -44,7 +44,7 @@ export class FormViewModalComponent implements OnInit, OnDestroy {
 
     if (page.function) {
       let currentData = { ...data, refId: this.oldData.refId || 0, }
-      console.log(this.benefiArray);
+      // console.log(this.benefiArray);
       let optionArry = this.benefiArray.length > 0 ? this.benefiArray : this.globalFun.tempFormData[page.tableName + page.id]
       let fun = await this.globalFun[page.function]("", currentData, optionArry, true);
       if (fun)

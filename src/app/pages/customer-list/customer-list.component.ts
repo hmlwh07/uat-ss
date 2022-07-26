@@ -108,7 +108,7 @@ export class CustomerListComponent implements OnInit {
     }
   }
   reponseFromPager(event) {
-    console.log("LEADEVENT", event);
+    // console.log("LEADEVENT", event);
     this.currentPage = event
     this.getDatabyPage(this.currentPage)
   }

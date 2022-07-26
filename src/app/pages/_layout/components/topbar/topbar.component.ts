@@ -110,7 +110,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     this.user$.subscribe(res => {
       this.currentUser = res
       this.unsub = this.messageService.notiCount.subscribe(notiCount => {
-        console.log("notiCount", notiCount);
+        // console.log("notiCount", notiCount);
 
         this.notiCount = notiCount
         this.cdf.detectChanges()
@@ -165,7 +165,6 @@ export class TopbarComponent implements OnInit, AfterViewInit {
 
   getNotiList(index?) {
     if (index > 0) {
-      console.log("test");
       
       index++
       this.notificationService.getById(this.currentUser.username).toPromise()
@@ -184,7 +183,6 @@ export class TopbarComponent implements OnInit, AfterViewInit {
           }
         });
     } else {
-      console.log("test2");
       
       this.notificationService.getById(this.currentUser.username).toPromise()
         .then(async (res: any) => {

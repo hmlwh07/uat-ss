@@ -717,7 +717,7 @@ export class LeadNewComponent implements OnInit {
     // if (postData.prospectCustomerId) {
     //   data["prospectCustomerId"] = postData.prospectCustomerId
     // }
-    console.log("PostData: ", data)
+    // console.log("PostData: ", data)
     this.LeadDetailService.createLead(data).toPromise()
       .then((res) => {
         if (res) {

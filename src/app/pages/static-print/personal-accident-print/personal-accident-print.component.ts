@@ -44,7 +44,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
     this.getPolicyHolder()
     this.getDetail()
     let unsub = this.globalFun.paCoverageResult.subscribe((value) => {
-      console.log("VALUE", value);
+      // console.log("VALUE", value);
 
       this.sumInsuredAmt = value
     })
@@ -68,7 +68,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
           }
         })
       }
-      console.log("getPolicyHolder: ", this.policyHolder)
+      // console.log("getPolicyHolder: ", this.policyHolder)
     })
   }
 

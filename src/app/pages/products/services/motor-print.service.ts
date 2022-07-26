@@ -11,7 +11,7 @@ export class MotorPrintService extends BizOperationService<AddOn, number>{
     super(httpClient, API_MOTOR_URL);
   }
   getOne(resId: string){
-    console.log(resId,"data");
+    // console.log(resId,"data");
     return this.httpClient.get(API_MOTOR_URL+"/"+resId)
   }
 }
