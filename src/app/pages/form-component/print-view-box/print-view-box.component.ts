@@ -33,7 +33,7 @@ export class PrintViewBoxComponent implements OnInit {
 
   //wait for the component to render completely
   async ngOnInit() {
-    console.log(this.product);
+    // console.log(this.product);
     if (this.resourcesId)
       this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
     await this.loadingService.activate()
@@ -153,10 +153,10 @@ export class PrintViewBoxComponent implements OnInit {
   getAgentData() {
     this.productService.getAgentInfo( this.auth.currentUserValue.id || 1 ).toPromise().then((res:any) => {
         if (res) {
-          console.log("RES",res);
+          // console.log("RES",res);
           
           this.agentData = res.agentInfo;
-          console.log("this.agentData", this.agentData);
+          // console.log("this.agentData", this.agentData);
           
         }
       });

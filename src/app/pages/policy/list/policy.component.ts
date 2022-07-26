@@ -133,7 +133,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     })
   }
   reponseFromPager(event) {
-    console.log("POLICYEVENT", event);
+    // console.log("POLICYEVENT", event);
     this.currentPage = event
     this.getDatabyPage(this.currentPage)
   }
@@ -143,7 +143,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.postedData = postData
     this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
       if (res) {
-        console.log(res);
+        // console.log(res);
 
         this.quoList = res.content
         this.totalElements = res.totalElements
@@ -170,7 +170,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.postedData = postData
     await this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
       if (res) {
-        console.log(res);
+        // console.log(res);
         this.quoList = res.content
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages

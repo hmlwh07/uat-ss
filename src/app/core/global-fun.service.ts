@@ -292,7 +292,7 @@ export class GlobalFunctionService {
 
 
   getMotorRate(motorDetail) {
-    console.log("motorDetail", motorDetail);
+    // console.log("motorDetail", motorDetail);
 
     let cc = ""
     let currency = ""
@@ -354,7 +354,7 @@ export class GlobalFunctionService {
     let term = this.crossPercent[m_term]
     return this.getMotorRate(motorDetail).pipe(map((res: any) => {
       if (res)
-        console.log("motorOwnDamage", res);
+        // console.log("motorOwnDamage", res);
 
       return (res.rate * term)
       return 0
@@ -366,7 +366,7 @@ export class GlobalFunctionService {
     let term = this.crossPercent[m_term]
     return this.getMotorThirdRate(motorDetail).pipe(map((res: any) => {
       if (res)
-        console.log("MOTORThird", res);
+        // console.log("MOTORThird", res);
 
       return (res.rate * term)
       return 0
@@ -406,7 +406,7 @@ export class GlobalFunctionService {
           rate = 0.0005
         }
       }
-      console.log("SRCC-SUM-Rate", sumIn, rate);
+      // console.log("SRCC-SUM-Rate", sumIn, rate);
 
       return of((sumIn * rate) * term)
     }
@@ -588,7 +588,7 @@ export class GlobalFunctionService {
         } else if (typeOfVehicle == "T-MCC") {
           rate = 0.15
         }
-        console.log("THEFT", res, rate);
+        // console.log("THEFT", res, rate);
 
         return ((res * rate) * term)
       }
@@ -614,7 +614,7 @@ export class GlobalFunctionService {
     }
 
     return this.motorOwnDamage(motorDetail).pipe(map(res => {
-      console.log("motorEndorsement", res);
+      // console.log("motorEndorsement", res);
 
       if (res > 0) {
         let rate = 0.30
@@ -787,7 +787,7 @@ export class GlobalFunctionService {
     } else if (this.tempFormData['pa_product_detail']) {
       sumIn = this.tempFormData['pa_product_detail']['sum_insured'] || 0
     }
-    console.log("SUMIN", sumIn);
+    // console.log("SUMIN", sumIn);
 
     this.paCoverageResult.next(this.numberPipe.transform(sumIn, "1.2-2") + " " + currency)
   }
@@ -818,20 +818,20 @@ export class GlobalFunctionService {
   validSharePercent(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let oldData = option ? JSON.parse(JSON.stringify(option)) : []
     let currentPercent = parseFloat(activeForm.share)
-    console.log("CURRENT%", currentPercent)
+    // console.log("CURRENT%", currentPercent)
     if (activeForm.refId) {
       let index = oldData.findIndex(x => x.refId == activeForm.refId)
-      console.log("INDEX", index);
+      // console.log("INDEX", index);
       if (index >= 0)
         oldData.splice(index, 1)
     }
-    console.log(oldData, activeForm);
+    // console.log(oldData, activeForm);
     let total = oldData.reduce(function (a, b) {
       return a + parseFloat(b.share);
     }, 0);
-    console.log("CURRENT%total", total)
+    // console.log("CURRENT%total", total)
     let tempTotal = currentPercent + total
-    console.log("CURRENT%tempTotal", tempTotal)
+    // console.log("CURRENT%tempTotal", tempTotal)
     if (tempTotal > 100) {
       this.alert.activate("Total Share Percent can't over 100%", "Validation")
       return false
@@ -902,12 +902,12 @@ export class GlobalFunctionService {
     if (plan && duration && unit) {
       searchData = plan == 'T-INBOUND' ? IN_BOUND : OUT_BOUND
       let premium = searchData.find(x => (x.travel_duration + "").toLowerCase() == duration.toLowerCase() && x.travel_unit.toLowerCase() == unitData.toLowerCase())
-      console.log("TRAVELPRE", premium);
+      // console.log("TRAVELPRE", premium);
 
       if (premium) {
         let prem = ((parseInt(premium.rate) * travelNo) * 1.00).toFixed(2);
 
-        console.log("TRAVEL", prem);
+        // console.log("TRAVEL", prem);
 
         this.travelPremiumResult.next(prem)
       }
@@ -926,7 +926,7 @@ export class GlobalFunctionService {
     if (activeForm['insured_unit']) {
       let data = String(activeForm['insured_unit']).padStart(5, '0');
       insuredUnit = parseInt((data).replace("T-", ""))
-      console.log("INSUREDUNIT", insuredUnit, data);
+      // console.log("INSUREDUNIT", insuredUnit, data);
 
       //OLD-CODE
       // insuredUnit = parseInt(activeForm['insured_unit'].replace("T-", ""))

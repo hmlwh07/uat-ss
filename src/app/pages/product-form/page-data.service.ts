@@ -35,7 +35,7 @@ export class PageDataService extends BizOperationService<any, number>{
   }
 
   updateRiskId(postData:any){
-    console.log("updateRiskId",postData);
+    // console.log("updateRiskId",postData);
     return this.httpClient.put(API_PAGEDATA_URL + "/update-riskId", postData)
   }
   // updateStatus(data){

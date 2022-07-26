@@ -124,7 +124,7 @@ export class DynamicFormComponent implements OnInit {
   reCreateFrom() {
     this.internalConfig = JSON.parse(JSON.stringify(this.config))
     this.form = this.createGroup(true);
-    console.log("reCreateFrom==>",this.form);
+    // console.log("reCreateFrom==>",this.form);
     
     // if (i == this.controls.length && reCreate) {
     // console.log("trgi");
@@ -149,7 +149,7 @@ export class DynamicFormComponent implements OnInit {
       }
     });
     this.form = group
-    console.log("newFormCreate=======>",this.form);
+    // console.log("newFormCreate=======>",this.form);
   }
 
   Edited(event) {

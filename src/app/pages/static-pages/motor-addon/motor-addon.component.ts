@@ -85,7 +85,7 @@ export class MotorAddonComponent implements OnInit {
       postData.addOnIds.push(crossID.id)
     }
     let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
-    console.log("RESULT", results);
+    // console.log("RESULT", results);
 
     if (medID) {
       let response = results.find(x => x.addonId == medID.id)
@@ -98,7 +98,7 @@ export class MotorAddonComponent implements OnInit {
     }
     if (crossID) {
       let response2 = results.find(x => x.addonId == crossID.id)
-      console.log("response2", response2);
+      // console.log("response2", response2);
       if (response2) {
         this.isCrossExist = true
         this.isCross = true
@@ -156,7 +156,7 @@ export class MotorAddonComponent implements OnInit {
       }
       if (!this.isCross) {
         this.crossPremium = 0
-        console.log("this.crossPremium", this.crossPremium);
+        // console.log("this.crossPremium", this.crossPremium);
         this.caluMotorPremimun()
       }
       this.cdf.detectChanges()
@@ -188,19 +188,19 @@ export class MotorAddonComponent implements OnInit {
 
     if (crossID) {
       addOnsData.forEach((element, index) => {
-        console.log(element);
+        // console.log(element);
         if (element.addonId == crossID.id)
           addOnsData.splice(index, 1);
       });
     }
     if (medID) {
       addOnsData.forEach((element, index) => {
-        console.log(element);
+        // console.log(element);
         if (element.addonId == medID.id)
           addOnsData.splice(index, 1);
       });
     }
-    console.log("addOnsData", addOnsData);
+    // console.log("addOnsData", addOnsData);
 
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked) {
@@ -225,7 +225,7 @@ export class MotorAddonComponent implements OnInit {
       let excess = this.parentData['m_excess']
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
-      console.log("EXCESS", excess, "vehicle", vehicle, "purpose", purpose);
+      // console.log("EXCESS", excess, "vehicle", vehicle, "purpose", purpose);
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
@@ -250,7 +250,7 @@ export class MotorAddonComponent implements OnInit {
 
 
     // * percent
-    console.log("TEMP", tempPre, "excessAmt", excessAmt);
+    // console.log("TEMP", tempPre, "excessAmt", excessAmt);
 
     let cross = ((tempPre + excessAmt) * 0.15)
     this.crossPremium = this.globalFun.calculateDecimal(cross || 0)
@@ -274,7 +274,7 @@ export class MotorAddonComponent implements OnInit {
       postData.addOnIds.push(crossID.id)
     }
     let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
-    console.log("RESULT", results);
+    // console.log("RESULT", results);
 
     if (medID) {
       let response = results.find(x => x.addonId == medID.id)
@@ -309,7 +309,7 @@ export class MotorAddonComponent implements OnInit {
     }
     if (crossID) {
       let response2 = results.find(x => x.addonId == crossID.id)
-      console.log("response2", response2);
+      // console.log("response2", response2);
       if (response2) {
         if (!this.isCross) {
           if (crossID)
@@ -378,7 +378,7 @@ export class MotorAddonComponent implements OnInit {
     if (this.isCrossExist) {
       if (crossID) {
         tempArray.forEach((element, index) => {
-          console.log(element);
+          // console.log(element);
           if (element.addonId == crossID.id)
             tempArray.splice(index, 1);
         });
@@ -387,34 +387,34 @@ export class MotorAddonComponent implements OnInit {
     if (this.isMedicalExist) {
       if (medID) {
         tempArray.forEach((element, index) => {
-          console.log(element);
+          // console.log(element);
           if (element.addonId == medID.id)
             tempArray.splice(index, 1);
         });
       }
     }
-    console.log("tempArray", tempArray);
+    // console.log("tempArray", tempArray);
 
     for (let addon of tempArray) {
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
-      console.log("addOnPremium", this.globalFun.calculateDecimal(addon.premium));
+      // console.log("addOnPremium", this.globalFun.calculateDecimal(addon.premium));
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      console.log("covPremium", this.globalFun.calculateDecimal(cov.premium));
+      // console.log("covPremium", this.globalFun.calculateDecimal(cov.premium));
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
     }
     if (this.isMedical) {
-      console.log("isMedical", this.isMedical);
+      // console.log("isMedical", this.isMedical);
 
       tempPre += this.globalFun.calculateDecimal(this.medPremium || 0)
     }
-    console.log("TEMPPRE", tempPre);
+    // console.log("TEMPPRE", tempPre);
 
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
     let discount2 = 0
-    console.log("PARENT", this.parentData);
+    // console.log("PARENT", this.parentData);
 
     if (this.parentData) {
       let excess = this.parentData['m_excess']
@@ -422,11 +422,11 @@ export class MotorAddonComponent implements OnInit {
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
       let term = this.parentData['m_policy_term']
-      console.log("Policy-TERM", term);
+      // console.log("Policy-TERM", term);
 
       let percent = this.crossPercent[term] || 1
-      console.log("TERM-Percent", percent);
-      console.log(excess, excess_discount);
+      // console.log("TERM-Percent", percent);
+      // console.log(excess, excess_discount);
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
@@ -464,21 +464,21 @@ export class MotorAddonComponent implements OnInit {
         }
       }
     }
-    console.log("discount", discount);
+    // console.log("discount", discount);
 
     let stumd = currency == "MMK" ? 100 : 0.05
-    console.log(" Number(this.crossPremium || 0)", Number(this.crossPremium || 0));
+    // console.log(" Number(this.crossPremium || 0)", Number(this.crossPremium || 0));
 
-    console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
+    // console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
 
     let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)
     let preAMT2 = ((tempPre + Number(this.crossPremium || 0)) - discount2)
-    console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
+    // console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
 
     // preAMT = (preAMT * percent) + stumd
     preAMT = (preAMT) + stumd
     preAMT2 = (preAMT2)
-    console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
+    // console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
 
 
     this.premiumAmt = this.numberPipe.transform(preAMT, "1.2-2") + " " + currency.toUpperCase()

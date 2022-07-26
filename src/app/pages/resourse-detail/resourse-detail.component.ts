@@ -78,7 +78,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
-      console.log("RESOURCE", this.resourceDetail)
+      // console.log("RESOURCE", this.resourceDetail)
 
       if (!this.resourceDetail) {
         this.location.back()
@@ -185,7 +185,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
           if (this.branch) {
             this.selectedBranchCode = this.branch
             let branch = this.branchOption.find((p) => p.code == this.branch)
-            console.log(branch);
+            // console.log(branch);
             
             this.productService.editData.branch = branch.value
           }
@@ -210,10 +210,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       let status = this.resourceDetail.apiStatus.toLowerCase()
       if (status != 'fail') {
         isDisabled = true
-        console.log(status, isDisabled);
+        // console.log(status, isDisabled);
       } else {
         isDisabled = false
-        console.log(status, isDisabled);
+        // console.log(status, isDisabled);
       }
     } else {
       isDisabled = false
