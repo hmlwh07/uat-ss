@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomAdapter2, CustomDateParserFormatter } from '../../_metronic/core';
-import { ActivityManageService } from '../activity-management-list/activity-manage.service';
+import { ActivityManageService, ActivityService } from '../activity-management-list/activity-manage.service';
 import { RelatedModalCompoent } from './pop-up-modal/related-modal.component';
 import * as moment from 'moment'
 import { validateAllFields } from '../../core/valid-all-feild';
@@ -50,7 +50,7 @@ export class ActivityManagementDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private activityManageService: ActivityManageService,
+    private activityManageService: ActivityService,
     private location: Location,
     private cdf: ChangeDetectorRef,
     private alertService: AlertService,
