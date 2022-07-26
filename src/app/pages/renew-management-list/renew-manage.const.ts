@@ -35,6 +35,14 @@ export const RenewCol: TableCol[] = [
     // isDate?: boolen
   },
   {
+    title: "Policy Holder",
+    type: COLTYPE.FEILD,
+    field: "policyHolder",
+    // amtFormat?: boolean,
+    // isTitle?: boolean
+    // isDate?: boolen
+  },
+  {
     title: "Premium",
     type: COLTYPE.FEILD,
     field: "premium",
@@ -86,6 +94,7 @@ export const ActivityDisplayCol: string[] = [
   // "renewalPolicyNumber",
   "productName",
   "agentName",
+  "policyHolder",
   "premium",
   "currency",
   "policyInceptionDate",
