@@ -17,6 +17,7 @@ export class TravelPrintComponent implements OnInit {
   listData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
+  beneficiaries:any=[]
   policyHolder: any = {
     partyAddress: []
   }
@@ -25,6 +26,7 @@ export class TravelPrintComponent implements OnInit {
   numberOfTraveller: number = 0
   @Input() signId?: string
   signatureDate?: string
+  travelArea: string = ''
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   constructor(
@@ -95,6 +97,8 @@ export class TravelPrintComponent implements OnInit {
         for (let data of res.riskDetails) {
           totalUnit += parseInt(data.travelRisk.totalUnit)
         }
+        if (res.beneficiaries)
+        this.beneficiaries = res.beneficiaries
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }
