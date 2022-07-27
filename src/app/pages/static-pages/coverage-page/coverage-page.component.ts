@@ -48,9 +48,9 @@ export class CoveragePageComponent implements OnInit {
     if (this.product.code == "PLMO02" || this.product.code == "PLMO01") {
       this.parentData = this.getParnet()
       let term = this.parentData['m_policy_term']
-      console.log("Policy-TERM", term);
+      // console.log("Policy-TERM", term);
       this.termPercent = this.crossPercent[term] || 1
-      console.log("TERM-Percent", this.termPercent);
+      // console.log("TERM-Percent", this.termPercent);
     }
     if (this.product.coverages && this.product.coverages.length > 0) {
       await this.loadingService.activate()

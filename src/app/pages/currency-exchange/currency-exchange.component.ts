@@ -47,8 +47,8 @@ export class CurrencyExChangeComponent implements OnInit {
       if (res) {
         
         this.exchangeRateAccess = res['exchange_rate']
-        console.log(res, this.exchangeRateAccess );
-        console.log(this.displayedColumns)
+        // console.log(res, this.exchangeRateAccess );
+        // console.log(this.displayedColumns)
         if (this.exchangeRateAccess.create) {
           this.isViewUser = true
         } else {

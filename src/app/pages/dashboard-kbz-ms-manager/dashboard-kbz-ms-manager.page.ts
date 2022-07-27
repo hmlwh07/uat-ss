@@ -142,7 +142,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
   async ngOnInit() {
     let route = this.router.url.split("?")
     this.activeRoute = route[0]
-    console.log("this.activeRoute",this.activeRoute);
+    // console.log("this.activeRoute",this.activeRoute);
     this.getList();
     this.getLeadList();
     this.getAgentList();
@@ -153,7 +153,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
   ngAfterViewInit() {
     let route = this.router.url.split("?")
     this.activeRoute = route[0]
-    console.log("this.activeRoute",this.activeRoute);
+    // console.log("this.activeRoute",this.activeRoute);
   }
 
   loadForm() {
@@ -209,7 +209,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       })
       return { ...res, data, weeks }
     })).toPromise().then((res) => {
-      console.log(res);
+      // console.log(res);
 
       if (res) {
         this.agentLineChart = res;
@@ -248,7 +248,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
 
   getSaleRoleData(agent: any) {
     this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
-      console.log(res);
+      // console.log(res);
       let page = ''
       if (res) {
         res.forEach(data => {
@@ -264,7 +264,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
         })
 
       }
-      console.log(page);
+      // console.log(page);
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {

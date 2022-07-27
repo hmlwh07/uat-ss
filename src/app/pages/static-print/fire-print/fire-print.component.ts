@@ -59,7 +59,7 @@ export class FirePrintComponent implements OnInit {
     this.fireService.getOne(this.resourcesId).toPromise().then(res => {
       if (res)
         this.detail = res
-      console.log("Detail", this.detail);
+      // console.log("Detail", this.detail);
     })
   }
   getRiskDetail() {
@@ -73,7 +73,7 @@ export class FirePrintComponent implements OnInit {
     this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.listData = res
-        console.log("riskDetail", this.listData);
+        // console.log("riskDetail", this.listData);
         for (let data of this.listData) {
           this.totalPremium += Number(data.premium)
           this.totalSi += Number(data.riskSi)
@@ -92,7 +92,7 @@ export class FirePrintComponent implements OnInit {
 
   getPolicyHolder() {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
-      console.log("Policy", res)
+      // console.log("Policy", res)
       if (res) {
         this.policyHolder = res
         this.getMasterValue(
@@ -109,7 +109,7 @@ export class FirePrintComponent implements OnInit {
           })
       }
     })
-    console.log("getPolicyHolder:", this.policyHolder)
+    // console.log("getPolicyHolder:", this.policyHolder)
   }
 
 
@@ -140,14 +140,14 @@ export class FirePrintComponent implements OnInit {
     this.fireRiskAddressService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.address = res
-        console.log("address", this.address);
+        // console.log("address", this.address);
       }
     })
   }
 
   async getAddonCover() {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
-    console.log(this.product, this.listData);
+    // console.log(this.product, this.listData);
 
     for (let riskID of this.listData) {
       let obj = {
@@ -163,7 +163,7 @@ export class FirePrintComponent implements OnInit {
             this.additionalData = await this.addonQuo.getOne(item.id, this.resourcesId, this.optionId).toPromise()
             // this.addonQuo.getOne(item.id, this.resourcesId,this.optionId).toPromise().then((response: any) => {
             //   console.log("response",response);
-            console.log("response", this.additionalData);
+            // console.log("response", this.additionalData);
 
             if (this.additionalData) {
               obj[item.code] = this.additionalData.premium || 0
@@ -176,10 +176,10 @@ export class FirePrintComponent implements OnInit {
         } catch (error) {
         }
       }
-      console.log("ADDON", obj);
+      // console.log("ADDON", obj);
 
       this.addOnData.push(obj)
-      console.log("ADDONDATA", this.addOnData);
+      // console.log("ADDONDATA", this.addOnData);
 
     }
   }

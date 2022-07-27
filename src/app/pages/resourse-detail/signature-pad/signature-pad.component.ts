@@ -59,7 +59,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
             signId: res,
             signDate: date
           }
-          console.log("File Upload:", res)
+          // console.log("File Upload:", res)
           this.modal.dismiss({
             data: data,
             type: 'save'

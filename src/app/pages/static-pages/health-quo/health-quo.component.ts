@@ -54,7 +54,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
       }
     })
     this.parentData = this.globalFun.tempFormData[HealthPageID]
-    console.log("PARTENT", this.parentData);
+    // console.log("PARTENT", this.parentData);
 
     if (!this.parentData) {
       this.alertService.activate("This page cann't to show because there is no health product detail data. Please add health product detail in prodcut configuration", "Warning")
@@ -71,7 +71,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
           }
         })
       }
-      console.log('SHOWDATA', this.showData)
+      // console.log('SHOWDATA', this.showData)
       this.calculateSchedule()
     }
   }
@@ -86,7 +86,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
     let doCount = this.parentData.paymentFrequency == 'L' ? 1 : 2
     let age = Math.ceil(moment().diff(this.parentData.dateOfBirth, 'years', true));
     this.healthRateService.getOne(age, this.parentData.basicCoverId).toPromise().then((res: any) => {
-      console.log("healthRateService", res);
+      // console.log("healthRateService", res);
 
       if (res) {
         if (this.parentData.paymentFrequency == 'L') {
@@ -102,7 +102,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
           let pre = res.semiAnnual * this.parentData.sumInsuredMainCover
           let levy = firstTimeValue * this.parentData.sumInsuredMainCover
           this.totalP = this.totalP + pre
-          console.log("TOTALP", this.totalP);
+          // console.log("TOTALP", this.totalP);
 
           this.totalL = levy
           this.schedule.push({ premium: pre, coverage: this.parentData.basicCoverId, sumInsured: this.parentData.sumInsuredMainCover, levy: levy })
@@ -111,7 +111,6 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
         }
 
         // let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-        let tempPre = this.globalFun.calculateDecimal(this.totalP) + this.totalL
         if (this.schedule.length > 0) {
           if (this.parentData.paymentFrequency == "L") {
             this.tempSchedule = [
@@ -119,16 +118,20 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
             ]
           } else {
             // let tempTotal = this.totalP / 2
+
             let tempTotal = this.totalP
-            this.totalSemi = this.totalP
             this.tempSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },
             ]
+            this.totalSemi = this.tempSchedule[0].premium + this.tempSchedule[1].premium
+
           }
         }
+        let total = this.parentData.paymentFrequency == 'L' ? this.totalP : this.totalSemi
+        let tempPre = this.globalFun.calculateDecimal(total) + this.totalL
         this.premiumAmt = this.numberPipe.transform(tempPre, "1.2-2") + " MMK"
-        console.log("THIS>PREMIUM", this.premiumAmt);
+        // console.log("THIS>PREMIUM", this.premiumAmt);
 
         this.globalFun.paPremiumResult.next(this.premiumAmt)
         if (this.parentData.basicCoverId == "CRTILLNESS") {
@@ -149,11 +152,11 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
     this.product.addOns.forEach(addon => {
       if (this.parentData.addOns[addon.id + "opt"]) {
         let value = this.parentData.addOns[addon.id + "value"]
-        console.log("VALUEE", value);
+        // console.log("VALUEE", value);
 
         i += 1
         this.healthRateService.getOne(age, addon.code).toPromise().then(async (res: any) => {
-          console.log("healthRateService", res);
+          // console.log("healthRateService", res);
 
           if (res) {
             if (this.parentData.paymentFrequency == 'L') {
@@ -164,7 +167,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
 
               pre = res.semiAnnual * value
               this.preAddon += pre
-              console.log("PREPRE", this.preAddon);
+              // console.log("PREPRE", this.preAddon);
               this.totalP = this.preSemi + this.preAddon
             }
           }
@@ -183,7 +186,7 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
           let total = this.parentData.paymentFrequency == 'L' ? this.totalP : this.totalSemi
           let tempPre = this.globalFun.calculateDecimal(total) + this.totalL
           this.premiumAmt = this.numberPipe.transform(tempPre, "1.2-2") + " MMK "
-          console.log("THIS>PREMIUM", this.premiumAmt);
+          // console.log("THIS>PREMIUM", this.premiumAmt);
 
           this.globalFun.paPremiumResult.next(this.premiumAmt)
           this.cdf.detectChanges()

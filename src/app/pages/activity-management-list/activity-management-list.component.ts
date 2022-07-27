@@ -110,7 +110,7 @@ export class ActivityManagementListComponent implements OnInit {
   // }
 
   reponseFromPager(event) {
-    console.log("LEADEVENT", event);
+    // console.log("LEADEVENT", event);
     this.currentPage = event
     this.getDatabyPage(this.currentPage)
   }
@@ -121,7 +121,7 @@ export class ActivityManagementListComponent implements OnInit {
 
     this.activityService.getActivityList( this.postedData ).toPromise().then((res: any) => {
       if (res) {
-        console.log('getActivityList', res);
+        // console.log('getActivityList', res);
         this.activityList = res.content
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages

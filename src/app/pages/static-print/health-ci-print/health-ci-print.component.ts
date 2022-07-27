@@ -66,7 +66,7 @@ export class HealthCiPrintComponent implements OnInit {
 
   getDetail() {
     this.healthPrintService.getOne(this.resourcesId).toPromise().then((res: any) => {
-      console.log(res);
+      // console.log(res);
       if (res) {
         this.policyInfo = res.policyInfo
         this.riskDetails = res.riskDetails
@@ -121,7 +121,7 @@ export class HealthCiPrintComponent implements OnInit {
               { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
             ]
           } else {
-            let tempTotal = this.totalP
+            let tempTotal = this.totalP/2
             this.tempPaymentSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },
@@ -152,7 +152,7 @@ export class HealthCiPrintComponent implements OnInit {
               stateName: res['PT_STATE'],
             }
           })
-          console.log("getPolicyHolder: ", this.policyHolder)
+          // console.log("getPolicyHolder: ", this.policyHolder)
         }
       });
   }

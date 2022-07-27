@@ -478,6 +478,10 @@ export const locale = {
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',
+      download_success: "Your document has been successfully downloaded.",
+      download_success_android: 'Your document has been successfully downloaded. Please check in your file location "File Manager > kbzms_downloads".',
+      file_error: "Oops, something has gone wrong. Please Try again!",
+      file_path_warning: "You need to give files and media access for this application in device setting and then try again."
     },
   }
 }

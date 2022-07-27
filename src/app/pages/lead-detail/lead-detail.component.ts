@@ -541,7 +541,7 @@ export class LeadDetailComponent implements OnInit {
       .toPromise()
       .then((res) => {
         if (res) {
-          console.log("getOld => response", res)
+          // console.log("getOld => response", res)
           this.oldData = res;
           if (res.existingCustomerId != 0) {
             this.isAddProspect = true
@@ -743,7 +743,7 @@ export class LeadDetailComponent implements OnInit {
       identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : null,
       identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
     }
-    console.log("checkExisting: ", postData)
+    // console.log("checkExisting: ", postData)
     if (type == "customer") {
       this.LeadDetailService.checkExistingCustomer(postData).toPromise().then((res: any) => {
         if (res.customerId) {
@@ -916,7 +916,7 @@ export class LeadDetailComponent implements OnInit {
   }
 
   loadForm(oldData?) {
-    console.log("LoadForm => OldData? ", oldData)
+    // console.log("LoadForm => OldData? ", oldData)
     if (oldData != null) {
       this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
       this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
@@ -1400,7 +1400,7 @@ export class LeadDetailComponent implements OnInit {
       if (postData.prospectCustomerId) {
         data["prospectCustomerId"] = postData.prospectCustomerId
       }
-      console.log("Request to API => Data: ", data)
+      // console.log("Request to API => Data: ", data)
       this.LeadDetailService.createLead(data).toPromise()
         .then((res: any) => {
           if (res) {
@@ -1724,14 +1724,14 @@ export class LeadDetailComponent implements OnInit {
         if (res) {
           res.customerDob = this.customer.customerDob;
           if (res.fnaType == "BPM") {
-            console.log('BPM ==========> ', res);
+            // console.log('BPM ==========> ', res);
             this.router.navigate(["/fna/fna-bram"], {
               queryParams: { passValue: JSON.stringify({ res }) }
             })
           }
 
           if (res.fnaType == "LPP") {
-            console.log("LPP ==========> ", res);
+            // console.log("LPP ==========> ", res);
             this.router.navigate(["/fna/fna-detail"], {
               queryParams: { passValue: JSON.stringify(res) }
             })

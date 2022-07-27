@@ -1,5 +1,5 @@
-import { AfterContentChecked, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterContentChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -24,7 +24,7 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
   @Input() internalConfig: ConfigInput[] = []
   constructor(
     private globalFun: GlobalFunctionService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit() {
@@ -37,7 +37,6 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
   ngOnDestroy() {
     this.unSub.forEach((sb) => sb.unsubscribe());
   }
-
   doFunction() {
     if (this.config.isFun) {
       if (this.config.inpFunction.type == FUNCTION_TYPE.TRIGGER) {
@@ -54,11 +53,16 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
         })
       }
     }
+
+    if (this.isNrc && this.group) {
+      this.group.controls.identity_number.setValidators(Validators.required)
+      this.group.controls.identity_number.updateValueAndValidity()
+    }
   }
 
   openModal() {
     //console.log(this.editStage);
-
+    
     if (this.editStage || this.config.disabled) return false
     let modalRef;
     if (this.isNrc) {
@@ -86,7 +90,7 @@ export class DialogBoxComponent implements Field, OnInit, OnDestroy {
     modalRef.componentInstance.isLead = true
     modalRef.result.then(() => { }, (res) => {
       if (res) {
-        console.log("Detail",res)
+        // console.log("Detail", res)
         if (res.type == "save") {
           let customer = res.data
           this.doDataBind(customer)

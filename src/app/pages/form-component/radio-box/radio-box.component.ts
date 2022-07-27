@@ -50,7 +50,6 @@ export class RadioBoxComponent implements Field,OnInit, OnDestroy {
         this.globalFun[this.config.inpFunction.funName](this.group.getRawValue()[this.config.name],this.group.getRawValue())
       }
     }
-
     if(this.config.isCurrency){
       this.globalFun.currenyValueObs.next(this.group.getRawValue()[this.config.name])
     }

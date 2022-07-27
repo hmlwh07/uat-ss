@@ -134,7 +134,7 @@ export class ProductComponent implements OnInit {
     // console.log('product =====> ', product);
     forkJoin([this.productDataService.findOne(product.productId), this.customerService.findOne(this.passValueData.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
       if (res) {
-        console.log(res)
+        // console.log(res)
         this.productDataService.createingProd = res[0]
         this.productDataService.creatingCustomer = res[1]
         this.productDataService.type = "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLMO01" || res[0].code == "PLTR01" || res[0].code == "PCHL01" ? 'policy' : 'quotation'
@@ -158,7 +158,7 @@ export class ProductComponent implements OnInit {
     let nameList = []
     //472
     await this.productService.getAllProductRec(this.fnaId).toPromise().then(async (res: any) => {
-      console.log('getAllProductRec', res);
+      // console.log('getAllProductRec', res);
       this.productList = res;
       if (res.highRisk.length > 0 || res.lessRisk.length > 0) {
         this.isData = true;

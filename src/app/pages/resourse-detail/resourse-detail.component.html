@@ -54,7 +54,7 @@
         <div class="card-body customer-card-body mt-5">
           <div class="row">
             <div class="col-10">
-              <ng-select class="ng-custom-select" placeholder="Please Select" (change)="changeBranch($event)"
+              <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select" (change)="changeBranch($event)"
                 [(ngModel)]="branch" [items]="branchOption" bindLabel="value" bindValue="code">
               </ng-select>
             </div>

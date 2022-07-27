@@ -713,6 +713,11 @@ export const locale = {
     },
     ERROR: {
       not_match: 'Password and confirm password does not match',
+      upload_success: "ဖိုင်အား အောင်မြင်စွာ တင်ပြီးပါပြီ",
+      download_success: "ဖိုင်အား အောင်မြင်စွာ ဆွဲယူပြီးပါပြီ",
+      download_success_android: 'ဖိုင်အား အောင်မြင်စွာ ဆွဲယူပြီးပါပြီ။ ကျေးဇူးပြု၍ သင့်ဖိုင်တည်နေရာ "File Manager > kbzms_downloads" တွင် စစ်ဆေးပါ။',
+      file_error: "တစ်စုံတစ်ခု မှားယွင်းနေပါသည်။ နောက်တစ်ကြိမ် ပြန်လည်ကြိုးစားကြည့်ပေးပါ",
+      file_path_warning: "ဖုန်း ဆက်တင်မှ ဒီအပလီကေးရှင်းအတွက် ဖိုင်နဲ့မီဒီယာ အသုံးပြုခွင့်ပေးပါ။ ထို့နောက် ထပ်မံစမ်းကြည့်ပေးပါ။"
     },
     FNA: {
       "High Priority": "အရေးကြီး ဦးစားပေး",
