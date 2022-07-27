@@ -27,7 +27,7 @@ export const RenewCol: TableCol[] = [
   // },
 
   {
-    title: "Policy Holder",
+    title: "Agent Name",
     type: COLTYPE.FEILD,
     field: "agentName",
     // amtFormat?: boolean,
