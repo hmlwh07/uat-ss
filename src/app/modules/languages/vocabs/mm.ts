@@ -114,6 +114,7 @@ export const locale = {
       btn_reject: 'Reject',
       btn_win: 'Win',
       btn_lost: 'Lost',
+      btn_released: 'Released',
       btn_save: 'သိမ်းပါ',
       btn_cancel: 'ပယ်ဖျက်ပါ',
       btn_browse: 'ရွေးရန်',

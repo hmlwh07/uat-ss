@@ -726,6 +726,12 @@
                                         <span class="">{{"FORM.btn_lost" | translate}}</span>
                                     </button>
                                 </div> -->
+                                <div class="col-sm-2" *ngIf="leadForm.getRawValue().statusCode=='03' ">
+                                    <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
+                                        (click)="updateLeadStatus('07')" [disabled]="isReleasedDisabled">
+                                        <span class="">{{"FORM.btn_released" | translate}}</span>
+                                    </button>
+                                </div>
                                 <div class="col-sm-2"
                                     *ngIf="leadForm.getRawValue().statusCode =='04' ||leadForm.getRawValue().statusCode =='03' || leadForm.getRawValue().statusCode =='02' || leadForm.getRawValue().statusCode =='01'">
                                     <button type="button" class="btn btn-sm btn-primary ml-2" style="width: 100%;"
@@ -1511,6 +1517,7 @@
                 </div>
 
             </div>
+
             <div class="card card-custom gutter-b" *ngIf="quoAccess.view">
                 <div class="card-header" *ngIf="!isPopup">
                     <div class="card-title">
@@ -1536,7 +1543,7 @@
 
                     <section>
 
-                        <app-material-table-view #quotation [data]="quatationList" [colum]="QUOTATION_ELEMENT_COL"
+                        <app-material-table-view #quotation [data]="quotationList" [colum]="QUOTATION_ELEMENT_COL"
                             [displayedColumns]="QuotationdisplayedColumns" (emitter)="actionBtn($event, 'QUO')"
                             [selectable]="isPopup">
                         </app-material-table-view>
