@@ -65,4 +65,7 @@ export class LeadDetailService extends BizOperationService<Lead, number>{
   createLead(postData: any) {
     return this.httpClient.post(API_LEAD_URL, postData)
   }
+  getStatusById(leadId: string) {
+    return this.httpClient.get(API_LEAD_URL + "/check?leadId=" + leadId)
+  }
 }

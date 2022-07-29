@@ -582,6 +582,7 @@ export class LeadDetailComponent implements OnInit {
             this.isReleasedDisabled = true;
           } else {
             this.isReleasedDisabled = false;
+            this.APPLICATION_ELEMENT_COL[9].btn.edit = false
           }
 
           this.quotationList.forEach((value, index) => {
