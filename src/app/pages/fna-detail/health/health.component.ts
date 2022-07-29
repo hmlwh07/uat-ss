@@ -77,6 +77,8 @@ export class HealthComponent implements OnInit {
   }
 
   loadForm() {
+    console.log('loadForm', this.healthDto);
+
     this.formGroup = new FormGroup({
       selfId: new FormControl(this.healthDto.selfId || 0),
       amountByEmployer: new FormControl(this.healthDto.amountByEmployer || ''),
@@ -139,9 +141,9 @@ export class HealthComponent implements OnInit {
 
   setSelfInsurance(data) {
     this.formGroup.controls['protectionSelf'].setValue(data.protection);
-    this.formGroup.controls['amountByEmployerSelf'].setValue(data.amountByEmployer ? this.fnaService.mathRoundTo(data.amountByEmployer, 2) : null),
-      this.formGroup.controls['amountByInsuranceSelf'].setValue(data.amountByInsurance ? this.fnaService.mathRoundTo(data.amountByInsurance, 2) : null);
-    this.formGroup.controls['amountBySocialBenefitSelf'].setValue(data.amountBySocialBenefit ? this.fnaService.mathRoundTo(data.amountBySocialBenefit, 2) : null);
+    this.formGroup.controls['amountByEmployerSelf'].setValue(data.amountByEmployer != 0 ? this.fnaService.mathRoundTo(data.amountByEmployer, 2) : 0),
+      this.formGroup.controls['amountByInsuranceSelf'].setValue(data.amountByInsurance != 0 ? this.fnaService.mathRoundTo(data.amountByInsurance, 2) : 0);
+    this.formGroup.controls['amountBySocialBenefitSelf'].setValue(data.amountBySocialBenefit != 0 ? this.fnaService.mathRoundTo(data.amountBySocialBenefit, 2) : 0);
     this.formGroup.controls['selfId'].setValue(data.id);
   }
 
@@ -189,9 +191,9 @@ export class HealthComponent implements OnInit {
     this.formGroup.controls['nameSpouse'].setValue(data.name);
     this.formGroup.controls['dateOfBirthSpouse'].setValue(data.dateOfBirth);
     this.formGroup.controls['protectionSpouse'].setValue(data.protection);
-    this.formGroup.controls['amountByEmployerSpouse'].setValue(data.amountByEmployer ? this.fnaService.mathRoundTo(data.amountByEmployer, 2) : null);
-    this.formGroup.controls['amountByInsuranceSpouse'].setValue(data.amountByInsurance ? this.fnaService.mathRoundTo(data.amountByInsurance, 2) : null);
-    this.formGroup.controls['amountBySocialBenefitSpouse'].setValue(data.amountBySocialBenefit ? this.fnaService.mathRoundTo(data.amountBySocialBenefit, 2) : null);
+    this.formGroup.controls['amountByEmployerSpouse'].setValue(data.amountByEmployer != 0 ? this.fnaService.mathRoundTo(data.amountByEmployer, 2) : 0);
+    this.formGroup.controls['amountByInsuranceSpouse'].setValue(data.amountByInsurance != 0 ? this.fnaService.mathRoundTo(data.amountByInsurance, 2) : 0);
+    this.formGroup.controls['amountBySocialBenefitSpouse'].setValue(data.amountBySocialBenefit != 0 ? this.fnaService.mathRoundTo(data.amountBySocialBenefit, 2) : 0);
     this.formGroup.controls['spouseId'].setValue(data.id);
   }
 
@@ -238,9 +240,9 @@ export class HealthComponent implements OnInit {
     this.formGroup.controls['name'].setValue(data.name);
     this.formGroup.controls['dateOfBirth'].setValue(data.dateOfBirth);
     this.formGroup.controls['protection'].setValue(data.protection);
-    this.formGroup.controls['amountByEmployer'].setValue(data.amountByEmployer ? this.fnaService.mathRoundTo(data.amountByEmployer, 2) : null);
-    this.formGroup.controls['amountByInsurance'].setValue(data.amountByInsurance ? this.fnaService.mathRoundTo(data.amountByInsurance, 2) : null);
-    this.formGroup.controls['amountBySocialBenefit'].setValue(data.amountBySocialBenefit ? this.fnaService.mathRoundTo(data.amountBySocialBenefit, 2) : null);
+    this.formGroup.controls['amountByEmployer'].setValue(data.amountByEmployer != 0 ? this.fnaService.mathRoundTo(data.amountByEmployer, 2) : 0);
+    this.formGroup.controls['amountByInsurance'].setValue(data.amountByInsurance != 0 ? this.fnaService.mathRoundTo(data.amountByInsurance, 2) : 0);
+    this.formGroup.controls['amountBySocialBenefit'].setValue(data.amountBySocialBenefit != 0 ? this.fnaService.mathRoundTo(data.amountBySocialBenefit, 2) : 0);
     this.formGroup.controls['id'].setValue(data.id);
     if (data.id) {
       this.selectedIndexId = data.id;
@@ -546,77 +548,77 @@ export class HealthComponent implements OnInit {
 
   updateCommaInputSelf(ev, type) {
     var num = this.fnaService.getNumber(ev.target.value);
-    if (num == 0) {
-      if (type == 'amountByInsuranceSelf') {
-        this.formGroup.controls['amountByInsuranceSelf'].setValue('');
-      }
-      if (type == 'amountByEmployerSelf') {
-        this.formGroup.controls['amountByEmployerSelf'].setValue('');
-      }
-      if (type == 'amountBySocialBenefitSelf') {
-        this.formGroup.controls['amountBySocialBenefitSelf'].setValue('');
-      }
-    } else {
-      if (type == 'amountByInsuranceSelf') {
-        this.formGroup.controls['amountByInsuranceSelf'].setValue(num.toLocaleString());
-      }
-      if (type == 'amountByEmployerSelf') {
-        this.formGroup.controls['amountByEmployerSelf'].setValue(num.toLocaleString());
-      }
-      if (type == 'amountBySocialBenefitSelf') {
-        this.formGroup.controls['amountBySocialBenefitSelf'].setValue(num.toLocaleString());
-      }
+    // if (num == 0) {
+    //   if (type == 'amountByInsuranceSelf') {
+    //     this.formGroup.controls['amountByInsuranceSelf'].setValue('');
+    //   }
+    //   if (type == 'amountByEmployerSelf') {
+    //     this.formGroup.controls['amountByEmployerSelf'].setValue('');
+    //   }
+    //   if (type == 'amountBySocialBenefitSelf') {
+    //     this.formGroup.controls['amountBySocialBenefitSelf'].setValue('');
+    //   }
+    // } else {
+    if (type == 'amountByInsuranceSelf') {
+      this.formGroup.controls['amountByInsuranceSelf'].setValue(num.toLocaleString());
     }
+    if (type == 'amountByEmployerSelf') {
+      this.formGroup.controls['amountByEmployerSelf'].setValue(num.toLocaleString());
+    }
+    if (type == 'amountBySocialBenefitSelf') {
+      this.formGroup.controls['amountBySocialBenefitSelf'].setValue(num.toLocaleString());
+    }
+    // }
   }
 
   updateCommaInputSpouse(ev, type) {
     var num = this.fnaService.getNumber(ev.target.value);
-    if (num == 0) {
-      if (type == 'amountByInsuranceSpouse') {
-        this.formGroup.controls['amountByInsuranceSpouse'].setValue('');
-      }
-      if (type == 'amountByEmployerSpouse') {
-        this.formGroup.controls['amountByEmployerSpouse'].setValue('');
-      }
-      if (type == 'amountBySocialBenefitSpouse') {
-        this.formGroup.controls['amountBySocialBenefitSpouse'].setValue('');
-      }
-    } else {
-      if (type == 'amountByInsuranceSpouse') {
-        this.formGroup.controls['amountByInsuranceSpouse'].setValue(num.toLocaleString());
-      }
-      if (type == 'amountByEmployerSpouse') {
-        this.formGroup.controls['amountByEmployerSpouse'].setValue(num.toLocaleString());
-      }
-      if (type == 'amountBySocialBenefitSpouse') {
-        this.formGroup.controls['amountBySocialBenefitSpouse'].setValue(num.toLocaleString());
-      }
+    // if (num == 0) {
+    //   if (type == 'amountByInsuranceSpouse') {
+    //     this.formGroup.controls['amountByInsuranceSpouse'].setValue('');
+    //   }
+    //   if (type == 'amountByEmployerSpouse') {
+    //     this.formGroup.controls['amountByEmployerSpouse'].setValue('');
+    //   }
+    //   if (type == 'amountBySocialBenefitSpouse') {
+    //     this.formGroup.controls['amountBySocialBenefitSpouse'].setValue('');
+    //   }
+    // } else {
+    if (type == 'amountByInsuranceSpouse') {
+      this.formGroup.controls['amountByInsuranceSpouse'].setValue(num.toLocaleString());
     }
+    if (type == 'amountByEmployerSpouse') {
+      this.formGroup.controls['amountByEmployerSpouse'].setValue(num.toLocaleString());
+    }
+    if (type == 'amountBySocialBenefitSpouse') {
+      this.formGroup.controls['amountBySocialBenefitSpouse'].setValue(num.toLocaleString());
+    }
+    // }
   }
 
   updateCommaInputChild(ev, type) {
     var num = this.fnaService.getNumber(ev.target.value);
-    if (num == 0) {
-      if (type == 'amountByInsurance') {
-        this.formGroup.controls['amountByInsurance'].setValue('');
-      }
-      if (type == 'amountByEmployer') {
-        this.formGroup.controls['amountByEmployer'].setValue('');
-      }
-      if (type == 'amountBySocialBenefit') {
-        this.formGroup.controls['amountBySocialBenefit'].setValue('');
-      }
-    } else {
-      if (type == 'amountByInsurance') {
-        this.formGroup.controls['amountByInsurance'].setValue(num.toLocaleString());
-      }
-      if (type == 'amountByEmployer') {
-        this.formGroup.controls['amountByEmployer'].setValue(num.toLocaleString());
-      }
-      if (type == 'amountBySocialBenefit') {
-        this.formGroup.controls['amountBySocialBenefit'].setValue(num.toLocaleString());
-      }
+    // if (num == 0) {
+    //   if (type == 'amountByInsurance') {
+    //     this.formGroup.controls['amountByInsurance'].setValue('');
+    //   }
+    //   if (type == 'amountByEmployer') {
+    //     this.formGroup.controls['amountByEmployer'].setValue('');
+    //   }
+    //   if (type == 'amountBySocialBenefit') {
+    //     this.formGroup.controls['amountBySocialBenefit'].setValue('');
+    //   }
+    // } else {
+    if (type == 'amountByInsurance') {
+      this.formGroup.controls['amountByInsurance'].setValue(num.toLocaleString());
     }
+    if (type == 'amountByEmployer') {
+      this.formGroup.controls['amountByEmployer'].setValue(num.toLocaleString());
+    }
+    if (type == 'amountBySocialBenefit') {
+      this.formGroup.controls['amountBySocialBenefit'].setValue(num.toLocaleString());
+    }
+    // }
   }
 
   backToStartAction() {
