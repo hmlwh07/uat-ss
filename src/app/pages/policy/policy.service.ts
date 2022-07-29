@@ -73,3 +73,14 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
       })
   }
 }
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PolicyManageService extends BizOperationService<PolicyDTO, number>{
+
+  constructor(protected httpClient: HttpClient) {
+    super(httpClient, API_QUOTATION__ATT_URL);
+  }
+}

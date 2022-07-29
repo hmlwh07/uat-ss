@@ -3,7 +3,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { map } from "rxjs/operators";
 import { AlertService } from "src/app/modules/loading-toast/alert-model/alert.service";
 import { MaterialTableViewComponent } from "../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component";
-import { PolicyService } from "../../policy/policy.service";
+import { PolicyManageService, PolicyService } from "../../policy/policy.service";
 import { QuotationService } from "../../quotations/quotation.service";
 import { CustomerListService } from "../customer-list.service";
 import { EmployeeListService } from "../employee-list.service";
@@ -31,7 +31,7 @@ export class RelatedModalCompoent implements OnInit {
   dataList: any[] = []
   selectedName: string
   constructor(public modal: NgbActiveModal, private quotService: QuotationService, 
-    private policyService: PolicyService, private customerService: CustomerListService, 
+    private policyService: PolicyManageService, private customerService: CustomerListService, 
     private employeeService: EmployeeListService,private cdf: ChangeDetectorRef, private alertService: AlertService) {
   }
 
