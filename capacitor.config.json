@@ -1,6 +1,6 @@
 {
 	"appId": "io.ionic.starter",
-	"appName": "KBZ Insurance Producer Sale",
+	"appName": "KBZ Insurance Producer Sale", 
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
