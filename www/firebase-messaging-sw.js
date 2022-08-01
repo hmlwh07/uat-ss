@@ -10,7 +10,7 @@ firebase.initializeApp({
   storageBucket: "digitalfe-uat.appspot.com",
   messagingSenderId: "210382068330",
   appId: "1:210382068330:web:930c7c1ac9570df92bc813",
-  measurementId: "G-E16237EJL2"
+  measurementId: "G-E16237EJL2",
 });
 const messaging = firebase.messaging();
 messaging.onBackgroundMessage(function (payload) {
