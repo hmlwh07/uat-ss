@@ -149,6 +149,7 @@ export class AddonPageComponent implements OnInit {
           sum: response ? response.sumInsured || 0 : 0,
           unit: response ? response.unit || 0 : 0,
           premium: response ? response.premium || 0 : 0,
+          premiumYear: response ? response.premiumYear || 0 : 0,
           option: response ? response.option || "" : "",
           startDate: response ? response.startDate || "" : "",
           endDate: response ? response.endDate || "" : "",
@@ -172,7 +173,11 @@ export class AddonPageComponent implements OnInit {
           if (item.code == "CROSSBRDR" && this.addOnsData[item.id].checked) {
 
           } else {
+            console.log("item.premiumStr", item.premiumStr);
             this.getGlobalFun(item.premiumStr, 'addOnsData', item.id, 'premium', item)
+            item.premiumStrYear = item.premiumStr + "Year"
+            console.log("item.premiumStr", item.premiumStrYear); 
+            this.getGlobalFun(item.premiumStrYear, 'addOnsData', item.id, 'premiumYear', item)
           }
         }
         // }
@@ -193,6 +198,8 @@ export class AddonPageComponent implements OnInit {
       //     }
       //   }
       // }
+      console.log(" this.addOnsData", this.addOnsData);
+      
       this.isLoading = false
       await this.loadingService.deactivate()
       this.cdRef.detectChanges();
@@ -204,11 +211,13 @@ export class AddonPageComponent implements OnInit {
 
   getGlobalFun(funName: string, mainObj: string, mainKey, subKey: string, addon: any) {
 
-    if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && subKey == "premium") {
+    if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && (subKey == "premium" || subKey == "premiumYear")) {
       if (this.globalFun[funName]) {
         let parentValueObj = addon.code == "PAIDDRIVER" ? this.getParnet('motor_driver') : this.parentData
         parentValueObj = { ...parentValueObj, productCode: this.product.code }
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {
+          console.log("RES",res);
+          
           this[mainObj][mainKey][subKey] = res
           this.cdRef.detectChanges();
         })
@@ -258,6 +267,7 @@ export class AddonPageComponent implements OnInit {
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
         let premium = posDataArray[addon.id].premium ? posDataArray[addon.id].premium + "" : ""
+        let premiumYear = posDataArray[addon.id].premiumYear ? posDataArray[addon.id].premiumYear + "" : ""
         let option = posDataArray[addon.id].option ? posDataArray[addon.id].option + "" : ""
         let startDate = posDataArray[addon.id].startDate ? posDataArray[addon.id].startDate + "" : ""
         let endDate = posDataArray[addon.id].endDate ? posDataArray[addon.id].endDate + "" : ""
@@ -275,6 +285,7 @@ export class AddonPageComponent implements OnInit {
             endDate: endDate,
             sumInsured: (sum).replace(',', '').replace('MMK', '').replace('USD', ''),
             unit: (unit).replace(',', '').replace('MMK', '').replace('USD', ''),
+            premiumYear: (premiumYear).replace(',', '').replace('MMK', '').replace('USD', ''),
             premium: (premium).replace(',', '').replace('MMK', '').replace('USD', ''),
           }
           if (this.product.code == "CLFR01") {
