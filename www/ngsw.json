@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1659412005534,
+  "timestamp": 1659435438041,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -4274,7 +4274,7 @@
     "/firebase-messaging-sw.js": "1f9c529223e0841641c0d0a089d15543ad405ba5",
     "/index.html": "64c4c6a8fe4778ebcdfff719be2a8723b773006a",
     "/left-border.png": "036921a884f862730c2b4c4f7aa3fe785dbbce08",
-    "/main.js": "c4c84185526eb1689c43b0baa0a876a4a0882e4b",
+    "/main.js": "8405b10b283d0936d3b6b0870c1dbefed9e7853a",
     "/manifest.webmanifest": "9a088b7c4339228d1082e666ce105dc889bc180c",
     "/node_modules_canvg_lib_index_es_js.js": "0c345499b09dfa404963678e095d637328c968cf",
     "/node_modules_capacitor_app_dist_esm_web_js.js": "56de9540a37eacf8e3e12868c9631269b18f34d1",
