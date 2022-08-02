@@ -79,7 +79,8 @@ export class CoveragePageComponent implements OnInit {
         this.coverageData[item.id] = {
           sum: response ? response.sumInsured || 0 : 0,
           unit: response ? response.unit || 0 : 0,
-          premium: response ? (response.premium || 0) : 0
+          premium: response ? (response.premium || 0) : 0,
+          premiumYear: response ? (response.premiumYear || 0) : 0
         }
 
         if (item.sumInsured) {
@@ -89,7 +90,12 @@ export class CoveragePageComponent implements OnInit {
           this.getGlobalFun(item.unitStr, 'coverageData', item.id, 'unit')
         }
         if (item.premium) {
+          console.log(item.premiumStr);
+          
           this.getGlobalFun(item.premiumStr, 'coverageData', item.id, 'premium')
+          item.premiumStrYear = item.premiumStr + "Year"
+          console.log(item.premiumStrYear);
+          this.getGlobalFun(item.premiumStrYear, 'coverageData', item.id, 'premiumYear')
         }
         // }
       }
@@ -104,11 +110,13 @@ export class CoveragePageComponent implements OnInit {
   }
 
   getGlobalFun(funName: string, mainObj: string, mainKey, subKey: string) {
-    if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && subKey == "premium") {
+    if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && (subKey == "premium" || subKey=="premiumYear")) {
       if (this.globalFun[funName]) {
         this.parentData = { ...this.parentData, productCode: this.product.code }
         let unsub = this.globalFun[funName](this.parentData).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
+          console.log("RES",res);
+          
           this.cdRef.detectChanges();
         })
         this.unsubscribe.push(unsub)
@@ -134,6 +142,8 @@ export class CoveragePageComponent implements OnInit {
   async nextPage() {
     const quoService = this.coverageQuoService
     const posDataArray = this.coverageData
+    console.log("posDataArray",posDataArray);
+    
     // console.log(this.product.coverages);
     // for await (const iterator of object) {
 
@@ -150,6 +160,7 @@ export class CoveragePageComponent implements OnInit {
           sumInsured: ((posDataArray[cov.id].sum || "") + "").replace(',', '').replace('MMK', '').replace('USD', ''),
           unit: ((posDataArray[cov.id].unit || "") + "").replace(',', '').replace('MMK', '').replace('USD', ''),
           premium: ((posDataArray[cov.id].premium || "") + "").replace(',', '').replace('MMK', '').replace('USD', ''),
+          premiumYear: ((posDataArray[cov.id].premiumYear || "") + "").replace(',', '').replace('MMK', '').replace('USD', ''),
         }
         this.globalFun.tempFormData['coverage_1634010995936'].push(postData)
         let res = await this.coverageQuoService.save(postData).toPromise().catch(e => e)
