@@ -2011,12 +2011,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AppComponent": () => (/* binding */ AppComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _app_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app.component.html?ngResource */ 33383);
 /* harmony import */ var _app_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.component.scss?ngResource */ 79259);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _metronic_partials_layout_splash_screen_splash_screen_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_metronic/partials/layout/splash-screen/splash-screen.service */ 76053);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/router */ 52816);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/router */ 52816);
 /* harmony import */ var _metronic_shared_crud_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_metronic/shared/crud-table */ 8425);
 /* harmony import */ var _metronic_core_services_products_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_metronic/core/services/products.service */ 347);
 /* harmony import */ var _modules_loading_toast_loading_loading_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/loading-toast/loading/loading.service */ 16164);
@@ -2024,7 +2024,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/auth */ 90089);
 /* harmony import */ var _capacitor_device__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @capacitor/device */ 4744);
 /* harmony import */ var _capacitor_app__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @capacitor/app */ 93253);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/loading-toast/alert-model/alert.service */ 25492);
 /* harmony import */ var _core_menu_data_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/menu-data.service */ 17606);
 /* harmony import */ var _messaging_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./messaging.service */ 28829);
@@ -2034,7 +2034,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_languages_vocabs_mm__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./modules/languages/vocabs/mm */ 94981);
 /* harmony import */ var _modules_languages_languages_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./modules/languages/languages.service */ 96115);
 /* harmony import */ var _capacitor_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @capacitor/core */ 26549);
-/* harmony import */ var _fire_top_service__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./fire-top.service */ 59535);
+/* harmony import */ var _capacitor_push_notifications__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @capacitor/push-notifications */ 71704);
+/* harmony import */ var _fire_top_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./fire-top.service */ 59535);
 
 
 
@@ -2058,12 +2059,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import {
-//   ActionPerformed,
-//   PushNotificationSchema,
-//   PushNotifications,
-//   Token,
-// } from '@capacitor/push-notifications';
+
 
 let AppComponent = class AppComponent {
     constructor(splashScreenService, router, tableService, itemService, kbzToast, master, authService, zone, applicationRef, alertCtrl, alertService, menuService, modalCtrl, loadingService, messagingService, userTokenService, langageService, auth, plat, topicService) {
@@ -2102,7 +2098,7 @@ let AppComponent = class AppComponent {
         // localStorage.setItem("itemsData", JSON.stringify(data));
     }
     setTimeout() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__awaiter)(this, void 0, void 0, function* () {
             let now = new Date().getTime();
             // console.log("entered", now);
             yield this.auth.setSection(now);
@@ -2119,7 +2115,7 @@ let AppComponent = class AppComponent {
         const itemsData = localStorage.getItem("itemsData");
         this.itemService.loadItems(JSON.parse(itemsData) || productData);
         const routerSubscription = this.router.events.subscribe((event) => {
-            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_21__.NavigationEnd) {
+            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_22__.NavigationEnd) {
                 // clear filtration paginations and others
                 this.tableService.setDefaults();
                 // hide splash screen
@@ -2165,7 +2161,7 @@ let AppComponent = class AppComponent {
                 });
                 const isPushNotificationsAvailable = _capacitor_core__WEBPACK_IMPORTED_MODULE_18__.Capacitor.isPluginAvailable('PushNotifications');
                 if (isPushNotificationsAvailable) {
-                    // this.initNoti();
+                    this.initNoti();
                 }
             }
             else {
@@ -2183,7 +2179,7 @@ let AppComponent = class AppComponent {
                 console.log("test", this.auth.isLoggedIn);
             this.checkTimeOut();
         });
-        this.plat.ready().then((res) => (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__awaiter)(this, void 0, void 0, function* () {
+        this.plat.ready().then((res) => (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__awaiter)(this, void 0, void 0, function* () {
             let token = yield this.auth.checkToken();
             if (token)
                 console.log("testtoken", token);
@@ -2191,55 +2187,48 @@ let AppComponent = class AppComponent {
         }));
         this.unsubscribe.push(unsubtime);
     }
-    // initNoti() {
-    //   console.log("LOGIN");
-    //   PushNotifications.requestPermissions().then(result => {
-    //     if (result.receive === 'granted') {
-    //       // Register with Apple / Google to receive push via APNS/FCM
-    //       PushNotifications.register();
-    //     } else {
-    //       // Show some error
-    //     }
-    //   });
-    //   // On success, we should be able to receive notifications
-    //   PushNotifications.addListener('registration',
-    //     (token: Token) => {
-    //       // console.log('Push registration success, token: ' + token.value);
-    //       this.pushToken = token.value
-    //       this.subscribeTokenToTopic(token.value)
-    //       if (this.user.userId) {
-    //         // this.updateCutomerToken(this.pushToken)
-    //       }
-    //     }
-    //   );
-    //   // Some issue with our setup and push will not work
-    //   PushNotifications.addListener('registrationError',
-    //     (error: any) => {
-    //       // alert('Error on registration: ' + JSON.stringify(error));
-    //     }
-    //   );
-    //   // Show us the notification payload if the app is open on our device
-    //   PushNotifications.addListener('pushNotificationReceived',
-    //     (notification: PushNotificationSchema) => {
-    //       // alert('Push received: ' + JSON.stringify(notification));
-    //       // console.log('Push received: ' + JSON.stringify(notification));
-    //       let value = this.messagingService.notiCount.value + 1
-    //       this.messagingService.notiCount.next(value)
-    //       // let count = parseInt(localStorage.getItem("NOTI_KBZ")) || 0
-    //       // count += 1
-    //       // localStorage.setItem("NOTI_KBZ", count + "")
-    //     }
-    //   );
-    //   // Method called when tapping on a notification
-    //   PushNotifications.addListener('pushNotificationActionPerformed',
-    //     (notification: ActionPerformed) => {
-    //       // alert('Push action performed: ' + JSON.stringify(notification));
-    //       // console.log('Push received: ' + JSON.stringify(notification));
-    //       // this.navClt.navigateForward(['/app/notifications'])
-    //       this.messagingService.notiCount.next(0)
-    //     }
-    //   );
-    // }
+    initNoti() {
+        console.log("LOGIN");
+        _capacitor_push_notifications__WEBPACK_IMPORTED_MODULE_19__.PushNotifications.requestPermissions().then(result => {
+            if (result.receive === 'granted') {
+                // Register with Apple / Google to receive push via APNS/FCM
+                _capacitor_push_notifications__WEBPACK_IMPORTED_MODULE_19__.PushNotifications.register();
+            }
+            else {
+                // Show some error
+            }
+        });
+        // On success, we should be able to receive notifications
+        _capacitor_push_notifications__WEBPACK_IMPORTED_MODULE_19__.PushNotifications.addListener('registration', (token) => {
+            // console.log('Push registration success, token: ' + token.value);
+            this.pushToken = token.value;
+            this.subscribeTokenToTopic(token.value);
+            if (this.user.userId) {
+                // this.updateCutomerToken(this.pushToken)
+            }
+        });
+        // Some issue with our setup and push will not work
+        _capacitor_push_notifications__WEBPACK_IMPORTED_MODULE_19__.PushNotifications.addListener('registrationError', (error) => {
+            // alert('Error on registration: ' + JSON.stringify(error));
+        });
+        // Show us the notification payload if the app is open on our device
+        _capacitor_push_notifications__WEBPACK_IMPORTED_MODULE_19__.PushNotifications.addListener('pushNotificationReceived', (notification) => {
+            // alert('Push received: ' + JSON.stringify(notification));
+            // console.log('Push received: ' + JSON.stringify(notification));
+            let value = this.messagingService.notiCount.value + 1;
+            this.messagingService.notiCount.next(value);
+            // let count = parseInt(localStorage.getItem("NOTI_KBZ")) || 0
+            // count += 1
+            // localStorage.setItem("NOTI_KBZ", count + "")
+        });
+        // Method called when tapping on a notification
+        _capacitor_push_notifications__WEBPACK_IMPORTED_MODULE_19__.PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
+            // alert('Push action performed: ' + JSON.stringify(notification));
+            // console.log('Push received: ' + JSON.stringify(notification));
+            // this.navClt.navigateForward(['/app/notifications'])
+            this.messagingService.notiCount.next(0);
+        });
+    }
     subscribeTokenToTopic(token) {
         // console.log(`"all" is subscribed`, token);
         if (!token)
@@ -2270,7 +2259,7 @@ let AppComponent = class AppComponent {
         return true;
     }
     checkTimeOut() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__awaiter)(this, void 0, void 0, function* () {
             // return false
             let now = new Date().getTime();
             let oldTime = yield this.auth.getSection();
@@ -2286,7 +2275,7 @@ let AppComponent = class AppComponent {
         this.unsubscribe.forEach((sb) => sb.unsubscribe());
     }
     confirmExist() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__awaiter)(this, void 0, void 0, function* () {
             // this.alertService.activate("Do you want to exit the app?", "App").then((res: any) => {
             //   if (res) {
             //     if (res.type == "ok") {
@@ -2332,7 +2321,7 @@ let AppComponent = class AppComponent {
     requestPermission() {
         // console.log("premission request");
         navigator.serviceWorker.register('./firebase-messaging-sw.js')
-            .then((registration) => (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__awaiter)(this, void 0, void 0, function* () {
+            .then((registration) => (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__awaiter)(this, void 0, void 0, function* () {
             console.log(registration);
             // messaging.useServiceWorker(registration);
             yield this.messagingService.useWorker(registration);
@@ -2350,7 +2339,7 @@ let AppComponent = class AppComponent {
         }));
     }
     listenForMessages() {
-        this.messagingService.getMessages().subscribe((msg) => (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__awaiter)(this, void 0, void 0, function* () {
+        this.messagingService.getMessages().subscribe((msg) => (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__awaiter)(this, void 0, void 0, function* () {
             if (msg) {
                 console.log(msg);
                 // this.alertService.activate(msg.notification.body, msg.notification.title)
@@ -2372,35 +2361,35 @@ let AppComponent = class AppComponent {
 };
 AppComponent.ctorParameters = () => [
     { type: _metronic_partials_layout_splash_screen_splash_screen_service__WEBPACK_IMPORTED_MODULE_2__.SplashScreenService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_21__.Router },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_22__.Router },
     { type: _metronic_shared_crud_table__WEBPACK_IMPORTED_MODULE_3__.TableExtendedService },
     { type: _metronic_core_services_products_service__WEBPACK_IMPORTED_MODULE_4__.ProductsService },
     { type: _modules_loading_toast_toast_kbz_toast_service__WEBPACK_IMPORTED_MODULE_14__.KBZToastService },
     { type: _modules_master_data_master_data_service__WEBPACK_IMPORTED_MODULE_6__.MasterDataService },
     { type: _modules_auth__WEBPACK_IMPORTED_MODULE_7__.AuthService },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_22__.NgZone },
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_22__.ApplicationRef },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.AlertController },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_23__.NgZone },
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_23__.ApplicationRef },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_24__.AlertController },
     { type: _modules_loading_toast_alert_model_alert_service__WEBPACK_IMPORTED_MODULE_10__.AlertService },
     { type: _core_menu_data_service__WEBPACK_IMPORTED_MODULE_11__.MenuDataService },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.ModalController },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_24__.ModalController },
     { type: _modules_loading_toast_loading_loading_service__WEBPACK_IMPORTED_MODULE_5__.LoadingService },
     { type: _messaging_service__WEBPACK_IMPORTED_MODULE_12__.MessagingService },
     { type: _user_token_service__WEBPACK_IMPORTED_MODULE_13__.UserTokenService },
     { type: _modules_languages_languages_service__WEBPACK_IMPORTED_MODULE_17__.LanguagesService },
     { type: _modules_auth__WEBPACK_IMPORTED_MODULE_7__.AuthService },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_23__.Platform },
-    { type: _fire_top_service__WEBPACK_IMPORTED_MODULE_19__.FireTopicService }
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_24__.Platform },
+    { type: _fire_top_service__WEBPACK_IMPORTED_MODULE_20__.FireTopicService }
 ];
 AppComponent.propDecorators = {
-    beforeUnloadHandler: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_22__.HostListener, args: ['window:unload', ['$event'],] }]
+    beforeUnloadHandler: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_23__.HostListener, args: ['window:unload', ['$event'],] }]
 };
-AppComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_20__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_22__.Component)({
+AppComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_21__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_23__.Component)({
         // tslint:disable-next-line:component-selector
         selector: 'app-root',
         template: _app_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
-        changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_22__.ChangeDetectionStrategy.OnPush,
+        changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_23__.ChangeDetectionStrategy.OnPush,
         styles: [_app_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
 ], AppComponent);
