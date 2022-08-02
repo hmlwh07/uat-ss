@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "KBZ Insurance Producer Sale",
+	"appId": "com.kbzms.sale_uat",
+	"appName": "KBZ Insurance Producer Sale (UAT)",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
