@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1659342496429,
+  "timestamp": 1659407922209,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -4274,7 +4274,7 @@
     "/firebase-messaging-sw.js": "fa67f98c3d68f9d60e1e1073df078d0ba270ec65",
     "/index.html": "64c4c6a8fe4778ebcdfff719be2a8723b773006a",
     "/left-border.png": "036921a884f862730c2b4c4f7aa3fe785dbbce08",
-    "/main.js": "bceec92223d7762d1b0c9db16f579a37e48c5bd0",
+    "/main.js": "44f4c21937913f85e34ada1f1fdd410822b77402",
     "/manifest.webmanifest": "9a088b7c4339228d1082e666ce105dc889bc180c",
     "/node_modules_canvg_lib_index_es_js.js": "0c345499b09dfa404963678e095d637328c968cf",
     "/node_modules_capacitor_app_dist_esm_web_js.js": "56de9540a37eacf8e3e12868c9631269b18f34d1",
@@ -4396,7 +4396,7 @@
     "/src_app_pages_setting_setting_module_ts.js": "fbaaa2da9291b034b7af15048581f85d31d9f845",
     "/styles.css": "1b0dba3d9d1941bdf09564338f7d72ed2cef3754",
     "/tringle.png": "60c20b27345152c1ca2cedf77c895dda2ed425a5",
-    "/vendor.js": "3524b7f6226621d643dfd5be2606a824da01893b",
+    "/vendor.js": "8ddadd2d1c9b426be72f24cb846e9ef029713d32",
     "/watermask.png": "1a67be2fdb9f30aa570c61f449ad23b2896d4b5c"
   },
   "navigationUrls": [
