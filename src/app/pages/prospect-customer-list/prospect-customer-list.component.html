@@ -108,7 +108,8 @@
                 </app-material-table-view>
                 </div>
                 <ng-template #no_popup>
-                    <app-common-list-2 *ngIf="customerList.length > 0"  class="data-list" #commonList [data]="customerList" [type]="'customer'" (btnEvent)="actionBtn($event)"></app-common-list-2>
+                    <app-common-list-2 *ngIf="customerList.length > 0" class="data-list" #commonList
+                        [data]="customerList"  [type]="'customer'" [total]="totalElements" [totalpage]="totalPages"  (pageEvent)="reponseFromPager($event)" (btnEvent)="actionBtn($event)"></app-common-list-2>
                 </ng-template>
             </div>
             <!-- <ng-container *ngIf="isPopup && !isDynamic">

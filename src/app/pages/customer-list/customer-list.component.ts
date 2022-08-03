@@ -123,10 +123,14 @@ export class CustomerListComponent implements OnInit {
         if (res) {
           // console.log("RES", res)
           // this.customerList = res.content
-          this.customerList = res
-          this.totalElements = res.totalElements
-          this.totalPages = res.totalPages
-          this.selectedPageBtn = this.currentPage
+          if (this.isCustom) {
+            this.customerList = res
+          } else {
+            this.customerList = res.content
+            this.totalElements = res.totalElements
+            this.totalPages = res.totalPages
+            this.selectedPageBtn = this.currentPage
+          }
           this.cdf.detectChanges()
           if (this.commonList)
             this.commonList.detchChange()
@@ -146,10 +150,14 @@ export class CustomerListComponent implements OnInit {
     await this.customerListService.getCustomerList(this.postedData, check, this.isCustom).toPromise().then((res: any) => {
       if (res) {
         // this.customerList = res.content
+        if ( this.isCustom) {
           this.customerList = res
-        this.totalElements = res.totalElements
-        this.totalPages = res.totalPages
-        this.selectedPageBtn = this.currentPage
+        } else {
+          this.customerList = res.content
+          this.totalElements = res.totalElements
+          this.totalPages = res.totalPages
+          this.selectedPageBtn = this.currentPage
+        }
         this.cdf.detectChanges()
         if (this.commonList)
           this.commonList.detchChange()
