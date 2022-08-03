@@ -4,6 +4,7 @@ import * as moment from "moment";
 import { environment } from "../../../environments/environment";
 
 const API_CUSTOMER_URL = `${environment.apiUrl}/customer`;
+const API_CUSTOMER_URL_PAGE = `${environment.apiUrl}/customer/page`;
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +13,7 @@ export class CustomerListService {
   }
 
   getCustomerList(search: any = {}, party: boolean, popup: boolean, isCustom?: boolean) {
-    let url = API_CUSTOMER_URL + "?"
+    let url = popup ? API_CUSTOMER_URL + "?" : API_CUSTOMER_URL_PAGE + "?"
     if (search.name) {
       url = url + "name=" + search.name + "&"
     }
@@ -37,16 +38,18 @@ export class CustomerListService {
     if (search.identityNumber) {
       url = url + "identityNumber=" + search.identityNumber + "&"
     }
-    if(search.limit) {
-      url = url + "limit=" + search.limit + "&"
-    }
-    if(search.offset) {
-      url = url + "offset=" + search.offset + "&"
+    if (!popup) {
+      if (search.limit) {
+        url = url + "limit=" + search.limit + "&"
+      }
+      if (search.offset) {
+        url = url + "offset=" + search.offset + "&"
+      }
     }
     if (!isCustom) {
       url = url + "isPartyCode=" + party
     }
-   
+
     return this.httpClient.get(url)
   }
 }

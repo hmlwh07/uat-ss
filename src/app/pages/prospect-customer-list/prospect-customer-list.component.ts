@@ -10,6 +10,7 @@ import { MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE } from '@angular/materia
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_FORMATS } from '../../core/is-json';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
+import { CommonList2Component } from '../share-components/common-list/common-list.component';
 
 @Component({
   selector: 'app-prospect-customer-list',
@@ -25,6 +26,7 @@ import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/co
 })
 export class ProspectCustomerListComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
 
   ELEMENT_COL = JSON.parse(JSON.stringify(CustomerCol))
   displayedColumns = JSON.parse(JSON.stringify(CustomerDisplayCol))
@@ -39,6 +41,11 @@ export class ProspectCustomerListComponent implements OnInit {
   @Input() isPopup: boolean = false
   @Input() party: boolean = false
   @Input() isDynamic: boolean = false
+  totalElements: number = 0
+  totalPages: number = 0
+  selectedPageBtn: number = 1
+  currentPage: number = 1
+  postedData: any = {}
   show: boolean = false
   constructor(private router: Router, private cdf: ChangeDetectorRef, private customerListService: CustomerListService, private modalService: NgbModal) {
     this.loadForm();
@@ -86,7 +93,7 @@ export class ProspectCustomerListComponent implements OnInit {
       this.customerForm.controls.endDate.value != null ||
       this.customerForm.controls.name.value != null ||
       this.customerForm.controls.phoneNo.value != null ||
-      this.customerForm.controls.statusCode.value != null||
+      this.customerForm.controls.statusCode.value != null ||
       this.customerForm.controls.identityType.value != null ||
       this.customerForm.controls.identityNumber.value != null) {
       this.getList()
@@ -95,18 +102,81 @@ export class ProspectCustomerListComponent implements OnInit {
     }
   }
 
-  getList() {
+  // getList() {
+  //   let check = this.isPopup && !this.isDynamic ? true : false
+  //   this.customerListService.getCustomerList(this.customerForm.value, this.party, check)
+  //     .toPromise().then((res: any) => {
+  //       if (res) {
+  //         this.customerList = res
+  //         this.cdf.detectChanges()
+  //         if (this.matTable)
+  //           this.matTable.reChangeData()
+  //       }
+  //     })
+  // }
+
+
+  reponseFromPager(event) {
+    // console.log("LEADEVENT", event);
+    this.currentPage = event
+    this.getDatabyPage(this.currentPage)
+  }
+
+  getList(limit: number = 5, offset: number = 1) {
     let check = this.isPopup && !this.isDynamic ? true : false
-    this.customerListService.getCustomerList(this.customerForm.value, this.party, check)
-      .toPromise().then((res: any) => {
+    let postData = { ...this.customerForm.getRawValue(), limit: 5, offset: offset }
+    this.postedData = postData
+    this.customerListService.getCustomerList(this.postedData, this.party, check)
+      .toPromise()
+      .then((res: any) => {
         if (res) {
-          this.customerList = res
+          // console.log("RES", res)
+          // this.customerList = res.content
+          if (check) {
+            this.customerList = res
+          } else {
+            this.customerList = res.content
+            this.totalElements = res.totalElements
+            this.totalPages = res.totalPages
+            this.selectedPageBtn = this.currentPage
+          }
           this.cdf.detectChanges()
+          if (this.commonList)
+            this.commonList.detchChange()
           if (this.matTable)
             this.matTable.reChangeData()
+          // this.matTable.reChangeData();
         }
-      })
+      });
   }
+
+  async getDatabyPage(page) {
+    this.currentPage = page
+    let check = this.isPopup && !this.isDynamic ? true : false
+    let postData = { ...this.customerForm.getRawValue(), limit: 5, offset: page }
+    this.totalPages = 0
+    this.postedData = postData
+    await this.customerListService.getCustomerList(this.postedData, this.party, check).toPromise().then((res: any) => {
+      if (res) {
+        // this.customerList = res.content
+        if (check) {
+          this.customerList = res
+        } else {
+          this.customerList = res.content
+          this.totalElements = res.totalElements
+          this.totalPages = res.totalPages
+          this.selectedPageBtn = this.currentPage
+        }
+        this.cdf.detectChanges()
+        if (this.commonList)
+          this.commonList.detchChange()
+        if (this.matTable)
+          this.matTable.reChangeData()
+      }
+    })
+  }
+
+
 
   get selected() {
     let user

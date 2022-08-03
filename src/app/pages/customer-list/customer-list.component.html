@@ -78,6 +78,18 @@
                     </div>
 
                     <div class="row" style="align-items: center;">
+                        <div class="col-md-6" *ngIf="isCustom">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm"
+                                        [class.is-invalid]="isControlInvalid('statusCode')"
+                                        [class.is-valid]="isControlValid('statusCode')" [items]="statusCustomOption"
+                                        bindLabel="value" bindValue="code" formControlName="statusCode">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div class="col-md-6" *ngIf="isCustom">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
@@ -132,7 +144,7 @@
                 </div>
                 <ng-template #no_popup>
                     <app-common-list-2 *ngIf="customerList.length > 0" class="data-list" #commonList
-                        [data]="customerList" [type]="'customer'" (btnEvent)="actionBtn($event)"></app-common-list-2>
+                        [data]="customerList"  [type]="'customer'" [total]="totalElements" [totalpage]="totalPages"  (pageEvent)="reponseFromPager($event)" (btnEvent)="actionBtn($event)"></app-common-list-2>
                 </ng-template>
                 <div class="row">
                     <div class="col-12">
