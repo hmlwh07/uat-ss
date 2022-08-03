@@ -580,9 +580,11 @@ export class LeadDetailComponent implements OnInit {
           let appList = this.applicationList.filter(list => list.status == 'submitted')
           if (appList.length > 0) {
             this.isReleasedDisabled = true;
-          } else {
-            this.isReleasedDisabled = false;
+          } else if(this.oldData.statusCode == '07'){
             this.APPLICATION_ELEMENT_COL[9].btn.edit = false
+          }
+          else{
+            this.isReleasedDisabled = false;
           }
 
           this.quotationList.forEach((value, index) => {

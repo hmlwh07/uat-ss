@@ -59,7 +59,7 @@
                 bindValue="code">
               </ng-select>
             </div>
-            <div class="col-2">
+            <div class="col-2" >
               <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
                 style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()"
                 (click)="saveBranch()">
@@ -208,12 +208,12 @@
                 {{"FORM.create_new_application" | translate}}
               </button>
             </div>
-            <div class="col-sm-4" *ngIf="type == 'policy' &&  statusCode != '07'">
-              <button type="submit" class="btn btn-primary btn-block" (click)="createSign()">
+            <div class="col-sm-4" *ngIf="type == 'policy'">
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()" (click)="createSign()">
                 {{"FORM.create_signature" | translate}}
               </button>
             </div>
-            <div class="col-sm-4" *ngIf="type == 'policy' &&  statusCode != '07'">
+            <div class="col-sm-4" *ngIf="type == 'policy'">
               <!-- [disabled]="resourceDetail.status == 'submitted'" -->
               <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()"
                 (click)="submitPolicy()">

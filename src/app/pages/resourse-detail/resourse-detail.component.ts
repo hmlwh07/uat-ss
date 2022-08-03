@@ -225,7 +225,11 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         // console.log(status, isDisabled);
       }
     } else {
-      isDisabled = false
+      if(this.statusCode=='07'){
+        isDisabled=true
+      }else{
+        isDisabled = false
+      }
     }
     return isDisabled
   }
