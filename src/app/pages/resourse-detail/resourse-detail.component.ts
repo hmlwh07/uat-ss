@@ -8,6 +8,7 @@ import { MasterDataService } from 'src/app/modules/master-data/master-data.servi
 import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
 import { checkVaidDep } from '../check-parent';
 import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../form-component/field.interface';
+import { LeadDetailService } from '../lead-detail/lead-detail.service';
 import { PolicyService } from '../policy/policy.service';
 import { PageDataService } from '../product-form/page-data.service';
 import { PrintConfig } from '../products/models/print-config.interface';
@@ -51,6 +52,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   signFileId: any = null;
   branchOption = [];
   selectedBranchCode: string = null;
+  statusCode
 
   constructor(
     private productService: ProductDataService,
@@ -65,6 +67,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     private policyService: PolicyService,
     private alertService: AlertService,
     private masterDataService: MasterDataService,
+    private leadDetailService: LeadDetailService,
   ) { }
 
   async ngOnInit() {
@@ -79,6 +82,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
       // console.log("RESOURCE", this.resourceDetail)
+
+      this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
+        if (res) {
+          this.statusCode = res;
+        }
+      })
 
       if (!this.resourceDetail) {
         this.location.back()
@@ -186,7 +195,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             this.selectedBranchCode = this.branch
             let branch = this.branchOption.find((p) => p.code == this.branch)
             // console.log(branch);
-            
+
             this.productService.editData.branch = branch.value
           }
         }

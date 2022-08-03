@@ -88,7 +88,7 @@ export class LeadDetailComponent implements OnInit {
 
   fnaList: any[] = [];
   activityList: any[] = [];
-  quatationList: any[] = [];
+  quotationList: any[] = [];
   applicationList: any[] = [];
   attachmentList: any[] = [];
   leadForm: FormGroup;
@@ -193,6 +193,7 @@ export class LeadDetailComponent implements OnInit {
   fnaAccess = defaultAccessObj
   switchObj: {};
   isUpdateNew: boolean = false;
+  isReleasedDisabled: boolean = false;
   customerClass1
   prospectClass1
   customerClass2
@@ -570,19 +571,27 @@ export class LeadDetailComponent implements OnInit {
           this.loadForm(res);
           this.fnaList = this.oldData.fnas != null ? this.oldData.fnas : []
           this.activityList = this.oldData.activities != null ? this.oldData.activities : []
-          this.quatationList = this.oldData.resourceQuotations != null ? this.oldData.resourceQuotations : []
+          this.quotationList = this.oldData.resourceQuotations != null ? this.oldData.resourceQuotations : []
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
           this.applicationList.forEach((value, index) => {
             this.applicationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
             this.cdf.detectChanges()
           })
-          this.quatationList.forEach((value, index) => {
-            this.quatationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
+          let appList = this.applicationList.filter(list => list.status == 'submitted')
+          if (appList.length > 0) {
+            this.isReleasedDisabled = true;
+          } else {
+            this.isReleasedDisabled = false;
+            this.APPLICATION_ELEMENT_COL[9].btn.edit = false
+          }
+
+          this.quotationList.forEach((value, index) => {
+            this.quotationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
             this.cdf.detectChanges()
           })
 
           this.attachmentList = this.oldData.attachments != null ? this.oldData.attachments : []
-          if (this.activityList.length > 0 || this.quatationList.length > 0 || this.applicationList.length > 0 || this.attachmentList.length > 0 || this.fnaList.length > 0) {
+          if (this.activityList.length > 0 || this.quotationList.length > 0 || this.applicationList.length > 0 || this.attachmentList.length > 0 || this.fnaList.length > 0) {
             this.isAddProspect = true
             this.cdf.detectChanges()
           }
@@ -616,53 +625,54 @@ export class LeadDetailComponent implements OnInit {
       this.ngZone.run(() => {
         this.location.back()
       })
-    } else {
-      if (status == "04" || status == "06") {
-        let modalRef;
-        modalRef = this.modalService.open(CustomInputAlertComponent, { size: 'md', backdrop: false });
-        modalRef.componentInstance.type = 'reason'
-        modalRef.componentInstance.status = status
-        modalRef.result.then(() => { }, (data) => {
-          if (data) {
-            this.updateStatus(status, data)
-          }
-        })
-      } else {
-        if (this.leadForm.getRawValue().assignTo != 0) {
-          if (this.leadForm.controls.existingCustomerId.value == 0 && this.leadForm.controls.prospectCustomerId.value == 0) {
-            this.alertService.activate('Please add Existing Customer/Prospect before you accept.', 'Message');
-          }
-          else {
-            this.alertService.activate('Are you sure you want to accept?', 'Warning Message').then(result => {
-              if (result) {
-                let data = {
-                  leadId: this.newLeadId ? this.newLeadId : this.leadForm.controls.leadId.value || "",
-                  agentId: this.leadForm.controls.ownerId ? this.leadForm.controls.ownerId.value : "",
-                  phone: this.leadForm.controls.phoneNo ? this.leadForm.controls.phoneNo.value : "",
-                  email: this.leadForm.controls.email ? this.leadForm.controls.email.value : "",
-                  identityType: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value : null,
-                  nrcRegionCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcRegionCode.value : "" : "",
-                  nrcTownshipCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcTownshipCode.value : "" : "",
-                  nrcTypeCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcTypeCode.value : "" : "",
-                  identityNumber: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcNumber.value : this.leadForm.controls.identityNumber.value : "",
-                }
-                this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
-                  if (res) {
-                    this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
-                    });
-                  } else {
-                    this.updateStatus(status, 'approve');
-                    this.alertService.activate('This record was accepted', 'Success Message').then(result => {
-                    });
-                  }
-                });
-              }
-            })
-          }
-        } else {
-          this.alertService.activate('Please assign producer/agent', 'Warning')
+    } else if (status == "07") {
+      this.updateStatus(status)
+    } else if (status == "04") {
+      let modalRef;
+      modalRef = this.modalService.open(CustomInputAlertComponent, { size: 'md', backdrop: false });
+      modalRef.componentInstance.type = 'reason'
+      modalRef.componentInstance.status = status
+      modalRef.result.then(() => { }, (data) => {
+        if (data) {
+          this.updateStatus(status, data)
         }
+      })
+    } else {
+      if (this.leadForm.getRawValue().assignTo != 0) {
+        if (this.leadForm.controls.existingCustomerId.value == 0 && this.leadForm.controls.prospectCustomerId.value == 0) {
+          this.alertService.activate('Please add Existing Customer/Prospect before you accept.', 'Message');
+        }
+        else {
+          this.alertService.activate('Are you sure you want to accept?', 'Warning Message').then(result => {
+            if (result) {
+              let data = {
+                leadId: this.newLeadId ? this.newLeadId : this.leadForm.controls.leadId.value || "",
+                agentId: this.leadForm.controls.ownerId ? this.leadForm.controls.ownerId.value : "",
+                phone: this.leadForm.controls.phoneNo ? this.leadForm.controls.phoneNo.value : "",
+                email: this.leadForm.controls.email ? this.leadForm.controls.email.value : "",
+                identityType: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value : null,
+                nrcRegionCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcRegionCode.value : "" : "",
+                nrcTownshipCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcTownshipCode.value : "" : "",
+                nrcTypeCd: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcTypeCode.value : "" : "",
+                identityNumber: this.leadForm.controls.identityType ? this.leadForm.controls.identityType.value == 'NRC' ? this.leadForm.controls.nrcNumber.value : this.leadForm.controls.identityNumber.value : "",
+              }
+              this.LeadDetailService.checkLead(data).toPromise().then(async (res) => {
+                if (res) {
+                  this.alertService.activate('This Opportunity has been assigned to another producer. Please reject it.', 'Warning Message').then(result => {
+                  });
+                } else {
+                  this.updateStatus(status, 'approve');
+                  this.alertService.activate('This record was accepted', 'Success Message').then(result => {
+                  });
+                }
+              });
+            }
+          })
+        }
+      } else {
+        this.alertService.activate('Please assign producer/agent', 'Warning')
       }
+
     }
 
     if (this.prospCustomer) {
@@ -679,7 +689,7 @@ export class LeadDetailComponent implements OnInit {
   }
 
   updateStatus(status, reason?) {
-    if (reason == 'approve') {
+    if (reason == 'approve' || status == "07") {
       let postValue = { ...this.leadForm.getRawValue(), statusCode: status }
       this.edit(postValue)
     } else {
@@ -689,10 +699,8 @@ export class LeadDetailComponent implements OnInit {
         reason: reason || ""
       }
       let data = { ...postData, leadId: this.oldId, };
-
       this.LeadDetailService.updateLeadStatus(data, this.oldId)
-        .toPromise()
-        .then((res) => {
+        .toPromise().then((res) => {
           if (res) {
             this.getOld()
           }
@@ -931,39 +939,39 @@ export class LeadDetailComponent implements OnInit {
         closedDate: new FormControl(
           { value: oldData ? moment(oldData.closedDate) : '', disabled: true }),
         expirationDate: new FormControl(
-          { value: oldData ? moment(oldData.expirationDate) : '', disabled: oldData.statusCode == '05' ? false : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? moment(oldData.expirationDate) : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         subject: new FormControl(
-          { value: oldData ? oldData.subject : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.subject : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         companyCode: new FormControl(
-          { value: oldData ? oldData.companyCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.companyCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         sms: new FormControl(
-          { value: oldData ? (oldData.contact + "").includes('sms') : false, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? (oldData.contact + "").includes('sms') : false, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         pemail: new FormControl(
-          { value: oldData ? (oldData.contact + "").includes('email') : false, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? (oldData.contact + "").includes('email') : false, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         phone: new FormControl(
-          { value: oldData ? (oldData.contact + "").includes('phone') : false, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? (oldData.contact + "").includes('phone') : false, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         contactName: new FormControl(
-          { value: oldData ? oldData.contactName : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.contactName : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         channelCode: new FormControl(
-          { value: oldData ? oldData.channelCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.channelCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         occupationCd: new FormControl(
-          { value: oldData ? oldData.occupationCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.occupationCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         typeCode: new FormControl(
-          { value: oldData ? oldData.typeCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.typeCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         statusCode: new FormControl(
           { value: oldData ? oldData.statusCode : '', disabled: true }),
         stateCode: new FormControl(
-          { value: oldData ? oldData.stateCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.stateCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         districtCode: new FormControl(
-          { value: oldData ? oldData.districtCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.districtCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         townshipCode: new FormControl(
-          { value: oldData ? oldData.townshipCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.townshipCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         assignTo: new FormControl(
           { value: oldData ? oldData.ownerId : '', disabled: oldData.statusCode == '01' ? false : true }),
         assignToName: new FormControl(
           { value: oldData ? oldData.ownerName : '', disabled: oldData.statusCode == '01' ? false : true }),
         productId: new FormControl(
-          { value: oldData ? oldData.productId : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.productId : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         phoneNo: new FormControl(
           { value: oldData ? oldData.phoneNo : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         email: new FormControl(
@@ -986,31 +994,31 @@ export class LeadDetailComponent implements OnInit {
             disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true
           }),
         sourceCode: new FormControl(
-          { value: oldData ? oldData.sourceCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.sourceCode : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         campaignNo: new FormControl(
-          { value: oldData ? oldData.campaignNo : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.campaignNo : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         campaignName: new FormControl(
           { value: oldData ? oldData.campaignName : '', disabled: true }),
         estimatedMonthlyIncome: new FormControl(
-          { value: oldData ? oldData.monthlyIncome : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.monthlyIncome : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         facebookAcc: new FormControl(
-          { value: oldData ? oldData.facebookAcc : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.facebookAcc : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         maritalStatus: new FormControl(
-          { value: oldData ? oldData.maritalStatus : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.maritalStatus : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         financialPlan: new FormControl(
-          { value: oldData ? oldData.financialPlan : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.financialPlan : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         noOfChildren: new FormControl(
-          { value: oldData ? oldData.numberOfChildren : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.numberOfChildren : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         existingInsuranceCoverage: new FormControl(
-          { value: oldData ? oldData.existingInsuranceCoverage : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.existingInsuranceCoverage : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         existingInsurancePlan: new FormControl(
-          { value: oldData ? oldData.existingInsurancePlan : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.existingInsurancePlan : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         score: new FormControl(
           { value: oldData ? oldData.score : '', disabled: true }),
         validityPeriod: new FormControl(
           { value: oldData ? oldData.validityPeriod : '', disabled: true }),
         assets: new FormControl(
-          { value: oldData ? oldData.assets : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.assets : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         lostReason: new FormControl(
           { value: oldData ? oldData.lostReason : '', disabled: true }),
         reason: new FormControl(
@@ -1022,7 +1030,7 @@ export class LeadDetailComponent implements OnInit {
         referralCustomerName: new FormControl(
           { value: oldData ? oldData.referralCustomerName.trim() : "", disabled: true }),
         referralCustomerId: new FormControl(
-          { value: oldData ? oldData.referralCustomerId : 0, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : false }),
+          { value: oldData ? oldData.referralCustomerId : 0, disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         prospectCustomer: new FormControl(
           { value: oldData ? oldData.prospectCustomerName.trim() : "", disabled: true }),
         prospectCustomerId: new FormControl(

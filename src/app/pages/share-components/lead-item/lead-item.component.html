@@ -30,6 +30,7 @@
         <label *ngIf="itemData.statusCode == '04' " style="color: #DD5E5E !important;"> Reject </label>
         <label *ngIf="itemData.statusCode == '05' " style="color: #00ACEA !important;"> Win </label>
         <label *ngIf="itemData.statusCode == '06' " style="color: #DD5E5E !important;"> Lost </label>
+        <label *ngIf="itemData.statusCode == '07' " style="color: #359633 !important;"> Released </label>
     </div>
     <div class="col-4">
         <label> {{"FORM.score" | translate }} : <span>{{ itemData.score }}</span> </label>
