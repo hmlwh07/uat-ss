@@ -13,6 +13,7 @@ import { IsJsonString } from '../../../core/is-json';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
 import { FirePageID, FireRiskID } from '../static-pages.data';
 import { MotorAddonComponent } from '../motor-addon/motor-addon.component';
+import * as moment from 'moment';
 @Component({
   selector: 'app-addon-page',
   templateUrl: './addon-page.component.html',
@@ -58,12 +59,15 @@ export class AddonPageComponent implements OnInit {
     "EQ": 0.1,
     "Fire": 0.1,
   }
+  startD: any
+  endD: any
   crossPercent = {
     "T-004": 0.35,
     "T-003": 0.60,
     "T-002": 0.85,
     "T-001": 1,
   }
+  crossPremiumPercent: any = 1
   //   RSMD
   // ACD
   // IMPD
@@ -94,6 +98,10 @@ export class AddonPageComponent implements OnInit {
     private pageDataService: PageDataService, private loadingService: LoadingService) { }
 
   async ngOnInit() {
+    let date = new Date();
+    this.startD = new Date()
+    this.endD = new Date(date.setFullYear(date.getFullYear() + 1))
+
     this.refID = this.prodService.referenceID
     this.optionId = this.optionId ? this.optionId : this.resourcesId
     if (this.product.code == "PLMO02" || this.product.code == "PLMO01") {
@@ -171,12 +179,10 @@ export class AddonPageComponent implements OnInit {
         }
         if (item.premium) {
           if (item.code == "CROSSBRDR" && this.addOnsData[item.id].checked) {
-
+           
           } else {
-            console.log("item.premiumStr", item.premiumStr);
             this.getGlobalFun(item.premiumStr, 'addOnsData', item.id, 'premium', item)
             item.premiumStrYear = item.premiumStr + "Year"
-            console.log("item.premiumStr", item.premiumStrYear); 
             this.getGlobalFun(item.premiumStrYear, 'addOnsData', item.id, 'premiumYear', item)
           }
         }
@@ -198,8 +204,8 @@ export class AddonPageComponent implements OnInit {
       //     }
       //   }
       // }
-      console.log(" this.addOnsData", this.addOnsData);
-      
+      // console.log(" this.addOnsData", this.addOnsData);
+
       this.isLoading = false
       await this.loadingService.deactivate()
       this.cdRef.detectChanges();
@@ -216,8 +222,6 @@ export class AddonPageComponent implements OnInit {
         let parentValueObj = addon.code == "PAIDDRIVER" ? this.getParnet('motor_driver') : this.parentData
         parentValueObj = { ...parentValueObj, productCode: this.product.code }
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {
-          console.log("RES",res);
-          
           this[mainObj][mainKey][subKey] = res
           this.cdRef.detectChanges();
         })
@@ -330,6 +334,50 @@ export class AddonPageComponent implements OnInit {
         this.addOnsData[cross.id]['premium'] = tempPre * 0.15
       }
     } else if (this.addOnsData[addon.id].checked && addon.code == "CROSSBRDR") {
+      let startDate = this.addOnsData[addon.id]['startDate'] != "" ? moment(this.addOnsData[addon.id]['startDate']).format('YYYY-MM-DD') : this.startD
+      let endDate = this.addOnsData[addon.id]['endDate'] != "" ? moment(this.addOnsData[addon.id]['endDate']).format('YYYY-MM-DD') : this.endD
+      let start = new Date(startDate)
+      let end = new Date(endDate)
+      var months;
+      if (start && end) {
+        months = (end.getFullYear() - start.getFullYear()) * 12;
+        months -= start.getMonth();
+        months += end.getMonth();
+        let month = months <= 0 ? 0 : months;
+        // console.log("MONTH", month);
+
+        var Time = end.getTime() - start.getTime();
+        var Days = Math.ceil(Time / (1000 * 3600 * 24));
+
+        // console.log("Days", Days);
+        // if (month >= 0 && month <= 3) {
+        //   this.crossPremiumPercent = 0.35
+        // }
+        // if (month > 3 && month <= 6) {
+        //   this.crossPremiumPercent = 0.60
+        // }
+        // if (month > 6 && month < 12) {
+        //   this.crossPremiumPercent = 0.85
+        // }
+        // if (month >= 12) {
+        //   this.crossPremiumPercent = 1
+        // }
+
+        if (Days => 0 && Days <= 90) {
+          this.crossPremiumPercent = 0.35
+        }
+        if (Days > 90 && Days <= 180) {
+          this.crossPremiumPercent = 0.60
+        }
+        if (Days > 180 && Days <= 270) {
+          this.crossPremiumPercent = 0.85
+        }
+        if (Days > 270 && Days <= 365) {
+          this.crossPremiumPercent = 1
+        }
+      } else {
+        this.crossPremiumPercent = 1
+      }
       let tempPre = this.calcuCross()
       this.addOnsData[addon.id]['premium'] = tempPre
     }
@@ -339,9 +387,11 @@ export class AddonPageComponent implements OnInit {
   }
 
   rechangeOption(addOn) {
+    // console.log("rechangeOptionADDON");
 
     this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
   }
+
 
   calcuCross() {
     let tempPre = 0
@@ -349,13 +399,13 @@ export class AddonPageComponent implements OnInit {
       if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
         // console.log(this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0));
 
-        tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
+        tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premiumYear || 0)
       }
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      // console.log(this.globalFun.calculateDecimal(cov.premium || 0));
-      tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
+      // console.log(this.globalFun.calculateDecimal(cov.premiumYear || 0));
+      tempPre += this.globalFun.calculateDecimal(cov.premiumYear || 0)
     }
     // let crossPre = tempPre * 0.15
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
@@ -372,19 +422,19 @@ export class AddonPageComponent implements OnInit {
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-          excessAmt = (5000 * percent)
+          excessAmt = 5000
         } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-          excessAmt = (10000 * percent)
+          excessAmt = 10000
         }
         else {
-          excessAmt = (50000 * percent)
+          excessAmt = 50000
         }
       }
       // else if (excess == 'T-STNDEX' && currency == "MMK") {
       //   excessAmt = 100000
       // }
       else if (excess == "TU-NILEX" && currency == "USD") {
-        excessAmt = (25 * percent)
+        excessAmt = 25
       }
       // else if (excess == "TU-STNDEX" && currency == "USD") {
       //   excessAmt = 100
@@ -394,7 +444,7 @@ export class AddonPageComponent implements OnInit {
     // * percent
     // console.log("TEMP", tempPre, "excessAmt", excessAmt);
 
-    let cross = ((tempPre + excessAmt) * 0.15)
+    let cross = ((tempPre + excessAmt) * 0.15) * this.crossPremiumPercent
     return (cross || 0)
   }
 
@@ -678,7 +728,8 @@ export class AddonPageComponent implements OnInit {
       //   amt = amt - dis
       // }
       // console.log('amt =====> ', amt);
-      return amt;
+      let amount = this.globalFun.calculateDecimal(amt)
+      return amount;
       //return this.globalFun.calculateDecimal(amt)
     }
     return 0

@@ -90,11 +90,8 @@ export class CoveragePageComponent implements OnInit {
           this.getGlobalFun(item.unitStr, 'coverageData', item.id, 'unit')
         }
         if (item.premium) {
-          console.log(item.premiumStr);
-          
           this.getGlobalFun(item.premiumStr, 'coverageData', item.id, 'premium')
           item.premiumStrYear = item.premiumStr + "Year"
-          console.log(item.premiumStrYear);
           this.getGlobalFun(item.premiumStrYear, 'coverageData', item.id, 'premiumYear')
         }
         // }
@@ -115,7 +112,6 @@ export class CoveragePageComponent implements OnInit {
         this.parentData = { ...this.parentData, productCode: this.product.code }
         let unsub = this.globalFun[funName](this.parentData).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
-          console.log("RES",res);
           
           this.cdRef.detectChanges();
         })
