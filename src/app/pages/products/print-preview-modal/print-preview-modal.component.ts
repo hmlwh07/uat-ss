@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormUIService } from '../../dashboard/services/form-ui.service';
 import { FromGroupData } from '../../form-component/field.interface';
-import { PrintConfig, PrintFormat } from '../models/print-config.interface';
+import { PrintFormat } from '../models/print-config.interface';
 import { Product } from '../models/product.dto';
 import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
 
@@ -18,11 +17,12 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
   content: string;
+  base64data: string;
 
   constructor(
     public modal: NgbActiveModal,
     private cdRef: ChangeDetectorRef,
-    private pdfGenerator: PDFGenerator
+    private pdfGenerator: PDFGenerator,
   ) { }
 
   ngOnInit() {
@@ -54,17 +54,17 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
       documentSize: 'A4',
       type: 'base64',
       // landscape: 'landscape',
-      fileName: 'Print.pdf',
-      
+      // fileName: 'Print.pdf',
+
     };
-    console.log(this.content, options)
     this.pdfGenerator.fromData(this.content, options)
-      .then((res) => {
-        console.log("Base64 Output.", res)
+      .then(async (data)  => {
+        this.base64data = data;
       }).catch((error) => {
         console.log('error', error);
       });
 
   }
+
 }
 

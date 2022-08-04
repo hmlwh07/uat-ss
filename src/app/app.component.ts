@@ -29,12 +29,12 @@ import { locale as enLang } from './modules/languages/vocabs/en';
 import { locale as mmLang } from './modules/languages/vocabs/mm';
 import { LanguagesService } from './modules/languages/languages.service';
 import { Capacitor } from '@capacitor/core';
-import {
-  ActionPerformed,
-  PushNotificationSchema,
-  PushNotifications,
-  Token,
-} from '@capacitor/push-notifications';
+// import {
+//   ActionPerformed,
+//   PushNotificationSchema,
+//   PushNotifications,
+//   Token,
+// } from '@capacitor/push-notifications';
 import { FireTopicService } from './fire-top.service';
 @Component({
   // tslint:disable-next-line:component-selector
@@ -159,7 +159,7 @@ export class AppComponent implements OnInit, OnDestroy {
         const isPushNotificationsAvailable = Capacitor.isPluginAvailable('PushNotifications');
 
         if (isPushNotificationsAvailable) {
-          this.initNoti();
+          // this.initNoti();
         }
       } else {
         // this.requestPermission()
@@ -190,59 +190,59 @@ export class AppComponent implements OnInit, OnDestroy {
     this.unsubscribe.push(unsubtime);
   }
 
-  initNoti() {
-    console.log("LOGIN");
+  // initNoti() {
+  //   console.log("LOGIN");
     
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
-        // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register();
-      } else {
-        // Show some error
-      }
-    });
+  //   PushNotifications.requestPermissions().then(result => {
+  //     if (result.receive === 'granted') {
+  //       // Register with Apple / Google to receive push via APNS/FCM
+  //       PushNotifications.register();
+  //     } else {
+  //       // Show some error
+  //     }
+  //   });
 
-    // On success, we should be able to receive notifications
-    PushNotifications.addListener('registration',
-      (token: Token) => {
-        // console.log('Push registration success, token: ' + token.value);
-        this.pushToken = token.value
-        this.subscribeTokenToTopic(token.value)
-        if (this.user.userId) {
-          // this.updateCutomerToken(this.pushToken)
-        }
-      }
-    );
+  //   // On success, we should be able to receive notifications
+  //   PushNotifications.addListener('registration',
+  //     (token: Token) => {
+  //       // console.log('Push registration success, token: ' + token.value);
+  //       this.pushToken = token.value
+  //       this.subscribeTokenToTopic(token.value)
+  //       if (this.user.userId) {
+  //         // this.updateCutomerToken(this.pushToken)
+  //       }
+  //     }
+  //   );
 
-    // Some issue with our setup and push will not work
-    PushNotifications.addListener('registrationError',
-      (error: any) => {
-        // alert('Error on registration: ' + JSON.stringify(error));
-      }
-    );
+  //   // Some issue with our setup and push will not work
+  //   PushNotifications.addListener('registrationError',
+  //     (error: any) => {
+  //       // alert('Error on registration: ' + JSON.stringify(error));
+  //     }
+  //   );
 
-    // Show us the notification payload if the app is open on our device
-    PushNotifications.addListener('pushNotificationReceived',
-      (notification: PushNotificationSchema) => {
-        // alert('Push received: ' + JSON.stringify(notification));
-        // console.log('Push received: ' + JSON.stringify(notification));
-        let value = this.messagingService.notiCount.value + 1
-        this.messagingService.notiCount.next(value)
-        // let count = parseInt(localStorage.getItem("NOTI_KBZ")) || 0
-        // count += 1
-        // localStorage.setItem("NOTI_KBZ", count + "")
-      }
-    );
-    // Method called when tapping on a notification
-    PushNotifications.addListener('pushNotificationActionPerformed',
-      (notification: ActionPerformed) => {
-        // alert('Push action performed: ' + JSON.stringify(notification));
-        // console.log('Push received: ' + JSON.stringify(notification));
-        // this.navClt.navigateForward(['/app/notifications'])
-        this.messagingService.notiCount.next(0)
-      }
-    );
-  }
+  //   // Show us the notification payload if the app is open on our device
+  //   PushNotifications.addListener('pushNotificationReceived',
+  //     (notification: PushNotificationSchema) => {
+  //       // alert('Push received: ' + JSON.stringify(notification));
+  //       // console.log('Push received: ' + JSON.stringify(notification));
+  //       let value = this.messagingService.notiCount.value + 1
+  //       this.messagingService.notiCount.next(value)
+  //       // let count = parseInt(localStorage.getItem("NOTI_KBZ")) || 0
+  //       // count += 1
+  //       // localStorage.setItem("NOTI_KBZ", count + "")
+  //     }
+  //   );
+  //   // Method called when tapping on a notification
+  //   PushNotifications.addListener('pushNotificationActionPerformed',
+  //     (notification: ActionPerformed) => {
+  //       // alert('Push action performed: ' + JSON.stringify(notification));
+  //       // console.log('Push received: ' + JSON.stringify(notification));
+  //       // this.navClt.navigateForward(['/app/notifications'])
+  //       this.messagingService.notiCount.next(0)
+  //     }
+  //   );
+  // }
 
 
   subscribeTokenToTopic(token) {
