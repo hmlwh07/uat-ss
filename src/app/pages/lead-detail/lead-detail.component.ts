@@ -31,7 +31,7 @@ import { CustomerListComponent } from "../customer-list/customer-list.component"
 import { CustomerDetailComponent } from "../customer-detail/customer-detail.component";
 import { ProductsComponent } from "../products/products.component";
 import { ProductDataService } from "../products/services/products-data.service";
-import { CustomerService } from "../customer-detail/customer.service";
+import { CustomerDetailService, CustomerService } from "../customer-detail/customer.service";
 import * as moment from "moment";
 import { MY_FORMATS } from "../../core/is-json";
 import { AttachmentDownloadService, AttachmentServiceRef, AttachmentUploadService } from "src/app/_metronic/core/services/attachment-data.service";
@@ -212,7 +212,7 @@ export class LeadDetailComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private prodctService: ProductDataService,
-    private customerService: CustomerService,
+    private customerService: CustomerDetailService,
     private productService: ProductDataService,
     private AttachmentUploadService: AttachmentUploadService,
     private LeadAttachmentService: AttachmentServiceRef,

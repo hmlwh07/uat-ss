@@ -4,7 +4,7 @@ import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { environment } from 'src/environments/environment';
-import { CustomerService } from '../../../customer-detail/customer.service';
+import { CustomerDetailService, CustomerService } from '../../../customer-detail/customer.service';
 import { ProductDataService } from '../../../products/services/products-data.service';
 import { FANService } from '../../fna-manage.service';
 import { FANProductService } from './product-manage.service';
@@ -26,7 +26,7 @@ export class ProductAnalysisComponent implements OnInit {
   products = [];
   constructor(private fnaService: FANService, private fnaProductService: FANProductService, 
     private alertService: AlertService, private prodctService: ProductDataService, 
-    private customerService: CustomerService, private router: Router) { }
+    private customerService: CustomerDetailService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.fnaService.fnaProduct) {

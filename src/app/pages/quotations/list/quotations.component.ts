@@ -12,7 +12,7 @@ import { MY_FORMATS } from '../../../core/is-json';
 import { environment } from 'src/environments/environment';
 import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
 import { MaterialTableViewComponent } from '../../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
-import { CustomerService } from '../../customer-detail/customer.service';
+import { CustomerDetailService, CustomerService } from '../../customer-detail/customer.service';
 import { CustomerListComponent } from '../../customer-list/customer-list.component';
 import { ProductsComponent } from '../../products/products.component';
 import { ProductDataService } from '../../products/services/products-data.service';
@@ -42,7 +42,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   product: any = []
   productOption: any = []
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerService, private menuService: MenuDataService) {
+  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService) {
     this.loadForm()
   }
 

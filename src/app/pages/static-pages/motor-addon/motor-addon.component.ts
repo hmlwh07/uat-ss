@@ -67,6 +67,10 @@ export class MotorAddonComponent implements OnInit {
   crossPremiumPercent: any = 1
   isCrossExist: boolean = false;
   isMedicalExist: boolean = false;
+  fromMinDate: any;
+  fromMaxDate: any;
+  toMinDate: any;
+  toMaxDate: any;
   constructor(private globalFun: GlobalFunctionService, private productService: ProductDataService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
 
@@ -111,22 +115,28 @@ export class MotorAddonComponent implements OnInit {
       if (response2) {
         this.isCrossExist = true
         this.isCross = true
-        this.startDate = response2.startDate != null ? moment(response2.startDate).format('YYYY-MM-DD') : this.startD
-        this.endDate = response2.endDate != null ? moment(response2.endDate).format('YYYY-MM-DD') : this.endD
-        let start = new Date(this.startDate)
-        let end = new Date(this.endDate)
+        let start = response2.startDate != null ? moment(response2.startDate).format('YYYY-MM-DD') : this.startD
+        let end = response2.endDate != null ? moment(response2.endDate).format('YYYY-MM-DD') : this.endD
+        this.startDate = new Date(start)
+        this.endDate = new Date(end)
         // console.log("start", start, end);
-
+        if (this.startDate) {
+          var toDate = new Date(this.startDate);
+          toDate.setFullYear(toDate.getFullYear() + 1);
+          toDate.setDate(toDate.getDate() - 1);
+          this.fromMinDate = new Date(this.startDate);
+          this.toMaxDate = toDate;
+        }
         var months;
-        if (start && end) {
-          months = (end.getFullYear() - start.getFullYear()) * 12;
-          months -= start.getMonth();
-          months += end.getMonth();
+        if (this.startDate && this.endDate) {
+          months = (this.endDate.getFullYear() - this.startDate.getFullYear()) * 12;
+          months -= this.startDate.getMonth();
+          months += this.endDate.getMonth();
           let month = months <= 0 ? 0 : months;
           // console.log("MONTH", month);
 
-          var Time = end.getTime() - start.getTime();
-          var Days =  Math.ceil(Time / (1000 * 3600 * 24));
+          var Time = this.endDate.getTime() - this.startDate.getTime();
+          var Days = Math.ceil(Time / (1000 * 3600 * 24));
 
           // console.log("Days", Days);
           // if (month >= 0 && month <= 3) {
@@ -142,16 +152,16 @@ export class MotorAddonComponent implements OnInit {
           //   this.crossPremiumPercent = 1
           // }
 
-          if(Days=>0 && Days <=90){
+          if (Days => 0 && Days <= 90) {
             this.crossPremiumPercent = 0.35
           }
-          if(Days>90 && Days <=180){
+          if (Days > 90 && Days <= 180) {
             this.crossPremiumPercent = 0.60
           }
-          if(Days >180 && Days <=270){
+          if (Days > 180 && Days <= 270) {
             this.crossPremiumPercent = 0.85
           }
-          if(Days> 270 && Days <=365){
+          if (Days > 270 && Days <= 365) {
             this.crossPremiumPercent = 1
           }
           this.toggleChange('cross', true)
@@ -283,12 +293,12 @@ export class MotorAddonComponent implements OnInit {
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-          excessAmt = 5000 
+          excessAmt = 5000
         } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-          excessAmt = 10000 
+          excessAmt = 10000
         }
         else {
-          excessAmt = 50000 
+          excessAmt = 50000
           // excessAmt = 50000
         }
       }
@@ -312,24 +322,35 @@ export class MotorAddonComponent implements OnInit {
   }
   calculateDate(date, type) {
     // console.log(date, type);
+    let start;
+    let end;
     if (type == 'start') {
-      this.startDate = date
+
+      start = moment(date).format('YYYY-MM-DD')
+      this.startDate = new Date(start)
+      var toDate = new Date(this.startDate);
+      toDate.setFullYear(toDate.getFullYear() + 1);
+      toDate.setDate(toDate.getDate() - 1);
+      this.fromMinDate = new Date(this.startDate);
+      this.toMaxDate = toDate;
     }
     if (type == 'end') {
-      this.endDate = date
+      end = moment(date).format('YYYY-MM-DD')
+      this.endDate = new Date(end)
     }
+    
     var months;
     if (this.startDate && this.endDate) {
       months = (this.endDate.getFullYear() - this.startDate.getFullYear()) * 12;
       months -= this.startDate.getMonth();
       months += this.endDate.getMonth();
       let month = months <= 0 ? 0 : months;
-      // console.log("MONTH", month);
+      console.log("MONTH", month);
 
       var Time = this.endDate.getTime() - this.startDate.getTime();
       var Days = Math.ceil(Time / (1000 * 3600 * 24));
 
-      // console.log("Days", Days);
+      console.log("Days", Days);
 
       // if (month >= 0 && month <= 3) {
       //   this.crossPremiumPercent = 0.35
@@ -348,19 +369,19 @@ export class MotorAddonComponent implements OnInit {
       //   this.calcuCross()
       // }
 
-      if(Days=>0 && Days <=90){
+      if (Days => 0 && Days <= 90) {
         this.crossPremiumPercent = 0.35
         this.calcuCross()
       }
-      if(Days>90 && Days <=180){
+      if (Days > 90 && Days <= 180) {
         this.crossPremiumPercent = 0.60
         this.calcuCross()
       }
-      if(Days >180 && Days <=270){
+      if (Days > 180 && Days <= 270) {
         this.crossPremiumPercent = 0.85
         this.calcuCross()
       }
-      if(Days> 270 && Days <=365){
+      if (Days > 270 && Days <= 365) {
         this.crossPremiumPercent = 1
         this.calcuCross()
       }

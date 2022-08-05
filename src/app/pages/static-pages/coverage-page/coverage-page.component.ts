@@ -138,8 +138,7 @@ export class CoveragePageComponent implements OnInit {
   async nextPage() {
     const quoService = this.coverageQuoService
     const posDataArray = this.coverageData
-    console.log("posDataArray",posDataArray);
-    
+   
     // console.log(this.product.coverages);
     // for await (const iterator of object) {
 
