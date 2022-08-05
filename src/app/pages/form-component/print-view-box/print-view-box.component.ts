@@ -7,6 +7,13 @@ import { PrintCol, PrintFormat } from '../../products/models/print-config.interf
 import { PageUIType, Product } from '../../products/models/product.dto';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { BtnConfig, Field, FromGroupData } from '../field.interface';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+declare var require: any;
+const htmlToPdfmake = require("html-to-pdfmake");
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+import domtoimage from 'dom-to-image';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-print-view-box',
@@ -19,15 +26,19 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() product: Product = {}
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
+  
+  @ViewChild('pdfTable')
+  pdfTable!: ElementRef;
+
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
-  branch:string=""
+  branch: string = ""
   today = new Date()
   agentName = ""
-  agentData:any={}
+  agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
-  constructor(private el: ElementRef,private auth:AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
+  constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
 
   }
 
@@ -38,7 +49,7 @@ export class PrintViewBoxComponent implements OnInit {
       this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
     await this.loadingService.activate()
     if (this.config) {
-      
+
       let temp: PrintFormat[] = JSON.parse(JSON.stringify(this.config))
       for (let formObj of this.configOrder) {
         if (formObj.type == PageUIType.DYN) {
@@ -92,7 +103,7 @@ export class PrintViewBoxComponent implements OnInit {
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.getAgentData()
-        
+
         // this.today = this.productService.editData.createdAt
         this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
       }
@@ -102,7 +113,7 @@ export class PrintViewBoxComponent implements OnInit {
       this.branch = this.productService.editData.branch
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
-      
+
       // this.today = this.productService.editData.createdAt
       this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
     }
@@ -151,15 +162,15 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
   getAgentData() {
-    this.productService.getAgentInfo( this.auth.currentUserValue.id || 1 ).toPromise().then((res:any) => {
-        if (res) {
-          console.log("RES",res);
-          
-          this.agentData = res.agentInfo;
-          console.log("this.agentData", this.agentData);
-          
-        }
-      });
+    this.productService.getAgentInfo(this.auth.currentUserValue.id || 1).toPromise().then((res: any) => {
+      if (res) {
+        console.log("RES", res);
+
+        this.agentData = res.agentInfo;
+        console.log("this.agentData", this.agentData);
+
+      }
+    });
   }
 
   getStatic(key: string) {
@@ -171,7 +182,19 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
 
+  public async downloadAsPDF() {
+    const pdfTable = this.pdfTable.nativeElement;
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    console.log(html);
+    
+    const documentDefinition = { content: html };
+    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
+    //   console.log(res);
+
+    // })
+    pdfMake.createPdf(documentDefinition).download()
+  }
 
 
-  
+
 }

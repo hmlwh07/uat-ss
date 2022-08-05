@@ -1,9 +1,16 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { TravelRiskService } from '../../static-pages/travel-page/models&services/travel-risk.service';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+declare var require: any;
+const htmlToPdfmake = require("html-to-pdfmake");
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+import domtoimage from 'dom-to-image';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-travel-print',
@@ -14,6 +21,10 @@ export class TravelPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
   @Input() premiumAmt: any
+
+  @ViewChild('pdfTable')
+  pdfTable!: ElementRef;
+
   listData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
@@ -104,6 +115,23 @@ export class TravelPrintComponent implements OnInit {
       }
     })
   }
+
+
+  public async downloadAsPDF() {
+    const pdfTable = this.pdfTable.nativeElement;
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    const documentDefinition = { content: html };
+    console.log(html);
+    
+    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
+    //   console.log(res);
+
+    // })
+    pdfMake.createPdf(documentDefinition).download()
+
+  }
+
+
 
 
 }
