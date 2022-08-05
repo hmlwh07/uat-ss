@@ -32,9 +32,12 @@
                                         [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                                    <span class="ng-clear-wrapper" (click)="clearDate('FromDate')" title="Clear">
+                                        <span aria-hidden="true" class="ng-clear">×</span>
+                                    </span>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')"
-                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button>
+                                <!-- <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')"
+                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button> -->
                             </div>
                         </div>
                         <div class="col-sm-6 from-date">
@@ -46,9 +49,12 @@
                                         [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                    <span class="ng-clear-wrapper" (click)="clearDate('ToDate')" title="Clear">
+                                        <span aria-hidden="true" class="ng-clear">×</span>
+                                    </span>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')"
-                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button>
+                                <!-- <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')"
+                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button> -->
                             </div>
                         </div>
                     </div>
@@ -106,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-                     <!-- <div class="row" style="align-items: center;"
+                    <!-- <div class="row" style="align-items: center;"
                         *ngIf="createFormGroup.value.fromDate != '' && createFormGroup.value.toDate != '' ">
                         <div class="col-sm-6">
                             <div class="form-group row">
@@ -158,13 +164,16 @@
             <div class="search-display">
                 <div *ngIf="createFormGroup.value.companyId != '' || 
                 createFormGroup.value.channelId !='' || createFormGroup.value.regionId != '' ">
-                    <span *ngIf="createFormGroup.value.companyId">{{"FORM.company"|translate}}: {{ companyName }} </span>
-                    <span *ngIf="createFormGroup.value.channelId">{{"FORM.channel"|translate}}: {{ channelName }} </span>
+                    <span *ngIf="createFormGroup.value.companyId">{{"FORM.company"|translate}}: {{ companyName }}
+                    </span>
+                    <span *ngIf="createFormGroup.value.channelId">{{"FORM.channel"|translate}}: {{ channelName }}
+                    </span>
                     <span *ngIf="createFormGroup.value.regionId">{{"FORM.region"|translate}}: {{ regionName }} </span>
                 </div>
                 <div *ngIf="createFormGroup.value.clusterId != '' || 
                 createFormGroup.value.branchId !='' || createFormGroup.value.agentId !='' ">
-                    <span *ngIf="createFormGroup.value.clusterId">{{"FORM.cluster"|translate}}: {{ clusterName }} </span>
+                    <span *ngIf="createFormGroup.value.clusterId">{{"FORM.cluster"|translate}}: {{ clusterName }}
+                    </span>
                     <span *ngIf="createFormGroup.value.branchId">{{"FORM.branch"|translate}}: {{ branchName }}</span>
                     <span *ngIf="createFormGroup.value.agentId">{{"FORM.agent"|translate}}: {{ agentName }} </span>
                 </div>
@@ -188,7 +197,7 @@
                     <th>#Premium</th>
                 </tr>
                 <tr class="data" *ngFor="let report of reports; let i = index">
-                    <td  style="min-width: 50px; max-width: 50px;">{{ report.srNo }}</td>
+                    <td style="min-width: 50px; max-width: 50px;">{{ report.srNo }}</td>
                     <td class="text-left">{{ report.cluster }}</td>
                     <td class="text-right">{{ (report.activeAgents || 0) | number:'1.2-2' }}</td>
                     <td class="text-right">{{ (report.noOfPolicy || 0) | number:'1.2-2' }}</td>

@@ -32,9 +32,12 @@
                                         [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                                    <span class="ng-clear-wrapper" (click)="clearDate('FromDate')" title="Clear">
+                                        <span aria-hidden="true" class="ng-clear">×</span>
+                                    </span>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')"
-                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button>
+                                <!-- <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')"
+                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button> -->
                             </div>
                         </div>
                         <div class="col-sm-6 from-date">
@@ -46,9 +49,12 @@
                                         [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                    <span class="ng-clear-wrapper" (click)="clearDate('ToDate')" title="Clear">
+                                        <span aria-hidden="true" class="ng-clear">×</span>
+                                    </span>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')"
-                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button>
+                                <!-- <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')"
+                                    class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button> -->
                             </div>
                         </div>
                     </div>
