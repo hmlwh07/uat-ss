@@ -48,17 +48,18 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   }
 
   downloadFile() {
+    let fileName = this.product.code + '-' + this.resourcesId
     console.log("download file.")
     this.content = document.getElementById('componentID').innerHTML;
     let options = {
       documentSize: 'A4',
       type: 'base64',
       // landscape: 'landscape',
-      // fileName: 'Print.pdf',
+      fileName: fileName,
 
     };
     this.pdfGenerator.fromData(this.content, options)
-      .then(async (data)  => {
+      .then(async (data) => {
         this.base64data = data;
       }).catch((error) => {
         console.log('error', error);
