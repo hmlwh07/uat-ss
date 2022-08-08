@@ -1,5 +1,5 @@
 <div class="addon-print" *ngIf="policyHolder">
-    <div class="title-style text-bold mt-5 mb-3">Policy Holder</div>
+    <div class="title-style text-bold mt-5 mb-3">Policy Holder Information Details</div>
     <div class="row form-txt line-sp" style="padding-top:10px;">
         <div class="col-sm-3 text-bold">
             Name
@@ -50,7 +50,9 @@
         </div>
         <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
             <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-                {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} , {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} , {{policyHolder.stateName}}
+                {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} ,
+                {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} ,
+                {{policyHolder.districtName}} , {{policyHolder.stateName}}
             </ng-container>
         </div>
     </div>
@@ -58,7 +60,7 @@
 </div>
 
 <div class="addon-print">
-    <div class="title-style text-bold mt-5 mb-5">Policy Information Detail</div>
+    <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
     <table width="100%">
         <tr>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
@@ -94,12 +96,18 @@
             </td>
             <td class="value-col" colspan="2">{{policyInfo.vehicleInformation}}</td> -->
         </tr>
+        <tr>
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+                Travel Area
+            </td>
+            <td class="field-value" colspan="10">{{travelArea}}</td>
+        </tr>
     </table>
 </div>
 
 
 <div class="addon-print">
-    <div class="title-style text-bold mt-5 mb-5">Risk Detailed Information</div>
+    <div class="title-style text-bold mt-5 mb-5">Risk Information Details</div>
     <table class="tbody-align" width="100%">
         <tr>
             <td class="field-col">
@@ -142,14 +150,53 @@
     </table>
 </div>
 
+
+<div class="addon-print" *ngIf="beneficiaries.length>0">
+    <div class="title-style text-bold mt-5 mb-5">Beneficiaries Information Details</div>
+    <table class="tbody-align" width="100%">
+        <tr>
+            <td class="field-col">
+                No.
+            </td>
+            <td class="field-col">
+                Name
+            </td>
+            <td class="field-col">
+                Relationship
+            </td>
+            <td class="field-col">
+                ID
+            </td>
+            <td class="field-col">
+                Date of Birth
+            </td>
+            <td class="field-col">
+                Share %
+            </td>
+        </tr>
+        <tbody class="tbody-align val-col">
+            <ng-container *ngFor="let data of beneficiaries; let i=index;">
+                <tr>
+                    <td class="field-pd">{{i+1}}</td>
+                    <td class="field-pd">{{data.beneficiaryName}}</td>
+                    <td class="field-pd">{{data.relationshipValue}}</td>
+                    <td class="field-pd">{{data.idType}}-{{data.idType !='NRC' ? data.idNumber : data.nrc }} </td>
+                    <td class="field-pd">{{data.dateOfBirth | date: 'dd/MM/YYYY' }}</td>
+                    <td class="field-pd">{{data.share}} % </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>
+
 <div class="addon-print">
-    <div class="title-style text-bold mt-5 mb-5">Insurance Detail</div>
+    <div class="title-style text-bold mt-5 mb-5">Insurance Information Details</div>
     <table width="100%">
         <tr>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Total SI
             </td>
-            <td class="value-col" colspan="4">{{totalSI || 0}} - {{policyInfo.currency || "MMK"}}</td>
+            <td class="value-col" colspan="4">{{totalSI || 0}} {{policyInfo.currency || "MMK"}}</td>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Total Premium
             </td>
@@ -167,7 +214,7 @@
             <p style="font-size:12pt;">
                 I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge
                 and belief and I hereby agree that this declaration shall from the basic of the contract between me and
-                KBZ MS Insurance Co., Ltd. in the event of the Proposal being accepted.
+                KBZMS General Insurance Co., Ltd. in the event of the Proposal being accepted.
             </p>
         </div>
     </div>
@@ -181,7 +228,10 @@
             <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
         </div>
         <div class="sign-box">
-            <label class="text-bold">PROPOSER SIGNATURE</label>
+            <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
+            <br>
+            <label> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
+                {{policyHolder.lastName}}</label>
             <div class="sign-area">
                 <ng-container *ngIf="signId">
                     <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">

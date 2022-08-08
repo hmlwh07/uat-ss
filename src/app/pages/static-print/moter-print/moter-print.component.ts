@@ -20,7 +20,7 @@ export class MoterPrintComponent implements OnInit {
   @Input() premiumAmt?: any
   listData: any[] = []
   motorDetail: any = {}
-  motorDriver: any = {}
+  motorDriver: any = []
   policyHolder: any = {}
   address: any = {}
   isTonnage: boolean = false
@@ -154,7 +154,8 @@ export class MoterPrintComponent implements OnInit {
 
     let obj = {
       description: 'MOTOR',
-      premium: 0
+      premium: 0,
+      num: 0
     }
     // console.log("this.product.addOns", this.product.addOns);
 

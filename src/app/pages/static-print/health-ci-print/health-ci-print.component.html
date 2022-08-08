@@ -1,5 +1,5 @@
 <div class="addon-print" *ngIf="policyHolder">
-  <div class="title-style text-bold mt-5 mb-3">Policy Holder</div>
+  <div class="title-style text-bold mt-5 mb-3">Policy Holder Information Details</div>
   <div class="row form-txt line-sp" style="padding-top:10px;">
     <div class="col-sm-3 text-bold">
       Name
@@ -58,7 +58,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-5">Policy Information Detail</div>
+  <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
   <table width="100%">
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Effective Date
@@ -80,14 +80,14 @@
     </tr>
     <!-- <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Risk Address</td>
-      <td class="value-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
+      <td class="pd-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
     </tr> -->
   </table>
 </div>
  
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-5">Risk Detail Information</div>
+  <div class="title-style text-bold mt-5 mb-5">Risk Information Details</div>
   <table class="tbody-align" width="100%">
     <tr>
       <td class="field-col">Name</td>
@@ -101,14 +101,14 @@
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let riskDetail of riskDetails;">
         <tr>
-          <td class="field-value">{{riskDetail.firstName}} {{riskDetail.middleName}} {{riskDetail.lastName}}</td>
-          <td class="field-value">{{riskDetail.occupationCdValue}}</td>
-          <td class="field-value">{{riskDetail.genderCdValue}}</td>
-          <td class="field-value">{{riskDetail.identityType}} -
+          <td class="field-pd">{{riskDetail.firstName}} {{riskDetail.middleName}} {{riskDetail.lastName}}</td>
+          <td class="field-pd">{{riskDetail.occupationCdValue}}</td>
+          <td class="field-pd">{{riskDetail.genderCdValue}}</td>
+          <td class="field-pd">{{riskDetail.identityType}} -
             {{riskDetail.identityType=='NRC'? riskDetail.identityNrc : riskDetail.identityNumber}}</td>
-          <td class="field-value">{{riskDetail.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
-          <td class="field-value">{{riskDetail.fatherName}}</td>
-          <td class="field-value">{{riskDetail.phone}}</td>
+          <td class="field-pd">{{riskDetail.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
+          <td class="field-pd">{{riskDetail.fatherName}}</td>
+          <td class="field-pd">{{riskDetail.phone}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -116,7 +116,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-5">Beneficiaries Detailed Information</div>
+  <div class="title-style text-bold mt-5 mb-5">Beneficiaries Information Details</div>
   <table class="tbody-align" style="width: 100%;">
     <tr>
       <td class="field-col" style="width: 50px;">No.</td>
@@ -129,13 +129,13 @@
     <tbody class="tbody-align val-col" style="width: 100%;">
       <ng-container *ngFor="let data of beneficiaries;let i = index">
         <tr>
-          <td class="field-value" style="width: 50px;">{{i+1}}</td>
-          <td class="field-value" style="width: 17%;">{{data.beneficiaryName}}</td>
-          <td class="field-value" style="width: 17%;">{{data.relationshipValue}}</td>
-          <td class="field-value" style="width: 17%;">{{data.idType}} - {{data.idType=='NRC'?data.nrc : data.idNumber}}
+          <td class="field-pd" style="width: 50px;">{{i+1}}</td>
+          <td class="field-pd" style="width: 17%;">{{data.beneficiaryName}}</td>
+          <td class="field-pd" style="width: 17%;">{{data.relationshipValue}}</td>
+          <td class="field-pd" style="width: 17%;">{{data.idType}} - {{data.idType=='NRC'?data.nrc : data.idNumber}}
           </td>
-          <td class="field-value" style="width: 17%;">{{data.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
-          <td class="field-value" style="width: 17%;">{{data.share}} %</td>
+          <td class="field-pd" style="width: 17%;">{{data.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
+          <td class="field-pd" style="width: 17%;">{{data.share}} %</td>
         </tr>
       </ng-container>
     </tbody>
@@ -143,7 +143,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-5">Coverage Detail</div>
+  <div class="title-style text-bold mt-5 mb-5">Coverage Information Details</div>
   <table class="tbody-align" style="width: 100%;">
     <tr>
       <td class="field-col" style="width: 50px;">No.</td>
@@ -153,13 +153,13 @@
     <tbody class="tbody-align val-col">
       <ng-container>
         <tr *ngFor="let data of AddonData; let i=index">
-          <td class="field-value" style="width: 50px;">{{i+1}}</td>
-          <td class="field-value" style="width: 70%;">{{data.keyName}}</td>
-          <td class="field-value" style="width: 20%;">{{data.value}} Units</td>
+          <td class="field-pd" style="width: 50px;">{{i+1}}</td>
+          <td class="field-pd" style="width: 70%;">{{data.keyName}}</td>
+          <td class="field-pd" style="width: 20%;">{{data.value}} Units</td>
         </tr>
         <tr *ngIf="AddonData.length > 0">
-          <td class="field-value" colspan="2">Total</td>
-          <td class="field-value">{{coveragesTotalValue}} Units </td>
+          <td class="field-pd" colspan="2">Total</td>
+          <td class="field-pd">{{coveragesTotalValue}} Units </td>
         </tr>
       </ng-container>
     </tbody>
@@ -167,7 +167,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-5">Payment Schedule</div>
+  <div class="title-style text-bold mt-5 mb-5">Payment Schedule Information Details</div>
   <table class="tbody-align" style="width: 100%;">
     <tr>
       <td class="field-col" style="width: 25%;">No. of Installment</td>
@@ -178,16 +178,16 @@
     <tbody class="tbody-align val-col">
       <ng-container>
         <tr *ngFor="let data of tempPaymentSchedule; let i=index">
-          <td class="field-value" style="width: 25%;">{{i+1}}</td>
-          <td class="value-col" style="width: 25%;">{{data.premium | number  : '1.2-2'}}</td>
-          <td class="value-col" style="width: 25%;">{{data.levy | number  : '1.2-2'}}</td>
-          <td class="value-col" style="width: 25%;">{{(data.premium + data.levy) | number  : '1.2-2'}}</td>
+          <td class="field-pd" style="width: 25%;">{{i+1}}</td>
+          <td class="pd-col" style="width: 25%;">{{data.premium | number  : '1.2-2'}}</td>
+          <td class="pd-col" style="width: 25%;">{{data.levy | number  : '1.2-2'}}</td>
+          <td class="pd-col" style="width: 25%;">{{(data.premium + data.levy) | number  : '1.2-2'}}</td>
         </tr>
         <tr *ngIf="tempPaymentSchedule.length > 0">
-          <td class="field-value">Annual Premium</td>
-          <td class="value-col">{{totalP | number  : '1.2-2'}}</td>
-          <td class="field-value">Total payable premium</td>
-          <td class="value-col">{{(totalP+totalL) | number  : '1.2-2'}}</td>
+          <td class="field-pd">Annual Premium</td>
+          <td class="pd-col">{{totalP | number  : '1.2-2'}}</td>
+          <td class="field-pd">Total payable premium</td>
+          <td class="pd-col">{{(totalP+totalL) | number  : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -200,11 +200,10 @@
   </div>
   <div class="row">
     <div class="col">
-      <p style="font-size: 12pt;">I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned
-        statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of
-        the agreement between the insurance company and me. I also know that if any information, declarations and
-        supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
-        Remark: The benefits will be issued to beneficiary's parents or guardians if he/she is under 18.</p>
+      <p style="font-size: 12pt;">I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
+        </p>
+        <br>
+        <p style="font-size: 12pt;"><b>Remark: </b> The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.</p>
     </div>
   </div>
 </div>
@@ -217,7 +216,8 @@
       <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
     <div class="sign-box">
-      <label class="text-bold">PROPOSER SIGNATURE</label>
+      <label class="text-bold">PROPOSER NAME AND SIGNATURE</label><br>
+      <label>   {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}</label>
       <div class="sign-area">
         <ng-container *ngIf="signId">
           <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">

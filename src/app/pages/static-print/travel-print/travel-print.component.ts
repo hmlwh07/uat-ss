@@ -1,9 +1,16 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { TravelRiskService } from '../../static-pages/travel-page/models&services/travel-risk.service';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+declare var require: any;
+const htmlToPdfmake = require("html-to-pdfmake");
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+import domtoimage from 'dom-to-image';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-travel-print',
@@ -14,9 +21,14 @@ export class TravelPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
   @Input() premiumAmt: any
+
+  @ViewChild('pdfTable')
+  pdfTable!: ElementRef;
+
   listData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
+  beneficiaries:any=[]
   policyHolder: any = {
     partyAddress: []
   }
@@ -25,6 +37,7 @@ export class TravelPrintComponent implements OnInit {
   numberOfTraveller: number = 0
   @Input() signId?: string
   signatureDate?: string
+  travelArea: string = ''
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
   constructor(
@@ -95,11 +108,30 @@ export class TravelPrintComponent implements OnInit {
         for (let data of res.riskDetails) {
           totalUnit += parseInt(data.travelRisk.totalUnit)
         }
+        if (res.beneficiaries)
+        this.beneficiaries = res.beneficiaries
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }
     })
   }
+
+
+  public async downloadAsPDF() {
+    const pdfTable = this.pdfTable.nativeElement;
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    const documentDefinition = { content: html };
+    console.log(html);
+    
+    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
+    //   console.log(res);
+
+    // })
+    pdfMake.createPdf(documentDefinition).download()
+
+  }
+
+
 
 
 }
