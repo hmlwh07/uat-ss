@@ -68,61 +68,6 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
 
   }
 
-  // public downloadAsPDF() {
-  //   let div = this.pdfTable.nativeElement;
-
-  //   var img:any;
-  //   var filename;
-  //   var newImage:any;
-
-
-  //   domtoimage.toPng(div, { bgcolor: '#fff' })
-
-  //     .then(function(dataUrl) {
-
-  //       img = new Image();
-  //       img.src = dataUrl;
-  //       newImage = img.src;
-
-  //       img.onload = function(){
-
-  //       var pdfWidth = img.width;
-  //       var pdfHeight = img.height;
-
-  //         // FileSaver.saveAs(dataUrl, 'my-pdfimage.png'); // Save as Image
-
-  //         var doc;
-
-  //         if(pdfWidth > pdfHeight)
-  //         {
-  //           doc = new jsPDF('l', 'px', [pdfWidth , pdfHeight]);
-  //         }
-  //         else
-  //         {
-  //           doc = new jsPDF('p', 'px', [pdfWidth , pdfHeight]);
-  //         }
-
-
-  //         var width = doc.internal.pageSize.getWidth();
-  //         var height = doc.internal.pageSize.getHeight();
-
-
-  //         doc.addImage(newImage, 'PNG',  10, 10, width, height);
-  //         filename = 'mypdf_' + '.pdf';
-  //         doc.save(filename);
-
-  //       };
-
-
-  //     })
-  //     .catch(function(error) {
-
-  //      // Error Handling
-
-  //     });
-
-  // }
-
 
   downloadFile() {
     let fileName = this.product.code + '-' + this.resourcesId
