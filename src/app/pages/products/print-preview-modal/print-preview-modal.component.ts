@@ -44,8 +44,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
 
     window.scrollTo(0, 0)
     setTimeout(() => {
-      // window.print();
-      this.downloadAsPDF()
+      window.print();
+      // this.downloadAsPDF()
     }, 1000)
     // const printContent = document.getElementById("componentID").cloneNode(true);;
     // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
