@@ -136,7 +136,7 @@
 </div>
 
 
-<div class="addon-print">
+<div class="addon-print" *ngIf="this.product.code=='PLMO01'">
   <div class="title-style text-bold mt-5 mb-5">Driver Information Details</div>
   <table class="tbody-align" width="100%">
     <tr>
@@ -214,7 +214,7 @@
 
 <div class="addon-print">
   <div class="title-style text-bold mt-5 mb-5">Additional Cover Information Details</div>
-  <!-- <table class="tbody-align" *ngIf="this.product.code=='PLMO02'">
+  <table class="tbody-align" *ngIf="this.product.code=='PLMO02'">
     <tr>
       <td class="field-col">
         War Risk
@@ -262,17 +262,17 @@
           <td class="value-col">{{data['MED EXP'] || 0 | number : '1.2-2'}}</td>
           <td class="value-col">{{data.PASSRLBTY|| 0 | number : '1.2-2'}}</td>
           <td class="value-col">{{data.PAIDDRIVER|| 0 | number : '1.2-2'}}</td>
-          <td class="value-col">{{mExcessType[motorDetail.mExcessDiscount]}}</td>
+          <td class="value-col">{{mExcessTypeMO02[motorDetail.mExcessDiscount]}}</td>
           <td class="value-col">{{data.premium | number : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
- -->
+
 
 
   <!-- *ngIf="this.product.code=='PLMO02'" -->
-  <table class="tbody-align" width="100%" *ngIf="this.product.code=='PLMO02'" >
+  <!-- <table class="tbody-align" width="100%" *ngIf="this.product.code=='PLMO02'" >
     <thead>
       <tr>
         <td class="field-col">
@@ -340,7 +340,7 @@
         </tr>
       </ng-container>
     </tbody>
-  </table>
+  </table> -->
 
   
   <table class="tbody-align" *ngIf="this.product.code=='PLMO01'" width="100%">
