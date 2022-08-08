@@ -23,8 +23,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() configOrder: FromGroupData[] = []
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-  // @ViewChild('componentID')
-  // componentID!: ElementRef;
+  @ViewChild('pdfTable')
+  pdfTable!: ElementRef;
   content: string;
   base64data: string;
 
@@ -46,7 +46,7 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       // window.print();
       // this.downloadAsPDF()
-      this.downloadFile()
+      this.downloadAsPDF()
     }, 1000)
     // const printContent = document.getElementById("componentID").cloneNode(true);;
     // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
@@ -58,70 +58,21 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   }
 
 
-  public downloadAsPDF() {
-    const pdfTable = document.getElementById("componentID").innerHTML
-    var html = htmlToPdfmake(pdfTable);
+  public async downloadAsPDF() {
+    const printContent = document.getElementById("pdfTable")
+    var html = htmlToPdfmake(printContent.innerHTML);
+    const documentDefinition = { content: html };
     console.log(html);
     
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).download();
+    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
+    //   console.log(res);
+
+    // })
+    pdfMake.createPdf(documentDefinition).download()
 
   }
 
-  // public downloadAsPDF() {
-  //   let div = this.pdfTable.nativeElement;
 
-  //   var img:any;
-  //   var filename;
-  //   var newImage:any;
-
-
-  //   domtoimage.toPng(div, { bgcolor: '#fff' })
-
-  //     .then(function(dataUrl) {
-
-  //       img = new Image();
-  //       img.src = dataUrl;
-  //       newImage = img.src;
-
-  //       img.onload = function(){
-
-  //       var pdfWidth = img.width;
-  //       var pdfHeight = img.height;
-
-  //         // FileSaver.saveAs(dataUrl, 'my-pdfimage.png'); // Save as Image
-
-  //         var doc;
-
-  //         if(pdfWidth > pdfHeight)
-  //         {
-  //           doc = new jsPDF('l', 'px', [pdfWidth , pdfHeight]);
-  //         }
-  //         else
-  //         {
-  //           doc = new jsPDF('p', 'px', [pdfWidth , pdfHeight]);
-  //         }
-
-
-  //         var width = doc.internal.pageSize.getWidth();
-  //         var height = doc.internal.pageSize.getHeight();
-
-
-  //         doc.addImage(newImage, 'PNG',  10, 10, width, height);
-  //         filename = 'mypdf_' + '.pdf';
-  //         doc.save(filename);
-
-  //       };
-
-
-  //     })
-  //     .catch(function(error) {
-
-  //      // Error Handling
-
-  //     });
-
-  // }
 
 
   downloadFile() {
@@ -138,6 +89,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     this.pdfGenerator.fromData(this.content, options)
       .then(async (data) => {
         this.base64data = data;
+        console.log(this.base64data);
+        
       }).catch((error) => {
         console.log('error', error);
       });

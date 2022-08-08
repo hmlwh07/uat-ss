@@ -14,7 +14,7 @@ import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-travel-print',
-  templateUrl: './travel-print.component.html',
+  templateUrl: './travel-print-new.html',
   styleUrls: ['./travel-print.component.scss'],
 })
 export class TravelPrintComponent implements OnInit {
@@ -115,23 +115,4 @@ export class TravelPrintComponent implements OnInit {
       }
     })
   }
-
-
-  public async downloadAsPDF() {
-    const pdfTable = this.pdfTable.nativeElement;
-    var html = htmlToPdfmake(pdfTable.innerHTML);
-    const documentDefinition = { content: html };
-    console.log(html);
-    
-    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
-    //   console.log(res);
-
-    // })
-    pdfMake.createPdf(documentDefinition).download()
-
-  }
-
-
-
-
 }
