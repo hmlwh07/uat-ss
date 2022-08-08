@@ -83,6 +83,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     this.pdfGenerator.fromData(this.content, options)
       .then(async (data) => {
         this.base64data = data;
+        console.log(this.base64data);
+        
       }).catch((error) => {
         console.log('error', error);
       });
