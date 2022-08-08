@@ -1,0 +1,248 @@
+<div class="container">
+  <div id="componentID" #componentID style="font-size: 0.95rem;position: relative; flex: 1 1 auto; padding: 1.75rem;">
+    <!-- static area -->
+    <div style="background-color: white; margin: 0px; margin-bottom: 1.25rem; position: relative;">
+      <div style="display: flex; justify-content: center;">
+        <img [src]="DEFAULT_DOWNLOAD_URL+logoId" alt="logo"  style="width:50%;">
+      </div>
+      <div
+        style="font-size: 1.7rem; font-weight: 700; width: 100%; text-align: center; margin-bottom: 1.25rem;  margin-top: 1.25rem;">
+        {{product.name}} Quotation</div>
+      <div style="position: absolute; right: 10px; top: 15px;" *ngIf="qrLocation">
+        <qrcode [qrdata]="qrLocation" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+      </div>
+    </div>
+    <div>
+      <!-- <table width="50%">
+      <tr>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Branch</td>
+        <td class="value-col"></td>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Date</td>
+        <td class="value-col">{{today | date: "dd/MM/YYYY"}}</td>
+      </tr>
+      <tr>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Agent Name</td>
+        <td class="value-col">{{agentName}}</td>
+        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Proposal No</td>
+        <td class="value-col">{{resourcesId}}</td>
+      </tr>
+    </table> -->
+      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+          Branch
+        </div>
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+          {{branch}}
+        </div>
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+          Date
+        </div>
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+          {{today | date: "dd/MM/YYYY"}}
+        </div>
+      </div>
+
+      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+          Agent Name / ID
+        </div>
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+          {{agentData.employeeName}} / {{agentData.agentCode}}
+        </div>
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+          Quotation No.
+        </div>
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+          {{resourcesId}}
+        </div>
+      </div>
+
+      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+          Agent Phone No.
+        </div>
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+          {{agentData.mobileNo}}
+        </div>
+      </div>
+    </div>
+    <!-- static area -->
+    <ng-container *ngIf="formatedData">
+      <ng-container
+        *ngIf="product.code!='CLFR01' && product.code !='PLMO02' && product.code !='PLMO01' && product.code !='PLTR01'  && product.code !='PCHL01' && product.code !='PLPA01' ;else staticPrint">
+        <ng-container *ngFor="let page of temConfig">
+          <ng-container *ngIf="page.type == 'static';else dynPrint">
+            <ng-container staticPirint [compId]="page.id" [resourcesId]="resourcesId"></ng-container>
+          </ng-container>
+          <ng-template #dynPrint>
+            <ng-container *ngIf="page.pageType == 'form'">
+              <ng-container *ngFor="let tableObj of page.tables">
+                <div class="title-style left-border-image mt-5">{{tableObj.title}}</div>
+                <table width="100%">
+                  <tr>
+                    <td class="field-col" style="border: 0px;"></td>
+                    <td class="value-col" style="border: 0px;"></td>
+                    <td class="field-col" style="border: 0px;"></td>
+                    <td class="value-col" style="border: 0px;"></td>
+                    <td class="field-col" style="border: 0px;"></td>
+                    <td class="value-col" style="border: 0px;"></td>
+                    <td class="field-col" style="border: 0px;"></td>
+                    <td class="value-col" style="border: 0px;"></td>
+                  </tr>
+                  <ng-container *ngFor="let row of tableObj.row">
+                    <tr>
+                      <ng-container *ngFor="let col of row.column">
+                        <ng-container *ngIf="!col.data">
+                          <td class="field-col" [class.fix-col]="col.size" [style.background-color]="col.background"
+                            [style.color]="col.color" [style.text-align]="col.align || 'center'"
+                            [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                            [attr.colspan]="col.colspan > 0 ? col.colspan : 1">{{col.title}}
+                          </td>
+                          <td *ngIf="col.static" class="value-col" [style.color]="col.color"
+                            [style.text-align]="col.align || 'center'"
+                            [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                            [attr.colspan]="col.colspan > 0 ? col.colspan : 1">
+                            {{ getStatic(col.key)}}
+                          </td>
+                        </ng-container>
+                        <ng-container *ngIf="col.data">
+                          <td *ngIf="col.data.input == 'label'" class="field-col" [class.fix-col]="col.size"
+                            [style.background-color]="col.background" [style.color]="col.color"
+                            [style.text-align]="col.align || 'center'"
+                            [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                            [attr.colspan]="col.colspan > 0 ? col.colspan : 1">
+                            {{col.title}}
+                          </td>
+                          <td *ngIf="col.data.input != 'label'" class="field-col" [class.fix-col]="col.size"
+                            [style.background-color]="col.background" [style.color]="col.color"
+                            [style.text-align]="col.align || 'center'">{{col.title}}
+                          </td>
+                          <td *ngIf="col.data.input != 'label'" class="value-col" [style.color]="col.color"
+                            [style.text-align]="col.align || 'center'"
+                            [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                            [attr.colspan]="col.colspan > 0 ? col.colspan : 1">
+                            {{ getValue(col,tempData[page.tableName+page.id])}}
+                          </td>
+                        </ng-container>
+                      </ng-container>
+                    </tr>
+                  </ng-container>
+                </table>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="page.pageType == 'table'">
+              <div class="title-style left-border-image mt-5">{{page.tables[0].title}}</div>
+              <table style="width: 100;" class="print-grid" width="100%">
+                <tr>
+                  <td class="field-col" style="border: 0px;"></td>
+                  <td class="value-col" style="border: 0px;"></td>
+                  <td class="field-col" style="border: 0px;"></td>
+                  <td class="value-col" style="border: 0px;"></td>
+                  <td class="field-col" style="border: 0px;"></td>
+                  <td class="value-col" style="border: 0px;"></td>
+                  <td class="field-col" style="border: 0px;"></td>
+                  <td class="value-col" style="border: 0px;"></td>
+                </tr>
+                <ng-container *ngFor="let row of page.tables[0].row">
+                  <tr>
+                    <ng-container *ngFor="let col of row.column">
+                      <ng-container *ngIf="col.data">
+                        <td class="field-col" [class.fix-col]="col.size" [style.background-color]="col.background"
+                          [style.color]="col.color" [style.text-align]="col.align || 'center'"
+                          [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                          [attr.colspan]="col.colspan > 0 ? col.colspan : 1">{{col.title}}
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </tr>
+                </ng-container>
+                <!-- tempData[page.tableName+page.id] -->
+                <ng-container *ngFor="let item of getViewData(page)">
+                  <ng-container *ngFor="let row of page.tables[0].row">
+                    <tr>
+                      <ng-container *ngFor="let col of row.column">
+                        <ng-container *ngIf="col.data">
+                          <td class="field-col" [style.text-align]="col.align || 'center'"
+                            [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
+                            [attr.colspan]="col.colspan > 0 ? col.colspan : 1"> {{
+                            getValue(col,item)}}
+                          </td>
+                        </ng-container>
+                      </ng-container>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </table>
+            </ng-container>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+      <ng-template #staticPrint>
+        <ng-container *ngIf="product.code=='CLFR01'">
+          <app-fire-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-fire-print>
+        </ng-container>
+        <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
+          <app-moter-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-moter-print>
+        </ng-container>
+        <ng-container *ngIf="product.code=='PLTR01' ">
+
+          <!-- <div class="container">
+            <div id="pdfTable" #pdfTable>
+              <h2>Angular HTML To PDF Using PDFMAKE and htm-to-pdfmake Example - readerstacks.com</h2>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>S.no.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Rem</td>
+                    <td>Rem@yopmail.com</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Joe</td>
+                    <td>joe@yopmail.com</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Kuple</td>
+                    <td>Kuple@yopmail.com</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="btn btn-primary" (click)="downloadAsPDF();">Export To PDF</button>
+          </div>-->
+          <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-travel-print>
+        </ng-container>
+        <ng-container *ngIf="product.code=='PCHL01' ">
+          <app-health-ci-print [product]="product" [resourcesId]="resourcesId" [premiumAmt]="premimunAmt">
+          </app-health-ci-print>
+        </ng-container>
+        <ng-container *ngIf="product.code=='PLPA01' ">
+          <app-personal-accident-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt">
+          </app-personal-accident-print>
+        </ng-container>
+      </ng-template>
+    </ng-container>
+    <!-- PCHL01 -->
+    <!-- <div class="print-footer mt-5">
+    <div>
+      <img src="assets/images/kbzms.png" alt="" class="logo">
+    </div>
+    <p>
+      <u>Contact Us</u><br>
+      No.53, Strand Square, Merchant Road, Pabedan Township, Yangon.<br>
+      (+951) 2307000, 09 95 007 7000<br>
+      Email: customercare@kbz.com, Sales Channel: IA<br>
+    </p>
+  </div> -->
+
+  </div>
+</div>
