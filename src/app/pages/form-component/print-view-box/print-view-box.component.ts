@@ -14,10 +14,11 @@ const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 // import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-print-view-box',
-  templateUrl: './print-view-box.component.html',
+  templateUrl: './print-view-box.component mobile.html',
   styleUrls: ['./print-view-box.component.scss']
 })
 export class PrintViewBoxComponent implements OnInit {
@@ -38,6 +39,8 @@ export class PrintViewBoxComponent implements OnInit {
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  logoId: string= "985";
   constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
 
   }
