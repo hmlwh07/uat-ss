@@ -23,8 +23,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() configOrder: FromGroupData[] = []
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-  // @ViewChild('componentID')
-  // componentID!: ElementRef;
+  @ViewChild('pdfTable')
+  pdfTable!: ElementRef;
   content: string;
   base64data: string;
 
@@ -46,7 +46,7 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       // window.print();
       // this.downloadAsPDF()
-      this.downloadFile()
+      this.downloadAsPDF()
     }, 1000)
     // const printContent = document.getElementById("componentID").cloneNode(true);;
     // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
@@ -58,15 +58,21 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   }
 
 
-  public downloadAsPDF() {
-    const pdfTable = document.getElementById("componentID").innerHTML
-    var html = htmlToPdfmake(pdfTable);
+  public async downloadAsPDF() {
+    const printContent = document.getElementById("pdfTable")
+    var html = htmlToPdfmake(printContent.innerHTML);
+    const documentDefinition = { content: html };
     console.log(html);
     
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).download();
+    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
+    //   console.log(res);
+
+    // })
+    pdfMake.createPdf(documentDefinition).download()
 
   }
+
+
 
 
   downloadFile() {
