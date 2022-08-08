@@ -9,7 +9,7 @@ import { TravelRiskService } from '../../static-pages/travel-page/models&service
 
 @Component({
   selector: 'app-personal-accident-print',
-  templateUrl: './personal-accident-print.component.html',
+  templateUrl: './personal-accident-print-new.component.html',
   styleUrls: ['./personal-accident-print.component.scss'],
 })
 export class PersonalAccidentPrintComponent implements OnInit {

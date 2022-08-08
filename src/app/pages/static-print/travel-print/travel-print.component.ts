@@ -9,7 +9,7 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 declare var require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-import domtoimage from 'dom-to-image';
+// import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
 
 @Component({

@@ -9,7 +9,7 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 declare var require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-import domtoimage from 'dom-to-image';
+// import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
 
 @Component({
@@ -45,7 +45,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0)
     setTimeout(() => {
       // window.print();
-      this.downloadAsPDF()
+      // this.downloadAsPDF()
+      this.downloadFile()
     }, 1000)
     // const printContent = document.getElementById("componentID").cloneNode(true);;
     // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
