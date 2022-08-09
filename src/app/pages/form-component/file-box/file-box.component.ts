@@ -18,12 +18,13 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
   config: any
   unSub: Subscription[] = []
   editStage: boolean
+  alertMsg: string = ""
   // dummyText: string
   @ViewChild('selectedFile') selectedFileEl: ElementRef;
   constructor(
     private globalFun: GlobalFunctionService,
     private fileUpload: AttachmentUploadService,
-    private loading: LoadingService
+    private loading: LoadingService,
   ) { }
 
   ngOnInit() {
@@ -53,26 +54,32 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
       reader.readAsDataURL(file);
       reader.onload = () => {
         // console.log(reader);
-        if (reader.result) {
-          let base64 = reader.result.toString().split(",")[1];
-          let data = {
-            fileStr: base64,
-            fileName: file.name,
-            fileType: file.type,
-            fileSize: file.size,
-            contentType: file.type,
-            fileExtension: file.name.split('.').pop(),
-          }
-          this.loading.activate()
-          this.fileUpload.save(data).toPromise().then((res) => {
-            if (res) {
-              this.group.controls[this.config.name].setValue(`[${res}].${data.fileName}`)
+        if (event.target.files[0].size / (1024 * 1024) > 20) {
+          this.alertMsg = "This file size is greater than 20MB"
+          // this.alertService.activate('This file size is greater than 20MB.', 'Warning')
+        } else {
+          if (reader.result) {
+            this.alertMsg = ""
+            let base64 = reader.result.toString().split(",")[1];
+            let data = {
+              fileStr: base64,
+              fileName: file.name,
+              fileType: file.type,
+              fileSize: file.size,
+              contentType: file.type,
+              fileExtension: file.name.split('.').pop(),
             }
-            this.loading.deactivate()
-          }).catch(e => {
-            this.loading.deactivate()
-          })
-        };
+            this.loading.activate()
+            this.fileUpload.save(data).toPromise().then((res) => {
+              if (res) {
+                this.group.controls[this.config.name].setValue(`[${res}].${data.fileName}`)
+              }
+              this.loading.deactivate()
+            }).catch(e => {
+              this.loading.deactivate()
+            })
+          };
+        }
       }
     }
   }
