@@ -114,7 +114,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   getList(limit: number = 5, offset: number = 1) {
-    let check = this.isPopup && !this.isDynamic ? true : false
+    let check = true
     let postData = { ...this.customerForm.getRawValue(), limit: 5, offset: offset }
     this.postedData = postData
     this.customerListService.getCustomerList(this.postedData, check, this.isCustom)
@@ -143,7 +143,7 @@ export class CustomerListComponent implements OnInit {
 
   async getDatabyPage(page) {
     this.currentPage = page
-    let check = this.isPopup && !this.isDynamic ? true : false
+    let check =  true
     let postData = { ...this.customerForm.getRawValue(), limit: 5, offset: page }
     this.totalPages = 0
     this.postedData = postData

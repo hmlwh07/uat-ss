@@ -46,7 +46,7 @@ export class CustomerListService {
         url = url + "offset=" + search.offset + "&"
       }
     }
-    if (!isCustom) {
+    if (!isCustom && !popup) {
       url = url + "isPartyCode=" + party
     }
 

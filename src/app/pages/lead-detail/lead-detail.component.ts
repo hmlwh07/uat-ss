@@ -212,7 +212,7 @@ export class LeadDetailComponent implements OnInit {
     private modalService: NgbModal,
     private router: Router,
     private prodctService: ProductDataService,
-    private customerService: CustomerService,
+    private customerService: CustomerDetailService,
     private productService: ProductDataService,
     private AttachmentUploadService: AttachmentUploadService,
     private LeadAttachmentService: AttachmentServiceRef,
