@@ -1,6 +1,6 @@
 {
-	"appId": "com.kbzms.sale_uat",
-	"appName": "KBZ Insurance Producer Sale (UAT)",
+	"appId": "com.kbzms.sale_pre_prod",
+	"appName": "KBZ Insurance Producer Sale (Pre Prod)",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "KBZ Insurance Producer Sale (UAT)",
+  "name": "KBZ Insurance Producer Sale (Pre Prod)",
   "integrations": {
     "capacitor": {}
   },

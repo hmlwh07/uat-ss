@@ -138,12 +138,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const API_CUSTOMER_URL = `${_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.apiUrl}/customer`;
+const API_CUSTOMER_URL_PAGE = `${_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.apiUrl}/customer/page`;
 let CustomerListService = class CustomerListService {
     constructor(httpClient) {
         this.httpClient = httpClient;
     }
     getCustomerList(search = {}, party, popup, isCustom) {
-        let url = API_CUSTOMER_URL + "?";
+        let url = popup ? API_CUSTOMER_URL + "?" : API_CUSTOMER_URL_PAGE + "?";
         if (search.name) {
             url = url + "name=" + search.name + "&";
         }
@@ -168,11 +169,13 @@ let CustomerListService = class CustomerListService {
         if (search.identityNumber) {
             url = url + "identityNumber=" + search.identityNumber + "&";
         }
-        if (search.limit) {
-            url = url + "limit=" + search.limit + "&";
-        }
-        if (search.offset) {
-            url = url + "offset=" + search.offset + "&";
+        if (!popup) {
+            if (search.limit) {
+                url = url + "limit=" + search.limit + "&";
+            }
+            if (search.offset) {
+                url = url + "offset=" + search.offset + "&";
+            }
         }
         if (!isCustom) {
             url = url + "isPartyCode=" + party;

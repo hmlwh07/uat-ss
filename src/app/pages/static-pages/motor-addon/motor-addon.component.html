@@ -48,7 +48,7 @@
                 <label class="col-sm-4 col-form-label">{{"FORM.start_date" | translate}}</label>
                 <div class="col-sm-8">
                     <div class="input-group input-group-sm ">
-                        <input matInput class="form-control-sm date-input" style="width: 100%;" [(ngModel)]="startDate" [matDatepicker]="start" readonly>
+                        <input matInput class="form-control-sm date-input" style="width: 100%;" (ngModelChange)="calculateDate($event,'start')" [(ngModel)]="startDate" [min]="fromMinDate" [max]="toMaxDate"  [matDatepicker]="start" readonly>
                         <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
                         <mat-datepicker #start disabled="false"></mat-datepicker>
 
@@ -61,7 +61,7 @@
                 <label class="col-sm-4 col-form-label">{{"FORM.end_date" | translate}}</label>
                 <div class="col-sm-8">
                     <div class="input-group input-group-sm ">
-                        <input matInput class="form-control-sm date-input" style="width: 100%;" [(ngModel)]="endDate" [matDatepicker]="end" readonly>
+                        <input matInput class="form-control-sm date-input" style="width: 100%;" (ngModelChange)="calculateDate($event,'end')" [(ngModel)]="endDate" [min]="fromMinDate" [max]="toMaxDate"  [matDatepicker]="end" readonly>
                         <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
                         <mat-datepicker #end disabled="false"></mat-datepicker>
 

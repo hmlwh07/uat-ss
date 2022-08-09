@@ -142,8 +142,8 @@ let CommonList2Component = class CommonList2Component {
     }
     ngOnInit() {
         this.listingargs = { direction: this.order, col: this.colField };
-        // || this.type == 'activity'|| this.type == 'customer'
-        if (this.type == 'lead' || this.type == 'policy' || this.type == 'activity') {
+        // || this.type == 'activity'
+        if (this.type == 'lead' || this.type == 'policy' || this.type == 'activity' || this.type == 'customer') {
             this.isPager = true;
         }
     }

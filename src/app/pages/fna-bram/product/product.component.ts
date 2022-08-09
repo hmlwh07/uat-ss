@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import { AlertService } from '../../../../app/modules/loading-toast/alert-model/alert.service';
 import { FNABRAMDiscount } from './product.dto';
 import { forkJoin, of } from 'rxjs';
-import { CustomerService } from '../../customer-detail/customer.service';
+import { CustomerDetailService, CustomerService } from '../../customer-detail/customer.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -77,7 +77,7 @@ export class ProductComponent implements OnInit {
     private productService: FNAProductService,
     private productDataService: ProductDataService,
     private cdf: ChangeDetectorRef,
-    private customerService: CustomerService,
+    private customerService: CustomerDetailService,
     private router: Router,
     private fnaService: FANService,
     private alertService: AlertService,

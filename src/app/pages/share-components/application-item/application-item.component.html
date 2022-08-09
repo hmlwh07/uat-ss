@@ -10,7 +10,8 @@
         <img src="../../../assets/images/view-01.svg" (click)="actionBtn(itemData,eventType.VIEW)" alt="view" />
       </div>
       <div class="actions"
-        *ngIf="(itemData.status == 'in_progress' || itemData.status == 'In_progress' ) || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail')">
+        *ngIf="((itemData.status == 'in_progress' || itemData.status == 'In_progress' )&& itemData.leadStatusCode != '07' ) 
+        || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail' && itemData.leadStatusCode != '07')">
         <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
       </div>
     </section>

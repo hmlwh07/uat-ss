@@ -111,6 +111,7 @@ export const locale = {
       btn_reject: 'Reject',
       btn_win: 'Win',
       btn_lost: 'Lost',
+      btn_released: 'Released',
       btn_save: 'Save',
       btn_cancel: 'Cancel',
       btn_browse: 'Browse',
