@@ -39,8 +39,7 @@ export class PrintViewBoxComponent implements OnInit {
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
-  logoId: string= "985";
+  logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
 
   }
