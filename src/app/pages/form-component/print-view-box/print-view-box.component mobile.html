@@ -4,7 +4,7 @@
     <div style="background-color: white; margin: 0px; margin-bottom: 1.25rem; position: relative;">
       <div style="display: flex; justify-content: center;">
         <!-- <img [src]="DEFAULT_DOWNLOAD_URL+logoId" alt="logo"  style="width:50%;"> -->
-        <img src="assets/images/header-logo.png" alt="logo"  style="width:50%;">
+        <img src="assets/images/header-logo.png" alt="logo" style="width:50%;">
       </div>
       <div
         style="font-size: 1.7rem; font-weight: 700; width: 100%; text-align: center; margin-bottom: 1.25rem;  margin-top: 1.25rem;">
@@ -14,55 +14,41 @@
       </div>
     </div>
     <div>
-      <!-- <table width="50%">
-      <tr>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Branch</td>
-        <td class="value-col"></td>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Date</td>
-        <td class="value-col">{{today | date: "dd/MM/YYYY"}}</td>
-      </tr>
-      <tr>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Agent Name</td>
-        <td class="value-col">{{agentName}}</td>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Proposal No</td>
-        <td class="value-col">{{resourcesId}}</td>
-      </tr>
-    </table> -->
       <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Branch
         </div>
-        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{branch}}
         </div>
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Date
         </div>
-        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{today | date: "dd/MM/YYYY"}}
         </div>
       </div>
 
       <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Agent Name / ID
         </div>
-        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{agentData.employeeName}} / {{agentData.agentCode}}
         </div>
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Quotation No.
         </div>
-        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{resourcesId}}
         </div>
       </div>
 
       <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Agent Phone No.
         </div>
-        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{agentData.mobileNo}}
         </div>
       </div>

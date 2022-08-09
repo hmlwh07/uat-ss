@@ -79,29 +79,47 @@
         Policy Effective Date</td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
-        {{motorDetail.mPeriodOfInsuranceFrom | date: 'dd/MM/YYYY'}}</td>
+        {{detail.startDate | date: 'dd/MM/YYYY'}}</td>
 
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
         Policy Expiry Date</td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
-        {{motorDetail.mPeriodOfInsuranceTo | date: 'dd/MM/YYYY'}}</td>
+        {{detail.endDate | date: 'dd/MM/YYYY'}}</td>
 
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
-        Policy Duration</td>
+        Policy Duration Days</td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
-        {{policyTerm[motorDetail.mPolicyTerm]}}</td>
+        {{detail.policyDuration}} - {{policyUnit[detail.policyUnit]}}</td>
     </tr>
     <tr>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        Policy Type</td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;"
+        colspan="2">
+        {{detail.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
+        
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
         Currency</td>
-      <td colspan="10"
-        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
-        {{motorDetail.mCurrency}}</td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;"
+        colspan="2">
+        {{detail.currency}}</td>
+    </tr>
+    <tr>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        Risk Address</td>
+      <td style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell;
+      vertical-align: inherit;" colspan="10">
+        {{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}
+      </td>
     </tr>
   </table>
 </div>
@@ -115,137 +133,237 @@
     <tr>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Vehicle No.
+        Building Description
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Make/ Model
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;"
-        *ngIf="isTonnage">
-        Tonnage
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;"
-        *ngIf="!isTonnage">
-        CC
+        Type of Building
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Year of Manufacture
+        Occupation of Building
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Type of Vehicle
+        Building Class
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Type of Coverage
+        Total Square Feet
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Excess
+        Build Year
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Windscreen SI
+        Proposed Building SI
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Proposed Furniture
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Proposed Machinery SI
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Proposed Stock SI
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+        style="background-color: #e9f8fe;">
         Total SI
       </td>
     </tr>
     <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
-      <!-- <ng-container *ngFor="let data of listData;"> -->
+      <ng-container *ngFor="let data of listData;">
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+            {{data.buildingDescription}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+            {{data.typeOfBuildingValue}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+            {{data.occupationOfBuildingValue}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+            {{data.buildingClassValue}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+            {{data.totalSquareFoot}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+            {{data.yearOfConstruction}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+            {{data.buildingSi|| 0 | number : '1.2-2'}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+            {{data.proposedFurniture|| 0 | number : '1.2-2'}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+            {{data.proposedMachinerySI|| 0 | number : '1.2-2'}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+            {{data.proposeStockValue|| 0 | number : '1.2-2'}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+            {{data.riskSi|| 0 | number : '1.2-2'}}</td>
+        </tr>
+
+      </ng-container>
       <tr>
+        <td colspan="6"
+          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+          Total SI</td>
         <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-          {{vehicleDetail.mEngineNo}}</td>
+          style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+          {{ totalbuildingSi | number : '1.2-2'}}</td>
         <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-          {{motorDetail.mModelValue}}</td>
+          style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+          {{ totalproposedFurniture | number : '1.2-2'}}</td>
         <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-          {{isTonnage ? motorDetail.mTonnage :
-          motorDetail.mCapacity}}</td>
+          style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+          {{ totalproposedMachinerySI | number : '1.2-2'}}</td>
         <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-          {{vehicleDetail.mManufactureYearValue}}</td>
+          style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+          {{ totalproposeStockValue | number : '1.2-2'}}</td>
         <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-          {{motorDetail.mTypeOfVehicleValue}}</td>
-        <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-          {{motorDetail.mTypeOfCoverageValue}}</td>
-        <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-          {{motorDetail.mExcessValue}}</td>
-        <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: right; padding: 5px 5px; font-size: 12pt;">
-          {{motorDetail.mWindscreenValue | number : '1.2-2'}}</td>
-        <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: right; padding: 5px 5px; font-size: 12pt;">
-          {{motorDetail.mTotalRiskSi | number : '1.2-2'}}</td>
+          style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+          {{ totalriskSi | number : '1.2-2'}}</td>
       </tr>
-      <!-- </ng-container> -->
     </tbody>
   </table>
 </div>
 
+<!-- <div id="cover-table">  -->
 <div>
   <div
     style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500; margin-bottom: 1.25rem; margin-top: 1.25rem">
-    Driver Information Details
-  </div>
+    Cover Information Details</div>
   <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
     <tr>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        No.
+        Building Description
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Driver Name
+        Additional Cover Name
       </td>
       <td
         style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        ID
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Date of Birth
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Driving License No.
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        His/Her Relationship to you
+        Additional Cover Premium
       </td>
     </tr>
     <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
-      <ng-container *ngFor="let data of listData;let i =index">
+      <ng-container *ngFor="let data of addOnData;">
+        <tr>
+          <td rowspan="12"
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+            {{data.description}}</td>
+          <!-- <td rowspan="11" class="field-value align-left" *ngIf="data.STHTC  !=0">STHTC</td>
+          <td rowspan="11" class="field-value align-right" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td> -->
+        </tr>
         <tr>
           <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-            {{i+1}}</td>
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.STHTC  !=0">STHTC</td>
           <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-            {{data.firstName}} {{data.middleName}} {{data.lastName}}</td>
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
           <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-            {{data.identityType=='NRC'? data.identityNrc: data.identityNumber}}</td>
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.IMPD  !=0">Impact Damage</td>
           <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-            {{data.dateOfBirth | date : "DD/MM/YYYY"}}</td>
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.IMPD  !=0">{{data.IMPD | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
           <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-            {{data.licenseNo}}</td>
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.RSMD  !=0">RSMD</td>
           <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
-            {{data.mRelationshipToPolicyholderValue}}</td>
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.RSMD  !=0">{{data.RSMD | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.BURGLARY  !=0">Burglary</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.BURGLARY  !=0">{{data.BURGLARY | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.ACD  !=0">Air Craft Damage</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.ACD  !=0">{{data.ACD | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.EQ  !=0">EQ</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.EQ  !=0">{{data.EQ | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.SPONTCOMB  !=0"> Spontaneous Combus</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.SPONTCOMB  !=0">{{data.SPONTCOMB | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.SUBLSLD  !=0"> Subsidence and Landslid</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.SUBLSLD  !=0">{{data.SUBLSLD | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.WARRISK  !=0">War Risk</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.WARRISK  !=0">{{data.WARRISK | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.EXPLOSION  !=0"> Explosion </td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.EXPLOSION  !=0">{{data.EXPLOSION | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
+            *ngIf="data.FLOOD  !=0"> Flood and Inundate </td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
+            *ngIf="data.FLOOD  !=0">{{data.FLOOD | number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;"
+            colspan="2">Sub Total Premium</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
+            {{data.premium | number:'1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -255,192 +373,24 @@
 <div>
   <div
     style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500; margin-bottom: 1.25rem; margin-top: 1.25rem">
-    Basic Cover Information Details
-  </div>
-  <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
-    <tr>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse;text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Own Damage
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse;text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Third Party
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse;text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Strikes Riots and Civil Commotion
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse;text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Wind Screen
-      </td>
-      <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse;text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-        Total Premium of Basic Cover
-      </td>
-    </tr>
-    <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
-      <ng-container *ngFor="let data of coverageData;">
-        <tr>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
-            {{data.OD | number : '1.2-2'}}</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
-            {{data.TP | number : '1.2-2'}}</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
-            {{data.SRCC | number : '1.2-2'}}</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
-            {{data.WSC | number : '1.2-2'}}</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
-            {{data.premium | number : '1.2-2'}}</td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
-
-<div>
-  <div
-    style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500; margin-bottom: 1.25rem; margin-top: 1.25rem">
-    Additional Cover Information Details
-  </div>
-
-  <!-- *ngIf="this.product.code=='PLMO02'" -->
-  <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
-    <thead>
-      <tr>
-        <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-          Additional Cover Name
-        </td>
-        <td
-          style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-          Additional Cover Premium
-        </td>
-      </tr>
-    </thead>
-    <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
-      <ng-container *ngFor="let data of addOnData">
-        <tr>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.WR  !=0">War Risk</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.WR  !=0">{{data.WR|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.AOG  !=0">Act of God</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.AOG  !=0">{{data.AOG|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.THEFT  !=0">Theft</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.THEFT  !=0">{{data.THEFT|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.NOBTTRMNT  !=0">No Betterment Endorsement </td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.NOBTTRMNT  !=0">{{data.NOBTTRMNT|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.CROSSBRDR  !=0">
-            Cross Border</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.CROSSBRDR  !=0">
-            {{data['CROSSBRDR']|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.LOSSOFLUGG  !=0">
-            Loss of Luggage</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.LOSSOFLUGG  !=0">
-            {{data.LOSSOFLUGG|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.PASSRLBTY  !=0">
-            Medical Expense </td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.PASSRLBTY  !=0">
-            {{data.PASSRLBTY|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data.PAIDDRIVER  !=0">
-            Passenger Liability</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data.PAIDDRIVER  !=0">
-            {{data.PAIDDRIVER|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;"
-            *ngIf="data['MED EXP']  !=0">
-            Paid Driver</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;"
-            *ngIf="data['MED EXP']  !=0">
-            {{data['MED EXP']|| 0 | number : '1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
-            Total Additional Cover Premium</td>
-          <td
-            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: right; font-size: 12pt;">
-            {{data.premium | number : '1.2-2'}}</td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</div>
-
-<div>
-  <div style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500;
-  margin-bottom: 1.25rem; margin-top: 1.25rem">
     Insurance Information Details
   </div>
   <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
     <tr>
       <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse;text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;background-color:#e9f8fe;">
-        Approximate Total SI</td>
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color:#e9f8fe;">
+        Approximate Total SI
+      </td>
       <td style="padding: 5px 5px; text-align: right; font-size: 12pt;" colspan="4">
-        {{motorDetail.mTotalRiskSi | number : '1.2-2'}} {{motorDetail.mCurrency}}</td>
+        {{totalSi | number : '1.2-2'}}
+      </td>
       <td
-        style="border: 1px solid #005f99eb; border-collapse: collapse;text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color:#e9f8fe;">
-        Approximate Total Premium</td>
-      <td style="padding: 5px 5px; text-align: right; font-size: 12pt;" colspan="4">{{premiumAmt}}</td>
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color:#e9f8fe;">
+        Approximate Total Premium
+      </td>
+      <td style="padding: 5px 5px; text-align: right; font-size: 12pt;" colspan="4">
+        {{premiumAmt}}
+      </td>
     </tr>
   </table>
 </div>
@@ -453,22 +403,9 @@
   <div style="display: flex; flex-wrap: wrap; margin-right: -12.5px; margin-left: -12.5px;">
     <div style="flex-basis: 0; flex-grow: 1; max-width: 100%;">
       <p style="font-size: 12pt; padding: 0px 10px; text-align: justify;">
-        I/ We agree that this proposal and declaration shall be the basis of the contract
-        between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract.
-        I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been
-        refused any motor vehicle insurance or continuance thereof.
-      </p>
-    </div>
-  </div>
-</div>
-
-<div>
-  <div style="display: flex; flex-wrap: wrap; margin-right: -12.5px; margin-left: -12.5px;">
-    <div stye="flex-basis: 0; flex-grow: 1; max-width: 100%;">
-      <p style="font-size: 12pt; color:red; padding: 0px 10px; text-align: justify;">Important Notice: You are to
-        disclose in this proposal form fully and
-        faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No
-        cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.
+        I hereby declare that the statements made by me in this Proposal are true to the best
+        of my knowledge and belief and I hereby agree that this declaration shall from the basic of the contract between
+        me and KBZMS General Insurance Co.,Ltd. in the event of the Proposal being accepted
       </p>
     </div>
   </div>
