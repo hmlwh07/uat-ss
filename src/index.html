@@ -92,16 +92,26 @@
   @media print {
     body * {
       visibility: hidden;
+    }
+
+
+
+    /* 
+    background-image: url(../../.././../assets/watermask.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40% 40%;
+   */
+    .modal-open>.modal {
+      overflow: auto !important;
+      padding: 0 !important;
+
+      backdrop-filter: brightness(.75);
+      position: static;
+      height: unset;
 
     }
-    .modal-open>.modal {
-    overflow: auto !important;
-    padding: 0 !important;
-   
-       backdrop-filter: brightness(.75);
-       position: static;
-       height: unset;
-    }
+
     #printable,
     #printable * {
       visibility: visible;
@@ -127,11 +137,16 @@
     }
 
     #kt_body {
-      background-color: #ffffff;
+      /* background-color: #ffffff; */
+      background-image: url(assets/watermask.png);
+      background-position: center;
+      /* background-repeat: repeat; */
+      background-size: 100% 100%;
       position: static;
       display: block;
       height: unset;
     }
+
     /* #cover-table{
       
       page-break-after: always;

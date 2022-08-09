@@ -905,7 +905,7 @@ export class GlobalFunctionService {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
 
-    return this.motorOwnDamage(motorDetail).pipe(map(res => {
+    return this.motorOwnDamageYear(motorDetail).pipe(map(res => {
       if (res > 0) {
         let rate = 0
         if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
@@ -940,7 +940,7 @@ export class GlobalFunctionService {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
 
-    return this.motorOwnDamage(motorDetail).pipe(map(res => {
+    return this.motorOwnDamageYear(motorDetail).pipe(map(res => {
       // console.log("motorEndorsement", res);
 
       if (res > 0) {

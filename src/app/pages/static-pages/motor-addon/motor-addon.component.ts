@@ -62,12 +62,25 @@ export class MotorAddonComponent implements OnInit {
     "T-002": 0.85,
     "T-001": 1,
   }
+  startD: any
+  endD: any
+  crossPremiumPercent: any = 1
   isCrossExist: boolean = false;
   isMedicalExist: boolean = false;
+  fromMinDate: any;
+  fromMaxDate: any;
+  toMinDate: any;
+  toMaxDate: any;
   constructor(private globalFun: GlobalFunctionService, private productService: ProductDataService, private prodService: ProductDataService, private numberPipe: DecimalPipe, private addOnQuoService: AddOnQuoService, private pageDataService: PageDataService, private cdf: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
+
+    let date = new Date();
+    this.startD = new Date()
+    this.endD = new Date(date.setFullYear(date.getFullYear() + 1))
+
+
     this.optionId = this.optionId ? this.optionId : this.resourcesId
     this.parentData = this.getParnet()
 
@@ -102,9 +115,57 @@ export class MotorAddonComponent implements OnInit {
       if (response2) {
         this.isCrossExist = true
         this.isCross = true
-        this.startDate = moment(response2.startDate).format('YYYY-MM-DD')
-        this.endDate = moment(response2.endDate).format('YYYY-MM-DD')
-        this.toggleChange('cross', true)
+        let start = response2.startDate != null ? moment(response2.startDate).format('YYYY-MM-DD') : this.startD
+        let end = response2.endDate != null ? moment(response2.endDate).format('YYYY-MM-DD') : this.endD
+        this.startDate = new Date(start)
+        this.endDate = new Date(end)
+        // console.log("start", start, end);
+        if (this.startDate) {
+          var toDate = new Date(this.startDate);
+          toDate.setFullYear(toDate.getFullYear() + 1);
+          toDate.setDate(toDate.getDate() - 1);
+          this.fromMinDate = new Date(this.startDate);
+          this.toMaxDate = toDate;
+        }
+        var months;
+        if (this.startDate && this.endDate) {
+          months = (this.endDate.getFullYear() - this.startDate.getFullYear()) * 12;
+          months -= this.startDate.getMonth();
+          months += this.endDate.getMonth();
+          let month = months <= 0 ? 0 : months;
+          // console.log("MONTH", month);
+
+          var Time = this.endDate.getTime() - this.startDate.getTime();
+          var Days = Math.ceil(Time / (1000 * 3600 * 24));
+
+          // console.log("Days", Days);
+          // if (month >= 0 && month <= 3) {
+          //   this.crossPremiumPercent = 0.35
+          // }
+          // if (month > 3 && month <= 6) {
+          //   this.crossPremiumPercent = 0.60
+          // }
+          // if (month > 6 && month < 12) {
+          //   this.crossPremiumPercent = 0.85
+          // }
+          // if (month >= 12) {
+          //   this.crossPremiumPercent = 1
+          // }
+
+          if (Days => 0 && Days <= 90) {
+            this.crossPremiumPercent = 0.35
+          }
+          if (Days > 90 && Days <= 180) {
+            this.crossPremiumPercent = 0.60
+          }
+          if (Days > 180 && Days <= 270) {
+            this.crossPremiumPercent = 0.85
+          }
+          if (Days > 270 && Days <= 365) {
+            this.crossPremiumPercent = 1
+          }
+          this.toggleChange('cross', true)
+        }
       }
     }
     // here detect change
@@ -204,7 +265,9 @@ export class MotorAddonComponent implements OnInit {
 
     for (let addon of addOnsData) {
       // if (this.addOnsData[addon.id].checked) {
-      tempPre += this.globalFun.calculateDecimal(addon.premium || 0)
+      // console.log("addon.premiumYear ", addon.premiumYear);
+
+      tempPre += this.globalFun.calculateDecimal(addon.premiumYear || 0)
       // }
     }
 
@@ -213,7 +276,8 @@ export class MotorAddonComponent implements OnInit {
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
+      // console.log("ov.premiumYear ", cov.premiumYear);
+      tempPre += this.globalFun.calculateDecimal(cov.premiumYear || 0)
     }
     // let crossPre = tempPre * 0.15
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
@@ -229,19 +293,20 @@ export class MotorAddonComponent implements OnInit {
 
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-          excessAmt = 5000 * percent
+          excessAmt = 5000
         } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-          excessAmt = 10000 * percent
+          excessAmt = 10000
         }
         else {
-          excessAmt = 50000 * percent
+          excessAmt = 50000
+          // excessAmt = 50000
         }
       }
       // else if (excess == 'T-STNDEX' && currency == "MMK") {
       //   excessAmt = 100000
       // }
       else if (excess == "TU-NILEX" && currency == "USD") {
-        excessAmt = 25 * percent
+        excessAmt = 25
       }
       // else if (excess == "TU-STNDEX" && currency == "USD") {
       //   excessAmt = 100
@@ -252,8 +317,77 @@ export class MotorAddonComponent implements OnInit {
     // * percent
     // console.log("TEMP", tempPre, "excessAmt", excessAmt);
 
-    let cross = ((tempPre + excessAmt) * 0.15)
+    let cross = ((tempPre + excessAmt) * 0.15) * this.crossPremiumPercent
     this.crossPremium = this.globalFun.calculateDecimal(cross || 0)
+  }
+  calculateDate(date, type) {
+    // console.log(date, type);
+    let start;
+    let end;
+    if (type == 'start') {
+
+      start = moment(date).format('YYYY-MM-DD')
+      this.startDate = new Date(start)
+      var toDate = new Date(this.startDate);
+      toDate.setFullYear(toDate.getFullYear() + 1);
+      toDate.setDate(toDate.getDate() - 1);
+      this.fromMinDate = new Date(this.startDate);
+      this.toMaxDate = toDate;
+    }
+    if (type == 'end') {
+      end = moment(date).format('YYYY-MM-DD')
+      this.endDate = new Date(end)
+    }
+    
+    var months;
+    if (this.startDate && this.endDate) {
+      months = (this.endDate.getFullYear() - this.startDate.getFullYear()) * 12;
+      months -= this.startDate.getMonth();
+      months += this.endDate.getMonth();
+      let month = months <= 0 ? 0 : months;
+      console.log("MONTH", month);
+
+      var Time = this.endDate.getTime() - this.startDate.getTime();
+      var Days = Math.ceil(Time / (1000 * 3600 * 24));
+
+      console.log("Days", Days);
+
+      // if (month >= 0 && month <= 3) {
+      //   this.crossPremiumPercent = 0.35
+      //   this.calcuCross()
+      // }
+      // if (month > 3 && month <= 6) {
+      //   this.crossPremiumPercent = 0.60
+      //   this.calcuCross()
+      // }
+      // if (month > 6 && month < 12) {
+      //   this.crossPremiumPercent = 0.85
+      //   this.calcuCross()
+      // }
+      // if (month >= 12) {
+      //   this.crossPremiumPercent = 1
+      //   this.calcuCross()
+      // }
+
+      if (Days => 0 && Days <= 90) {
+        this.crossPremiumPercent = 0.35
+        this.calcuCross()
+      }
+      if (Days > 90 && Days <= 180) {
+        this.crossPremiumPercent = 0.60
+        this.calcuCross()
+      }
+      if (Days > 180 && Days <= 270) {
+        this.crossPremiumPercent = 0.85
+        this.calcuCross()
+      }
+      if (Days > 270 && Days <= 365) {
+        this.crossPremiumPercent = 1
+        this.calcuCross()
+      }
+    }
+
+
   }
   backPage() {
     this.actionEvent.emit({ type: StaticActionType.PREV })
@@ -422,6 +556,7 @@ export class MotorAddonComponent implements OnInit {
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
       let term = this.parentData['m_policy_term']
+      let productCode = this.parentData['productCode']
       // console.log("Policy-TERM", term);
 
       let percent = this.crossPercent[term] || 1
@@ -429,16 +564,18 @@ export class MotorAddonComponent implements OnInit {
       // console.log(excess, excess_discount);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
+        if (vehicle == 'T-MCC' && purpose == 'T-PRI' && productCode == 'PLMO01') {
           discount = -(5000 * percent)
           discount2 = -(5000 * percent)
-        } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+        } else if (vehicle == 'T-MCC' && purpose == 'T-COM' && productCode == 'PLMO01') {
           discount = -(10000 * percent)
           discount2 = -(10000 * percent)
         }
         else {
           discount = -(50000 * percent)
           discount2 = -(50000 * percent)
+          // discount = -(50000)
+          // discount2 = -(50000)
         }
       } else if (excess == "TU-NILEX" && currency == "USD") {
         discount = -(25 * percent)

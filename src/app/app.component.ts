@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private user = null
   private pushToken = ""
   constructor(
-    private splashScreenService: SplashScreenService,
+    private splashScreenService: SplashScreenService, 
     private router: Router,
     private tableService: TableExtendedService,
     private itemService: ProductsService,
