@@ -488,7 +488,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     } else {
 
 
-      const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl', backdrop: false });
+      const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false });
       modalRef.componentInstance.configData = this.printConfig.printFormat
       modalRef.componentInstance.configOrder = this.printConfig.prinitUI
       modalRef.componentInstance.product = this.item

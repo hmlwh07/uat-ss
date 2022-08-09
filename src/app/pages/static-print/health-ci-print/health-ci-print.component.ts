@@ -10,7 +10,7 @@ import { HealthPrintService } from '../../products/services/health-print.service
 
 @Component({
   selector: 'app-health-ci-print',
-  templateUrl: './health-ci-print-new.component.html',
+  templateUrl: './health-ci-print.component.html',
   styleUrls: ['./health-ci-print.component.scss'],
 })
 export class HealthCiPrintComponent implements OnInit {

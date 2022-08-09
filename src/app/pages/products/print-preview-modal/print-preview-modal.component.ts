@@ -9,6 +9,7 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 declare var require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+import html2canvas from 'html2canvas';
 // import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
 
@@ -44,9 +45,9 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
 
     window.scrollTo(0, 0)
     setTimeout(() => {
-      // window.print();
+      window.print();
       // this.downloadAsPDF()
-      this.downloadAsPDF()
+      // this.downloadAsPDFWithCanvas()
     }, 1000)
     // const printContent = document.getElementById("componentID").cloneNode(true);;
     // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
@@ -61,14 +62,31 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   public async downloadAsPDF() {
     const printContent = document.getElementById("pdfTable")
     var html = htmlToPdfmake(printContent.innerHTML);
-    const documentDefinition = { content: html };
+    const documentDefinition = {
+      content: html,
+      margin: [0.5, 0.5, 0.5, 0.5],
+    };
     console.log(html);
-    
+
     // pdfMake.createPdf(documentDefinition).getBase64((res) => {
     //   console.log(res);
 
     // })
     pdfMake.createPdf(documentDefinition).download()
+  }
+
+
+  public async downloadAsPDFWithCanvas() {
+    const printContent = document.getElementById("componentID")
+    html2canvas(printContent).then(canvas => {
+      let docWidth = 208;
+      let docHeight = canvas.height * docWidth / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png')
+      let doc = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      doc.addImage(contentDataURL, 'PNG', 0, position, docWidth, docHeight)
+      doc.save('exportedPdf.pdf');
+    });
 
   }
 
@@ -90,7 +108,7 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
       .then(async (data) => {
         this.base64data = data;
         console.log(this.base64data);
-        
+
       }).catch((error) => {
         console.log('error', error);
       });

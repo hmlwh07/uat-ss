@@ -14,7 +14,7 @@ import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-travel-print',
-  templateUrl: './travel-print-new.html',
+  templateUrl: './travel-print.component.html',
   styleUrls: ['./travel-print.component.scss'],
 })
 export class TravelPrintComponent implements OnInit {

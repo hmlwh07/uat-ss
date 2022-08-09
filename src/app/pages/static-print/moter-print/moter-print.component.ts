@@ -11,7 +11,7 @@ import { FireRiskAddressService } from '../../static-pages/fire-simple-page/mode
 
 @Component({
   selector: 'app-moter-print',
-  templateUrl: './moter-print.component mobile.html',
+  templateUrl: './moter-print.component.html',
   styleUrls: ['./moter-print.component.scss']
 })
 export class MoterPrintComponent implements OnInit {

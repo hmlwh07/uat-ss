@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-print-view-box',
-  templateUrl: './print-view-box.component mobile.html',
+  templateUrl: './print-view-box.component.html',
   styleUrls: ['./print-view-box.component.scss']
 })
 export class PrintViewBoxComponent implements OnInit {
