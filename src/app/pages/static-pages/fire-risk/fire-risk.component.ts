@@ -32,6 +32,7 @@ export class FireRiskComponent implements OnInit {
   @Input() resourcesId: string;
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   premiumAmt: string = '';
+  totalSI: string = ''
   listData: any[] = [];
   riskData: any[] = []
   isNew: boolean;
@@ -233,9 +234,10 @@ export class FireRiskComponent implements OnInit {
     await this.calculateFireTotalPremiumAmount();
 
     let postData = {
-      premium:
-        (Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
+      premium:(Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
       premiumView: this.premiumAmt,
+      sumInsureView: this.totalSI,
+      sumInsure: (Number(this.totalSI.split(' ')[0].split(',').join('')) || 0) + '',
       resourceId: this.resourcesId,
       type: 'policy',
     };
@@ -245,12 +247,14 @@ export class FireRiskComponent implements OnInit {
 
   async calculateFireTotalPremiumAmount() {
     let totalPremium: any = 0;
+    let totalSI: any = 0
     let totalAddOnPremium: any = 0
     let parentData1 = this.globalFun.tempFormData[FireRiskID];
     let parentData2 = this.globalFun.tempFormData[FirePageID];
     for (var i = 0; i < parentData1.length; i++) {
       let totalPremiumNotStampDuty: any = 0;
       totalPremium += parseFloat(parentData1[i].premium);
+      totalSI += parseFloat(parentData1[i].sumInsure);
       let reqBody = {
         addOnIds: this.product.addOns.map(x => { return x.id }),
         optionalKey: parentData1[i].id || '',
@@ -263,7 +267,7 @@ export class FireRiskComponent implements OnInit {
           totalPremiumNotStampDuty += parseFloat(results[j].premium);
         }
       }
-       parentData1[i].totalPremiumNotStampDuty = parseFloat(parentData1[i].premium) + totalPremiumNotStampDuty;
+      parentData1[i].totalPremiumNotStampDuty = parseFloat(parentData1[i].premium) + totalPremiumNotStampDuty;
     }
 
     let currency = parentData2.currency;
@@ -276,6 +280,8 @@ export class FireRiskComponent implements OnInit {
     this.listData = parentData1;
 
     let finalPre = this.globalFun.calculateDecimal(totalPremium + totalAddOnPremium) + stampDuty;
+    let finalSi = totalSI
+    this.totalSI = this.numberPipe.transform(finalSi, '1.2-2') + ' ' + currency;
     this.premiumAmt = this.numberPipe.transform(finalPre, '1.2-2') + ' ' + currency;
     this.globalFun.paPremiumResult.next(this.premiumAmt || "0")
   }

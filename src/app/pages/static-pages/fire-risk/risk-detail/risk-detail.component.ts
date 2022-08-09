@@ -474,7 +474,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       this.riskSi = this.otherSi + this.buildingSi
     else
       this.riskSi = this.otherSi
-
+      this.fireRiskform.controls['sumInsure'].setValue(this.riskSi)
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi
       this.oldData.riskSi = this.riskSi
@@ -491,7 +491,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       this.riskSi = (this.otherSi * 0.75) + this.buildingSi
     else
       this.riskSi = this.otherSi * 0.75
-
+      this.fireRiskform.controls['sumInsure'].setValue(this.riskSi)
     if (this.oldData) {
       this.riskSi = this.oldData.proposeStockValue || 0
       this.oldData.riskSi = this.riskSi
