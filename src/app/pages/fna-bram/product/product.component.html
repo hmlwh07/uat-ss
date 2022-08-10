@@ -24,8 +24,8 @@
                     [ngClass]="data.packageOffer.toLowerCase().split(' ').join('-')">
                     <div *ngIf="data.input == 'percent' ">
                         <input type="number" [ngClass]="isBorder? 'addBorder' : 'removeBorder'"
-                            (ngModelChange)="updateCommaInput($event,  data.packageOffer)" [(ngModel)]="data.policies"
-                            min="1" max="100" class="form-control form-control-sm form-control-md" autocomplete="off" />
+                            (ngModelChange)="updateCommaInput($event,  data.packageOffer,false)" [(ngModel)]="data.policies"
+                            (change)="onChange()" min="1" max="100" class="form-control form-control-sm form-control-md" autocomplete="off" />
                     </div>
                     <div *ngIf="data.input != 'percent' ">{{ data.policies }}</div>
                 </td>
