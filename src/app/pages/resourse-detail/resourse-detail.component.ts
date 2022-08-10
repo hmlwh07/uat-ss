@@ -1,6 +1,7 @@
 import { DatePipe, DecimalPipe, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, map, catchError, of } from 'rxjs';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
@@ -12,6 +13,7 @@ import { PolicyService } from '../policy/policy.service';
 import { PageDataService } from '../product-form/page-data.service';
 import { PrintConfig } from '../products/models/print-config.interface';
 import { PageUIType, ProductPages } from '../products/models/product.dto';
+import { PrintPreviewModalMobileComponent } from '../products/print-preview-modal-mobile/print-preview-modal-mobile.component';
 import { PrintPreviewModalComponent } from '../products/print-preview-modal/print-preview-modal.component';
 import { ProductDataService } from '../products/services/products-data.service';
 import { SignaturePadComponent } from './signature-pad/signature-pad.component';
@@ -65,6 +67,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     private policyService: PolicyService,
     private alertService: AlertService,
     private masterDataService: MasterDataService,
+    public platform: Platform,
   ) { }
 
   async ngOnInit() {
@@ -186,7 +189,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             this.selectedBranchCode = this.branch
             let branch = this.branchOption.find((p) => p.code == this.branch)
             console.log(branch);
-            
+
             this.productService.editData.branch = branch.value
           }
         }
@@ -486,17 +489,25 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch first", 'Warning Message')
     } else {
-
-
-      const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false });
-      modalRef.componentInstance.configData = this.printConfig.printFormat
-      modalRef.componentInstance.configOrder = this.printConfig.prinitUI
-      modalRef.componentInstance.product = this.item
-      modalRef.componentInstance.tempData = this.formatedData
-      modalRef.componentInstance.resourcesId = this.resourceDetail.id
-      modalRef.result.then(() => { }, (res) => {
-
-      })
+      if (this.platform.is('android') || this.platform.is('ios')) {
+        const modalRef = this.modalService.open(PrintPreviewModalMobileComponent, { size: 'xl2', backdrop: false });
+        modalRef.componentInstance.configData = this.printConfig.printFormat
+        modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+        modalRef.componentInstance.product = this.item
+        modalRef.componentInstance.tempData = this.formatedData
+        modalRef.componentInstance.resourcesId = this.resourceDetail.id
+        modalRef.result.then(() => { }, (res) => {
+        })
+      } else {
+        const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false });
+        modalRef.componentInstance.configData = this.printConfig.printFormat
+        modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+        modalRef.componentInstance.product = this.item
+        modalRef.componentInstance.tempData = this.formatedData
+        modalRef.componentInstance.resourcesId = this.resourceDetail.id
+        modalRef.result.then(() => { }, (res) => {
+        })
+      }
     }
   }
 

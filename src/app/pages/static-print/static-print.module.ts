@@ -26,26 +26,76 @@ import { HealthCiPrintComponent } from './health-ci-print/health-ci-print.compon
 import { PersonalAccidentPrintComponent } from './personal-accident-print/personal-accident-print.component';
 import { PaPrintService } from '../products/services/pa.service';
 import { HealthPrintService } from '../products/services/health-print.service';
+import { MotorPrintMobileComponent } from './motor-print-mobile/motor-print-mobile.component';
+import { HealthCiPrintMobileComponent } from './health-ci-print-mobile/health-ci-print-mobile.component';
+import { FirePrintMobileComponent } from './fire-print-mobile/fire-print-mobile.component';
+import { TravelPrintMobileComponent } from './travel-print-mobile/travel-print-mobile.component';
+import { PersonalAccidentPrintMobileComponent } from './personal-accident-print-mobile/personal-accident-print-mobile.component';
 
 @NgModule({
-  declarations: [StaticPrintDirective, FarmerPrintComponent, 
-    MoterPrintComponent, CoveragePrintComponent, AddonPrintComponent, 
-    FireDetailPrintComponent, FireRiskPrintComponent, HealthPrintComponent,
-    PaPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, 
-    EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, 
-    HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent,
-    HealthCiPrintComponent, PersonalAccidentPrintComponent],
-  exports: [StaticPrintDirective, FarmerPrintComponent, MoterPrintComponent, 
-    FireDetailPrintComponent, FireRiskPrintComponent, PaPrintComponent, 
-    HealthPrintComponent, EndoPrintComponent, EndoGripPrintComponent, EndoSignPrintComponent, 
-    EducationLifeGripPrintComponent, EducationLifePrintComponent, SimplePagePrintComponent, 
-    HealthQuoPrintComponent, FirePrintComponent, HolderPrintComponent, TravelPrintComponent,
-    HealthCiPrintComponent, PersonalAccidentPrintComponent],
+  declarations: [
+    StaticPrintDirective,
+    FarmerPrintComponent,
+    MoterPrintComponent,
+    CoveragePrintComponent,
+    AddonPrintComponent,
+    FireDetailPrintComponent,
+    FireRiskPrintComponent,
+    HealthPrintComponent,
+    PaPrintComponent,
+    EndoPrintComponent,
+    EndoGripPrintComponent,
+    EndoSignPrintComponent,
+    EducationLifeGripPrintComponent,
+    EducationLifePrintComponent,
+    SimplePagePrintComponent,
+    HealthQuoPrintComponent,
+    FirePrintComponent,
+    HolderPrintComponent,
+    TravelPrintComponent,
+    HealthCiPrintComponent,
+    PersonalAccidentPrintComponent,
+    MotorPrintMobileComponent,
+    HealthCiPrintMobileComponent,
+    FirePrintMobileComponent,
+    TravelPrintMobileComponent,
+    PersonalAccidentPrintMobileComponent
+  ],
+  exports: [
+    StaticPrintDirective,
+    FarmerPrintComponent,
+    MoterPrintComponent,
+    FireDetailPrintComponent,
+    FireRiskPrintComponent,
+    PaPrintComponent,
+    HealthPrintComponent,
+    EndoPrintComponent,
+    EndoGripPrintComponent,
+    EndoSignPrintComponent,
+    EducationLifeGripPrintComponent,
+    EducationLifePrintComponent,
+    SimplePagePrintComponent,
+    HealthQuoPrintComponent,
+    FirePrintComponent,
+    HolderPrintComponent,
+    TravelPrintComponent,
+    HealthCiPrintComponent,
+    PersonalAccidentPrintComponent,
+    MotorPrintMobileComponent,
+    HealthCiPrintMobileComponent,
+    FirePrintMobileComponent,
+    TravelPrintMobileComponent,
+    PersonalAccidentPrintMobileComponent
+  ],
   imports: [
     CommonModule,
     NgApexchartsModule,
     LanguageModule,
   ],
-  providers: [MotorPrintService,PaPrintService,HealthPrintService]
+  providers: [
+    MotorPrintService,
+    PaPrintService,
+    HealthPrintService
+  ]
 })
 export class StaticPrintModule { }

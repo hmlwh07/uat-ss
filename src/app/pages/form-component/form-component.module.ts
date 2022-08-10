@@ -41,6 +41,7 @@ import { CustomInputAlertComponent } from './custom-input-alert/custom-input-ale
 import { LanguageModule } from '../../modules/languages/languages.modules';
 import { CustomerDetailShareModule } from '../customer-detail/customer-detail.share.module';
 import { ShareComponentModule } from '../share-components/share-component.module';
+import { PrintViewBoxMobileComponent } from './print-view-box-mobile/print-view-box-mobile.component';
 
 @NgModule({
   declarations: [
@@ -66,8 +67,8 @@ import { ShareComponentModule } from '../share-components/share-component.module
     LabelConfigModalComponent,
     LabelBoxComponent,
     // NrcPopupPage,
-    PrintViewBoxComponent
-    
+    PrintViewBoxComponent,
+    PrintViewBoxMobileComponent
     // CusMatDatePicker,
   ],
   exports: [
@@ -93,7 +94,8 @@ import { ShareComponentModule } from '../share-components/share-component.module
     LabelConfigModalComponent,
     LabelBoxComponent,
     // NrcPopupPage,
-    PrintViewBoxComponent
+    PrintViewBoxComponent,
+    PrintViewBoxMobileComponent
     // CusMatDatePicker
   ],
   entryComponents: [
