@@ -1,6 +1,6 @@
-<div class="addon-print" *ngIf="policyHolder">
+<div *ngIf="policyHolder">
   <div class="title-style text-bold mt-5 mb-3">Policy Holder Information Details</div>
-  <div class="row form-txt line-sp" style="padding-top:10px;">
+  <div class="row line-space" style="padding-top:10px;">
     <div class="col-sm-3 text-bold">
       Name
     </div>
@@ -8,7 +8,7 @@
       {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
     </div>
   </div>
-  <div class="row form-txt line-sp">
+  <div class="row line-space">
     <div class="col-sm-3 text-bold">
       ID
     </div>
@@ -16,7 +16,7 @@
       {{policyHolder.cprNumber}}
     </div>
   </div>
-  <div class="row form-txt line-sp">
+  <div class="row line-space">
     <div class="col-sm-3 text-bold">
       Date of Birth
     </div>
@@ -24,7 +24,7 @@
       {{policyHolder.dateOfBirth}}
     </div>
   </div>
-  <div class="row form-txt line-sp">
+  <div class="row line-space">
     <div class="col-sm-3 text-bold">
       Mobile
     </div>
@@ -34,7 +34,7 @@
       </ng-container>
     </div>
   </div>
-  <div class="row form-txt line-sp">
+  <div class="row line-space">
     <div class="col-sm-3 text-bold">
       Email
     </div>
@@ -44,11 +44,11 @@
       </ng-container>
     </div>
   </div>
-  <div class="row form-txt line-sp">
+  <div class="row line-space">
     <div class="col-sm-3 text-bold">
       Address
     </div>
-    <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
+    <div class="col-sm-9" *ngIf="policyHolder.partyAddress">
       <ng-container *ngIf="policyHolder.partyAddress.length > 0">
         {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} ,
         {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} ,
@@ -59,154 +59,108 @@
 
 </div>
 
-<div class="addon-print">
+<div>
   <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Policy Effective Date
-      </td>
-      <td class="field-col">{{motorDetail.mPeriodOfInsuranceFrom | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Policy Expiry Date
-      </td>
-      <td class="field-col">{{motorDetail.mPeriodOfInsuranceTo | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Policy Duration
-      </td>
-      <td class="field-col">{{policyTerm[motorDetail.mPolicyTerm]}}</td>
+      <td class="field-header">Policy Effective Date</td>
+      <td class="field-value">{{motorDetail.mPeriodOfInsuranceFrom | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-header">Policy Expiry Date</td>
+      <td class="field-value">{{motorDetail.mPeriodOfInsuranceTo | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-header">Policy Duration</td>
+      <td class="field-value">{{policyTerm[motorDetail.mPolicyTerm]}}</td>
     </tr>
     <tr>
-      <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Currency</td>
+      <td class="field-header">Currency</td>
       <td class="field-value" colspan="10">{{motorDetail.mCurrency}}</td>
-
     </tr>
   </table>
 </div>
 
-<div class="addon-print">
+<div>
   <div class="title-style text-bold mt-5 mb-5">Risk Information Details</div>
   <table class="tbody-align" width="100%">
     <tr>
-      <td class="field-col">
-        Vehicle No.
-      </td>
-      <td class="field-col">
-        Make/ Model
-      </td>
-      <td class="field-col" *ngIf="isTonnage">
-        Tonnage
-      </td>
-      <td class="field-col" *ngIf="!isTonnage">
-        CC
-      </td>
-      <td class="field-col">
-        Year of Manufacture
-      </td>
-      <td class="field-col">
-        Type of Vehicle
-      </td>
-      <td class="field-col">
-        Type of Coverage
-      </td>
-      <td class="field-col">
-        Excess
-      </td>
-      <td class="field-col">
-        Windscreen SI
-      </td>
-      <td class="field-col">
-        Total SI
-      </td>
+      <td class="field-header">Vehicle No.</td>
+      <td class="field-header">Make/ Model</td>
+      <td class="field-header" *ngIf="isTonnage">Tonnage</td>
+      <td class="field-header" *ngIf="!isTonnage">CC</td>
+      <td class="field-header">Year of Manufacture</td>
+      <td class="field-header">Type of Vehicle</td>
+      <td class="field-header">Type of Coverage</td>
+      <td class="field-header">Excess</td>
+      <td class="field-header">Windscreen SI</td>
+      <td class="field-header">Total SI</td>
     </tr>
     <tbody class="tbody-align val-col">
       <!-- <ng-container *ngFor="let data of listData;"> -->
       <tr>
-        <td class="field-pd">{{vehicleDetail.mEngineNo}}</td>
-        <td class="field-pd">{{motorDetail.mModelValue}}</td>
-        <td class="field-pd">{{isTonnage ? motorDetail.mTonnage : motorDetail.mCapacity}}</td>
-        <td class="field-pd">{{vehicleDetail.mManufactureYearValue}}</td>
-        <td class="field-pd">{{motorDetail.mTypeOfVehicleValue}}</td>
-        <td class="field-pd">{{motorDetail.mTypeOfCoverageValue}}</td>
-        <td class="field-pd">{{motorDetail.mExcessValue}}</td>
-        <td class="value-col">{{motorDetail.mWindscreenValue | number : '1.2-2'}}</td>
-        <td class="value-col">{{motorDetail.mTotalRiskSi | number : '1.2-2'}}</td>
+        <td class="field-value">{{vehicleDetail.mEngineNo}}</td>
+        <td class="field-value">{{motorDetail.mModelValue}}</td>
+        <td class="field-value">{{isTonnage ? motorDetail.mTonnage : motorDetail.mCapacity}}</td>
+        <td class="field-value">{{vehicleDetail.mManufactureYearValue}}</td>
+        <td class="field-value">{{motorDetail.mTypeOfVehicleValue}}</td>
+        <td class="field-value">{{motorDetail.mTypeOfCoverageValue}}</td>
+        <td class="field-value">{{motorDetail.mExcessValue}}</td>
+        <td class="field-value-number">{{motorDetail.mWindscreenValue | number : '1.2-2'}}</td>
+        <td class="field-value-number">{{motorDetail.mTotalRiskSi | number : '1.2-2'}}</td>
       </tr>
       <!-- </ng-container> -->
     </tbody>
   </table>
 </div>
 
-<div class="addon-print">
+<div>
   <div class="title-style text-bold mt-5 mb-5">Driver Information Details</div>
   <table class="tbody-align" width="100%">
     <tr>
-      <td class="field-col">
-        No.
-      </td>
-      <td class="field-col">
-        Driver Name
-      </td>
-      <td class="field-col">
-        ID
-      </td>
-      <td class="field-col">
-        Date of Birth
-      </td>
-      <td class="field-col">
-        Driving License No.
-      </td>
-      <td class="field-col">
-        His/Her Relationship to you
-      </td>
+      <td class="field-header">No.</td>
+      <td class="field-header">Driver Name</td>
+      <td class="field-header">ID</td>
+      <td class="field-header">Date of Birth</td>
+      <td class="field-header">Driving License No.</td>
+      <td class="field-header">His/Her Relationship to you</td>
     </tr>
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of listData;let i =index">
         <tr>
-          <td class="field-pd">{{i+1}}</td>
-          <td class="field-pd">{{data.firstName}} {{data.middleName}} {{data.lastName}}</td>
-          <td class="field-pd">{{data.identityType=='NRC'? data.identityNrc: data.identityNumber}}</td>
-          <td class="field-pd">{{data.dateOfBirth | date : "DD/MM/YYYY"}}</td>
-          <td class="field-pd">{{data.licenseNo}}</td>
-          <td class="field-pd">{{data.mRelationshipToPolicyholderValue}}</td>
+          <td class="field-value">{{i+1}}</td>
+          <td class="field-value">{{data.firstName}} {{data.middleName}} {{data.lastName}}</td>
+          <td class="field-value">{{data.identityType=='NRC'? data.identityNrc: data.identityNumber}}</td>
+          <td class="field-value">{{data.dateOfBirth | date : "DD/MM/YYYY"}}</td>
+          <td class="field-value">{{data.licenseNo}}</td>
+          <td class="field-value">{{data.mRelationshipToPolicyholderValue}}</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
 </div>
 
-<div class="addon-print">
+<div>
   <div class="title-style text-bold mt-5 mb-5">Basic Cover Information Details</div>
   <table width="100%">
     <tr>
-      <td class="field-col">
-        Own Damage
-      </td>
-      <td class="field-col">
-        Third Party
-      </td>
-      <td class="field-col">
-        Strikes Riots and Civil Commotion
-      </td>
-      <td class="field-col">
-        Wind Screen
-      </td>
-      <td class="field-col">
-        Total Premium of Basic Cover
-      </td>
+      <td class="field-header">Own Damage</td>
+      <td class="field-header">Third Party</td>
+      <td class="field-header">Strikes Riots and Civil Commotion</td>
+      <td class="field-header">Wind Screen</td>
+      <td class="field-header">Total Premium of Basic Cover</td>
     </tr>
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of coverageData;">
         <tr>
-          <td class="value-col">{{data.OD | number : '1.2-2'}}</td>
-          <td class="value-col">{{data.TP | number : '1.2-2'}}</td>
-          <td class="value-col">{{data.SRCC | number : '1.2-2'}}</td>
-          <td class="value-col">{{data.WSC | number : '1.2-2'}}</td>
-          <td class="value-col">{{data.premium | number : '1.2-2'}}</td>
+          <td class="field-value-number ">{{data.OD | number : '1.2-2'}}</td>
+          <td class="field-value-number ">{{data.TP | number : '1.2-2'}}</td>
+          <td class="field-value-number ">{{data.SRCC | number : '1.2-2'}}</td>
+          <td class="field-value-number ">{{data.WSC | number : '1.2-2'}}</td>
+          <td class="field-value-number ">{{data.premium | number : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
   </table>
 </div>
 
-<div class="addon-print">
+<div>
   <div class="title-style text-bold mt-5 mb-5">Additional Cover Information Details</div>
   <!-- <table class="tbody-align" *ngIf="this.product.code=='PLMO02'">
     <tr>
@@ -269,10 +223,10 @@
   <table class="tbody-align" width="100%">
     <thead>
       <tr>
-        <td class="field-col">
+        <td class="field-header">
           Additional Cover Name
         </td>
-        <td class="field-col">
+        <td class="field-header">
           Additional Cover Premium
         </td>
       </tr>
@@ -280,52 +234,52 @@
     <tbody>
       <ng-container *ngFor="let data of addOnData">
         <tr>
-          <td class="field-pd" *ngIf="data.WR  !=0">War Risk</td>
-          <td class="value-col" *ngIf="data.WR  !=0">{{data.WR|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.WR  !=0">War Risk</td>
+          <td class="field-value-number" *ngIf="data.WR  !=0">{{data.WR|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data.AOG  !=0">Act of God</td>
-          <td class="value-col" *ngIf="data.AOG  !=0">{{data.AOG|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.AOG  !=0">Act of God</td>
+          <td class="field-value-number" *ngIf="data.AOG  !=0">{{data.AOG|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data.THEFT  !=0">Theft</td>
-          <td class="value-col" *ngIf="data.THEFT  !=0">{{data.THEFT|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.THEFT  !=0">Theft</td>
+          <td class="field-value-number" *ngIf="data.THEFT  !=0">{{data.THEFT|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data.NOBTTRMNT  !=0"> No Betterment Endorsement </td>
-          <td class="value-col" *ngIf="data.NOBTTRMNT  !=0">{{data.NOBTTRMNT|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.NOBTTRMNT  !=0"> No Betterment Endorsement </td>
+          <td class="field-value-number" *ngIf="data.NOBTTRMNT  !=0">{{data.NOBTTRMNT|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data.CROSSBRDR  !=0"> Cross Border</td>
-          <td class="value-col" *ngIf="data.CROSSBRDR  !=0">{{data['CROSSBRDR']|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.CROSSBRDR  !=0"> Cross Border</td>
+          <td class="field-value-number" *ngIf="data.CROSSBRDR  !=0">{{data['CROSSBRDR']|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data.LOSSOFLUGG  !=0"> Loss of Luggage</td>
-          <td class="value-col" *ngIf="data.LOSSOFLUGG  !=0">{{data.LOSSOFLUGG|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.LOSSOFLUGG  !=0"> Loss of Luggage</td>
+          <td class="field-value-number" *ngIf="data.LOSSOFLUGG  !=0">{{data.LOSSOFLUGG|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data.PASSRLBTY  !=0"> Medical Expense</td>
-          <td class="value-col" *ngIf="data.PASSRLBTY  !=0">{{data.PASSRLBTY|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.PASSRLBTY  !=0"> Medical Expense</td>
+          <td class="field-value-number" *ngIf="data.PASSRLBTY  !=0">{{data.PASSRLBTY|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data.PAIDDRIVER  !=0"> Passenger Liability</td>
-          <td class="value-col" *ngIf="data.PAIDDRIVER  !=0">{{data.PAIDDRIVER|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data.PAIDDRIVER  !=0"> Passenger Liability</td>
+          <td class="field-value-number" *ngIf="data.PAIDDRIVER  !=0">{{data.PAIDDRIVER|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
 
-          <td class="field-pd" *ngIf="data['MED EXP']  !=0"> Paid Driver</td>
-          <td class="value-col" *ngIf="data['MED EXP']  !=0">{{data['MED EXP']|| 0 | number : '1.2-2'}}</td>
+          <td class="field-label" *ngIf="data['MED EXP']  !=0"> Paid Driver</td>
+          <td class="field-value-number" *ngIf="data['MED EXP']  !=0">{{data['MED EXP']|| 0 | number : '1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-col"> Total Additional Cover Premium</td>
-          <td class="value-col">{{data.premium | number : '1.2-2'}}</td>
+          <td class="field-header"> Total Additional Cover Premium</td>
+          <td class="field-value-number">{{data.premium | number : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -364,25 +318,26 @@
   </table> -->
 </div>
 
-<div class="addon-print">
+<div>
   <div class="title-style text-bold mt-5 mb-5">Insurance Information Details</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Approximate Total SI</td>
-      <td class="value-col" colspan="4">{{motorDetail.mTotalRiskSi | number : '1.2-2'}} {{motorDetail.mCurrency}}</td>
-      <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">Approximate Total Premium</td>
-      <td class="value-col" colspan="4">{{premiumAmt}}</td>
+      <td class="field-header">Approximate Total SI</td>
+      <td class="field-value-number">{{motorDetail.mTotalRiskSi | number : '1.2-2'}}
+        {{motorDetail.mCurrency}}</td>
+      <td class="field-header">Approximate Total Premium</td>
+      <td class="field-value-number">{{premiumAmt}}</td>
     </tr>
   </table>
 </div>
 
-<div class="addon-print">
+<div>
   <div class="row">
-    <div class="text-bold mt-10 mb-5" style="margin-left:10px;font-size:1.5rem">Declaration By Proposer</div>
+    <div class="declare-title text-bold mt-10 mb-5">Declaration By Proposer</div>
   </div>
   <div class="row">
     <div class="col">
-      <p style="font-size: 12pt;">I/ We agree that this proposal and declaration shall be the basis of the contract
+      <p class="declare-p">I/ We agree that this proposal and declaration shall be the basis of the contract
         between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract.
         I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been
         refused any motor vehicle insurance or continuance thereof.</p>
@@ -390,10 +345,10 @@
   </div>
 </div>
 
-<div class="addon-print">
+<div>
   <div class="row">
     <div class="col">
-      <p style="font-size: 12pt; color:red">Important Notice: You are to disclose in this proposal form fully and
+      <p class="declare-p notice">Important Notice: You are to disclose in this proposal form fully and
         faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No
         cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.
       </p>
@@ -405,8 +360,9 @@
 
   <div class="sign-row mt-5">
     <div class="sign-box">
-      <label class="text-bold">DATE</label>
-      <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
+      <br>
+      <label class="mt-2">Date</label>
+      <div class="sign-area sign-date">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
     <div class="sign-box">
       <label class="text-bold">PROPOSER NAME AND SIGNATURE</label>

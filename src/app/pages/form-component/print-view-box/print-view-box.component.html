@@ -48,10 +48,10 @@
           {{agentData.employeeName}} / {{agentData.agentCode}}
         </div>
         <div class="col-sm-3 text-bold">
-          Quotation No.
+          Date
         </div>
         <div class="col-sm-3">
-          {{resourcesId}}
+          {{today | date: "dd/MM/YYYY"}}
         </div>
       </div>
 
@@ -63,10 +63,10 @@
           {{agentData.mobileNo}}
         </div>
         <div class="col-sm-3 text-bold">
-          Date
+          Quotation No.
         </div>
         <div class="col-sm-3">
-          {{today | date: "dd/MM/YYYY"}}
+          {{resourcesId}}
         </div>
       </div>
     </div>
