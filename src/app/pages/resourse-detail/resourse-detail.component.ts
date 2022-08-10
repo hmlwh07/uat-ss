@@ -497,7 +497,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
 
   viewPrint() {
     if (!this.selectedBranchCode) {
-      this.alertService.activate("Please select Branch first", 'Warning Message')
+      this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
     } else {
 
 
@@ -533,7 +533,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
 
   submitPolicy() {
     if (!this.selectedBranchCode) {
-      this.alertService.activate("Please select Branch first", 'Warning Message')
+      this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
     } else if (this.signFileId == null) {
       this.alertService.activate("Please add Signature", 'Warning Message')
     } else {

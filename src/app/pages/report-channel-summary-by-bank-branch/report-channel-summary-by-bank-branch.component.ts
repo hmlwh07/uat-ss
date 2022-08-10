@@ -362,9 +362,9 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
@@ -427,7 +427,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
-        }      
+        }
 
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
@@ -459,7 +459,7 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
-       
+
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
             this.createFormGroup.controls['toDate'].setValue('');
@@ -485,13 +485,15 @@ export class ReportChannelSummaryByBankBranchComponent implements OnInit {
 
 
   clearDate(type) {
-    this.fromMinDate = null;
-    this.fromMaxDate = null;
+    // this.fromMinDate = null;
+    // this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
+      this.doValid('ToDate')
     }
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
+      this.doValid('FromDate')
     }
 
     this.isHasData = false;

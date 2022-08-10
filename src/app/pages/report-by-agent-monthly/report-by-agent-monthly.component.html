@@ -23,23 +23,29 @@
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.from_month"|translate}}</label>
-                                <div class="col-sm-6 input-date">
+                                <div class="col-sm-8 input-date">
                                     <input type="text" readonly class="form-control form-control-sm" formControlName="fromDate" [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker1" (dateChange)="doValid('FromDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                     <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                                    <span class="ng-clear-wrapper" (click)="clearDate('FromDate')" title="Clear">
+                                        <span aria-hidden="true" class="ng-clear">×</span>
+                                    </span>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')" class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button>
+                                <!-- <button type="button" style="margin: 0 !important;" (click)="clearDate('FromDate')" class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button> -->
                             </div>
                         </div>
                         <div class="col-sm-6 from-date">
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.to_month"|translate}}</label>
-                                <div class="col-sm-6 input-date">
+                                <div class="col-sm-8 input-date">
                                     <input type="text" readonly class="form-control form-control-sm" formControlName="toDate" [min]="fromMinDate" [max]="fromMaxDate" [matDatepicker]="picker" (dateChange)="doValid('ToDate')" autocomplete="off">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                    <span class="ng-clear-wrapper" (click)="clearDate('ToDate')" title="Clear">
+                                        <span aria-hidden="true" class="ng-clear">×</span>
+                                    </span>
                                 </div>
-                                <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')" class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button>
+                                <!-- <button type="button" style="margin: 0 !important;" (click)="clearDate('ToDate')" class="btn btn-primary btn-elevate mx-2">{{"FORM.clear"|translate}}</button> -->
                             </div>
                         </div>
                     </div>

@@ -985,6 +985,330 @@ let GlobalFunctionService = class GlobalFunctionService {
         // }
         return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(fixed * term);
     }
+    // ----------------------------NEW CR ----------------------
+    getMotorThirdRateYear(motorDetail) {
+        let cc = "";
+        let currency = "";
+        let sumIn = 0;
+        let typeOfCoverage = "";
+        let typeOfVehicle = "";
+        let productCode = "";
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            sumIn = motorDetail['m_total_risk_si'] || 0;
+        }
+        if (motorDetail) {
+            typeOfCoverage = motorDetail['m_type_of_coverage'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        if (motorDetail) {
+            cc = motorDetail['m_capacity'] || motorDetail['m_tonnage'] || 0;
+        }
+        if (motorDetail) {
+            productCode = motorDetail['productCode'];
+        }
+        return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc, productCode);
+    }
+    motorOwnDamageYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        return this.getMotorRate(motorDetail).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.map)((res) => {
+            if (res)
+                // console.log("motorOwnDamage", res);
+                return (res.rate);
+            return 0;
+        }));
+    }
+    motorThirdPartyYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        return this.getMotorThirdRate(motorDetail).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.map)((res) => {
+            if (res)
+                // console.log("MOTORThird", res);
+                return (res.rate);
+            return 0;
+        }));
+    }
+    motorSRCCYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let currency = "";
+        let typeOfVehicle = "";
+        let productCode = "";
+        let sumIn = 0;
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        if (motorDetail) {
+            sumIn = motorDetail['m_total_risk_si'] || 0;
+        }
+        if (motorDetail) {
+            productCode = motorDetail['productCode'];
+        }
+        // return this.motorOwnDamage().pipe(map(res => {
+        if (sumIn > 0) {
+            let rate = 0;
+            if (productCode == 'PLMO01') {
+                rate = 0.0005;
+            }
+            else {
+                if ((currency == 'MMK' && typeOfVehicle != "T-MCC")) {
+                    rate = 0.00065;
+                }
+                else if ((currency == 'USD' && typeOfVehicle != "TU-MCC")) {
+                    rate = 0.00065;
+                }
+                else if (typeOfVehicle == "T-MCC") {
+                    rate = 0.0005;
+                }
+            }
+            // console.log("SRCC-SUM-Rate", sumIn, rate);
+            return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)((sumIn * rate));
+        }
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(0);
+        // }))
+    }
+    motorWindScreenYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let windscreen_value = 0;
+        let currency = "";
+        let typeOfCoverage = "";
+        let typeOfVehicle = "";
+        let productCode = "";
+        if (motorDetail) {
+            windscreen_value = motorDetail['m_windscreen_value'] || 0;
+        }
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfCoverage = motorDetail['m_type_of_coverage'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        if (motorDetail) {
+            productCode = motorDetail['productCode'];
+        }
+        let rate = 0.15;
+        if (productCode == 'PLMO01') {
+            rate = 0.05;
+        }
+        else {
+            if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
+                rate = 0.065;
+            }
+            else if (typeOfVehicle == "T-MCC") {
+                rate = 0.05;
+            }
+        }
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)((windscreen_value * rate));
+    }
+    calcuCrossYear(motorDetail) {
+        let value = 0;
+        if (motorDetail)
+            value = 0;
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(value);
+    }
+    motorMedicalExpenseYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let currency = "";
+        let typeOfVehicle = "";
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        let fixed = 20;
+        // if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
+        //   fixed = 20
+        // } else if (typeOfVehicle == "T-MCC") {
+        //   fixed = 20
+        // }
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(fixed);
+    }
+    motorWarRiskYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let currency = "";
+        let typeOfCoverage = "";
+        let typeOfVehicle = "";
+        let productCode = "";
+        let sumIn = 0;
+        if (motorDetail) {
+            sumIn = motorDetail['m_total_risk_si'] || 0;
+        }
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfCoverage = motorDetail['m_type_of_coverage'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        if (motorDetail) {
+            productCode = motorDetail['productCode'];
+        }
+        // return this.motorOwnDamage().pipe(map(res => {
+        if (sumIn > 0) {
+            let rate = 0.00065;
+            if (productCode == 'PLMO01') {
+                rate = 0.0005;
+            }
+            else {
+                if (typeOfVehicle == "T-MCC") {
+                    rate = 0.0005;
+                }
+            }
+            return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)((sumIn * rate));
+        }
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(0);
+        // }))
+    }
+    motorActOfGodYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let currency = "";
+        let typeOfCoverage = "";
+        let typeOfVehicle = "";
+        let productCode = "";
+        let sumIn = 0;
+        if (motorDetail) {
+            sumIn = motorDetail['m_total_risk_si'] || 0;
+        }
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfCoverage = motorDetail['m_type_of_coverage'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        if (motorDetail) {
+            productCode = motorDetail['productCode'];
+        }
+        // return this.motorOwnDamage().pipe(map(res => {
+        if (sumIn > 0) {
+            let rate = 0.005;
+            if (productCode == 'PLMO01') {
+                rate = 0.0005;
+            }
+            else {
+                if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
+                    rate = 0.00065;
+                }
+                else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
+                    rate = 0.00065;
+                }
+                else if (typeOfVehicle == "T-MCC") {
+                    rate = 0.0005;
+                }
+            }
+            return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)((sumIn * rate));
+        }
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(0);
+        // }))
+    }
+    motorTheftYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let currency = "";
+        let typeOfCoverage = "";
+        let typeOfVehicle = "";
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfCoverage = motorDetail['m_type_of_coverage'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        return this.motorOwnDamage(motorDetail).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.map)(res => {
+            if (res > 0) {
+                let rate = 0;
+                if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
+                    rate = 0.15;
+                }
+                else if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
+                    rate = 0.15;
+                }
+                else if (typeOfVehicle == "T-MCC") {
+                    rate = 0.15;
+                }
+                // console.log("THEFT", res, rate);
+                return ((res * rate));
+            }
+            return 0;
+        }));
+    }
+    motorEndorsementYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let currency = "";
+        let typeOfCoverage = "";
+        let typeOfVehicle = "";
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfCoverage = motorDetail['m_type_of_coverage'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0;
+        }
+        return this.motorOwnDamage(motorDetail).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.map)(res => {
+            // console.log("motorEndorsement", res);
+            if (res > 0) {
+                let rate = 0.30;
+                return ((res * rate));
+            }
+            return 0;
+        }));
+    }
+    motorLuggageYear(motorDetail) {
+        let m_term = motorDetail['m_policy_term'];
+        let term = this.crossPercent[m_term];
+        let currency = "";
+        let typeOfVehicle = "";
+        if (motorDetail) {
+            currency = motorDetail['m_currency'] || 0;
+        }
+        if (motorDetail) {
+            typeOfVehicle = motorDetail['m_type_of_coverage'] || 0;
+        }
+        let fixed = 50;
+        if (currency == 'MMK' && typeOfVehicle != "T-MCC") {
+            fixed = 80000;
+        }
+        // else if (typeOfVehicle == "T-006") {
+        //   fixed = 50
+        // }
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(fixed);
+    }
+    motorPaidDriverYear(motorDriverDetail) {
+        let length = 0;
+        if (motorDriverDetail) {
+            length = motorDriverDetail.length;
+        }
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(30 * length);
+    }
+    motorLiabilityYear() {
+        return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(25);
+    }
+    // ----------------------------NEW CR ----------------------
     motorLiability() {
         return (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.of)(25);
     }

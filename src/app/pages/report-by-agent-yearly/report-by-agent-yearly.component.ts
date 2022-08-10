@@ -146,8 +146,8 @@ export class ReportByAgentYearlyComponent implements OnInit {
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
         list.push(this.dataList[i].productDataList[j].noOfPolicies,
           this.dataList[i].productDataList[j].totalPremium || 0.00)
-      }           
-      list.push(this.dataList[i].totalPolicies || 0.00 , this.dataList[i].totalPremium || 0.00);
+      }
+      list.push(this.dataList[i].totalPolicies || 0.00, this.dataList[i].totalPremium || 0.00);
       this.dataExcel.push(list);
     }
 
@@ -392,7 +392,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
     return control.dirty || control.touched;
   }
 
-    doValid(type) {
+  doValid(type) {
     if (type == 'FromDate') {
       let fromDateValue = moment(this.createFormGroup.controls['fromDate'].value).format('YYYY-MM-DD');
       let toDateValue = moment(this.createFormGroup.controls['toDate'].value).format('YYYY-MM-DD');
@@ -402,7 +402,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
-        }      
+        }
 
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
@@ -434,7 +434,7 @@ export class ReportByAgentYearlyComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
-       
+
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
             this.createFormGroup.controls['toDate'].setValue('');
@@ -459,13 +459,15 @@ export class ReportByAgentYearlyComponent implements OnInit {
   }
 
   clearDate(type) {
-    this.fromMinDate = null;
-    this.fromMaxDate = null;
+    // this.fromMinDate = null;
+    // this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
+      this.doValid('ToDate')
     }
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
+      this.doValid('FromDate')
     }
     this.isData = false;
     this.productList = [];

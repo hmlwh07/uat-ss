@@ -728,7 +728,7 @@ export class AddonPageComponent implements OnInit {
       //   amt = amt - dis
       // }
       // console.log('amt =====> ', amt);
-      let amount = this.globalFun.calculateDecimal(amt)
+      let amount=this.globalFun.calculateDecimal(amt)
       return amount;
       //return this.globalFun.calculateDecimal(amt)
     }

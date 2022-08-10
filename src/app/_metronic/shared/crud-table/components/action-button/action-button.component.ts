@@ -47,7 +47,7 @@ export class ActionButtonComponent implements OnInit {
     });
   }
   onActionDownload() {
-    if(this.data.documentName != null){
+    if(this.data.documentName != null || this.data.fileName != null){
 
       this.emitter.emit({
         cmd: "download",

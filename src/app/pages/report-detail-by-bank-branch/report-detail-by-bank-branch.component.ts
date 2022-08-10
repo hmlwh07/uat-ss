@@ -142,10 +142,10 @@ export class ReportDetailByBankBranchComponent implements OnInit {
     // Data
     for (var i = 0; i < this.dataList.length; i++) {
       let list = [];
-      list.push(i + 1, this.dataList[i].cluster, this.dataList[i].channel, 
+      list.push(i + 1, this.dataList[i].cluster, this.dataList[i].channel,
         this.dataList[i].branch, this.dataList[i].agentName, this.dataList[i].agentNo)
       for (var j = 0; j < this.dataList[i].productDataList.length; j++) {
-        list.push(this.dataList[i].productDataList[j].noOfPolicy || 0.00, 
+        list.push(this.dataList[i].productDataList[j].noOfPolicy || 0.00,
           this.dataList[i].productDataList[j].totalPreminum || 0.00)
       }
       this.dataExcel.push(list)
@@ -338,9 +338,9 @@ export class ReportDetailByBankBranchComponent implements OnInit {
           if (res) {
             this.selectOptions.agents = res
           }
-        });       
+        });
       } else {
-        this.branchName = null;   
+        this.branchName = null;
         this.createFormGroup.value.branchId = '';
         this.createFormGroup.value.agentId = '';
       }
@@ -403,7 +403,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
-        }      
+        }
 
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
@@ -435,7 +435,7 @@ export class ReportDetailByBankBranchComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
-       
+
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
             this.createFormGroup.controls['toDate'].setValue('');
@@ -460,13 +460,15 @@ export class ReportDetailByBankBranchComponent implements OnInit {
   }
 
   clearDate(type) {
-    this.fromMinDate = null;
-    this.fromMaxDate = null;
+    // this.fromMinDate = null;
+    // this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
+      this.doValid('ToDate')
     }
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
+      this.doValid('FromDate')
     }
 
     this.isData = false;

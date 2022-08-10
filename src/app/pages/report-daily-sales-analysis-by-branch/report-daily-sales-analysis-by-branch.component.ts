@@ -86,7 +86,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
             for (var j = 0; j < activities.length; j++) {
               let obj = {
                 // agentName: res.dailydataList[i].agentName,
-                branchName: j == 0 ? res.dailydataList[i].branchName: null,
+                branchName: j == 0 ? res.dailydataList[i].branchName : null,
                 activityName: activities[j].activityName,
                 dailyActualAgainstTarge: this.dailyActualAgainstTarge(activities[j].activityName, res.dailydataList[i]),
                 dailyConversionToProspect: this.dailyConversionToProspect(activities[j].activityName, res.dailydataList[i]),
@@ -274,11 +274,11 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     this.productValues = [
       // 'Agent Name', 
       'Branch Name',
-      'Activities', 
+      'Activities',
       'Daily Actual against Target',
-      'Daily Conversion to Prospect', 
+      'Daily Conversion to Prospect',
       'Daily Conversion to Previous Stage',
-      'Daily Expected Target Conversion', 
+      'Daily Expected Target Conversion',
       'Daily Expected Target Conversion to Prospects'
     ]
 
@@ -286,11 +286,11 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
     for (var i = 0; i < this.displayList.length; i++) {
       this.dataExcel.push([
         // this.displayList[i].agentName,
-        this.displayList[i].branchName, 
+        this.displayList[i].branchName,
         this.displayList[i].activityName,
-        this.displayList[i].dailyActualAgainstTarge || 0.00, 
+        this.displayList[i].dailyActualAgainstTarge || 0.00,
         this.displayList[i].dailyConversionToProspect || 0.00,
-        this.displayList[i].dailyConversionToPreviousStage || 0.00, 
+        this.displayList[i].dailyConversionToPreviousStage || 0.00,
         this.displayList[i].dailyExpectedTargetConversion || 0.00,
         this.displayList[i].dailyExpectedTargetConversionToProspects || 0.00])
     }
@@ -544,7 +544,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
         let diffYear = Number(toDateSplit[0]) - Number(formDateSplit[0]);
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['toDate'].setValue('');
-        }      
+        }
 
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
@@ -576,7 +576,7 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
         if (diffYear != 0 && diffYear != 1) {
           this.createFormGroup.controls['fromDate'].setValue('');
         }
-       
+
         if (diffYear == 0) {
           if (formDateSplit[1] > toDateSplit[1]) {
             this.createFormGroup.controls['toDate'].setValue('');
@@ -602,13 +602,15 @@ export class ReportDailySalesAnalysisByBranchComponent implements OnInit {
 
 
   clearDate(type) {
-    this.fromMinDate = null;
-    this.fromMaxDate = null;
+    // this.fromMinDate = null;
+    // this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
+      this.doValid('ToDate')
     }
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
+      this.doValid('FromDate')
     }
 
     this.isData = false;

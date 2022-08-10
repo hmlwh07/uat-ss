@@ -408,7 +408,7 @@ export class ProductComponent implements OnInit {
         } else {
           highDiscount = this.passValueData.highDiscount
         }
-        this.updateCommaInput(highDiscount, 'highDiscount');
+        this.updateCommaInput(highDiscount, 'highDiscount',true);
       }
       if (this.passValueData.grandDiscount) {
         let grandDiscount: number = 0;
@@ -417,7 +417,7 @@ export class ProductComponent implements OnInit {
         } else {
           grandDiscount = this.passValueData.grandDiscount
         }
-        this.updateCommaInput(grandDiscount, 'discount');
+        this.updateCommaInput(grandDiscount, 'discount',true);
       }
 
       this.dataSource = this.originalData.reduce((current, next) => {
@@ -496,8 +496,7 @@ export class ProductComponent implements OnInit {
 
   }
 
-
-  updateCommaInput(percent, type) {
+  updateCommaInput(percent, type, isTrue) {
     if (type == this.transform('highDiscount')) {
       // High Priority Discount
       this.highPercent = percent;
@@ -519,7 +518,8 @@ export class ProductComponent implements OnInit {
         this.originalData[2].product[0].monthlyRate = this.highMonthlyPercentageRate;
       }
 
-    } else {
+    }
+    else {
       // Grand Total Discount    
       this.grantPercent = percent;
       this.grantAnnualPercentageRate = this.calculatePercentage(Number(percent), Number(this.totalGrantAnnualRate));
@@ -538,7 +538,29 @@ export class ProductComponent implements OnInit {
         this.originalData[this.originalData.length - 1].product[0].monthlyRate = this.grantMonthlyPercentageRate;
       }
     }
+    if(isTrue){
+      this.dataSource = this.originalData.reduce((current, next) => {
+        next.product.forEach(b => {
+          current.push({
+            productId: b.productId,
+            packageOffer: next.packageOffer,
+            product: b.product,
+            input: next.input,
+            policies: b.policies,
+            sa: this.fnaService.currencyFormat(Number(b.sa)),
+            annualRate: this.fnaService.currencyFormat(Number(b.annualRate)),
+            monthlyRate: this.fnaService.currencyFormat(Number(b.monthlyRate)),
+            action: b.action
+          })
+        });
+        return current;
+      }, []);
+  
+    }
+    this.cdf.detectChanges();
+  }
 
+  onChange() {
     this.dataSource = this.originalData.reduce((current, next) => {
       next.product.forEach(b => {
         current.push({
@@ -556,8 +578,8 @@ export class ProductComponent implements OnInit {
       return current;
     }, []);
 
-    this.cdf.detectChanges();
   }
+
 
 
   createPdf() {

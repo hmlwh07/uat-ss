@@ -105,3 +105,22 @@ table {
     text-align: end;
     padding: 0 5px 0 0;
 }
+
+.mat-datepicker-toggle {
+    position: absolute;
+    right: 0.5rem;
+    top: -3px;
+}
+
+.ng-clear-wrapper .ng-clear {
+    cursor: pointer;
+    position: absolute;
+    right: 3rem;
+    top: 0.3rem;
+    font-size: 1.2rem;
+    color: #999;
+}
+
+.ng-clear-wrapper .ng-clear:hover {
+    color: #D0021B;
+}

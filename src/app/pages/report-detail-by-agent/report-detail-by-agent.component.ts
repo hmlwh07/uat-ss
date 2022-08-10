@@ -463,13 +463,15 @@ export class ReportDetailByAgentComponent implements OnInit {
 
 
   clearDate(type) {
-    this.fromMinDate = null;
-    this.fromMaxDate = null;
+    // this.fromMinDate = null;
+    // this.fromMaxDate = null;
     if (type == 'FromDate') {
       this.createFormGroup.controls['fromDate'].setValue('');
+      this.doValid('ToDate')
     }
     if (type == 'ToDate') {
       this.createFormGroup.controls['toDate'].setValue('');
+      this.doValid('FromDate')
     }
     this.isData = false;
     this.productList = [];

@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1659413923214,
+  "timestamp": 1659437293361,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -4242,7 +4242,7 @@
     "/default-node_modules_ngx-currency___ivy_ngcc___fesm2015_ngx-currency_js.js": "0a267f233ef558f5c36ef4f7d660f3ca2cb75fce",
     "/default-src_app__metronic_core_index_ts-src_app_pages_policy_policy_service_ts-src_app_pages_-b29154.js": "50877dd2aabc3da94e6b73fe86b6df9414ff4fb3",
     "/default-src_app__metronic_core_services_attachment-data_service_ts.js": "edcfd6f7b05dd84ce393ccd7187f5217efa029ba",
-    "/default-src_app_core_global-fun_service_ts.js": "ed782753912cd622335852344447d8fa96b1fe00",
+    "/default-src_app_core_global-fun_service_ts.js": "e54f09afab7b29eafdb4d1f3c1ec5555c1f6f0de",
     "/default-src_app_core_valid-all-feild_ts-node_modules_exceljs_dist_exceljs_min_js-node_modules-96fcc1.js": "d4cced48dfdcc1c002909c9d2e6a517fb377047c",
     "/default-src_app_core_valid-all-feild_ts-src_app_pages_customer-detail_customer_service_ts-nod-5008b4.js": "8d8f656d0c5d666ce727c0e69b404f4aeb537d48",
     "/default-src_app_pages_customer-detail_customer-detail_share_module_ts.js": "80a5ce463ac7ff9c4afdfab779240501f15a750a",
@@ -4258,7 +4258,7 @@
     "/default-src_app_pages_share-components_share-component_module_ts.js": "1375e1a2d5cbc38c6d57f4594ef00713706e9c33",
     "/default-src_app_pages_static-page-review_static-pages-reivew_module_ts.js": "47ae6a9e6d14235b539a44df0f0f6add7e9f67cc",
     "/default-src_app_pages_static-pages_calculated-building_services_calculated-building-service_t-177781.js": "09cc0e9d2dee3656c04aa8f4826da922e1675622",
-    "/default-src_app_pages_static-pages_static-pages_module_ts.js": "4deac9e1a2da3575e4ffc5ad10146c5de31c9bcd",
+    "/default-src_app_pages_static-pages_static-pages_module_ts.js": "ae6ccb6052c289442270980557ca54919f32d026",
     "/fa-brands-400.svg": "907bfbbe295332750575900984a00136de0f0e90",
     "/fa-brands-400.ttf": "8ab907083fecaaa2a9ec93b27f884ad74573705c",
     "/fa-brands-400.woff": "1e1f02bfa89e179fe2dd1383273b8812aa873418",
@@ -4274,7 +4274,7 @@
     "/firebase-messaging-sw.js": "fa67f98c3d68f9d60e1e1073df078d0ba270ec65",
     "/index.html": "64c4c6a8fe4778ebcdfff719be2a8723b773006a",
     "/left-border.png": "036921a884f862730c2b4c4f7aa3fe785dbbce08",
-    "/main.js": "44f4c21937913f85e34ada1f1fdd410822b77402",
+    "/main.js": "8b991662a298d4961840a04bb998c2b9cade7bfa",
     "/manifest.webmanifest": "9a088b7c4339228d1082e666ce105dc889bc180c",
     "/node_modules_canvg_lib_index_es_js.js": "0c345499b09dfa404963678e095d637328c968cf",
     "/node_modules_capacitor_app_dist_esm_web_js.js": "56de9540a37eacf8e3e12868c9631269b18f34d1",
@@ -4396,7 +4396,7 @@
     "/src_app_pages_setting_setting_module_ts.js": "fbaaa2da9291b034b7af15048581f85d31d9f845",
     "/styles.css": "1b0dba3d9d1941bdf09564338f7d72ed2cef3754",
     "/tringle.png": "60c20b27345152c1ca2cedf77c895dda2ed425a5",
-    "/vendor.js": "8ddadd2d1c9b426be72f24cb846e9ef029713d32",
+    "/vendor.js": "3524b7f6226621d643dfd5be2606a824da01893b",
     "/watermask.png": "1a67be2fdb9f30aa570c61f449ad23b2896d4b5c"
   },
   "navigationUrls": [
