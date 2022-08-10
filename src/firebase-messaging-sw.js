@@ -4,13 +4,13 @@ importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js');
 // import * as localForage from "localforage";
 importScripts("https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js");
 firebase.initializeApp({
-  apiKey: "AIzaSyA83H8v2hiBokOT3lk_YfktW20GRPp-UqM",
-  authDomain: "digitalfe-uat.firebaseapp.com",
-  projectId: "digitalfe-uat",
-  storageBucket: "digitalfe-uat.appspot.com",
-  messagingSenderId: "210382068330",
-  appId: "1:210382068330:web:930c7c1ac9570df92bc813",
-  measurementId: "G-E16237EJL2",
+  apiKey: "AIzaSyCCfS97dyHL4eg1kTRMccxpEPzc3EIjQBE",
+    authDomain: "kbzms-preprod.firebaseapp.com",
+    projectId: "kbzms-preprod",
+    storageBucket: "kbzms-preprod.appspot.com",
+    messagingSenderId: "905070136071",
+    appId: "1:905070136071:web:008fb57112495ea676d3a2",
+    measurementId: "G-BCJWF0DB5W",
 });
 const messaging = firebase.messaging();
 messaging.onBackgroundMessage(function (payload) {
