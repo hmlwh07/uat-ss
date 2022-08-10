@@ -234,7 +234,7 @@ export class FireRiskComponent implements OnInit {
     await this.calculateFireTotalPremiumAmount();
 
     let postData = {
-      premium:(Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
+      premium: (Number(this.premiumAmt.split(' ')[0].split(',').join('')) || 0) + '',
       premiumView: this.premiumAmt,
       sumInsureView: this.totalSI,
       sumInsure: (Number(this.totalSI.split(' ')[0].split(',').join('')) || 0) + '',
@@ -242,7 +242,9 @@ export class FireRiskComponent implements OnInit {
       type: 'policy',
     };
     console.log('updatePremimun', postData);
-    return this.pageDataService.updatePremimun(postData);
+    this.pageDataService.updatePremimun(postData).toPromise().then((res) => {
+
+    });
   }
 
   async calculateFireTotalPremiumAmount() {

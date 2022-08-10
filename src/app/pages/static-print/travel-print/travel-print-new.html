@@ -1,0 +1,71 @@
+<div class="container">
+    <div id="pdfTable" #pdfTable>
+        <div style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500;
+  margin-bottom: 1.25rem; margin-top: 1.25rem">
+            Risk Information Details
+        </div>
+        <table class="tbody-align" width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
+            <tr>
+                <td
+                    style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+                    No.
+                </td>
+                <td
+                    style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+                    Traveler Name
+                </td>
+                <td
+                    style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+                    ID Type
+                </td>
+                <td
+                    style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+                    ID Number
+                </td>
+                <td
+                    style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+                    No. of Traveler
+                </td>
+                <td
+                    style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+                    Vehicle Information
+                </td>
+                <td
+                    style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+                    Insured Unit
+                </td>
+            </tr>
+            <!-- <tbody class="tbody-align val-col" style="display: table-row-group; vertical-align: middle; border-color: inherit;"> -->
+            <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+                <ng-container *ngFor="let data of riskInfo; let i=index">
+                    <tr>
+                        <td
+                            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+                            {{i+1}}</td>
+                        <td
+                            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+                            {{data.travelRisk.travellerName}}</td>
+                        <td
+                            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+                            {{data.travelerDetail.idType}}}</td>
+                        <td
+                            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+                            {{data.travelerDetail.idType =='NRC'? data.travelerDetail.idNrc
+                            :data.travelerDetail.idNumber}}</td>
+                        <td
+                            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+                            {{data.travelRisk.noOfTravellere}}</td>
+                        <td
+                            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+                            {{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
+                            {{data.travelDetail? data.travelDetail.vehicleNo:""}}</td>
+                        <td
+                            style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding:5px 5px; font-size: 12pt;">
+                            {{data.travelRisk? data.travelRisk.insuredUnitValue:""}} - Units
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

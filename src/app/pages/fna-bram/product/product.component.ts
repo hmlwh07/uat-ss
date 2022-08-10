@@ -520,6 +520,7 @@ export class ProductComponent implements OnInit {
       }
 
     }
+   
     else {
       // Grand Total Discount    
       this.grantPercent = percent;

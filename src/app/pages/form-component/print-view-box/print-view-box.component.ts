@@ -12,8 +12,9 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 declare var require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-import domtoimage from 'dom-to-image';
+// import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-print-view-box',
@@ -38,6 +39,7 @@ export class PrintViewBoxComponent implements OnInit {
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
+  logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
 
   }

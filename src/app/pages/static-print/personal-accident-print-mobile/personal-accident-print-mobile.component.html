@@ -1,0 +1,313 @@
+<div *ngIf="policyHolder">
+  <div
+    style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500; margin-bottom: 1.25rem; margin-top: 1.25rem">
+    Policy Holder Information Details
+  </div>
+  <div
+    style="display: flex; flex-wrap: wrap; margin-right: -12.5px; font-size: 12pt; line-height: 30px; margin-left: 5px;">
+    <div style="font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+      Name
+    </div>
+    <div style="flex: 0 0 50%; max-width: 50%;">
+      {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
+    </div>
+  </div>
+  <div
+    style="display: flex; flex-wrap: wrap; margin-right: -12.5px; font-size: 12pt; line-height: 30px; margin-left: 5px;">
+    <div style="font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+      ID
+    </div>
+    <div style="flex: 0 0 50%; max-width: 50%;">
+      {{policyHolder.cprNumber}}
+    </div>
+  </div>
+  <div
+    style="display: flex; flex-wrap: wrap; margin-right: -12.5px; font-size: 12pt; line-height: 30px; margin-left: 5px;">
+    <div style="font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+      Date of Birth
+    </div>
+    <div style="flex: 0 0 50%; max-width: 50%;" *ngIf="policyHolder.partyAddress">
+      {{policyHolder.dateOfBirth}}
+    </div>
+  </div>
+  <div
+    style="display: flex; flex-wrap: wrap; margin-right: -12.5px; font-size: 12pt; line-height: 30px; margin-left: 5px;">
+    <div style="font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+      Mobile
+    </div>
+    <div style="flex: 0 0 50%; max-width: 50%;" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].mobileNo}}
+      </ng-container>
+    </div>
+  </div>
+  <div
+    style="display: flex; flex-wrap: wrap; margin-right: -12.5px; font-size: 12pt; line-height: 30px; margin-left: 5px;">
+    <div style="font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+      Email
+    </div>
+    <div style="flex: 0 0 50%; max-width: 50%;" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].eMailId}}
+      </ng-container>
+    </div>
+  </div>
+  <div
+    style="display: flex; flex-wrap: wrap; margin-right: -12.5px; font-size: 12pt; line-height: 30px; margin-left: 5px;">
+    <div style="font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+      Address
+    </div>
+    <div style="flex: 0 0 75%; max-width: 75%;" *ngIf="policyHolder.partyAddress">
+      <ng-container *ngIf="policyHolder.partyAddress.length > 0">
+        {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} ,
+        {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} ,
+        {{policyHolder.stateName}}
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div
+    style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500; margin-bottom: 1.25rem; margin-top: 1.25rem">
+    Policy Information Details
+  </div>
+  <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
+    <tr>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        Policy Effective Date</td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        {{productDetail.formdate | date: 'dd/MM/YYYY'}}</td>
+
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        Policy Expiry Date</td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        {{productDetail.todate | date: 'dd/MM/YYYY'}}</td>
+
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        Policy Duration</td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        {{productDetail.paPolicyTermValue}}</td>
+    </tr>
+    <tr>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; background-color:#e9f8fe; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        Currency</td>
+      <td colspan="10"
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit;">
+        {{productDetail.currency}}</td>
+    </tr>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div
+    style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500; margin-bottom: 1.25rem; margin-top: 1.25rem">
+    Risk Information Details
+  </div>
+  <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
+    <tr>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Name
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Occupation
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Gender
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        ID
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Date of Birth
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Father Name
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Phone Number
+      </td>
+    </tr>
+    <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+      <ng-container>
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{lifeInsuredPolicy.paNameOfInsured}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{lifeInsuredPolicy.occupationCd}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{lifeInsuredPolicy.genderCdValue}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{lifeInsuredPolicy.identityType}}-{{lifeInsuredPolicy.identityType !='NRC' ?
+            lifeInsuredPolicy.identityNumber : lifeInsuredPolicy.identityNrc }} </td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{lifeInsuredPolicy.dateOfBirth | date: 'dd/MM/YYYY' }}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{lifeInsuredPolicy.fatherName}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{lifeInsuredPolicy.phone}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div
+    style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500; margin-bottom: 1.25rem; margin-top: 1.25rem">
+    Beneficiaries Information Details
+  </div>
+  <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
+    <tr>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        No.
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Name
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Relationship
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        ID
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Date of Birth
+      </td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color: #e9f8fe;">
+        Share %
+      </td>
+    </tr>
+    <tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+      <ng-container *ngFor="let data of beneficiaries; let i=index;">
+        <tr>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{i+1}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{data.beneficiaryName}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{data.relationshipValue}}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{data.idType}}-{{data.idType !='NRC' ? data.idNumber : data.nrc }} </td>
+          <td s
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{data.dateOfBirth | date: 'dd/MM/YYYY' }}</td>
+          <td
+            style="border: 1px solid #005f99eb; border-collapse: collapse; padding: 5px 5px; text-align: center; font-size: 12pt;">
+            {{data.share}} % </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div class="addon-print">
+  <div style="font-size: 1.5rem; background-color: #85bceb52; text-align: center; padding: 5px; font-weight: 500;
+  margin-bottom: 1.25rem; margin-top: 1.25rem">
+    Insurance Information Detail
+  </div>
+  <table width="100%" style="border: 1px solid #005f99eb; border-collapse: collapse;">
+    <tr>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color:#e9f8fe;">
+        Total SI</td>
+      <td style="padding: 5px 5px; text-align: right; font-size: 12pt;" colspan="4">
+        {{productDetail.sumInsured | number : '1.2-2'}} {{productDetail.currency}}</td>
+      <td
+        style="border: 1px solid #005f99eb; border-collapse: collapse; text-align: center; padding: 5px 5px; font-size: 12pt; display: table-cell; vertical-align: inherit; background-color:#e9f8fe;">
+        Approximate Total Premium</td>
+      <td style="padding: 5px 5px; text-align: right; font-size: 12pt;" colspan="4">
+        {{premiumAmt}}</td>
+    </tr>
+  </table>
+</div>
+
+
+<div>
+  <div style="display: flex; flex-wrap: wrap; margin-right: -12.5px; margin-left: -12.5px;">
+    <div style="margin-left: 10px; font-size: 1.5rem; font-weight: 500; margin-top: 2.5rem; margin-bottom: 1.25rem;">
+      Declaration By Proposer
+    </div>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; margin-right: -12.5px; margin-left: -12.5px;">
+    <div style="flex-basis: 0; flex-grow: 1; max-width: 100%;">
+      <p style="font-size: 12pt; padding: 0px 10px; text-align: justify;">
+        I hereby declare that I am in good health and free from any physical injuries the day which I am submitting the
+        proposal. I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am
+        fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I
+        also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and
+        the benefits will be forfeited.
+      </p>
+      <p style="font-size: 12pt; color:red; padding: 0px 10px; text-align: justify;">
+        <b style="font-size: 1rem;">Remarks:</b> If beneficiary is under 18,the benefit shall be paid to his parents
+        (or) lawful guardian. In case where the beneficiary dies before the insured, and the death of the insured
+        occurred before the insured has not re-transferred the title of benefits, shall pay the death claim in the
+        followings order:<br>
+        <label>
+          1.The insured’s husband or wife<br>
+          2.The insured’s son or daughter<br>
+          3.The insured’s grandchildren<br>
+          4.The insured’s siblings<br>
+          5.The insured’s parents<br>
+        </label>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div style="display: flex; justify-content: space-between; font-size: 12pt;">
+    <div>
+      <br>
+      <label
+        style="display: inline-block; margin-top: 0.5rem; margin-bottom: 0.5rem; font-family: inherit; line-height: normal;">
+        DATE</label>
+      <div style="width: 140px; height: 80px; border-bottom: 1px #000 dashed; padding-top: 50px;">
+        {{signatureDate | date : "dd/MM/yyyy"}}</div>
+    </div>
+
+    <div>
+      <label
+        style="font-weight: 500; display: inline-block; margin-bottom: 0.5rem; font-family: inherit; line-height: normal;">
+        PROPOSER NAME AND SIGNATURE</label>
+      <br>
+      <label style="display: inline-block; margin-bottom: 0.5rem; font-family: inherit; line-height: normal;">
+        {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}</label>
+      <div style="width: 140px; height: 80px; border-bottom: 1px #000 dashed;">
+        <ng-container *ngIf="signId">
+          <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

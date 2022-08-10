@@ -9,7 +9,8 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 declare var require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
+// import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
 
 @Component({
@@ -23,8 +24,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() configOrder: FromGroupData[] = []
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-  // @ViewChild('componentID')
-  // componentID!: ElementRef;
+  @ViewChild('pdfTable')
+  pdfTable!: ElementRef;
   content: string;
   base64data: string;
 
@@ -45,7 +46,9 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0)
     setTimeout(() => {
       window.print();
+      // this.downloadFile();
       // this.downloadAsPDF()
+      // this.downloadAsPDFWithCanvas()
     }, 1000)
     // const printContent = document.getElementById("componentID").cloneNode(true);;
     // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
@@ -57,71 +60,35 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   }
 
 
-  public downloadAsPDF() {
-    const pdfTable = document.getElementById("componentID").innerHTML
-    var html = htmlToPdfmake(pdfTable);
+  public async downloadAsPDF() {
+    const printContent = document.getElementById("pdfTable")
+    var html = htmlToPdfmake(printContent.innerHTML);
+    const documentDefinition = {
+      content: html,
+      margin: [0.5, 0.5, 0.5, 0.5],
+    };
     console.log(html);
-    
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).download();
 
+    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
+    //   console.log(res);
+
+    // })
+    pdfMake.createPdf(documentDefinition).download()
   }
 
-  // public downloadAsPDF() {
-  //   let div = this.pdfTable.nativeElement;
+  public async downloadAsPDFWithCanvas() {
+    const printContent = document.getElementById("componentID")
+    html2canvas(printContent).then(canvas => {
+      let docWidth = 208;
+      let docHeight = canvas.height * docWidth / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png')
+      let doc = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      doc.addImage(contentDataURL, 'PNG', 0, position, docWidth, docHeight)
+      doc.save('exportedPdf.pdf');
+    });
 
-  //   var img:any;
-  //   var filename;
-  //   var newImage:any;
-
-
-  //   domtoimage.toPng(div, { bgcolor: '#fff' })
-
-  //     .then(function(dataUrl) {
-
-  //       img = new Image();
-  //       img.src = dataUrl;
-  //       newImage = img.src;
-
-  //       img.onload = function(){
-
-  //       var pdfWidth = img.width;
-  //       var pdfHeight = img.height;
-
-  //         // FileSaver.saveAs(dataUrl, 'my-pdfimage.png'); // Save as Image
-
-  //         var doc;
-
-  //         if(pdfWidth > pdfHeight)
-  //         {
-  //           doc = new jsPDF('l', 'px', [pdfWidth , pdfHeight]);
-  //         }
-  //         else
-  //         {
-  //           doc = new jsPDF('p', 'px', [pdfWidth , pdfHeight]);
-  //         }
-
-
-  //         var width = doc.internal.pageSize.getWidth();
-  //         var height = doc.internal.pageSize.getHeight();
-
-
-  //         doc.addImage(newImage, 'PNG',  10, 10, width, height);
-  //         filename = 'mypdf_' + '.pdf';
-  //         doc.save(filename);
-
-  //       };
-
-
-  //     })
-  //     .catch(function(error) {
-
-  //      // Error Handling
-
-  //     });
-
-  // }
-
+  }
 
   downloadFile() {
     let fileName = this.product.code + '-' + this.resourcesId
@@ -132,11 +99,11 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
       type: 'base64',
       // landscape: 'landscape',
       fileName: fileName,
-
     };
     this.pdfGenerator.fromData(this.content, options)
       .then(async (data) => {
         this.base64data = data;
+        console.log("Base64 Data: ", this.base64data);
       }).catch((error) => {
         console.log('error', error);
       });

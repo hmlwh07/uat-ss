@@ -35,10 +35,45 @@ import { ValidityPeriodService } from './services/validity-period.service';
 import { MotorPrintService } from './services/motor-print.service';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { HealthPrintService } from './services/health-print.service';
+import { PrintPreviewModalMobileComponent } from './print-preview-modal-mobile/print-preview-modal-mobile.component';
 @NgModule({
-  declarations: [ProductsComponent, ProductsModalComponent, CoverageModalComponent, ProductDetailsComponent, PageUIModalComponent, CoverageOption, UIPagesComponent, ViewUIModalComponent, StaticUIModalComponent, InputConfigModalComponent, PrintConfigModalComponent, PrintFormsModalComponent, EditPrintUIModalComponent, PrintPreviewModalComponent, EditSourceModalComponent],
+  declarations: [
+    ProductsComponent,
+    ProductsModalComponent,
+    CoverageModalComponent,
+    ProductDetailsComponent,
+    PageUIModalComponent,
+    CoverageOption,
+    UIPagesComponent,
+    ViewUIModalComponent,
+    StaticUIModalComponent,
+    InputConfigModalComponent,
+    PrintConfigModalComponent,
+    PrintFormsModalComponent,
+    EditPrintUIModalComponent,
+    PrintPreviewModalComponent,
+    PrintPreviewModalMobileComponent,
+    EditSourceModalComponent
+  ],
 
-  exports: [ProductsComponent, ProductsModalComponent, CoverageModalComponent, ProductDetailsComponent, PageUIModalComponent, CoverageOption, UIPagesComponent, ViewUIModalComponent, StaticUIModalComponent, InputConfigModalComponent, PrintConfigModalComponent, PrintFormsModalComponent, EditPrintUIModalComponent, PrintPreviewModalComponent, EditSourceModalComponent],
+  exports: [
+    ProductsComponent,
+    ProductsModalComponent,
+    CoverageModalComponent,
+    ProductDetailsComponent,
+    PageUIModalComponent,
+    CoverageOption,
+    UIPagesComponent,
+    ViewUIModalComponent,
+    StaticUIModalComponent,
+    InputConfigModalComponent,
+    PrintConfigModalComponent,
+    PrintFormsModalComponent,
+    EditPrintUIModalComponent,
+    PrintPreviewModalComponent,
+    PrintPreviewModalMobileComponent,
+    EditSourceModalComponent
+  ],
   imports: [
     CommonModule,
     InlineSVGModule,
@@ -56,6 +91,14 @@ import { HealthPrintService } from './services/health-print.service';
     MatSortModule,
     OverlayModule,
   ],
-  providers: [CoverageDataService, AddOnDataService, ProductUIService, ProductUIDeleteService, ValidityPeriodService, MotorPrintService,HealthPrintService]
+  providers: [
+    CoverageDataService,
+    AddOnDataService,
+    ProductUIService,
+    ProductUIDeleteService,
+    ValidityPeriodService,
+    MotorPrintService,
+    HealthPrintService
+  ]
 })
 export class ProductShareModule { }

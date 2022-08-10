@@ -9,7 +9,7 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 declare var require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-import domtoimage from 'dom-to-image';
+// import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
 
 @Component({
@@ -115,23 +115,4 @@ export class TravelPrintComponent implements OnInit {
       }
     })
   }
-
-
-  public async downloadAsPDF() {
-    const pdfTable = this.pdfTable.nativeElement;
-    var html = htmlToPdfmake(pdfTable.innerHTML);
-    const documentDefinition = { content: html };
-    console.log(html);
-    
-    // pdfMake.createPdf(documentDefinition).getBase64((res) => {
-    //   console.log(res);
-
-    // })
-    pdfMake.createPdf(documentDefinition).download()
-
-  }
-
-
-
-
 }

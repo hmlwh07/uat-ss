@@ -24,56 +24,61 @@ export class AttachmentUploadService extends BizOperationService<any, number>{
 }
 
 const API_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+const API_TCS_RENEWAL_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/tcs/renewal`;
 const API_TCS_DOWNLOAD_URL = `${environment.apiUrl}`;
 @Injectable({
   providedIn: 'root'
 })
 export class AttachmentDownloadService extends BizOperationService<any, number>{
-  constructor(protected httpClient: HttpClient, private file: File, 
-    private loadingService: LoadingService, private toastService: KBZToastService, 
-    private alertService: AlertService, 
+  constructor(protected httpClient: HttpClient, private file: File,
+    private loadingService: LoadingService, private toastService: KBZToastService,
+    private alertService: AlertService,
     private translate: LanguagesService) {
     super(httpClient, API_DOWNLOAD_URL);
   }
 
-  getFile(url) {
-    return this.httpClient.get(API_TCS_DOWNLOAD_URL + url, { responseType: 'blob' })
-}
+  getFile(fileName, policyNo) {
+    let url = API_TCS_RENEWAL_DOWNLOAD_URL + "?"
+    if (policyNo) {
+      url = url + "fileName=" + fileName + "&" + "policyNo=" + policyNo
+    }
+    return this.httpClient.get(url, { responseType: 'blob' })
+  }
 
-get(url: string, param?: HttpParams): Observable<any> {
-  return this.httpClient.get(API_TCS_DOWNLOAD_URL + url, { params: param })
-}
+  get(url: string, param?: HttpParams): Observable<any> {
+    return this.httpClient.get(API_TCS_DOWNLOAD_URL + url, { params: param })
+  }
 
-async mobileTCSDownload(fileName: string, res: any) {
-  const url = URL.createObjectURL(res);
-  this.file.checkDir(this.file.externalRootDirectory, 'kbzms_downloads').then(response => {
-    this.createFile(fileName, res)
-  }).catch(error => {
-    this.file.createDir(this.file.externalRootDirectory, 'kbzms_downloads', false).then(response => {
+  async mobileTCSDownload(fileName: string, res: any) {
+    const url = URL.createObjectURL(res);
+    this.file.checkDir(this.file.externalRootDirectory, 'kbzms_downloads').then(response => {
       this.createFile(fileName, res)
-    }).catch(async (e) => {
-      console.log(e);
-      await this.loadingService.deactivate()
-      let msg = this.translate.transform("ERROR.file_error")
-      this.alertService.activate(msg, 'Download File')
+    }).catch(error => {
+      this.file.createDir(this.file.externalRootDirectory, 'kbzms_downloads', false).then(response => {
+        this.createFile(fileName, res)
+      }).catch(async (e) => {
+        console.log(e);
+        await this.loadingService.deactivate()
+        let msg = this.translate.transform("ERROR.file_error")
+        this.alertService.activate(msg, 'Download File')
+      })
     })
-  })
 
-}
+  }
 
 
-downloadTCSFile(data, fileName) {
-  // const blob = new Blob([data], { type: 'text/csv' });
-  // const url= window.URL.createObjectURL(blob);
-  // window.open(url);
-  var a = document.createElement("a");
-  a.href = URL.createObjectURL(data);
-  a.download = fileName;
-  a.click();
-  let msg = this.translate.transform("ERROR.download_success")
-  this.alertService.activate(msg, 'Download File')
-  a.remove()
-}
+  downloadTCSFile(data, fileName) {
+    // const blob = new Blob([data], { type: 'text/csv' });
+    // const url= window.URL.createObjectURL(blob);
+    // window.open(url);
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(data);
+    a.download = fileName;
+    a.click();
+    let msg = this.translate.transform("ERROR.download_success")
+    this.alertService.activate(msg, 'Download File')
+    a.remove()
+  }
 
   getDownload(id, fileName: string) {
     this.httpClient.get(API_DOWNLOAD_URL + "/" + id, { responseType: 'blob' }).toPromise().then((res) => {
