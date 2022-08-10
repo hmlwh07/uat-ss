@@ -14,10 +14,10 @@
     </div>
     <div>
       <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
           Branch
         </div>
-        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
           {{branch}}
         </div>
         <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
@@ -29,32 +29,32 @@
       </div>
 
       <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
           Agent Name / ID
         </div>
-        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
           {{agentData.employeeName}} / {{agentData.agentCode}}
-        </div>
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
-          Quotation No.
-        </div>
-        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
-          {{resourcesId}}
-        </div>
-      </div>
-
-      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
-        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
-          Agent Phone No.
-        </div>
-        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
-          {{agentData.mobileNo}}
         </div>
         <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Date
         </div>
         <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{today | date: "dd/MM/YYYY"}}
+        </div>
+      </div>
+
+      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
+          Agent Phone No.
+        </div>
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
+          {{agentData.mobileNo}}
+        </div>
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
+          Quotation No.
+        </div>
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
+          {{resourcesId}}
         </div>
       </div>
     </div>

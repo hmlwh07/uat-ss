@@ -46,6 +46,7 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0)
     setTimeout(() => {
       window.print();
+      // this.downloadFile();
       // this.downloadAsPDF()
       // this.downloadAsPDFWithCanvas()
     }, 1000)
@@ -75,7 +76,6 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     pdfMake.createPdf(documentDefinition).download()
   }
 
-
   public async downloadAsPDFWithCanvas() {
     const printContent = document.getElementById("componentID")
     html2canvas(printContent).then(canvas => {
@@ -90,9 +90,6 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
 
   }
 
-
-
-
   downloadFile() {
     let fileName = this.product.code + '-' + this.resourcesId
     console.log("download file.")
@@ -102,13 +99,11 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
       type: 'base64',
       // landscape: 'landscape',
       fileName: fileName,
-
     };
     this.pdfGenerator.fromData(this.content, options)
       .then(async (data) => {
         this.base64data = data;
-        console.log(this.base64data);
-
+        console.log("Base64 Data: ", this.base64data);
       }).catch((error) => {
         console.log('error', error);
       });
