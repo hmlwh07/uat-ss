@@ -310,13 +310,13 @@
 </div>
 
 <div>
-    <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 12pt; margin-top: 1.25rem;">
+    <div style="display: flex; justify-content: space-between; font-size: 12pt;">
         <div>
             <br>
             <label
                 style="display: inline-block; margin-top: 0.5rem; margin-bottom: 0.5rem; font-family: inherit; line-height: normal;">
                 DATE</label>
-            <div style="width: 150px; min-height: 30px; border-bottom: 1px #000 dashed;">
+            <div style="width: 140px; height: 80px; border-bottom: 1px #000 dashed; padding-top: 50px;">
                 {{signatureDate | date : "dd/MM/yyyy"}}</div>
         </div>
 
@@ -326,11 +326,10 @@
                 PROPOSER NAME AND SIGNATURE</label>
             <br>
             <label style="display: inline-block; margin-bottom: 0.5rem; font-family: inherit; line-height: normal;">
-                {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
-                {{policyHolder.lastName}}</label>
-            <div style="width: 150px; min-height: 30px; border-bottom: 1px #000 dashed;">
+                {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}</label>
+            <div style="width: 140px; height: 80px; border-bottom: 1px #000 dashed;">
                 <ng-container *ngIf="signId">
-                    <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" style="width: 150px;">
+                    <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="">
                 </ng-container>
             </div>
         </div>
