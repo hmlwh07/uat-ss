@@ -1,71 +1,59 @@
 <div class="container">
-  <div class="print-grid modal-body" id="componentID" #componentID style="padding: 0.2rem !important;">
+  <div id="componentID" #componentID style="font-size: 0.95rem;position: relative; flex: 1 1 auto; padding: 0.5rem;">
     <!-- static area -->
-    <div class="print-header">
-      <div class="header-logo">
-        <img [src]="logo" alt="" class="logo">
+    <div style="background-color: white; margin: 0px; margin-bottom: 1.25rem; position: relative;">
+      <div style="display: flex; justify-content: center;">
+        <img [src]="logo" alt="logo" style="width:50%;">
       </div>
-      <div class="product-name mt-5 mb-5">{{product.name}} Quotation</div>
-      <div class="qr" *ngIf="qrLocation">
+      <div
+        style="font-size: 1.7rem; font-weight: 700; width: 100%; text-align: center; margin-bottom: 1.25rem;  margin-top: 1.25rem;">
+        {{product.name}} Quotation</div>
+      <div style="position: absolute; right: 10px; top: 15px;" *ngIf="qrLocation">
         <qrcode [qrdata]="qrLocation" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
       </div>
     </div>
-    <div class="product-detail">
-      <!-- <table width="50%">
-      <tr>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Branch</td>
-        <td class="value-col"></td>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Date</td>
-        <td class="value-col">{{today | date: "dd/MM/YYYY"}}</td>
-      </tr>
-      <tr>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Agent Name</td>
-        <td class="value-col">{{agentName}}</td>
-        <td class="field-col" style="background-color: rgb(221, 235, 247);color: rgb(31, 78, 120);">Proposal No</td>
-        <td class="value-col">{{resourcesId}}</td>
-      </tr>
-    </table> -->
-      <div class="row">
-        <div class="col-sm-3 text-bold">
+    <div>
+      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
           Branch
         </div>
-        <div class="col-sm-3">
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
           {{branch}}
         </div>
-        <div class="col-sm-3 text-bold">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Sales Channel
         </div>
-        <div class="col-sm-3">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{agentData.sourceOfBusiness}}
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-3 text-bold">
+      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
           Agent Name / ID
         </div>
-        <div class="col-sm-3">
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
           {{agentData.employeeName}} / {{agentData.agentCode}}
         </div>
-        <div class="col-sm-3 text-bold">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Date
         </div>
-        <div class="col-sm-3">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{today | date: "dd/MM/YYYY"}}
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-sm-3 text-bold">
+      <div style="margin: 5px 5px; display: flex; flex-wrap: wrap;">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 25%; max-width: 25%;">
           Agent Phone No.
         </div>
-        <div class="col-sm-3">
+        <div style="font-size: 12pt; flex: 0 0 25%; max-width: 25%;">
           {{agentData.mobileNo}}
         </div>
-        <div class="col-sm-3 text-bold">
+        <div style="font-size: 12pt; font-weight: 500; flex: 0 0 20%; max-width: 20%;">
           Quotation No.
         </div>
-        <div class="col-sm-3">
+        <div style="font-size: 12pt; flex: 0 0 30%; max-width: 30%;">
           {{resourcesId}}
         </div>
       </div>
@@ -168,7 +156,8 @@
                         <ng-container *ngIf="col.data">
                           <td class="field-col" [style.text-align]="col.align || 'center'"
                             [attr.rowspan]="col.rowspan > 0 ? col.rowspan : 1"
-                            [attr.colspan]="col.colspan > 0 ? col.colspan : 1"> {{ getValue(col,item)}}
+                            [attr.colspan]="col.colspan > 0 ? col.colspan : 1"> {{
+                            getValue(col,item)}}
                           </td>
                         </ng-container>
                       </ng-container>

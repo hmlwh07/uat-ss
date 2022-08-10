@@ -1,58 +1,53 @@
-import { DecimalPipe } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { environment } from '../../../../environments/environment';
+import { PaPrintService } from '../../products/services/pa.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { TravelRiskService } from '../../static-pages/travel-page/models&services/travel-risk.service';
-import * as pdfMake from "pdfmake/build/pdfmake";
-import * as pdfFonts from "pdfmake/build/vfs_fonts";
-declare var require: any;
-const htmlToPdfmake = require("html-to-pdfmake");
-(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-// import domtoimage from 'dom-to-image';
-import jsPDF from 'jspdf';
 
 @Component({
-  selector: 'app-travel-print',
-  templateUrl: './travel-print.component.html',
-  styleUrls: ['./travel-print.component.scss'],
+  selector: 'app-personal-accident-print-mobile',
+  templateUrl: './personal-accident-print-mobile.component.html',
 })
-export class TravelPrintComponent implements OnInit {
+export class PersonalAccidentPrintMobileComponent implements OnInit {
 
   @Input() resourcesId?: string
   @Input() premiumAmt: any
-
-  @ViewChild('pdfTable')
-  pdfTable!: ElementRef;
-
+  sumInsuredAmt: any
   listData: any[] = []
   policyInfo: any = {}
-  riskInfo: any = []
-  beneficiaries:any=[]
   policyHolder: any = {
     partyAddress: []
   }
+  productDetail: any = {}
+  beneficiaries: any[] = []
+  lifeInsuredPolicy: any = {}
   totalPremium: number = 0
-  totalSI: string = '0'
-  numberOfTraveller: number = 0
+  totalSI: number = 0
   @Input() signId?: string
   signatureDate?: string
-  travelArea: string = ''
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
-
+  unsubscribe: Subscription[] = []
   constructor(
     private policyHolderService: PolicyHolderService,
-    private travelService: TravelRiskService,
+    private paService: PaPrintService,
     private productService: ProductDataService,
-    private numberPipe: DecimalPipe
+    private globalFun: GlobalFunctionService,
   ) { }
 
   ngOnInit() {
-    // console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
-    this.getTravelPrintData()
+    this.getDetail()
+    let unsub = this.globalFun.paCoverageResult.subscribe((value) => {
+      console.log("VALUE", value);
+
+      this.sumInsuredAmt = value
+    })
+    this.unsubscribe.push(unsub)
   }
 
   getPolicyHolder() {
@@ -72,6 +67,7 @@ export class TravelPrintComponent implements OnInit {
           }
         })
       }
+      console.log("getPolicyHolder: ", this.policyHolder)
     })
   }
 
@@ -97,22 +93,15 @@ export class TravelPrintComponent implements OnInit {
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-
-  getTravelPrintData() {
-    this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
-      if (res) {
-        this.policyInfo = res.policyInfo.travelBasic
-        this.numberOfTraveller = res.policyInfo.numberOfTraveller
-        this.riskInfo = res.riskDetails
-        let totalUnit = 0
-        for (let data of res.riskDetails) {
-          totalUnit += parseInt(data.travelRisk.totalUnit)
-        }
-        if (res.beneficiaries)
+  getDetail() {
+    this.paService.getOne(this.resourcesId).toPromise().then((res: any) => {
+      if (res.productDetail)
+        this.productDetail = res.productDetail
+      if (res.beneficiaries)
         this.beneficiaries = res.beneficiaries
-        let SI = totalUnit * 500000
-        this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
-      }
+      if (res.lifeInsuredPolicy)
+        this.lifeInsuredPolicy = res.lifeInsuredPolicy
     })
   }
+
 }

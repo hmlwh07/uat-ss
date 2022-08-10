@@ -13,11 +13,10 @@ const htmlToPdfmake = require("html-to-pdfmake");
 import jsPDF from 'jspdf';
 
 @Component({
-  selector: 'app-travel-print',
-  templateUrl: './travel-print.component.html',
-  styleUrls: ['./travel-print.component.scss'],
+  selector: 'app-travel-print-mobile',
+  templateUrl: './travel-print-mobile.component.html',
 })
-export class TravelPrintComponent implements OnInit {
+export class TravelPrintMobileComponent implements OnInit {
 
   @Input() resourcesId?: string
   @Input() premiumAmt: any
@@ -28,7 +27,7 @@ export class TravelPrintComponent implements OnInit {
   listData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
-  beneficiaries:any=[]
+  beneficiaries: any = []
   policyHolder: any = {
     partyAddress: []
   }
@@ -48,7 +47,7 @@ export class TravelPrintComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log("Signature", this.productService.editData)
+    console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
@@ -109,7 +108,7 @@ export class TravelPrintComponent implements OnInit {
           totalUnit += parseInt(data.travelRisk.totalUnit)
         }
         if (res.beneficiaries)
-        this.beneficiaries = res.beneficiaries
+          this.beneficiaries = res.beneficiaries
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }

@@ -17,11 +17,10 @@ import jsPDF from 'jspdf';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-print-view-box',
-  templateUrl: './print-view-box.component.html',
-  styleUrls: ['./print-view-box.component.scss']
+  selector: 'app-print-view-box-mobile',
+  templateUrl: './print-view-box-mobile.component.html',
 })
-export class PrintViewBoxComponent implements OnInit {
+export class PrintViewBoxMobileComponent implements OnInit {
   @Input() config: PrintFormat[] = [];
   @Input() configOrder: FromGroupData[] = []
   @Input() product: Product = {}
@@ -46,7 +45,7 @@ export class PrintViewBoxComponent implements OnInit {
 
   //wait for the component to render completely
   async ngOnInit() {
-    // console.log(this.product);
+    console.log(this.product);
     if (this.resourcesId)
       this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
     await this.loadingService.activate()
@@ -164,15 +163,15 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
   getAgentData() {
-    this.productService.getAgentInfo( this.auth.currentUserValue.id || 1 ).toPromise().then((res:any) => {
-        if (res) {
-          // console.log("RES",res);
-          
-          this.agentData = res.agentInfo;
-          // console.log("this.agentData", this.agentData);
-          
-        }
-      });
+    this.productService.getAgentInfo(this.auth.currentUserValue.id || 1).toPromise().then((res: any) => {
+      if (res) {
+        console.log("RES", res);
+
+        this.agentData = res.agentInfo;
+        console.log("this.agentData", this.agentData);
+
+      }
+    });
   }
 
   getStatic(key: string) {

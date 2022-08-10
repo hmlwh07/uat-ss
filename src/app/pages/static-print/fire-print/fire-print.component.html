@@ -1,5 +1,5 @@
 <div class="addon-print" *ngIf="policyHolder">
-  <div class="title-style text-bold mt-5 mb-3">Policy Holder Information Details</div>
+  <div class="title-style text-bold mt-5 mb-3">Policyholder Information Details</div>
   <div class="row form-txt line-sp" style="padding-top: 10px;">
     <div class="col-sm-3 text-bold">
       Name
@@ -50,7 +50,9 @@
     </div>
     <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
       <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-        {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} , {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} , {{policyHolder.stateName}}
+        {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} ,
+        {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} ,
+        {{policyHolder.stateName}}
       </ng-container>
     </div>
   </div>
@@ -141,7 +143,7 @@
           <td class="value-col">{{data.proposeStockValue|| 0 | number : '1.2-2'}}</td>
           <td class="value-col">{{data.riskSi|| 0 | number : '1.2-2'}}</td>
         </tr>
-       
+
       </ng-container>
       <tr>
         <td colspan="6" style="text-align:center;font-size: 12pt;"> Total SI</td>
@@ -227,7 +229,7 @@
 
 
 <!-- <div id="cover-table">  -->
-<div class="addon-print"  >
+<div class="addon-print">
   <div class="title-style text-bold mt-5 mb-5">Cover Information Details</div>
   <table width="100%">
     <tr>
@@ -249,7 +251,7 @@
           <td rowspan="11" class="field-value align-right" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td> -->
         </tr>
         <tr>
-          <td class="field-pd"  *ngIf="data.STHTC  !=0">STHTC</td>
+          <td class="field-pd" *ngIf="data.STHTC  !=0">STHTC</td>
           <td class="value-col" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td>
         </tr>
         <tr>
@@ -293,8 +295,8 @@
           <td class="value-col" *ngIf="data.FLOOD  !=0">{{data.FLOOD | number:'1.2-2'}}</td>
         </tr>
         <tr>
-          <td class="field-col" colspan="2">Sub Total Premium</td>
-          <td class="value-col">{{data.premium | number:'1.2-2'}}</td>
+          <td class="field-col" colspan="2" *ngIf="data.premium  !=0">Sub Total Premium</td>
+          <td class="value-col" *ngIf="data.premium  !=0">{{data.premium | number:'1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -337,22 +339,17 @@
     <div class="sign-box">
       <label class="text-bold">PROPOSER NAME AND SIGNATURE</label>
       <br>
-      <label>  {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}</label>
+      <label> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
+        {{policyHolder.lastName}}</label>
       <div class="sign-area">
         <ng-container *ngIf="signId">
           <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">
         </ng-container>
       </div>
-    </div> 
+    </div>
   </div>
 
 
 </div>
 
 <!-- </div> -->
-
-
-
-
-
-
