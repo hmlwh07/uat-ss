@@ -114,7 +114,9 @@ export class RenewManagementListComponent implements OnInit {
     else if (event.cmd == "confirm") {
       this.confirmRenew(event.data)
     } else if (event.cmd == 'download') {
-      this.download(event.data.documentName);
+      console.log(event);
+      
+      this.download(event.data.documentName, event.data.policyNumber);
     }
 
   }
@@ -169,39 +171,34 @@ export class RenewManagementListComponent implements OnInit {
     }
   }
 
-  async download(fileName: string) {
+  async download(fileName: string, policyNo) {
     await this.loadingService.activate()
-    let file = this.getFileExt(fileName)
-    // console.log("FILE",file);
-    
-    // this.getFileExt(fileName).pipe(mergeMap((x) => {
-    //   // let ext = x ? x.docExtension : "pdf"
-    this.attachmentDownloadService.getFile(this.downED + file).pipe(map((x) => {
+    // let file = this.getFileExt(fileName)
+
+    this.attachmentDownloadService.getFile(fileName, policyNo).pipe(map((x) => {
       return { data: x }
     })).toPromise().then(async (res: any) => {
       if (res) {
         if (Capacitor.isNativePlatform()) {
-          this.attachmentDownloadService.mobileTCSDownload(file, res.data)
+          this.attachmentDownloadService.mobileTCSDownload(fileName, res.data)
         } else {
           await this.loadingService.deactivate()
-          this.attachmentDownloadService.downloadTCSFile(res.data, file)
+          this.attachmentDownloadService.downloadTCSFile(res.data, fileName)
         }
         await this.loadingService.deactivate()
       }
 
     })
-    // })).toPromise().then(async (res: any) => {
-    //  ait this.loadingService.deactivate()
 
   }
 
-  getFileExt(fileName) {
-    if (fileName.includes(".pdf") || fileName.includes(".doc") || fileName.includes(".docx") || fileName.includes(".txt"))
-      return fileName
-    else
-      return fileName + ".pdf"
-    // return this.attachmentDownloadService.get(this.downED + fileName).pipe(catchError(() => { return of(null) }))
-  }
+  // getFileExt(fileName) {
+  //   if (fileName.includes(".pdf") || fileName.includes(".doc") || fileName.includes(".docx") || fileName.includes(".txt"))
+  //     return fileName
+  //   else
+  //     return fileName + ".pdf"
+  //   // return this.attachmentDownloadService.get(this.downED + fileName).pipe(catchError(() => { return of(null) }))
+  // }
 
 
   getProduct() {

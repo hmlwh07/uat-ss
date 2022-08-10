@@ -47,21 +47,22 @@ export class ActionButtonComponent implements OnInit {
     });
   }
   onActionDownload() {
-    if(this.data.documentName != null || this.data.fileName != null){
+    // if(this.data.fileName != null){
 
       this.emitter.emit({
         cmd: "download",
         data: this.data,
       });
-    }else{
-      this.alertService.activate('There is no document to download', 'Warning')
-      .then(async (result) => {
-        if (result) {
-       
-        }
-      });
     }
-  }
+  //   else{
+  //     this.alertService.activate('There is no document to download', 'Warning')
+  //     .then(async (result) => {
+  //       if (result) {
+       
+  //       }
+  //     });
+  //   }
+  // }
   onActionRerun(){
     this.emitter.emit({
       cmd: "rerun",
