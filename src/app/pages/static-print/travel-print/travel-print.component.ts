@@ -28,7 +28,7 @@ export class TravelPrintComponent implements OnInit {
   listData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
-  beneficiaries:any=[]
+  beneficiaries: any = []
   policyHolder: any = {
     partyAddress: []
   }
@@ -99,17 +99,22 @@ export class TravelPrintComponent implements OnInit {
   }
 
   getTravelPrintData() {
+    let tempArray: any
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.policyInfo = res.policyInfo.travelBasic
         this.numberOfTraveller = res.policyInfo.numberOfTraveller
         this.riskInfo = res.riskDetails
         let totalUnit = 0
+
         for (let data of res.riskDetails) {
           totalUnit += parseInt(data.travelRisk.totalUnit)
+          if (data.travelBeneficiaries.length > 0) {
+            tempArray = data.travelBeneficiaries
+            console.log(tempArray);
+          }
         }
-        if (res.beneficiaries)
-        this.beneficiaries = res.beneficiaries
+        this.beneficiaries = tempArray
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }

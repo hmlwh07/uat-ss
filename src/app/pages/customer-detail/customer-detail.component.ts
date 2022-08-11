@@ -450,12 +450,12 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   create(postData) {
+    let name = postData.firstName + ' ' + ((postData.middleName ? (postData.middleName + ' ') : '' + postData.lastName || null))
     let data = { ...postData, customerId: null, individualId: null };
     this.customerService.save(data).toPromise().then((res) => {
       // console.log("RESSS", res)
       if (res) {
         if (this.isPopup) {
-          let name = data.firstName + ' ' + data.middleName + ' ' + data.lastName
           this.ngbModal.dismiss({ data: { ...postData,name: name, customerId: res, }, type: "save" })
         } else {
           this.alertService.activate('This record was created', 'Success Message');
