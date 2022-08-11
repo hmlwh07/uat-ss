@@ -232,11 +232,13 @@ export class MotorAddonComponent implements OnInit {
 
   }
   calcumotorMedical() {
+    let term = this.parentData['m_policy_term']
+    let percent = this.crossPercent[term] || 1
     let fix = 0
     if (this.planOption == 'basic') {
-      fix = 20
+      fix = 20 * percent
     } else {
-      fix = 30
+      fix = 30 * percent
     }
     return fix
   }
@@ -338,7 +340,7 @@ export class MotorAddonComponent implements OnInit {
       end = moment(date).format('YYYY-MM-DD')
       this.endDate = new Date(end)
     }
-    
+
     var months;
     if (this.startDate && this.endDate) {
       months = (this.endDate.getFullYear() - this.startDate.getFullYear()) * 12;

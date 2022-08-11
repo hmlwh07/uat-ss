@@ -42,13 +42,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     if (policyNo) {
       url = url + "fileName=" + fileName + "&" + "policyNo=" + policyNo
     }
-    // let postValue = {
-    //   "fileName": fileName,
-    //   "policyNo": policyNo
-    // }
-    // return this.httpClient.post(url, { responseType: 'blob' })
-    return this.httpClient.get(url)
-    // return this.httpClient.post(API_TCS_RENEWAL_DOWNLOAD_URL,postValue)
+    return this.httpClient.get(url, { responseType: 'blob' })
   }
 
   get(url: string, param?: HttpParams): Observable<any> {
