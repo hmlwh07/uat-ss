@@ -42,7 +42,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     if (policyNo) {
       url = url + "fileName=" + fileName + "&" + "policyNo=" + policyNo
     }
-    return this.httpClient.post(url, { responseType: 'blob' })
+    return this.httpClient.get(url, { responseType: 'blob' })
   }
 
   get(url: string, param?: HttpParams): Observable<any> {
