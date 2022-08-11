@@ -58,28 +58,28 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                     console.log('error--->>>', error);
                     if (this.loading['deactivate'])
                         this.loading.deactivate()
-                    if (error.error) {
-                        let msg = error.message
-                        let isAttach = msg.includes('attachment-downloader') ? true : false
-                        console.log(isAttach);
-                        if (error.error.code) {
-                            this.alertService.activate(error.error.payload || error.error.message || "Internal Server error!", 'Error Message');
-                            if (error.error.code == "403") {
-                                this.authService.logout()
-                                document.location.reload();
-                            }
-                        }else{
-                            if (error.status == 400 && !isAttach) {
-                                this.alertService.activate("Sorry!, Somethings was wrong", 'Error Message');
-                            }
-                            else if (error.status == 400 && isAttach) {
-                                this.alertService.activate("There is no document to download", 'Error Message');
-                            }
-                            else if (error.status == 500) {
-                                this.alertService.activate("Internal Server error!", "Error Message")
+                        if (error.error) {
+                            let msg = error.message
+                            let isAttach = msg.includes('attachment-downloader') ? true : false
+                            console.log(isAttach);
+                            if (error.error.code) {
+                                this.alertService.activate(error.error.payload || error.error.message || "Internal Server error!", 'Error Message');
+                                if (error.error.code == "403") {
+                                    this.authService.logout()
+                                    document.location.reload();
+                                }
+                            }else{
+                                if (error.status == 400 && !isAttach) {
+                                    this.alertService.activate("Sorry!, Somethings was wrong", 'Error Message');
+                                }
+                                else if (error.status == 400 && isAttach) {
+                                    this.alertService.activate("There is no document to download", 'Error Message');
+                                }
+                                else if (error.status == 500) {
+                                    this.alertService.activate("Internal Server error!", "Error Message")
+                                }
                             }
                         }
-                    }
                     else
                         this.alertService.activate("Sorry!, Try again later", 'Error Message');
 

@@ -468,12 +468,7 @@ export class GlobalFunctionService {
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    let fixed = 20
-    // if (currency == 'USD' && typeOfVehicle != "TU-MCC") {
-    //   fixed = 20
-    // } else if (typeOfVehicle == "T-MCC") {
-    //   fixed = 20
-    // }
+    let fixed = 20 * term
     return of(fixed)
   }
 
