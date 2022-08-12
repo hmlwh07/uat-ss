@@ -468,7 +468,7 @@ export class GlobalFunctionService {
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-    let fixed = 20 * term
+    let fixed = 20
     return of(fixed)
   }
 
