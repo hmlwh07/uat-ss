@@ -718,7 +718,8 @@ export class InputDataDialogComponent implements OnInit {
         this.products = res.filter(x => x.code === 'PCHL01');
       } else {
         this.products = res.filter(x => x.code === 'CLFR01' || x.code === 'PLMO02' || x.code==='PLMO01'||
-          x.code === 'PCPA01' || x.code === 'PLPA01' || x.code === 'CLCS01' || x.code === 'CLCT01' || x.code === 'CLFD01');
+          x.code === 'PLPA01' || x.code === 'CLCS01' || x.code === 'CLCT01' || x.code === 'CLFD01')
+          .sort((a, b) => (a.name > b.name) ? 1 : -1);;
       }
     });
   }

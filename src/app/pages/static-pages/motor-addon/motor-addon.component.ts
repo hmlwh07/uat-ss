@@ -56,6 +56,7 @@ export class MotorAddonComponent implements OnInit {
   addOnsData: any = {}
   medPremium: any
   crossPremium: any
+  medPremiumForCross: any
   crossPercent = {
     "T-004": 0.35,
     "T-003": 0.60,
@@ -226,8 +227,10 @@ export class MotorAddonComponent implements OnInit {
   changePlan() {
     if (this.planOption == 'basic') {
       this.medPremium = this.calcumotorMedical()
+      this.medPremiumForCross = this.calcumotorMedicalForCross()
     } else {
       this.medPremium = this.calcumotorMedical()
+      this.medPremiumForCross = this.calcumotorMedicalForCross()
     }
 
   }
@@ -239,6 +242,15 @@ export class MotorAddonComponent implements OnInit {
       fix = 20 * percent
     } else {
       fix = 30 * percent
+    }
+    return fix
+  }
+  calcumotorMedicalForCross() {
+    let fix = 0
+    if (this.planOption == 'basic') {
+      fix = 20
+    } else {
+      fix = 30
     }
     return fix
   }
@@ -274,7 +286,7 @@ export class MotorAddonComponent implements OnInit {
     }
 
     if (this.isMedical) {
-      tempPre += this.medPremium
+      tempPre += this.medPremiumForCross
     }
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
