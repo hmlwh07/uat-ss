@@ -171,7 +171,9 @@ export class RenewManagementListComponent implements OnInit {
     }
   }
 
-  async download(fileName: string, policyNo) {
+  async download(fileName, policyNo) {
+    console.log(fileName,policyNo);
+    
     await this.loadingService.activate()
     // let file = this.getFileExt(fileName)
 
