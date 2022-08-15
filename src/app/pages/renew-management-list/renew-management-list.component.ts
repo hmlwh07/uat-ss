@@ -115,7 +115,7 @@ export class RenewManagementListComponent implements OnInit {
       this.confirmRenew(event.data)
     } else if (event.cmd == 'download') {
       console.log(event);
-      
+
       this.download(event.data.documentName, event.data.policyNumber);
     }
 
@@ -172,20 +172,27 @@ export class RenewManagementListComponent implements OnInit {
   }
 
   async download(fileName, policyNo) {
-    console.log(fileName,policyNo);
-    
+    console.log(fileName, policyNo);
+
     await this.loadingService.activate()
     // let file = this.getFileExt(fileName)
 
-    this.attachmentDownloadService.getFile(fileName, policyNo).pipe(map((x) => {
-      return { data: x }
-    })).toPromise().then(async (res: any) => {
+    this.attachmentDownloadService.getFile(fileName, policyNo).toPromise().then(async (res: any) => {
       if (res) {
+        let file_name = fileName ? fileName : res.fileName
+        const byteCharacters = atob(res.file);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'blob' });
+       
         if (Capacitor.isNativePlatform()) {
-          this.attachmentDownloadService.mobileTCSDownload(fileName, res.data)
+          this.attachmentDownloadService.mobileTCSDownload(file_name, blob)
         } else {
           await this.loadingService.deactivate()
-          this.attachmentDownloadService.downloadTCSFile(res.data, fileName)
+          this.attachmentDownloadService.downloadTCSFile(blob, file_name)
         }
         await this.loadingService.deactivate()
       }
