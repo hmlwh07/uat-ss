@@ -39,8 +39,11 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
 
   getFile(fileName, policyNo) {
     let url = API_TCS_RENEWAL_DOWNLOAD_URL + "?"
+    if (fileName) {
+      url = url + "fileName=" +fileName + "&"
+    }
     if (policyNo) {
-      url = url + "fileName=" + fileName + "&" + "policyNo=" + policyNo
+      url = url +"policyNo=" + policyNo
     }
     return this.httpClient.get(url, { responseType: 'blob' })
   }
