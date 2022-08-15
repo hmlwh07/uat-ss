@@ -1,4 +1,4 @@
-package com.kbzms.sale_test;
+package com.kbzms.sale_uat;
 
 import com.getcapacitor.BridgeActivity;
 
