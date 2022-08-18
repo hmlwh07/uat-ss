@@ -102,6 +102,8 @@ export class TravelPrintComponent implements OnInit {
     let tempArray: any
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
+        console.log(res);
+        
         this.policyInfo = res.policyInfo.travelBasic
         this.numberOfTraveller = res.policyInfo.numberOfTraveller
         this.riskInfo = res.riskDetails
@@ -114,7 +116,7 @@ export class TravelPrintComponent implements OnInit {
             console.log(tempArray);
           }
         }
-        this.beneficiaries = tempArray
+        this.beneficiaries = tempArray || []
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }
