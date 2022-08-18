@@ -138,7 +138,7 @@
                     <td class="field-value">{{i+1}}</td>
                     <td class="field-value">{{data.travelRisk.travellerName}}</td>
                     <td class="field-value">{{data.travelerDetail.idType}} </td>
-                    <td class="field-value">{{data.travelerDetail.idType =='NRC'? data.travelerDetail.idNrc
+                    <td class="field-value">{{data.travelerDetail.idType =='NRC'? data.travelerDetail.nrc
                         :data.travelerDetail.idNumber}}</td>
                     <td class="field-value">{{data.travelRisk.noOfTraveller}}</td>
                     <td class="field-value">{{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
@@ -180,7 +180,7 @@
                     <td class="field-pd">{{i+1}}</td>
                     <td class="field-pd">{{data.beneficiaryName}}</td>
                     <td class="field-pd">{{data.relationshipValue}}</td>
-                    <td class="field-pd">{{data.idType}}-{{data.idType !='NRC' ? data.idNumber : data.nrc }} </td>
+                    <td class="field-pd">{{data.idType}} - {{data.idType !='NRC' ? data.idNumber : data.nrc }} </td>
                     <td class="field-pd">{{data.dateOfBirth | date: 'dd/MM/YYYY' }}</td>
                     <td class="field-pd">{{data.share}} % </td>
                 </tr>
