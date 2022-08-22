@@ -63,7 +63,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                             let isAttach = msg.includes('attachment-downloader') ? true : false
                             console.log(isAttach);
                             if (error.error.code) {
-                                this.alertService.activate(error.error.payload || error.error.message || "Internal Server error!", 'Error Message');
+                                this.alertService.activate(error.error.payload || error.error.message || error.error.title || "Internal Server error!", 'Error Message');
                                 if (error.error.code == "403") {
                                     this.authService.logout()
                                     document.location.reload();
