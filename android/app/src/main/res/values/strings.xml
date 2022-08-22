@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">KBZ Insurance Producer Sale (Test)</string>
-    <string name="title_activity_main">KBZ Insurance Producer Sale (Test)</string>
+    <string name="app_name">KRIS (Test)</string>
+    <string name="title_activity_main">KRIS (Test)</string>
     <string name="package_name">com.kbzms.sale_test</string>
     <string name="custom_url_scheme">com.kbzms.sale_test</string>
 </resources>
