@@ -274,12 +274,12 @@
                                 0.00
                                 <div class="right-border-transform"></div>
                             </span>
-                            <span style="text-align: end;" *ngIf="total.totalPreminum">{{ (total.totalPreminum || 0) |
+                            <span style="text-align: end" *ngIf="total.totalPreminum">{{ (total.totalPreminum || 0) |
                                 number:'1.2-2' }}</span>
-                            <span style="text-align: end;" *ngIf="!total.totalPreminum">0.00</span>
+                            <span style="text-align: end ;" *ngIf="!total.totalPreminum">0.00</span>
                         </td>
-                        <td style="text-align: end;">{{ noOfPolicyByProduct | number:'1.2-2' }}</td>
-                        <td style="text-align: end;">{{ totalPreminumByProduct | number:'1.2-2'}}</td>
+                        <td style="text-align: end;padding: 0 5px 0 0;">{{ noOfPolicyByProduct | number:'1.2-2' }}</td>
+                        <td style="text-align: end;padding: 0 5px 0 0;">{{ totalPreminumByProduct | number:'1.2-2'}}</td>
                     </tr>
                 </table>
             </div>
