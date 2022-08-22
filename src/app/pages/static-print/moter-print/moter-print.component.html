@@ -97,7 +97,7 @@
       <tr>
         <td class="field-value">{{vehicleDetail.mRegistrationNo}}</td>
         <td class="field-value">{{motorDetail.mModelValue}}</td>
-        <td class="field-value">{{isTonnage ? motorDetail.mTonnage : motorDetail.mCapacity}}</td>
+        <td class="field-value">{{motorDetail.mTonnage!="0"? motorDetail.mTonnage :motorDetail.mCapacity}}</td>
         <td class="field-value">{{vehicleDetail.mManufactureYearValue}}</td>
         <td class="field-value">{{motorDetail.mTypeOfVehicleValue}}</td>
         <td class="field-value">{{motorDetail.mTypeOfCoverageValue}}</td>
@@ -291,7 +291,7 @@
     </tbody>
   </table> -->
 
-  
+
   <table *ngIf="this.product.code=='PLMO01'" width="100%">
     <tr>
       <td class="field-header">
@@ -354,7 +354,7 @@
 <div>
   <div class="row">
     <div class="col">
-      <p class="declare-p notice">Important Notice: You are to disclose in this proposal form fully and
+      <p class="declare-p">Important Notice: You are to disclose in this proposal form fully and
         faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No
         cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.
       </p>

@@ -152,7 +152,7 @@ export class FirePrintComponent implements OnInit {
     for (let riskID of this.listData) {
       let obj = {
         description: riskID.buildingDescription,
-        premium: this.totalPremium || 0,
+        premium: 0,
         firepremium: this.totalPremium
       }
       for (const item of this.product.addOns) {

@@ -136,10 +136,18 @@ export class MoterPrintComponent implements OnInit {
           this.mExcessTypeMO01['TU-NILEX'] = "+ 25"
         }
       }
-      if (res.mTypeOfVehicle && res.mPurposeOfUse)
-        if (res.motorDetail.mTypeOfVehicleValue == 'Motor Commercial' && res.motorDetail.mTypeOfCoverageValue == 'Commercial Car (Goods Carrying Vehicle)' && res.motorDetail.mCurrency == 'USD') {
-          this.isTonnage = true
-        }
+      // if (res.mTypeOfVehicle && res.mPurposeOfUse){
+      //   if (res.motorDetail.mTypeOfVehicleValue == 'Motor Commercial' && res.motorDetail.mTypeOfCoverageValue == 'Commercial Car (Goods Carrying Vehicle)' && res.motorDetail.mCurrency == 'USD') {
+      //    
+      //     this.isTonnage = true
+      //   }else{
+      //     
+      //   }
+      // }
+      // else{
+      //   
+        
+      // }
       if (res.motorDriver)
         this.listData = res.motorDriver
       if (res.vehicleDetail)
