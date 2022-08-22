@@ -270,13 +270,13 @@
                                 number:'1.2-2' }}
                                 <div class="right-border-transform"></div>
                             </span>
-                            <span style="text-align: end; padding: 0 5px 0 0;" *ngIf="!total.noOfPolicy">
+                            <span style="text-align: end;padding: 0 5px 0 0;" *ngIf="!total.noOfPolicy">
                                 0.00
                                 <div class="right-border-transform"></div>
                             </span>
-                            <span style="text-align: end;padding: 0 5px 0 0;" *ngIf="total.totalPreminum">{{ (total.totalPreminum || 0) |
+                            <span style="text-align: end;" *ngIf="total.totalPreminum">{{ (total.totalPreminum || 0) |
                                 number:'1.2-2' }}</span>
-                            <span style="text-align: end;padding: 0 5px 0 0;" *ngIf="!total.totalPreminum">0.00</span>
+                            <span style="text-align: end;" *ngIf="!total.totalPreminum">0.00</span>
                         </td>
                         <td style="text-align: end;padding: 0 5px 0 0;">{{ noOfPolicyByProduct | number:'1.2-2' }}</td>
                         <td style="text-align: end;padding: 0 5px 0 0;">{{ totalPreminumByProduct | number:'1.2-2'}}</td>
