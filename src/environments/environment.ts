@@ -68,9 +68,9 @@ export const environment = {
   appVersion: 'v717demo1',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: false,
-  apiUrl: 'http://54.151.191.186:8083/sale/api/v1', 
+  // apiUrl: 'http://54.151.191.186:8083/sale/api/v1', 
   // apiUrl: 'http://104.248.152.205:8083/sale/api/v1',
-  //  apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1',
+   apiUrl: 'https://producersalespreprod.kbzms.com/sale/api/v1',
   firebaseConfig: {
     apiKey: "AIzaSyCCfS97dyHL4eg1kTRMccxpEPzc3EIjQBE",
     authDomain: "kbzms-preprod.firebaseapp.com",
