@@ -82,7 +82,7 @@
                         [class.is-valid]="isControlValid('sumAssured')" formControlName="sumAssured"
                         (ngModelChange)="calculateEducationExpense($event)" [readonly]="!formGroup.value.dateOfBirth">
                 </div>
-                <div class="error-message" *ngIf="isSumAssured">Sum Assured must be between 5000000 and 100000000</div>
+                <div class="error-message" *ngIf="isSumAssured">Sum Assured must be between 5,000,000 and 100,000,000</div>
                 <div class="error-message" *ngIf="isCustomerAge">Customer age must be between 18 and 56 years</div>
             </div>
         </div>
