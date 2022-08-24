@@ -1,7 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    signingConfigs {
+      debug {
+        storeFile file('/Users/khanttikyi/Workspace/BSS/bss-kbzms-sales-app/key-store.jks')
+        storePassword 'bluestone'
+      }
+    }
+  compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.kbzms.sale_uat"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -19,6 +25,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            crunchPngs false
         }
     }
 }
