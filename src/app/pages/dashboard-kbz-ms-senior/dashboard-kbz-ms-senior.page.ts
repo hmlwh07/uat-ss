@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { ActionSheetController } from '@ionic/angular';
@@ -109,15 +109,25 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     private AttachmentUploadService: AttachmentUploadService,
     private DashboardAttachmentService: DashboardAttachmentService,
     private menuDataRoleService: MenuDataRoleService,
+    private route:ActivatedRoute
   ) {
-    this.unsub = this.auth.currentUserSubject.subscribe((res) => {
-      if (res) {
-        this.authObj = res;
-        this.id = res.id
+    // this.unsub = this.auth.currentUserSubject.subscribe((res) => {
+    //   if (res) {
+    //     this.authObj = res;
+    //     this.id = res.id
+    //   }
+    // })
+    this.route.queryParams.subscribe(async (params) => {
+      if (params.empId) {
+        this.id = JSON.parse(params.empId);
+        this.roleId = JSON.parse(params.roleId);
+        this.loadForm();
+      } else {
+        this.id = this.auth.currentUserValue.id
+        this.loadForm();
       }
-    })
-
-    this.loadForm();
+    });
+    // this.loadForm();
   }
 
 
@@ -206,7 +216,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   }
 
   ngOnDestroy() {
-    this.unsub.unsubscribe();
+    // this.unsub.unsubscribe();
   }
 
   async goToLPManager(agent: any) {
@@ -216,7 +226,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   getSaleRoleData(agent: any) {
     this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
-      // console.log(res);
+      console.log(res);
       let page = ''
       if (res) {
         res.forEach(data => {
@@ -232,7 +242,6 @@ export class DashboardKbzMsSeniorPage implements OnInit {
         })
 
       }
-      // console.log(page);
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {

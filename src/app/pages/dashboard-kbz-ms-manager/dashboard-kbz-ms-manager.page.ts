@@ -232,6 +232,8 @@ export class DashboardKbzMsManagerPage implements OnInit {
   ngOnDestroy() { }
 
   goToLPDashboard(agent: any) {
+    console.log(agent);
+    
     this.getSaleRoleData(agent)
     // this.router.navigate(['/dashboard/lp-manager-dashboard'], {
     //   queryParams: { empId: agent.empId,roleId: agent.roleId },
@@ -264,7 +266,6 @@ export class DashboardKbzMsManagerPage implements OnInit {
         })
 
       }
-      // console.log(page);
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {
