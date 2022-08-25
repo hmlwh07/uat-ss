@@ -211,7 +211,7 @@
           <td class="field-value-number">{{data['MED EXP'] || 0 | number : '1.2-2'}}</td>
           <td class="field-value-number">{{data.PASSRLBTY|| 0 | number : '1.2-2'}}</td>
           <td class="field-value-number">{{data.PAIDDRIVER|| 0 | number : '1.2-2'}}</td>
-          <td class="field-value-number">{{mExcessTypeMO02[motorDetail.mExcessDiscount]}}</td>
+          <td class="field-value-number">{{mExcessTypeMO02[motorDetail.mExcessDiscount] || 0 }}</td>
           <td class="field-value-number">{{data.premium | number : '1.2-2'}}</td>
         </tr>
       </ng-container>
@@ -316,7 +316,7 @@
           <td class="field-value-number">{{data.WR|| 0 | number : '1.2-2'}}</td>
           <td class="field-value-number">{{data.AOG || 0| number : '1.2-2'}}</td>
           <td class="field-value-number">{{data.THEFT|| 0 | number : '1.2-2'}}</td>
-          <td class="field-value-number">{{mExcessTypeMO01[motorDetail.mExcessDiscount]}}</td>
+          <td class="field-value-number">{{mExcessTypeMO01[motorDetail.mExcessDiscount] || 0}}</td>
           <td class="field-value-number">{{data.premium | number : '1.2-2'}}</td>
         </tr>
       </ng-container>

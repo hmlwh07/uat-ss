@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import {
@@ -19,6 +19,7 @@ import { DashboardService } from './senior-lp-dashboard.service';
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
 import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -70,21 +71,34 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
   leadObj: any = {};
   todayActiveAgent = 0
   agentLineChart: any;
+  activeRoute: any;
   agentLineChartCategories: string[] = [];
   agentLineChartDatas: number[] = [];
   currentMonthIndex: number = new Date().getUTCMonth();
   currentYear: number = new Date().getUTCFullYear();
+  id: any;
+  roleId: any;
   months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
 
-  constructor(private cdf: ChangeDetectorRef, private auth: AuthService, private dashboardService: DashboardService, private router: Router, private ngzone: NgZone
+  constructor(private cdf: ChangeDetectorRef, private route: ActivatedRoute, private auth: AuthService, private dashboardService: DashboardService, private router: Router, private ngzone: NgZone, private menuDataRoleService: MenuDataRoleService
   ) {
-    this.unsub = this.auth.currentUserSubject.subscribe((res) => {
-      if (res) {
-        this.authObj = res;
+    // this.unsub = this.auth.currentUserSubject.subscribe((res) => {
+    //   if (res) {
+    //     this.authObj = res;
+    //   }
+    // })
+    this.route.queryParams.subscribe(async (params) => {
+      if (params.empId) {
+        this.id = JSON.parse(params.empId);
+        this.roleId = JSON.parse(params.roleId);
+        this.loadForm();
+      } else {
+        this.id = this.auth.currentUserValue.id
+        this.loadForm();
       }
-    })
+    });
 
     this.loadForm();
   }
@@ -98,13 +112,16 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
 
   loadForm() {
     this.actForm = new FormGroup({
-      "empId": new FormControl(this.authObj.id)
+      "empId": new FormControl( this.id)
     })
   }
 
-  getList() {
+  getList(id?) {
+    let post = {
+      empId: id
+    }
     this.ngzone.run(_ => {
-      this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
+      this.dashboardService.getList(id ? post : this.actForm.value).toPromise().then((res) => {
         if (res) {
           this.data = res;
           this.setChartOptions('agent');
@@ -114,8 +131,11 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  getLeadList() {
-    this.dashboardService.getLeadList(this.actForm.value).toPromise().then((res) => {
+  getLeadList(id?) {
+    let post = {
+      empId: id
+    }
+    this.dashboardService.getLeadList(id ? post : this.actForm.value).toPromise().then((res) => {
       if (res) {
         this.leadObj = res;
         this.setChartOptions('lead');
@@ -124,10 +144,13 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  getAgentList() {
+  getAgentList(id?) {
+    let post = {
+      empId: id
+    }
     this.ngzone.run(_ => {
       // this.agentLineChartCategories = this.agentLineChartDatas = [];
-      this.dashboardService.getAgentList(this.actForm.value).pipe(map((res: any) => {
+      this.dashboardService.getAgentList(id ? post : this.actForm.value).pipe(map((res: any) => {
         let weeks = []
         let data = []
         res.weeklyActiveAgents.map((x) => {
@@ -157,8 +180,46 @@ export class SeniorLpDashboardComponent implements OnInit, OnDestroy {
     this.unsub.unsubscribe();
   }
 
-  goToLPManager(agent: any) {
-    this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId: agent.empId } })
+  // goToLPManager(agent: any) {
+  //   this.router.navigate(['/dashboard/lp-manager-dashboard'], { queryParams: { empId: agent.empId } })
+  // }
+
+
+  async goToLPManager(agent: any) {
+    console.log(agent);
+    this.getSaleRoleData(agent)
+  }
+
+  getSaleRoleData(agent: any) {
+    this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
+      // console.log(res);
+      let page = ''
+      if (res) {
+        res.forEach(data => {
+          if (data.title == "Dashboard") {
+            if (data.submenu) {
+              data.submenu.forEach(res => {
+                if (res.dataAccess.view) {
+                  page = res.page
+                }
+              })
+            }
+          }
+        })
+
+      }
+      if (page) {
+        let pg = "/" + page
+        if (pg == this.activeRoute) {
+          this.getList(agent.empId)
+          this.getLeadList(agent.empId);
+          this.getAgentList(agent.empId);
+        }
+        else {
+          this.router.navigate([page], { queryParams: { empId: agent.empId, roleId: agent.roleId }, })
+        }
+      }
+    })
   }
 
   goToSalePolicies() {

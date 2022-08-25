@@ -408,7 +408,7 @@ export class ProductComponent implements OnInit {
         } else {
           highDiscount = this.passValueData.highDiscount
         }
-        this.updateCommaInput(highDiscount, 'highDiscount',true);
+        this.updateCommaInput(highDiscount, 'highDiscount', true);
       }
       if (this.passValueData.grandDiscount) {
         let grandDiscount: number = 0;
@@ -417,7 +417,7 @@ export class ProductComponent implements OnInit {
         } else {
           grandDiscount = this.passValueData.grandDiscount
         }
-        this.updateCommaInput(grandDiscount, 'discount',true);
+        this.updateCommaInput(grandDiscount, 'discount', true);
       }
 
       this.dataSource = this.originalData.reduce((current, next) => {
@@ -496,6 +496,7 @@ export class ProductComponent implements OnInit {
 
   }
 
+
   updateCommaInput(percent, type, isTrue) {
     if (type == this.transform('highDiscount')) {
       // High Priority Discount
@@ -519,6 +520,7 @@ export class ProductComponent implements OnInit {
       }
 
     }
+   
     else {
       // Grand Total Discount    
       this.grantPercent = percent;
@@ -579,8 +581,6 @@ export class ProductComponent implements OnInit {
     }, []);
 
   }
-
-
 
   createPdf() {
     let list = [];
