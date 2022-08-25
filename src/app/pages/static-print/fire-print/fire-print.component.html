@@ -13,7 +13,7 @@
       ID
     </div>
     <div class="col-sm-6">
-      {{policyHolder.cprNumber}}
+      {{policyHolder.idType}} - {{policyHolder.cprNumber}}
     </div>
   </div>
   <div class="row form-txt line-sp">
@@ -65,24 +65,24 @@
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Effective Date
       </td>
-      <td class="field-col">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-pd">{{detail.startDate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Expiry Date
       </td>
-      <td class="field-col">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Duration Days
+      <td class="field-pd">{{detail.endDate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Duration
       </td>
-      <td class="field-col">{{detail.policyDuration}} - {{policyUnit[detail.policyUnit]}}</td>
+      <td class="field-pd">{{detail.policyDuration}} - {{policyUnit[detail.policyUnit]}}</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Policy Type</td>
-      <td class="field-value" colspan="2">{{detail.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
+      <td class="field-pd" colspan="2">{{detail.policyType == "T-NM" ? "Normal" : "Declaration"}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Currency</td>
-      <td class="field-value" colspan="2">{{detail.currency}}</td>
+      <td class="field-pd" colspan="2">{{detail.currency}}</td>
 
     </tr>
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">Risk Address</td>
-      <td class="field-value" colspan="10">
+      <td class="field-pd" colspan="10">
         {{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}
       </td>
     </tr>
@@ -146,7 +146,7 @@
 
       </ng-container>
       <tr>
-        <td colspan="6" style="text-align:center;font-size: 12pt;"> Total SI</td>
+        <td colspan="6" class="field-pd"> Total SI</td>
         <td class="value-col"> {{ totalbuildingSi | number : '1.2-2'}}</td>
         <td class="value-col"> {{ totalproposedFurniture | number : '1.2-2'}}</td>
         <td class="value-col"> {{ totalproposedMachinerySI | number : '1.2-2'}}</td>
@@ -250,54 +250,65 @@
           <!-- <td rowspan="11" class="field-value align-left" *ngIf="data.STHTC  !=0">STHTC</td>
           <td rowspan="11" class="field-value align-right" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td> -->
         </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.STHTC  !=0">STHTC</td>
-          <td class="value-col" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.IMPD  !=0">Impact Damage</td>
-          <td class="value-col" *ngIf="data.IMPD  !=0">{{data.IMPD | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.RSMD  !=0">RSMD</td>
-          <td class="value-col" *ngIf="data.RSMD  !=0">{{data.RSMD | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.BURGLARY  !=0">Burglary</td>
-          <td class="value-col" *ngIf="data.BURGLARY  !=0">{{data.BURGLARY | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.ACD  !=0">Air Craft Damage</td>
-          <td class="value-col" *ngIf="data.ACD  !=0">{{data.ACD | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.EQ  !=0">EQ</td>
-          <td class="value-col" *ngIf="data.EQ  !=0">{{data.EQ | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.SPONTCOMB  !=0"> Spontaneous Combus</td>
-          <td class="value-col" *ngIf="data.SPONTCOMB  !=0">{{data.SPONTCOMB | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.SUBLSLD  !=0"> Subsidence and Landslid</td>
-          <td class="value-col" *ngIf="data.SUBLSLD  !=0">{{data.SUBLSLD | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.WARRISK  !=0">War Risk</td>
-          <td class="value-col" *ngIf="data.WARRISK  !=0">{{data.WARRISK | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.EXPLOSION  !=0"> Explosion </td>
-          <td class="value-col" *ngIf="data.EXPLOSION  !=0">{{data.EXPLOSION | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-pd" *ngIf="data.FLOOD  !=0"> Flood and Inundate </td>
-          <td class="value-col" *ngIf="data.FLOOD  !=0">{{data.FLOOD | number:'1.2-2'}}</td>
-        </tr>
-        <tr>
-          <td class="field-col" colspan="2" *ngIf="data.premium  !=0">Sub Total Premium</td>
-          <td class="value-col" *ngIf="data.premium  !=0">{{data.premium | number:'1.2-2'}}</td>
-        </tr>
+        <ng-container *ngIf="data.STHTC  !=0 || data.IMPD  !=0 || data.RSMD  !=0|| data.BURGLARY  !=0||data.ACD  !=0||data.EQ  !=0||data.SPONTCOMB ||data.SUBLSLD  !=0||data.FLOOD  !=0||data.FLOOD  !=0||data.FLOOD  !=0
+          ;else noData">
+          <tr>
+            <td class="field-pd" *ngIf="data.STHTC  !=0">STHTC</td>
+            <td class="value-col" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.IMPD  !=0">Impact Damage</td>
+            <td class="value-col" *ngIf="data.IMPD  !=0">{{data.IMPD | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.RSMD  !=0">RSMD</td>
+            <td class="value-col" *ngIf="data.RSMD  !=0">{{data.RSMD | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.BURGLARY  !=0">Burglary</td>
+            <td class="value-col" *ngIf="data.BURGLARY  !=0">{{data.BURGLARY | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.ACD  !=0">Air Craft Damage</td>
+            <td class="value-col" *ngIf="data.ACD  !=0">{{data.ACD | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.EQ  !=0">EQ</td>
+            <td class="value-col" *ngIf="data.EQ  !=0">{{data.EQ | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.SPONTCOMB  !=0"> Spontaneous Combus</td>
+            <td class="value-col" *ngIf="data.SPONTCOMB  !=0">{{data.SPONTCOMB | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.SUBLSLD  !=0"> Subsidence and Landslid</td>
+            <td class="value-col" *ngIf="data.SUBLSLD  !=0">{{data.SUBLSLD | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.WARRISK  !=0">War Risk</td>
+            <td class="value-col" *ngIf="data.WARRISK  !=0">{{data.WARRISK | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.EXPLOSION  !=0"> Explosion </td>
+            <td class="value-col" *ngIf="data.EXPLOSION  !=0">{{data.EXPLOSION | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-pd" *ngIf="data.FLOOD  !=0"> Flood and Inundate </td>
+            <td class="value-col" *ngIf="data.FLOOD  !=0">{{data.FLOOD | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td class="field-col" colspan="2" *ngIf="data.premium  !=0">Sub Total Premium</td>
+            <td class="value-col" *ngIf="data.premium  !=0">{{data.premium | number:'1.2-2'}}</td>
+          </tr>
+        </ng-container>
+        <ng-template #noData>
+          <ng-container>
+            <tr>
+              <td class="field-pd">-</td>
+              <td class="value-col">-</td>
+            </tr>
+          </ng-container>
+        </ng-template>
       </ng-container>
     </tbody>
   </table>
@@ -324,7 +335,7 @@
     <div class="col">
       <p style="font-size: 12pt;">I hereby declare that the statements made by me in this Proposal are true to the best
         of my knowledge and belief and I hereby agree that this declaration shall from the basic of the contract between
-        me and KBZMS General Insurance Co.,Ltd. in the event of the Proposal being accepted</p>
+        me and KBZMS General Insurance Co.,Ltd. in the event of the Proposal being accepted.</p>
     </div>
   </div>
 </div>
@@ -337,7 +348,7 @@
       <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
     <div class="sign-box">
-      <label class="text-bold">PROPOSER NAME AND SIGNATURE</label>
+      <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
       <br>
       <label> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
         {{policyHolder.lastName}}</label>

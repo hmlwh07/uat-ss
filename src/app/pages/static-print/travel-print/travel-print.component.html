@@ -13,7 +13,7 @@
             ID
         </div>
         <div class="col-sm-6">
-            {{policyHolder.cprNumber}}
+            {{policyHolder.idType}} - {{policyHolder.cprNumber}}
         </div>
     </div>
     <div class="row form-txt line-sp">
@@ -66,31 +66,31 @@
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Effective Date
             </td>
-            <td class="field-col">{{policyInfo.policyInceptionDate | date: 'dd/MM/YYYY'}}</td>
+            <td class="field-pd">{{policyInfo.policyInceptionDate | date: 'dd/MM/YYYY'}}</td>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Expiry Date
             </td>
-            <td class="field-col">{{policyInfo.policyExpiryDate | date: 'dd/MM/YYYY'}}</td>
+            <td class="field-pd">{{policyInfo.policyExpiryDate | date: 'dd/MM/YYYY'}}</td>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Policy Duration
             </td>
-            <td class="field-col">{{policyInfo.policyDurationValue}}</td>
+            <td class="field-pd">{{policyInfo.policyDurationValue}}</td>
         </tr>
         <tr>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Travel Plan
             </td>
-            <td class="field-value" colspan="2">{{policyInfo.travelPlanValue}}</td>
+            <td class="field-pd" colspan="2">{{policyInfo.travelPlanValue}}</td>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Currency
             </td>
-            <td class="field-value" colspan="2">{{policyInfo.currency || "MMK"}}</td>
+            <td class="field-pd" colspan="2">{{policyInfo.currency || "MMK"}}</td>
         </tr>
         <tr>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 No. of Traveler
             </td>
-            <td class="field-value" colspan="10">{{numberOfTraveller}}</td>
+            <td class="field-pd" colspan="10">{{numberOfTraveller}}</td>
             <!-- <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Vehicle Information
             </td>
@@ -122,12 +122,12 @@
             <td class="field-col">
                 ID Number
             </td>
-            <td class="field-col">
+            <!-- <td class="field-col">
                 No. of Traveler
             </td>
             <td class="field-col">
                 Vehicle Information
-            </td>
+            </td> -->
             <td class="field-col">
                 Insured Unit
             </td>
@@ -140,9 +140,9 @@
                     <td class="field-value">{{data.travelerDetail.idType}} </td>
                     <td class="field-value">{{data.travelerDetail.idType =='NRC'? data.travelerDetail.nrc
                         :data.travelerDetail.idNumber}}</td>
-                    <td class="field-value">{{data.travelRisk.noOfTraveller}}</td>
+                    <!-- <td class="field-value">{{data.travelRisk.noOfTraveller}}</td>
                     <td class="field-value">{{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
-                        {{data.travelDetail? data.travelDetail.vehicleNo:""}}</td>
+                        {{data.travelDetail? data.travelDetail.vehicleNo:""}}</td> -->
                     <td class="field-value">{{data.travelRisk? data.travelRisk.insuredUnitValue:""}} - Units</td>
                 </tr>
             </ng-container>

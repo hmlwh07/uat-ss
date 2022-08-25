@@ -13,7 +13,7 @@
       ID
     </div>
     <div class="col-sm-6">
-      {{policyHolder.cprNumber}}
+      {{policyHolder.idType}} - {{policyHolder.cprNumber}}
     </div>
   </div>
   <div class="row form-txt line-sp">
@@ -66,15 +66,15 @@
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
         Policy Effective Date
       </td>
-      <td class="field-col">{{productDetail.formdate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-pd">{{productDetail.formdate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
         Policy Expiry Date
       </td>
-      <td class="field-col">{{productDetail.todate | date: 'dd/MM/YYYY'}}</td>
+      <td class="field-pd">{{productDetail.todate | date: 'dd/MM/YYYY'}}</td>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
         Policy Duration
       </td>
-      <td class="field-col">{{productDetail.paPolicyTermValue}}</td>
+      <td class="field-pd">{{productDetail.paPolicyTermValue}}</td>
     </tr>
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
@@ -167,7 +167,7 @@
 </div>
 
 <div class="addon-print">
-  <div class="title-style text-bold mt-5 mb-5">Insurance Information Detail</div>
+  <div class="title-style text-bold mt-5 mb-5">Insurance Information Details</div>
   <table width="100%">
     <tr>
       <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">

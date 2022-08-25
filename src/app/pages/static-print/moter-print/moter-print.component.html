@@ -13,7 +13,7 @@
       ID
     </div>
     <div class="col-sm-6">
-      {{policyHolder.cprNumber}}
+      {{policyHolder.idType}} - {{policyHolder.cprNumber}}
     </div>
   </div>
   <div class="row line-space">
@@ -96,7 +96,7 @@
       <!-- <ng-container *ngFor="let data of listData;"> -->
       <tr>
         <td class="field-value">{{vehicleDetail.mRegistrationNo}}</td>
-        <td class="field-value">{{motorDetail.mModelValue}}</td>
+        <td class="field-value">{{motorDetail.mMakeValue}}/{{motorDetail.mModelValue}}</td>
         <td class="field-value">{{motorDetail.mTonnage!="0"? motorDetail.mTonnage :motorDetail.mCapacity}}</td>
         <td class="field-value">{{vehicleDetail.mManufactureYearValue}}</td>
         <td class="field-value">{{motorDetail.mTypeOfVehicleValue}}</td>
