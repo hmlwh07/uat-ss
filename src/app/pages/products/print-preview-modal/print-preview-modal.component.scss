@@ -3,3 +3,69 @@
     //flex:1 1 auto; 
     //position: absolute;
 }
+.divFooter{
+    visibility: hidden;
+}
+
+.header, .header-space,
+.footer, .footer-space {
+  height: 100px;
+}
+.header {
+  position: fixed;
+  top: 0;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+}
+table.report-container {
+    page-break-after:always;
+}
+thead.report-header {
+    display:table-header-group;
+}
+tfoot.report-footer {
+    display:table-footer-group;
+    
+} 
+
+.print-header {
+    background-color: rgb(255, 255, 255);
+    margin: 0px;
+    // padding         : 15px 10px;
+    margin-bottom: 1.25rem;
+    position: relative;
+  }
+  
+  .header-title {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #005f99;
+    position: absolute;
+  
+    .logo {
+      width: 30%;
+      margin-right: 10px;
+    }
+  }
+  
+  .header-logo {
+    display: flex;
+    justify-content: center;
+  
+    .logo {
+      width: 30%;
+      margin-right: 10px;
+    }
+  }
+  
+  .product-name {
+    font-size: 1.7rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+  }
+  

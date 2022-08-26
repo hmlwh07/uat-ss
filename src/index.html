@@ -6,7 +6,7 @@
 <base href="/">
 <!-- <link rel="icon" type="image/x-icon" href="./assets//media//logos//favicon.ico"> -->
 <link rel="icon" type="image/png" href="assets/logo.png" />
-
+<link rel="stylesheet" href="layout.css">
 <!-- <meta name="color-scheme" content="light dark" /> -->
 <meta name="viewport"
   content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -88,11 +88,72 @@
   html {
     font-family: "Calibri";
   }
+  footer {
+  font-size: 9px;
+  color: #f00;
+  text-align: center;
+}
+@page {
+  size: A4;
+  margin: 0.5mm 0.5mm 0.5mm 0.5mm;
+}
 
+
+@media print {
+    table.paging thead td, table.paging tfoot td {
+        height: .5in;
+    }
+}
+
+header, footer {
+    width: 100%; height: .5in;
+}
+
+header {
+    position: absolute;
+    top: 0;
+}
+
+
+@media print {
+    header, footer {
+        position: fixed;
+    }
+    
+    footer {
+        bottom: 0;
+    }
+}
+
+@media print {
+   thead {display: table-header-group;} 
+   tfoot {display: table-footer-group;}
+   
+   button {display: none;}
+   
+   body {margin: 0;}
+}
 
   @media print {
     body * {
       visibility: hidden;
+      
+    }
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
+    }
+    footer {
+    font-size: 9px;
+    color: #f00;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+  }
+    .divFooter{
+      visibility:visible ;
+      position: fixed;
+      bottom: 0;
     }
     .modal-open>.modal {
       overflow: auto !important;
@@ -178,10 +239,11 @@
 /* 
     .divFooter {
       position: fixed;
-      background: url(assets/kbz_footer.png);
+      background: url(assets/kbz_footer_2.png);
       background-position: bottom;
       background-repeat: no-repeat;
       background-size: 100% 10%;
+      padding-top: 15px;
       top: 0;
       left: 0;
       bottom: 0;
