@@ -91,17 +91,25 @@
                 No. of Traveler
             </td>
             <td class="field-pd" colspan="10">{{numberOfTraveller}}</td>
-            <!-- <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+        </tr>
+        <tr>
+            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Vehicle Information
             </td>
-            <td class="value-col" colspan="2">{{policyInfo.vehicleInformation}}</td> -->
+            <td class="field-value" colspan="10">
+                <div *ngFor="let data of riskInfo">{{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
+                    {{data.travelDetail? data.travelDetail.vehicleNo + ',' :""}} </div>
+            </td>
+
         </tr>
-        <!-- <tr>
+        <tr>
             <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
                 Travel Area
             </td>
-            <td class="field-value" colspan="10">{{travelArea}}</td>
-        </tr> -->
+            <td class="field-value" colspan="10">
+                <div *ngFor="let data of riskInfo">{{data.travelDetail.travelArea+ ','}} </div>
+            </td>
+        </tr>
     </table>
 </div>
 
@@ -143,7 +151,7 @@
                     <!-- <td class="field-value">{{data.travelRisk.noOfTraveller}}</td>
                     <td class="field-value">{{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
                         {{data.travelDetail? data.travelDetail.vehicleNo:""}}</td> -->
-                    <td class="field-value">{{data.travelRisk? data.travelRisk.insuredUnitValue:""}} - Units</td>
+                    <td class="field-value">{{data.travelRisk? data.travelRisk.insuredUnitValue:""}} - {{data.travelRisk.insuredUnitValue == '1' ? "Unit":"Units"}}</td>
                 </tr>
             </ng-container>
         </tbody>

@@ -15,6 +15,7 @@ const htmlToPdfmake = require("html-to-pdfmake");
 // import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
 import { environment } from 'src/environments/environment';
+import { HealthPrintService } from '../../products/services/health-print.service';
 
 @Component({
   selector: 'app-print-view-box',
@@ -27,7 +28,7 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() product: Product = {}
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-  
+
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
 
@@ -39,8 +40,9 @@ export class PrintViewBoxComponent implements OnInit {
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
+  policyInfo: any = {}
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
-  constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService) {
+  constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService,private healthPrintService:HealthPrintService) {
 
   }
 
@@ -105,7 +107,9 @@ export class PrintViewBoxComponent implements OnInit {
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.getAgentData()
-
+        if(this.product.code=='PCHL01'){
+          this.getDetail()
+        }
         // this.today = this.productService.editData.createdAt
         this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
       }
@@ -115,7 +119,9 @@ export class PrintViewBoxComponent implements OnInit {
       this.branch = this.productService.editData.branch
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
-
+      if(this.product.code=='PCHL01'){
+        this.getDetail()
+      }
       // this.today = this.productService.editData.createdAt
       this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
     }
@@ -164,15 +170,23 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
   getAgentData() {
-    this.productService.getAgentInfo( this.auth.currentUserValue.id || 1 ).toPromise().then((res:any) => {
-        if (res) {
-          // console.log("RES",res);
-          
-          this.agentData = res.agentInfo;
-          // console.log("this.agentData", this.agentData);
-          
-        }
-      });
+    this.productService.getAgentInfo(this.auth.currentUserValue.id || 1).toPromise().then((res: any) => {
+      if (res) {
+        // console.log("RES",res);
+
+        this.agentData = res.agentInfo;
+        // console.log("this.agentData", this.agentData);
+
+      }
+    });
+  }
+  getDetail() {
+    this.healthPrintService.getOne(this.resourcesId).toPromise().then((res: any) => {
+      // console.log(res);
+      if (res) {
+        this.policyInfo = res.policyInfo
+      }
+    })
   }
 
   getStatic(key: string) {
@@ -188,7 +202,7 @@ export class PrintViewBoxComponent implements OnInit {
     const pdfTable = this.pdfTable.nativeElement;
     var html = htmlToPdfmake(pdfTable.innerHTML);
     console.log(html);
-    
+
     const documentDefinition = { content: html };
     // pdfMake.createPdf(documentDefinition).getBase64((res) => {
     //   console.log(res);

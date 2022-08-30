@@ -77,10 +77,17 @@ export class HealthCiPrintComponent implements OnInit {
 
   getAddon() {
     this.product.addOns.forEach(async (addon) => {
+      console.log('ADDON',addon);
+      
       let response: any = {};
       try {
         response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
+          // if(addon.description=='HEALTH'){
+          //   addon.description='Health Insurance'
+          // }else{
+          //   addon.description='Critical Illness Insurance'
+          // }
           this.AddonData.push({ keyName: addon.description, value: response.sumInsured })
           this.coveragesTotalValue +=Number(response.sumInsured )
         }
@@ -92,10 +99,17 @@ export class HealthCiPrintComponent implements OnInit {
 
   getCoverage() {
     this.product.coverages.forEach(async (coverage) => {
+      console.log('coverage',coverage);
+      
       let response: any = {};
       try {
         response = await this.coverageQuo.getOne(coverage.id, this.tempResourcesId, this.tempResourcesId).toPromise()
         if (response) {
+          // if(coverage.description=='HEALTH'){
+          //   coverage.description='Health Insurance'
+          // }else{
+          //   coverage.description='Critical Illness Insurance'
+          // }
           this.AddonData.unshift({ keyName: coverage.description, value: response.sumInsured })
          this.coveragesTotalValue +=Number(response.sumInsured )
         }
