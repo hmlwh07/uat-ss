@@ -1,17 +1,17 @@
 <div class="container">
   <div class="print-grid modal-body" id="componentID" #componentID style="padding: 0.2rem !important;">
     <!-- static area -->
-    <div class="print-header">
+    <!-- <div class="print-header">
       <div class="header-logo">
         <img [src]="logo" alt="" class="logo">
-      </div>
+      </div>-->
       <div class="product-name mt-5 mb-5" *ngIf="product.code != 'PCHL01'">{{product.name}} Insurance Quotation</div>
       <div class="product-name mt-5 mb-5" *ngIf="product.code == 'PCHL01'">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance Quotation':'Critical Illness Insurance Quotation'}}</div>
      
-      <div class="qr" *ngIf="qrLocation">
+     <!--   <div class="qr" *ngIf="qrLocation">
         <qrcode [qrdata]="qrLocation" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
       </div>
-    </div>
+      </div> -->
     <div class="product-detail">
       <!-- <table width="50%">
       <tr>
@@ -235,8 +235,9 @@
           </app-personal-accident-print>
         </ng-container>
       </ng-template>
+    
     </ng-container>
-    <!-- <div class="divFooter"></div> -->
+   
     <!-- PCHL01 -->
     <!-- <div class="print-footer mt-5">
     <div>

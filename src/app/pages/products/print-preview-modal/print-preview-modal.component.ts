@@ -12,6 +12,8 @@ const htmlToPdfmake = require("html-to-pdfmake");
 import html2canvas from 'html2canvas';
 // import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
+import { environment } from 'src/environments/environment';
+import { ProductDataService } from '../services/products-data.service';
 
 @Component({
   selector: 'app-print-preview-modal',
@@ -28,15 +30,19 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   pdfTable!: ElementRef;
   content: string;
   base64data: string;
-
+  qrLocation: string
+  logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(
     public modal: NgbActiveModal,
     private cdRef: ChangeDetectorRef,
     private pdfGenerator: PDFGenerator,
+    private productService: ProductDataService
   ) { }
 
   ngOnInit() {
-
+    if(this.resourcesId)
+    this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
+   
   }
 
   ngOnDestroy() { }

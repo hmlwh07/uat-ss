@@ -7,10 +7,49 @@
   <div class="overlay overlay-block cursor-default modal-body" style="padding: 0.8rem !important;">
     <div id="printable">
       <div id="second-print">
-        <app-print-view-box [config]="configData" [product]="product" [resourcesId]="resourcesId" [tempData]="tempData" [configOrder]="configOrder">
-        </app-print-view-box>
-       
+
+        <table class="report-container">
+          <thead class="report-header">
+            <tr>
+               <th class="report-header-cell">
+                  <div class="header-info">
+                    <div class="print-header">
+                      <div class="header-logo">
+                        <img [src]="logo" alt="" class="logo">
+                      </div>
+                      
+                    </div>
+                  </div>
+                </th>
+             </tr>
+           </thead>
+          
+           <tbody class="report-content">
+             <tr>
+                <td class="report-content-cell">
+                   <div class="main">
+                    <app-print-view-box [config]="configData" [product]="product" [resourcesId]="resourcesId" [tempData]="tempData" [configOrder]="configOrder">
+                    </app-print-view-box> 
+                   </div>
+                 </td>
+              </tr>
+            </tbody>
+            <tfoot class="report-footer">
+              <tr>
+                 <td class="report-footer-cell">
+                   <div class="footer-info">
+                     <img src="../../../../assets/kbz_footer_2.png">
+                   </div>
+                  </td>
+              </tr>
+            </tfoot>
+       </table>
+
+        <!-- <app-print-view-box [config]="configData" [product]="product" [resourcesId]="resourcesId" [tempData]="tempData" [configOrder]="configOrder">
+        </app-print-view-box> -->
+        <!-- <div class="divFooter"><img src="../../../../assets/kbz_footer_2.png"></div> -->
       </div>
+  
      
     </div>
    
@@ -19,6 +58,6 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="printPDf()">Print</button>
     <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
-  
+    
   </div>
 </div>
