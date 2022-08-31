@@ -155,7 +155,9 @@
       <ng-container>
         <tr *ngFor="let data of AddonData; let i=index">
           <td class="field-pd" style="width: 50px;">{{i+1}}</td>
-          <td class="field-pd" style="width: 70%;">{{data.keyName}}</td>
+          <td class="field-pd" style="width: 70%;" *ngIf="data.keyName=='Health Insurance'">Death & Hospitalization</td>
+          <td class="field-pd" style="width: 70%;" *ngIf="data.keyName=='Critical illness'">Death & Critical Illness</td>
+          <td class="field-pd" style="width: 70%;" *ngIf="data.keyName != 'Critical illness' && data.keyName !='Health Insurance'">{{data.keyName}}</td>
           <td class="field-pd" style="width: 20%;">{{data.value}} {{data.value=='1'? "Unit" :"Units"}}</td>
         </tr>
         <tr *ngIf="AddonData.length > 0">
