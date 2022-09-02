@@ -450,7 +450,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   }
 
   create(postData) {
-    let name = postData.firstName + ' ' + ((postData.middleName ? (postData.middleName + ' ') : '' + postData.lastName || null))
+    let name = postData.firstName + ' ' + ((postData.middleName ? postData.middleName + ' ' : '') + postData.lastName || null)
+  
     let data = { ...postData, customerId: null, individualId: null };
     this.customerService.save(data).toPromise().then((res) => {
       // console.log("RESSS", res)
