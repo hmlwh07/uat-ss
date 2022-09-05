@@ -85,6 +85,7 @@ export class AssetComponent implements OnInit {
       if (this.formGroup.value.assetType == 'motor' || this.formGroup.value.assetType == 'building') {
         if (this.formGroup.value.assetType == 'motor') {
           this.products.push.apply(this.products, this.fnaService.getFNAProduct('Asset', 'Motor'))
+          this.products.push.apply(this.products, this.fnaService.getFNAProduct('Asset', 'Motor01'))
         }
         if (this.formGroup.value.assetType == 'building') {
           this.products.push.apply(this.products, this.fnaService.getFNAProduct('Asset', 'Fire'))

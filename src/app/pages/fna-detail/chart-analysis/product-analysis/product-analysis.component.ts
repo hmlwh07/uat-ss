@@ -81,8 +81,8 @@ export class ProductAnalysisComponent implements OnInit {
       if (res) {
         this.prodctService.createingProd = res[0]
         this.prodctService.creatingCustomer = res[1]
-        this.prodctService.type = res[0].code == "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" || res[0].code == "PCHL01" ? 'policy' : "quotation"
-        this.prodctService.viewType = res[0].code == "CLFR01" || res[0].code == "PLMO02" || res[0].code == "PLTR01" || res[0].code == "PCHL01" ? 'policy' : "quotation"
+        this.prodctService.type = res[0].code == "CLFR01" || res[0].code == "PLMO02"|| res[0].code == "PLMO01" || res[0].code == "PLTR01" || res[0].code == "PCHL01" ? 'policy' : "quotation"
+        this.prodctService.viewType = res[0].code == "CLFR01" || res[0].code == "PLMO02"|| res[0].code == "PLMO01" || res[0].code == "PLTR01" || res[0].code == "PCHL01" ? 'policy' : "quotation"
         this.prodctService.referenceID = null
         this.prodctService.creatingLeadId = this.passValue.leadId
         this.router.navigateByUrl("/product-form")
