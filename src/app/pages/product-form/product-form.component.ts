@@ -346,7 +346,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   download(cols: string[], data: any) {
-    let value = this.getOtherData(cols, data)
+    console.log(cols,data);
+    
+    let value = this.getOtherDataID(cols, data)
     if (value) {
       let valueId = value.split("].")[0].replace("[", "")
       this.downloadService.getDownload(valueId, value)
@@ -420,6 +422,35 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           }
           if (col.type == "file") {
             return data[col.name].split("].")[1]
+          }
+          if (col.options.length > 0) {
+            let valueData = col.options.find(x => x.value == data[col.name])
+            if (valueData) {
+              return valueData.text
+            }
+          }
+          return data[col.name]
+        }
+      }
+    }
+  }
+  
+  getOtherDataID(cols: any[], data: any) {
+
+    for (let col of cols) {
+      if (data[col.name]) {
+        if ((data[col.name] + "").length > 0) {
+          let value = ""
+          if (col.type == "input" && col.subType == "currency") {
+            return this.numberPipe.transform(data[col.name])
+          }
+          if (col.type == "date") {
+            return this.datePipe.transform(data[col.name], "dd/MM/yyyy")
+          }
+          if (col.type == "file") {
+            let test=data[col.name].split("].")
+            let file=test[0].split("[") 
+            return file[1]
           }
           if (col.options.length > 0) {
             let valueData = col.options.find(x => x.value == data[col.name])
