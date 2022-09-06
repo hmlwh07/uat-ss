@@ -227,6 +227,7 @@
   </table>
 </div> -->
 
+<div class="pagebreak" *ngIf="listData.length>1"> </div>
 
 <!-- <div id="cover-table">  -->
 <div class="addon-print">
@@ -245,7 +246,7 @@
     </tr>
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of addOnData;">
-        
+
         <ng-container *ngIf="data.STHTC  !=0 || data.IMPD  !=0 || data.RSMD  !=0|| data.BURGLARY  !=0||data.ACD  !=0||data.EQ  !=0||data.SPONTCOMB ||data.SUBLSLD  !=0||data.FLOOD  !=0||data.FLOOD  !=0||data.FLOOD  !=0
         ;else noData">
           <tr>
@@ -316,7 +317,7 @@
   </table>
 </div>
 
-<div class="pagebreak"> </div>
+<!-- <div class="pagebreak" *ngIf="addOnData.length>0"> </div> -->
 <div class="addon-print">
   <div class="title-style mt-5 mb-5 text-bold">Insurance Information Details</div>
   <table width="100%">
