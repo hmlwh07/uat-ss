@@ -245,13 +245,14 @@
     </tr>
     <tbody class="tbody-align val-col">
       <ng-container *ngFor="let data of addOnData;">
-        <tr>
-          <td rowspan="12" class="field-pd"> {{data.description}}</td>
-          <!-- <td rowspan="11" class="field-value align-left" *ngIf="data.STHTC  !=0">STHTC</td>
-          <td rowspan="11" class="field-value align-right" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td> -->
-        </tr>
+        
         <ng-container *ngIf="data.STHTC  !=0 || data.IMPD  !=0 || data.RSMD  !=0|| data.BURGLARY  !=0||data.ACD  !=0||data.EQ  !=0||data.SPONTCOMB ||data.SUBLSLD  !=0||data.FLOOD  !=0||data.FLOOD  !=0||data.FLOOD  !=0
-          ;else noData">
+        ;else noData">
+          <tr>
+            <td rowspan="12" class="field-pd"> {{data.description}}</td>
+            <!-- <td rowspan="11" class="field-value align-left" *ngIf="data.STHTC  !=0">STHTC</td>
+            <td rowspan="11" class="field-value align-right" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td> -->
+          </tr>
           <tr>
             <td class="field-pd" *ngIf="data.STHTC  !=0">STHTC</td>
             <td class="value-col" *ngIf="data.STHTC  !=0">{{data.STHTC | number:'1.2-2'}}</td>
@@ -304,6 +305,7 @@
         <ng-template #noData>
           <ng-container>
             <tr>
+              <td class="field-pd"> {{data.description}}</td>
               <td class="field-pd">-</td>
               <td class="value-col">-</td>
             </tr>
