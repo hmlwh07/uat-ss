@@ -175,14 +175,13 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.source" | translate}}
-                                            <span>*</span></label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.distribution_channel" |
+                                            translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select"
-                                                (change)="calculateScore(leadForm.value.sourceCode,null)"
-                                                [class.is-invalid]="isControlInvalid('sourceCode')"
-                                                [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption"
-                                                bindLabel="value" bindValue="code" formControlName="sourceCode">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                                                [class.is-invalid]="isControlInvalid('channelCode')"
+                                                [class.is-valid]="isControlValid('channelCode')" [items]="channelOption"
+                                                bindLabel="value" bindValue="code" formControlName="channelCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -206,13 +205,14 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.distribution_channel" |
-                                            translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.source" | translate}}
+                                            <span>*</span></label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
-                                                [class.is-invalid]="isControlInvalid('channelCode')"
-                                                [class.is-valid]="isControlValid('channelCode')" [items]="channelOption"
-                                                bindLabel="value" bindValue="code" formControlName="channelCode">
+                                            <ng-select class="ng-custom-select"
+                                                (change)="calculateScore(leadForm.value.sourceCode,null)"
+                                                [class.is-invalid]="isControlInvalid('sourceCode')"
+                                                [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption"
+                                                bindLabel="value" bindValue="code" formControlName="sourceCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -233,12 +233,13 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.type" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
-                                                [class.is-invalid]="isControlInvalid('stateCode')"
-                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
-                                                bindLabel="value" bindValue="code" formControlName="stateCode">
+                                            <ng-select class="ng-custom-select"
+                                                (change)="calculateLeadQuality('typeCode')"
+                                                [class.is-invalid]="isControlInvalid('typeCode')"
+                                                [class.is-valid]="isControlValid('typeCode')" [items]="typeOption"
+                                                bindLabel="value" bindValue="code" formControlName="typeCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -261,14 +262,13 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.district" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.product" | translate}}</label>
                                         <div class="col-sm-8">
                                             <ng-select class="ng-custom-select"
-                                                (change)="calculateLeadQuality('district')"
-                                                [class.is-invalid]="isControlInvalid('districtCode')"
-                                                [class.is-valid]="isControlValid('districtCode')"
-                                                [items]="distinctOption" bindLabel="value" bindValue="code"
-                                                formControlName="districtCode">
+                                                (change)="calculateLeadQuality('product')"
+                                                [class.is-invalid]="isControlInvalid('productId')"
+                                                [class.is-valid]="isControlValid('productId')" [items]="productOption2"
+                                                bindLabel="value" bindValue="code" formControlName="productId">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -294,13 +294,12 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
-                                                [class.is-invalid]="isControlInvalid('townshipCode')"
-                                                [class.is-valid]="isControlValid('townshipCode')"
-                                                [items]="townshipOption" bindLabel="value" bindValue="code"
-                                                formControlName="townshipCode">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
+                                                [class.is-invalid]="isControlInvalid('stateCode')"
+                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
+                                                bindLabel="value" bindValue="code" formControlName="stateCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -323,13 +322,14 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.type" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.district" | translate}}</label>
                                         <div class="col-sm-8">
                                             <ng-select class="ng-custom-select"
-                                                (change)="calculateLeadQuality('typeCode')"
-                                                [class.is-invalid]="isControlInvalid('typeCode')"
-                                                [class.is-valid]="isControlValid('typeCode')" [items]="typeOption"
-                                                bindLabel="value" bindValue="code" formControlName="typeCode">
+                                                (change)="calculateLeadQuality('district')"
+                                                [class.is-invalid]="isControlInvalid('districtCode')"
+                                                [class.is-valid]="isControlValid('districtCode')"
+                                                [items]="distinctOption" bindLabel="value" bindValue="code"
+                                                formControlName="districtCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -349,13 +349,13 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.product" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select"
-                                                (change)="calculateLeadQuality('product')"
-                                                [class.is-invalid]="isControlInvalid('productId')"
-                                                [class.is-valid]="isControlValid('productId')" [items]="productOption2"
-                                                bindLabel="value" bindValue="code" formControlName="productId">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                                                [class.is-invalid]="isControlInvalid('townshipCode')"
+                                                [class.is-valid]="isControlValid('townshipCode')"
+                                                [items]="townshipOption" bindLabel="value" bindValue="code"
+                                                formControlName="townshipCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -915,15 +915,14 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.source" | translate}}
-                                            <span>*</span></label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.distribution_channel" |
+                                            translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select"
-                                                (change)="calculateScore(leadForm.value.sourceCode,null)"
-                                                [class.is-invalid]="isControlInvalid('sourceCode')"
-                                                (clear)="clear('source')"
-                                                [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption"
-                                                bindLabel="value" bindValue="code" formControlName="sourceCode">
+                                            <ng-select class="ng-custom-select" (change)="getLeadQuality()"
+                                                (clear)="clearLeadQuality()"
+                                                [class.is-invalid]="isControlInvalid('channelCode')"
+                                                [class.is-valid]="isControlValid('channelCode')" [items]="channelOption"
+                                                bindLabel="value" bindValue="code" formControlName="channelCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -947,14 +946,15 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.distribution_channel" |
-                                            translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.source" | translate}}
+                                            <span>*</span></label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="getLeadQuality()"
-                                                (clear)="clearLeadQuality()"
-                                                [class.is-invalid]="isControlInvalid('channelCode')"
-                                                [class.is-valid]="isControlValid('channelCode')" [items]="channelOption"
-                                                bindLabel="value" bindValue="code" formControlName="channelCode">
+                                            <ng-select class="ng-custom-select"
+                                                (change)="calculateScore(leadForm.value.sourceCode,null)"
+                                                [class.is-invalid]="isControlInvalid('sourceCode')"
+                                                (clear)="clear('source')"
+                                                [class.is-valid]="isControlValid('sourceCode')" [items]="sourceOption"
+                                                bindLabel="value" bindValue="code" formControlName="sourceCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -975,12 +975,13 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.type" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
-                                                [class.is-invalid]="isControlInvalid('stateCode')"
-                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
-                                                bindLabel="value" bindValue="code" formControlName="stateCode">
+                                            <ng-select class="ng-custom-select"
+                                                (change)="calculateLeadQuality('typeCode')"
+                                                [class.is-invalid]="isControlInvalid('typeCode')"
+                                                [class.is-valid]="isControlValid('typeCode')" [items]="typeOption"
+                                                bindLabel="value" bindValue="code" formControlName="typeCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -1003,14 +1004,13 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.district" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.product" | translate}}</label>
                                         <div class="col-sm-8">
                                             <ng-select class="ng-custom-select"
-                                                (change)="calculateLeadQuality('district')"
-                                                [class.is-invalid]="isControlInvalid('districtCode')"
-                                                [class.is-valid]="isControlValid('districtCode')"
-                                                [items]="distinctOption" bindLabel="value" bindValue="code"
-                                                formControlName="districtCode">
+                                                (change)="calculateLeadQuality('product')" (clear)="clear('product')"
+                                                [class.is-invalid]="isControlInvalid('productId')"
+                                                [class.is-valid]="isControlValid('productId')" [items]="productOption2"
+                                                bindLabel="value" bindValue="code" formControlName="productId">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -1036,13 +1036,12 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
-                                                [class.is-invalid]="isControlInvalid('townshipCode')"
-                                                [class.is-valid]="isControlValid('townshipCode')"
-                                                [items]="townshipOption" bindLabel="value" bindValue="code"
-                                                formControlName="townshipCode">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
+                                                [class.is-invalid]="isControlInvalid('stateCode')"
+                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
+                                                bindLabel="value" bindValue="code" formControlName="stateCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -1065,13 +1064,14 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.type" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.district" | translate}}</label>
                                         <div class="col-sm-8">
                                             <ng-select class="ng-custom-select"
-                                                (change)="calculateLeadQuality('typeCode')"
-                                                [class.is-invalid]="isControlInvalid('typeCode')"
-                                                [class.is-valid]="isControlValid('typeCode')" [items]="typeOption"
-                                                bindLabel="value" bindValue="code" formControlName="typeCode">
+                                                (change)="calculateLeadQuality('district')"
+                                                [class.is-invalid]="isControlInvalid('districtCode')"
+                                                [class.is-valid]="isControlValid('districtCode')"
+                                                [items]="distinctOption" bindLabel="value" bindValue="code"
+                                                formControlName="districtCode">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -1091,13 +1091,13 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.product" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select"
-                                                (change)="calculateLeadQuality('product')" (clear)="clear('product')"
-                                                [class.is-invalid]="isControlInvalid('productId')"
-                                                [class.is-valid]="isControlValid('productId')" [items]="productOption2"
-                                                bindLabel="value" bindValue="code" formControlName="productId">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                                                [class.is-invalid]="isControlInvalid('townshipCode')"
+                                                [class.is-valid]="isControlValid('townshipCode')"
+                                                [items]="townshipOption" bindLabel="value" bindValue="code"
+                                                formControlName="townshipCode">
                                             </ng-select>
                                         </div>
                                     </div>
