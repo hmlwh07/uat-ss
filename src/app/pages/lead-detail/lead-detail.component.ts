@@ -534,7 +534,11 @@ export class LeadDetailComponent implements OnInit {
     if (this.sourceScore != 0) {
       this.score += this.sourceScore
     }
-    this.leadForm.controls.score.setValue(this.score)
+    if(this.score!=0 && this.leadForm.getRawValue().channelCode !=null){
+      this.leadForm.controls.score.setValue(this.score)
+    }else{
+      this.leadForm.controls.score.setValue(0)
+    }
   }
 
   getOld() {
