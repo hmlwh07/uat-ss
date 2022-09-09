@@ -12,6 +12,7 @@ const API_Backlog_URL = `${environment.apiUrl}/dashboard/backlog`;
 const API_AssignLead_URL = `${environment.apiUrl}/dashboard/assign-lead`;
 const API_Agent_URL = `${environment.apiUrl}/dashboard/sale-active-agent`;
 const API_DASHBOARD_PROFILE_URL=`${environment.apiUrl}/dashboard/agent/attachment`;
+const API_RENEWAL_PREMIUM=`${environment.apiUrl}/renewal-policy/premium`;
 @Injectable({
   providedIn: 'root'
 })
@@ -86,6 +87,13 @@ export class DashboardService extends BizOperationService<any, number>{
     } 
     return this.httpClient.get(url)
   }
+  getRenewalPremium(search: any = {}) {
+    let url = API_RENEWAL_PREMIUM + "?"
+    if (search.agentId) {
+      url = url + "agentId=" + search.agentId
+    } 
+    return this.httpClient.get(url)
+  }
 }
 @Injectable({
   providedIn: 'root'
@@ -95,4 +103,5 @@ export class DashboardAttachmentService extends BizOperationService<any, number>
     super(httpClient, API_DASHBOARD_PROFILE_URL);
   }
 }
+
 
