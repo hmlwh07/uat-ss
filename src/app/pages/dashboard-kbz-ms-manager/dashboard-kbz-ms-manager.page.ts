@@ -79,6 +79,10 @@ export class DashboardKbzMsManagerPage implements OnInit {
   agentLineChart: any;
   agentLineChartCategories: string[] = [];
   agentLineChartDatas: number[] = [];
+  renewalPremium:any=[]
+  productPremium:any=[]
+  premiumWithRenewal:any=[]
+  totalPremium:number=0
   data: any;
   actForm: FormGroup;
   leadObj: any = {};
@@ -146,6 +150,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
     this.getList();
     this.getLeadList();
     this.getAgentList();
+    
     this.radioW = this.platform.width();
     this.radioH = this.platform.height();
     this.calculateMainContentHeight(this.radioW, this.radioH)
@@ -169,9 +174,13 @@ export class DashboardKbzMsManagerPage implements OnInit {
     this.dashboardService
       .getList(id ? post : this.actForm.value)
       .toPromise()
-      .then((res) => {
+      .then((res:any) => {
         if (res) {
           this.data = res;
+          if(res.yearlyProductPremium){
+            this.productPremium=res.yearlyProductPremium
+            this.getRenewalPremium();
+            }
           this.setChartOptions('agent');
           this.cdf.detectChanges();
         }
@@ -228,6 +237,28 @@ export class DashboardKbzMsManagerPage implements OnInit {
       }
     })
   }
+
+  getRenewalPremium(id?) {
+    let post = {
+      "agentId":id
+    }
+    let formValue={
+      "agentId":this.actForm.value.empId
+    }
+      this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res:any) => {
+        if (res) {
+          console.log(res);
+          this.renewalPremium=res.productPremiums
+          this.productPremium.map((item)=>{
+            item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
+           this.totalPremium+=item.premium
+          })
+          console.log(this.productPremium,this.totalPremium);
+        }
+      })
+  }
+
+
 
   ngOnDestroy() { }
 

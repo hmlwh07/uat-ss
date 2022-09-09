@@ -82,6 +82,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   renewalPremium:any=[]
   productPremium:any=[]
   premiumWithRenewal:any=[]
+  totalPremium:number=0
   currentMonthIndex: number = new Date().getUTCMonth();
   currentYear: number = new Date().getUTCFullYear();
   months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
@@ -141,7 +142,6 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     this.getList();
     this.getLeadList();
     this.getAgentList();
-    this.getRenewalPremium()
     this.radioW = this.platform.width();
     this.radioH = this.platform.height();
     this.calculateMainContentHeight(this.radioW, this.radioH);
@@ -168,6 +168,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           this.data = res;
           if(res.yearlyProductPremium){
           this.productPremium=res.yearlyProductPremium
+          this.getRenewalPremium()
           }
           this.setChartOptions('agent');
           this.cdf.detectChanges();
@@ -182,24 +183,17 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     let formValue={
       "agentId":this.actForm.value.empId
     }
-    this.ngzone.run(_ => {
       this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res:any) => {
         if (res) {
           console.log(res);
           this.renewalPremium=res.productPremiums
-          console.log("this.productPremium,",this.productPremium,this.renewalPremium);
-          
-          this.premiumWithRenewal.map((item) => {
-            return {
-              ...item,
-              premium: this.productPremium.find(elem => elem.productCode === item.productCode).premium 
-            } 
-          });
-          console.log("this.premiumWithRenewal",this.premiumWithRenewal);
-            
+          this.productPremium.map((item)=>{
+            item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
+           this.totalPremium+=item.premium
+          })
+          console.log(this.productPremium,this.totalPremium);
         }
       })
-    })
   }
 
   getLeadList(id?) {

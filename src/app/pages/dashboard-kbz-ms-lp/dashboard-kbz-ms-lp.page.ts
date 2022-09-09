@@ -70,6 +70,10 @@ export class DashboardKbzMsLpPage implements OnInit {
   assignLeadArray = [];
   backlog: any = [];
   backlogArray = [];
+  totalPremium:number=0
+  renewalPremium:any=[]
+  productPremium:any=[]
+  premiumWithRenewal:any=[]
   unsub: any = {};
   id: any;
   roleId:any;
@@ -166,14 +170,39 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   getList() {
     this.ngzone.run(_ => {
-      this.dashboardService.getList(this.actForm.value).toPromise().then((res) => {
+      this.dashboardService.getList(this.actForm.value).toPromise().then((res:any) => {
+        
         if (res) {
           this.data = res;
+          if(res.yearlyProductPremium){
+            this.productPremium=res.yearlyProductPremium
+            this.getRenewalPremium();
+            }
           this.setChartOptions();
           this.cdf.detectChanges();
         }
       })
     });
+  }
+
+  getRenewalPremium(id?) {
+    let post = {
+      "agentId":id
+    }
+    let formValue={
+      "agentId":this.actForm.value.empId
+    }
+      this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res:any) => {
+        if (res) {
+          console.log(res);
+          this.renewalPremium=res.productPremiums
+          this.productPremium.map((item)=>{
+            item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
+           this.totalPremium+=item.premium
+          })
+          console.log(this.productPremium,this.totalPremium);
+        }
+      })
   }
 
   getRecentList() {
