@@ -309,7 +309,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
         ],
         chart: {
           toolbar: {
-            show: true
+            show: false
           },
           height: this.chartH - 10,
           type: "bar",
@@ -456,22 +456,22 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     let mainContentHeight: number = 0;
     this.chartH = 0;
     if (width < 1000) {
-      mainContentHeight = height - (55 + 58.8 + 65 + 15);
-      this.profileHpx = (mainContentHeight / 2) - 15 + 'px';
-      this.salesHpx = mainContentHeight - 40 + 'px';
+      mainContentHeight = height - 130;
+      this.profileHpx = (mainContentHeight / 2) - 50 + 'px';
+      this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 30 + 'px';
+      this.chartHpx = this.chartH + 20 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '7px';
       this.productPadding = '7px 0';
     } else if (width <= 1000 || width < 1200) {
-      mainContentHeight = height - (65 + 58 + 65 + 15);
-      this.profileHpx = (mainContentHeight / 2) - 20 + 'px';
+      mainContentHeight = height - 130;
+      this.profileHpx = (mainContentHeight / 2) - 50 + 'px';
       this.salesHpx = mainContentHeight - 50 + 'px';
       this.chartH = (mainContentHeight / 3);
       this.thingsHpx = this.chartH - 40 + 'px';
-      this.chartHpx = this.chartH + 30 + 'px';
+      this.chartHpx = this.chartH + 20 + 'px';
       this.profileImgW = '120px'
       this.profilePadding = '5px';
       this.productPadding = '5px 0';

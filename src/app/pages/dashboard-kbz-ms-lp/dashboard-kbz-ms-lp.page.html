@@ -1,4 +1,4 @@
-<div class="dashboard-main" (window:resize)="onResize($event)" [ngStyle]="{'height': mainContentHeightPx }">
+<div class="dashboard-main" (window:resize)="onResize($event)" [ngStyle]="{'height': mainContentHeight + 1 + 'px' }">
   <section [ngStyle]="{'height': mainContentHeightPx}">
     <div style="margin: 0 0 10px 0;">
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
