@@ -174,7 +174,8 @@ export class LeadDetailComponent implements OnInit {
     "Q13": "districtCode",
     "Q05": "townshipCode",
     "Q08": "productId",
-
+    "Q11": "identityType",
+    "Q01": "based"
   }
   leadType = {
     "01": "GENERAL",
@@ -495,7 +496,9 @@ export class LeadDetailComponent implements OnInit {
 
   calculateLeadQuality(type?: string) {
     this.score = 0
-
+    if (type == 'channel') {
+      this.getLeadQuality()
+    }
     if (type == "typeCode") {
       this.getProductOption()
     }
@@ -522,6 +525,9 @@ export class LeadDetailComponent implements OnInit {
       else if (ele == 'campaign name') {
         element.qualityValue = 'campaignName'
       }
+      else if (ele == 'identity type') {
+        element.qualityValue = 'identityType'
+      }
       else {
         element.qualityValue = element.qualityValue
       }
@@ -534,9 +540,9 @@ export class LeadDetailComponent implements OnInit {
     if (this.sourceScore != 0) {
       this.score += this.sourceScore
     }
-    if(this.score!=0 && this.leadForm.getRawValue().channelCode !=null){
+    if (this.score != 0 && this.leadForm.getRawValue().channelCode != null) {
       this.leadForm.controls.score.setValue(this.score)
-    }else{
+    } else {
       this.leadForm.controls.score.setValue(0)
     }
   }
@@ -584,10 +590,10 @@ export class LeadDetailComponent implements OnInit {
           let appList = this.applicationList.filter(list => list.status == 'submitted')
           if (appList.length > 0) {
             this.isReleasedDisabled = true;
-          } else if(this.oldData.statusCode == '07'){
+          } else if (this.oldData.statusCode == '07') {
             this.APPLICATION_ELEMENT_COL[9].btn.edit = false
           }
-          else{
+          else {
             this.isReleasedDisabled = false;
           }
 
@@ -1069,7 +1075,7 @@ export class LeadDetailComponent implements OnInit {
       contactName: new FormControl(null, Validators.required),
       activationDate: new FormControl(null, Validators.required),
       activationDateStr: new FormControl(null),
-      channelCode: new FormControl(null),
+      channelCode: new FormControl(null, Validators.required),
       occupationCd: new FormControl(null),
       closedDate: new FormControl({ value: null, disabled: true }),
       closedDateStr: new FormControl(null),

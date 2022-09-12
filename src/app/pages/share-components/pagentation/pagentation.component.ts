@@ -22,6 +22,8 @@ export class PagentationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.count);
+    
     this.pager = this.pagerService.getPager(this.count, this.currentStatus, this.pageSize);
     this.pager.currentPage = this.currentStatus
     this.calcuStartEnd()

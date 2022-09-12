@@ -56,7 +56,7 @@ export class DynamicFormComponent implements OnInit {
   get valid() { return this.form.valid; }
   get value() { return this.form.value; }
 
-  constructor(private fb: FormBuilder, private globalFun: GlobalFunctionService) { }
+  constructor(private fb: FormBuilder, private globalFun: GlobalFunctionService, private alert: AlertService) { }
 
   ngOnInit() {
     this.internalConfig = JSON.parse(JSON.stringify(this.config))
@@ -84,7 +84,7 @@ export class DynamicFormComponent implements OnInit {
     let { disabled, value, name, validation, endName } = config;
     let valid = []
     // || (config.input == InputBoxType.INPUT && config.type == "nrc")
-    if (this.editStage || config.input == InputBoxType.DIALOG ) {
+    if (this.editStage || config.input == InputBoxType.DIALOG) {
       disabled = true
     }
     if (validation && config.show) {
@@ -116,16 +116,27 @@ export class DynamicFormComponent implements OnInit {
   }
 
   handleSubmit() {
-    if (this.form.invalid) return false
-    this.submit.emit(this.form.getRawValue());
-    return true
+    console.log(this.form);
+
+    if (this.form.invalid){
+        if(this.form.controls['m_period_of_insurance_from'].errors){
+          this.alert.activate('Back Date Not Allowed','Error')
+        }else{
+          return false
+        }
+      }else{
+        this.submit.emit(this.form.getRawValue());
+        return true
+      
+      }
+      
   }
 
   reCreateFrom() {
     this.internalConfig = JSON.parse(JSON.stringify(this.config))
     this.form = this.createGroup(true);
     // console.log("reCreateFrom==>",this.form);
-    
+
     // if (i == this.controls.length && reCreate) {
     // console.log("trgi");
     this.globalFun.optionResultChange.next(true)
@@ -133,13 +144,13 @@ export class DynamicFormComponent implements OnInit {
   }
 
   newFormCreate(controls, temp?: any) {
-    
+
     let tempControls = JSON.parse(JSON.stringify(controls))
     // console.log(controls);
     this.internalConfig = tempControls
     const group = this.fb.group({});
     if (temp) this.tempData = temp
-    else  this.tempData = {}
+    else this.tempData = {}
     tempControls.forEach(control => {
       if (control.input != 'label' && control.input != 'underline') {
         group.addControl(control.name, this.createControl(control))

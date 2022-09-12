@@ -9,7 +9,7 @@
     <!-- <form class="form">  -->
     <div class="form-group" *ngIf="type == 'quotation' || type == 'policy'">
       <select class="form-control form-control-sm" [(ngModel)]="type" (change)="getDatalist()">
-        <option *ngFor="let item of types" value="{{item}}">{{item | titlecase}}</option>
+        <option *ngFor="let item of types" value="{{item}}">{{item=='policy' ? 'Application':item | titlecase}}</option>
       </select>
     </div>
       <app-material-table-view [selectable]="true" [data]="dataList" [colum]="tableData[type].ELEMENT_COL"

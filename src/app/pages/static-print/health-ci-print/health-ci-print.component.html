@@ -213,27 +213,24 @@
 
 <div class="moter-print">
 
-  <div style="display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-  font-size: 12pt;margin-top: 1.25rem !important;">
-    <div>
-      <label style="font-weight: 500 !important;">DATE</label>
+ <div class="sign-row mt-5">
+    <div class="sign-box">
+      <label class="text-bold">DATE</label>
       <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
-    <div >
-      <label style="font-weight: 500 !important;">PROPOSER'S NAME AND SIGNATURE</label><br>
-      <label style="display: inline-block;"> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
+    <div class="sign-box">
+      <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
+      <br>
+      <label> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
         {{policyHolder.lastName}}</label>
-      <div style="width: 150px;
-      min-height: 30px;
-      border-bottom: 1px #000 dashed;">
+      <div class="sign-area">
         <ng-container *ngIf="signId">
-          <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" style="width: 150px;vertical-align: middle;">
+          <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">
         </ng-container>
       </div>
     </div>
   </div>
+
 
 
 </div>
