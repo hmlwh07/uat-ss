@@ -147,31 +147,30 @@ export class HealthCiPrintComponent implements OnInit {
     })
   }
 
+  
   getPolicyHolder() {
-    this.policyHolderService
-      .getOne(this.resourcesId)
-      .toPromise()
-      .then((res: any) => {
-        if (res) {
-          this.policyHolder = res;
-          this.getMasterValue(
-            this.policyHolder.partyAddress[0].city,
-            this.policyHolder.partyAddress[0].district,
-            this.policyHolder.partyAddress[0].state
-          ).toPromise().then((res: any) => {
-            this.policyHolder = {
-              ...this.policyHolder,
-              townshipName: res['PT_TOWNSHIP'],
-              districtName: res['PT_DISTRICT'],
-              stateName: res['PT_STATE'],
-            }
-          })
-          // console.log("getPolicyHolder: ", this.policyHolder)
-        }
-      });
+    this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
+      if (res) {
+        this.policyHolder = res
+        this.getMasterValue(
+          this.policyHolder.partyAddress[0].city,
+          this.policyHolder.partyAddress[0].district,
+          this.policyHolder.partyAddress[0].state,
+          this.policyHolder.title
+        ).toPromise().then((res: any) => {
+          this.policyHolder = {
+            ...this.policyHolder,
+            townshipName: res['PT_TOWNSHIP'],
+            districtName: res['PT_DISTRICT'],
+            stateName: res['PT_STATE'],
+            titleValue: res['TITLE'],
+          }
+        })
+      }
+    })
   }
 
-  getMasterValue(townshipCd: string, districtCd: string, stateCd: string) {
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string,titleCd:string) {
     let data = {
       "codeBookRequest": [
         {
@@ -189,9 +188,13 @@ export class HealthCiPrintComponent implements OnInit {
           "codeType": "PT_STATE",
           "langCd": "EN"
         },
+        {
+          "codeId": "T-" + titleCd,
+          "codeType": "TITLE",
+          "langCd": "EN"
+        },
       ]
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-
 }

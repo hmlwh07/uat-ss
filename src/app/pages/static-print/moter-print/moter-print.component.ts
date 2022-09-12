@@ -66,26 +66,30 @@ export class MoterPrintComponent implements OnInit {
     this.getAddonCover()
     this.getCoverage()
   }
+  
   getPolicyHolder() {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.policyHolder = res
-        this.getMasterValue(this.policyHolder.partyAddress[0].district, this.policyHolder.partyAddress[0].state, this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
-
+        this.getMasterValue(
+          this.policyHolder.partyAddress[0].city,
+          this.policyHolder.partyAddress[0].district,
+          this.policyHolder.partyAddress[0].state,
+          this.policyHolder.title
+        ).toPromise().then((res: any) => {
           this.policyHolder = {
             ...this.policyHolder,
-            // phone: "0943044813",
             townshipName: res['PT_TOWNSHIP'],
             districtName: res['PT_DISTRICT'],
             stateName: res['PT_STATE'],
+            titleValue: res['TITLE'],
           }
         })
       }
     })
   }
 
-
-  getMasterValue(districtCd: string, stateCd: string, townshipCd: string) {
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string,titleCd:string) {
     let data = {
       "codeBookRequest": [
         {
@@ -103,11 +107,15 @@ export class MoterPrintComponent implements OnInit {
           "codeType": "PT_STATE",
           "langCd": "EN"
         },
+        {
+          "codeId": "T-" + titleCd,
+          "codeType": "TITLE",
+          "langCd": "EN"
+        },
       ]
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-
   getDetail() {
     this.motorService.getOne(this.resourcesId).toPromise().then((res: any) => {
       let vehicle = ""

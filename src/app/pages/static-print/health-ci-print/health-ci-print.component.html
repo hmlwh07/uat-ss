@@ -6,7 +6,7 @@
       Name
     </div>
     <div class="col-sm-6">
-      {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
+      {{policyHolder.titleValue}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
     </div>
   </div>
   <div class="row form-txt line-sp">
@@ -219,7 +219,7 @@
   font-size: 12pt;margin-top: 1.25rem !important;">
     <div>
       <label style="font-weight: 500 !important;">DATE</label>
-      <div >{{signatureDate | date : "dd/MM/yyyy"}}</div>
+      <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
     <div >
       <label style="font-weight: 500 !important;">PROPOSER'S NAME AND SIGNATURE</label><br>

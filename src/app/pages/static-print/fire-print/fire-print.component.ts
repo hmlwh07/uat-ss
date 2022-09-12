@@ -92,28 +92,27 @@ export class FirePrintComponent implements OnInit {
 
   getPolicyHolder() {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
-      // console.log("Policy", res)
       if (res) {
         this.policyHolder = res
         this.getMasterValue(
+          this.policyHolder.partyAddress[0].city,
           this.policyHolder.partyAddress[0].district,
           this.policyHolder.partyAddress[0].state,
-          this.policyHolder.partyAddress[0].city).toPromise().then((res: any) => {
-            this.policyHolder = {
-              ...this.policyHolder,
-              // phone: "0943044813",
-              townshipName: res['PT_TOWNSHIP'],
-              districtName: res['PT_DISTRICT'],
-              stateName: res['PT_STATE'],
-            }
-          })
+          this.policyHolder.title
+        ).toPromise().then((res: any) => {
+          this.policyHolder = {
+            ...this.policyHolder,
+            townshipName: res['PT_TOWNSHIP'],
+            districtName: res['PT_DISTRICT'],
+            stateName: res['PT_STATE'],
+            titleValue: res['TITLE'],
+          }
+        })
       }
     })
-    // console.log("getPolicyHolder:", this.policyHolder)
   }
 
-
-  getMasterValue(districtCd: string, stateCd: string, townshipCd: string) {
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string,titleCd:string) {
     let data = {
       "codeBookRequest": [
         {
@@ -129,6 +128,11 @@ export class FirePrintComponent implements OnInit {
         {
           "codeId": "TA-" + stateCd,
           "codeType": "PT_STATE",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "T-" + titleCd,
+          "codeType": "TITLE",
           "langCd": "EN"
         },
       ]
