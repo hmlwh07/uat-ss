@@ -477,6 +477,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   calculateScore(code?, data?) {
+    console.log("SOURCE",code);
+    
     let sourceCode;
     if (data) {
       sourceCode = data
@@ -497,7 +499,9 @@ export class LeadDetailComponent implements OnInit {
   calculateLeadQuality(type?: string) {
     this.score = 0
     if (type == 'channel') {
+      let source=this.leadForm.getRawValue().sourceCode
       this.getLeadQuality()
+      this.calculateScore(source,null)
     }
     if (type == "typeCode") {
       this.getProductOption()
@@ -511,6 +515,7 @@ export class LeadDetailComponent implements OnInit {
     if (type == "district") {
       this.onChangeDistrict()
     }
+    
     this.leadQuality.forEach(element => {
       let ele = element.qualityValue.toLowerCase()
       if (ele == 'type' || ele == 'township' || ele == 'channel' || ele == 'district' || ele == 'state') {
@@ -533,7 +538,6 @@ export class LeadDetailComponent implements OnInit {
       }
 
       let value = this.leadForm.getRawValue()[this.Quality[element.qualityCode]]
-
       this.score += value ? element.score : 0
 
     });

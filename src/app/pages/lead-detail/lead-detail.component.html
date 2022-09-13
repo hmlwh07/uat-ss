@@ -918,7 +918,7 @@
                                         <label class="col-sm-4 col-form-label">{{"FORM.distribution_channel" |
                                             translate}} <span>*</span></label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="getLeadQuality()"
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('channel')"
                                                 (clear)="clearLeadQuality()"
                                                 [class.is-invalid]="isControlInvalid('channelCode')"
                                                 [class.is-valid]="isControlValid('channelCode')" [items]="channelOption"
@@ -1108,7 +1108,7 @@
                                             translate}}</label>
                                         <div class="col-sm-8">
                                             <ng-select class="ng-custom-select"
-                                                [class.is-invalid]="isControlInvalid('identityType')"
+                                                [class.is-invalid]="isControlInvalid('identityType')" (change)="calculateLeadQuality()"
                                                 [class.is-valid]="isControlValid('identityType')"
                                                 [items]="identityTypeOption" bindLabel="value" bindValue="code"
                                                 formControlName="identityType">
