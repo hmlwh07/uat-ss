@@ -83,7 +83,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
-      // console.log("RESOURCE", this.resourceDetail)
+      console.log("RESOURCE", this.resourceDetail)
 
       this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
         if (res) {
@@ -511,12 +511,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //   modalRef.result.then(() => { }, (res) => {
       //   })
       // } else {
-        const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false });
-        modalRef.componentInstance.configData = this.printConfig.printFormat
+        const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false });        modalRef.componentInstance.configData = this.printConfig.printFormat
         modalRef.componentInstance.configOrder = this.printConfig.prinitUI
         modalRef.componentInstance.product = this.item
         modalRef.componentInstance.tempData = this.formatedData
         modalRef.componentInstance.resourcesId = this.resourceDetail.id
+        modalRef.componentInstance.agentId=this.resourceDetail.agentId
         modalRef.result.then(() => { }, (res) => {
         })
       }

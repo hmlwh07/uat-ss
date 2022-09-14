@@ -26,6 +26,7 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() configOrder: FromGroupData[] = []
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
+  @Input() agentId:any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
   content: string;
@@ -40,6 +41,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log("this.agentId",this.agentId);
+    
     if(this.resourcesId)
     this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
    

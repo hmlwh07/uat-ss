@@ -28,7 +28,7 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() product: Product = {}
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-
+@Input() agentId:any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
 
@@ -170,7 +170,7 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
   getAgentData() {
-    this.productService.getAgentInfo(this.auth.currentUserValue.id || 1).toPromise().then((res: any) => {
+    this.productService.getAgentInfo(this.agentId|| 1).toPromise().then((res: any) => {
       if (res) {
         // console.log("RES",res);
 
