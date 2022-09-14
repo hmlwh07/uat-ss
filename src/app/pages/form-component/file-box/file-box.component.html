@@ -5,7 +5,7 @@
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <input style="display: none;" type="file" class="form-control form-control-sm"
         accept="{{config.type != 'all' && !config.value ? config.type : config.value }}" name="phone"
-        placeholder="{{config.placeholder}}" #selectedFile accept=".doc,.docx,.pdf" (change)="doFunction($event)" />
+        placeholder="{{config.placeholder}}" #selectedFile accept=".doc,.docx,.pdf,.jpeg,.jpg,.png" (change)="doFunction($event)" />
       <div class="input-group">
         <input type="text" class="form-control form-control-sm" [formControlName]="config.name">
         <div class="input-group-append">
@@ -18,7 +18,7 @@
     <ng-template #InlineForm>
       <div class="col-{{config.inputSize}}">
         <input style="display: none;" type="file" class="form-control form-control-sm" name="{{config.name}}"
-          placeholder="{{config.placeholder}}" #selectedFile accept=".doc,.docx,.pdf" (change)="doFunction($event)" />
+          placeholder="{{config.placeholder}}" #selectedFile accept=".doc,.docx,.pdf,.jpeg,.jpg,.png" (change)="doFunction($event)" />
         <div class="input-group">
           <input type="text" class="form-control form-control-sm" [formControlName]="config.name">
           <div class="input-group-append">
