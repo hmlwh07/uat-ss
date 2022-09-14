@@ -199,6 +199,7 @@ export class DashboardKbzMsLpPage implements OnInit {
           this.productPremium.map((item)=>{
             item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
            this.totalPremium+=item.premium
+           this.cdf.detectChanges()
           })
           console.log(this.productPremium,this.totalPremium);
         }
