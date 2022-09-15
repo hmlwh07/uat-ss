@@ -139,7 +139,6 @@ header {
       visibility: hidden;
       
     }
-    
     .pagebreak {
         clear: both;
         page-break-after: always;
@@ -212,11 +211,15 @@ header {
       background-position: center;
       background-repeat:repeat-y;
       background-size: 100% 100%;
+      
       top: 0;
       left: 0;
       bottom: 0;
       right: 0;
-      position: absolute;
+      position: static;
+      display: block;
+      height: unset;
+      /* position: absolute; */
       z-index: 9999;
       background-position: center;
       -webkit-print-color-adjust: exact !important;
