@@ -590,7 +590,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this.prodService.previewType = this.type
     this.premiumAmt = this.premiumAmt ? this.premiumAmt : "0"
 
-    this.prodService.editData = { id: this.resourceId, premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "", premiumView: this.premiumAmt, agentFirstName: this.auth.currentUserValue.firstName, agentLastName: this.auth.currentUserValue.lastName, leadId: this.creatingLeadId }
+    this.prodService.editData = { id: this.resourceId, premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "", premiumView: this.premiumAmt,agentId: this.auth.currentUserValue.id, agentFirstName: this.auth.currentUserValue.firstName, agentLastName: this.auth.currentUserValue.lastName, leadId: this.creatingLeadId }
     this.router.navigateByUrl("/resourse-detail")
   }
 
@@ -798,6 +798,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     //   }
     // }
     let activeValue = this.formData[this.activePage]
+    console.log("ACTIVE",activeValue,this.activePage);
+    
     if (activeValue.pageType == 'table' && activeValue.unitCode != "attachment_form") {
       if (!this.tempData[activeValue.tableName + activeValue.id]) {
         return false

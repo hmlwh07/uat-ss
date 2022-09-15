@@ -71,7 +71,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     private addOnQuoService: AddOnQuoService,
     private coverageQuoService: CoverageQuoService,
     private alertService: AlertService,
-    private cdf: ChangeDetectorRef
+    private cdf: ChangeDetectorRef,
+    private alert:AlertService
   ) {
     this.staticForm = this.fb.group({
       insuranceStartDate: [null, Validators.compose([Validators.required])],
@@ -238,8 +239,12 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   }
   nextPage() {
     if (this.staticForm.invalid) {
-      validateAllFields(this.staticForm)
-      return true
+      if(this.staticForm.controls['insuranceStartDate'].errors){
+        this.alert.activate('Back Date Not Allowed', 'Error')
+      }else{
+        validateAllFields(this.staticForm)
+        return true
+      }
     } else {
       if (this.editId) {
         this.saveData(this.editId)
