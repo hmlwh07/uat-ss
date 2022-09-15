@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { getFileReader } from '../../../core/get-file-reader';
@@ -25,6 +25,7 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
     private globalFun: GlobalFunctionService,
     private fileUpload: AttachmentUploadService,
     private loading: LoadingService,
+    private cdf:ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -56,10 +57,12 @@ export class FileBoxComponent implements Field, OnInit, OnDestroy {
         // console.log(reader);
         if (event.target.files[0].size / (1024 * 1024) > 20) {
           this.alertMsg = "This file size is greater than 20MB"
+          this.cdf.detectChanges()
           // this.alertService.activate('This file size is greater than 20MB.', 'Warning')
         } else {
           if (reader.result) {
             this.alertMsg = ""
+            this.cdf.detectChanges()
             let base64 = reader.result.toString().split(",")[1];
             let data = {
               fileStr: base64,
