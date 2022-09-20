@@ -122,16 +122,16 @@ export class DynamicFormComponent implements OnInit {
     } else {
       if (this.form.invalid) {
         if (this.form.controls['m_period_of_insurance_from']?this.form.controls['m_period_of_insurance_from'].errors:false) {
-          this.alert.activate('Back Date Not Allowed', 'Error')
+          this.alert.activate('No back date is allowed. Please select the correct date', 'Error')
         }
         else if (this.form.controls['policy_inception_date']?this.form.controls['policy_inception_date'].errors:false) {
-          this.alert.activate('Back Date Not Allowed', 'Error')
+          this.alert.activate('No back date is allowed. Please select the correct date', 'Error')
         }
         else if (this.form.controls['travel_start_date']?this.form.controls['travel_start_date'].errors:false) {
-          this.alert.activate('Back Date Not Allowed', 'Error')
+          this.alert.activate('No back date is allowed. Please select the correct date', 'Error')
         }
         else if (this.form.controls['formdate']?this.form.controls['formdate'].errors:false) {
-          this.alert.activate('Back Date Not Allowed', 'Error')
+          this.alert.activate('No back date is allowed. Please select the correct date', 'Error')
         }
         else {
           return false

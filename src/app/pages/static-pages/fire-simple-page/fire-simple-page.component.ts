@@ -220,7 +220,7 @@ export class FirePageComponent implements OnInit, OnDestroy {
   nextPage() {
     if (this.staticForm.invalid) {
         if(this.staticForm.controls['startDate'].errors){
-          this.alert.activate('Back Date Not Allowed', 'Error')
+          this.alert.activate('No back date is allowed. Please select the correct date', 'Error')
         }else{
           validateAllFields(this.staticForm)
           return true
