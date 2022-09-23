@@ -19,22 +19,22 @@ export class EncryptService {
   constructor() {
   }
 
-  encryptData(data: {}) {
-    try {
-      return CryptoJS.AES.encrypt(JSON.stringify(data), environment.secureKey).toString();
-    } catch (e) {
-    }
-  }
-  decryptData(data) {
-    try {
-      const bytes = CryptoJS.AES.decrypt(data, environment.secureKey);
-      if (bytes.toString()) {
-        return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-      }
-      return data;
-    } catch (e) {
-    }
-  }
+  // encryptData(data: {}) {
+  //   try {
+  //     return CryptoJS.AES.encrypt(JSON.stringify(data), environment.secureKey).toString();
+  //   } catch (e) {
+  //   }
+  // }
+  // decryptData(data) {
+  //   try {
+  //     const bytes = CryptoJS.AES.decrypt(data, environment.secureKey);
+  //     if (bytes.toString()) {
+  //       return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  //     }
+  //     return data;
+  //   } catch (e) {
+  //   }
+  // }
 
   encryptUsingAES256(data) {
     let _key = CryptoJS.enc.Utf8.parse(this.secureKey)
