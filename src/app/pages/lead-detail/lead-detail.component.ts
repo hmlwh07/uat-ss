@@ -633,6 +633,13 @@ export class LeadDetailComponent implements OnInit {
         }
       });
   }
+  leadReleased(status){
+    this.alertService.activate('Are you sure you want to release this Opportunity?', 'Warning Message').then(result => {
+      if (result) {
+        this.updateLeadStatus(status)
+      }
+    })
+  }
 
   async updateLeadStatus(status) {
     if (status == "save") {
