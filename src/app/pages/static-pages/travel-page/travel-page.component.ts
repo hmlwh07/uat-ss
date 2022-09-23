@@ -142,10 +142,10 @@ export class TravelComponent implements OnInit {
         this.listData = res || []
         this.listData.forEach(data => {
           this.totalSiAmt += parseInt(data.sumInsured)
-          // console.log(this.totalSiAmt, data.sumInsured);
+          console.log(this.totalSiAmt, data.sumInsured);
         })
         this.totalSiAmtView = this.numberPipe.transform(this.totalSiAmt || 0, '1.2-2') + " MMK"
-        // console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
+        console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
 
         this.cdf.detectChanges()
       }
