@@ -29,6 +29,7 @@ export const environment = {
   appVersion: 'v717demo1',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: false,
+  secureKey:'Blu3$t0ne',
   apiUrl: 'http://104.248.152.205:8083/sale/api/v1', 
   firebaseConfig: {
     apiKey: "AIzaSyA83H8v2hiBokOT3lk_YfktW20GRPp-UqM",

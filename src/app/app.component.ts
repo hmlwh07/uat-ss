@@ -31,12 +31,12 @@ import { LanguagesService } from './modules/languages/languages.service';
 import { Capacitor } from '@capacitor/core';
 import {
   ActionPerformed,
-  PushNotificationSchema,
+  PushNotificationSchema, 
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications';
 import { FireTopicService } from './fire-top.service';
-@Component({
+@Component({ 
   // tslint:disable-next-line:component-selector
   selector: 'app-root',
   templateUrl: './app.component.html',

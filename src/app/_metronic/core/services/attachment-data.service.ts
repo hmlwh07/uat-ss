@@ -12,7 +12,9 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import write_blob from "capacitor-blob-writer";
 import { Observable } from "rxjs";
 import { LanguagesService } from "src/app/modules/languages/languages.service";
-
+import { sha256, sha224 } from 'js-sha256';
+import * as CryptoJS from 'crypto-js';
+import { EncryptService } from "./encrypt.service";
 const API_UPLOAD_URL = `${environment.apiUrl}/attachment-uploader`;
 @Injectable({
   providedIn: 'root'
@@ -30,20 +32,22 @@ const API_TCS_DOWNLOAD_URL = `${environment.apiUrl}`;
   providedIn: 'root'
 })
 export class AttachmentDownloadService extends BizOperationService<any, number>{
+  fileId:any=''
   constructor(protected httpClient: HttpClient, private file: File,
     private loadingService: LoadingService, private toastService: KBZToastService,
     private alertService: AlertService,
-    private translate: LanguagesService) {
+    private translate: LanguagesService,
+    private encryptService:EncryptService) {
     super(httpClient, API_DOWNLOAD_URL);
   }
 
   getFile(fileName, policyNo) {
     let url = API_TCS_RENEWAL_DOWNLOAD_URL + "?"
     if (fileName) {
-      url = url + "fileName=" +fileName + "&"
+      url = url + "fileName=" + fileName + "&"
     }
     if (policyNo) {
-      url = url +"policyNo=" + policyNo
+      url = url + "policyNo=" + policyNo
     }
     // return this.httpClient.get(url, { responseType: 'blob' })
     return this.httpClient.get(url)
@@ -83,8 +87,18 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     this.alertService.activate(msg, 'Download File')
     a.remove()
   }
+  encode(id) {
+    this.fileId=this.encryptService.encryptUsingAES256(900)
+    let test=this.encryptService.decryptUsingAES256('ZTg1ZDYwNzU3MzBlYzA5OTIxMjE2ZDUwZTQyYWY1ZmJiZWY3MWUxZTc1NTcyMWUyNmRjNGVjZDg4NWI2M2FjZA==')
+    
+    console.log(this.fileId);
+    console.log(test);
+    
+  }
 
-  getDownload(id, fileName: string) {
+  async getDownload(id, fileName: string) {
+    // this.encode(id)
+    // if(this.fileId){
     this.httpClient.get(API_DOWNLOAD_URL + "/" + id, { responseType: 'blob' }).toPromise().then((res) => {
       if (res) {
         if (Capacitor.isNativePlatform()) {
@@ -95,6 +109,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
       }
       // this.downloadFile(res, fileName)
     })
+  // }
   }
 
   downloadFile(data, fileName) {

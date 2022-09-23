@@ -24,7 +24,7 @@ export class TravelPrintComponent implements OnInit {
 
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
-
+  tempArray:any[]=[]
   listData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
@@ -106,7 +106,6 @@ export class TravelPrintComponent implements OnInit {
   }
 
   getTravelPrintData() {
-    let tempArray: any
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         console.log(res);
@@ -119,11 +118,21 @@ export class TravelPrintComponent implements OnInit {
         for (let data of res.riskDetails) {
           totalUnit += parseInt(data.travelRisk.totalUnit)
           if (data.travelBeneficiaries.length > 0) {
-            tempArray = data.travelBeneficiaries
-            console.log(tempArray);
+            this.tempArray.push(data.travelBeneficiaries)
+            console.log(this.tempArray);
+            
           }
         }
-        this.beneficiaries = tempArray || []
+        for (let data of this.tempArray){
+            if(data.length>0){
+              for (let bene of data){
+                this.beneficiaries.push(bene)
+              }
+            }else{
+              this.beneficiaries.push(data)
+            }
+        }
+        // this.beneficiaries = this.tempArray || []
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }
