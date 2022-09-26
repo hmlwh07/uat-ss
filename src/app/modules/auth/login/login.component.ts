@@ -117,11 +117,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.unsubscribe.push(loginSubscr);
 
     } else {
-      var msg = '';
-      if (!this.loginForm.controls['email'].valid) msg += "User ID ";
-      if (!this.loginForm.controls['email'].valid && !this.loginForm.controls['password'].valid) msg += "and ";
-      if (!this.loginForm.controls['password'].valid) msg += "Password ";
-      this.alertService.activate(msg+'is required!', 'Error Message');
+      this.alertService.activate('Enter any username and password', 'Error Message');
     }
   }
   ngOnDestroy() {
