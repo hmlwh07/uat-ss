@@ -1,0 +1,124 @@
+:host {
+    width: 100%;
+
+    @media (min-width: 992px) {
+        .login-form {
+            width    : 100%;
+            max-width: 450px;
+
+            .mat-form-field {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.font-weight-bold{
+    font-weight:  bold !important;
+}
+
+.hide {
+    display: none;
+}
+.logo-text {
+    margin-top: 10px;
+    font-size  : 30px;
+    color      : #fff;
+    font-weight: bold;
+    line-height: 20px;
+    display: block;
+    letter-spacing: 1px;
+    small {
+        font-size: 15px;
+        letter-spacing: 0px;
+    }
+}
+
+
+.inner-addon .fas {
+    position: absolute;
+    padding: 16px 17px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.left-addon .fas {
+    left: 0px;
+}
+
+.right-addon .fas {
+    right: 0px;
+}
+
+
+.input-icons i {
+    position : absolute;
+    font-size: 2.50rem;
+    padding  : 0px 7px;
+   
+}
+.input-icons .eye{
+    position: absolute;
+    font-size: 1.2rem;
+    padding: 15px 10px;
+    right: 17%;
+}
+
+.input-icons {
+    width           : 100%;
+    // margin-bottom: 10px;
+}
+
+.icon {
+    min-width: 50px;
+}
+
+.card-body {
+    padding: 30px 15px;
+}
+
+.input-field {
+    width     : 100%;
+    padding   : 20px;
+    text-align: center;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    text-align: center;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    text-align: center;
+}
+
+:-ms-input-placeholder {
+    text-align: center;
+}
+
+.btn.btn-new {
+    background-color: #005f99;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem !important;
+    border : unset;
+}
+
+.custom-pm {
+    min-width: 25%; 
+    background-color: #ffcb05 !important; 
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    border-radius: 64px; 
+    color: black;
+}
+
+.pb-0 {
+    padding-bottom: 0 !important;
+}

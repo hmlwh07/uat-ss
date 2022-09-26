@@ -12,8 +12,8 @@ import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component-new.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login.component-kris.html',
+  styleUrls: ['./login.component-kris.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:

@@ -1,0 +1,106 @@
+<!--begin::Signin-->
+
+<div class="row">
+    
+    <div class="col-12 text-center pt-5 pb-5">
+        <img src="assets/kris/Logo.png" style="width:180px" /><br>
+        <!-- <span class="logo-text">KBZMS<br><small>General Insurance</small></span> -->
+
+    </div>
+    <!-- <div class="col-sm-6 text-center">
+        <img src="assets/life-logo.png" style="width:150px" /><br> -->
+    <!-- <span class="logo-text">KBZ LIFE</span> -->
+    <!-- </div> -->
+    <!--begin::Form-->
+    <div style="width: 15%;"></div>
+    <div class="" style="width: 70%;">
+        <div class="card-body" style="padding: 0px;">
+            <form class="form" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+                (ngSubmit)="submit()">
+
+
+                <!--begin::Title-->
+
+
+
+                <!-- begin::Alert error-->
+                <ng-container *ngIf="hasError">
+                    <div class="mb-10 alert alert-custom alert-light-danger alert-dismissible">
+                        <div class="alert-text">The login details are incorrect</div>
+                    </div>
+                </ng-container>
+                <!-- end::Alert error-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+                    <!-- <input placeholder="User ID" class="form-control form-control-sm h-3 py-7 px-6 rounded-lg" type="text"
+                        name="username" formControlName="email" autocomplete="off"
+                        [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" /> -->
+                    <div class="input-icons">
+                        <img src="assets/kris/user_id.png" style="width:3.8rem; position: absolute;" />
+                        <input placeholder="User ID" class="input-field form-control h-3 py-7 px-11 rounded-lg"
+                            type="text" name="username" formControlName="email" autocomplete="off"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['email'].invalid }" />
+                    </div>
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="form-group inner-addon">
+
+                    <div class="input-icons">                        
+                        <img src="assets/kris/password.png" style="width:3.9rem; position: absolute;" />
+                        <div *ngIf="loginForm.controls.password.valid">
+                            <i alt="show" class="fas fa-eye eye-show eye" (click)="showPassword = !showPassword"
+                                [class.hide]="showPassword"></i>
+                            <i alt="hide" class="fas fa-eye-slash eye-hide eye" eye
+                                (click)="showPassword = !showPassword" [class.hide]="!showPassword"></i>
+                        </div>
+                        <input placeholder="Password" class="input-field form-control h-3 py-7 px-6 rounded-lg"
+                            [type]="showPassword ? 'text' : 'password'" id="password-field" name="password"
+                            autocomplete="off" formControlName="password"
+                            [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
+                    </div>
+                </div>
+                <!--end::Form group-->
+                <!-- <div class="font-weight-bolder text-center">
+                    <a routerLink="/auth/forgot-password" class="text-new text-center font-weight-bolder text-hover-new ">
+                        {{"CARD.forgettxt" | translate}}
+                    </a>
+                </div> -->
+                <!--begin::Action-->
+                <div class="pb-lg-10 text-center pb-0">
+                    <button type="submit" id="kt_login_signin_submit"
+                        class="btn btn-new text-black font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3 custom-pm">
+                        {{"CARD.signin" | translate}}
+                    </button>
+                    <ng-container *ngIf="isLoading$ | async">
+                        <span class="spinner spinner-primary ml-5"></span>
+                    </ng-container>
+                </div>
+                <!-- <h5 class="font-weight-bolder text-white text-center" style="font-size: 1.1rem;">
+                    {{"CARD.welcometxt" | translate}}
+                </h5> -->
+                <!--end::Action-->
+            </form>
+        </div>
+    </div>
+    <div style="width: 15%;"></div>
+    <!--end::Form-->
+    <div class="col-12 text-center pt-5 pb-5">
+        <img src="assets/kris/welcome-to-kris.png" style="width:180px" /><br>
+        <!-- <span class="logo-text">KBZMS<br><small>General Insurance</small></span> -->
+
+    </div>
+</div>
+<!--end::Signin-->
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                {{ message }}
+            </div>
+        </div>
+    </ng-container>
+</ng-template>
