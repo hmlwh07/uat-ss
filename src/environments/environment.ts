@@ -49,6 +49,7 @@ export const environment = {
 //   appVersion: 'v717demo1',
 //   USERDATA_KEY: 'authf649fc9a5f55',
 //   isMockEnabled: false,
+//   secureKey:'Blu3$t0ne',
 //   // apiUrl: 'http://54.251.196.83:8083/sale/api/v1',
 //   // apiUrl: 'http://104.248.152.205:8083/sale/api/v1',
 //    apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1',
@@ -71,6 +72,7 @@ export const environment = {
 //   appVersion: 'v717demo1',
 //   USERDATA_KEY: 'authf649fc9a5f55',
 //   isMockEnabled: false,
+// secureKey:'Blu3$t0ne',
 //   apiUrl: 'http://54.179.23.36:8083/sale/api/v1',
 //   firebaseConfig: {
 //     apiKey: "AIzaSyCCfS97dyHL4eg1kTRMccxpEPzc3EIjQBE",

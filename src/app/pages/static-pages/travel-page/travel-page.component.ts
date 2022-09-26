@@ -136,7 +136,6 @@ export class TravelComponent implements OnInit {
   getRiskList() {
     this.travelRikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
-        // console.log("RES", res);
 
         this.globalFun.tempFormData[TRAVELID] = res
         this.listData = res || []
@@ -285,8 +284,8 @@ export class TravelComponent implements OnInit {
       "premiumView": this.premiumAmt,
       "resourceId": this.resourcesId,
       "type": 'policy',
-      "sumInsure": (Number(this.totalSiAmtView.split(" ")[0].split(',').join("")) || 0) + "",
-      "sumInsureView": this.totalSiAmtView
+      "sumInsured": (Number(this.totalSiAmtView.split(" ")[0].split(',').join("")) || 0) + "",
+      "sumInsuredView": this.totalSiAmtView
     }
     return this.pageDataService.updatePremimun(postData)
   }
