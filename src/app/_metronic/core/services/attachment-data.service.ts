@@ -97,7 +97,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
   }
 
   async getDownload(id, fileName: string) {
-    // this.encode(id)
+    this.encode(id)
     // if(this.fileId){
     this.httpClient.get(API_DOWNLOAD_URL + "/" + id, { responseType: 'blob' }).toPromise().then((res) => {
       if (res) {
