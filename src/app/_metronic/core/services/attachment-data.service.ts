@@ -32,12 +32,12 @@ const API_TCS_DOWNLOAD_URL = `${environment.apiUrl}`;
   providedIn: 'root'
 })
 export class AttachmentDownloadService extends BizOperationService<any, number>{
-  fileId:any=''
+  fileId: any = ''
   constructor(protected httpClient: HttpClient, private file: File,
     private loadingService: LoadingService, private toastService: KBZToastService,
     private alertService: AlertService,
     private translate: LanguagesService,
-    private encryptService:EncryptService) {
+    private encryptService: EncryptService) {
     super(httpClient, API_DOWNLOAD_URL);
   }
 
@@ -87,19 +87,14 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     this.alertService.activate(msg, 'Download File')
     a.remove()
   }
-  encode(id) {
-    this.fileId=this.encryptService.encryptUsingAES256(900)
-    let test=this.encryptService.decryptUsingAES256('ZTg1ZDYwNzU3MzBlYzA5OTIxMjE2ZDUwZTQyYWY1ZmJiZWY3MWUxZTc1NTcyMWUyNmRjNGVjZDg4NWI2M2FjZA==')
-    
-    console.log(this.fileId);
-    console.log(test);
-    
-  }
+  
 
   async getDownload(id, fileName: string) {
-    this.encode(id)
-    // if(this.fileId){
-    this.httpClient.get(API_DOWNLOAD_URL + "/" + id, { responseType: 'blob' }).toPromise().then((res) => {
+    this.fileId = this.encryptService.encryptData(id)
+    console.log(this.fileId);
+    
+    if(this.fileId){
+    this.httpClient.get(API_DOWNLOAD_URL + "?id=" +"U2FsdGVkX183yqqgDYEQE1fCh91e14ghFkOdYcLmvxk=", { responseType: 'blob' }).toPromise().then((res) => {
       if (res) {
         if (Capacitor.isNativePlatform()) {
           this.mobileDownload(fileName, res)
@@ -109,7 +104,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
       }
       // this.downloadFile(res, fileName)
     })
-  // }
+    }
   }
 
   downloadFile(data, fileName) {

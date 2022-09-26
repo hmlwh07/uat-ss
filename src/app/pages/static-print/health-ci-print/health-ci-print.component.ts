@@ -7,6 +7,7 @@ import { CoverageQuoService } from '../../products/services/coverage-quo.service
 import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { HealthPaymentService } from '../../static-pages/health-quo/models&services/health-payment.service';
 import { HealthPrintService } from '../../products/services/health-print.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-health-ci-print',
@@ -25,11 +26,11 @@ export class HealthCiPrintComponent implements OnInit {
     premium: false,
   }
   coverageData: any = {}
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   policyHolder: any = {};
   policyInfo: any = {};
-
+  fileId:string=''
   riskDetails: any = [];
   beneficiaries: any = [];
   coverages: any = [];
@@ -50,10 +51,14 @@ export class HealthCiPrintComponent implements OnInit {
     private healthPayService: HealthPaymentService, 
     private cdf: ChangeDetectorRef, 
     private productService: ProductDataService, 
-    private healthPrintService: HealthPrintService) { }
+    private healthPrintService: HealthPrintService,
+    private encryption:EncryptService) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    if(this.signId){
+      this.fileId=this.encryption.encryptData(this.signId)
+    }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.refID = this.prodService.referenceID
     this.tempResourcesId = this.resourcesId

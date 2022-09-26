@@ -26,6 +26,7 @@ import { Platform } from '@ionic/angular';
 import { DashboardAttachmentService, DashboardService } from './dashboard.service';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -87,7 +88,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   currentYear: number = new Date().getUTCFullYear();
   months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   radioW: number;
   radioH: number;
   chartH: number;
@@ -113,7 +114,8 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     private AttachmentUploadService: AttachmentUploadService,
     private DashboardAttachmentService: DashboardAttachmentService,
     private menuDataRoleService: MenuDataRoleService,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private encryption:EncryptService
   ) {
     // this.unsub = this.auth.currentUserSubject.subscribe((res) => {
     //   if (res) {
@@ -132,6 +134,9 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       }
     });
     // this.loadForm();
+  }
+  encryptData(attid){
+    this.encryption.encryptData(attid)
   }
 
 

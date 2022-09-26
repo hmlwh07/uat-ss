@@ -4,6 +4,7 @@ export const environment = {
   appVersion: 'v717demo1',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
+  secureKey: 'Blu3$t0ne',
   apiUrl: 'http://104.248.152.205:8083/sale/api/v1',
   crm: 'http://178.128.30.201:8089/BlueStoneCrmWeb/api/v1',
   firebaseConfig: {
@@ -23,7 +24,8 @@ export const environment = {
 //   appVersion: 'v717demo1',
 //   USERDATA_KEY: 'authf649fc9a5f55',
 //   isMockEnabled: true,
-//   apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1', 
+// secureKey:'Blu3$t0ne',
+//   apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1',
 //   crm: 'http://178.128.30.201:8089/BlueStoneCrmWeb/api/v1',
 //   firebaseConfig: {
 //     apiKey: "AIzaSyA83H8v2hiBokOT3lk_YfktW20GRPp-UqM",
@@ -42,7 +44,8 @@ export const environment = {
 //   appVersion: 'v717demo1',
 //   USERDATA_KEY: 'authf649fc9a5f55',
 //   isMockEnabled: true,
-//   apiUrl: 'https://producersalespreprod.kbzms.com/sale/api/v1', 
+// secureKey:'Blu3$t0ne',
+//   apiUrl: 'https://producersalespreprod.kbzms.com/sale/api/v1',
 //   crm: 'http://178.128.30.201:8089/BlueStoneCrmWeb/api/v1',
 //   firebaseConfig : {
 //     apiKey: "AIzaSyCCfS97dyHL4eg1kTRMccxpEPzc3EIjQBE",

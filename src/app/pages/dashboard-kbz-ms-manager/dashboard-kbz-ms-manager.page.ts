@@ -30,6 +30,7 @@ import { DashboardAttachmentService, DashboardService } from '../dashboard-kbz-m
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
@@ -105,7 +106,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
     'DEC',
   ];
   todayActiveAgent: number = 0
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   radioW: number;
   radioH: number;
   chartH: number;
@@ -129,7 +130,8 @@ export class DashboardKbzMsManagerPage implements OnInit {
     private alertCtrl: ActionSheetController,
     private AttachmentUploadService: AttachmentUploadService,
     private DashboardAttachmentService: DashboardAttachmentService,
-    private menuDataRoleService: MenuDataRoleService
+    private menuDataRoleService: MenuDataRoleService,
+    private encryption:EncryptService
   ) {
     this.route.queryParams.subscribe(async (params) => {
       if (params.empId) {
@@ -160,6 +162,10 @@ export class DashboardKbzMsManagerPage implements OnInit {
     this.activeRoute = route[0]
     // console.log("this.activeRoute",this.activeRoute);
   }
+  encryptData(attId){
+    let id=this.encryption.encryptData(attId)
+    return id || null
+  }
 
   loadForm() {
     this.actForm = new FormGroup({
@@ -177,10 +183,23 @@ export class DashboardKbzMsManagerPage implements OnInit {
       .then((res:any) => {
         if (res) {
           this.data = res;
-          if(res.yearlyProductPremium){
+          console.log("this.",this.data);
+          if(this.data.agentInfo.attId){
+            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+          }
+          if(this.data.yearlyProductPremium){
+            this.data.yearlyProductPremium.forEach(element => {
+              element.productSmallIcon=this.encryptData(element.productSmallIcon)
+            });
+          }
+          if(this.data.subAgentMonthlySale){
+            this.data.subAgentMonthlySale.forEach(element => {
+              element.attId=this.encryptData(element.attId)
+            });
+          }
             this.productPremium=res.yearlyProductPremium
             this.getRenewalPremium();
-            }
+            
           this.setChartOptions('agent');
           this.cdf.detectChanges();
         }
