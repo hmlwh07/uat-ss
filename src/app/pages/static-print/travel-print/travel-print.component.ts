@@ -11,6 +11,7 @@ const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 // import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-travel-print',
@@ -38,18 +39,23 @@ export class TravelPrintComponent implements OnInit {
   @Input() signId?: string
   signatureDate?: string
   travelArea: string = ''
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  fileId:string=''
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   constructor(
     private policyHolderService: PolicyHolderService,
     private travelService: TravelRiskService,
     private productService: ProductDataService,
-    private numberPipe: DecimalPipe
+    private numberPipe: DecimalPipe,
+    private encryption:EncryptService
   ) { }
 
   ngOnInit() {
     // console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    if(this.signId){
+      this.fileId=this.encryption.encryptData(this.signId)
+    }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getTravelPrintData()

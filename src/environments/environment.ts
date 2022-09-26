@@ -8,7 +8,8 @@
 //   appVersion: 'v717demo1',
 //   USERDATA_KEY: 'authf649fc9a5f55',
 //   isMockEnabled: false,
-//   apiUrl: 'http://10.243.0.113:8090/api/v1', 
+//   secureKey:'Blu3$t0ne',
+//   apiUrl: 'http://10.243.0.88:8090/api/v1', 
 //   firebaseConfig: {
 //     apiKey: "AIzaSyA83H8v2hiBokOT3lk_YfktW20GRPp-UqM",
 //     authDomain: "digitalfe-uat.firebaseapp.com",

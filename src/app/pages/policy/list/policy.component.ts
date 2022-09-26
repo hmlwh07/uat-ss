@@ -151,7 +151,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
-            this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '/' + this.quoList[i].icon
+            this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
         }
         this.cdRef.detectChanges()

@@ -33,7 +33,7 @@ export class ProductAnalysisComponent implements OnInit {
       this.fnaProducts = this.fnaService.fnaProduct;
       for (var i = 0; i < this.fnaProducts.length; i++) {
         if (this.fnaProducts[i].icon) {
-          this.fnaProducts[i].productImage = this.Default_DOWNLOAD_URL + '/' + this.fnaProducts[i].icon
+          this.fnaProducts[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.fnaProducts[i].icon
         }
       }
     }

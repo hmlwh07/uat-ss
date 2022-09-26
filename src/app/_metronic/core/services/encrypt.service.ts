@@ -14,11 +14,12 @@ export class EncryptService {
   }
 
   encryptData(data) {
-    let id=data.toString()
+
+    let id = data ? data.toString() : ''
     var secret = "Blu3$t0ne";
     if (data) {
-     return CryptoJS.AES.encrypt(id, secret).toString();
-     
+      return CryptoJS.AES.encrypt(id, secret).toString();
+
     }
   }
 

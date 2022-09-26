@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { environment } from '../../../../environments/environment';
 import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { CoverageQuoService } from '../../products/services/coverage-quo.service';
@@ -45,6 +46,7 @@ export class MoterPrintComponent implements OnInit {
     "TU-NILEX": "+25.00",
   }
   @Input() signId?: string
+  fileId:string=''
   signatureDate?: string
   product: any
   optionId: any
@@ -55,11 +57,14 @@ export class MoterPrintComponent implements OnInit {
   coverage: any
   coverageData2: any = []
 
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
-  constructor(private motorService: MotorPrintService, private productService: ProductDataService, private coverageService: CoverageQuoService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService) { }
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
+  constructor(private motorService: MotorPrintService, private productService: ProductDataService, private coverageService: CoverageQuoService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService,private encryption:EncryptService) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    if(this.signId){
+      this.fileId=this.encryption.encryptData(this.signId)
+    }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
