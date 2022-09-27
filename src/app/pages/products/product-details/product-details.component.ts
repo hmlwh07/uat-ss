@@ -30,6 +30,7 @@ import { EditSourceModalComponent } from '../edit-source-modal/edit-source-modal
 import { ValidityPeriodService } from '../services/validity-period.service';
 import { getFileReader } from '../../../core/get-file-reader';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-product-details',
@@ -56,7 +57,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   prodIndex: number
   quotation: boolean = false
   application: boolean = false
-  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   coverage = {
     isSum: false,
@@ -109,7 +110,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     private coverageService: CoverageDataService, private addOnService: AddOnDataService,
     private productUI: ProductUIService, private prodDel: ProductUIDeleteService,
     private fileUpload: AttachmentUploadService, private loading: LoadingService,
-    private validityPeriodService: ValidityPeriodService, private alertService: AlertService) {
+    private validityPeriodService: ValidityPeriodService, private alertService: AlertService,
+    private encryption:EncryptService) {
 
   }
 
@@ -121,6 +123,18 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       this.location.back()
     } else {
       this.product = this.itemService.selectedProd
+      if(this.product.smallIcon){
+        let small=this.encryption.encryptData(this.product.smallIcon)
+        this.product.smallIcon=(small)
+      }
+      if(this.product.icon){
+      let icon=this.encryption.encryptData(this.product.icon)
+      this.product.icon=(icon)
+      }
+      if(this.product.coverIcon){
+        let cover=this.product.coverIcon=this.encryption.encryptData(this.product.coverIcon)
+        this.product.coverIcon=(cover)
+      }
       this.product.coverages = this.product.coverages || []
       this.product.addOns = this.product.addOns || []
       this.loadForm()
@@ -141,6 +155,18 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
       if (res) {
         this.product = res
+        if(this.product.smallIcon){
+          let small=this.encryption.encryptData(this.product.smallIcon)
+          this.formGroup.controls['smallIcon'].setValue(small)
+        }
+        if(this.product.icon){
+        let icon=this.encryption.encryptData(this.product.icon)
+        this.formGroup.controls['icon'].setValue(icon)
+        }
+        if(this.product.coverIcon){
+          let cover=this.product.coverIcon=this.encryption.encryptData(this.product.coverIcon)
+          this.formGroup.controls['coverIcon'].setValue(cover)
+        }
         this.product.coverages = this.product.coverages || []
         this.product.addOns = this.product.addOns || []
         this.product.application_page = []
@@ -341,6 +367,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+  encryptData(attid){
+    this.encryption.encryptData(attid)
   }
 
   changePayment(type: string) {
@@ -750,11 +779,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           this.fileUpload.save(data).toPromise().then((res) => {
             if (res) {
               if (type == "cover") {
-                this.formGroup.controls['coverIcon'].setValue(res)
+                let cover=this.encryption.encryptData(res)
+                this.formGroup.controls['coverIcon'].setValue(cover)
               } else if (type == "small"){
-                this.formGroup.controls['smallIcon'].setValue(res)
+                let small=this.encryption.encryptData(res)
+                this.formGroup.controls['smallIcon'].setValue(small)
               } else {
-                this.formGroup.controls['icon'].setValue(res)
+                let icon=this.encryption.encryptData(res)
+                this.formGroup.controls['icon'].setValue(icon)
               }
             }
             this.cdRef.detectChanges()

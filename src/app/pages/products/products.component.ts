@@ -13,6 +13,7 @@ import { ProductCol, ProductDisplayCol } from './products-table.const';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { Customer } from '../customer-detail/custmer.dto';
 import { defaultAccessObj, MenuDataService } from '../../core/menu-data.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-products',
@@ -21,7 +22,7 @@ import { defaultAccessObj, MenuDataService } from '../../core/menu-data.service'
 })
 export class ProductsComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
-  @Input() isShowList:any='all'
+  @Input() isShowList: any = 'all'
   type: string = 'page'
   products: Product[] = []
   ELEMENT_COL = JSON.parse(JSON.stringify(ProductCol))
@@ -31,13 +32,13 @@ export class ProductsComponent implements OnInit {
   show: boolean = false
   prodAccess = defaultAccessObj
 
-  constructor(private modalService: NgbModal, private itemService: ProductDataService, private router: Router, private cdRef: ChangeDetectorRef, private menuService: MenuDataService) { }
+  constructor(private modalService: NgbModal, private itemService: ProductDataService, private router: Router, private cdRef: ChangeDetectorRef, private menuService: MenuDataService, private encryption: EncryptService) { }
 
   ngOnInit(): void {
     if (this.type != 'page') {
       this.ELEMENT_COL.splice(8, 1)
       this.displayedColumns.splice(8, 1)
-    } 
+    }
     // else {
     //   this.checkPremission()
     // }
@@ -112,11 +113,16 @@ export class ProductsComponent implements OnInit {
   }
 
   getProducts() {
-    
+
     this.itemService.getAll(this.isShowList).toPromise().then((res: any) => {
       //console.log(res);
       if (res) {
         this.products = res
+        this.products.forEach(element => {
+          if (element.smallIcon) {
+            element.smallIcon = this.encryption.encryptData(element.smallIcon)
+          }
+        })
         this.cdRef.detectChanges()
         this.matTable.reChangeData()
       }

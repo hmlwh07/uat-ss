@@ -20,6 +20,7 @@ import { CommonList2Component } from '../../share-components/common-list/common-
 import { PolicyDTO } from '../policy.dto';
 import { PolicyService } from '../policy.service';
 import { PolicyDisplayCol, PolicyCol, ApplicationStatus } from './policy.const';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-policy',
@@ -40,13 +41,13 @@ export class PolicyComponent implements OnInit, OnDestroy {
   product: any = []
   productOption: any = []
   applicationStatusOption: any = ApplicationStatus
-  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   currentPage: number = 0
   totalPages: number = 0
   totalElements: number = 0
   postedData: any
   selectedPageBtn: number = 1
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef) {
+  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef,private encryption:EncryptService) {
     this.loadForm()
   }
 
@@ -151,6 +152,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
+            this.quoList[i].icon=this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
         }

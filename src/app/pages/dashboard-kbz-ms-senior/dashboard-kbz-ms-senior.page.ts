@@ -171,6 +171,19 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.dashboardService.getList(id ? post : this.actForm.value).toPromise().then((res:any) => {
         if (res) {
           this.data = res;
+          if(this.data.agentInfo.attId){
+            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+          }
+          if(this.data.yearlyProductPremium){
+            this.data.yearlyProductPremium.forEach(element => {
+              element.productSmallIcon=this.encryptData(element.productSmallIcon)
+            });
+          }
+          if(this.data.subAgentMonthlySale){
+            this.data.subAgentMonthlySale.forEach(element => {
+              element.attId=this.encryptData(element.attId)
+            });
+          }
           if(res.yearlyProductPremium){
           this.productPremium=res.yearlyProductPremium
           this.getRenewalPremium()

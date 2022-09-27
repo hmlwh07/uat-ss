@@ -9,6 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { StylePaginatorDirective } from './custom-paginator.directive';
 import { PRODUCT_STATUS } from '../../../../../pages/products/models/product.dto';
 import { environment } from '../../../../../../environments/environment';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-material-table-view',
@@ -30,7 +31,7 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   @ViewChild(StylePaginatorDirective) customPaginator: StylePaginatorDirective
   @ViewChild(MatSort) sort: MatSort;
   @Output('rowselect') rowSelected = new EventEmitter()
-  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   totalAmount: any = {}
   @Input() calTotal: boolean = false
   @Input() calField: string[] = []
@@ -102,14 +103,20 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   }
   selection = new SelectionModel<any>(false, []);
   activityStatus = ActivityStatus
-  constructor(private cdf: ChangeDetectorRef) { }
+  constructor(private cdf: ChangeDetectorRef,private encryption:EncryptService) { }
 
   ngOnInit(): void {
+    for(let item of this.colum){
+      console.log(item);
+    }
   }
 
   ngAfterViewInit() {
 
     this.cdf.detectChanges();
+  }
+  encryptData(attid){
+    this.encryption.encryptData(attid)
   }
 
   reChangeData() {

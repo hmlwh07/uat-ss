@@ -20,6 +20,7 @@ import { CommonList2Component } from '../../share-components/common-list/common-
 import { QuotationDTO } from '../quotation.dto';
 import { QuotationService } from '../quotation.service';
 import { QuoDisplayCol, QuotationCol } from './quotation.const';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-quotations',
@@ -42,7 +43,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   product: any = []
   productOption: any = []
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService) {
+  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService,private encryption:EncryptService) {
     this.loadForm()
   }
 
@@ -159,6 +160,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.quoList = res
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
+            this.quoList[i].icon=this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
         }

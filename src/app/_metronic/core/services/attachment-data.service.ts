@@ -94,7 +94,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     console.log(this.fileId);
     
     if(this.fileId){
-    this.httpClient.get(API_DOWNLOAD_URL + "?id=" +"U2FsdGVkX183yqqgDYEQE1fCh91e14ghFkOdYcLmvxk=", { responseType: 'blob' }).toPromise().then((res) => {
+    this.httpClient.get(API_DOWNLOAD_URL + "?id=" +this.fileId, { responseType: 'blob' }).toPromise().then((res) => {
       if (res) {
         if (Capacitor.isNativePlatform()) {
           this.mobileDownload(fileName, res)
