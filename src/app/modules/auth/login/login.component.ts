@@ -9,6 +9,7 @@ import { LanguagesService } from '../../languages/languages.service';
 import { MenuDataService } from '../../../core/menu-data.service';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { AppComponent } from 'src/app/app.component';
+import { AlertService } from '../../loading-toast/alert-model/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -43,7 +44,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private translate: LanguagesService,
     private menuDataService: MenuDataService,
     private globalService: GlobalFunctionService,
-    private appComponent: AppComponent
+    private appComponent: AppComponent,
+    private alertService: AlertService
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -91,27 +93,32 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.hasError = false;
-    const loginSubscr = this.authService
-      .login(this.f.email.value, this.f.password.value)
-      .pipe(first(), mergeMap((x) => {
-        return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
-          // console.log("DATAMENU", data[0].page);
-          this.firstPage = data[0].page
-          return of(x)
+    if (this.loginForm.controls['email'].valid && this.loginForm.controls['password'].valid) {
+      this.hasError = false;
+      const loginSubscr = this.authService
+        .login(this.f.email.value, this.f.password.value)
+        .pipe(first(), mergeMap((x) => {
+          return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
+            // console.log("DATAMENU", data[0].page);
+            this.firstPage = data[0].page
+            return of(x)
+          }))
         }))
-      }))
-      .subscribe((user: UserModel) => {
-        if (user) {
-          this.appComponent.ngOnInit()
-          this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
-        } else {
-          this.hasError = true;
-        }
-      });
+        .subscribe((user: UserModel) => {
+          if (user) {
+            this.appComponent.ngOnInit()
+            this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
+          } else {
+            this.hasError = true;
+          }
+        });
+  
+  
+      this.unsubscribe.push(loginSubscr);
 
-
-    this.unsubscribe.push(loginSubscr);
+    } else {
+      this.alertService.activate('Enter any username and password', 'Error Message');
+    }
   }
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
