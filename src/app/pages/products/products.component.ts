@@ -103,8 +103,6 @@ export class ProductsComponent implements OnInit {
   nextProd() {
     if (this.selected.id) {
       this.itemService.findOne(this.selected.id).toPromise().then((res) => {
-        // console.log(res);
-
         if (res) {
           this.modalService.dismissAll({ data: res, type: "save" })
         }
@@ -115,14 +113,13 @@ export class ProductsComponent implements OnInit {
   getProducts() {
 
     this.itemService.getAll(this.isShowList).toPromise().then((res: any) => {
-      //console.log(res);
       if (res) {
         this.products = res
-        this.products.forEach(element => {
-          if (element.smallIcon) {
-            element.smallIcon = this.encryption.encryptData(element.smallIcon)
-          }
-        })
+        // this.products.forEach(element => {
+        //   if (element.smallIcon) {
+        //     element.smallIcon = this.encryption.encryptData(element.smallIcon)
+        //   }
+        // })
         this.cdRef.detectChanges()
         this.matTable.reChangeData()
       }
