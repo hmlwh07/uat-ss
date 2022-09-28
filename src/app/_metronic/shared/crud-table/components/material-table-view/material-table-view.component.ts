@@ -106,9 +106,6 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   constructor(private cdf: ChangeDetectorRef,private encryption:EncryptService) { }
 
   ngOnInit(): void {
-    for(let item of this.colum){
-      console.log(item);
-    }
   }
 
   ngAfterViewInit() {
