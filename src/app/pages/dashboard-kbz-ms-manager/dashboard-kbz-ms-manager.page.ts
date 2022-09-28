@@ -237,27 +237,29 @@ export class DashboardKbzMsManagerPage implements OnInit {
       }
     })
   }
-
   getRenewalPremium(id?) {
     let post = {
-      "agentId":id
+      "agentId": id
     }
-    let formValue={
-      "agentId":this.actForm.value.empId
+    let formValue = {
+      "agentId": this.actForm.value.empId
     }
-      this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res:any) => {
-        if (res) {
-          console.log(res);
-          this.renewalPremium=res.productPremiums
-          this.productPremium.map((item)=>{
-            item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
-           this.totalPremium+=item.premium
-           this.cdf.detectChanges()
-          })
-          console.log(this.productPremium,this.totalPremium);
-        }
-      })
+    this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res: any) => {
+      if (res) {
+        this.renewalPremium = res.productPremiums
+        this.productPremium.map((item) => {
+          let renewalAmt = this.renewalPremium.find(ele => ele.productCode == item.productCode)
+          item.premium = renewalAmt ? Number(item.premium) +  Number(renewalAmt.totalPremium): Number(item.premium)
+          this.cdf.detectChanges()
+        })
+        this.productPremium.forEach(element => {
+          this.totalPremium += Number(element.premium)
+          this.cdf.detectChanges()
+        });
+      }
+    })
   }
+
 
 
 
