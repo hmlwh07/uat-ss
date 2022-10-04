@@ -688,9 +688,9 @@ export class MoterPrintComponent implements OnInit {
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
     for (i = 0; i < pageCount; i++) {
       doc.setPage(i);
-      // var img = new Image()
-      // img.src = './assets/images/kbz_footer_bg_white.png'
-      // doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
+      var img = new Image()
+      img.src = './assets/images/kbz_footer_bg_white.png'
+      doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
