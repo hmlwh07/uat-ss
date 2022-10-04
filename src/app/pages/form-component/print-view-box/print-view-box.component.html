@@ -5,10 +5,11 @@
       <div class="header-logo">
         <img [src]="logo" alt="" class="logo">
       </div>-->
-      <div class="product-name mt-5 mb-5" *ngIf="product.code != 'PCHL01'">{{product.name}} Insurance Quotation</div>
-      <div class="product-name mt-5 mb-5" *ngIf="product.code == 'PCHL01'">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance Quotation':'Critical Illness Insurance Quotation'}}</div>
-     
-     <!--   <div class="qr" *ngIf="qrLocation">
+    <div class="product-name mt-5 mb-5" *ngIf="product.code != 'PCHL01'">{{product.name}} Insurance Quotation</div>
+    <div class="product-name mt-5 mb-5" *ngIf="product.code == 'PCHL01'">{{policyInfo.basicCoverId=='HEALTH'?'Health
+      Insurance Quotation':'Critical Illness Insurance Quotation'}}</div>
+
+    <!--   <div class="qr" *ngIf="qrLocation">
         <qrcode [qrdata]="qrLocation" [width]="100" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
       </div>
       </div> -->
@@ -187,7 +188,8 @@
           <app-fire-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-fire-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
-          <app-moter-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-moter-print>
+          <app-moter-print [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+            [premiumAmt]="premimunAmt"></app-moter-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PLTR01' ">
 
@@ -235,9 +237,9 @@
           </app-personal-accident-print>
         </ng-container>
       </ng-template>
-    
+
     </ng-container>
-   
+
     <!-- PCHL01 -->
     <!-- <div class="print-footer mt-5">
     <div>
