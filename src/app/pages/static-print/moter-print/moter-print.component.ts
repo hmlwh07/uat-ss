@@ -7,7 +7,7 @@ import { MotorPrintService } from '../../products/services/motor-print.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { Platform } from '@ionic/angular';
-import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';import jsPDF from 'jspdf';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service'; import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 @Component({
@@ -313,7 +313,6 @@ export class MoterPrintComponent implements OnInit {
         { content: 'Currency', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
-
     let policyInfoDetailData = [
       [
         { content: this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceFrom), styles: { halign: 'center', valign: 'middle' } },
@@ -397,117 +396,229 @@ export class MoterPrintComponent implements OnInit {
       basicCoverInfoDetailList.push(basicCoverInfoDetailData);
     }
 
-    // Additional Cover Information Details
-    let additionalCoverInfoDetailData = [];
-    let additionalCoverInfoDetailList = [];
-    let additionalCoverInfoDetailHeader = [
+    // Additional Cover Information Details (PLMO01)
+    let additionalCoverInfoDetailData01 = [];
+    let additionalCoverInfoDetailList01 = [];
+    let additionalCoverInfoDetailHeader01 = [
       [
         { content: 'Additional Cover Name', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Additional Cover Premium', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
-
     if (this.addOnData[0]) {
       let data = this.addOnData[0]
+      console.log("PLMO01 Data: ", data)
       // War Risk
       if (data.WR != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Act of God
       if (data.AOG != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'Act of God', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Theft
       if (data.THEFT != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'Theft', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // No Betterment Endorsement 
       if (data.NOBTTRMNT != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'No Betterment Endorsement ', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.NOBTTRMNT)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Cross Border
       if (data.CROSSBRDR != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'Cross Border', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.CROSSBRDR)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Loss of Luggage
       if (data.LOSSOFLUGG != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'Loss of Luggage', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.LOSSOFLUGG)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Medical Expense
       if (data['MED EXP'] != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'Medical Expense', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data['MED EXP'])), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Passenger Liability
       if (data.PASSRLBTY != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'Passenger Liability', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.PASSRLBTY)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Paid Driver
       if (data.PAIDDRIVER != 0) {
-        additionalCoverInfoDetailData = [
+        additionalCoverInfoDetailData01 = [
           { content: 'Paid Driver', styles: { halign: 'center', valign: 'middle' } },
           { content: this.currencyFormat(Number(data.PAIDDRIVER)), styles: { halign: 'right', valign: 'middle' } },
         ]
-        additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+        additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
       }
       // Total Additional Cover Premium
-      additionalCoverInfoDetailData = [
+      additionalCoverInfoDetailData01 = [
         { content: 'Total Additional Cover Premium', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'right', valign: 'middle' } },
       ]
-      additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+      additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
 
     } else {
-      additionalCoverInfoDetailData = [
+      additionalCoverInfoDetailData01 = [
         { content: 'Total Additional Cover Premium', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: '0.00', styles: { halign: 'right', valign: 'middle' } },
       ]
-      additionalCoverInfoDetailList.push(additionalCoverInfoDetailData);
+      additionalCoverInfoDetailList01.push(additionalCoverInfoDetailData01);
     }
+
+    // Additional Cover Information Details (PLMO02)
+    let additionalCoverInfoDetailData02 = [];
+    let additionalCoverInfoDetailList02 = [];
+    let additionalCoverInfoDetailHeader02 = [
+      [
+        { content: 'Additional Cover Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Additional Cover Premium', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    if (this.addOnData[0]) {
+      let data = this.addOnData[0]
+      console.log("PLMO02 Data: ", data)
+      // War Risk
+      if (data.WR != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Act of God
+      if (data.AOG != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'Act of God', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Theft
+      if (data.THEFT != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'Theft', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // No Betterment Endorsement 
+      if (data.NOBTTRMNT != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'No Betterment Endorsement ', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.NOBTTRMNT)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Cross Border
+      if (data.CROSSBRDR != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'Cross Border', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.CROSSBRDR)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Loss of Luggage
+      if (data.LOSSOFLUGG != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'Loss of Luggage', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.LOSSOFLUGG)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Medical Expense
+      if (data['MED EXP'] != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'Medical Expense', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data['MED EXP'])), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Passenger Liability
+      if (data.PASSRLBTY != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'Passenger Liability', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.PASSRLBTY)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Paid Driver
+      if (data.PAIDDRIVER != 0) {
+        additionalCoverInfoDetailData02 = [
+          { content: 'Paid Driver', styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.PAIDDRIVER)), styles: { halign: 'right', valign: 'middle' } },
+        ]
+        additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+      }
+      // Total Additional Cover Premium
+      additionalCoverInfoDetailData02 = [
+        { content: 'Total Additional Cover Premium', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'right', valign: 'middle' } },
+      ]
+      additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+
+    } else {
+      additionalCoverInfoDetailData02 = [
+        { content: 'Total Additional Cover Premium', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: '0.00', styles: { halign: 'right', valign: 'middle' } },
+      ]
+      additionalCoverInfoDetailList02.push(additionalCoverInfoDetailData02);
+    }
+
+    // Insurance Information Details
+    let insuranceInfoDetailData = [
+      [
+        { content: "Approximate Total SI", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.motorDetail.mTotalRiskSi, styles: { halign: 'center', valign: 'middle' } },
+        { content: "Approximate Total Premium", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.premiumAmt, styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ];
 
     // Start creating jsPDF
     var doc: any = new jsPDF('p', 'pt', 'a4');
-    var pageSize = doc.internal.pageSize;
-    var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-    var width = pageSize.width ? pageSize.width : pageSize.getWidth();
-    var height = 0;
+    let pageSize = doc.internal.pageSize;
+    let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+    let width = pageSize.width ? pageSize.width : pageSize.getWidth();
+    let height = 0;
 
     // var img = new Image()
     // img.src = './assets/images/header-logo.png'
     // doc.addImage(img, 'PNG', 0, height, width, 100);
 
     //Agent Information Details
+    let title = this.product.name + ' Insurance Quotation'
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.text(title, 200, height + 40);
     doc.autoTable({
       body: agentInfoDetailData,
       theme: 'grid',
@@ -526,9 +637,7 @@ export class MoterPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Holder Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
-    doc.setFillColor(217, 234, 250);
-    doc.rect(10, height + 20, width - 20, 30, 'F');
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
     doc.text('Policy Holder Information Details', 200, height + 40);
     doc.autoTable({
       body: policyHolderInfoDetailData,
@@ -654,8 +763,8 @@ export class MoterPrintComponent implements OnInit {
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
     doc.text("Additional Cover Information Details", 200, height + 40);
     doc.autoTable({
-      head: additionalCoverInfoDetailHeader,
-      body: additionalCoverInfoDetailList,
+      head: this.product.code == 'PLMO01' ? additionalCoverInfoDetailHeader01 : additionalCoverInfoDetailHeader02,
+      body: this.product.code == 'PLMO01' ? additionalCoverInfoDetailList01 : additionalCoverInfoDetailList02,
       theme: 'grid',
       startY: height + 60,
       margin: { left: 10, right: 10 },
@@ -674,6 +783,31 @@ export class MoterPrintComponent implements OnInit {
         fontStyle: 'normal',
       },
     });
+    height = doc.lastAutoTable.finalY;
+
+    // Insurance Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Insurance Information Details", 200, height + 40);
+    doc.autoTable({
+      body: insuranceInfoDetailData,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto'
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      }
+    });
     height = doc.lastAutoTable.finalY + 20;
 
     // Declaration By Proposer
@@ -681,16 +815,35 @@ export class MoterPrintComponent implements OnInit {
     doc.text("Declaration By Proposer", 10, height + 20);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("I/ We agree that this proposal and declaration shall be the basis of the contract between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract. I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been refused any motor vehicle insurance or continuance thereof.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setTextColor(255, 0, 0);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Important Notice: You are to disclose in this proposal form fully and faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+
+    // Proposer's name and signature
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 160);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 180);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 180);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 280);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 200, height + 280);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.formatDateDDMMYYY(this.signatureDate), 10, height + 260);
+    // if (this.fileId) {
+    //   var img = new Image()
+    //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+    //   doc.addImage(img, 'PNG', width - 200, height + 190, 140, 80);
+    // }
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
     for (i = 0; i < pageCount; i++) {
       doc.setPage(i);
-      // var img = new Image()
-      // img.src = './assets/images/kbz_footer_bg_white.png'
-      // doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
+      var img = new Image()
+      img.src = './assets/images/kbz_footer_bg_white.png'
+      doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
