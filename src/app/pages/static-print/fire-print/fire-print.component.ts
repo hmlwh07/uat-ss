@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { environment } from '../../../../environments/environment';
 import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { ProductDataService } from '../../products/services/products-data.service';
@@ -41,13 +42,17 @@ export class FirePrintComponent implements OnInit {
     "D": "Days"
   }
   @Input() signId?: string
+  fileId:string=''
   signatureDate?: string
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
-  constructor(private fireService: FireProductService, private productService: ProductDataService, private fireRsikService: FireRiskService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService) { }
+  constructor(private fireService: FireProductService, private productService: ProductDataService, private fireRsikService: FireRiskService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService,private encryption:EncryptService) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    if(this.signId){
+      this.fileId=this.encryption.encryptData(this.signId)
+    }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()

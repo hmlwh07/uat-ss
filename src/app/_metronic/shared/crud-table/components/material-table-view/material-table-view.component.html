@@ -10,7 +10,7 @@
                         <td mat-cell *matCellDef="let element"
                             [ngStyle]="{'text-align': item.amtFormat ? 'right': 'left'}">
                             <ng-container *ngIf="item.isImg">
-                                <img [src]="Default_DOWNLOAD_URL+'/'+element[item.field]" alt="" srcset=""
+                                <img [src]="Default_DOWNLOAD_URL+'?id='+element[item.field]" alt="" srcset=""
                                     class="table-img">
                             </ng-container>
                             <ng-container *ngIf="item.amtFormat">

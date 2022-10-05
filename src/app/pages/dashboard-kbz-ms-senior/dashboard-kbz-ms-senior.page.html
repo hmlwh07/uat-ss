@@ -4,7 +4,7 @@
     <div style="margin: 0 0 10px 0;">
       <div class="profile" [ngStyle]="{'padding-bottom': profilePadding}">
         <div class="img-content" [ngStyle]="{'width': profileImgW,  'height': profileImgW}">
-          <img *ngIf="data?.agentInfo?.attId!=null" [src]="DEFAULT_DOWNLOAD_URL+ data?.agentInfo?.attId"
+          <img *ngIf="data?.agentInfo?.attId!=null" [src]="DEFAULT_DOWNLOAD_URL+'?id='+ encryptData(data?.agentInfo?.attId)"
             style="width: 100%; height: 100%;" alt="profile" />
           <!-- <img  src="../../../assets/images/dashboard-usr.svg" alt="profile"> -->
           <img *ngIf="data?.agentInfo?.attId==null" src="./assets/temp-img/user_profile.png" alt="profile">
@@ -33,8 +33,8 @@
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
-            <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
-            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" 
+            <img [src]="DEFAULT_DOWNLOAD_URL+'?id='+encryptData(product.productSmallIcon)" class="prod-icon" alt="" srcset="">
+            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+'?id='+product.productSmallIcon" class="prod-icon" 
               alt="" srcset="">-->
           </ion-thumbnail>
           <ion-text>{{ product.productName }}</ion-text>
@@ -53,7 +53,7 @@
     <ion-list *ngIf="data && data.subAgentMonthlySale.length > 0" [ngStyle]="{'height': salesHpx}">
       <ion-item lines="full" *ngFor="let agent of data?.subAgentMonthlySale" (click)="goToLPManager(agent)">
         <ion-avatar slot="start">
-          <img *ngIf="agent.attId" [src]="DEFAULT_DOWNLOAD_URL + agent?.attId" class="user-icon" alt=""
+          <img *ngIf="agent.attId" [src]="DEFAULT_DOWNLOAD_URL+'?id=' + encryptData(agent?.attId)" class="user-icon" alt=""
             (error)="changeSource($event)" />
           <img *ngIf="!agent.attId" src="./assets/images/user_profile-01.svg" class="user-icon" alt=""
             (error)="changeSource($event)" />

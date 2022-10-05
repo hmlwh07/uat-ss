@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { environment } from '../../../../environments/environment';
 import { PaPrintService } from '../../products/services/pa.service';
 import { ProductDataService } from '../../products/services/products-data.service';
@@ -28,18 +29,23 @@ export class PersonalAccidentPrintComponent implements OnInit {
   totalPremium: number = 0
   totalSI: number = 0
   @Input() signId?: string
+  fileId:string=''
   signatureDate?: string
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
   unsubscribe: Subscription[] = []
   constructor(
     private policyHolderService: PolicyHolderService,
     private paService: PaPrintService,
     private productService: ProductDataService,
     private globalFun: GlobalFunctionService,
+    private encryption:EncryptService
   ) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    if(this.signId){
+      this.fileId=this.encryption.encryptData(this.signId)
+    }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()

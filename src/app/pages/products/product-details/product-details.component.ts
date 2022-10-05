@@ -30,6 +30,7 @@ import { EditSourceModalComponent } from '../edit-source-modal/edit-source-modal
 import { ValidityPeriodService } from '../services/validity-period.service';
 import { getFileReader } from '../../../core/get-file-reader';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 @Component({
   selector: 'app-product-details',
@@ -56,7 +57,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   prodIndex: number
   quotation: boolean = false
   application: boolean = false
-  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   coverage = {
     isSum: false,
@@ -109,18 +110,29 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     private coverageService: CoverageDataService, private addOnService: AddOnDataService,
     private productUI: ProductUIService, private prodDel: ProductUIDeleteService,
     private fileUpload: AttachmentUploadService, private loading: LoadingService,
-    private validityPeriodService: ValidityPeriodService, private alertService: AlertService) {
+    private validityPeriodService: ValidityPeriodService, private alertService: AlertService,
+    private encryption: EncryptService) {
 
   }
 
   ngOnInit(): void {
-      console.log("ITEM",this.items);
-      
     if (!this.itemService.selectedProd) {
       this.loadForm()
       this.location.back()
     } else {
       this.product = this.itemService.selectedProd
+      if (this.product.smallIcon) {
+        let small = this.encryption.encryptData(this.product.smallIcon)
+        this.product.smallIcon = (small)
+      }
+      if (this.product.icon) {
+        let icon = this.encryption.encryptData(this.product.icon)
+        this.product.icon = (icon)
+      }
+      if (this.product.coverIcon) {
+        let cover = this.encryption.encryptData(this.product.coverIcon)
+        this.product.coverIcon = (cover)
+      }
       this.product.coverages = this.product.coverages || []
       this.product.addOns = this.product.addOns || []
       this.loadForm()
@@ -141,6 +153,18 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
       if (res) {
         this.product = res
+        if (this.product.smallIcon) {
+          // let small = this.encryption.encryptData(this.product.smallIcon)
+          this.formGroup.controls['smallIcon'].setValue(this.product.smallIcon)
+        }
+        if (this.product.icon) {
+          // let icon = this.encryption.encryptData(this.product.icon)
+          this.formGroup.controls['icon'].setValue(this.product.icon)
+        }
+        if (this.product.coverIcon) {
+          // let cover = this.encryption.encryptData(this.product.coverIcon)
+          this.formGroup.controls['coverIcon'].setValue(this.product.coverIcon)
+        }
         this.product.coverages = this.product.coverages || []
         this.product.addOns = this.product.addOns || []
         this.product.application_page = []
@@ -205,7 +229,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   createOrEdit(type: string, data?, id?: string) {
     const modalRef = this.modalService.open(CoverageModalComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.prodId = this.product.id
-    modalRef.componentInstance.prodCode= this.product.code
+    modalRef.componentInstance.prodCode = this.product.code
     modalRef.componentInstance.type = type
     modalRef.componentInstance.prodName = this.product.name
     modalRef.componentInstance.id = id
@@ -299,7 +323,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         application: this.application,
         quotation: this.quotation,
         isAllowBackDate: formData.isAllowBackDate,
-        showInList:formData.showInList,
+        showInList: formData.showInList,
         allowDays: formData.allowDays,
         stamDuty: formData.stamDuty,
         statusCd: formData.statusCd,
@@ -335,12 +359,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             }
             this.cdRef.detectChanges();
             this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-           
+
             });
           }
         });
       }
     });
+  }
+  encryptData(attid) {
+    this.encryption.encryptData(attid)
   }
 
   changePayment(type: string) {
@@ -447,7 +474,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         this.product[type + "_input"] = {}
         this.pageReorder(type);
         this.alertService.activate('This record was changed', 'Success Message').then(result => {
-           
+
         });
       }
     });
@@ -513,7 +540,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       application: this.application,
       quotation: this.quotation,
       isAllowBackDate: this.product.isAllowBackDate,
-      showInList:this.product.showInList,
+      showInList: this.product.showInList,
       allowDays: this.product.allowDays,
       stamDuty: this.product.stamDuty,
       statusCd: this.product.statusCd,
@@ -606,8 +633,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       }
     })
   }
-  changePageType(item,index){
-    this.printConfig.prinitUI[index].pageType=item.pageType == 'form' ? 'table' : "form"
+  changePageType(item, index) {
+    this.printConfig.prinitUI[index].pageType = item.pageType == 'form' ? 'table' : "form"
   }
 
   changeOption(data, type) {
@@ -671,7 +698,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  configPrint(printForm: FromGroupData,type:string) {
+  configPrint(printForm: FromGroupData, type: string) {
     let oldData: PrintFormat = {}
     let oldIndex: number = -1
     if (this.printConfig.printFormat) {
@@ -688,7 +715,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.configData = oldData
     modalRef.componentInstance.listData = [...printForm.controls, ...this.defaultCol]
     modalRef.componentInstance.defaultObj = JSON.parse(JSON.stringify(printForm))
-    modalRef.componentInstance.defaultObj.pageType=type
+    modalRef.componentInstance.defaultObj.pageType = type
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         if (res.type == 'save') {
@@ -750,11 +777,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           this.fileUpload.save(data).toPromise().then((res) => {
             if (res) {
               if (type == "cover") {
-                this.formGroup.controls['coverIcon'].setValue(res)
-              } else if (type == "small"){
-                this.formGroup.controls['smallIcon'].setValue(res)
+                let cover = this.encryption.encryptData(res)
+                this.formGroup.controls['coverIcon'].setValue(cover)
+              } else if (type == "small") {
+                let small = this.encryption.encryptData(res)
+                this.formGroup.controls['smallIcon'].setValue(small)
               } else {
-                this.formGroup.controls['icon'].setValue(res)
+                let icon = this.encryption.encryptData(res)
+                this.formGroup.controls['icon'].setValue(icon)
               }
             }
             this.cdRef.detectChanges()
@@ -810,7 +840,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             (this.leadSources as []).splice(index, 1)
             this.cdRef.detectChanges()
             this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-           
+
             });
           }
         });

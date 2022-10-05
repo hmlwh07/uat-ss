@@ -34,8 +34,8 @@
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
-            <img [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt="" srcset="">
-            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+product.productSmallIcon" class="prod-icon" alt=""
+            <img [src]="DEFAULT_DOWNLOAD_URL+'?id='+product.productSmallIcon" class="prod-icon" alt="" srcset="">
+            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+'?id='+product.productSmallIcon" class="prod-icon" alt=""
               (error)="changeSource($event)"
               srcset=""> -->
           </ion-thumbnail>

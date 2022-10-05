@@ -18,6 +18,7 @@ import { DashboardAttachmentService, DashboardService } from '../dashboard-kbz-m
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
@@ -91,7 +92,7 @@ export class DashboardKbzMsLpPage implements OnInit {
     'NOV',
     'DEC',
   ];
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   currentMonthIndex: number = new Date().getUTCMonth();
 
   icons = [
@@ -131,7 +132,8 @@ export class DashboardKbzMsLpPage implements OnInit {
     private router: Router,
     private AttachmentUploadService: AttachmentUploadService,
     private alertCtrl: ActionSheetController,
-    private DashboardAttachmentService: DashboardAttachmentService,) {
+    private DashboardAttachmentService: DashboardAttachmentService,
+    private encryption:EncryptService) {
     this.route.queryParams.subscribe(async params => {
       if (params.empId) {
         this.id = JSON.parse(params.empId);
@@ -157,7 +159,9 @@ export class DashboardKbzMsLpPage implements OnInit {
     this.calculateMainContentHeight(this.radioW, this.radioH)
 
   }
-
+  encryptData(attid){
+    this.encryption.encryptData(attid)
+  }
   getImageURL(type) {
     let index = this.icons.findIndex(i => i.activityType == type);
     return this.icons[index].image;
@@ -174,8 +178,21 @@ export class DashboardKbzMsLpPage implements OnInit {
 
         if (res) {
           this.data = res;
-          if (res.yearlyProductPremium) {
-            this.productPremium = res.yearlyProductPremium
+          if(this.data.agentInfo.attId){
+            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+          }
+          if(this.data.yearlyProductPremium){
+            this.data.yearlyProductPremium.forEach(element => {
+              element.productSmallIcon=this.encryptData(element.productSmallIcon)
+            });
+          }
+          if(this.data.subAgentMonthlySale){
+            this.data.subAgentMonthlySale.forEach(element => {
+              element.attId=this.encryptData(element.attId)
+            });
+          }
+          if(res.yearlyProductPremium){
+            this.productPremium=res.yearlyProductPremium
             this.getRenewalPremium();
           }
           this.setChartOptions();

@@ -136,7 +136,6 @@ export class TravelComponent implements OnInit {
   getRiskList() {
     this.travelRikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
-        // console.log("RES", res);
 
         this.globalFun.tempFormData[TRAVELID] = res
         this.listData = res || []

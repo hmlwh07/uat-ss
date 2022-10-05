@@ -56,7 +56,7 @@ export class LeadListComponent implements OnInit {
   sourceOption: any[] = []
   productOption: any[] = []
   postedData: any
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   currentPage: number = 0
   constructor(
     private router: Router,

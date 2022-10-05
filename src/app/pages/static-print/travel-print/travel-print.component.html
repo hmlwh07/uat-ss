@@ -243,8 +243,8 @@
             <label> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
                 {{policyHolder.lastName}}</label>
             <div class="sign-area">
-                <ng-container *ngIf="signId">
-                    <img [src]="DEFAULT_DOWNLOAD_URL+signId" alt="" class="sign-img">
+                <ng-container *ngIf="fileId">
+                    <img [src]="DEFAULT_DOWNLOAD_URL+fileId" alt="" class="sign-img">
                 </ng-container>
             </div>
         </div>

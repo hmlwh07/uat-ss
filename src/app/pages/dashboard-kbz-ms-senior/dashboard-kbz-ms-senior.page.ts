@@ -26,6 +26,7 @@ import { Platform } from '@ionic/angular';
 import { DashboardAttachmentService, DashboardService } from './dashboard.service';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -87,7 +88,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   currentYear: number = new Date().getUTCFullYear();
   months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader/`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   radioW: number;
   radioH: number;
   chartH: number;
@@ -113,7 +114,8 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     private AttachmentUploadService: AttachmentUploadService,
     private DashboardAttachmentService: DashboardAttachmentService,
     private menuDataRoleService: MenuDataRoleService,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private encryption:EncryptService
   ) {
     // this.unsub = this.auth.currentUserSubject.subscribe((res) => {
     //   if (res) {
@@ -132,6 +134,9 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       }
     });
     // this.loadForm();
+  }
+  encryptData(attid){
+    this.encryption.encryptData(attid)
   }
 
 
@@ -166,6 +171,19 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       this.dashboardService.getList(id ? post : this.actForm.value).toPromise().then((res:any) => {
         if (res) {
           this.data = res;
+          if(this.data.agentInfo.attId){
+            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+          }
+          if(this.data.yearlyProductPremium){
+            this.data.yearlyProductPremium.forEach(element => {
+              element.productSmallIcon=this.encryptData(element.productSmallIcon)
+            });
+          }
+          if(this.data.subAgentMonthlySale){
+            this.data.subAgentMonthlySale.forEach(element => {
+              element.attId=this.encryptData(element.attId)
+            });
+          }
           if(res.yearlyProductPremium){
           this.productPremium=res.yearlyProductPremium
           this.getRenewalPremium()
