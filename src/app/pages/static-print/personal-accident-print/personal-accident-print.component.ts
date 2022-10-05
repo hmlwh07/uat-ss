@@ -395,6 +395,10 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
+    //new page
+    doc.addPage();
+    height = 0;
+
     // Insurance Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
     doc.text("Insurance Information Details", 200, height + 40);
@@ -420,9 +424,6 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY + 20;
 
-    //new page
-    doc.addPage();
-    height = 0;
     
     // Declaration By Proposer
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
@@ -432,23 +433,23 @@ export class PersonalAccidentPrintComponent implements OnInit {
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Remarks: If beneficiary is under 18,the benefit shall be paid to his parents (or) lawful guardian. In case where the beneficiary dies before the insured, and the death of the insured occurred before the insured has not re-transferred the title of benefits, shall pay the death claim in the followings order:", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("1.The insured’s husband or wife", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("1.The insured’s husband or wife", 10, height + 140, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("2.The insured’s son or daughter", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("2.The insured’s son or daughter", 10, height + 150, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("3.The insured’s grandchildren", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("3.The insured’s grandchildren", 10, height + 160, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("4.The insured’s siblings", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("4.The insured’s siblings", 10, height + 170, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("5.The insured’s parents", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("5.The insured’s parents", 10, height + 180, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
     doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 160);
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 220);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 180);
+    doc.text("Date", 10, height + 220);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 180);
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 240);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", 10, height + 280);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');

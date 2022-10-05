@@ -226,7 +226,7 @@
             </div>
             <button class="btn btn-primary" (click)="downloadAsPDF();">Export To PDF</button>
           </div>-->
-          <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-travel-print>
+          <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt" [branch]="branch" [agentData]="agentData"></app-travel-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PCHL01' ">
           <app-health-ci-print [product]="product" [resourcesId]="resourcesId" [premiumAmt]="premimunAmt">
