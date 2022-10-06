@@ -52,7 +52,9 @@
     </div>
     <div class="col-sm-6" *ngIf="policyHolder.partyAddress">
       <ng-container *ngIf="policyHolder.partyAddress.length > 0">
-        {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} , {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} , {{policyHolder.stateName}}
+        {{policyHolder.partyAddress[0].address1}} , {{policyHolder.partyAddress[0].address2}} ,
+        {{policyHolder.partyAddress[0].address3}} , {{policyHolder.townshipName}} , {{policyHolder.districtName}} ,
+        {{policyHolder.stateName}}
       </ng-container>
     </div>
   </div>
@@ -87,7 +89,6 @@
   </table>
 </div>
  
-
 <div class="addon-print">
   <div class="title-style text-bold mt-5 mb-5">Risk Information Details</div>
   <table class="tbody-align" width="100%">
@@ -157,8 +158,10 @@
         <tr *ngFor="let data of AddonData; let i=index">
           <td class="field-pd" style="width: 50px;">{{i+1}}</td>
           <td class="field-pd" style="width: 70%;" *ngIf="data.keyName=='Health Insurance'">Death & Hospitalization</td>
-          <td class="field-pd" style="width: 70%;" *ngIf="data.keyName=='Critical illness'">Death & Critical Illness</td>
-          <td class="field-pd" style="width: 70%;" *ngIf="data.keyName != 'Critical illness' && data.keyName !='Health Insurance'">{{data.keyName}}</td>
+          <td class="field-pd" style="width: 70%;" *ngIf="data.keyName=='Critical illness'">Death & Critical Illness
+          </td>
+          <td class="field-pd" style="width: 70%;"
+            *ngIf="data.keyName != 'Critical illness' && data.keyName !='Health Insurance'">{{data.keyName}}</td>
           <td class="field-pd" style="width: 20%;">{{data.value}} {{data.value=='1'? "Unit" :"Units"}}</td>
         </tr>
         <tr *ngIf="AddonData.length > 0">
@@ -183,15 +186,15 @@
       <ng-container>
         <tr *ngFor="let data of tempPaymentSchedule; let i=index">
           <td class="field-pd" style="width: 25%;">{{i+1}}</td>
-          <td class="pd-col" style="width: 25%;">{{data.premium | number  : '1.2-2'}}</td>
-          <td class="pd-col" style="width: 25%;">{{data.levy | number  : '1.2-2'}}</td>
-          <td class="pd-col" style="width: 25%;">{{(data.premium + data.levy) | number  : '1.2-2'}}</td>
+          <td class="pd-col" style="width: 25%;">{{data.premium | number : '1.2-2'}}</td>
+          <td class="pd-col" style="width: 25%;">{{data.levy | number : '1.2-2'}}</td>
+          <td class="pd-col" style="width: 25%;">{{(data.premium + data.levy) | number : '1.2-2'}}</td>
         </tr>
         <tr *ngIf="tempPaymentSchedule.length > 0">
           <td class="field-pd">Annual Premium</td>
-          <td class="pd-col">{{totalP | number  : '1.2-2'}}</td>
+          <td class="pd-col">{{totalP | number : '1.2-2'}}</td>
           <td class="field-pd">Total payable premium</td>
-          <td class="pd-col">{{(totalP+totalL) | number  : '1.2-2'}}</td>
+          <td class="pd-col">{{(totalP+totalL) | number : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
@@ -204,20 +207,25 @@
   </div>
   <div class="row">
     <div class="col">
-      <p style="font-size: 12pt;">I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.
-        </p>
-        <br>
-        <p style="font-size: 12pt;"><b>Remark: </b> The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.</p>
+      <p style="font-size: 12pt;">I hereby declare that I am in good health which I submitting the proposal.I certify
+        that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that
+        these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that
+        if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits
+        will be forfeited.
+      </p>
+      <br>
+      <p style="font-size: 12pt;"><b>Remark: </b> The benefits will be issued to beneficiary’s parents or guardians if
+        he/she is under 18.</p>
     </div>
   </div>
 </div>
 
 <div class="moter-print">
-
- <div class="sign-row mt-5">
+  <div class="sign-row mt-5">
     <div class="sign-box">
-      <label class="text-bold">DATE</label>
-      <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
+      <br>
+      <label class="mt-2">Date</label>
+      <div class="sign-area sign-date">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
     <div class="sign-box">
       <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
@@ -226,12 +234,9 @@
         {{policyHolder.lastName}}</label>
       <div class="sign-area">
         <ng-container *ngIf="fileId">
-          <img [src]="DEFAULT_DOWNLOAD_URL+fileId" alt="" class="sign-img">
+          <img [src]="DEFAULT_DOWNLOAD_URL+'?id='+fileId" alt="" class="sign-img">
         </ng-container>
       </div>
     </div>
   </div>
-
-
-
 </div>

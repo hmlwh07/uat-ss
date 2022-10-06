@@ -1,21 +1,3 @@
-.sign-row {
-  display        : flex;
-  justify-content: space-between;
-  margin-top     : 15px;
-  font-size      : 12pt;
-
-  .sign-area {
-    width        : 150px;
-    min-height   : 30px;
-    border-bottom: 1px #000 dashed;
-
-    .sign-img {
-      width: 150px;
-
-    }
-  }
-}
-
 .field-col,.field-value{
   text-align: center !important;
   padding   : 5px 5px;
@@ -64,4 +46,20 @@ table td {
   padding:5px 5px;
   text-align: center !important;
   font-size: 12pt;
+}
+
+.sign-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12pt;
+
+  .sign-area {
+    width: 140px;
+    height: 80px;
+    border-bottom: 1px #000 dashed;
+  }
+
+  .sign-date {
+    padding-top: 50px;
+  }
 }

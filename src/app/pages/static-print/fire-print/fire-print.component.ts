@@ -7,6 +7,10 @@ import { FireRiskService } from '../../static-pages/fire-risk/models&services/fi
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { FireProductService } from '../../static-pages/fire-simple-page/models&services/fire-product.service';
 import { FireRiskAddressService } from '../../static-pages/fire-simple-page/models&services/fire-risk-address';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { Platform } from '@ionic/angular';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-fire-print',
@@ -17,6 +21,8 @@ export class FirePrintComponent implements OnInit {
 
   @Input() resourcesId?: string
   @Input() premiumAmt?: any
+  @Input() agentData?: any
+  @Input() branch?: string
   listData: any[] = []
   detail: any = {}
   policyHolder: any = {
@@ -42,16 +48,27 @@ export class FirePrintComponent implements OnInit {
     "D": "Days"
   }
   @Input() signId?: string
-  fileId:string=''
+  fileId: string = ''
   signatureDate?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
-  constructor(private fireService: FireProductService, private productService: ProductDataService, private fireRsikService: FireRiskService, private policyHolderService: PolicyHolderService, private fireRiskAddressService: FireRiskAddressService, private addonQuo: AddOnQuoService, private productSerice: ProductDataService,private encryption:EncryptService) { }
+  constructor(
+    private fireService: FireProductService,
+    private productService: ProductDataService,
+    private fireRsikService: FireRiskService,
+    private policyHolderService: PolicyHolderService,
+    private fireRiskAddressService: FireRiskAddressService,
+    private addonQuo: AddOnQuoService,
+    private productSerice: ProductDataService,
+    private encryption: EncryptService,
+    private platform: Platform,
+    private attachmentDownloadService: AttachmentDownloadService
+  ) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
-    if(this.signId){
-      this.fileId=this.encryption.encryptData(this.signId)
+    if (this.signId) {
+      this.fileId = this.encryption.encryptData(this.signId)
     }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
@@ -67,6 +84,7 @@ export class FirePrintComponent implements OnInit {
       // console.log("Detail", this.detail);
     })
   }
+
   getRiskDetail() {
     this.totalPremium = 0;
     this.totalSi = 0;
@@ -88,9 +106,7 @@ export class FirePrintComponent implements OnInit {
           this.totalproposeStockValue += data.proposeStockValue || 0
           this.totalriskSi += data.riskSi || 0
         }
-
         this.getAddonCover()
-
       }
     })
   }
@@ -117,7 +133,7 @@ export class FirePrintComponent implements OnInit {
     })
   }
 
-  getMasterValue(townshipCd: string, districtCd: string, stateCd: string,titleCd:string) {
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string, titleCd: string) {
     let data = {
       "codeBookRequest": [
         {
@@ -157,7 +173,6 @@ export class FirePrintComponent implements OnInit {
   async getAddonCover() {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
     // console.log(this.product, this.listData);
-
     for (let riskID of this.listData) {
       let obj = {
         description: riskID.buildingDescription,
@@ -186,10 +201,8 @@ export class FirePrintComponent implements OnInit {
         }
       }
       // console.log("ADDON", obj);
-
       this.addOnData.push(obj)
       // console.log("ADDONDATA", this.addOnData);
-
     }
   }
   // }

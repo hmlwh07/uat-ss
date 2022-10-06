@@ -295,14 +295,15 @@ export class HealthCiPrintComponent implements OnInit {
       ]
     ]
     for (var i = 0; i < this.riskDetails.length; i++) {
+      let riskData = this.riskDetails[i];
       let riskInfoDetailData = [
-        { content: this.riskDetails[i].firstName + " " + (this.riskDetails[i].middleName ? this.riskDetails[i].middleName : "") + " " + this.riskDetails[i].lastName, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.riskDetails[i].occupationCdValue || '', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.riskDetails[i].genderCdValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.riskDetails[i].identityType + " - " + (this.riskDetails[i].identityNrc || this.riskDetails[i].identityNumber), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.riskDetails[i].dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.riskDetails[i].fatherName || '', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.riskDetails[i].phone, styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.firstName + " " + (riskData.middleName ? riskData.middleName : "") + " " + riskData.lastName, styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.occupationCdValue || '', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.genderCdValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.identityType + " - " + (riskData.identityNrc || riskData.identityNumber), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(riskData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.fatherName || '', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.phone, styles: { halign: 'center', valign: 'middle' } },
       ]
       riskInfoDetailList.push(riskInfoDetailData);
     }
@@ -320,13 +321,14 @@ export class HealthCiPrintComponent implements OnInit {
       ]
     ]
     for (var i = 0; i < this.beneficiaries.length; i++) {
+      let beneData = this.beneficiaries[i];
       let beneficiariesInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.beneficiaries[i].beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.beneficiaries[i].relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.beneficiaries[i].idType + " - " + (this.beneficiaries[i].nrc || this.beneficiaries[i].idNumber), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.beneficiaries[i].dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.beneficiaries[i].share + "%", styles: { halign: 'center', valign: 'middle' } },
+        { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+        { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+        { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
       ]
       beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
     }
@@ -342,10 +344,11 @@ export class HealthCiPrintComponent implements OnInit {
       ]
     ]
     for (var i = 0; i < this.AddonData.length; i++) {
+      let data = this.AddonData[i];
       coverageInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.AddonData[i].keyName == 'Health Insurance' ? 'Death & Hospitalization' : this.AddonData[i].keyName == 'Critical illness' ? 'Death & Critical Illness' : this.AddonData[i].keyName, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.AddonData[i].value + (this.AddonData[i].value == '1' ? " Unit" : " Units"), styles: { halign: 'center', valign: 'middle' } },
+        { content: data.keyName == 'Health Insurance' ? 'Death & Hospitalization' : data.keyName == 'Critical illness' ? 'Death & Critical Illness' : data.keyName, styles: { halign: 'center', valign: 'middle' } },
+        { content: data.value + (data.value == '1' ? " Unit" : " Units"), styles: { halign: 'center', valign: 'middle' } },
       ]
       coverageInfoDetailList.push(coverageInfoDetailData);
     }
@@ -367,11 +370,12 @@ export class HealthCiPrintComponent implements OnInit {
       ]
     ];
     for (var i = 0; i < this.tempPaymentSchedule.length; i++) {
+      let paymentData = this.tempPaymentSchedule[i];
       paymentScheduleInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.currencyFormat(this.tempPaymentSchedule[i].premium), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.currencyFormat(this.tempPaymentSchedule[i].levy), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.currencyFormat(this.tempPaymentSchedule[i].premium + this.tempPaymentSchedule[i].levy), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(paymentData.premium), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(paymentData.levy), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(paymentData.premium + paymentData.levy), styles: { halign: 'center', valign: 'middle' } },
       ];
       paymentScheduleInfoDetailList.push(paymentScheduleInfoDetailData);
     }

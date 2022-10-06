@@ -1,5 +1,5 @@
 <button type="button" class="btn btn-outline-primary mt-5" style="position:absolute; top:0px;"
-  (click)="createPdf()">Generate</button>
+    (click)="createPdf()">Generate</button>
 <div class="addon-print" *ngIf="policyHolder">
     <div class="title-style text-bold mt-5 mb-3">Policyholder Information Details</div>
     <div class="row form-txt line-sp" style="padding-top:10px;">
@@ -65,37 +65,37 @@
     <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
     <table width="100%">
         <tr>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Policy Effective Date
             </td>
             <td class="field-pd">{{policyInfo.policyInceptionDate | date: 'dd/MM/YYYY'}}</td>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Policy Expiry Date
             </td>
             <td class="field-pd">{{policyInfo.policyExpiryDate | date: 'dd/MM/YYYY'}}</td>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Policy Duration
             </td>
             <td class="field-pd">{{policyInfo.policyDurationValue}}</td>
         </tr>
         <tr>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Travel Plan
             </td>
             <td class="field-pd" colspan="2">{{policyInfo.travelPlanValue}}</td>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Currency
             </td>
             <td class="field-pd" colspan="2">{{policyInfo.currency || "MMK"}}</td>
         </tr>
         <tr>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 No. of Traveler
             </td>
             <td class="field-pd" colspan="10">{{numberOfTraveller}}</td>
         </tr>
         <tr>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Vehicle Information
             </td>
             <td class="field-value" colspan="10">
@@ -106,16 +106,16 @@
 
         </tr>
         <tr>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Travel Area
             </td>
             <td class="field-value" colspan="10">
-                <div *ngFor="let data of riskInfo; let i=index">{{data.travelDetail.travelArea}}{{i+1==riskInfo.length?'':','}} </div>
+                <div *ngFor="let data of riskInfo; let i=index">
+                    {{data.travelDetail.travelArea}}{{i+1==riskInfo.length?'':','}} </div>
             </td>
         </tr>
     </table>
 </div>
-
 
 <div class="addon-print">
     <div class="title-style text-bold mt-5 mb-5">Risk Information Details</div>
@@ -162,7 +162,6 @@
     </table>
 </div>
 
-
 <div class="addon-print" *ngIf="beneficiaries.length>0">
     <div class="title-style text-bold mt-5 mb-5">Beneficiaries Information Details</div>
     <table class="tbody-align" width="100%">
@@ -205,11 +204,11 @@
     <div class="title-style text-bold mt-5 mb-5">Insurance Information Details</div>
     <table width="100%">
         <tr>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Total SI
             </td>
             <td class="value-col" colspan="4">{{totalSI || 0}} {{policyInfo.currency || "MMK"}}</td>
-            <td class="field-col" style="background-color:#e9f8fe;color: #12609c;">
+            <td class="field-col" style="background-color:#e9f8fe;">
                 Total Premium
             </td>
             <td class="value-col" colspan="4">{{premiumAmt || 0}}</td>
@@ -233,11 +232,11 @@
 </div>
 
 <div class="moter-print">
-
-    <div class="sign-row">
+    <div class="sign-row mt-5">
         <div class="sign-box">
-            <label class="text-bold">DATE</label>
-            <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
+            <br>
+            <label class="mt-2">Date</label>
+            <div class="sign-area sign-date">{{signatureDate | date : "dd/MM/yyyy"}}</div>
         </div>
         <div class="sign-box">
             <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
@@ -246,11 +245,9 @@
                 {{policyHolder.lastName}}</label>
             <div class="sign-area">
                 <ng-container *ngIf="fileId">
-                    <img [src]="DEFAULT_DOWNLOAD_URL+fileId" alt="" class="sign-img">
+                    <img [src]="DEFAULT_DOWNLOAD_URL+'?id='+fileId" alt="" class="sign-img">
                 </ng-container>
             </div>
         </div>
     </div>
-
-
 </div>
