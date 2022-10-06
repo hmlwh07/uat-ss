@@ -36,7 +36,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
   totalPremium: number = 0
   totalSI: number = 0
   @Input() signId?: string
-  fileId:string=''
+  fileId: string = ''
   signatureDate?: string
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
   unsubscribe: Subscription[] = []
@@ -45,7 +45,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
     private paService: PaPrintService,
     private productService: ProductDataService,
     private globalFun: GlobalFunctionService,
-    private encryption:EncryptService,
+    private encryption: EncryptService,
     private platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService
   ) { }
@@ -88,7 +88,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
     })
   }
 
-  getMasterValue(townshipCd: string, districtCd: string, stateCd: string,titleCd:string) {
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string, titleCd: string) {
     let data = {
       "codeBookRequest": [
         {
@@ -184,20 +184,18 @@ export class PersonalAccidentPrintComponent implements OnInit {
     ]
 
     //Policy Information Details
-    let policyInfoDetailHeader = [
-      [
-        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Currency', styles: { halign: 'center', valign: 'middle' } },
-      ]
-    ]
     let policyInfoDetailData = [
       [
+        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.formatDateDDMMYYY(this.productDetail.formdate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.formatDateDDMMYYY(this.productDetail.todate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.productDetail.paPolicyTermValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.productDetail.currency, styles: { halign: 'center', valign: 'middle' } },
+      ],
+      [
+        { content: 'Currency', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.productDetail.currency, colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
 
@@ -213,15 +211,12 @@ export class PersonalAccidentPrintComponent implements OnInit {
         { content: 'Phone Number', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
-
-    let li_id = this.lifeInsuredPolicy.identityType + '-';
-    li_id += this.lifeInsuredPolicy.identityType !='NRC' ? this.lifeInsuredPolicy.identityNumber : this.lifeInsuredPolicy.identityNrc;
     let riskInfoDetailData = [
       [
         { content: this.lifeInsuredPolicy.paNameOfInsured, styles: { halign: 'center', valign: 'middle' } },
         { content: this.lifeInsuredPolicy.occupationCd, styles: { halign: 'center', valign: 'middle' } },
         { content: this.lifeInsuredPolicy.genderCdValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: li_id, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.identityType + ' - ' + (this.lifeInsuredPolicy.identityNumber || this.lifeInsuredPolicy.identityNrc), styles: { halign: 'center', valign: 'middle' } },
         { content: this.formatDateDDMMYYY(this.lifeInsuredPolicy.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
         { content: this.lifeInsuredPolicy.fatherName, styles: { halign: 'center', valign: 'middle' } },
         { content: this.lifeInsuredPolicy.phone, styles: { halign: 'center', valign: 'middle' } },
@@ -240,18 +235,15 @@ export class PersonalAccidentPrintComponent implements OnInit {
         { content: 'Share %', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
-
     for (var i = 0; i < this.beneficiaries.length; i++) {
       var beneficiary = this.beneficiaries[i];
-      let bi_id = beneficiary.idType + '-';
-      bi_id += beneficiary.idType !='NRC' ? beneficiary.idNumber : beneficiary.nrc;
       let beneficiariesInformationDetailData = [
-          { content: i+1, styles: { halign: 'center', valign: 'middle' } },
-          { content: beneficiary.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
-          { content: beneficiary.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-          { content: bi_id, styles: { halign: 'center', valign: 'middle' } },
-          { content: this.formatDateDDMMYYY(beneficiary.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-          { content: beneficiary.share + ' %', styles: { halign: 'center', valign: 'middle' } },
+        { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.idType + ' - ' + (beneficiary.idNumber || beneficiary.nrc), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(beneficiary.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.share + ' %', styles: { halign: 'center', valign: 'middle' } },
       ]
       beneficiariesInfoDetailList.push(beneficiariesInformationDetailData);
     }
@@ -273,18 +265,18 @@ export class PersonalAccidentPrintComponent implements OnInit {
     let width = pageSize.width ? pageSize.width : pageSize.getWidth();
     let height = 0;
 
-    // var img = new Image()
-    // img.src = './assets/images/header-logo.png'
-    // doc.addImage(img, 'PNG', 0, height, width, 100);
+    var img = new Image()
+    img.src = './assets/images/header-kbzms.png'
+    doc.addImage(img, 'PNG', 180, height, 200, 100);
 
     //Agent Information Details
     let title = this.product.name + ' Insurance Quotation'
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
-    doc.text(title, 200, height + 40);
+    doc.text(title, width / 2, height + 120, { align: 'center' });
     doc.autoTable({
       body: agentInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 140,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
@@ -300,7 +292,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
 
     // Policy Holder Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text('Policy Holder Information Details', 200, height + 40);
+    doc.text('Policy Holder Information Details', width / 2, height + 40, { align: 'center' });
     doc.autoTable({
       body: policyHolderInfoDetailData,
       theme: 'grid',
@@ -318,11 +310,10 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //Policy Information Details
+    // Policy Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Policy Information Details", 200, height + 40);
+    doc.text("Policy Information Details", width / 2, height + 40, { align: 'center' });
     doc.autoTable({
-      head: policyInfoDetailHeader,
       body: policyInfoDetailData,
       theme: 'grid',
       startY: height + 60,
@@ -344,9 +335,9 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //Risk Information Details
+    // Risk Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Risk Information Details", 200, height + 40);
+    doc.text("Risk Information Details", width / 2, height + 40, { align: 'center' });
     doc.autoTable({
       head: riskInfoDetailHeader,
       body: riskInfoDetailData,
@@ -369,9 +360,9 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //Beneficiaries Information Details
+    // Beneficiaries Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Beneficiaries Information Details", 200, height + 40);
+    doc.text("Beneficiaries Information Details", width / 2, height + 40, { align: 'center' });
     doc.autoTable({
       head: beneficiariesInformationDetailHeader,
       body: beneficiariesInfoDetailList,
@@ -395,9 +386,13 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
+    //new page
+    doc.addPage();
+    height = 0;
+
     // Insurance Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Insurance Information Details", 200, height + 40);
+    doc.text("Insurance Information Details", width / 2, height + 40, { align: 'center' });
     doc.autoTable({
       body: insuranceInfoDetailData,
       theme: 'grid',
@@ -420,10 +415,6 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY + 20;
 
-    //new page
-    doc.addPage();
-    height = 0;
-    
     // Declaration By Proposer
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
@@ -432,29 +423,29 @@ export class PersonalAccidentPrintComponent implements OnInit {
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Remarks: If beneficiary is under 18,the benefit shall be paid to his parents (or) lawful guardian. In case where the beneficiary dies before the insured, and the death of the insured occurred before the insured has not re-transferred the title of benefits, shall pay the death claim in the followings order:", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("1.The insured’s husband or wife", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("1.The insured’s husband or wife", 10, height + 140, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("2.The insured’s son or daughter", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("2.The insured’s son or daughter", 10, height + 150, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("3.The insured’s grandchildren", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("3.The insured’s grandchildren", 10, height + 160, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("4.The insured’s siblings", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("4.The insured’s siblings", 10, height + 170, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("5.The insured’s parents", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("5.The insured’s parents", 10, height + 180, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
     doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 160);
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 220);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 180);
+    doc.text("Date", 10, height + 240);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 180);
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 240);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 280);
+    doc.text("-----------------------------", 10, height + 340);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 200, height + 280);
+    doc.text("-----------------------------", width - 200, height + 340);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.formatDateDDMMYYY(this.signatureDate), 10, height + 260);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 320);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
@@ -466,8 +457,8 @@ export class PersonalAccidentPrintComponent implements OnInit {
     for (i = 0; i < pageCount; i++) {
       doc.setPage(i);
       var img = new Image()
-      img.src = './assets/images/kbz_footer_bg_white.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
+      img.src = './assets/images/footer-kbzms.png'
+      doc.addImage(img, 'PNG', 0, pageHeight - 70, width, 70);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
