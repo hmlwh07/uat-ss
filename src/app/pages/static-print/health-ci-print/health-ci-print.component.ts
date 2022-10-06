@@ -8,6 +8,10 @@ import { AddOnQuoService } from '../../products/services/add-on-quo.service';
 import { HealthPaymentService } from '../../static-pages/health-quo/models&services/health-payment.service';
 import { HealthPrintService } from '../../products/services/health-print.service';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { Platform } from '@ionic/angular';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-health-ci-print',
@@ -19,6 +23,8 @@ export class HealthCiPrintComponent implements OnInit {
   @Input() signId?: string
   @Input() premiumAmt: any
   @Input() product: Product
+  @Input() agentData?: any
+  @Input() branch?: string
   signatureDate?: string
   coverage = {
     sumInsured: false,
@@ -30,7 +36,7 @@ export class HealthCiPrintComponent implements OnInit {
 
   policyHolder: any = {};
   policyInfo: any = {};
-  fileId:string=''
+  fileId: string = ''
   riskDetails: any = [];
   beneficiaries: any = [];
   coverages: any = [];
@@ -42,22 +48,26 @@ export class HealthCiPrintComponent implements OnInit {
   totalP: number = 0
   totalL: number = 0
   coveragesTotalValue: number = 0
+
   constructor(
-    private policyHolderService: PolicyHolderService, 
-    private coverageQuo: CoverageQuoService, 
-    private addOnQuoService: AddOnQuoService, 
-    private prodService: ProductDataService, 
-    private coverageQuoService: CoverageQuoService, 
-    private healthPayService: HealthPaymentService, 
-    private cdf: ChangeDetectorRef, 
-    private productService: ProductDataService, 
+    private policyHolderService: PolicyHolderService,
+    private coverageQuo: CoverageQuoService,
+    private addOnQuoService: AddOnQuoService,
+    private prodService: ProductDataService,
+    private coverageQuoService: CoverageQuoService,
+    private healthPayService: HealthPaymentService,
+    private cdf: ChangeDetectorRef,
+    private productService: ProductDataService,
     private healthPrintService: HealthPrintService,
-    private encryption:EncryptService) { }
+    private encryption: EncryptService,
+    private platform: Platform,
+    private attachmentDownloadService: AttachmentDownloadService
+  ) { }
 
   ngOnInit() {
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
-    if(this.signId){
-      this.fileId=this.encryption.encryptData(this.signId)
+    if (this.signId) {
+      this.fileId = this.encryption.encryptData(this.signId)
     }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.refID = this.prodService.referenceID
@@ -82,8 +92,7 @@ export class HealthCiPrintComponent implements OnInit {
 
   getAddon() {
     this.product.addOns.forEach(async (addon) => {
-      console.log('ADDON',addon);
-      
+      // console.log('ADDON', addon);
       let response: any = {};
       try {
         response = await this.addOnQuoService.getOne(addon.id, this.tempResourcesId, this.tempResourcesId).toPromise()
@@ -94,18 +103,16 @@ export class HealthCiPrintComponent implements OnInit {
           //   addon.description='Critical Illness Insurance'
           // }
           this.AddonData.push({ keyName: addon.description, value: response.sumInsured })
-          this.coveragesTotalValue +=Number(response.sumInsured )
+          this.coveragesTotalValue += Number(response.sumInsured)
         }
       } catch (error) {
       }
-
     })
   }
 
   getCoverage() {
     this.product.coverages.forEach(async (coverage) => {
-      console.log('coverage',coverage);
-      
+      // console.log('coverage', coverage);
       let response: any = {};
       try {
         response = await this.coverageQuo.getOne(coverage.id, this.tempResourcesId, this.tempResourcesId).toPromise()
@@ -116,11 +123,10 @@ export class HealthCiPrintComponent implements OnInit {
           //   coverage.description='Critical Illness Insurance'
           // }
           this.AddonData.unshift({ keyName: coverage.description, value: response.sumInsured })
-         this.coveragesTotalValue +=Number(response.sumInsured )
+          this.coveragesTotalValue += Number(response.sumInsured)
         }
       } catch (error) {
       }
-
     })
   }
 
@@ -140,7 +146,7 @@ export class HealthCiPrintComponent implements OnInit {
               { premium: this.totalP, levy: this.totalL, total: this.totalP + this.totalL },
             ]
           } else {
-            let tempTotal = this.totalP/2
+            let tempTotal = this.totalP / 2
             this.tempPaymentSchedule = [
               { premium: tempTotal, levy: this.totalL, total: tempTotal + this.totalL },
               { premium: tempTotal, levy: 0, total: tempTotal },
@@ -152,7 +158,6 @@ export class HealthCiPrintComponent implements OnInit {
     })
   }
 
-  
   getPolicyHolder() {
     this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
@@ -175,7 +180,7 @@ export class HealthCiPrintComponent implements OnInit {
     })
   }
 
-  getMasterValue(townshipCd: string, districtCd: string, stateCd: string,titleCd:string) {
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string, titleCd: string) {
     let data = {
       "codeBookRequest": [
         {
@@ -201,5 +206,430 @@ export class HealthCiPrintComponent implements OnInit {
       ]
     }
     return this.policyHolderService.getMasterDataSale(data)
+  }
+
+  createPdf() {
+
+    // Agent Information Details
+    let agentInfoDetailData = [
+      [
+        { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.mobileNo, styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Quotation No.', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.resourcesId, styles: { halign: 'left', valign: 'middle' } },
+      ]
+    ]
+
+    // Policy Holder Information Details
+    let policyHolderInfoDetailData = [
+      [
+        { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.cprNumber, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.dateOfBirth, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress[0].mobileNo, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress[0].eMailId, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
+        {
+          content: this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
+            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName, styles: { halign: 'left', valign: 'middle' }
+        },
+      ]
+    ]
+
+    // Policy Information Details
+    let policyInfoDetailData = [
+      [
+        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.insuranceStartDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.insuranceEndDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.policyInfo.sumInsuredMainCover + 'Units', styles: { halign: 'center', valign: 'middle' } },
+      ],
+      [
+        { content: 'Policy Plan', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.policyInfo.basicCoverId == 'HEALTH' ? 'Health Insurance' : 'Critical Illness Insurance', colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Payment Frequency', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.policyInfo.paymentFrequency == 'S' ? 'Semi-Annually' : 'Lump Sum', colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+
+    // Risk Information Details
+    let riskInfoDetailList = [];
+    let riskInfoDetailHeader = [
+      [
+        { content: 'Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Occupation', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Gender', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'ID', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Date of Birth', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Father Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Phone Number', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    for (var i = 0; i < this.riskDetails.length; i++) {
+      let riskInfoDetailData = [
+        { content: this.riskDetails[i].firstName + " " + (this.riskDetails[i].middleName ? this.riskDetails[i].middleName : "") + " " + this.riskDetails[i].lastName, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.riskDetails[i].occupationCdValue || '', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.riskDetails[i].genderCdValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.riskDetails[i].identityType + " - " + (this.riskDetails[i].identityNrc || this.riskDetails[i].identityNumber), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.riskDetails[i].dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.riskDetails[i].fatherName || '', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.riskDetails[i].phone, styles: { halign: 'center', valign: 'middle' } },
+      ]
+      riskInfoDetailList.push(riskInfoDetailData);
+    }
+
+    // Beneficiaries Information Details
+    let beneficiariesInfoDetailList = [];
+    let beneficiariesInfoDetailHeader = [
+      [
+        { content: 'No.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Relationship', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'ID', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Date of Birth.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Share %', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    for (var i = 0; i < this.beneficiaries.length; i++) {
+      let beneficiariesInfoDetailData = [
+        { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.beneficiaries[i].beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.beneficiaries[i].relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.beneficiaries[i].idType + " - " + (this.beneficiaries[i].nrc || this.beneficiaries[i].idNumber), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.beneficiaries[i].dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.beneficiaries[i].share + "%", styles: { halign: 'center', valign: 'middle' } },
+      ]
+      beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
+    }
+
+    // Coverage Information Details
+    let coverageInfoDetailData = []
+    let coverageInfoDetailList = [];
+    let coverageInfoDetailHeader = [
+      [
+        { content: 'No.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Coverage Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Units', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    for (var i = 0; i < this.AddonData.length; i++) {
+      coverageInfoDetailData = [
+        { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.AddonData[i].keyName == 'Health Insurance' ? 'Death & Hospitalization' : this.AddonData[i].keyName == 'Critical illness' ? 'Death & Critical Illness' : this.AddonData[i].keyName, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.AddonData[i].value + (this.AddonData[i].value == '1' ? " Unit" : " Units"), styles: { halign: 'center', valign: 'middle' } },
+      ]
+      coverageInfoDetailList.push(coverageInfoDetailData);
+    }
+    coverageInfoDetailData = [
+      { content: 'Total', colSpan: '2', styles: { halign: 'center', valign: 'middle' } },
+      { content: this.coveragesTotalValue + (this.coveragesTotalValue == 1 ? " Unit" : " Units"), styles: { halign: 'center', valign: 'middle' } },
+    ]
+    coverageInfoDetailList.push(coverageInfoDetailData);
+
+    // Payment Schedule Information Details
+    let paymentScheduleInfoDetailData = []
+    let paymentScheduleInfoDetailList = []
+    let paymentScheduleInfoDetailHeader = [
+      [
+        { content: 'No. of Installment', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Installment Premium', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Stamp Duty', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Total Premium', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ];
+    for (var i = 0; i < this.tempPaymentSchedule.length; i++) {
+      paymentScheduleInfoDetailData = [
+        { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(this.tempPaymentSchedule[i].premium), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(this.tempPaymentSchedule[i].levy), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(this.tempPaymentSchedule[i].premium + this.tempPaymentSchedule[i].levy), styles: { halign: 'center', valign: 'middle' } },
+      ];
+      paymentScheduleInfoDetailList.push(paymentScheduleInfoDetailData);
+    }
+    paymentScheduleInfoDetailData = [
+      { content: 'Annual Premium', styles: { halign: 'center', valign: 'middle' } },
+      { content: this.currencyFormat(this.totalP), styles: { halign: 'center', valign: 'middle' } },
+      { content: 'Total payable premium', styles: { halign: 'center', valign: 'middle' } },
+      { content: this.currencyFormat(this.totalP + this.totalL), styles: { halign: 'center', valign: 'middle' } },
+    ];
+    paymentScheduleInfoDetailList.push(paymentScheduleInfoDetailData);
+
+    // Start creating jsPDF
+    var doc: any = new jsPDF('p', 'pt', 'a4');
+    let pageSize = doc.internal.pageSize;
+    let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+    let width = pageSize.width ? pageSize.width : pageSize.getWidth();
+    let height = 0;
+
+    var img = new Image()
+    img.src = './assets/images/header-kbzms.png'
+    doc.addImage(img, 'PNG', 180, height, 240, 120);
+
+    // Agent Information Details
+    let title = this.product.name + ' Insurance Quotation'
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.text(title, width / 2, height + 140, { align: 'center' });
+    doc.autoTable({
+      body: agentInfoDetailData,
+      theme: 'grid',
+      startY: height + 160,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        minCellHeight: 5,
+        lineColor: '#fff',
+        cellWidth: 'auto',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Policy Holder Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text('Policy Holder Information Details', width / 2, height + 40, { align: 'center' });
+    doc.autoTable({
+      body: policyHolderInfoDetailData,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        minCellHeight: 5,
+        lineColor: '#fff',
+        cellWidth: 'auto',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Policy Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Policy Information Details", width / 2, height + 40, { align: 'center' });
+    doc.autoTable({
+      body: policyInfoDetailData,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto'
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      }
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Risk Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Risk Information Details", width / 2, height + 40, { align: 'center' });
+    doc.autoTable({
+      head: riskInfoDetailHeader,
+      body: riskInfoDetailList,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Beneficiaries Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Beneficiaries Information Details", width / 2, height + 40, { align: 'center' });
+    doc.autoTable({
+      head: beneficiariesInfoDetailHeader,
+      body: beneficiariesInfoDetailList,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Coverage Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Coverage Information Details", width / 2, height + 40, { align: 'center' });
+    doc.autoTable({
+      head: coverageInfoDetailHeader,
+      body: coverageInfoDetailList,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Payment Schedule Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Payment Schedule Information Details", width / 2, height + 40, { align: 'center' });
+    doc.autoTable({
+      head: paymentScheduleInfoDetailHeader,
+      body: paymentScheduleInfoDetailList,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto'
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      }
+    });
+    height = doc.lastAutoTable.finalY + 20;
+
+    // Declaration By Proposer
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.text("Declaration By Proposer", 10, height + 20);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("Remark: The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+
+    // Proposer's name and signature
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 140);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 160);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 160);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 260);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 200, height + 260);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 240);
+    // if (this.fileId) {
+    //   var img = new Image()
+    //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+    //   doc.addImage(img, 'PNG', width - 200, height + 170, 140, 80);
+    // }
+
+    // Add Footer Image
+    var pageCount = doc.internal.getNumberOfPages();//Total Page Number
+    for (i = 0; i < pageCount; i++) {
+      doc.setPage(i);
+      var img = new Image()
+      img.src = './assets/images/footer-kbzms.png'
+      doc.addImage(img, 'PNG', 0, pageHeight - 70, width, 70);
+    }
+
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+      this.attachmentDownloadService.mobileDownload('downloadMobile.pdf', blobPDF);
+    } else {
+      console.log("Web")
+      // Open PDF document in new tab
+      doc.output('dataurlnewwindow', { filename: 'downloadWeb.pdf' })
+
+      // Download PDF document  
+      // doc.save('downloadWeb.pdf');
+
+      // Base64 output
+      // let data = doc.output('datauri')
+      // console.log("Base64 Data: ", data)
+    }
+  }
+
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
+  }
+
+  currencyFormat(num) {
+    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
   }
 }
