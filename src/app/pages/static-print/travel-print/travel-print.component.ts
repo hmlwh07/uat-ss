@@ -408,30 +408,32 @@ export class TravelPrintComponent implements OnInit {
     height = 0;
 
     //Beneficiaries Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Beneficiaries Information Details", 200, height + 40);
-    doc.autoTable({
-      head: beneficiariesInfoDetailHeader,
-      body: beneficiariesInfoDetailList,
-      theme: 'grid',
-      startY: height + 60,
-      margin: { left: 10, right: 10 },
-      showHead: 'firstPage',
-      styles: {
-        fontSize: 10,
-        font: 'helvetica',
-        lineColor: '#005f99',
-        lineWidth: 0.5,
-        cellWidth: 'auto',
-        cellPadding: 5,
-      },
-      headStyles: {
-        fillColor: '#e9f8fe',
-        textColor: '#000',
-        fontStyle: 'normal',
-      },
-    });
-    height = doc.lastAutoTable.finalY;
+    if (this.beneficiaries.length > 0) {
+      doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+      doc.text("Beneficiaries Information Details", 200, height + 40);
+      doc.autoTable({
+        head: beneficiariesInfoDetailHeader,
+        body: beneficiariesInfoDetailList,
+        theme: 'grid',
+        startY: height + 60,
+        margin: { left: 10, right: 10 },
+        showHead: 'firstPage',
+        styles: {
+          fontSize: 10,
+          font: 'helvetica',
+          lineColor: '#005f99',
+          lineWidth: 0.5,
+          cellWidth: 'auto',
+          cellPadding: 5,
+        },
+        headStyles: {
+          fillColor: '#e9f8fe',
+          textColor: '#000',
+          fontStyle: 'normal',
+        },
+      });
+      height = doc.lastAutoTable.finalY;
+    }
 
     // Insurance Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
