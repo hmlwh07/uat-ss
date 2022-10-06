@@ -511,6 +511,10 @@ export class HealthCiPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
+    //new page
+    doc.addPage();
+    height = 0;
+
     // Coverage Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
     doc.text("Coverage Information Details", width / 2, height + 40, { align: 'center' });
