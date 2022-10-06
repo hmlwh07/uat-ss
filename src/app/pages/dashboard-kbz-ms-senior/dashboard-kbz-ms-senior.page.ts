@@ -136,7 +136,8 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     // this.loadForm();
   }
   encryptData(attid){
-    this.encryption.encryptData(attid)
+    let id=this.encryption.encryptData(attid)
+    return id || null
   }
 
 

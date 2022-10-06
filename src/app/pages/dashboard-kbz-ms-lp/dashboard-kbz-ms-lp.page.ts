@@ -160,7 +160,8 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   }
   encryptData(attid){
-    this.encryption.encryptData(attid)
+    let id=this.encryption.encryptData(attid)
+    return id || null
   }
   getImageURL(type) {
     let index = this.icons.findIndex(i => i.activityType == type);

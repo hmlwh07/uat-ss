@@ -12,6 +12,8 @@ const htmlToPdfmake = require("html-to-pdfmake");
 // import domtoimage from 'dom-to-image';
 import jsPDF from 'jspdf';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-travel-print',
@@ -22,7 +24,9 @@ export class TravelPrintComponent implements OnInit {
 
   @Input() resourcesId?: string
   @Input() premiumAmt: any
-
+  @Input() agentData?: any
+  @Input() branch?: string
+  product: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
   tempArray:any[]=[]
@@ -47,7 +51,9 @@ export class TravelPrintComponent implements OnInit {
     private travelService: TravelRiskService,
     private productService: ProductDataService,
     private numberPipe: DecimalPipe,
-    private encryption:EncryptService
+    private encryption:EncryptService,
+    private attachmentDownloadService:AttachmentDownloadService,
+    private platform:Platform
   ) { }
 
   ngOnInit() {
@@ -112,6 +118,7 @@ export class TravelPrintComponent implements OnInit {
   }
 
   getTravelPrintData() {
+    this.product = this.productService.createingProd || this.productService.selectedProd
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         console.log(res);
@@ -144,4 +151,316 @@ export class TravelPrintComponent implements OnInit {
       }
     })
   }
+  createPdf() {
+
+    //Agent Information Details
+    let agentInfoDetailData = [
+      [
+        { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.mobileNo, styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Quotation No.', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.resourcesId, styles: { halign: 'left', valign: 'middle' } },
+      ]
+    ]
+
+    //Policy Holder Information Details
+    let policyHolderInfoDetailData = [
+      [
+        { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.cprNumber, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.dateOfBirth, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress[0].mobileNo, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress[0].eMailId, styles: { halign: 'left', valign: 'middle' } },
+      ],
+      [
+        { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
+        {
+          content: this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
+            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName, styles: { halign: 'left', valign: 'middle' }
+        },
+      ]
+    ]
+
+    //Policy Information Details
+    let policyInfoDetailHeader = [
+      [
+        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Currency', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    let policyInfoDetailData = [
+      [
+        { content: this.formatDateDDMMYYY(this.policyInfo.formdate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.policyInfo.paPolicyTermValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.policyInfo.currency, styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    // Start creating jsPDF
+    var doc: any = new jsPDF('p', 'pt', 'a4');
+    let pageSize = doc.internal.pageSize;
+    let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+    let width = pageSize.width ? pageSize.width : pageSize.getWidth();
+    let height = 0;
+
+    // var img = new Image()
+    // img.src = './assets/images/header-logo.png'
+    // doc.addImage(img, 'PNG', 0, height, width, 100);
+
+    //Agent Information Details
+    let title = this.product.name + ' Insurance Quotation'
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.text(title, 200, height + 40);
+    doc.autoTable({
+      body: agentInfoDetailData,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        minCellHeight: 5,
+        lineColor: '#fff',
+        cellWidth: 'auto',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Policy Holder Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text('Policy Holder Information Details', 200, height + 40);
+    doc.autoTable({
+      body: policyHolderInfoDetailData,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        minCellHeight: 5,
+        lineColor: '#fff',
+        cellWidth: 'auto',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    //Policy Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Policy Information Details", 200, height + 40);
+    doc.autoTable({
+      head: policyInfoDetailHeader,
+      body: policyInfoDetailData,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 10,
+        font: 'helvetica',
+        cellPadding: 5,
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto'
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      }
+    });
+    height = doc.lastAutoTable.finalY;
+
+    //Risk Information Details
+    // doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    // doc.text("Risk Information Details", 200, height + 40);
+    // doc.autoTable({
+    //   head: riskInfoDetailHeader,
+    //   body: riskInfoDetailData,
+    //   theme: 'grid',
+    //   startY: height + 60,
+    //   margin: { left: 10, right: 10 },
+    //   styles: {
+    //     fontSize: 10,
+    //     font: 'helvetica',
+    //     lineColor: '#005f99',
+    //     lineWidth: 0.5,
+    //     cellWidth: 'auto',
+    //     cellPadding: 5,
+    //   },
+    //   headStyles: {
+    //     fillColor: '#e9f8fe',
+    //     textColor: '#000',
+    //     fontStyle: 'normal',
+    //   },
+    // });
+    // height = doc.lastAutoTable.finalY;
+
+    // //Beneficiaries Information Details
+    // doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    // doc.text("Beneficiaries Information Details", 200, height + 40);
+    // doc.autoTable({
+    //   head: beneficiariesInformationDetailHeader,
+    //   body: beneficiariesInfoDetailList,
+    //   theme: 'grid',
+    //   startY: height + 60,
+    //   margin: { left: 10, right: 10 },
+    //   showHead: 'firstPage',
+    //   styles: {
+    //     fontSize: 10,
+    //     font: 'helvetica',
+    //     lineColor: '#005f99',
+    //     lineWidth: 0.5,
+    //     cellWidth: 'auto',
+    //     cellPadding: 5,
+    //   },
+    //   headStyles: {
+    //     fillColor: '#e9f8fe',
+    //     textColor: '#000',
+    //     fontStyle: 'normal',
+    //   },
+    // });
+    // height = doc.lastAutoTable.finalY;
+
+    //new page
+    doc.addPage();
+    height = 0;
+
+    // Insurance Information Details
+    // doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    // doc.text("Insurance Information Details", 200, height + 40);
+    // doc.autoTable({
+    //   body: insuranceInfoDetailData,
+    //   theme: 'grid',
+    //   startY: height + 60,
+    //   margin: { left: 10, right: 10 },
+    //   showHead: 'firstPage',
+    //   styles: {
+    //     fontSize: 10,
+    //     font: 'helvetica',
+    //     cellPadding: 5,
+    //     lineColor: '#005f99',
+    //     lineWidth: 0.5,
+    //     cellWidth: 'auto'
+    //   },
+    //   headStyles: {
+    //     fillColor: '#e9f8fe',
+    //     textColor: '#000',
+    //     fontStyle: 'normal',
+    //   }
+    // });
+    // height = doc.lastAutoTable.finalY + 20;
+
+    
+    // Declaration By Proposer
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.text("Declaration By Proposer", 10, height + 20);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("I hereby declare that I am in good health and free from any physical injuries the day which I am submitting the proposal. I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("Remarks: If beneficiary is under 18,the benefit shall be paid to his parents (or) lawful guardian. In case where the beneficiary dies before the insured, and the death of the insured occurred before the insured has not re-transferred the title of benefits, shall pay the death claim in the followings order:", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("1.The insured’s husband or wife", 10, height + 140, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("2.The insured’s son or daughter", 10, height + 150, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("3.The insured’s grandchildren", 10, height + 160, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("4.The insured’s siblings", 10, height + 170, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("5.The insured’s parents", 10, height + 180, { maxWidth: width - 20, align: 'justify' });
+
+    // Proposer's name and signature
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 220);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 220);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 240);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 280);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 200, height + 280);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.formatDateDDMMYYY(this.signatureDate), 10, height + 260);
+    // if (this.fileId) {
+    //   var img = new Image()
+    //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+    //   doc.addImage(img, 'PNG', width - 200, height + 190, 140, 80);
+    // }
+    
+    // Add Footer Image
+    var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
+    for (let i = 0; i < pageCount; i++) {
+      doc.setPage(i);
+      var img = new Image()
+      img.src = './assets/images/kbz_footer_bg_white.png'
+      doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
+    }
+
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+      this.attachmentDownloadService.mobileDownload('downloadMobile.pdf', blobPDF);
+    } else {
+      console.log("Web")
+      // Open PDF document in new tab
+      doc.output('dataurlnewwindow', { filename: 'downloadWeb.pdf' })
+
+      // Download PDF document  
+      // doc.save('downloadWeb.pdf');
+
+      // Base64 output
+      // let data = doc.output('datauri')
+      // console.log("Base64 Data: ", data)
+    }
+  }
+
+
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
+  }
+
+  currencyFormat(num) {
+    return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+  }
 }
+
