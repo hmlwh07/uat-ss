@@ -207,20 +207,40 @@ export class TravelPrintComponent implements OnInit {
     ]
 
     //Policy Information Details
-    let policyInfoDetailHeader = [
-      [
-        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Currency', styles: { halign: 'center', valign: 'middle' } },
-      ]
-    ]
+    // let policyInfoDetailHeader = [
+    //   [
+    //     { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Currency', styles: { halign: 'center', valign: 'middle' } },
+    //   ]
+    // ]
     let policyInfoDetailData = [
       [
+        { content: 'Policy Effective Date', styles: { halign: 'left', valign: 'middle' } },
         { content: this.formatDateDDMMYYY(this.policyInfo.formdate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Expiry Date', styles: { halign: 'middle', valign: 'middle' } },
         { content: this.formatDateDDMMYYY(this.policyInfo.todate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
         { content: this.policyInfo.paPolicyTermValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.policyInfo.currency, styles: { halign: 'center', valign: 'middle' } },
+      ],
+      [
+        { content: 'Travel Plan', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.formdate), colSpan: 2,styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Currency', styles: { halign: 'middle', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 2,styles: { halign: 'center', valign: 'middle' } },
+      ],
+      [
+        { content: 'No of Traveler', styles: { halign: 'middle', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate),  colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
+      ],
+      [
+        { content: 'Vehicle Information', styles: { halign: 'middle', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate),colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
+      ],
+      [
+        { content: 'Travel Area', styles: { halign: 'middle', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5,styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
     // Start creating jsPDF
@@ -279,7 +299,7 @@ export class TravelPrintComponent implements OnInit {
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
     doc.text("Policy Information Details", 200, height + 40);
     doc.autoTable({
-      head: policyInfoDetailHeader,
+      // head: policyInfoDetailHeader,
       body: policyInfoDetailData,
       theme: 'grid',
       startY: height + 60,
