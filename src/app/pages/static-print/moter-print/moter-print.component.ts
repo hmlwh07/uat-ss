@@ -7,7 +7,8 @@ import { MotorPrintService } from '../../products/services/motor-print.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { Platform } from '@ionic/angular';
-import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service'; import jsPDF from 'jspdf';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 @Component({
@@ -305,20 +306,18 @@ export class MoterPrintComponent implements OnInit {
     ]
 
     //Policy Information Details
-    let policyInfoDetailHeader = [
-      [
-        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Currency', styles: { halign: 'center', valign: 'middle' } },
-      ]
-    ]
     let policyInfoDetailData = [
       [
+        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceFrom), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceTo), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.policyTerm[this.motorDetail.mPolicyTerm], styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mCurrency, styles: { halign: 'center', valign: 'middle' } },
+      ],
+      [
+        { content: 'Currency', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.motorDetail.mCurrency, colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
 
@@ -365,10 +364,10 @@ export class MoterPrintComponent implements OnInit {
     for (var i = 0; i < this.listData.length; i++) {
       let driverInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].firstName + " " + this.listData[i].middleName + " " + this.listData[i].lastName, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].firstName + " " + (this.listData[i].middleName || '') + " " + this.listData[i].lastName, styles: { halign: 'center', valign: 'middle' } },
         { content: this.listData[i].identityType == 'NRC' ? this.listData[i].identityNrc : this.listData[i].identityNumber, styles: { halign: 'center', valign: 'middle' } },
         { content: this.formatDateDDMMYYY(this.listData[i].dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].licenseNo, styles: { halign: 'center', valign: 'middle' } },
+        { content: (this.listData[i].licenseNo || ''), styles: { halign: 'center', valign: 'middle' } },
         { content: this.listData[i].mRelationshipToPolicyholderValue, styles: { halign: 'center', valign: 'middle' } },
       ]
       driverInfoDetailList.push(driverInfoDetailData);
@@ -477,16 +476,16 @@ export class MoterPrintComponent implements OnInit {
 
     var img = new Image()
     img.src = './assets/images/header-kbzms.png'
-    doc.addImage(img, 'PNG', 180, height, 240, 120);
+    doc.addImage(img, 'PNG', 180, height, 200, 100);
 
     // Agent Information Details
     let title = this.product.name + ' Insurance Quotation'
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
-    doc.text(title, width / 2, height + 140, { align: 'center' });
+    doc.text(title, width / 2, height + 120, { align: 'center' });
     doc.autoTable({
       body: agentInfoDetailData,
       theme: 'grid',
-      startY: height + 160,
+      startY: height + 140,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
@@ -524,7 +523,6 @@ export class MoterPrintComponent implements OnInit {
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
     doc.text("Policy Information Details", width / 2, height + 40, { align: 'center' });
     doc.autoTable({
-      head: policyInfoDetailHeader,
       body: policyInfoDetailData,
       theme: 'grid',
       startY: height + 60,
@@ -570,6 +568,10 @@ export class MoterPrintComponent implements OnInit {
       },
     });
     height = doc.lastAutoTable.finalY;
+
+    //new page
+    doc.addPage();
+    height = 0;
 
     if (this.product.code == 'PLMO01') {
       // Driver Information Details
@@ -683,21 +685,21 @@ export class MoterPrintComponent implements OnInit {
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("I/ We agree that this proposal and declaration shall be the basis of the contract between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract. I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been refused any motor vehicle insurance or continuance thereof.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Important Notice: You are to disclose in this proposal form fully and faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.text("Important Notice: You are to disclose in this proposal form fully and faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.", 10, height + 80, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
     doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 160);
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 120);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 180);
+    doc.text("Date", 10, height + 140);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 180);
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 140);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 280);
+    doc.text("-----------------------------", 10, height + 240);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 200, height + 280);
+    doc.text("-----------------------------", width - 200, height + 240);
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.formatDateDDMMYYY(this.signatureDate), 10, height + 260);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 220);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
