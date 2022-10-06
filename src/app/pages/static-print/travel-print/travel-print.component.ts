@@ -29,7 +29,7 @@ export class TravelPrintComponent implements OnInit {
   product: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
-  tempArray:any[]=[]
+  tempArray: any[] = []
   listData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
@@ -43,7 +43,7 @@ export class TravelPrintComponent implements OnInit {
   @Input() signId?: string
   signatureDate?: string
   travelArea: string = ''
-  fileId:string=''
+  fileId: string = ''
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   constructor(
@@ -51,16 +51,16 @@ export class TravelPrintComponent implements OnInit {
     private travelService: TravelRiskService,
     private productService: ProductDataService,
     private numberPipe: DecimalPipe,
-    private encryption:EncryptService,
-    private attachmentDownloadService:AttachmentDownloadService,
-    private platform:Platform
+    private encryption: EncryptService,
+    private attachmentDownloadService: AttachmentDownloadService,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
     // console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
-    if(this.signId){
-      this.fileId=this.encryption.encryptData(this.signId)
+    if (this.signId) {
+      this.fileId = this.encryption.encryptData(this.signId)
     }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
@@ -89,7 +89,7 @@ export class TravelPrintComponent implements OnInit {
     })
   }
 
-  getMasterValue(townshipCd: string, districtCd: string, stateCd: string,titleCd:string) {
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string, titleCd: string) {
     let data = {
       "codeBookRequest": [
         {
@@ -122,7 +122,7 @@ export class TravelPrintComponent implements OnInit {
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         console.log(res);
-        
+
         this.policyInfo = res.policyInfo.travelBasic
         this.numberOfTraveller = res.policyInfo.numberOfTraveller
         this.riskInfo = res.riskDetails
@@ -133,17 +133,17 @@ export class TravelPrintComponent implements OnInit {
           if (data.travelBeneficiaries.length > 0) {
             this.tempArray.push(data.travelBeneficiaries)
             console.log(this.tempArray);
-            
+
           }
         }
-        for (let data of this.tempArray){
-            if(data.length>0){
-              for (let bene of data){
-                this.beneficiaries.push(bene)
-              }
-            }else{
-              this.beneficiaries.push(data)
+        for (let data of this.tempArray) {
+          if (data.length > 0) {
+            for (let bene of data) {
+              this.beneficiaries.push(bene)
             }
+          } else {
+            this.beneficiaries.push(data)
+          }
         }
         // this.beneficiaries = this.tempArray || []
         let SI = totalUnit * 500000
@@ -226,21 +226,21 @@ export class TravelPrintComponent implements OnInit {
       ],
       [
         { content: 'Travel Plan', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.formdate), colSpan: 2,styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.formdate), colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
         { content: 'Currency', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 2,styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
       ],
       [
         { content: 'No of Traveler', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate),  colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
       ],
       [
         { content: 'Vehicle Information', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate),colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
       ],
       [
         { content: 'Travel Area', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5,styles: { halign: 'center', valign: 'middle' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
     // Start creating jsPDF
@@ -401,7 +401,7 @@ export class TravelPrintComponent implements OnInit {
     // });
     // height = doc.lastAutoTable.finalY + 20;
 
-    
+
     // Declaration By Proposer
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
@@ -438,7 +438,7 @@ export class TravelPrintComponent implements OnInit {
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
     //   doc.addImage(img, 'PNG', width - 200, height + 190, 140, 80);
     // }
-    
+
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
     for (let i = 0; i < pageCount; i++) {
