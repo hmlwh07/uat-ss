@@ -219,17 +219,23 @@
             </td>
         </tr>
         <tbody class="tbody-align val-col">
-            <ng-container *ngFor="let data of beneficiaries; let i=index;">
-                <tr>
-                    <td class="field-pd" rowspan="rowCount">{{data.riskId}}</td>
-                    <td class="field-pd">{{i+1}}</td>
-                    <td class="field-pd">{{data.beneficiaryName}}</td>
-                    <td class="field-pd">{{data.relationshipValue}}</td>
-                    <td class="field-pd">{{data.idType}} - {{data.idType !='NRC' ? data.idNumber : data.nrc }} </td>
-                    <td class="field-pd">{{data.dateOfBirth | date: 'dd/MM/YYYY' }}</td>
-                    <td class="field-pd">{{data.share}} % </td>
-                </tr>
+
+            <ng-container *ngFor="let data of tempArray; ">
+                <ng-container *ngFor="let bene of data;let i=index">
+                    <tr>
+                        <td class="field-pd"  *ngIf="i==0" [attr.rowspan]="data.length">{{bene.riskId}}</td>
+                        <td class="field-pd" *ngIf="i>1">{{bene.riskId}}</td>
+                        <td class="field-pd">{{i+1}}</td>
+                        <td class="field-pd">{{bene.beneficiaryName}}</td>
+                        <td class="field-pd">{{bene.relationshipValue}}</td>
+                        <td class="field-pd">{{bene.idType}} - {{bene.idType !='NRC' ? bene.idNumber : bene.nrc }}
+                        </td>
+                        <td class="field-pd">{{bene.dateOfBirth | date: 'dd/MM/YYYY' }}</td>
+                        <td class="field-pd">{{bene.share}} % </td>
+                    </tr>
+                </ng-container>
             </ng-container>
+
         </tbody>
     </table>
 </div>

@@ -32,6 +32,7 @@ export class TravelPrintComponent implements OnInit {
   pdfTable!: ElementRef;
   tempArray: any[] = []
   listData: any[] = []
+  riskData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
   beneficiaries: any = []
@@ -128,7 +129,7 @@ export class TravelPrintComponent implements OnInit {
         let totalUnit = 0
 
         for (let data of res.riskDetails) {
-          
+
           totalUnit += parseInt(data.travelRisk.totalUnit)
           if (data.travelBeneficiaries.length > 0) {
 
@@ -138,6 +139,7 @@ export class TravelPrintComponent implements OnInit {
             this.tempArray.push(data.travelBeneficiaries)
           }
         }
+        console.log(this.tempArray);
         
         for (let data of this.tempArray) {
           if (data.length > 0) {
@@ -148,8 +150,10 @@ export class TravelPrintComponent implements OnInit {
             this.beneficiaries.push(data)
           }
         }
-        let rowCount = 0
-        
+        // let rowCount = 0
+        for (let risk of this.beneficiaries) {
+          this.riskData.push(risk.riskId)
+        }
         // this.beneficiaries = this.tempArray || []
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
