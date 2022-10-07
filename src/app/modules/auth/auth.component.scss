@@ -20,7 +20,7 @@
   background-repeat: no-repeat, no-repeat;
   background-position: left bottom, center bottom 5%, right bottom;
   // background-size: 40% 55%, 22% 20%;
-  background-size: 30% 48%, 18% 15%;
+  background-size: 36% 50%,19% 17%, 26% 49%;
 
 }
 
@@ -39,9 +39,22 @@
   }
 }
 
-@media (min-width: 741px) and (max-width: 916px) {
+@media (max-width: 1100px) and (min-height: 650px) {
   #kt_login {
-    background-size: 31% 48%, 22% 18%;
+    background-size: 36% 49%,23% 16% ,29% 52%;
+  }
+
+  .f-center {
+    margin-top: 27% !important;
+  }
+}
+
+@media (min-width: 741px) and (max-width: 1009px) {
+  #kt_login {
+    background-size: 33% 50%,21% 17%,27% 53%;
+  }
+  .f-center{
+    margin-top: 7%;
   }
 }
 
