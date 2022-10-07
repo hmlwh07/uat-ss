@@ -128,11 +128,17 @@ export class TravelPrintComponent implements OnInit {
         let totalUnit = 0
 
         for (let data of res.riskDetails) {
+          
           totalUnit += parseInt(data.travelRisk.totalUnit)
           if (data.travelBeneficiaries.length > 0) {
+
+            data.travelBeneficiaries.forEach(element => {
+              element.riskId = data.travelRisk.riskId
+            });
             this.tempArray.push(data.travelBeneficiaries)
           }
         }
+        
         for (let data of this.tempArray) {
           if (data.length > 0) {
             for (let bene of data) {
@@ -142,6 +148,8 @@ export class TravelPrintComponent implements OnInit {
             this.beneficiaries.push(data)
           }
         }
+        let rowCount = 0
+        
         // this.beneficiaries = this.tempArray || []
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')

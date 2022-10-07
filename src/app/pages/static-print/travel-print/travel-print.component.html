@@ -88,7 +88,7 @@
             </td>
             <td class="field-pd" colspan="2">{{policyInfo.currency || "MMK"}}</td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td class="field-col" style="background-color:#e9f8fe;">
                 No. of Traveler
             </td>
@@ -113,7 +113,37 @@
                 <div *ngFor="let data of riskInfo; let i=index">
                     {{data.travelDetail.travelArea}}{{i+1==riskInfo.length?'':','}} </div>
             </td>
+        </tr> -->
+    </table>
+</div>
+
+<div class="addon-print">
+    <div class="title-style text-bold mt-5 mb-5">Travel Information Details</div>
+    <table class="tbody-align" width="100%">
+        <tr>
+            <td class="field-col">
+                No.
+            </td>
+            <td class="field-col">
+                No. of Traveler
+            </td>
+            <td class="field-col">
+                Vehicle Information
+            </td>
+            <td class="field-col">
+                Travel Area
+            </td>
         </tr>
+        <tbody class="tbody-align val-col">
+            <ng-container *ngFor="let data of riskInfo; let i=index;">
+                <tr>
+                    <td class="field-value">{{i+1}}</td>
+                    <td class="field-value">{{data.travelRisk.noOfTraveller}}</td>
+                    <td class="field-value"> {{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
+                        {{data.travelDetail? data.travelDetail.vehicleNo :""}} </td>
+                    <td class="field-value">{{data.travelDetail.travelArea}}</td>
+            </ng-container>
+        </tbody>
     </table>
 </div>
 
@@ -167,6 +197,9 @@
     <table class="tbody-align" width="100%">
         <tr>
             <td class="field-col">
+                Risk No.
+            </td>
+            <td class="field-col">
                 No.
             </td>
             <td class="field-col">
@@ -188,6 +221,7 @@
         <tbody class="tbody-align val-col">
             <ng-container *ngFor="let data of beneficiaries; let i=index;">
                 <tr>
+                    <td class="field-pd" rowspan="rowCount">{{data.riskId}}</td>
                     <td class="field-pd">{{i+1}}</td>
                     <td class="field-pd">{{data.beneficiaryName}}</td>
                     <td class="field-pd">{{data.relationshipValue}}</td>
