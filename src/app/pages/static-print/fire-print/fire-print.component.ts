@@ -11,6 +11,7 @@ import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attac
 import { Platform } from '@ionic/angular';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-fire-print',
@@ -62,7 +63,8 @@ export class FirePrintComponent implements OnInit {
     private productSerice: ProductDataService,
     private encryption: EncryptService,
     private platform: Platform,
-    private attachmentDownloadService: AttachmentDownloadService
+    private attachmentDownloadService: AttachmentDownloadService,
+    private numberPipe: DecimalPipe
   ) { }
 
   ngOnInit() {
@@ -301,31 +303,282 @@ export class FirePrintComponent implements OnInit {
         { content: riskData.buildingClassValue, styles: { halign: 'center', valign: 'middle' } },
         { content: riskData.totalSquareFoot, styles: { halign: 'center', valign: 'middle' } },
         { content: riskData.yearOfConstruction, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.buildingSi, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.proposedFurniture, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.proposedMachinerySI, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.proposeStockValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.riskSi, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(riskData.buildingSi || 0), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.currencyFormat(riskData.proposedFurniture || 0), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.currencyFormat(riskData.proposedMachinerySI || 0), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.currencyFormat(riskData.proposeStockValue || 0), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.currencyFormat(riskData.riskSi || 0), styles: { halign: 'right', valign: 'middle' } },
       ]
       riskInfoDetailList.push(riskInfoDetailData);
     }
     riskInfoDetailData = [
       { content: 'Total SI', colSpan: 6, styles: { halign: 'center', valign: 'middle' } },
-      { content: this.totalbuildingSi, styles: { halign: 'center', valign: 'middle' } },
-      { content: this.totalproposedFurniture, styles: { halign: 'center', valign: 'middle' } },
-      { content: this.totalproposedMachinerySI, styles: { halign: 'center', valign: 'middle' } },
-      { content: this.totalproposeStockValue, styles: { halign: 'center', valign: 'middle' } },
-      { content: this.totalriskSi, styles: { halign: 'center', valign: 'middle' } },
+      { content: this.currencyFormat(this.totalbuildingSi || 0), styles: { halign: 'right', valign: 'middle' } },
+      { content: this.currencyFormat(this.totalproposedFurniture || 0), styles: { halign: 'right', valign: 'middle' } },
+      { content: this.currencyFormat(this.totalproposedMachinerySI || 0), styles: { halign: 'right', valign: 'middle' } },
+      { content: this.currencyFormat(this.totalproposeStockValue || 0), styles: { halign: 'right', valign: 'middle' } },
+      { content: this.currencyFormat(this.totalriskSi || 0), styles: { halign: 'right', valign: 'middle' } },
     ]
     riskInfoDetailList.push(riskInfoDetailData);
+
+    // Cover Information Details
+    let coverInfoDetailData = [];
+    let coverInfoDetailList = [];
+    let coverInfoDetailHeader = [
+      [
+        { content: 'Building Description', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Additional Cover Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Additional Cover Premium', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    for (var i = 0; i < this.addOnData.length; i++) {
+      let data = this.addOnData[i]
+      let count = 0;
+      let isExistData = false;
+      let isFirstData = false;
+      if (data) {
+        if (data.STHTC != 0)
+          count++
+        if (data.IMPD != 0)
+          count++
+        if (data.RSMD != 0)
+          count++
+        if (data.BURGLARY != 0)
+          count++
+        if (data.ACD != 0)
+          count++
+        if (data.EQ != 0)
+          count++
+        if (data.SPONTCOMB != 0)
+          count++
+        if (data.SUBLSLD != 0)
+          count++
+        if (data.WARRISK != 0)
+          count++
+        if (data.EXPLOSION != 0)
+          count++
+        if (data.FLOOD != 0)
+          count++
+      }
+      if (data) {
+        // STHTC
+        if (data.STHTC != 0) {
+          isExistData = true
+          coverInfoDetailData = [
+            { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+            { content: 'STHTC', styles: { halign: 'center', valign: 'middle' } },
+            { content: this.numberPipe.transform(data.STHTC, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+          ]
+          isFirstData = true
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Impact Damage
+        if (data.IMPD != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'Impact Damage', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.IMPD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'Impact Damage', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.IMPD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // RSMD
+        if (data.RSMD != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'RSMD', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.RSMD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'RSMD', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.RSMD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Burglary
+        if (data.BURGLARY != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'Burglary', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.BURGLARY, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'Burglary', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.BURGLARY, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Air Craft Damage
+        if (data.ACD != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'Air Craft Damage', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.ACD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'Air Craft Damage', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.ACD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // EQ
+        if (data.EQ != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'EQ', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.EQ, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'EQ', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.EQ, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Spontaneous Combus
+        if (data.SPONTCOMB != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'Spontaneous Combus', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.SPONTCOMB, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'Spontaneous Combus', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.SPONTCOMB, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Subsidence and Landslid
+        if (data.SUBLSLD != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'Subsidence and Landslid', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.SUBLSLD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'Subsidence and Landslid', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.SUBLSLD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // War Risk
+        if (data.WARRISK != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.WARRISK, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.WARRISK, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Explosion
+        if (data.EXPLOSION != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'Explosion', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.EXPLOSION, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'Explosion', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.EXPLOSION, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Flood and Inundate
+        if (data.FLOOD != 0) {
+          isExistData = true
+          if (isFirstData) {
+            coverInfoDetailData = [
+              { content: 'Flood and Inundate', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.FLOOD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+          } else {
+            coverInfoDetailData = [
+              { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
+              { content: 'Flood and Inundate', styles: { halign: 'center', valign: 'middle' } },
+              { content: this.numberPipe.transform(data.FLOOD, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+            ]
+            isFirstData = true;
+          }
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        // Sub Total Premium
+        if (data.premium != 0) {
+          isExistData = true
+          coverInfoDetailData = [
+            { content: 'Sub Total Premium', colSpan: 2, styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+            { content: this.numberPipe.transform(data.premium, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
+          ]
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+        if (!isExistData) {
+          coverInfoDetailData = [
+            { content: data.description, styles: { halign: 'center', valign: 'middle' } },
+            { content: '-', styles: { halign: 'center', valign: 'middle' } },
+            { content: '-', styles: { halign: 'center', valign: 'middle' } },
+          ]
+          coverInfoDetailList.push(coverInfoDetailData)
+        }
+      }
+    }
 
     // Insurance Information Details
     let insuranceInfoDetailData = [
       [
         { content: "Approximate Total SI", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.totalSi, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(this.totalSi), styles: { halign: 'right', valign: 'middle' } },
         { content: "Approximate Total Premium", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.premiumAmt, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.premiumAmt, styles: { halign: 'right', valign: 'middle' } },
       ]
     ];
 
@@ -415,8 +668,9 @@ export class FirePrintComponent implements OnInit {
       theme: 'grid',
       startY: height + 60,
       margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 9,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -434,6 +688,32 @@ export class FirePrintComponent implements OnInit {
     //new page
     doc.addPage();
     height = 0;
+
+    // Cover Information Details
+    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
+    doc.text("Cover Information Details", width / 2, height + 40, { align: 'center' });
+    doc.autoTable({
+      head: coverInfoDetailHeader,
+      body: coverInfoDetailList,
+      theme: 'grid',
+      startY: height + 60,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 9,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
 
     // Insurance Information Details
     doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
