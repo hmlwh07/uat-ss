@@ -476,20 +476,20 @@ export class MoterPrintComponent implements OnInit {
 
     var img = new Image()
     img.src = './assets/images/header-kbzms.png'
-    doc.addImage(img, 'PNG', 180, height, 200, 100);
+    doc.addImage(img, 'PNG', 200, height, 180, 80);
 
     // Agent Information Details
     let title = this.product.name + ' Insurance Quotation'
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
-    doc.text(title, width / 2, height + 120, { align: 'center' });
+    doc.setFontSize(12).setFont('helvetica', 'normal', 'normal');
+    doc.text(title, width / 2, height + 100, { align: 'center' });
     doc.autoTable({
       body: agentInfoDetailData,
       theme: 'grid',
-      startY: height + 140,
+      startY: height + 110,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -500,16 +500,16 @@ export class MoterPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Holder Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text('Policy Holder Information Details', width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text('Policy Holder Information Details', width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: policyHolderInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 30,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -520,16 +520,16 @@ export class MoterPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Policy Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Policy Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: policyInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -545,16 +545,70 @@ export class MoterPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Risk Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Risk Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Risk Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       head: riskInfoDetailHeader,
       body: riskInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       styles: {
-        fontSize: 10,
+        fontSize: 6,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    if (this.product.code == 'PLMO01') {
+      // Driver Information Details
+      doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+      doc.text("Driver Information Details", width / 2, height + 23, { align: 'center' });
+      doc.autoTable({
+        head: driverInfoDetailHeader,
+        body: driverInfoDetailList,
+        theme: 'grid',
+        startY: height + 35,
+        margin: { left: 10, right: 10 },
+        showHead: 'firstPage',
+        styles: {
+          fontSize: 6,
+          font: 'helvetica',
+          lineColor: '#005f99',
+          lineWidth: 0.5,
+          cellWidth: 'auto',
+          cellPadding: 5,
+        },
+        headStyles: {
+          fillColor: '#e9f8fe',
+          textColor: '#000',
+          fontStyle: 'normal',
+        },
+      });
+      height = doc.lastAutoTable.finalY;
+    }
+
+    // Basic Cover Information Details
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Basic Cover Information Details", width / 2, height + 23, { align: 'center' });
+    doc.autoTable({
+      head: basicCoverInfoDetailHeader,
+      body: basicCoverInfoDetailList,
+      theme: 'grid',
+      startY: height + 35,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 6,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -573,72 +627,18 @@ export class MoterPrintComponent implements OnInit {
     doc.addPage();
     height = 0;
 
-    if (this.product.code == 'PLMO01') {
-      // Driver Information Details
-      doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-      doc.text("Driver Information Details", width / 2, height + 40, { align: 'center' });
-      doc.autoTable({
-        head: driverInfoDetailHeader,
-        body: driverInfoDetailList,
-        theme: 'grid',
-        startY: height + 60,
-        margin: { left: 10, right: 10 },
-        showHead: 'firstPage',
-        styles: {
-          fontSize: 10,
-          font: 'helvetica',
-          lineColor: '#005f99',
-          lineWidth: 0.5,
-          cellWidth: 'auto',
-          cellPadding: 5,
-        },
-        headStyles: {
-          fillColor: '#e9f8fe',
-          textColor: '#000',
-          fontStyle: 'normal',
-        },
-      });
-      height = doc.lastAutoTable.finalY;
-    }
-
-    // Basic Cover Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Basic Cover Information Details", width / 2, height + 40, { align: 'center' });
-    doc.autoTable({
-      head: basicCoverInfoDetailHeader,
-      body: basicCoverInfoDetailList,
-      theme: 'grid',
-      startY: height + 60,
-      margin: { left: 10, right: 10 },
-      showHead: 'firstPage',
-      styles: {
-        fontSize: 10,
-        font: 'helvetica',
-        lineColor: '#005f99',
-        lineWidth: 0.5,
-        cellWidth: 'auto',
-        cellPadding: 5,
-      },
-      headStyles: {
-        fillColor: '#e9f8fe',
-        textColor: '#000',
-        fontStyle: 'normal',
-      },
-    });
-    height = doc.lastAutoTable.finalY;
-
     // Additional Cover Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Additional Cover Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Additional Cover Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       head: this.product.code == 'PLMO01' ? additionalCoverInfoDetailHeader01 : additionalCoverInfoDetailHeader02,
       body: this.product.code == 'PLMO01' ? additionalCoverInfoDetailData01 : additionalCoverInfoDetailData02,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 9,
+        fontSize: 6,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -646,7 +646,6 @@ export class MoterPrintComponent implements OnInit {
         cellPadding: 5,
       },
       headStyles: {
-        fontSize: 10,
         fillColor: '#e9f8fe',
         textColor: '#000',
         fontStyle: 'normal',
@@ -655,16 +654,16 @@ export class MoterPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Insurance Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Insurance Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Insurance Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: insuranceInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -677,33 +676,33 @@ export class MoterPrintComponent implements OnInit {
         fontStyle: 'normal',
       }
     });
-    height = doc.lastAutoTable.finalY + 20;
+    height = doc.lastAutoTable.finalY;
 
     // Declaration By Proposer
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("I/ We agree that this proposal and declaration shall be the basis of the contract between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract. I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been refused any motor vehicle insurance or continuance thereof.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Important Notice: You are to disclose in this proposal form fully and faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.", 10, height + 80, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("I/ We agree that this proposal and declaration shall be the basis of the contract between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract. I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been refused any motor vehicle insurance or continuance thereof.", 10, height + 35, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("Important Notice: You are to disclose in this proposal form fully and faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.", 10, height + 55, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 120);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 140);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 140);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 240);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 200, height + 240);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 220);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 150, height + 80);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 90);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 150, height + 90);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 150);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 150, height + 150);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 140);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 200, height + 190, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 150, height + 100, 140, 80);
     // }
 
     // Add Footer Image
@@ -712,7 +711,7 @@ export class MoterPrintComponent implements OnInit {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 70, width, 70);
+      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {

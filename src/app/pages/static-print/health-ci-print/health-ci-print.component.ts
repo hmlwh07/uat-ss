@@ -396,20 +396,20 @@ export class HealthCiPrintComponent implements OnInit {
 
     var img = new Image()
     img.src = './assets/images/header-kbzms.png'
-    doc.addImage(img, 'PNG', 180, height, 240, 120);
+    doc.addImage(img, 'PNG', 200, height, 180, 80);
 
     // Agent Information Details
     let title = this.product.name + ' Insurance Quotation'
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
-    doc.text(title, width / 2, height + 140, { align: 'center' });
+    doc.setFontSize(12).setFont('helvetica', 'normal', 'normal');
+    doc.text(title, width / 2, height + 100, { align: 'center' });
     doc.autoTable({
       body: agentInfoDetailData,
       theme: 'grid',
-      startY: height + 160,
+      startY: height + 110,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -420,16 +420,16 @@ export class HealthCiPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Holder Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text('Policy Holder Information Details', width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text('Policy Holder Information Details', width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: policyHolderInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 30,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -440,16 +440,16 @@ export class HealthCiPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Policy Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Policy Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: policyInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -465,16 +465,16 @@ export class HealthCiPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Risk Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Risk Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Risk Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       head: riskInfoDetailHeader,
       body: riskInfoDetailList,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -490,17 +490,43 @@ export class HealthCiPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Beneficiaries Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Beneficiaries Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       head: beneficiariesInfoDetailHeader,
       body: beneficiariesInfoDetailList,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Coverage Information Details
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Coverage Information Details", width / 2, height + 23, { align: 'center' });
+    doc.autoTable({
+      head: coverageInfoDetailHeader,
+      body: coverageInfoDetailList,
+      theme: 'grid',
+      startY: height + 35,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 6,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -519,44 +545,18 @@ export class HealthCiPrintComponent implements OnInit {
     doc.addPage();
     height = 0;
 
-    // Coverage Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Coverage Information Details", width / 2, height + 40, { align: 'center' });
-    doc.autoTable({
-      head: coverageInfoDetailHeader,
-      body: coverageInfoDetailList,
-      theme: 'grid',
-      startY: height + 60,
-      margin: { left: 10, right: 10 },
-      showHead: 'firstPage',
-      styles: {
-        fontSize: 10,
-        font: 'helvetica',
-        lineColor: '#005f99',
-        lineWidth: 0.5,
-        cellWidth: 'auto',
-        cellPadding: 5,
-      },
-      headStyles: {
-        fillColor: '#e9f8fe',
-        textColor: '#000',
-        fontStyle: 'normal',
-      },
-    });
-    height = doc.lastAutoTable.finalY;
-
     // Payment Schedule Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Payment Schedule Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Payment Schedule Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       head: paymentScheduleInfoDetailHeader,
       body: paymentScheduleInfoDetailList,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -569,33 +569,33 @@ export class HealthCiPrintComponent implements OnInit {
         fontStyle: 'normal',
       }
     });
-    height = doc.lastAutoTable.finalY + 20;
+    height = doc.lastAutoTable.finalY;
 
     // Declaration By Proposer
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Remark: The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 35, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("Remark: The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.", 10, height + 55, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 140);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 160);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 160);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 260);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 200, height + 260);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 240);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 150, height + 70);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 80);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 150, height + 80);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 130);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 150, height + 130);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 120);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 200, height + 170, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 150, height + 90, 140, 80);
     // }
 
     // Add Footer Image
@@ -604,7 +604,7 @@ export class HealthCiPrintComponent implements OnInit {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 70, width, 70);
+      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {

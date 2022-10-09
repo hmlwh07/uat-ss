@@ -510,7 +510,7 @@ export class TravelPrintComponent implements OnInit {
     }
 
     //new page
-    if (this.beneficiaries.length > 1) {
+    if (this.beneficiaries.length > 5) {
       doc.addPage();
       height = 0;
     }
@@ -539,6 +539,12 @@ export class TravelPrintComponent implements OnInit {
       }
     });
     height = doc.lastAutoTable.finalY;
+
+    //new page
+    if (this.beneficiaries.length > 0 && this.beneficiaries.length < 5) {
+      doc.addPage();
+      height = 0;
+    }
 
     // Declaration By Proposer
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
@@ -571,7 +577,7 @@ export class TravelPrintComponent implements OnInit {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 70, width, 70);
+      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {

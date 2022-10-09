@@ -29,6 +29,7 @@ export class FirePrintComponent implements OnInit {
   policyHolder: any = {
     partyAddress: []
   }
+  isExistData = false;
   address: any = {}
   additionalcoverinfo: any = {}
   optionId: any
@@ -334,7 +335,6 @@ export class FirePrintComponent implements OnInit {
     for (var i = 0; i < this.addOnData.length; i++) {
       let data = this.addOnData[i]
       let count = 0;
-      let isExistData = false;
       let isFirstData = false;
       if (data) {
         if (data.STHTC != 0)
@@ -363,7 +363,7 @@ export class FirePrintComponent implements OnInit {
       if (data) {
         // STHTC
         if (data.STHTC != 0) {
-          isExistData = true
+          this.isExistData = true
           coverInfoDetailData = [
             { content: data.description, rowSpan: count, styles: { halign: 'center', valign: 'middle' } },
             { content: 'STHTC', styles: { halign: 'center', valign: 'middle' } },
@@ -374,7 +374,7 @@ export class FirePrintComponent implements OnInit {
         }
         // Impact Damage
         if (data.IMPD != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'Impact Damage', styles: { halign: 'center', valign: 'middle' } },
@@ -392,7 +392,7 @@ export class FirePrintComponent implements OnInit {
         }
         // RSMD
         if (data.RSMD != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'RSMD', styles: { halign: 'center', valign: 'middle' } },
@@ -410,7 +410,7 @@ export class FirePrintComponent implements OnInit {
         }
         // Burglary
         if (data.BURGLARY != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'Burglary', styles: { halign: 'center', valign: 'middle' } },
@@ -428,7 +428,7 @@ export class FirePrintComponent implements OnInit {
         }
         // Air Craft Damage
         if (data.ACD != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'Air Craft Damage', styles: { halign: 'center', valign: 'middle' } },
@@ -446,7 +446,7 @@ export class FirePrintComponent implements OnInit {
         }
         // EQ
         if (data.EQ != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'EQ', styles: { halign: 'center', valign: 'middle' } },
@@ -464,7 +464,7 @@ export class FirePrintComponent implements OnInit {
         }
         // Spontaneous Combus
         if (data.SPONTCOMB != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'Spontaneous Combus', styles: { halign: 'center', valign: 'middle' } },
@@ -482,7 +482,7 @@ export class FirePrintComponent implements OnInit {
         }
         // Subsidence and Landslid
         if (data.SUBLSLD != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'Subsidence and Landslid', styles: { halign: 'center', valign: 'middle' } },
@@ -500,7 +500,7 @@ export class FirePrintComponent implements OnInit {
         }
         // War Risk
         if (data.WARRISK != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
@@ -518,7 +518,7 @@ export class FirePrintComponent implements OnInit {
         }
         // Explosion
         if (data.EXPLOSION != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'Explosion', styles: { halign: 'center', valign: 'middle' } },
@@ -536,7 +536,7 @@ export class FirePrintComponent implements OnInit {
         }
         // Flood and Inundate
         if (data.FLOOD != 0) {
-          isExistData = true
+          this.isExistData = true
           if (isFirstData) {
             coverInfoDetailData = [
               { content: 'Flood and Inundate', styles: { halign: 'center', valign: 'middle' } },
@@ -554,14 +554,14 @@ export class FirePrintComponent implements OnInit {
         }
         // Sub Total Premium
         if (data.premium != 0) {
-          isExistData = true
+          this.isExistData = true
           coverInfoDetailData = [
             { content: 'Sub Total Premium', colSpan: 2, styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
             { content: this.numberPipe.transform(data.premium, "1.2-2"), styles: { halign: 'right', valign: 'middle' } },
           ]
           coverInfoDetailList.push(coverInfoDetailData)
         }
-        if (!isExistData) {
+        if (!this.isExistData) {
           coverInfoDetailData = [
             { content: data.description, styles: { halign: 'center', valign: 'middle' } },
             { content: '-', styles: { halign: 'center', valign: 'middle' } },
@@ -686,7 +686,7 @@ export class FirePrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // new page
-    if (this.addOnData.length > 1) {
+    if (this.addOnData.length > 2) {
       doc.addPage();
       height = 0;
     }
@@ -718,7 +718,7 @@ export class FirePrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // new page
-    if (this.addOnData.length == 1) {
+    if (this.isExistData && this.addOnData.length <= 2) {
       doc.addPage();
       height = 0;
     }
@@ -779,7 +779,7 @@ export class FirePrintComponent implements OnInit {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
+      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {

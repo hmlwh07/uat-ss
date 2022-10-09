@@ -65,25 +65,25 @@
   <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Effective Date
+      <td class="field-col" style="background-color: #e9f8fe;">Policy Effective Date
       </td>
       <td class="field-pd">{{policyInfo.insuranceStartDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Expiry Date
+      <td class="field-col" style="background-color: #e9f8fe;">Policy Expiry Date
       </td>
       <td class="field-pd">{{policyInfo.insuranceEndDate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Duration
+      <td class="field-col" style="background-color: #e9f8fe;">Policy Duration
       </td>
       <td class="field-pd">{{policyInfo.sumInsuredMainCover}} Units</td>
     </tr>
     <tr>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Policy Plan</td>
+      <td class="field-col" style="background-color: #e9f8fe;">Policy Plan</td>
       <td class="field-pd " colspan="2">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance':'Critical Illness Insurance'}}</td>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Payment Frequency</td>
+      <td class="field-col" style="background-color: #e9f8fe;">Payment Frequency</td>
       <td class="field-pd" colspan="2">{{policyInfo.paymentFrequency == 'S'? 'Semi-Annually':'Lump Sum'}}</td>
 
     </tr>
     <!-- <tr>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c">Risk Address</td>
+      <td class="field-col" style="background-color: #e9f8fe;">Risk Address</td>
       <td class="pd-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
     </tr> -->
   </table>
