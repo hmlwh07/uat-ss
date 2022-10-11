@@ -11,6 +11,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Platform } from '@ionic/angular';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { PRINT } from '../static-print-const';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-personal-accident-print',
@@ -38,6 +40,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
   @Input() signId?: string
   fileId: string = ''
   signatureDate?: string
+  isMobile: boolean = false
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
   unsubscribe: Subscription[] = []
   constructor(
@@ -47,10 +50,17 @@ export class PersonalAccidentPrintComponent implements OnInit {
     private globalFun: GlobalFunctionService,
     private encryption: EncryptService,
     private platform: Platform,
+    public  modal:NgbActiveModal,
     private attachmentDownloadService: AttachmentDownloadService
   ) { }
 
   ngOnInit() {
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      PRINT.IS_MOBILE = true
+    } else {
+      PRINT.IS_MOBILE = false
+    }
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     // if(this.signId){
     //   this.fileId=this.encryption.encryptData(this.signId)

@@ -14,6 +14,8 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { environment } from 'src/environments/environment';
 import { ProductDataService } from '../services/products-data.service';
+import { Platform } from '@ionic/angular';
+import { PRINT } from '../../static-print/static-print-const';
 
 @Component({
   selector: 'app-print-preview-modal',
@@ -26,26 +28,34 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() configOrder: FromGroupData[] = []
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-  @Input() agentId:any
+  @Input() agentId: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
   content: string;
   base64data: string;
   qrLocation: string
+  isMobile: boolean = false
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(
     public modal: NgbActiveModal,
     private cdRef: ChangeDetectorRef,
     private pdfGenerator: PDFGenerator,
-    private productService: ProductDataService
+    private productService: ProductDataService,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
-    console.log("this.agentId",this.agentId);
-    
-    if(this.resourcesId)
-    this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
-   
+    console.log("this.agentId", this.agentId);
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      PRINT.IS_MOBILE = true
+    } else {
+      PRINT.IS_MOBILE = false
+    }
+    this.isMobile = PRINT.IS_MOBILE
+    if (this.resourcesId)
+      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
+
   }
 
   ngOnDestroy() { }

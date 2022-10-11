@@ -12,9 +12,11 @@ const htmlToPdfmake = require("html-to-pdfmake");
 // import domtoimage from 'dom-to-image';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PRINT } from '../static-print-const';
 
 @Component({
   selector: 'app-travel-print',
@@ -46,6 +48,7 @@ export class TravelPrintComponent implements OnInit {
   signatureDate?: string
   travelArea: string = ''
   fileId: string = ''
+  isMobile: boolean = false
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   constructor(
@@ -55,10 +58,18 @@ export class TravelPrintComponent implements OnInit {
     private numberPipe: DecimalPipe,
     private encryption: EncryptService,
     private attachmentDownloadService: AttachmentDownloadService,
-    private platform: Platform
+    private platform: Platform,
+    public modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      PRINT.IS_MOBILE = true
+    } else {
+      PRINT.IS_MOBILE = false
+    }
+    this.isMobile = PRINT.IS_MOBILE
     // console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
@@ -140,7 +151,7 @@ export class TravelPrintComponent implements OnInit {
           }
         }
         console.log(this.tempArray);
-        
+
         for (let data of this.tempArray) {
           if (data.length > 0) {
             for (let bene of data) {

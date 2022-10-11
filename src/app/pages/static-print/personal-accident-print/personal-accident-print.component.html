@@ -233,3 +233,9 @@
     </div>
   </div>
 </div>
+
+<div class="modal-footer" *ngIf="isMobile">
+  <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="createPdf()">Print</button>
+  <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
+
+</div>

@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-outline-primary mt-5" style="position:absolute; top:0px;"
-    (click)="createPdf()">Generate</button>
+<!-- <button type="button" class="btn btn-outline-primary mt-5" style="position:absolute; top:0px;"
+    (click)="createPdf()">Generate</button> -->
 <div class="addon-print" *ngIf="policyHolder">
     <div class="title-style text-bold mt-5 mb-3">Policyholder Information Details</div>
     <div class="row form-txt line-sp" style="padding-top:10px;">
@@ -137,11 +137,11 @@
         <tbody class="tbody-align val-col">
             <ng-container *ngFor="let data of riskInfo; let i=index;">
                 <tr>
-                    <td class="field-value">{{i+1}}</td>
-                    <td class="field-value">{{data.travelRisk.noOfTraveller}}</td>
-                    <td class="field-value"> {{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
+                    <td class="field-pd">{{i+1}}</td>
+                    <td class="field-pd">{{data.travelRisk.noOfTraveller}}</td>
+                    <td class="field-pd"> {{data.travelDetail?data.travelDetail.vehicleTypeValue:""}}
                         {{data.travelDetail? data.travelDetail.vehicleNo :""}} </td>
-                    <td class="field-value">{{data.travelDetail.travelArea}}</td>
+                    <td class="field-pd">{{data.travelDetail.travelArea}}</td>
             </ng-container>
         </tbody>
     </table>
@@ -223,7 +223,7 @@
             <ng-container *ngFor="let data of tempArray; ">
                 <ng-container *ngFor="let bene of data;let i=index">
                     <tr>
-                        <td class="field-pd"  *ngIf="i==0" [attr.rowspan]="data.length">{{bene.riskId}}</td>
+                        <td class="field-pd" *ngIf="i==0" [attr.rowspan]="data.length">{{bene.riskId}}</td>
                         <td class="field-pd" *ngIf="i>1">{{bene.riskId}}</td>
                         <td class="field-pd">{{i+1}}</td>
                         <td class="field-pd">{{bene.beneficiaryName}}</td>
@@ -290,4 +290,9 @@
             </div>
         </div>
     </div>
+</div>
+<div class="modal-footer" *ngIf="isMobile">
+    <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="createPdf()">Print</button>
+    <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
+
 </div>
