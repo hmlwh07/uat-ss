@@ -42,7 +42,6 @@
           {{agentData.sourceOfBusiness}}
         </div>
       </div>
-
       <div class="row">
         <div class="col-sm-3 text-bold">
           Agent Name / ID
@@ -57,7 +56,6 @@
           {{today | date: "dd/MM/YYYY"}}
         </div>
       </div>
-
       <div class="row">
         <div class="col-sm-3 text-bold">
           Agent Phone No.
@@ -185,14 +183,14 @@
       </ng-container>
       <ng-template #staticPrint>
         <ng-container *ngIf="product.code=='CLFR01'">
-          <app-fire-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt"></app-fire-print>
+          <app-fire-print [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+            [premiumAmt]="premimunAmt"></app-fire-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
           <app-moter-print [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-moter-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PLTR01' ">
-
           <!-- <div class="container">
             <div id="pdfTable" #pdfTable>
               <h2>Angular HTML To PDF Using PDFMAKE and htm-to-pdfmake Example - readerstacks.com</h2>
@@ -226,14 +224,17 @@
             </div>
             <button class="btn btn-primary" (click)="downloadAsPDF();">Export To PDF</button>
           </div>-->
-          <app-travel-print [resourcesId]="resourcesId" [premiumAmt]="premimunAmt" [branch]="branch" [agentData]="agentData"></app-travel-print>
+          <app-travel-print [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+            [premiumAmt]="premimunAmt"></app-travel-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PCHL01' ">
-          <app-health-ci-print [product]="product" [resourcesId]="resourcesId" [premiumAmt]="premimunAmt" [branch]="branch" [agentData]="agentData">
+          <app-health-ci-print [product]="product" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+            [premiumAmt]="premimunAmt">
           </app-health-ci-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PLPA01' ">
-          <app-personal-accident-print [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData" [premiumAmt]="premimunAmt">
+          <app-personal-accident-print [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+            [premiumAmt]="premimunAmt">
           </app-personal-accident-print>
         </ng-container>
       </ng-template>

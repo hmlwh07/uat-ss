@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-outline-primary mt-5" style="position:absolute; top:0px;"
-  (click)="createPdf()">Generate</button>
+<!-- <button type="button" class="btn btn-outline-primary mt-5" style="position:absolute; top:0px;"
+  (click)="createPdf()">Generate</button> -->
 <div class="addon-print" *ngIf="policyHolder">
   <div class="title-style text-bold mt-5 mb-5">Policyholder Information Details</div>
   <div class="row form-txt line-sp">
@@ -8,7 +8,7 @@
     </div>
     <div class="col-sm-6">
       {{policyHolder.titleValue}} {{policyHolder.firstName}} {{policyHolder.middleName}} {{policyHolder.lastName}}
-       </div>
+    </div>
   </div>
   <div class="row form-txt line-sp">
     <div class="col-sm-3 text-bold">
@@ -65,21 +65,21 @@
   <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
+      <td class="field-col" style="background-color: #e9f8fe;">
         Policy Effective Date
       </td>
       <td class="field-pd">{{productDetail.formdate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
+      <td class="field-col" style="background-color: #e9f8fe;">
         Policy Expiry Date
       </td>
       <td class="field-pd">{{productDetail.todate | date: 'dd/MM/YYYY'}}</td>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
+      <td class="field-col" style="background-color: #e9f8fe;">
         Policy Duration
       </td>
       <td class="field-pd">{{productDetail.paPolicyTermValue}}</td>
     </tr>
     <tr>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
+      <td class="field-col" style="background-color: #e9f8fe;">
         Currency
       </td>
       <td class="field-pd" colspan="10">{{productDetail.currency}}</td>
@@ -172,11 +172,11 @@
   <div class="title-style text-bold mt-5 mb-5">Insurance Information Details</div>
   <table width="100%">
     <tr>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
+      <td class="field-col" style="background-color: #e9f8fe;">
         Total SI
       </td>
       <td class="value-col" colspan="4">{{productDetail.sumInsured | number : '1.2-2'}} {{productDetail.currency}}</td>
-      <td class="field-col" style="background-color: #e9f8fe;color: #12609c;">
+      <td class="field-col" style="background-color: #e9f8fe;">
         Approximate Total Premium
       </td>
       <td class="value-col" colspan="4">{{premiumAmt}}</td>
@@ -214,23 +214,28 @@
 </div>
 
 <div class="moter-print">
-
   <div class="sign-row mt-5">
     <div class="sign-box">
-      <label class="text-bold">DATE</label>
-      <div class="sign-area">{{signatureDate | date : "dd/MM/yyyy"}}</div>
+      <br>
+      <label class="mt-2">Date</label>
+      <div class="sign-area sign-date">{{signatureDate | date : "dd/MM/yyyy"}}</div>
     </div>
     <div class="sign-box">
-      <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label><br>
+      <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
+      <br>
       <label> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
         {{policyHolder.lastName}}</label>
       <div class="sign-area">
         <ng-container *ngIf="fileId">
-          <img [src]="DEFAULT_DOWNLOAD_URL+fileId" alt="" class="sign-img">
+          <img [src]="DEFAULT_DOWNLOAD_URL+'?id='+fileId" alt="" class="sign-img">
         </ng-container>
       </div>
     </div>
   </div>
+</div>
 
+<div class="modal-footer" *ngIf="isMobile">
+  <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="createPdf()">Print</button>
+  <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
 
 </div>

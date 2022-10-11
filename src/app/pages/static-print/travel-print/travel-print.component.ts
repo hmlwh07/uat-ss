@@ -10,10 +10,13 @@ declare var require: any;
 const htmlToPdfmake = require("html-to-pdfmake");
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 // import domtoimage from 'dom-to-image';
-import jsPDF from 'jspdf';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PRINT } from '../static-print-const';
 
 @Component({
   selector: 'app-travel-print',
@@ -31,6 +34,7 @@ export class TravelPrintComponent implements OnInit {
   pdfTable!: ElementRef;
   tempArray: any[] = []
   listData: any[] = []
+  riskData: any[] = []
   policyInfo: any = {}
   riskInfo: any = []
   beneficiaries: any = []
@@ -44,6 +48,7 @@ export class TravelPrintComponent implements OnInit {
   signatureDate?: string
   travelArea: string = ''
   fileId: string = ''
+  isMobile: boolean = false
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   constructor(
@@ -53,10 +58,18 @@ export class TravelPrintComponent implements OnInit {
     private numberPipe: DecimalPipe,
     private encryption: EncryptService,
     private attachmentDownloadService: AttachmentDownloadService,
-    private platform: Platform
+    private platform: Platform,
+    public modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      PRINT.IS_MOBILE = true
+    } else {
+      PRINT.IS_MOBILE = false
+    }
+    this.isMobile = PRINT.IS_MOBILE
     // console.log("Signature", this.productService.editData)
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
@@ -121,21 +134,24 @@ export class TravelPrintComponent implements OnInit {
     this.product = this.productService.createingProd || this.productService.selectedProd
     this.travelService.getData(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
-        console.log(res);
-
         this.policyInfo = res.policyInfo.travelBasic
         this.numberOfTraveller = res.policyInfo.numberOfTraveller
         this.riskInfo = res.riskDetails
         let totalUnit = 0
 
         for (let data of res.riskDetails) {
+
           totalUnit += parseInt(data.travelRisk.totalUnit)
           if (data.travelBeneficiaries.length > 0) {
-            this.tempArray.push(data.travelBeneficiaries)
-            console.log(this.tempArray);
 
+            data.travelBeneficiaries.forEach(element => {
+              element.riskId = data.travelRisk.riskId
+            });
+            this.tempArray.push(data.travelBeneficiaries)
           }
         }
+        console.log(this.tempArray);
+
         for (let data of this.tempArray) {
           if (data.length > 0) {
             for (let bene of data) {
@@ -145,15 +161,20 @@ export class TravelPrintComponent implements OnInit {
             this.beneficiaries.push(data)
           }
         }
+        // let rowCount = 0
+        for (let risk of this.beneficiaries) {
+          this.riskData.push(risk.riskId)
+        }
         // this.beneficiaries = this.tempArray || []
         let SI = totalUnit * 500000
         this.totalSI = this.numberPipe.transform(SI || 0, '1.2-2')
       }
     })
   }
+
   createPdf() {
 
-    //Agent Information Details
+    // Agent Information Details
     let agentInfoDetailData = [
       [
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
@@ -175,7 +196,7 @@ export class TravelPrintComponent implements OnInit {
       ]
     ]
 
-    //Policy Holder Information Details
+    // Policy Holder Information Details
     let policyHolderInfoDetailData = [
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
@@ -206,43 +227,144 @@ export class TravelPrintComponent implements OnInit {
       ]
     ]
 
-    //Policy Information Details
-    // let policyInfoDetailHeader = [
-    //   [
-    //     { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle' } },
-    //     { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle' } },
-    //     { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
-    //     { content: 'Currency', styles: { halign: 'center', valign: 'middle' } },
-    //   ]
-    // ]
+    // Policy Information Details
+    // let vehicleInfoList = []
+    // let travelAreaList = []
+    // for (var i = 0; i < this.riskInfo.length; i++) {
+    //   let data = this.riskInfo[i];
+    //   let vehicleInfoData = (data.travelDetail.vehicleTypeValue || "") + (data.travelDetail.vehicleNo || "")
+    //   vehicleInfoList.push(vehicleInfoData)
+    //   let travelInfoData = (data.travelDetail.travelArea)
+    //   travelAreaList.push(travelInfoData)
+    // }
     let policyInfoDetailData = [
       [
-        { content: 'Policy Effective Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.formdate), styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Expiry Date', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate), styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.policyInfo.paPolicyTermValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.policyInceptionDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.formatDateDDMMYYY(this.policyInfo.policyExpiryDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.policyInfo.policyDurationValue, styles: { halign: 'center', valign: 'middle' } },
       ],
       [
-        { content: 'Travel Plan', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.formdate), colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Currency', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Travel Plan', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.policyInfo.travelPlanValue, colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Currency', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.policyInfo.currency || "MMK", colSpan: 2, styles: { halign: 'center', valign: 'middle' } },
       ],
+    ]
+
+    // Travel Information Details
+    let travelInfoDetailList = [];
+    let travelInfoDetailHeader = [
       [
-        { content: 'No of Traveler', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
-      ],
-      [
-        { content: 'Vehicle Information', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
-      ],
-      [
-        { content: 'Travel Area', styles: { halign: 'middle', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.todate), colSpan: 5, styles: { halign: 'center', valign: 'middle' } },
+        { content: 'No.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'No. of Traveler', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Vehicle Information', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Travel Area', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
+    for (var i = 0; i < this.riskInfo.length; i++) {
+      let data = this.riskInfo[i];
+      let travelInfoDetailData = [
+        { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
+        { content: data.travelRisk.noOfTraveller, styles: { halign: 'center', valign: 'middle' } },
+        { content: (data.travelDetail.vehicleTypeValue || "") + (data.travelDetail.vehicleNo || ""), styles: { halign: 'center', valign: 'middle' } },
+        { content: data.travelDetail.travelArea, styles: { halign: 'center', valign: 'middle' } },
+      ]
+      travelInfoDetailList.push(travelInfoDetailData)
+    }
+
+    // Risk Information Details
+    let riskInfoDetailList = [];
+    let riskInfoDetailHeader = [
+      [
+        { content: 'No.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Traveler Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'ID Type', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'ID Number', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Insured Unit', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    for (var i = 0; i < this.riskInfo.length; i++) {
+      let riskData = this.riskInfo[i];
+      let riskInfoDetailData = [
+        { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.travelRisk.travellerName, styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.travelerDetail.idType, styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.travelerDetail.nrc || riskData.travelerDetail.idNumber, styles: { halign: 'center', valign: 'middle' } },
+        { content: (riskData.travelRisk.insuredUnitValue || '') + " - " + (riskData.travelRisk.insuredUnitValue == '1' ? "Unit" : "Units"), styles: { halign: 'center', valign: 'middle' } },
+      ]
+      riskInfoDetailList.push(riskInfoDetailData);
+
+    }
+
+    // Beneficiaries Information Details
+    let beneficiariesInfoDetailData = []
+    let beneficiariesInfoDetailList = [];
+    let beneficiariesInfoDetailHeader = [
+      [
+        { content: 'Risk No.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'No.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Relationship', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'ID', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Date of Birth.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Share %', styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ]
+    for (var i = 0; i < this.tempArray.length; i++) {
+      let data = this.tempArray[i];
+      console.log(data, data.length)
+      for (var j = 0; j < data.length; j++) {
+        let beneData = data[j];
+        if (data.length > 1) {
+          if (j == 0) {
+            beneficiariesInfoDetailData = [
+              { content: beneData.riskId, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
+              { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+              { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+            ]
+          } else {
+            beneficiariesInfoDetailData = [
+              { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+              { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+            ]
+          }
+          beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
+        } else {
+          beneficiariesInfoDetailData = [
+            { content: beneData.riskId, styles: { halign: 'center', valign: 'middle' } },
+            { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+            { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+          ]
+          beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
+        }
+      }
+    }
+
+    // Insurance Information Details
+    let insuranceInfoDetailData = [
+      [
+        { content: "Total SI", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.totalSI + (this.policyInfo.currency || " MMK"), styles: { halign: 'center', valign: 'middle' } },
+        { content: "Total Premium", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
+        { content: this.premiumAmt, styles: { halign: 'center', valign: 'middle' } },
+      ]
+    ];
+
     // Start creating jsPDF
     var doc: any = new jsPDF('p', 'pt', 'a4');
     let pageSize = doc.internal.pageSize;
@@ -250,22 +372,22 @@ export class TravelPrintComponent implements OnInit {
     let width = pageSize.width ? pageSize.width : pageSize.getWidth();
     let height = 0;
 
-    // var img = new Image()
-    // img.src = './assets/images/header-logo.png'
-    // doc.addImage(img, 'PNG', 0, height, width, 100);
+    var img = new Image()
+    img.src = './assets/images/header-kbzms.png'
+    doc.addImage(img, 'PNG', 200, height, 180, 80);
 
-    //Agent Information Details
+    // Agent Information Details
     let title = this.product.name + ' Insurance Quotation'
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
-    doc.text(title, 200, height + 40);
+    doc.setFontSize(12).setFont('helvetica', 'normal', 'normal');
+    doc.text(title, width / 2, height + 100, { align: 'center' });
     doc.autoTable({
       body: agentInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 110,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -276,16 +398,16 @@ export class TravelPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Holder Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text('Policy Holder Information Details', 200, height + 40);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text('Policy Holder Information Details', width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: policyHolderInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 30,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -296,17 +418,16 @@ export class TravelPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     //Policy Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Policy Information Details", 200, height + 40);
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Policy Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
-      // head: policyInfoDetailHeader,
       body: policyInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -321,122 +442,144 @@ export class TravelPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //Risk Information Details
-    // doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    // doc.text("Risk Information Details", 200, height + 40);
-    // doc.autoTable({
-    //   head: riskInfoDetailHeader,
-    //   body: riskInfoDetailData,
-    //   theme: 'grid',
-    //   startY: height + 60,
-    //   margin: { left: 10, right: 10 },
-    //   styles: {
-    //     fontSize: 10,
-    //     font: 'helvetica',
-    //     lineColor: '#005f99',
-    //     lineWidth: 0.5,
-    //     cellWidth: 'auto',
-    //     cellPadding: 5,
-    //   },
-    //   headStyles: {
-    //     fillColor: '#e9f8fe',
-    //     textColor: '#000',
-    //     fontStyle: 'normal',
-    //   },
-    // });
-    // height = doc.lastAutoTable.finalY;
+    // Travel Information Details
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Travel Information Details", width / 2, height + 23, { align: 'center' });
+    doc.autoTable({
+      head: travelInfoDetailHeader,
+      body: travelInfoDetailList,
+      theme: 'grid',
+      startY: height + 35,
+      margin: { left: 10, right: 10 },
+      styles: {
+        fontSize: 6,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
 
-    // //Beneficiaries Information Details
-    // doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    // doc.text("Beneficiaries Information Details", 200, height + 40);
-    // doc.autoTable({
-    //   head: beneficiariesInformationDetailHeader,
-    //   body: beneficiariesInfoDetailList,
-    //   theme: 'grid',
-    //   startY: height + 60,
-    //   margin: { left: 10, right: 10 },
-    //   showHead: 'firstPage',
-    //   styles: {
-    //     fontSize: 10,
-    //     font: 'helvetica',
-    //     lineColor: '#005f99',
-    //     lineWidth: 0.5,
-    //     cellWidth: 'auto',
-    //     cellPadding: 5,
-    //   },
-    //   headStyles: {
-    //     fillColor: '#e9f8fe',
-    //     textColor: '#000',
-    //     fontStyle: 'normal',
-    //   },
-    // });
-    // height = doc.lastAutoTable.finalY;
+    // Risk Information Details
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Risk Information Details", width / 2, height + 23, { align: 'center' });
+    doc.autoTable({
+      head: riskInfoDetailHeader,
+      body: riskInfoDetailList,
+      theme: 'grid',
+      startY: height + 35,
+      margin: { left: 10, right: 10 },
+      styles: {
+        fontSize: 6,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+
+    //Beneficiaries Information Details
+    if (this.beneficiaries.length > 0) {
+      doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+      doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
+      doc.autoTable({
+        head: beneficiariesInfoDetailHeader,
+        body: beneficiariesInfoDetailList,
+        theme: 'grid',
+        startY: height + 35,
+        margin: { left: 10, right: 10 },
+        showHead: 'firstPage',
+        styles: {
+          fontSize: 6,
+          font: 'helvetica',
+          lineColor: '#005f99',
+          lineWidth: 0.5,
+          cellWidth: 'auto',
+          cellPadding: 5,
+        },
+        headStyles: {
+          fillColor: '#e9f8fe',
+          textColor: '#000',
+          fontStyle: 'normal',
+        },
+      });
+      height = doc.lastAutoTable.finalY;
+    }
 
     //new page
-    doc.addPage();
-    height = 0;
+    if (this.beneficiaries.length > 5) {
+      doc.addPage();
+      height = 0;
+    }
 
     // Insurance Information Details
-    // doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    // doc.text("Insurance Information Details", 200, height + 40);
-    // doc.autoTable({
-    //   body: insuranceInfoDetailData,
-    //   theme: 'grid',
-    //   startY: height + 60,
-    //   margin: { left: 10, right: 10 },
-    //   showHead: 'firstPage',
-    //   styles: {
-    //     fontSize: 10,
-    //     font: 'helvetica',
-    //     cellPadding: 5,
-    //     lineColor: '#005f99',
-    //     lineWidth: 0.5,
-    //     cellWidth: 'auto'
-    //   },
-    //   headStyles: {
-    //     fillColor: '#e9f8fe',
-    //     textColor: '#000',
-    //     fontStyle: 'normal',
-    //   }
-    // });
-    // height = doc.lastAutoTable.finalY + 20;
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Insurance Information Details", width / 2, height + 23, { align: 'center' });
+    doc.autoTable({
+      body: insuranceInfoDetailData,
+      theme: 'grid',
+      startY: height + 35,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 6,
+        font: 'helvetica',
+        cellPadding: 5,
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto'
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      }
+    });
+    height = doc.lastAutoTable.finalY;
 
+    //new page
+    if (this.beneficiaries.length > 0 && this.beneficiaries.length < 5) {
+      doc.addPage();
+      height = 0;
+    }
 
     // Declaration By Proposer
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("I hereby declare that I am in good health and free from any physical injuries the day which I am submitting the proposal. I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Remarks: If beneficiary is under 18,the benefit shall be paid to his parents (or) lawful guardian. In case where the beneficiary dies before the insured, and the death of the insured occurred before the insured has not re-transferred the title of benefits, shall pay the death claim in the followings order:", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("1.The insured’s husband or wife", 10, height + 140, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("2.The insured’s son or daughter", 10, height + 150, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("3.The insured’s grandchildren", 10, height + 160, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("4.The insured’s siblings", 10, height + 170, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("5.The insured’s parents", 10, height + 180, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge and belief and I hereby agree that this declaration shall from the basic of the contract between me and KBZMS General Insurance Co., Ltd. in the event of the Proposal being accepted.", 10, height + 30, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 220);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 220);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 240);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 280);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 200, height + 280);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.formatDateDDMMYYY(this.signatureDate), 10, height + 260);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 150, height + 50);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 60);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 150, height + 60);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 100);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 150, height + 100);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 90);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 200, height + 190, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 150, height + 190, 140, 80);
     // }
 
     // Add Footer Image
@@ -444,8 +587,8 @@ export class TravelPrintComponent implements OnInit {
     for (let i = 0; i < pageCount; i++) {
       doc.setPage(i);
       var img = new Image()
-      img.src = './assets/images/kbz_footer_bg_white.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 50, width, 50);
+      img.src = './assets/images/footer-kbzms.png'
+      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
@@ -465,7 +608,6 @@ export class TravelPrintComponent implements OnInit {
       // console.log("Base64 Data: ", data)
     }
   }
-
 
   formatDateDDMMYYY(date) {
     var d = new Date(date),
