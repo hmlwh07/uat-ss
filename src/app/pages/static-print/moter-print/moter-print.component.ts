@@ -10,6 +10,8 @@ import { Platform } from '@ionic/angular';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { PRINT } from '../static-print-const';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-moter-print',
@@ -59,7 +61,7 @@ export class MoterPrintComponent implements OnInit {
   coverageData: any = []
   coverage: any
   coverageData2: any = []
-
+  isMobile: boolean = false
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   constructor(
@@ -70,10 +72,18 @@ export class MoterPrintComponent implements OnInit {
     private policyHolderService: PolicyHolderService,
     private encryption: EncryptService,
     private platform: Platform,
-    private attachmentDownloadService: AttachmentDownloadService
+    private attachmentDownloadService: AttachmentDownloadService,
+    public modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      PRINT.IS_MOBILE = true
+    } else {
+      PRINT.IS_MOBILE = false
+    }
+    this.isMobile = PRINT.IS_MOBILE
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
       this.fileId = this.encryption.encryptData(this.signId)

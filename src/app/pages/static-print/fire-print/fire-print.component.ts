@@ -12,6 +12,8 @@ import { Platform } from '@ionic/angular';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { DecimalPipe } from '@angular/common';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PRINT } from '../static-print-const';
 
 @Component({
   selector: 'app-fire-print',
@@ -52,6 +54,7 @@ export class FirePrintComponent implements OnInit {
   @Input() signId?: string
   fileId: string = ''
   signatureDate?: string
+  isMobile: boolean = false
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   constructor(
@@ -65,10 +68,18 @@ export class FirePrintComponent implements OnInit {
     private encryption: EncryptService,
     private platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService,
-    private numberPipe: DecimalPipe
+    private numberPipe: DecimalPipe,
+    public modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      PRINT.IS_MOBILE = true
+    } else {
+      PRINT.IS_MOBILE = false
+    }
+    this.isMobile = PRINT.IS_MOBILE
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
       this.fileId = this.encryption.encryptData(this.signId)

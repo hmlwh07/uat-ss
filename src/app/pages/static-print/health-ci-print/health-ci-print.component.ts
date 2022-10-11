@@ -12,6 +12,8 @@ import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attac
 import { Platform } from '@ionic/angular';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { PRINT } from '../static-print-const';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-health-ci-print',
@@ -48,7 +50,7 @@ export class HealthCiPrintComponent implements OnInit {
   totalP: number = 0
   totalL: number = 0
   coveragesTotalValue: number = 0
-
+  isMobile: boolean = false
   constructor(
     private policyHolderService: PolicyHolderService,
     private coverageQuo: CoverageQuoService,
@@ -61,10 +63,18 @@ export class HealthCiPrintComponent implements OnInit {
     private healthPrintService: HealthPrintService,
     private encryption: EncryptService,
     private platform: Platform,
-    private attachmentDownloadService: AttachmentDownloadService
+    private attachmentDownloadService: AttachmentDownloadService,
+    public modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      PRINT.IS_MOBILE = true
+    } else {
+      PRINT.IS_MOBILE = false
+    }
+    this.isMobile = PRINT.IS_MOBILE
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
       this.fileId = this.encryption.encryptData(this.signId)
