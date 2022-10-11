@@ -387,7 +387,7 @@ export class TravelPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -407,7 +407,7 @@ export class TravelPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -427,7 +427,7 @@ export class TravelPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -452,7 +452,7 @@ export class TravelPrintComponent implements OnInit {
       startY: height + 35,
       margin: { left: 10, right: 10 },
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -477,7 +477,7 @@ export class TravelPrintComponent implements OnInit {
       startY: height + 35,
       margin: { left: 10, right: 10 },
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -504,7 +504,7 @@ export class TravelPrintComponent implements OnInit {
         margin: { left: 10, right: 10 },
         showHead: 'firstPage',
         styles: {
-          fontSize: 6,
+          fontSize: 8,
           font: 'helvetica',
           lineColor: '#005f99',
           lineWidth: 0.5,
@@ -521,7 +521,7 @@ export class TravelPrintComponent implements OnInit {
     }
 
     //new page
-    if (this.beneficiaries.length > 5) {
+    if (this.beneficiaries.length > 3) {
       doc.addPage();
       height = 0;
     }
@@ -536,7 +536,7 @@ export class TravelPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -552,7 +552,7 @@ export class TravelPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     //new page
-    if (this.beneficiaries.length > 0 && this.beneficiaries.length < 5) {
+    if (this.beneficiaries.length > 0 && this.beneficiaries.length < 3) {
       doc.addPage();
       height = 0;
     }
@@ -560,26 +560,26 @@ export class TravelPrintComponent implements OnInit {
     // Declaration By Proposer
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge and belief and I hereby agree that this declaration shall from the basic of the contract between me and KBZMS General Insurance Co., Ltd. in the event of the Proposal being accepted.", 10, height + 30, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge and belief and I hereby agree that this declaration shall from the basic of the contract between me and KBZMS General Insurance Co., Ltd. in the event of the Proposal being accepted.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 150, height + 50);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 60);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 150, height + 60);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 100);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 150, height + 100);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 90);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 180, height + 70);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 80);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 180, height + 80);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 170);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 180, height + 170);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 160);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 150, height + 190, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 180, height + 190, 140, 80);
     // }
 
     // Add Footer Image
@@ -589,6 +589,10 @@ export class TravelPrintComponent implements OnInit {
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
       doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
+
+      // var img1 = new Image()
+      // img1.src = './assets/kbz_water_mark.png'
+      // doc.addImage(img1, 'PNG', 0, pageHeight - 60, width - 20, pageHeight);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {

@@ -499,7 +499,7 @@ export class MoterPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -519,7 +519,7 @@ export class MoterPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -539,7 +539,7 @@ export class MoterPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -564,7 +564,7 @@ export class MoterPrintComponent implements OnInit {
       startY: height + 35,
       margin: { left: 10, right: 10 },
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -591,7 +591,7 @@ export class MoterPrintComponent implements OnInit {
         margin: { left: 10, right: 10 },
         showHead: 'firstPage',
         styles: {
-          fontSize: 6,
+          fontSize: 8,
           font: 'helvetica',
           lineColor: '#005f99',
           lineWidth: 0.5,
@@ -618,7 +618,7 @@ export class MoterPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -648,7 +648,7 @@ export class MoterPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -673,7 +673,7 @@ export class MoterPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -691,28 +691,28 @@ export class MoterPrintComponent implements OnInit {
     // Declaration By Proposer
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("I/ We agree that this proposal and declaration shall be the basis of the contract between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract. I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been refused any motor vehicle insurance or continuance thereof.", 10, height + 35, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("Important Notice: You are to disclose in this proposal form fully and faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.", 10, height + 55, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("I/ We agree that this proposal and declaration shall be the basis of the contract between me/us and KBZMS General Insurance Co., Ltd. and shall be deemed to be incorporated in such contract. I/We undertake that the vehicle to be insured shall not be driven by any person who to my/our knowledge has been refused any motor vehicle insurance or continuance thereof.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("Important Notice: You are to disclose in this proposal form fully and faithfully all the facts which you know or ought to know, otherwise the policy issued hereunder may be void. No cover attaches until the premium has been paid. Payment of the premium must to KBZMS General Insurance Co., Ltd.", 10, height + 70, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 150, height + 80);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 90);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 150, height + 90);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 150);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 150, height + 150);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 140);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 180, height + 100);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 110);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 180, height + 110);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 190);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 180, height + 190);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 180);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 150, height + 100, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 180, height + 120, 140, 80);
     // }
 
     // Add Footer Image
