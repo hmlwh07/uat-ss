@@ -419,7 +419,7 @@ export class HealthCiPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -439,7 +439,7 @@ export class HealthCiPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -459,7 +459,7 @@ export class HealthCiPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -484,7 +484,7 @@ export class HealthCiPrintComponent implements OnInit {
       startY: height + 35,
       margin: { left: 10, right: 10 },
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -510,7 +510,7 @@ export class HealthCiPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -536,7 +536,7 @@ export class HealthCiPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -566,7 +566,7 @@ export class HealthCiPrintComponent implements OnInit {
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 6,
+        fontSize: 8,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -584,28 +584,28 @@ export class HealthCiPrintComponent implements OnInit {
     // Declaration By Proposer
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 35, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("Remark: The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.", 10, height + 55, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("I hereby declare that I am in good health which I submitting the proposal.I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("Remark: The benefits will be issued to beneficiary’s parents or guardians if he/she is under 18.", 10, height + 80, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 150, height + 70);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 80);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 150, height + 80);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 130);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 150, height + 130);
-    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 120);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 180, height + 100);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 110);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 180, height + 110);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 180);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 180, height + 180);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 170);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 150, height + 90, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 180, height + 100, 140, 80);
     // }
 
     // Add Footer Image
@@ -619,12 +619,13 @@ export class HealthCiPrintComponent implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
-      var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
-      this.attachmentDownloadService.mobileDownload('downloadMobile.pdf', blobPDF);
+      let blobFile = doc.output('blob')
+      // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+      this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
     } else {
       console.log("Web")
       // Open PDF document in new tab
-      doc.output('dataurlnewwindow', { filename: 'downloadWeb.pdf' })
+      doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
 
       // Download PDF document  
       // doc.save('downloadWeb.pdf');
