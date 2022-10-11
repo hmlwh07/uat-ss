@@ -277,20 +277,20 @@ export class PersonalAccidentPrintComponent implements OnInit {
 
     var img = new Image()
     img.src = './assets/images/header-kbzms.png'
-    doc.addImage(img, 'PNG', 180, height, 200, 100);
+    doc.addImage(img, 'PNG', 200, height, 180, 80);
 
     //Agent Information Details
     let title = this.product.name + ' Insurance Quotation'
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
-    doc.text(title, width / 2, height + 120, { align: 'center' });
+    doc.setFontSize(12).setFont('helvetica', 'normal', 'normal');
+    doc.text(title, width / 2, height + 100, { align: 'center' });
     doc.autoTable({
       body: agentInfoDetailData,
       theme: 'grid',
-      startY: height + 140,
+      startY: height + 110,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -301,16 +301,16 @@ export class PersonalAccidentPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Holder Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text('Policy Holder Information Details', width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text('Policy Holder Information Details', width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: policyHolderInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 30,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         minCellHeight: 5,
@@ -321,16 +321,16 @@ export class PersonalAccidentPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Policy Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Policy Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Policy Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: policyInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -346,16 +346,16 @@ export class PersonalAccidentPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Risk Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Risk Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Risk Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       head: riskInfoDetailHeader,
       body: riskInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -371,17 +371,17 @@ export class PersonalAccidentPrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // Beneficiaries Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Beneficiaries Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       head: beneficiariesInformationDetailHeader,
       body: beneficiariesInfoDetailList,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         lineColor: '#005f99',
         lineWidth: 0.5,
@@ -396,21 +396,17 @@ export class PersonalAccidentPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //new page
-    doc.addPage();
-    height = 0;
-
     // Insurance Information Details
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 20, width - 20, 30, 'F');
-    doc.text("Insurance Information Details", width / 2, height + 40, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Insurance Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
       body: insuranceInfoDetailData,
       theme: 'grid',
-      startY: height + 60,
+      startY: height + 35,
       margin: { left: 10, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        fontSize: 6,
         font: 'helvetica',
         cellPadding: 5,
         lineColor: '#005f99',
@@ -423,43 +419,49 @@ export class PersonalAccidentPrintComponent implements OnInit {
         fontStyle: 'normal',
       }
     });
-    height = doc.lastAutoTable.finalY + 20;
+    height = doc.lastAutoTable.finalY;
+
+    //new page
+    if (this.beneficiaries.length > 3) {
+      doc.addPage();
+      height = 0;
+    }
 
     // Declaration By Proposer
-    doc.setFontSize(16).setFont('helvetica', 'normal', 'normal');
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("I hereby declare that I am in good health and free from any physical injuries the day which I am submitting the proposal. I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Remarks: If beneficiary is under 18,the benefit shall be paid to his parents (or) lawful guardian. In case where the beneficiary dies before the insured, and the death of the insured occurred before the insured has not re-transferred the title of benefits, shall pay the death claim in the followings order:", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("1.The insured’s husband or wife", 10, height + 140, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("2.The insured’s son or daughter", 10, height + 150, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("3.The insured’s grandchildren", 10, height + 160, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("4.The insured’s siblings", 10, height + 170, { maxWidth: width - 20, align: 'justify' });
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("5.The insured’s parents", 10, height + 180, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("I hereby declare that I am in good health and free from any physical injuries the day which I am submitting the proposal. I certify that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits will be forfeited.", 10, height + 30, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("Remarks: If beneficiary is under 18,the benefit shall be paid to his parents (or) lawful guardian. In case where the beneficiary dies before the insured, and the death of the insured occurred before the insured has not re-transferred the title of benefits, shall pay the death claim in the followings order:", 10, height + 55, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("1.The insured’s husband or wife", 10, height + 70, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("2.The insured’s son or daughter", 10, height + 80, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("3.The insured’s grandchildren", 10, height + 90, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("4.The insured’s siblings", 10, height + 100, { maxWidth: width - 20, align: 'justify' });
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("5.The insured’s parents", 10, height + 110, { maxWidth: width - 20, align: 'justify' });
 
     // Proposer's name and signature
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'bold');
-    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 200, height + 220);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("Date", 10, height + 240);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 200, height + 240);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 340);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 200, height + 340);
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 320);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'bold');
+    doc.text("PROPOSER'S NAME AND SIGNATURE", width - 150, height + 120);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("Date", 10, height + 130);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 150, height + 130);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", 10, height + 200);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 150, height + 200);
+    doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 190);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 200, height + 190, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 150, height + 190, 140, 80);
     // }
 
     // Add Footer Image
@@ -468,7 +470,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 70, width, 70);
+      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
