@@ -726,12 +726,13 @@ export class MoterPrintComponent implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
-      var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
-      this.attachmentDownloadService.mobileDownload('downloadMobile.pdf', blobPDF);
+      let blobFile = doc.output('blob')
+      // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+      this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
     } else {
       console.log("Web")
       // Open PDF document in new tab
-      doc.output('dataurlnewwindow', { filename: 'downloadWeb.pdf' })
+      doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
 
       // Download PDF document  
       // doc.save('downloadWeb.pdf');
