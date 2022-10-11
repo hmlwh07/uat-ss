@@ -66,7 +66,7 @@
                                     [class.is-valid]="isControlValid('status')" formControlName="status" />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.gross_premium" | translate}}</label>
                                 <input type="tel" class="form-control form-control-sm currency-input-tag"
@@ -74,7 +74,7 @@
                                     [class.is-invalid]="isControlInvalid('grossPremium')"
                                     [class.is-valid]="isControlValid('grossPremium')" formControlName="grossPremium" />
                             </div>
-                        </div>
+                        </div> -->
                         <!--  -->
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -85,7 +85,7 @@
                                     formControlName="policyHolderCode" />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">{{"FORM.net_premium" | translate}}</label>
                                 <input type="tel" class="form-control form-control-sm currency-input-tag"
@@ -93,7 +93,7 @@
                                     [class.is-invalid]="isControlInvalid('netPremium')"
                                     [class.is-valid]="isControlValid('netPremium')" formControlName="netPremium" />
                             </div>
-                        </div>
+                        </div> -->
                         <!--  -->
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -117,12 +117,12 @@
                         </div>
 
                     </div>
-                    <button type="button" class="btn btn-default btn-elevate mt-2"
-                        (click)="backLocation()">{{"FORM.btn_back" |
-                        translate}}</button>
-                    <button type="button" class="btn btn-primary btn-elevate mt-2"
-                        (click)="confirmRenew()">{{"FORM.btn_confirm" |
-                        translate}}</button>
+                    <div class="form-group" style="text-align: right;">
+                        <button type="button" class="btn btn-light btn-elevate"  (click)="backLocation()">{{"FORM.btn_back" |
+                            translate}}</button>
+                        <button type="button" class="btn btn-primary btn-elevate mx-2" (click)="confirmRenew()">{{"FORM.btn_confirm" |
+                            translate}}</button>
+                    </div>
                     <!-- <button type="button" class="btn btn-primary btn-elevate mx-2"
                         (click)="backLocation()">{{"FORM.btn_save" | translate}}</button> -->
                 </form>

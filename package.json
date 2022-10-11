@@ -56,6 +56,7 @@
     "apexcharts": "^3.20.0",
     "bootstrap": "^4.6.0",
     "capacitor-blob-writer": "^1.0.4",
+    "capacitor-native-settings": "^0.2.1",
     "convert-string": "^0.1.0",
     "cordova-pdf-generator": "^2.1.1",
     "cordova-plugin-file": "^6.0.2",

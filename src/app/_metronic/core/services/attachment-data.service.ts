@@ -15,7 +15,9 @@ import { LanguagesService } from "src/app/modules/languages/languages.service";
 import { sha256, sha224 } from 'js-sha256';
 import * as CryptoJS from 'crypto-js';
 import { EncryptService } from "./encrypt.service";
+import { AlertController, Platform } from "@ionic/angular";
 const API_UPLOAD_URL = `${environment.apiUrl}/attachment-uploader`;
+import { AndroidSettings, IOSSettings, NativeSettings } from "capacitor-native-settings";
 @Injectable({
   providedIn: 'root'
 })
@@ -37,7 +39,9 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     private loadingService: LoadingService, private toastService: KBZToastService,
     private alertService: AlertService,
     private translate: LanguagesService,
-    private encryptService: EncryptService) {
+    private encryptService: EncryptService,
+    private platform: Platform,
+    private alertCtrl: AlertController) {
     super(httpClient, API_DOWNLOAD_URL);
   }
 
@@ -87,23 +91,23 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
     this.alertService.activate(msg, 'Download File')
     a.remove()
   }
-  
+
 
   async getDownload(id, fileName: string) {
     this.fileId = this.encryptService.encryptData(id)
     console.log(this.fileId);
-    
-    if(this.fileId){
-    this.httpClient.get(API_DOWNLOAD_URL + "?id=" +this.fileId, { responseType: 'blob' }).toPromise().then((res) => {
-      if (res) {
-        if (Capacitor.isNativePlatform()) {
-          this.mobileDownload(fileName, res)
-        } else {
-          this.downloadFile(res, fileName)
+
+    if (this.fileId) {
+      this.httpClient.get(API_DOWNLOAD_URL + "?id=" + this.fileId, { responseType: 'blob' }).toPromise().then((res) => {
+        if (res) {
+          if (Capacitor.isNativePlatform()) {
+            this.mobileDownload(fileName, res)
+          } else {
+            this.downloadFile(res, fileName)
+          }
         }
-      }
-      // this.downloadFile(res, fileName)
-    })
+        // this.downloadFile(res, fileName)
+      })
     }
   }
 
@@ -116,35 +120,127 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
   }
 
   async mobileDownload(fileName: string, res: any) {
-    try {
-      let ret = await Filesystem.mkdir({
-        path: 'kbzsale_downloads',
-        directory: Directory.Documents,
-        recursive: false,
-      });
-      // console.log("folder ", ret);
-      this.createFile(fileName, res)
-    } catch (e) {
-      this.createFile(fileName, res)
-      //console.error("Unable to make directory", e);
+    const url = URL.createObjectURL(res);
+    let dir: any;
+    if (this.platform.is('android')) {
+      dir = this.file.externalRootDirectory;
+    } else {
+      dir = this.file.documentsDirectory
     }
-  }
+    //externalApplicationStorageDirectory
+    this.file.checkDir(dir, 'kbzms_downloads').then(response => {
+      this.createFile(fileName, res)
+    }).catch(error => {
+      this.file.createDir(dir, 'kbzms_downloads', false).then(response => {
+        this.createFile(fileName, res)
+      }).catch(async (e) => {
+        console.log(e);
+        await this.loadingService.deactivate()
+        if (this.platform.is('android')) {
+          let msg = this.translate.transform("ERROR.file_path_warning")
+          // this.alertService.activate(msg, 'Download File')
+          let alert = await this.alertCtrl.create({
+            header: 'Download File',
+            message: msg,
+            buttons: [
+              { role: "cancel", text: "Cancel" },
+              { role: "ok", text: "OK" },
+            ],
+            backdropDismiss: false,
+            cssClass: "my-customer-alert",
+          });
+          await alert.present();
+          alert.onDidDismiss().then((res) => {
+            if (res.role == "ok") {
+              this.openAndroidSetting()
+            }
+          });
 
-  async createFile(fileName, blobFile) {
-    try {
-      await write_blob({
-        path: "kbzsale_downloads/" + fileName,
-        directory: Directory.Documents,
-        blob: blobFile
+        } else {
+          let msg = this.translate.transform("ERROR.file_error")
+          this.alertService.activate(msg, 'Download File')
+        }
       })
-      await this.loadingService.deactivate()
-      this.alertService.activate('"Download File', 'Success Message');
-    } catch (error) {
-      await this.loadingService.deactivate()
-      this.alertService.activate('"Download Fail', 'Error Message');
-    }
+    })
 
   }
+  openAndroidSetting() {
+    NativeSettings.openAndroid({
+      option: AndroidSettings.ApplicationDetails,
+    })
+  }
+  async createFile(fileName, blobFile) {
+    let dir: any;
+    // if (this.platform.is('android')) {
+    //   dir = this.file.externalRootDirectory;
+    // } else {
+    //   dir = this.file.documentsDirectory
+    // }
+    await write_blob({
+      path: "kbzsale_downloads/" + fileName,
+      directory: Directory.Documents,
+      blob: blobFile
+    })
+      // this.file.writeFile(dir + "/kbzsale_downloads", fileName, blobFile, { replace: true })
+      .then(async (res) => {
+        await this.loadingService.deactivate()
+        let msg = this.translate.transform("ERROR.download_success");
+        let msg_android = this.translate.transform("ERROR.download_success_android")
+
+        if (this.platform.is('android')) {
+          this.alertService.activate(msg_android, 'Download File')
+        } else {
+          this.alertService.activate(msg_android, 'Download File')
+        }
+      }).catch(async (e) => {
+        console.log(e);
+        await this.loadingService.deactivate()
+        if (this.platform.is('android')) {
+          let msg = this.translate.transform("ERROR.file_path_warning")
+          // let alert = await this.alertCtrl.create({
+          //   header: 'Warning',
+          //   message: msg,
+          //   buttons: [
+          //     { role: "cancel", text: "Cancel" },
+          //     { role: "ok", text: "OK" },
+          //   ],
+          //   backdropDismiss: false,
+          //   cssClass: "my-customer-alert",
+          // });
+          // await alert.present();
+          // alert.onDidDismiss().then((res) => {
+          //   if (res.role == "ok") {
+          //     this.openAndroidSetting()
+          //   }
+          // });
+          this.alertService.activate(msg, 'Download File').then((res: any) => {
+            if (res.type == 'ok'){
+              this.openAndroidSetting()
+            }
+        })
+          // this.alertService.activate(msg, 'Download File')
+        } else {
+          let msg = this.translate.transform("ERROR.file_error")
+          this.alertService.activate(msg, 'Download File')
+        }
+      })
+  }
+
+  // async createFile(fileName, blobFile) {
+  //   try {
+  //     await write_blob({
+  //       path: "kbzsale_downloads/" + fileName,
+  //       directory: Directory.Documents,
+  //       blob: blobFile
+  //     })
+  //     await this.loadingService.deactivate()
+  //     this.alertService.activate('"Download File', 'Success Message');
+  //   } catch (error) {
+  //     await this.loadingService.deactivate()
+  //     this.alertService.activate('"Download Fail', 'Error Message');
+  //   }
+
+  // }
 }
 
 const ATTAcHMENT_REF = `${environment.apiUrl}/attachment-ref`;
