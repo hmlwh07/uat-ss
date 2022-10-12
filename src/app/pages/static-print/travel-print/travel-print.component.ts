@@ -321,7 +321,7 @@ export class TravelPrintComponent implements OnInit {
         if (data.length > 1) {
           if (j == 0) {
             beneficiariesInfoDetailData = [
-              { content: beneData.riskId, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
+              { content: i + 1, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
               { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
@@ -342,7 +342,7 @@ export class TravelPrintComponent implements OnInit {
           beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
         } else {
           beneficiariesInfoDetailData = [
-            { content: beneData.riskId, styles: { halign: 'center', valign: 'middle' } },
+            { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
             { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
             { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
             { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
