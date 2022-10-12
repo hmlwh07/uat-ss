@@ -722,6 +722,10 @@ export class MoterPrintComponent implements OnInit {
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
       doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
+
+      var img1 = new Image()
+      img1.src = './assets/images/watermark-kbzms.png'
+      doc.addImage(img1, 'PNG', 10, 0, width - 20, pageHeight);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {

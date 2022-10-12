@@ -83,7 +83,8 @@ export class ActivityManagementListComponent implements OnInit {
     this.getList()
   }
   cancel() {
-
+    this.actForm.reset()
+    this.getList()
   }
 
   loadForm() {

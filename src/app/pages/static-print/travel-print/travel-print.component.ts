@@ -321,7 +321,7 @@ export class TravelPrintComponent implements OnInit {
         if (data.length > 1) {
           if (j == 0) {
             beneficiariesInfoDetailData = [
-              { content: beneData.riskId, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
+              { content: i + 1, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
               { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
@@ -342,7 +342,7 @@ export class TravelPrintComponent implements OnInit {
           beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
         } else {
           beneficiariesInfoDetailData = [
-            { content: beneData.riskId, styles: { halign: 'center', valign: 'middle' } },
+            { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
             { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
             { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
             { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
@@ -359,9 +359,9 @@ export class TravelPrintComponent implements OnInit {
     let insuranceInfoDetailData = [
       [
         { content: "Total SI", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.totalSI + (this.policyInfo.currency || " MMK"), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.totalSI + (this.policyInfo.currency || " MMK"), styles: { halign: 'right', valign: 'middle' } },
         { content: "Total Premium", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.premiumAmt, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.premiumAmt, styles: { halign: 'right', valign: 'middle' } },
       ]
     ];
 
@@ -492,7 +492,7 @@ export class TravelPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //Beneficiaries Information Details
+    // Beneficiaries Information Details
     if (this.beneficiaries.length > 0) {
       doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
       doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
@@ -520,8 +520,8 @@ export class TravelPrintComponent implements OnInit {
       height = doc.lastAutoTable.finalY;
     }
 
-    //new page
-    if (this.beneficiaries.length > 3) {
+    // new page
+    if (this.beneficiaries.length > 0) {
       doc.addPage();
       height = 0;
     }
@@ -551,12 +551,6 @@ export class TravelPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //new page
-    if (this.beneficiaries.length > 0 && this.beneficiaries.length < 3) {
-      doc.addPage();
-      height = 0;
-    }
-
     // Declaration By Proposer
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
     doc.text("Declaration By Proposer", 10, height + 20);
@@ -571,15 +565,15 @@ export class TravelPrintComponent implements OnInit {
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text(this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 180, height + 80);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", 10, height + 170);
+    doc.text("-----------------------------", 10, height + 160);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 180, height + 170);
+    doc.text("-----------------------------", width - 180, height + 160);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 160);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 150);
     // if (this.fileId) {
     //   var img = new Image()
     //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 180, height + 190, 140, 80);
+    //   doc.addImage(img, 'PNG', width - 180, height + 90, 140, 80);
     // }
 
     // Add Footer Image
@@ -590,9 +584,9 @@ export class TravelPrintComponent implements OnInit {
       img.src = './assets/images/footer-kbzms.png'
       doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
 
-      // var img1 = new Image()
-      // img1.src = './assets/kbz_water_mark.png'
-      // doc.addImage(img1, 'PNG', 0, pageHeight - 60, width - 20, pageHeight);
+      var img1 = new Image()
+      img1.src = './assets/images/watermark-kbzms.png'
+      doc.addImage(img1, 'PNG', 10, 0, width - 20, pageHeight);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
