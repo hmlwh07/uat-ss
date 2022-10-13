@@ -224,8 +224,8 @@
                 <ng-container *ngFor="let bene of data;let i=index">
                     <tr>
                         <td class="field-pd" *ngIf="i==0" [attr.rowspan]="data.length">{{no+1}}</td>
-                        <td class="field-pd" *ngIf="i>1">{{no+1}}</td>
-                        <td class="field-pd">{{i+1}}</td>
+                        <td class="field-pd" *ngIf="i==0">{{i+1}}</td>
+                        <td class="field-pd" *ngIf="i>=1">{{i+1}}</td>
                         <td class="field-pd">{{bene.beneficiaryName}}</td>
                         <td class="field-pd">{{bene.relationshipValue}}</td>
                         <td class="field-pd">{{bene.idType}} - {{bene.idType !='NRC' ? bene.idNumber : bene.nrc }}
@@ -281,7 +281,7 @@
         <div class="sign-box">
             <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
             <br>
-            <label> {{policyHolder.title}} {{policyHolder.firstName}} {{policyHolder.middleName}}
+            <label> {{policyHolder.titleValue}} {{policyHolder.firstName}} {{policyHolder.middleName}}
                 {{policyHolder.lastName}}</label>
             <div class="sign-area">
                 <ng-container *ngIf="fileId">
