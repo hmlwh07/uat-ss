@@ -199,8 +199,8 @@ export class TravelPrintComponent implements OnInit {
     // Policy Holder Information Details
     let policyHolderInfoDetailData = [
       [
-        { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Name', styles: { halign: 'left', valign: 'middle'},fontStyle:{fontWeight:'bold'}  },
+        { content: this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
@@ -279,7 +279,7 @@ export class TravelPrintComponent implements OnInit {
     let riskInfoDetailList = [];
     let riskInfoDetailHeader = [
       [
-        { content: 'No.', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'No.', styles: { halign: 'center', valign: 'middle' }},
         { content: 'Traveler Name', styles: { halign: 'center', valign: 'middle' } },
         { content: 'ID Type', styles: { halign: 'center', valign: 'middle' } },
         { content: 'ID Number', styles: { halign: 'center', valign: 'middle' } },
