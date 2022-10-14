@@ -144,10 +144,10 @@ export class PersonalAccidentPrintComponent implements OnInit {
     //Agent Information Details
     let agentInfoDetailData = [
       [
-        { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
@@ -301,11 +301,11 @@ export class PersonalAccidentPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
         2: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -331,7 +331,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
