@@ -191,7 +191,7 @@
         </tbody>
     </table>
 </div>
-
+<div class="pagebreak" *ngIf="beneficiaries.length > 4"> </div>
 <div class="addon-print" *ngIf="beneficiaries.length>0">
     <div class="title-style text-bold mt-5 mb-5">Beneficiaries Information Details</div>
     <table class="tbody-align" width="100%">
@@ -239,7 +239,7 @@
         </tbody>
     </table>
 </div>
-<div class="pagebreak"> </div>
+<div class="pagebreak" *ngIf="isBreak"> </div>
 <div class="addon-print">
     <div class="title-style text-bold mt-5 mb-5">Insurance Information Details</div>
     <table width="100%">

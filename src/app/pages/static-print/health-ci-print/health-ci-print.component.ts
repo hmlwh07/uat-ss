@@ -246,7 +246,7 @@ export class HealthCiPrintComponent implements OnInit {
     let policyHolderInfoDetailData = [
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.titleValue+ " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
@@ -426,6 +426,16 @@ export class HealthCiPrintComponent implements OnInit {
         lineColor: '#fff',
         cellWidth: 'auto',
       },
+      columnStyles: {
+        0: {
+          fontSize: 8,
+          fontStyle:'bold'
+        },
+        2: {
+          fontSize: 8,
+          fontStyle:'bold'
+        },
+      }
     });
     height = doc.lastAutoTable.finalY;
 
@@ -446,6 +456,12 @@ export class HealthCiPrintComponent implements OnInit {
         lineColor: '#fff',
         cellWidth: 'auto',
       },
+      columnStyles: {
+        0: {
+          fontSize: 8,
+          fontStyle:'bold'
+        },
+      }
     });
     height = doc.lastAutoTable.finalY;
 
@@ -614,11 +630,11 @@ export class HealthCiPrintComponent implements OnInit {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
+      doc.addImage(img, 'PNG', 10, pageHeight - 70, width - 20, 60);
 
       var img1 = new Image()
       img1.src = './assets/images/watermark-kbzms.png'
-      doc.addImage(img1, 'PNG', 10, 0, width - 20, pageHeight);
+      doc.addImage(img1, 'PNG', 100, 200, width - 200, pageHeight - 300);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
