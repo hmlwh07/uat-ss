@@ -47,7 +47,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   totalElements: number = 0
   postedData: any
   selectedPageBtn: number = 1
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef,private encryption:EncryptService) {
+  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef, private encryption: EncryptService) {
     this.loadForm()
   }
 
@@ -80,7 +80,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
     // this.rerender()
   }
   cancel() {
-
+    this.policyForm.reset()
+    this.getPolicyList()
   }
   changeView(type) {
     if (type == 'team') {
@@ -152,13 +153,13 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
-            this.quoList[i].icon=this.encryption.encryptData(this.quoList[i].icon)
+            this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
         }
         this.cdRef.detectChanges()
         this.commonList.detchChangePagination()
-       
+
         //this.matTable.reChangeData()
         // })
       }

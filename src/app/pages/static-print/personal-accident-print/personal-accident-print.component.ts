@@ -298,6 +298,16 @@ export class PersonalAccidentPrintComponent implements OnInit {
         lineColor: '#fff',
         cellWidth: 'auto',
       },
+      columnStyles: {
+        0: {
+          fontSize: 8,
+          fontStyle:'bold'
+        },
+        2: {
+          fontSize: 8,
+          fontStyle:'bold'
+        },
+      }
     });
     height = doc.lastAutoTable.finalY;
 
@@ -318,6 +328,12 @@ export class PersonalAccidentPrintComponent implements OnInit {
         lineColor: '#fff',
         cellWidth: 'auto',
       },
+      columnStyles: {
+        0: {
+          fontSize: 8,
+          fontStyle:'bold'
+        },
+      }
     });
     height = doc.lastAutoTable.finalY;
 

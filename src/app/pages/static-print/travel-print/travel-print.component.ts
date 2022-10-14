@@ -49,6 +49,7 @@ export class TravelPrintComponent implements OnInit {
   travelArea: string = ''
   fileId: string = ''
   isMobile: boolean = false
+  isBreak: boolean = true
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   constructor(
@@ -161,6 +162,9 @@ export class TravelPrintComponent implements OnInit {
             this.beneficiaries.push(data)
           }
         }
+        if (this.beneficiaries.length > 4) {
+          this.isBreak = false
+        }
         // let rowCount = 0
         for (let risk of this.beneficiaries) {
           this.riskData.push(risk.riskId)
@@ -177,10 +181,10 @@ export class TravelPrintComponent implements OnInit {
     // Agent Information Details
     let agentInfoDetailData = [
       [
-        { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
@@ -325,7 +329,7 @@ export class TravelPrintComponent implements OnInit {
               { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+              { content: (beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
               { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
             ]
@@ -334,7 +338,7 @@ export class TravelPrintComponent implements OnInit {
               { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+              { content: (beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
               { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
               { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
             ]
@@ -394,6 +398,16 @@ export class TravelPrintComponent implements OnInit {
         lineColor: '#fff',
         cellWidth: 'auto',
       },
+      columnStyles: {
+        0: {
+          fontSize: 8,
+          fontStyle: 'bold'
+        },
+        2: {
+          fontSize: 8,
+          fontStyle: 'bold'
+        },
+      }
     });
     height = doc.lastAutoTable.finalY;
 
@@ -414,6 +428,12 @@ export class TravelPrintComponent implements OnInit {
         lineColor: '#fff',
         cellWidth: 'auto',
       },
+      columnStyles: {
+        0: {
+          fontSize: 8,
+          fontStyle: 'bold'
+        },
+      }
     });
     height = doc.lastAutoTable.finalY;
 
@@ -438,7 +458,7 @@ export class TravelPrintComponent implements OnInit {
         fillColor: '#e9f8fe',
         textColor: '#000',
         fontStyle: 'normal',
-      }
+      },
     });
     height = doc.lastAutoTable.finalY;
 

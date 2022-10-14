@@ -58,6 +58,15 @@
   }
 }
 
+@media (min-width: 841px) and (max-width: 1209px) {
+  #kt_login {
+    background-size: 33% 50%,21% 17%,27% 53%;
+  }
+  .f-center{
+    margin-top: 9%;
+  }
+}
+
 @media (min-height: 701px) and (min-height: 780px) {
   #kt_login {
     background-position: left bottom, bottom 5%, right 85%;
