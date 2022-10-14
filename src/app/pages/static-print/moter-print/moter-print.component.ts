@@ -12,6 +12,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { PRINT } from '../static-print-const';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-moter-print',
@@ -73,7 +74,8 @@ export class MoterPrintComponent implements OnInit {
     private encryption: EncryptService,
     private platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private numberPipe: DecimalPipe,
   ) { }
 
   ngOnInit() {
@@ -421,11 +423,11 @@ export class MoterPrintComponent implements OnInit {
       console.log("PLMO01 Data: ", data)
       additionalCoverInfoDetailData01 = [
         [
-          { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.mExcessTypeMO01[this.motorDetail.mExcessDiscount] || 0, styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.mExcessTypeMO01[this.motorDetail.mExcessDiscount] || 0, styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'right', valign: 'middle' } },
         ]
       ];
     }
@@ -452,17 +454,17 @@ export class MoterPrintComponent implements OnInit {
       console.log("PLMO02 Data: ", data)
       additionalCoverInfoDetailData02 = [
         [
-          { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.NOBTTRMNT)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data['CROSSBRDR'])), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.LOSSOFLUGG)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data['MED EXP'])), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.PASSRLBTY)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.PAIDDRIVER)), styles: { halign: 'center', valign: 'middle' } },
-          { content: this.mExcessTypeMO02[this.motorDetail.mExcessDiscount] || 0, styles: { halign: 'center', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'center', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.NOBTTRMNT)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data['CROSSBRDR'])), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.LOSSOFLUGG)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data['MED EXP'])), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.PASSRLBTY)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.PAIDDRIVER)), styles: { halign: 'right', valign: 'middle' } },
+          { content: this.mExcessTypeMO02[this.motorDetail.mExcessDiscount] || 0, styles: { halign: 'right', valign: 'middle' } },
+          { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'right', valign: 'middle' } },
         ]
       ];
     }
@@ -471,9 +473,9 @@ export class MoterPrintComponent implements OnInit {
     let insuranceInfoDetailData = [
       [
         { content: "Approximate Total SI", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.motorDetail.mTotalRiskSi, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.numberPipe.transform(this.motorDetail.mTotalRiskSi, "1.2-2") + (' ' + this.motorDetail.mCurrency || ' MMK'), styles: { halign: 'right', valign: 'middle' } },
         { content: "Approximate Total Premium", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.premiumAmt, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.premiumAmt, styles: { halign: 'right', valign: 'middle' } },
       ]
     ];
 
@@ -721,11 +723,11 @@ export class MoterPrintComponent implements OnInit {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
-      doc.addImage(img, 'PNG', 0, pageHeight - 60, width, 60);
+      doc.addImage(img, 'PNG', 10, pageHeight - 70, width - 20, 60);
 
       var img1 = new Image()
       img1.src = './assets/images/watermark-kbzms.png'
-      doc.addImage(img1, 'PNG', 10, 0, width - 20, pageHeight);
+      doc.addImage(img1, 'PNG', 100, 200, width - 200, pageHeight - 300);
     }
 
     if (this.platform.is('android') || this.platform.is('ios')) {
