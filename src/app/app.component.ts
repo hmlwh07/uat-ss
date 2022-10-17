@@ -48,7 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private userToken = ""
   private user = null
   private pushToken = ""
-  constructor(
+  constructor( 
     private splashScreenService: SplashScreenService,
     private router: Router,
     private tableService: TableExtendedService,
