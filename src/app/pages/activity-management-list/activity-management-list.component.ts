@@ -7,6 +7,7 @@ import { DateAdapter } from 'angular-calendar';
 import { MY_FORMATS } from '../../core/is-json';
 import { MaterialTableViewComponent } from '../../_metronic/shared/crud-table/components/material-table-view/material-table-view.component';
 import { ActivityStatus } from '../../_metronic/shared/crud-table/components/material-table-view/table-dto';
+import { CommonList2Component } from '../share-components/common-list/common-list.component';
 import { ActivityCol, ActivityDisplayCol } from './activity-manage.const';
 import { ActivityManageService } from './activity-manage.service';
 
@@ -21,6 +22,7 @@ import { ActivityManageService } from './activity-manage.service';
 })
 export class ActivityManagementListComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent
+  @ViewChild(CommonList2Component) commonList: CommonList2Component;
   ELEMENT_COL = ActivityCol
   displayedColumns = ActivityDisplayCol
   activityList = [];
@@ -122,14 +124,14 @@ export class ActivityManagementListComponent implements OnInit {
 
     this.activityService.getActivityList( this.postedData ).toPromise().then((res: any) => {
       if (res) {
-        // console.log('getActivityList', res);
+        console.log('getActivityList', res);
         this.activityList = res.content
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
         this.cdf.detectChanges();
+        this.commonList.detchChangePagination()
         // this.activityList = res
-        this.cdf.detectChanges()
         // this.matTable.reChangeData()
       }
     })
@@ -148,9 +150,11 @@ export class ActivityManagementListComponent implements OnInit {
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
         this.cdf.detectChanges();
+        
       }
     })
   }
+  
 
   actionBtn(event) {
     if (event.cmd == 'edit') {
