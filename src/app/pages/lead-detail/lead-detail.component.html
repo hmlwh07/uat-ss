@@ -294,15 +294,17 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
-                                                [class.is-invalid]="isControlInvalid('stateCode')"
-                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
-                                                bindLabel="value" bindValue="code" formControlName="stateCode">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                                                [class.is-invalid]="isControlInvalid('townshipCode')"
+                                                [class.is-valid]="isControlValid('townshipCode')"
+                                                [items]="townshipOption" bindLabel="value" bindValue="code"
+                                                formControlName="townshipCode" (change)="onChangeTownship()">
                                             </ng-select>
                                         </div>
                                     </div>
+                                    
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
@@ -329,7 +331,7 @@
                                                 [class.is-invalid]="isControlInvalid('districtCode')"
                                                 [class.is-valid]="isControlValid('districtCode')"
                                                 [items]="distinctOption" bindLabel="value" bindValue="code"
-                                                formControlName="districtCode">
+                                                formControlName="districtCode" [readonly]="true">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -349,13 +351,12 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
-                                                [class.is-invalid]="isControlInvalid('townshipCode')"
-                                                [class.is-valid]="isControlValid('townshipCode')"
-                                                [items]="townshipOption" bindLabel="value" bindValue="code"
-                                                formControlName="townshipCode">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
+                                                [class.is-invalid]="isControlInvalid('stateCode')"
+                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
+                                                bindLabel="value" bindValue="code" formControlName="stateCode" [readonly]="true">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -1036,15 +1037,17 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
-                                                [class.is-invalid]="isControlInvalid('stateCode')"
-                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
-                                                bindLabel="value" bindValue="code" formControlName="stateCode">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
+                                                [class.is-invalid]="isControlInvalid('townshipCode')"
+                                                [class.is-valid]="isControlValid('townshipCode')"
+                                                [items]="townshipOption" bindLabel="value" bindValue="code"
+                                                formControlName="townshipCode" (change)="onChangeTownship()">
                                             </ng-select>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group row">
@@ -1071,7 +1074,7 @@
                                                 [class.is-invalid]="isControlInvalid('districtCode')"
                                                 [class.is-valid]="isControlValid('districtCode')"
                                                 [items]="distinctOption" bindLabel="value" bindValue="code"
-                                                formControlName="districtCode">
+                                                formControlName="districtCode" [readonly]="true">
                                             </ng-select>
                                         </div>
                                     </div>
@@ -1091,13 +1094,12 @@
                             <div class="row" style="align-items: center">
                                 <div class="col-sm-6">
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}}</label>
+                                        <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
                                         <div class="col-sm-8">
-                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality()"
-                                                [class.is-invalid]="isControlInvalid('townshipCode')"
-                                                [class.is-valid]="isControlValid('townshipCode')"
-                                                [items]="townshipOption" bindLabel="value" bindValue="code"
-                                                formControlName="townshipCode">
+                                            <ng-select class="ng-custom-select" (change)="calculateLeadQuality('state')"
+                                                [class.is-invalid]="isControlInvalid('stateCode')"
+                                                [class.is-valid]="isControlValid('stateCode')" [items]="stateOption"
+                                                bindLabel="value" bindValue="code" formControlName="stateCode" [readonly]="true">
                                             </ng-select>
                                         </div>
                                     </div>

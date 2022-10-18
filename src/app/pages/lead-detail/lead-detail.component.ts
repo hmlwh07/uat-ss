@@ -115,6 +115,9 @@ export class LeadDetailComponent implements OnInit {
   existingOption: any = [];
   maritalOption: any = [];
   occupationOption: any = [];
+  state:any=[]
+  township:any=[]
+  district:any=[]
   isExisting: boolean = false
   isProspectCustomer: boolean = false
   isAddProspect: boolean = false
@@ -274,6 +277,7 @@ export class LeadDetailComponent implements OnInit {
   ngAfterViewInit() {
     this.user = this.authService.currentUserValue;
     this.getMaster()
+    this.getAllMaster()
     this.getProduct()
 
     this.customerClass1 = document.getElementById('customerClass1')
@@ -299,6 +303,8 @@ export class LeadDetailComponent implements OnInit {
       this.getOccupation(),
       this.getStatus(),
       this.getState(),
+      this.getTownship(),
+      this.getDistrict(),
       this.getSource(),
       this.getCompany(),
     ]).toPromise().then((res: any) => {
@@ -308,36 +314,77 @@ export class LeadDetailComponent implements OnInit {
         this.occupationOption = res[2]
         this.statusOption = res[3]
         this.stateOption = res[4]
-        this.sourceOption = res[5]
-        this.companyOption = res[6]
+        this.townshipOption = res[5]
+        this.distinctOption = res[6]
+        this.sourceOption = res[7]
+        this.companyOption = res[8]
+        this.cdf.detectChanges()
+      }
+    })
+  }
+  getAllMaster() {
+    forkJoin([
+      this.getAllState(),
+      this.getAllTownship(),
+      this.getAllDistrict(),
+    ]).toPromise().then((res: any) => {
+      if (res) {
+        this.stateOption = res[0]
+        this.townshipOption = res[1]
+        this.distinctOption = res[2]
         this.cdf.detectChanges()
       }
     })
   }
 
+
   onInitAddress(oldData) {
-    this.getDistrict(oldData.stateCode);
-    this.getTownship(oldData.districtCode);
+    this.getState()
+    this.getDistrict();
+    this.getTownship();
     this.cdf.detectChanges();
   }
 
   onChangeState() {
-    this.distinctOption = [];
-    this.townshipOption = [];
-    this.leadForm.controls["districtCode"].setValue("");
-    this.leadForm.controls["townshipCode"].setValue("");
-    this.getDistrict(this.leadForm.controls["stateCode"].value);
-    this.cdf.detectChanges();
+    // this.distinctOption = [];
+    // this.townshipOption = [];
+    // this.leadForm.controls["districtCode"].setValue("");
+    // this.leadForm.controls["townshipCode"].setValue("");
+    // this.getDistrict(this.leadForm.controls["stateCode"].value);
+    // this.cdf.detectChanges();
   }
 
   onChangeDistrict() {
-    this.leadForm.controls["townshipCode"].setValue("");
-    if (this.leadForm.controls["stateCode"].value == "") {
-      this.townshipOption = [];
-    } else {
-      this.getTownship(this.leadForm.controls["districtCode"].value);
+    // this.leadForm.controls["townshipCode"].setValue("");
+    // if (this.leadForm.controls["stateCode"].value == "") {
+    //   this.townshipOption = [];
+    // } else {
+    //   this.getTownship(this.leadForm.controls["districtCode"].value);
+    // }
+    // this.cdf.detectChanges();
+  }
+  onChangeTownship() {
+    this.leadForm.controls['districtCode'].setValue('');
+    this.leadForm.controls['stateCode'].setValue('');
+    let townshipCode = this.leadForm.controls['townshipCode'].value
+    this.getParentDataByTownship(townshipCode)
+  }
+  getParentDataByTownship(townshipCode) {
+    let district;
+    let districtCode;
+    let state;
+    let stateCode;
+
+    if (townshipCode) {
+      district = this.township.find(x => x.codeId == townshipCode)
+      districtCode = district.parentCode
+      this.leadForm.controls['districtCode'].setValue(districtCode)
     }
-    this.cdf.detectChanges();
+    if (districtCode) {
+      state = this.district.find(x => x.codeId == districtCode)
+      stateCode = state.parentCode
+      this.leadForm.controls['stateCode'].setValue(stateCode)
+    }
   }
 
   ngOnDestroy() {
@@ -355,6 +402,16 @@ export class LeadDetailComponent implements OnInit {
       .getDataByType("PT_STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
         return of([])
       }))
+  }
+  getTownship() {
+    return this.masterDataService.getDataByType("PT_TOWNSHIP", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
+  }
+  getDistrict() {
+    return this.masterDataService.getDataByType("PT_DISTRICT", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
   }
   getChannel() {
     return this.masterDataService
@@ -387,6 +444,29 @@ export class LeadDetailComponent implements OnInit {
       }))
 
   }
+
+  getAllState() {
+    this.masterDataService.getDataByType("PT_STATE", true).toPromise().then((res: any) => {
+      if (res) {
+        this.state = res
+      }
+    })
+  }
+  getAllTownship() {
+    this.masterDataService.getDataByType("PT_TOWNSHIP", true).toPromise().then((res: any) => {
+      if (res) {
+        this.township = res
+      }
+    })
+  }
+  getAllDistrict() {
+    this.masterDataService.getDataByType("PT_DISTRICT", true).toPromise().then((res: any) => {
+      if (res) {
+        this.district = res
+      }
+    })
+  }
+  
   getFormatOpt(res) {
     return res.map(x => {
       return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
@@ -424,7 +504,7 @@ export class LeadDetailComponent implements OnInit {
     }
   }
 
-  getDistrict(parentId: string) {
+  getDistrictByParent(parentId: string) {
     this.masterDataService
       .getAddressDataByType("PT_DISTRICT", parentId)
       .toPromise()
@@ -438,7 +518,7 @@ export class LeadDetailComponent implements OnInit {
       });
   }
 
-  getTownship(parentId: string) {
+  getTownshipByParent(parentId: string) {
     if (parentId) {
       this.masterDataService
         .getAddressDataByType("PT_TOWNSHIP", parentId)
