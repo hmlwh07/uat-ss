@@ -81,8 +81,9 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   stateOption: State[] = [];
   districtOption: District[] = [];
   townshipOption: Township[] = [];
-
-
+  township: any = []
+  district: any = []
+  state: any = []
   genderOption = [];
   titleOption = [];
 
@@ -123,7 +124,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
   isMenuOpen: boolean = false
   isMore: boolean = false
   isDetail: boolean = true
-  pageName:string=""
+  pageName: string = ""
   description: string = ""
   cusAccess = defaultAccessObj
   activityAccess = defaultAccessObj
@@ -159,11 +160,11 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     this.route.queryParams
       .subscribe(params => {
         this.pageStatus = params.pageStatus;
-        this.pageName=params.page
+        this.pageName = params.page
         if (this.pageStatus != 'create' && !this.isPopup) {
           this.oldId = params.pageId;
           this.oldSecondaryId = params.pageSecondaryId;
-         
+
           this.getOld()
 
 
@@ -197,6 +198,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getMaster()
+    this.getAllMaster()
   }
 
   getNationality() {
@@ -219,6 +221,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       this.getOccupation(),
       this.getStatus(),
       this.getState(),
+      this.getTownship(),
+      this.getDistrict(),
       this.getNationality(),
     ]).toPromise().then((res: any) => {
       if (res) {
@@ -227,7 +231,23 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
         this.occupationOption = res[2]
         this.statusOption = res[3]
         this.stateOption = res[4]
-        this.nationalityOption = res[5]
+        this.townshipOption = res[5]
+        this.districtOption = res[6]
+        this.nationalityOption = res[7]
+        this.cdf.detectChanges()
+      }
+    })
+  }
+  getAllMaster() {
+    forkJoin([
+      this.getAllState(),
+      this.getAllTownship(),
+      this.getAllDistrict(),
+    ]).toPromise().then((res: any) => {
+      if (res) {
+        this.stateOption = res[0]
+        this.townshipOption = res[1]
+        this.districtOption = res[2]
         this.cdf.detectChanges()
       }
     })
@@ -290,23 +310,59 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
     })
   }
+  getFormatParentOpt(res) {
+    console.log(res);
+    let value;
+    res.forEach(element => {
+      value = this.districtOption.find(x => x.code == element.parentCode)
+      console.log("VALUE", value);
+
+    });
+    return res.map(x => {
+      return { 'code': x.parentCode, 'value': x.value }
+    })
+  }
 
   getState() {
     return this.masterDataService.getDataByType("PT_STATE", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
+  }
+  getTownship() {
+    return this.masterDataService.getDataByType("PT_TOWNSHIP", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
+  }
+  getDistrict() {
+    return this.masterDataService.getDataByType("PT_DISTRICT", true).pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
+  }
 
-    // .toPromise().then((res: any) => {
-    //   if (res) {
-    //     this.stateOption = res
-    //     this.cdf.detectChanges()
-    //   }
-    // });
+  getAllState() {
+    this.masterDataService.getDataByType("PT_STATE", true).toPromise().then((res: any) => {
+      if (res) {
+        this.state = res
+      }
+    })
+  }
+  getAllTownship() {
+    this.masterDataService.getDataByType("PT_TOWNSHIP", true).toPromise().then((res: any) => {
+      if (res) {
+        this.township = res
+      }
+    })
+  }
+  getAllDistrict() {
+    this.masterDataService.getDataByType("PT_DISTRICT", true).toPromise().then((res: any) => {
+      if (res) {
+        this.district = res
+      }
+    })
   }
 
 
-
-  getDistrict(parentId: string) {
+  getDistrictByParent(parentId: string) {
     this.masterDataService.getAddressDataByType("PT_DISTRICT", parentId).pipe(map(x => this.getFormatOpt(x)))
       .toPromise().then((res: any) => {
         if (res) {
@@ -315,7 +371,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
         }
       });
   }
-  getTownship(parentId: string) {
+  getTownshipByParent(parentId: string) {
     this.masterDataService.getAddressDataByType("PT_TOWNSHIP", parentId).pipe(map(x => this.getFormatOpt(x)))
       .toPromise().then((res: any) => {
         if (res) {
@@ -324,6 +380,61 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
         }
       });
   }
+
+
+
+  onInitAddress(oldData) {
+    this.getState();
+    this.getAllDistrict();
+    this.getAllTownship()
+    this.cdf.detectChanges();
+  }
+
+  onChangeTownship() {
+    this.customerForm.controls['districtCode'].setValue('');
+    this.customerForm.controls['stateCode'].setValue('');
+    let townshipCode = this.customerForm.controls['townshipCode'].value
+    this.getParentDataByTownship(townshipCode)
+  }
+  getParentDataByTownship(townshipCode) {
+    let district;
+    let districtCode;
+    let state;
+    let stateCode;
+
+    if (townshipCode) {
+      district = this.township.find(x => x.codeId == townshipCode)
+      districtCode = district.parentCode
+      this.customerForm.controls['districtCode'].setValue(districtCode)
+    }
+    if (districtCode) {
+      state = this.district.find(x => x.codeId == districtCode)
+      stateCode = state.parentCode
+      this.customerForm.controls['stateCode'].setValue(stateCode)
+    }
+  }
+  onChangeDistrict() {
+    // this.customerForm.controls['townshipCode'].setValue('');
+    // if (this.customerForm.controls['stateCode'].value == '') {
+    //   this.townshipOption = [];
+    // } else {
+    //   this.getTownship(this.customerForm.controls['districtCode'].value);
+    // }
+    // this.cdf.detectChanges()
+  }
+
+
+  onChangeState() {
+    // this.districtOption = [];
+    // this.townshipOption = [];
+
+    // this.customerForm.controls['districtCode'].setValue('');
+    // this.customerForm.controls['townshipCode'].setValue('');
+    // this.getDistrict(this.customerForm.controls['stateCode'].value);
+    // this.cdf.detectChanges();
+
+  }
+
 
   getOld() {
     this.customerService.findOne(this.oldId).toPromise().then((res) => {
@@ -362,7 +473,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       "identityNumber": new FormControl({ value: oldData ? oldData.identityNumber : '', disabled: disabledForm }, Validators.required),
       "statusCode": new FormControl({ value: oldData ? oldData.statusCode : 'A', disabled: disabledForm || this.isLead }, Validators.required),
       "partyCode": new FormControl({ value: oldData ? oldData.partyCode : '', disabled: disabledForm }),
-      "fatherName": new FormControl({ value: oldData ? oldData.fatherName : '', disabled: disabledForm },[Validators.required]),
+      "fatherName": new FormControl({ value: oldData ? oldData.fatherName : '', disabled: disabledForm }, [Validators.required]),
       "phone": new FormControl({ value: oldData ? oldData.phone : '', disabled: disabledForm }, [Validators.required, Validators.maxLength(11), Validators.minLength(9)]),
       "email": new FormControl({ value: oldData ? oldData.email : '', disabled: disabledForm },),
       "dateOfBirth": new FormControl({ value: !oldData ? null : oldData.dateOfBirth ? moment(oldData.dateOfBirth) : null, disabled: disabledForm, }, Validators.required),
@@ -373,7 +484,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       "townshipCode": new FormControl({ value: oldData ? oldData.townshipCode : '', disabled: disabledForm }, Validators.required),
       "districtCode": new FormControl({ value: oldData ? oldData.districtCode : '', disabled: disabledForm }, Validators.required),
       "stateCode": new FormControl({ value: oldData ? oldData.stateCode : '', disabled: disabledForm }, Validators.required),
-      "companyName": new FormControl({ value: oldData ? oldData.companyName || "KBZMS" :'KBZMS', disabled: true })
+      "companyName": new FormControl({ value: oldData ? oldData.companyName || "KBZMS" : 'KBZMS', disabled: true })
     });
 
   }
@@ -383,34 +494,6 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-  onInitAddress(oldData) {
-    // this.getState();
-    this.getDistrict(oldData.stateCode);
-    this.getTownship(oldData.districtCode)
-    this.cdf.detectChanges();
-  }
-
-  onChangeState() {
-    this.districtOption = [];
-    this.townshipOption = [];
-
-    this.customerForm.controls['districtCode'].setValue('');
-    this.customerForm.controls['townshipCode'].setValue('');
-    this.getDistrict(this.customerForm.controls['stateCode'].value);
-    this.cdf.detectChanges();
-
-  }
-
-  onChangeDistrict() {
-    this.customerForm.controls['townshipCode'].setValue('');
-    if (this.customerForm.controls['stateCode'].value == '') {
-      this.townshipOption = [];
-    } else {
-      this.getTownship(this.customerForm.controls['districtCode'].value);
-    }
-    this.cdf.detectChanges()
-  }
 
   isIdentitiyType() {
     this.customerForm.controls["identityNumber"].setValue('');
@@ -427,8 +510,8 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
   doCustomer() {
     // console.log(this.customerForm.invalid);
-    console.log("POPUP",this.isPopup);
-    
+    console.log("POPUP", this.isPopup);
+
     if (this.customerForm.invalid) {
       validateAllFields(this.customerForm)
       return true
@@ -451,13 +534,13 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
 
   create(postData) {
     let name = postData.firstName + ' ' + ((postData.middleName ? postData.middleName + ' ' : '') + postData.lastName || null)
-  
+
     let data = { ...postData, customerId: null, individualId: null };
     this.customerService.save(data).toPromise().then((res) => {
       // console.log("RESSS", res)
       if (res) {
         if (this.isPopup) {
-          this.ngbModal.dismiss({ data: { ...postData,name: name, customerId: res, }, type: "save" })
+          this.ngbModal.dismiss({ data: { ...postData, name: name, customerId: res, }, type: "save" })
         } else {
           this.alertService.activate('This record was created', 'Success Message');
           this.location.back()

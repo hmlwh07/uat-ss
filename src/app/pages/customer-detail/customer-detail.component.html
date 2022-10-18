@@ -162,26 +162,27 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}} </label>
                                 <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('statusCode')" [class.is-valid]="isControlValid('statusCode')" [items]="statusOption" bindLabel="value" bindValue="code" formControlName="statusCode">
-                                    </ng-select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
-                                <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('stateCode')" (change)="onChangeState()" [class.is-valid]="isControlValid('stateCode')" [items]="stateOption" bindLabel="value" bindValue="code" formControlName="stateCode">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('townshipCode')" (change)="onChangeTownship()" [class.is-valid]="isControlValid('townshipCode')" [items]="townshipOption" bindLabel="value" bindValue="code" formControlName="townshipCode">
                                     </ng-select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.district" | translate}}</label>
                                 <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('districtCode')" (change)="onChangeDistrict()" [class.is-valid]="isControlValid('districtCode')" [items]="districtOption" bindLabel="value" bindValue="code" formControlName="districtCode">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('districtCode')" (change)="onChangeDistrict()" [class.is-valid]="isControlValid('districtCode')" [items]="districtOption" bindLabel="value" bindValue="code" formControlName="districtCode" [readonly]="true">
                                     </ng-select>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">{{"FORM.state" | translate}}</label>
+                                <div class="col-sm-8">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('stateCode')" (change)="onChangeState()" [class.is-valid]="isControlValid('stateCode')" [items]="stateOption" bindLabel="value" bindValue="code" formControlName="stateCode"  [readonly]="true">
+                                    </ng-select>
+                                </div>
+                            </div>
+                          
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group row">
@@ -208,14 +209,14 @@
                                     <input type="text" class="form-control form-control-sm " name="blockArea" autocomplete="off" [class.is-invalid]="isControlInvalid('blockArea')" [class.is-valid]="isControlValid('blockArea')" formControlName="blockArea" />
                                 </div>
                             </div>
-
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">{{"FORM.township" | translate}} </label>
+                                <label class="col-sm-4 col-form-label">{{"FORM.status" | translate}}</label>
                                 <div class="col-sm-8">
-                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('townshipCode')" [class.is-valid]="isControlValid('townshipCode')" [items]="townshipOption" bindLabel="value" bindValue="code" formControlName="townshipCode">
+                                    <ng-select class="ng-custom-select ng-custom-select-sm" [class.is-invalid]="isControlInvalid('statusCode')" [class.is-valid]="isControlValid('statusCode')" [items]="statusOption" bindLabel="value" bindValue="code" formControlName="statusCode">
                                     </ng-select>
                                 </div>
                             </div>
+                           
 
                         </div>
                     </div>
