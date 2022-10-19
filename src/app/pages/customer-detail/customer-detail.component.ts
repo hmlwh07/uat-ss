@@ -395,6 +395,13 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
     this.customerForm.controls['stateCode'].setValue('');
     let townshipCode = this.customerForm.controls['townshipCode'].value
     this.getParentDataByTownship(townshipCode)
+    // this.getParentData(townshipCode)
+  }
+  getParentData(townshipCode) {
+    this.masterDataService.getParentDataByTownship('PT_TOWNSHIP', townshipCode).toPromise().then((res: any) => {
+      console.log(res);
+
+    })
   }
   getParentDataByTownship(townshipCode) {
     let district;

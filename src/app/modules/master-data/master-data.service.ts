@@ -44,4 +44,7 @@ export class MasterDataService {
   getAddressDataByType(type: string, parentId: string) {
     return this.http.get(environment.apiUrl + "/address-code?codeType=" + type + "&parentCode=" + parentId + "&lang_cd=EN")
   }
+  getParentDataByTownship(type: string, codeId: string) {
+    return this.http.get(environment.apiUrl + "/address-parent-code?codeType=" + type + "&codeId=" + codeId + "&lang_cd=EN")
+  }
 }
