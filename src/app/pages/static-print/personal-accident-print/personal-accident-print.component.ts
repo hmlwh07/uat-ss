@@ -63,9 +63,9 @@ export class PersonalAccidentPrintComponent implements OnInit {
     }
     this.isMobile = PRINT.IS_MOBILE
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
-    // if(this.signId){
-    //   this.fileId=this.encryption.encryptData(this.signId)
-    // }
+    if(this.signId){
+      this.fileId=this.encryption.encryptData(this.signId)
+    }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()

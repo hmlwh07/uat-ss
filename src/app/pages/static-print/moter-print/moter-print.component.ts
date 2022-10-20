@@ -63,7 +63,7 @@ export class MoterPrintComponent implements OnInit {
   coverage: any
   coverageData2: any = []
   isMobile: boolean = false
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
 
   constructor(
     private motorService: MotorPrintService,
