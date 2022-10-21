@@ -9,57 +9,87 @@ export function getMasterValue(masterServer: MasterDataService, response: any, c
     return of(response).pipe(map((result: any[]) => {
       let masterPost = []
       let resource = result.map((res) => {
-        let masterObj = (res.data as any[]).filter(x => (x.value + "" as string).startsWith("T-") || (x.value + "" as string).startsWith("TA-") || (x.value + "" as string).startsWith("TU-"))
-        if (masterObj.length > 0) {
-          let postData = masterObj.map(x => {
-            let columnName = column.find(col => col.name == x.column)
-            if (columnName.masterData) {
+        let masterColumn = (res.data as any[]).filter(x => (x.column + "" as string) == "m_model")
+        if (masterColumn.length > 0) {
+          let postData = masterColumn.map(x => {
+            console.log(x);
+            
               return {
                 "codeId": x.value,
-                "codeType": columnName.masterData,
+                "codeType": "MODEL_OF_VEHICLE",
                 "langCd": "EN"
               }
-            }
           })
           masterPost.push(...postData)
         }
-      })
+      
+        let masterObj = (res.data as any[]).filter(x => (x.value + "" as string).startsWith("T-") || (x.value + "" as string).startsWith("TA-") || (x.value + "" as string).startsWith("TU-"))
+        if (masterObj.length > 0) {
+        let postData = masterObj.map(x => {
+          let columnName = column.find(col => col.name == x.column)
+          if (columnName.masterData) {
+            return {
+              "codeId": x.value,
+              "codeType": columnName.masterData,
+              "langCd": "EN"
+            }
+          }
+
+        })
+        masterPost.push(...postData)
+      }
+
+    })
 
       return { result, masterPost }
-    }), mergeMap((result: any) => {
+  }), mergeMap((result: any) => {
 
-      if (result.masterPost.length > 0) {
-        let postData = {
-          "codeBookRequest": result.masterPost
-        }
-        return masterServer.getMasterValue(postData).pipe(map((masterValues: any) => {
-          return result.result.map(resp => {
-            resp.data = resp.data.flatMap(x => {
-              if ((x.value + "").startsWith("T-") || (x.value + "").startsWith("TA-") || (x.value + "").startsWith("TU-")) {
-                let columnName = column.find(col => col.name == x.column)
-                let index = masterValues.findIndex(master => master.codeId == x.value && columnName.masterData == master.codeType)
-                if (index >= 0) {
-                  if (editing) {
-                    return [x, { column: x.column + "Value", value: masterValues[index].codeName, }]
-                    // x.value = masterValues[index].codeName
-                  } else {
-                    x.value = masterValues[index].codeName
-                    x["valueCode"] = masterValues[index].codeId
+    if (result.masterPost.length > 0) {
+      let postData = {
+        "codeBookRequest": result.masterPost
+      }
+      return masterServer.getMasterValue(postData).pipe(map((masterValues: any) => {
+        return result.result.map(resp => {
+          resp.data = resp.data.flatMap(x => {
+            if ((x.value + "").startsWith("T-") || (x.value + "").startsWith("TA-") || (x.value + "").startsWith("TU-")) {
+              let columnName = column.find(col => col.name == x.column)
+              let index = masterValues.findIndex(master => master.codeId == x.value && columnName.masterData == master.codeType)
+              if (index >= 0) {
+                if (editing) {
+                  return [x, { column: x.column + "Value", value: masterValues[index].codeName, }]
+                  // x.value = masterValues[index].codeName
+                } else {
+                  x.value = masterValues[index].codeName
+                  x["valueCode"] = masterValues[index].codeId
 
-                  }
                 }
               }
-              return x
-            })
-            return resp
+            }
+            if(x.column=='m_model'){
+              let columnName = column.find(col => col.name == x.column)
+              let index = masterValues.findIndex(master => master.codeId == x.value && columnName.masterData == master.codeType)
+              if (index >= 0) {
+                if (editing) {
+                  return [x, { column: x.column + "Value", value: masterValues[index].codeName, }]
+                  // x.value = masterValues[index].codeName
+                } else {
+                  x.value = masterValues[index].codeName
+                  x["valueCode"] = masterValues[index].codeId
+
+                }
+              }
+            }
+            return x
           })
-          // return result
-        }))
-      }
-      return of(result.result)
-    }))
-  }
-  return of(response)
+          return resp
+        })
+        // return result
+      }))
+    }
+    return of(result.result)
+  }))
+}
+return of(response)
 
 }
 

@@ -323,5 +323,5 @@ export const OUT_BOUND = [
   { travel_plan: 'T-OUTBOUND', travel_duration: 'TU-75 Days', travel_unit: 'T-20', rate: 9000 },
   { travel_plan: 'T-OUTBOUND', travel_duration: 'TU-3 Months', travel_unit: 'T-20', rate: 10000 },
 ]
-// 
+//
 // 001 inb  // 002 outb
