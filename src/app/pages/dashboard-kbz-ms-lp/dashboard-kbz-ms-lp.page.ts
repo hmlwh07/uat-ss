@@ -71,13 +71,13 @@ export class DashboardKbzMsLpPage implements OnInit {
   assignLeadArray = [];
   backlog: any = [];
   backlogArray = [];
-  totalPremium:number=0
-  renewalPremium:any=[]
-  productPremium:any=[]
-  premiumWithRenewal:any=[]
+  totalPremium: number = 0
+  renewalPremium: any = []
+  productPremium: any = []
+  premiumWithRenewal: any = []
   unsub: any = {};
   id: any;
-  roleId:any;
+  roleId: any;
   months = [
     'JAN',
     'FEB',
@@ -92,7 +92,7 @@ export class DashboardKbzMsLpPage implements OnInit {
     'NOV',
     'DEC',
   ];
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   currentMonthIndex: number = new Date().getUTCMonth();
 
   icons = [
@@ -175,27 +175,14 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   getList() {
     this.ngzone.run(_ => {
-      this.dashboardService.getList(this.actForm.value).toPromise().then((res:any) => {
-        
+      this.dashboardService.getList(this.actForm.value).toPromise().then((res: any) => {
+
         if (res) {
           this.data = res;
-          if(this.data.agentInfo.attId){
-            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
-          }
-          if(this.data.yearlyProductPremium){
-            this.data.yearlyProductPremium.forEach(element => {
-              element.productSmallIcon=this.encryptData(element.productSmallIcon)
-            });
-          }
-          if(this.data.subAgentMonthlySale){
-            this.data.subAgentMonthlySale.forEach(element => {
-              element.attId=this.encryptData(element.attId)
-            });
-          }
-          if(res.yearlyProductPremium){
-            this.productPremium=res.yearlyProductPremium
+          if (res.yearlyProductPremium) {
+            this.productPremium = res.yearlyProductPremium
             this.getRenewalPremium();
-            }
+          }
           this.setChartOptions();
           this.cdf.detectChanges();
         }
@@ -205,23 +192,25 @@ export class DashboardKbzMsLpPage implements OnInit {
 
   getRenewalPremium(id?) {
     let post = {
-      "agentId":id
+      "agentId": id
     }
-    let formValue={
-      "agentId":this.actForm.value.empId
+    let formValue = {
+      "agentId": this.actForm.value.empId
     }
-      this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res:any) => {
-        if (res) {
-          console.log(res);
-          this.renewalPremium=res.productPremiums
-          this.productPremium.map((item)=>{
-            item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
-           this.totalPremium+=item.premium
-           this.cdf.detectChanges()
-          })
-          console.log(this.productPremium,this.totalPremium);
-        }
-      })
+    this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res: any) => {
+      if (res) {
+        this.renewalPremium = res.productPremiums
+        this.productPremium.map((item) => {
+          let renewalAmt = this.renewalPremium.find(ele => ele.productCode == item.productCode)
+          item.premium = renewalAmt ? Number(item.premium) +  Number(renewalAmt.totalPremium): Number(item.premium)
+          this.cdf.detectChanges()
+        })
+        this.productPremium.forEach(element => {
+          this.totalPremium += Number(element.premium)
+          this.cdf.detectChanges()
+        });
+      }
+    })
   }
 
   getRecentList() {

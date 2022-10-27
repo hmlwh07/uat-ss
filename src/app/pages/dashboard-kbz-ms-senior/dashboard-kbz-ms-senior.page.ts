@@ -80,15 +80,15 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   agentLineChart: any;
   agentLineChartCategories: string[] = [];
   agentLineChartDatas: number[] = [];
-  renewalPremium:any=[]
-  productPremium:any=[]
-  premiumWithRenewal:any=[]
-  totalPremium:number=0
+  renewalPremium: any = []
+  productPremium: any = []
+  premiumWithRenewal: any = []
+  totalPremium: number = 0
   currentMonthIndex: number = new Date().getUTCMonth();
   currentYear: number = new Date().getUTCFullYear();
   months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   radioW: number;
   radioH: number;
   chartH: number;
@@ -114,8 +114,8 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     private AttachmentUploadService: AttachmentUploadService,
     private DashboardAttachmentService: DashboardAttachmentService,
     private menuDataRoleService: MenuDataRoleService,
-    private route:ActivatedRoute,
-    private encryption:EncryptService
+    private route: ActivatedRoute,
+    private encryption: EncryptService
   ) {
     // this.unsub = this.auth.currentUserSubject.subscribe((res) => {
     //   if (res) {
@@ -135,8 +135,8 @@ export class DashboardKbzMsSeniorPage implements OnInit {
     });
     // this.loadForm();
   }
-  encryptData(attid){
-    let id=this.encryption.encryptData(attid)
+  encryptData(attid) {
+    let id = this.encryption.encryptData(attid)
     return id || null
   }
 
@@ -166,28 +166,30 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   getList(id?) {
     let post = {
-      "empId":id
+      "empId": id
     }
     this.ngzone.run(_ => {
-      this.dashboardService.getList(id ? post : this.actForm.value).toPromise().then((res:any) => {
+      this.dashboardService.getList(id ? post : this.actForm.value).toPromise().then((res: any) => {
         if (res) {
           this.data = res;
-          if(this.data.agentInfo.attId){
-            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+          console.log(this.data);
+
+          if (this.data.agentInfo.attId) {
+            // this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
           }
-          if(this.data.yearlyProductPremium){
+          if (this.data.yearlyProductPremium) {
             this.data.yearlyProductPremium.forEach(element => {
-              element.productSmallIcon=this.encryptData(element.productSmallIcon)
+              // element.productSmallIcon=this.encryptData(element.productSmallIcon)
             });
           }
-          if(this.data.subAgentMonthlySale){
+          if (this.data.subAgentMonthlySale) {
             this.data.subAgentMonthlySale.forEach(element => {
-              element.attId=this.encryptData(element.attId)
+              // element.attId=this.encryptData(element.attId)
             });
           }
-          if(res.yearlyProductPremium){
-          this.productPremium=res.yearlyProductPremium
-          this.getRenewalPremium()
+          if (res.yearlyProductPremium) {
+            this.productPremium = res.yearlyProductPremium
+            this.getRenewalPremium(id ? id : this.actForm.controls.empId.value)
           }
           this.setChartOptions('agent');
           this.cdf.detectChanges();
@@ -197,28 +199,29 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   }
   getRenewalPremium(id?) {
     let post = {
-      "agentId":id
+      "agentId": id
     }
-    let formValue={
-      "agentId":this.actForm.value.empId
-    }
-      this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res:any) => {
-        if (res) {
-          console.log(res);
-          this.renewalPremium=res.productPremiums
-          this.productPremium.map((item)=>{
-            item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
-           this.totalPremium+=item.premium
-           this.cdf.detectChanges()
-          })
-          console.log(this.productPremium,this.totalPremium);
-        }
-      })
+    this.dashboardService.getRenewalPremium(post).toPromise().then((res: any) => {
+      if (res) {
+        this.renewalPremium = res.productPremiums
+        this.productPremium.map((item) => {
+          let renewalAmt = this.renewalPremium.find(ele => ele.productCode == item.productCode)
+          item.premium = renewalAmt ? Number(item.premium) + Number(renewalAmt.totalPremium) : Number(item.premium)
+          this.cdf.detectChanges()
+        })
+        this.productPremium.forEach(element => {
+          this.totalPremium += Number(element.premium)
+
+          this.cdf.detectChanges()
+        });
+      }
+    })
   }
+
 
   getLeadList(id?) {
     let post = {
-      "empId":id
+      "empId": id
     }
     this.dashboardService.getLeadList(id ? post : this.actForm.value).toPromise().then((res: any) => {
       if (res) {
@@ -232,7 +235,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   getAgentList(id?) {
     let post = {
-      "empId":id
+      "empId": id
     }
     this.ngzone.run(_ => {
       // this.agentLineChartCategories = this.agentLineChartDatas = [];
@@ -292,6 +295,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {
+          this.totalPremium = null
           this.getList(agent.empId)
           this.getLeadList(agent.empId);
           this.getAgentList(agent.empId);

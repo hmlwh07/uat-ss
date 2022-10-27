@@ -80,10 +80,10 @@ export class DashboardKbzMsManagerPage implements OnInit {
   agentLineChart: any;
   agentLineChartCategories: string[] = [];
   agentLineChartDatas: number[] = [];
-  renewalPremium:any=[]
-  productPremium:any=[]
-  premiumWithRenewal:any=[]
-  totalPremium:number=0
+  renewalPremium: any = []
+  productPremium: any = []
+  premiumWithRenewal: any = []
+  totalPremium: number = 0
   data: any;
   actForm: FormGroup;
   leadObj: any = {};
@@ -106,7 +106,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
     'DEC',
   ];
   todayActiveAgent: number = 0
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
   radioW: number;
   radioH: number;
   chartH: number;
@@ -131,7 +131,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
     private AttachmentUploadService: AttachmentUploadService,
     private DashboardAttachmentService: DashboardAttachmentService,
     private menuDataRoleService: MenuDataRoleService,
-    private encryption:EncryptService
+    private encryption: EncryptService
   ) {
     this.route.queryParams.subscribe(async (params) => {
       if (params.empId) {
@@ -152,7 +152,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
     this.getList();
     this.getLeadList();
     this.getAgentList();
-    
+
     this.radioW = this.platform.width();
     this.radioH = this.platform.height();
     this.calculateMainContentHeight(this.radioW, this.radioH)
@@ -162,8 +162,8 @@ export class DashboardKbzMsManagerPage implements OnInit {
     this.activeRoute = route[0]
     // console.log("this.activeRoute",this.activeRoute);
   }
-  encryptData(attId){
-    let id=this.encryption.encryptData(attId)
+  encryptData(attId) {
+    let id = this.encryption.encryptData(attId)
     return id || null
   }
 
@@ -180,26 +180,26 @@ export class DashboardKbzMsManagerPage implements OnInit {
     this.dashboardService
       .getList(id ? post : this.actForm.value)
       .toPromise()
-      .then((res:any) => {
+      .then((res: any) => {
         if (res) {
           this.data = res;
-          console.log("this.",this.data);
-          if(this.data.agentInfo.attId){
-            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+          console.log("this.", this.data);
+          if (this.data.agentInfo.attId) {
+            // this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
           }
-          if(this.data.yearlyProductPremium){
+          if (this.data.yearlyProductPremium) {
             this.data.yearlyProductPremium.forEach(element => {
-              element.productSmallIcon=this.encryptData(element.productSmallIcon)
+              // element.productSmallIcon=this.encryptData(element.productSmallIcon)
             });
           }
-          if(this.data.subAgentMonthlySale){
+          if (this.data.subAgentMonthlySale) {
             this.data.subAgentMonthlySale.forEach(element => {
-              element.attId=this.encryptData(element.attId)
+              // element.attId=this.encryptData(element.attId)
             });
           }
-            this.productPremium=res.yearlyProductPremium
-            this.getRenewalPremium();
-            
+          this.productPremium = res.yearlyProductPremium
+          this.getRenewalPremium(id ? post : this.actForm.controls.empId.value)
+
           this.setChartOptions('agent');
           this.cdf.detectChanges();
         }
@@ -256,27 +256,26 @@ export class DashboardKbzMsManagerPage implements OnInit {
       }
     })
   }
-
   getRenewalPremium(id?) {
     let post = {
-      "agentId":id
+      "agentId": id
     }
-    let formValue={
-      "agentId":this.actForm.value.empId
-    }
-      this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res:any) => {
-        if (res) {
-          console.log(res);
-          this.renewalPremium=res.productPremiums
-          this.productPremium.map((item)=>{
-            item.premium = Number(item.premium) + Number(this.renewalPremium.find(ele=>ele.productCode===item.productCode).totalPremium)
-           this.totalPremium+=item.premium
-           this.cdf.detectChanges()
-          })
-          console.log(this.productPremium,this.totalPremium);
-        }
-      })
+    this.dashboardService.getRenewalPremium(post).toPromise().then((res: any) => {
+      if (res) {
+        this.renewalPremium = res.productPremiums
+        this.productPremium.map((item) => {
+          let renewalAmt = this.renewalPremium.find(ele => ele.productCode == item.productCode)
+          item.premium = renewalAmt ? Number(item.premium) + Number(renewalAmt.totalPremium) : Number(item.premium)
+          this.cdf.detectChanges()
+        })
+        this.productPremium.forEach(element => {
+          this.totalPremium += Number(element.premium)
+          this.cdf.detectChanges()
+        });
+      }
+    })
   }
+
 
 
 
@@ -284,7 +283,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
 
   goToLPDashboard(agent: any) {
     console.log(agent);
-    
+
     this.getSaleRoleData(agent)
     // this.router.navigate(['/dashboard/lp-manager-dashboard'], {
     //   queryParams: { empId: agent.empId,roleId: agent.roleId },
@@ -320,6 +319,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {
+          this.totalPremium = null
           this.getList(agent.empId)
           this.getLeadList(agent.empId);
           this.getAgentList(agent.empId);
