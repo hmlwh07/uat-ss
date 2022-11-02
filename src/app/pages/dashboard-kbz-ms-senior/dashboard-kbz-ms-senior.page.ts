@@ -88,7 +88,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   currentYear: number = new Date().getUTCFullYear();
   months = ['JAN', 'FEB', 'Mar', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   unsub: any;
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   radioW: number;
   radioH: number;
   chartH: number;
@@ -104,7 +104,9 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   activeRoute: any;
   id: any;
   roleId: any;
-  constructor(private platform: Platform,
+  tempPolicy: any;
+  constructor(
+    private platform: Platform,
     private cdf: ChangeDetectorRef,
     private auth: AuthService,
     private dashboardService: DashboardService,
@@ -166,58 +168,89 @@ export class DashboardKbzMsSeniorPage implements OnInit {
 
   getList(id?) {
     let post = {
-      "empId": id
+      empId: id
     }
-    this.ngzone.run(_ => {
-      this.dashboardService.getList(id ? post : this.actForm.value).toPromise().then((res: any) => {
+    this.dashboardService
+      .getList(id ? post : this.actForm.value)
+      .toPromise()
+      .then((res: any) => {
         if (res) {
           this.data = res;
-          console.log(this.data);
-
+          console.log("this.", this.data);
           if (this.data.agentInfo.attId) {
-            // this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+            this.data.agentInfo.attId = this.encryptData(this.data.agentInfo.attId)
           }
           if (this.data.yearlyProductPremium) {
             this.data.yearlyProductPremium.forEach(element => {
-              // element.productSmallIcon=this.encryptData(element.productSmallIcon)
+              element.productSmallIcon = this.encryptData(element.productSmallIcon)
             });
           }
           if (this.data.subAgentMonthlySale) {
             this.data.subAgentMonthlySale.forEach(element => {
-              // element.attId=this.encryptData(element.attId)
+              element.attId = this.encryptData(element.attId)
             });
           }
-          if (res.yearlyProductPremium) {
-            this.productPremium = res.yearlyProductPremium
-            this.getRenewalPremium(id ? id : this.actForm.controls.empId.value)
-          }
+          this.productPremium = res.yearlyProductPremium
+          console.log("this.actForm.controls.empId.value", this.actForm.controls.empId.value);
+
+          this.getRenewalPremium(id ? id : this.actForm.controls.empId.value)
+
           this.setChartOptions('agent');
           this.cdf.detectChanges();
         }
-      })
-    })
+      });
   }
+
   getRenewalPremium(id?) {
+    this.tempPolicy = []
+    this.renewalPremium = []
     let post = {
       "agentId": id
     }
+
     this.dashboardService.getRenewalPremium(post).toPromise().then((res: any) => {
       if (res) {
         this.renewalPremium = res.productPremiums
+
         this.productPremium.map((item) => {
           let renewalAmt = this.renewalPremium.find(ele => ele.productCode == item.productCode)
+
+          if (renewalAmt) {
+
+            this.tempPolicy.push(renewalAmt.productCode)
+          } else {
+
+            this.tempPolicy = this.tempPolicy
+          }
+          console.log(this.tempPolicy);
+
           item.premium = renewalAmt ? Number(item.premium) + Number(renewalAmt.totalPremium) : Number(item.premium)
           this.cdf.detectChanges()
         })
+        console.log("tempPolicy", this.tempPolicy);
+
+        for (var i = 0; i < this.renewalPremium.length; i++) {
+          for (var j = 0; j < this.tempPolicy.length; j++) {
+            console.log("this.renewalPremium[i]", this.renewalPremium[i]);
+            if (this.renewalPremium[i].productCode === this.tempPolicy[j]) {
+              this.renewalPremium.splice(i, 1);
+            }
+          }
+        }
+        this.renewalPremium.map((data) => {
+          data.productName = data.productName
+          data.premium = data.totalPremium
+          data.productSmallIcon = data.productSmallIcon
+        })
+        this.productPremium.push(...this.renewalPremium)
+
         this.productPremium.forEach(element => {
           this.totalPremium += Number(element.premium)
-
           this.cdf.detectChanges()
         });
       }
     })
   }
-
 
   getLeadList(id?) {
     let post = {
@@ -295,7 +328,6 @@ export class DashboardKbzMsSeniorPage implements OnInit {
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {
-          this.totalPremium = null
           this.getList(agent.empId)
           this.getLeadList(agent.empId);
           this.getAgentList(agent.empId);

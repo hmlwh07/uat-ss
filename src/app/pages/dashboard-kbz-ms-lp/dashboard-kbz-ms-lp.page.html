@@ -18,7 +18,7 @@
       <div class="premium" [ngStyle]="{'padding': productPadding}">
         <ion-label class="premuim-color">{{"CARD.premium" | translate}}</ion-label>
         <!-- <ion-label>{{ data?.agentInfo?.totalPremium||0 | number: '1.2-2' }} <span><small>MMK</small></span></ion-label> -->
-        <ion-label>{{ totalPremium || (data?.agentInfo?.totalPremium || 0) | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
+        <ion-label>{{ totalPremium || data?.agentInfo?.totalPremium | number: '1.2-2' }} <span><small>MMK</small></span></ion-label>
       </div>
     </div>
     <div class="product">
@@ -34,8 +34,8 @@
       <ion-list [ngStyle]="{'height': profileHpx}">
         <ion-item lines="full" *ngFor="let product of data?.yearlyProductPremium">
           <ion-thumbnail slot="start">
-            <img [src]="DEFAULT_DOWNLOAD_URL+'/'+product.productSmallIcon" class="prod-icon" alt="" srcset="">
-            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+'/'+product.productSmallIcon" class="prod-icon" alt=""
+            <img [src]="DEFAULT_DOWNLOAD_URL+'?id='+product.productSmallIcon" class="prod-icon" alt="" srcset="">
+            <!-- <img *ngIf="productSmallIcon" [src]="DEFAULT_DOWNLOAD_URL+'?id='+product.productSmallIcon" class="prod-icon" alt=""
               (error)="changeSource($event)"
               srcset=""> -->
           </ion-thumbnail>
