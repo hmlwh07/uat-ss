@@ -34,7 +34,7 @@ export class HealthCiPrintComponent implements OnInit {
     premium: false,
   }
   coverageData: any = {}
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   policyHolder: any = {};
   policyInfo: any = {};

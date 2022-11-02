@@ -41,7 +41,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
   fileId: string = ''
   signatureDate?: string
   isMobile: boolean = false
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   unsubscribe: Subscription[] = []
   constructor(
     private policyHolderService: PolicyHolderService,

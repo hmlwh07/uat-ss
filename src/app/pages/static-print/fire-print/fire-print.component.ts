@@ -55,7 +55,7 @@ export class FirePrintComponent implements OnInit {
   fileId: string = ''
   signatureDate?: string
   isMobile: boolean = false
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   constructor(
     private fireService: FireProductService,

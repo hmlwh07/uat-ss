@@ -50,7 +50,7 @@ export class TravelPrintComponent implements OnInit {
   fileId: string = ''
   isMobile: boolean = false
   isBreak: boolean = true
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   constructor(
     private policyHolderService: PolicyHolderService,
