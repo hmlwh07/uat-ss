@@ -123,7 +123,10 @@ export class DashboardKbzMsLpPage implements OnInit {
   mainContentHeightPx: string;
   salesH: number;
   productImageWidth: string;
-  constructor(private platform: Platform,
+  tempPolicy: any;
+
+  constructor(
+    private platform: Platform,
     private cdf: ChangeDetectorRef,
     private ngzone: NgZone,
     private route: ActivatedRoute,
@@ -133,7 +136,7 @@ export class DashboardKbzMsLpPage implements OnInit {
     private AttachmentUploadService: AttachmentUploadService,
     private alertCtrl: ActionSheetController,
     private DashboardAttachmentService: DashboardAttachmentService,
-    private encryption:EncryptService) {
+    private encryption: EncryptService) {
     this.route.queryParams.subscribe(async params => {
       if (params.empId) {
         this.id = JSON.parse(params.empId);
@@ -159,8 +162,8 @@ export class DashboardKbzMsLpPage implements OnInit {
     this.calculateMainContentHeight(this.radioW, this.radioH)
 
   }
-  encryptData(attid){
-    let id=this.encryption.encryptData(attid)
+  encryptData(attid) {
+    let id = this.encryption.encryptData(attid)
     return id || null
   }
   getImageURL(type) {
@@ -173,51 +176,84 @@ export class DashboardKbzMsLpPage implements OnInit {
     });
   }
 
-  getList() {
-    this.ngzone.run(_ => {
-      this.dashboardService.getList(this.actForm.value).toPromise().then((res: any) => {
-
+  getList(id?) {
+    let post = {
+      empId: id
+    }
+    this.dashboardService
+      .getList(id ? post : this.actForm.value)
+      .toPromise()
+      .then((res: any) => {
         if (res) {
           this.data = res;
-          if(this.data.agentInfo.attId){
-            this.data.agentInfo.attId=this.encryptData(this.data.agentInfo.attId)
+          console.log("this.", this.data);
+          if (this.data.agentInfo.attId) {
+            this.data.agentInfo.attId = this.encryptData(this.data.agentInfo.attId)
           }
-          if(this.data.yearlyProductPremium){
+          if (this.data.yearlyProductPremium) {
             this.data.yearlyProductPremium.forEach(element => {
-              element.productSmallIcon=this.encryptData(element.productSmallIcon)
+              element.productSmallIcon = this.encryptData(element.productSmallIcon)
             });
           }
-          if(this.data.subAgentMonthlySale){
+          if (this.data.subAgentMonthlySale) {
             this.data.subAgentMonthlySale.forEach(element => {
-              element.attId=this.encryptData(element.attId)
+              element.attId = this.encryptData(element.attId)
             });
           }
-          if(res.yearlyProductPremium){
-            this.productPremium=res.yearlyProductPremium
-            this.getRenewalPremium();
-          }
+          this.productPremium = res.yearlyProductPremium
+          console.log("this.actForm.controls.empId.value", this.actForm.controls.empId.value);
+
+          this.getRenewalPremium(id ? id : this.actForm.controls.empId.value)
+
           this.setChartOptions();
           this.cdf.detectChanges();
         }
-      })
-    });
+      });
   }
 
   getRenewalPremium(id?) {
+    this.tempPolicy = []
+    this.renewalPremium = []
     let post = {
       "agentId": id
     }
-    let formValue = {
-      "agentId": this.actForm.value.empId
-    }
-    this.dashboardService.getRenewalPremium(id ? post : formValue).toPromise().then((res: any) => {
+
+    this.dashboardService.getRenewalPremium(post).toPromise().then((res: any) => {
       if (res) {
         this.renewalPremium = res.productPremiums
+
         this.productPremium.map((item) => {
           let renewalAmt = this.renewalPremium.find(ele => ele.productCode == item.productCode)
-          item.premium = renewalAmt ? Number(item.premium) +  Number(renewalAmt.totalPremium): Number(item.premium)
+
+          if (renewalAmt) {
+
+            this.tempPolicy.push(renewalAmt.productCode)
+          } else {
+
+            this.tempPolicy = this.tempPolicy
+          }
+          console.log(this.tempPolicy);
+
+          item.premium = renewalAmt ? Number(item.premium) + Number(renewalAmt.totalPremium) : Number(item.premium)
           this.cdf.detectChanges()
         })
+        console.log("tempPolicy", this.tempPolicy);
+
+        for (var i = 0; i < this.renewalPremium.length; i++) {
+          for (var j = 0; j < this.tempPolicy.length; j++) {
+            console.log("this.renewalPremium[i]", this.renewalPremium[i]);
+            if (this.renewalPremium[i].productCode === this.tempPolicy[j]) {
+              this.renewalPremium.splice(i, 1);
+            }
+          }
+        }
+        this.renewalPremium.map((data) => {
+          data.productName = data.productName
+          data.premium = data.totalPremium
+          data.productSmallIcon = data.productSmallIcon
+        })
+        this.productPremium.push(...this.renewalPremium)
+
         this.productPremium.forEach(element => {
           this.totalPremium += Number(element.premium)
           this.cdf.detectChanges()

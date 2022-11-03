@@ -55,7 +55,7 @@ export class FirePrintComponent implements OnInit {
   fileId: string = ''
   signatureDate?: string
   isMobile: boolean = false
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   constructor(
     private fireService: FireProductService,
@@ -243,7 +243,7 @@ export class FirePrintComponent implements OnInit {
     let policyHolderInfoDetailData = [
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue+ " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
@@ -625,11 +625,11 @@ export class FirePrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
         2: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -655,7 +655,7 @@ export class FirePrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -712,12 +712,6 @@ export class FirePrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    // new page
-    if (this.addOnData.length > 1) {
-      doc.addPage();
-      height = 0;
-    }
-
     // Cover Information Details
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
     doc.text("Cover Information Details", width / 2, height + 23, { align: 'center' });
@@ -745,7 +739,7 @@ export class FirePrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // new page
-    if ((this.isExistData && this.addOnData.length >= 3) || !this.isExistData) {
+    if (this.addOnData.length > 0) {
       doc.addPage();
       height = 0;
     }
@@ -794,11 +788,11 @@ export class FirePrintComponent implements OnInit {
     doc.text("-----------------------------", width - 180, height + 150);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 140);
-    // if (this.fileId) {
-    //   var img = new Image()
-    //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 180, height + 80, 140, 80);
-    // }
+    if (this.fileId) {
+      var img = new Image()
+      img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+      doc.addImage(img, 'PNG', width - 180, height + 90, 70, 50);
+    }
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
@@ -821,10 +815,10 @@ export class FirePrintComponent implements OnInit {
     } else {
       console.log("Web")
       // Open PDF document in new tab
-      doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
 
       // Download PDF document  
-      // doc.save('downloadWeb.pdf');
+      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
 
       // Base64 output
       // let data = doc.output('datauri')

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { MasterDataService } from '../../../modules/master-data/master-data.service';
+import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { Field, FUNCTION_TYPE, InputDependency } from '../field.interface';
 
 @Component({
@@ -17,13 +18,26 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
   masterOption: any[] = []
   unSub: Subscription[] = []
   oldValue: any = ''
-  constructor(private masterData: MasterDataService, private cdf: ChangeDetectorRef, private globalFun: GlobalFunctionService) { }
+  state: any[]
+  township: any[]
+  district: any[]
+  districtCode: any
+  stateCode: any
+  districtValue: any
+  stateValue: any
+  constructor(private masterData: MasterDataService, private policyHolderService: PolicyHolderService, private cdf: ChangeDetectorRef, private globalFun: GlobalFunctionService) {
+    // this.getAllTownship()
+    // this.getAllState()
+    // this.getAllDistrict()
+  }
 
   ngOnInit() {
-    
+
     if (this.config.master == 'true') {
       if (!this.config.dependency) {
+
         this.getOptions()
+
       }
     }
     this.listenFunData()
@@ -70,8 +84,80 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
         this.cdf.detectChanges()
         this.doFunction()
       }
+
     })
   }
+
+  getAllState() {
+    this.masterData.getDataByType("PT_STATE", true).toPromise().then((res: any) => {
+      if (res) {
+        this.state = res
+      }
+    })
+  }
+  getAddressData(filter) {
+    this.masterData.getDataByType("PT_TOWNSHIP", true).toPromise().then((res: any) => {
+      if (res) {
+        this.township = res
+        let district = this.township.find(x => x.codeId == filter)
+        this.districtCode = district.parentCode
+        this.getMasterValueDistrict(this.districtCode).toPromise().then((res) => {
+          console.log('PT_DISTRICT', res);
+          if (res['PT_DISTRICT']) {
+            this.districtValue = res['PT_DISTRICT']
+            this.group.controls['f_district'].setValue(this.districtValue)
+          }
+        })
+
+        if (this.districtCode) {
+          this.masterData.getDataByType("PT_DISTRICT", true).toPromise().then((res: any) => {
+            if (res) {
+              this.district = res
+              let state = this.district.find(x => x.codeId == this.districtCode)
+              this.stateCode = state.parentCode
+              this.getMasterValueState(this.stateCode).toPromise().then((res) => {
+                if (res['PT_STATE']) {
+                  this.stateValue = res['PT_STATE']
+                  this.group.controls['f_state'].setValue(this.stateValue)
+                }
+              })
+
+            }
+          })
+        }
+      }
+    })
+  }
+  getMasterValueDistrict(districtCd) {
+
+    let data = {
+      "codeBookRequest": [
+
+        {
+          "codeId": districtCd,
+          "codeType": "PT_DISTRICT",
+          "langCd": "EN"
+        },
+      ]
+    }
+    return this.policyHolderService.getMasterDataSale(data)
+  }
+  getMasterValueState(stateCd) {
+    let data = {
+      "codeBookRequest": [
+
+        {
+          "codeId": stateCd,
+          "codeType": "PT_STATE",
+          "langCd": "EN"
+        },
+      ]
+    }
+    return this.policyHolderService.getMasterDataSale(data)
+  }
+
+
+
 
   reGetOption(filter: any) {
     if (filter == this.oldValue) return false
@@ -82,10 +168,15 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
     let same = false
     this.oldValue = filter
     let address = this.config.type == "address" ? true : false
+    console.log(address, this.config.masterData);
+
     this.masterData.getDataByType(this.config.masterData, address).pipe(map((res: any) => {
       return res.filter(x => x[depend.relatedField] == filter)
-    })).toPromise().then((res: any) => {
+    })).toPromise().then(async (res: any) => {
       if (res) {
+        if (address && this.config.masterData == 'PT_DISTRICT') {
+          this.getAddressData(filter)
+        }
         this.masterOption = res.map(x => {
           if (x[valueKey] == value) {
             same = true
@@ -97,6 +188,12 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
         } else {
           if (this.masterOption.length > 0) {
             this.group.controls[this.config.name].setValue(this.masterOption[0]['value'])
+          }
+          if (address && this.config.masterData == 'PT_DISTRICT') {
+            if (this.districtValue) {
+              this.group.controls['f_district'].setValue(this.districtValue)
+              this.group.controls['f_state'].setValue(this.stateValue)
+            }
           }
         }
         this.cdf.detectChanges()

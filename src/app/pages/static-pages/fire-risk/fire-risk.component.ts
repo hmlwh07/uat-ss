@@ -256,7 +256,12 @@ export class FireRiskComponent implements OnInit {
     for (var i = 0; i < parentData1.length; i++) {
       let totalPremiumNotStampDuty: any = 0;
       totalPremium += parseFloat(parentData1[i].premium);
-      totalSI += parseFloat(parentData1[i].sumInsure);
+      if(parentData1[i].sumInsure){
+        totalSI += parseFloat(parentData1[i].sumInsure);
+      }
+      if(parentData1[i].riskSi){
+        totalSI += parseFloat(parentData1[i].riskSi);
+      }
       let reqBody = {
         addOnIds: this.product.addOns.map(x => { return x.id }),
         optionalKey: parentData1[i].id || '',

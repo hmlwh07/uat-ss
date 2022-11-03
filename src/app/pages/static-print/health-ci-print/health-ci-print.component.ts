@@ -34,7 +34,7 @@ export class HealthCiPrintComponent implements OnInit {
     premium: false,
   }
   coverageData: any = {}
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader?id=`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   policyHolder: any = {};
   policyInfo: any = {};
@@ -618,11 +618,11 @@ export class HealthCiPrintComponent implements OnInit {
     doc.text("-----------------------------", width - 180, height + 180);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 170);
-    // if (this.fileId) {
-    //   var img = new Image()
-    //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 180, height + 100, 140, 80);
-    // }
+    if (this.fileId) {
+      var img = new Image()
+      img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+      doc.addImage(img, 'PNG', width - 180, height + 120, 70, 50);
+    }
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages();//Total Page Number
@@ -645,10 +645,10 @@ export class HealthCiPrintComponent implements OnInit {
     } else {
       console.log("Web")
       // Open PDF document in new tab
-      doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
 
       // Download PDF document  
-      // doc.save('downloadWeb.pdf');
+      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
 
       // Base64 output
       // let data = doc.output('datauri')
