@@ -55,8 +55,7 @@ export class FirePrintComponent implements OnInit {
   fileId: string = ''
   signatureDate?: string
   isMobile: boolean = false
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
-
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`
   constructor(
     private fireService: FireProductService,
     private productService: ProductDataService,
@@ -227,7 +226,7 @@ export class FirePrintComponent implements OnInit {
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
         { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -712,6 +711,12 @@ export class FirePrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
+    // new page
+    if (this.addOnData.length > 1) {
+      doc.addPage();
+      height = 0;
+    }
+
     // Cover Information Details
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
     doc.text("Cover Information Details", width / 2, height + 23, { align: 'center' });
@@ -739,7 +744,7 @@ export class FirePrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // new page
-    if (this.addOnData.length > 0) {
+    if (this.addOnData.length > 2 || this.listData.length == 1) {
       doc.addPage();
       height = 0;
     }
@@ -788,9 +793,9 @@ export class FirePrintComponent implements OnInit {
     doc.text("-----------------------------", width - 180, height + 150);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 140);
-    if (this.fileId) {
+    if (this.signId) {
       var img = new Image()
-      img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+      img.src = this.DEFAULT_DOWNLOAD_URL + '/' + this.signId
       doc.addImage(img, 'PNG', width - 180, height + 90, 70, 50);
     }
 
