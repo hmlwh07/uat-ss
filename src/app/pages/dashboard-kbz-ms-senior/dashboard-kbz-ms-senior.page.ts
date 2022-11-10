@@ -240,7 +240,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
         this.renewalPremium.map((data) => {
           data.productName = data.productName
           data.premium = data.totalPremium
-          data.productSmallIcon = data.productSmallIcon
+          data.productSmallIcon = this.encryptData(data.productSmallIcon)
         })
         this.productPremium.push(...this.renewalPremium)
 

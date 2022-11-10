@@ -115,11 +115,11 @@ export class ProductsComponent implements OnInit {
     this.itemService.getAll(this.isShowList).toPromise().then((res: any) => {
       if (res) {
         this.products = res
-        // this.products.forEach(element => {
-        //   if (element.smallIcon) {
-        //     element.smallIcon = this.encryption.encryptData(element.smallIcon)
-        //   }
-        // })
+        this.products.forEach(element => {
+          if (element.smallIcon) {
+            element.smallIcon = this.encryption.encryptData(element.smallIcon)
+          }
+        })
         this.cdRef.detectChanges()
         this.matTable.reChangeData()
       }
