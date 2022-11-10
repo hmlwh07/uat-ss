@@ -1182,7 +1182,7 @@ export class LeadDetailComponent implements OnInit {
       assignTo: new FormControl({ value: this.user.id }),
       assignToName: new FormControl({ value: null, disabled: true }),
       productId: new FormControl(null),
-      email: new FormControl(null),
+      email: new FormControl(null,[Validators.email,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
       sourceCode: new FormControl(null, Validators.required),
       campaignNo: new FormControl(null),
       campaignName: new FormControl({ value: null, disabled: true }),
