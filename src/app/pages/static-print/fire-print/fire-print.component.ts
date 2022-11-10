@@ -55,7 +55,7 @@ export class FirePrintComponent implements OnInit {
   fileId: string = ''
   signatureDate?: string
   isMobile: boolean = false
-  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`
   constructor(
     private fireService: FireProductService,
     private productService: ProductDataService,
@@ -793,9 +793,9 @@ export class FirePrintComponent implements OnInit {
     doc.text("-----------------------------", width - 180, height + 150);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 140);
-    if (this.signId) {
+    if (this.fileId) {
       var img = new Image()
-      img.src = this.DEFAULT_DOWNLOAD_URL + '/' + this.signId
+      img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
       doc.addImage(img, 'PNG', width - 180, height + 90, 70, 50);
     }
 
