@@ -39,7 +39,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId?: string
   @Input() premiumAmt: string
-  @Input() sumInsured:any
+  @Input() sumInsured: any
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   staticForm: FormGroup
   toMinDate = null
@@ -72,7 +72,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     private coverageQuoService: CoverageQuoService,
     private alertService: AlertService,
     private cdf: ChangeDetectorRef,
-    private alert:AlertService
+    private alert: AlertService
   ) {
     this.staticForm = this.fb.group({
       insuranceStartDate: [null, Validators.compose([Validators.required])],
@@ -98,6 +98,15 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     })
     this.options = this.product.coverages
     this.options2 = this.product.addOns
+    if (this.product.addOns.length > 0) {
+      this.product.addOns.sort(function (a, b) {
+        var textA = a.description.toUpperCase();
+        var textB = b.description.toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
+    }
+    console.log('this.product.addOns', this.product.addOns);
+
     this.refID = this.prodService.referenceID
     let toDate = moment().subtract(5, `days`)
     this.fromMinDate = toDate.format('YYYY-MM-DD')
@@ -239,9 +248,9 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   }
   nextPage() {
     if (this.staticForm.invalid) {
-      if(this.staticForm.controls['insuranceStartDate'].errors){
+      if (this.staticForm.controls['insuranceStartDate'].errors) {
         this.alert.activate('No back date is allowed. Please select the correct date.', 'Error')
-      }else{
+      } else {
         validateAllFields(this.staticForm)
         return true
       }
@@ -285,7 +294,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
         policyInceptionDate: moment(formValue.insuranceStartDate).format("YYYY-MM-DD"),
         policyExpireDate: moment(formValue.insuranceEndDate).format("YYYY-MM-DD"),
         productId: this.prodService.createingProd.id,
-        productCode:this.prodService.createingProd.code,
+        productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
         currency: this.currencyType,
