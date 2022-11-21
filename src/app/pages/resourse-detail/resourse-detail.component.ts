@@ -227,9 +227,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         // console.log(status, isDisabled);
       }
     } else {
-      if(this.statusCode=='07'){
-        isDisabled=true
-      }else{
+      if (this.statusCode == '07') {
+        isDisabled = true
+      } else {
         isDisabled = false
       }
     }
@@ -511,16 +511,44 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //   modalRef.result.then(() => { }, (res) => {
       //   })
       // } else {
-        const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false });        modalRef.componentInstance.configData = this.printConfig.printFormat
-        modalRef.componentInstance.configOrder = this.printConfig.prinitUI
-        modalRef.componentInstance.product = this.item
-        modalRef.componentInstance.tempData = this.formatedData
-        modalRef.componentInstance.resourcesId = this.resourceDetail.id
-        modalRef.componentInstance.agentId=this.resourceDetail.agentId
-        modalRef.result.then(() => { }, (res) => {
-        })
-      }
+      const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false }); modalRef.componentInstance.configData = this.printConfig.printFormat
+      modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+      modalRef.componentInstance.product = this.item
+      modalRef.componentInstance.tempData = this.formatedData
+      modalRef.componentInstance.resourcesId = this.resourceDetail.id
+      modalRef.componentInstance.agentId = this.resourceDetail.agentId
+      //FOR_AUTO_ATTACHMENT
+      modalRef.componentInstance.isPrint = true
+      modalRef.result.then(() => { }, (res) => {
+      })
+    }
     // }
+  }
+
+  submitPolicyWithProposal() {
+    if (!this.selectedBranchCode) {
+      this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
+    } else if (this.signFileId == null) {
+      this.alertService.activate("Please add Signature first", 'Warning Message')
+    } else {
+      const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false }); modalRef.componentInstance.configData = this.printConfig.printFormat
+      modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+      modalRef.componentInstance.product = this.item
+      modalRef.componentInstance.tempData = this.formatedData
+      modalRef.componentInstance.resourcesId = this.resourceDetail.id
+      modalRef.componentInstance.agentId = this.resourceDetail.agentId
+      //FOR_AUTO_ATTACHMENT
+      modalRef.componentInstance.isPrint = false
+      modalRef.result.then(() => { }, (res) => {
+        console.log("submitPolicyWithProposal", res);
+        if (res) {
+          this.alertService.activate('This record was submitted', 'Success Message');
+          this.resourceDetail.apiStatus = 'sending'
+          this.resourceDetail.status = 'submitted'
+          this.cdf.detectChanges()
+        }
+      })
+    }
   }
 
   createSign() {

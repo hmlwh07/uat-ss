@@ -28,7 +28,8 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() product: Product = {}
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-@Input() agentId:any
+  @Input() isPrint: any
+  @Input() agentId: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
 
@@ -42,7 +43,7 @@ export class PrintViewBoxComponent implements OnInit {
   qrLocation: string
   policyInfo: any = {}
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
-  constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService,private healthPrintService:HealthPrintService) {
+  constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService, private healthPrintService: HealthPrintService) {
 
   }
 
@@ -107,7 +108,7 @@ export class PrintViewBoxComponent implements OnInit {
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.getAgentData()
-        if(this.product.code=='PCHL01'){
+        if (this.product.code == 'PCHL01') {
           this.getDetail()
         }
         // this.today = this.productService.editData.createdAt
@@ -119,7 +120,7 @@ export class PrintViewBoxComponent implements OnInit {
       this.branch = this.productService.editData.branch
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
-      if(this.product.code=='PCHL01'){
+      if (this.product.code == 'PCHL01') {
         this.getDetail()
       }
       // this.today = this.productService.editData.createdAt
@@ -170,7 +171,7 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
   getAgentData() {
-    this.productService.getAgentInfo(this.agentId|| 1).toPromise().then((res: any) => {
+    this.productService.getAgentInfo(this.agentId || 1).toPromise().then((res: any) => {
       if (res) {
         // console.log("RES",res);
 

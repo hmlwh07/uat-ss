@@ -216,7 +216,7 @@
             <div class="col-sm-4" *ngIf="type == 'policy'">
               <!-- [disabled]="resourceDetail.status == 'submitted'" -->
               <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()"
-                (click)="submitPolicy()">
+                (click)="submitPolicyWithProposal()">
                 {{"FORM.submit_application" | translate}}
               </button>
             </div>
