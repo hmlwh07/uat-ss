@@ -181,15 +181,16 @@ export class TravelPrintComponent implements OnInit {
   }
 
   async submitPolicy() {
-    await this.createPdf(this.isPrint)
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch,this.base64Proposal).toPromise().then((res) => {
+    this.createPdf()
+    let res = true
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
       if (res) {
-        this.modal.dismiss({data:res})
+        this.modal.dismiss({ data: res })
       }
     })
   }
 
-  createPdf(isPrint?) {
+  createPdf() {
 
     // Agent Information Details
     let agentInfoDetailData = [
@@ -627,28 +628,35 @@ export class TravelPrintComponent implements OnInit {
       img1.src = './assets/images/watermark-kbzms.png'
       doc.addImage(img1, 'PNG', 100, 200, width - 200, pageHeight - 300);
     }
-    if (isPrint) {
-      if (this.platform.is('android') || this.platform.is('ios')) {
-        console.log("Android")
+
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      console.log("Android")
+      if (this.isPrint) {
         let blobFile = doc.output('blob')
         // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
         this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
       } else {
-        console.log("Web")
-        // Open PDF document in new tab
-        // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
-
-        // Download PDF document  
-        doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
-
-        // Base64 output
-        // let data = doc.output('datauri')
-        // console.log("Base64 Data: ", data)
+        let data = doc.output('datauristring')
+        this.base64Proposal = data
+        console.log("this.base64Proposal: ", this.base64Proposal)
       }
     } else {
-      let data = doc.output(this.product.name + '(' + this.product.code + ')' + '.pdf')
-      this.base64Proposal = data
-      console.log("this.base64Proposal: ", this.base64Proposal)
+      console.log("Web")
+      // Open PDF document in new tab
+      // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      if (this.isPrint) {
+        console.log("HERE1==>");
+        
+        // Download PDF document  
+        doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+      } else {
+        console.log("HERE2==>");
+        
+        let data = doc.output('datauristring')
+        let test=data.split('base64,')
+        this.base64Proposal = test[1]
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     }
   }
 

@@ -14,6 +14,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { PRINT } from '../static-print-const';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PolicyService } from '../../policy/policy.service';
 
 @Component({
   selector: 'app-health-ci-print',
@@ -27,6 +28,8 @@ export class HealthCiPrintComponent implements OnInit {
   @Input() product: Product
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() isPrint: any
+  base64Proposal:any
   signatureDate?: string
   coverage = {
     sumInsured: false,
@@ -64,7 +67,8 @@ export class HealthCiPrintComponent implements OnInit {
     private encryption: EncryptService,
     private platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private policyService:PolicyService
   ) { }
 
   ngOnInit() {
@@ -217,7 +221,16 @@ export class HealthCiPrintComponent implements OnInit {
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-
+  async submitPolicy() {
+    this.createPdf()
+    let res = true
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
+      if (res) {
+        this.modal.dismiss({ data: res })
+      }
+    })
+  }
+  
   createPdf() {
 
     // Agent Information Details
@@ -639,20 +652,32 @@ export class HealthCiPrintComponent implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
-      let blobFile = doc.output('blob')
-      // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
-      this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      if (this.isPrint) {
+        let blobFile = doc.output('blob')
+        // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+        this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      } else {
+        let data = doc.output('datauristring')
+        this.base64Proposal = data
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     } else {
       console.log("Web")
       // Open PDF document in new tab
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      if (this.isPrint) {
+        console.log("HERE1==>");
 
-      // Download PDF document  
-      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+        // Download PDF document  
+        doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+      } else {
+        console.log("HERE2==>");
 
-      // Base64 output
-      // let data = doc.output('datauri')
-      // console.log("Base64 Data: ", data)
+        let data = doc.output('datauristring')
+        let test=data.split('base64,')
+        this.base64Proposal = test[1]
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     }
   }
 

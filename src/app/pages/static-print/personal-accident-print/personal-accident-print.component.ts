@@ -13,6 +13,7 @@ import { Platform } from '@ionic/angular';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { PRINT } from '../static-print-const';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PolicyService } from '../../policy/policy.service';
 
 @Component({
   selector: 'app-personal-accident-print',
@@ -25,6 +26,8 @@ export class PersonalAccidentPrintComponent implements OnInit {
   @Input() premiumAmt: any
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() isPrint: any
+  base64Proposal:any
   product: any
   sumInsuredAmt: any
   listData: any[] = []
@@ -51,7 +54,8 @@ export class PersonalAccidentPrintComponent implements OnInit {
     private encryption: EncryptService,
     private platform: Platform,
     public modal: NgbActiveModal,
-    private attachmentDownloadService: AttachmentDownloadService
+    private attachmentDownloadService: AttachmentDownloadService,
+    private policyService:PolicyService
   ) { }
 
   ngOnInit() {
@@ -138,6 +142,17 @@ export class PersonalAccidentPrintComponent implements OnInit {
         this.lifeInsuredPolicy = res.lifeInsuredPolicy
     })
   }
+
+  async submitPolicy() {
+    this.createPdf()
+    let res = true
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
+      if (res) {
+        this.modal.dismiss({ data: res })
+      }
+    })
+  }
+
 
   createPdf() {
 
@@ -494,20 +509,32 @@ export class PersonalAccidentPrintComponent implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
-      let blobFile = doc.output('blob')
-      // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
-      this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      if (this.isPrint) {
+        let blobFile = doc.output('blob')
+        // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+        this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      } else {
+        let data = doc.output('datauristring')
+        this.base64Proposal = data
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     } else {
       console.log("Web")
       // Open PDF document in new tab
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      if (this.isPrint) {
+        console.log("HERE1==>");
 
-      // Download PDF document  
-      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+        // Download PDF document  
+        doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+      } else {
+        console.log("HERE2==>");
 
-      // Base64 output
-      // let data = doc.output('datauri')
-      // console.log("Base64 Data: ", data)
+        let data = doc.output('datauristring')
+        let test=data.split('base64,')
+        this.base64Proposal = test[1]
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     }
   }
 

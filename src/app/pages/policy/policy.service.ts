@@ -65,7 +65,15 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})
   }
   submitPolicyWithProposal(resId: string, branchCode: string,base64Proposal) {
-    return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode + "?base64Proposal=" + base64Proposal, {})
+   
+    let request={
+      resId:resId,
+      branchCode:branchCode,
+      base64Proposal:base64Proposal
+    }
+    console.log("base64Proposal==>request",request);
+    return base64Proposal
+    // return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit, request)
   }
 
   submitBranch(resId: string, branchCode: string) {
