@@ -182,7 +182,6 @@ export class TravelPrintComponent implements OnInit {
 
   async submitPolicy() {
     this.createPdf()
-    let res = true
     this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })

@@ -54,8 +54,8 @@ export const environment = {
   isMockEnabled: false,
   secureKey:'Blu3$t0ne',
   // apiUrl: 'http://54.251.196.83:8083/sale/api/v1',
-  // apiUrl: 'http://104.248.152.205:8083/sale/api/v1',
-   apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1',
+  apiUrl: 'http://104.248.152.205:8083/sale/api/v1',
+  //  apiUrl: 'https://producersalesuat.kbzms.com/sale/api/v1',
   firebaseConfig: {
     apiKey: "AIzaSyA83H8v2hiBokOT3lk_YfktW20GRPp-UqM",
     authDomain: "digitalfe-uat.firebaseapp.com",

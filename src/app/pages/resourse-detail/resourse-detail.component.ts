@@ -524,6 +524,28 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     }
     // }
   }
+  // attachProposal() {
+  //   agentId: 1
+  //   currency: "MMK"
+  //   customerId: 565
+  //   leadId: "LD-20221003-0005381"
+  //   pageData: []
+  //   pageId: "e99a294e-de9a-4692-b8ec-3debdf6f354b"
+  //   party: false
+  //   policyExpireDate: null
+  //   policyInceptionDate: null
+  //   policyNumber: null
+  //   premium: "10800"
+  //   premiumView: "10,800.00 MMK"
+  //   productCode: "PLTR01"
+  //   productId: 25
+  //   quotationId: null
+  //   resourceId: "GIPLTR0120221001084"
+  //   sumInsure: 0
+  //   sumInsureView:null
+  //   tableName:"attachment"
+  //   type:"policy"
+  // }
 
   submitPolicyWithProposal() {
     if (!this.selectedBranchCode) {
@@ -531,7 +553,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     } else if (this.signFileId == null) {
       this.alertService.activate("Please add Signature first", 'Warning Message')
     } else {
-      const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false }); modalRef.componentInstance.configData = this.printConfig.printFormat
+      const modalRef = this.modalService.open(PrintPreviewModalComponent, {
+        size:
+          'xl2', backdrop: false
+      }); modalRef.componentInstance.configData = this.printConfig.printFormat
       modalRef.componentInstance.configOrder = this.printConfig.prinitUI
       modalRef.componentInstance.product = this.item
       modalRef.componentInstance.tempData = this.formatedData
