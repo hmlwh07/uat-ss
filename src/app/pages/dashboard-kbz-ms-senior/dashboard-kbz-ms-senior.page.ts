@@ -193,7 +193,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
           this.productPremium = res.yearlyProductPremium
           console.log("this.actForm.controls.empId.value", this.actForm.controls.empId.value);
 
-          this.getRenewalPremium(id ? id : this.actForm.controls.empId.value)
+          // this.getRenewalPremium(id ? id : this.actForm.controls.empId.value)
 
           this.setChartOptions('agent');
           this.cdf.detectChanges();
