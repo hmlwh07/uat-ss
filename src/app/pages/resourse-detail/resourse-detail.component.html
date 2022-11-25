@@ -32,7 +32,8 @@
             {{"FORM.bancs_policy_no" | translate}} <br>
             <span>{{resourceDetail.policyNumber}}</span>
           </div>
-          <button class="btn btn-outline-primary" *ngIf="type == 'policy'  && statusCode != '07'" style="margin-left: auto;"
+          <!-- type == 'policy'  && -->
+          <button class="btn btn-outline-primary" *ngIf=" statusCode != '07'" style="margin-left: auto;"
             (click)="viewPrint()">
             <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
           </button>
@@ -43,7 +44,7 @@
 </div>
 <ng-container *ngIf="resourceDetail">
 
-  <div class="row">
+  <div class="row" *ngIf="type == 'policy'">
     <div class="col-12">
       <div class="card card-custom gutter-b">
         <div class="card-header">

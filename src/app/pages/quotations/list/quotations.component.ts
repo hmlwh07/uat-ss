@@ -43,7 +43,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   product: any = []
   productOption: any = []
   Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
-  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService,private encryption:EncryptService) {
+  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private encryption: EncryptService) {
     this.loadForm()
   }
 
@@ -88,7 +88,8 @@ export class QuotationsComponent implements OnInit, OnDestroy {
     // this.rerender()
   }
   cancel() {
-
+    this.quotationForm.reset()
+    this.getQuoList()
   }
   getProduct() {
     this.prodctService
@@ -160,7 +161,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.quoList = res
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
-            this.quoList[i].icon=this.encryption.encryptData(this.quoList[i].icon)
+            this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
         }

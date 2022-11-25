@@ -498,7 +498,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
 
   viewPrint() {
-    if (!this.selectedBranchCode) {
+    if (!this.selectedBranchCode && this.type =='policy') {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
     } else {
       // if (this.platform.is('android') || this.platform.is('ios')) {
