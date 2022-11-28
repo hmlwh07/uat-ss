@@ -807,7 +807,7 @@ export class FirePrintComponent implements OnInit {
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 180, height + 150);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 140);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 130);
     if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId

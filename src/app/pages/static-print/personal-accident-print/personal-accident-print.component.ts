@@ -487,7 +487,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
     doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 180, height + 230);
     doc.setFontSize(6).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 230);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 210);
     if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
