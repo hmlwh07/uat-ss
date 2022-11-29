@@ -47,7 +47,7 @@ export class InputConfigModalComponent implements OnInit, OnDestroy {
     if(event.target.checked){
       this.inputData[key] = 3
     }else{
-      this.inputData[key] = 2
+      this.inputData[key] = 1
     }
     
   }

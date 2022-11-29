@@ -35,6 +35,7 @@ export class TravelComponent implements OnInit {
     traveler: null,
     benefi: null
   }
+  isApplication: boolean = true
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   constructor(
     private globalFun: GlobalFunctionService,
@@ -49,15 +50,24 @@ export class TravelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.travelForm.length < 3) {
-      this.alertService.activate("This page cann't to process because there is not match with requirement configuration. Please check travel product config in prodcut configuration", "Warning")
+   
+    if (this.prodService.viewType == "policy") {
+      this.isApplication = true
+
     } else {
-      this.requiredForm.detail = this.travelForm.find(x => x.unitCode == "travel_detail_0001")
-      this.requiredForm.traveler = this.travelForm.find(x => x.unitCode == "traveler_0002")
-      this.requiredForm.benefi = this.travelForm.find(x => x.unitCode == "trave_benefi_0003")
-      this.getRiskList()
-      this.callback()
+      this.isApplication = false
     }
+
+      if (this.travelForm.length < 3 && this.prodService.viewType == "policy") {
+        this.alertService.activate("This page cann't to process because there is not match with requirement configuration. Please check travel product config in prodcut configuration", "Warning")
+      } else {
+        this.requiredForm.detail = this.travelForm.find(x => x.unitCode == "travel_detail_0001")
+        this.requiredForm.traveler = this.travelForm.find(x => x.unitCode == "traveler_0002")
+        this.requiredForm.benefi = this.travelForm.find(x => x.unitCode == "trave_benefi_0003")
+        this.getRiskList()
+        this.callback()
+      }
+    
   }
 
   callback(ref?) {
@@ -283,7 +293,7 @@ export class TravelComponent implements OnInit {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,
       "resourceId": this.resourcesId,
-      "type": 'policy',
+      "type": this.prodService.viewType,
       "sumInsure": (Number(this.totalSiAmtView.split(" ")[0].split(',').join("")) || 0) + "",
       "sumInsureView": this.totalSiAmtView
     }

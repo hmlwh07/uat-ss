@@ -28,7 +28,7 @@
           <label for="">Read Only</label>
           <span class="switch switch-icon">
             <label>
-              <input type="checkbox" name="disabled" [checked]="inputData[item] >= 2"
+              <input type="checkbox" name="disabled" [checked]="inputData[item] == 2"
                 (change)="changeCheckRead(item,$event)" />
               <span></span>
             </label>
