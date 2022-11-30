@@ -1,6 +1,6 @@
 <form action="" [formGroup]="staticForm">
   <!-- Start date -->
-  <div class="row" style="align-items: center;">
+  <div class="row" style="align-items: center;" *ngIf="productType !='quotation'">
     <div class="col-6">
       <div class="form-group row">
         <label class="col-sm-4 col-form-label "> {{"FORM.Period of Insurance" | translate}}</label>

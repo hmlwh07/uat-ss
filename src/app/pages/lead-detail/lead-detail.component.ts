@@ -680,7 +680,15 @@ export class LeadDetailComponent implements OnInit {
           else {
             this.isReleasedDisabled = false;
           }
-
+          let quoList = this.quotationList.filter(list => list.status == 'complete')
+          if (quoList.length > 0) {
+            this.isReleasedDisabled = true;
+          } else if (this.oldData.statusCode == '07') {
+            this.QUOTATION_ELEMENT_COL[9].btn.edit = false
+          }
+          else {
+            this.isReleasedDisabled = false;
+          }
           this.quotationList.forEach((value, index) => {
             this.quotationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
             this.cdf.detectChanges()
