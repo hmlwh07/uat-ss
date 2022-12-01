@@ -155,15 +155,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         this.product = res
         if (this.product.smallIcon) {
           let small = this.encryption.encryptData(this.product.smallIcon)
-          this.formGroup.controls['smallIcon'].setValue(small)
+          this.formGroup.controls['smallIcon'].setValue(this.product.smallIcon)
         }
         if (this.product.icon) {
           let icon = this.encryption.encryptData(this.product.icon)
-          this.formGroup.controls['icon'].setValue(icon)
+          this.formGroup.controls['icon'].setValue(this.product.icon)
         }
         if (this.product.coverIcon) {
           let cover = this.encryption.encryptData(this.product.coverIcon)
-          this.formGroup.controls['coverIcon'].setValue(cover)
+          this.formGroup.controls['coverIcon'].setValue(this.product.coverIcon)
         }
         this.product.coverages = this.product.coverages || []
         this.product.addOns = this.product.addOns || []
@@ -367,7 +367,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     });
   }
   encryptData(attid) {
-    this.encryption.encryptData(attid)
+    return this.encryption.encryptData(attid)
   }
 
   changePayment(type: string) {
