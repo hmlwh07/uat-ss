@@ -192,6 +192,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.prodctService.type = 'policy'
         this.prodctService.viewType = 'policy'
         this.prodctService.editData = item
+        this.prodctService.isApplication = true
         this.prodctService.referenceID = item.quotationId
         this.prodctService.creatingLeadId = item.leadId
         this.router.navigateByUrl("/product-form")
@@ -239,6 +240,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = item
+       
         this.router.navigateByUrl("/resourse-detail")
       }
     })

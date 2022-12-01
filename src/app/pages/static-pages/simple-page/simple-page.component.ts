@@ -61,6 +61,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   dob: string = ""
   currencyType: string = "MMK"
   productType: string = ''
+  isApplication: boolean = false
   unsub: Subscription[] = []
   private addValid: boolean = false
   constructor(
@@ -110,6 +111,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
 
     this.refID = this.prodService.referenceID
     this.productType = this.prodService.type
+    this.isApplication = this.prodService.isApplication
     let toDate = moment().subtract(5, `days`)
     this.fromMinDate = toDate.format('YYYY-MM-DD')
     // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
@@ -352,8 +354,15 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   // }))
   getOldData(dataget: boolean = false) {
     // let dataget = false
-    if (this.resourcesId || this.refID) {
-      let resId = dataget ? this.refID : (this.resourcesId || this.refID)
+      let resId;
+      if (!this.isApplication) {
+        resId = this.refID
+      } else {
+        if (this.resourcesId) {
+          resId = dataget ? this.refID : (this.resourcesId || this.refID)
+        }
+      }
+
       if (!resId) return false
       this.healthService.getOne(resId).toPromise().then((res: any) => {
         // dataget = true
@@ -369,7 +378,6 @@ export class SimplePageComponent implements OnInit, OnDestroy {
           }
         }
       })
-    }
   }
 
   reloadOldValueForm() {
@@ -414,13 +422,13 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   async getAddOn(dataget: boolean = false) {
     let resId;
     let callAgain = true
-    if (this.refID) {
+    if (!this.isApplication) {
       resId = this.refID
+    } else {
+      if (this.resourcesId) {
+        resId = dataget ? this.refID : (this.resourcesId || this.refID)
+      }
     }
-    if (!this.refID && this.resourcesId) {
-      resId = dataget ? this.refID : (this.resourcesId || this.refID)
-    }
-
     if (!resId) return false
 
     for (const item of this.product.addOns) {
@@ -448,31 +456,31 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     // }
   }
 
-saveAddOn() {
-  const formValue = this.staticForm.value
-  return this.addOnQuoService.deleteAll(this.resourcesId, this.resourcesId).pipe(mergeMap((x: any) => {
-    // return this.coverageQuoService.save(postData)
-    return forkJoin(this.options2.map(option => {
-      if (formValue.basicCoverId == "HEALTH") {
-        if (this.addOns[option.id + 'opt']) {
-          let postData = {
-            addonId: option.id,
-            quotationNo: this.resourcesId,
-            optionalKey: this.resourcesId,
-            sumInsured: this.addOns[option.id + 'value'],
-            unit: null,
-            premium: null,
+  saveAddOn() {
+    const formValue = this.staticForm.value
+    return this.addOnQuoService.deleteAll(this.resourcesId, this.resourcesId).pipe(mergeMap((x: any) => {
+      // return this.coverageQuoService.save(postData)
+      return forkJoin(this.options2.map(option => {
+        if (formValue.basicCoverId == "HEALTH") {
+          if (this.addOns[option.id + 'opt']) {
+            let postData = {
+              addonId: option.id,
+              quotationNo: this.resourcesId,
+              optionalKey: this.resourcesId,
+              sumInsured: this.addOns[option.id + 'value'],
+              unit: null,
+              premium: null,
+            }
+            return this.addOnQuoService.save(postData)
+          } else {
+            this.addOns[option.id + 'opt'] = false
+            this.addOns[option.id + 'value'] = 0
+            return of(null)
           }
-          return this.addOnQuoService.save(postData)
         } else {
-          this.addOns[option.id + 'opt'] = false
-          this.addOns[option.id + 'value'] = 0
           return of(null)
         }
-      } else {
-        return of(null)
-      }
+      }))
     }))
-  }))
-}
+  }
 }
