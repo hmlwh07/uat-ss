@@ -350,7 +350,7 @@ export class MoterPrintComponent implements OnInit {
     let riskInfoDetailData = [
       [
         { content: this.vehicleDetail.mEngineNo, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mMakeValue + "/" + this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity, styles: { halign: 'center', valign: 'middle' } },
         { content: this.vehicleDetail.mManufactureYearValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.motorDetail.mTypeOfVehicleValue, styles: { halign: 'center', valign: 'middle' } },
@@ -511,11 +511,11 @@ export class MoterPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
         2: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -541,7 +541,7 @@ export class MoterPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -757,7 +757,7 @@ export class MoterPrintComponent implements OnInit {
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
 
       // Download PDF document  
-      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf' );
+      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
 
       // Base64 output
       // let data = doc.output('datauri')
