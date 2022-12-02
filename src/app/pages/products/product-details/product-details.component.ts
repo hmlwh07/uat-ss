@@ -122,16 +122,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.product = this.itemService.selectedProd
       if (this.product.smallIcon) {
-        let small = this.encryption.encryptData(this.product.smallIcon)
-        this.product.smallIcon = (small)
+        // let small = this.encryption.encryptData(this.product.smallIcon)
+        this.product.smallIcon = (this.product.smallIcon)
       }
       if (this.product.icon) {
-        let icon = this.encryption.encryptData(this.product.icon)
-        this.product.icon = (icon)
+        // let icon = this.encryption.encryptData(this.product.icon)
+        this.product.icon = (this.product.icon)
       }
       if (this.product.coverIcon) {
-        let cover = this.encryption.encryptData(this.product.coverIcon)
-        this.product.coverIcon = (cover)
+        // let cover = this.encryption.encryptData(this.product.coverIcon)
+        this.product.coverIcon = (this.product.coverIcon)
       }
       this.product.coverages = this.product.coverages || []
       this.product.addOns = this.product.addOns || []
