@@ -777,14 +777,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           this.fileUpload.save(data).toPromise().then((res) => {
             if (res) {
               if (type == "cover") {
-                let cover = this.encryption.encryptData(res)
-                this.formGroup.controls['coverIcon'].setValue(cover)
+                // let cover = this.encryption.encryptData(res)
+                this.formGroup.controls['coverIcon'].setValue(res)
               } else if (type == "small") {
-                let small = this.encryption.encryptData(res)
-                this.formGroup.controls['smallIcon'].setValue(small)
+                // let small = this.encryption.encryptData(res)
+                this.formGroup.controls['smallIcon'].setValue(res)
               } else {
-                let icon = this.encryption.encryptData(res)
-                this.formGroup.controls['icon'].setValue(icon)
+                // let icon = this.encryption.encryptData(res)
+                this.formGroup.controls['icon'].setValue(res)
               }
             }
             this.cdRef.detectChanges()
