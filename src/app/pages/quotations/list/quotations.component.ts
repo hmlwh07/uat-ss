@@ -185,6 +185,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.prodctService.editData = item
         this.prodctService.referenceID = null
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.isApplication = false
         this.router.navigateByUrl("/product-form")
       }
     })
@@ -226,6 +227,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.prodctService.referenceID = item.id
         this.prodctService.editData = null
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.isApplication = false
         this.router.navigateByUrl("/product-form")
       }
     })

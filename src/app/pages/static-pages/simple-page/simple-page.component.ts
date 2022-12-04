@@ -126,7 +126,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     // if (this.prodService.editData || this.refID)
 
     this.parentData = this.getParent()
-
+    console.log("this.isApplication",this.isApplication);
+    
     if (!this.parentData) {
       this.alertService.activate("This page cann't to save because there is no parent Data. Please configuration the product detail", "Warning")
     } else {
@@ -359,7 +360,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
         resId = this.refID
       } else {
         if (this.resourcesId) {
-          resId = dataget ? this.refID : (this.resourcesId || this.refID)
+          // resId = dataget ? this.refID : (this.resourcesId || this.refID)
+          resId=this.resourcesId
         }
       }
 
@@ -426,7 +428,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
       resId = this.refID
     } else {
       if (this.resourcesId) {
-        resId = dataget ? this.refID : (this.resourcesId || this.refID)
+         // resId = dataget ? this.refID : (this.resourcesId || this.refID)
+         resId=this.resourcesId
       }
     }
     if (!resId) return false
