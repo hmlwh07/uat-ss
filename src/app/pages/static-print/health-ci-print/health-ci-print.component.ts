@@ -294,7 +294,7 @@ export class HealthCiPrintComponent implements OnInit {
         { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.formatDateDDMMYYY(this.policyInfo.insuranceEndDate), styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.policyInfo.sumInsuredMainCover + 'Units', styles: { halign: 'center', valign: 'middle' } },
+        { content: '1 Year', styles: { halign: 'center', valign: 'middle' } },
       ],
       [
         { content: 'Policy Plan', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },

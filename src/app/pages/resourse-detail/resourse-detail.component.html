@@ -60,7 +60,7 @@
                 bindValue="code">
               </ng-select>
             </div>
-            <div class="col-2" >
+            <div class="col-2">
               <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
                 style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()"
                 (click)="saveBranch()">
@@ -162,8 +162,11 @@
                           <tr *ngFor="let result of resultObj[page.tableName+page.id];let i = index">
                             <td>{{i+1}}</td>
                             <ng-container *ngFor="let control of getFormatTable(page.controls)">
-                              <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
-                                {{getOtherData(control.cols,result) }}</td>
+                              <!-- <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
+                                {{getOtherData(control.cols,result) }}</td> -->
+                              <td  [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}" *ngIf="control.type != 'file'">{{ getOtherData(control.cols,result) }}</td>
+                              <td *ngIf="control.type == 'file'"> <a href="javascript:;"
+                                  (click)="download(control.cols,result)">{{ getOtherData(control.cols,result) }}</a> </td>
                             </ng-container>
                           </tr>
                         </ng-container>
@@ -210,7 +213,8 @@
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy'">
-              <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()" (click)="createSign()">
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()"
+                (click)="createSign()">
                 {{"FORM.create_signature" | translate}}
               </button>
             </div>

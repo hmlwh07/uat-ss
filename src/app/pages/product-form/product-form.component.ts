@@ -349,9 +349,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     console.log(cols, data);
 
     let value = this.getOtherDataID(cols, data)
+    let fileName = this.getOtherData(cols, data)
     if (value) {
       let valueId = value.split("].")[0].replace("[", "")
-      this.downloadService.getDownload(valueId, value)
+      this.downloadService.getDownload(valueId, fileName)
     }
   }
 
