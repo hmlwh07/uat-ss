@@ -11,13 +11,15 @@ export class InputConfigModalComponent implements OnInit, OnDestroy {
   constructor(public modal: NgbActiveModal, private cdRef: ChangeDetectorRef,) { }
 
   ngOnInit() {
-// console.log(Object.keys(this.inputData));
+console.log(Object.keys(this.inputData));
 
   }
 
   ngOnDestroy() { }
 
   save() {
+    console.log(this.inputData);
+    
     this.modal.dismiss({ type: 'save', data: this.inputData })
   }
 
@@ -26,6 +28,8 @@ export class InputConfigModalComponent implements OnInit, OnDestroy {
   }
 
   changeCheck(key,event){
+    console.log("KEY==>",key,event);
+    
     if(event.target.checked){
       this.inputData[key] = 1
     }else{
@@ -35,6 +39,8 @@ export class InputConfigModalComponent implements OnInit, OnDestroy {
   }
 
   changeCheckRead(key,event){
+    console.log("KEY==>",key,event);
+    
     if(event.target.checked){
       this.inputData[key] = 2
     }else{
@@ -44,6 +50,8 @@ export class InputConfigModalComponent implements OnInit, OnDestroy {
   }
 
   changeCheckReadByRef(key,event){
+    console.log("KEY==>",key,event);
+    
     if(event.target.checked){
       this.inputData[key] = 3
     }else{

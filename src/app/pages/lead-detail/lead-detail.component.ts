@@ -115,9 +115,9 @@ export class LeadDetailComponent implements OnInit {
   existingOption: any = [];
   maritalOption: any = [];
   occupationOption: any = [];
-  state:any=[]
-  township:any=[]
-  district:any=[]
+  state: any = []
+  township: any = []
+  district: any = []
   isExisting: boolean = false
   isProspectCustomer: boolean = false
   isAddProspect: boolean = false
@@ -466,7 +466,7 @@ export class LeadDetailComponent implements OnInit {
       }
     })
   }
-  
+
   getFormatOpt(res) {
     return res.map(x => {
       return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
@@ -557,8 +557,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   calculateScore(code?, data?) {
-    console.log("SOURCE",code);
-    
+    console.log("SOURCE", code);
+
     let sourceCode;
     if (data) {
       sourceCode = data
@@ -579,9 +579,9 @@ export class LeadDetailComponent implements OnInit {
   calculateLeadQuality(type?: string) {
     this.score = 0
     if (type == 'channel') {
-      let source=this.leadForm.getRawValue().sourceCode
+      let source = this.leadForm.getRawValue().sourceCode
       this.getLeadQuality()
-      this.calculateScore(source,null)
+      this.calculateScore(source, null)
     }
     if (type == "typeCode") {
       this.getProductOption()
@@ -595,7 +595,7 @@ export class LeadDetailComponent implements OnInit {
     if (type == "district") {
       this.onChangeDistrict()
     }
-    
+
     this.leadQuality.forEach(element => {
       let ele = element.qualityValue.toLowerCase()
       if (ele == 'type' || ele == 'township' || ele == 'channel' || ele == 'district' || ele == 'state') {
@@ -721,7 +721,7 @@ export class LeadDetailComponent implements OnInit {
         }
       });
   }
-  leadReleased(status){
+  leadReleased(status) {
     this.alertService.activate('Are you sure you want to release this Opportunity?', 'Warning Message').then(result => {
       if (result) {
         this.updateLeadStatus(status)
@@ -1190,7 +1190,7 @@ export class LeadDetailComponent implements OnInit {
       assignTo: new FormControl({ value: this.user.id }),
       assignToName: new FormControl({ value: null, disabled: true }),
       productId: new FormControl(null),
-      email: new FormControl(null,[Validators.email,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+      email: new FormControl(null, [Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
       sourceCode: new FormControl(null, Validators.required),
       campaignNo: new FormControl(null),
       campaignName: new FormControl({ value: null, disabled: true }),
@@ -1587,6 +1587,7 @@ export class LeadDetailComponent implements OnInit {
               this.prodctService.creatingLeadId = this.oldId
               this.prodctService.editData = null
               this.prodctService.referenceID = null
+              this.prodctService.isApplication = true
               this.prodctService.viewType = 'policy'
               this.prodctService.type = 'policy'
               this.router.navigateByUrl("/product-form")
@@ -1609,6 +1610,7 @@ export class LeadDetailComponent implements OnInit {
               this.prodctService.creatingLeadId = this.oldId
               this.prodctService.editData = null
               this.prodctService.referenceID = null
+              this.prodctService.isApplication = false
               this.prodctService.viewType = 'quotation'
               this.prodctService.type = 'quotation'
               this.router.navigateByUrl("/product-form")

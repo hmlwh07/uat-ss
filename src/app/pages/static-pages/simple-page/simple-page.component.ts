@@ -126,8 +126,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     // if (this.prodService.editData || this.refID)
 
     this.parentData = this.getParent()
-    console.log("this.isApplication",this.isApplication);
-    
+    console.log("this.isApplication", this.isApplication);
+
     if (!this.parentData) {
       this.alertService.activate("This page cann't to save because there is no parent Data. Please configuration the product detail", "Warning")
     } else {
@@ -355,31 +355,31 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   // }))
   getOldData(dataget: boolean = false) {
     // let dataget = false
-      let resId;
-      if (!this.isApplication) {
-        resId = this.refID
+    let resId;
+    if (!this.isApplication && this.productType != 'quotation') {
+      resId = this.refID
+    } else {
+      if (this.resourcesId) {
+        // resId = dataget ? this.refID : (this.resourcesId || this.refID)
+        resId = this.resourcesId
+      }
+    }
+
+    if (!resId) return false
+    this.healthService.getOne(resId).toPromise().then((res: any) => {
+      // dataget = true
+      if (res) {
+        this.oldData = { ...res, id: null }
+        this.editId = resId == this.resourcesId ? res.id : null
+        this.getAddOn()
+        this.reloadOldValueForm()
       } else {
-        if (this.resourcesId) {
-          // resId = dataget ? this.refID : (this.resourcesId || this.refID)
-          resId=this.resourcesId
+        if (!dataget && resId != this.refID) {
+          this.getAddOn(true)
+          this.getOldData(true)
         }
       }
-
-      if (!resId) return false
-      this.healthService.getOne(resId).toPromise().then((res: any) => {
-        // dataget = true
-        if (res) {
-          this.oldData = { ...res, id: null }
-          this.editId = resId == this.resourcesId ? res.id : null
-          this.getAddOn()
-          this.reloadOldValueForm()
-        } else {
-          if (!dataget && resId != this.refID) {
-            this.getAddOn(true)
-            this.getOldData(true)
-          }
-        }
-      })
+    })
   }
 
   reloadOldValueForm() {
@@ -424,12 +424,12 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   async getAddOn(dataget: boolean = false) {
     let resId;
     let callAgain = true
-    if (!this.isApplication) {
+    if (!this.isApplication && this.productType != 'quotation') {
       resId = this.refID
     } else {
       if (this.resourcesId) {
-         // resId = dataget ? this.refID : (this.resourcesId || this.refID)
-         resId=this.resourcesId
+        // resId = dataget ? this.refID : (this.resourcesId || this.refID)
+        resId = this.resourcesId
       }
     }
     if (!resId) return false
