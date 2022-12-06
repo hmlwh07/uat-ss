@@ -160,19 +160,27 @@ export class TravelComponent implements OnInit {
   getRiskList(id) {
     this.travelRikService.getMany(id).toPromise().then((res: any) => {
       if (res) {
-        this.totalSiAmt = 0
-        this.globalFun.tempFormData[TRAVELID] = res
-        this.listData = res || []
-        this.listData.forEach(data => {
-          this.totalSiAmt += parseInt(data.sumInsured)
-          console.log(this.totalSiAmt, data.sumInsured);
-        })
-        this.totalSiAmtView = this.numberPipe.transform(this.totalSiAmt || 0, '1.2-2') + " MMK"
-        console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
+        if (res.length == 0 && this.isApplication && this.prodService.viewType != 'quotation') {
+          this.getRiskList(this.refID)
+          this.callback(this.refID)
+        } else {
 
-        this.cdf.detectChanges()
+          this.totalSiAmt = 0
+          this.globalFun.tempFormData[TRAVELID] = res
+          this.listData = res || []
+
+          this.listData.forEach(data => {
+            this.totalSiAmt += parseInt(data.sumInsured)
+            console.log(this.totalSiAmt, data.sumInsured);
+          })
+          this.totalSiAmtView = this.numberPipe.transform(this.totalSiAmt || 0, '1.2-2') + " MMK"
+          console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
+
+          this.cdf.detectChanges()
+        }
       }
     })
+
   }
 
   newData(type, detail?: any) {
@@ -195,18 +203,22 @@ export class TravelComponent implements OnInit {
     modalRef.componentInstance.tableReform = this.tableReform
     if (detail) {
       let travel = this.tempData['travelDetail'].find(x => x.risk_id == detail.riskId)
-      console.log("travel->1",travel);
+      console.log("travel->1", travel);
       let traveler = {}
       let benefi = []
       if (this.isApplication) {
-        traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
-        if (this.tempData['benefi']) {
-          benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
-          this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
+        if (this.tempData['traveler'] != undefined) {
+          traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
+        }
+        if (this.tempData['benefi'] != undefined) {
+          if (this.tempData['benefi']) {
+            benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
+            this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
+          }
         }
       }
-      console.log("travel->2",travel);
-      
+      console.log("travel->2", travel);
+
       modalRef.componentInstance.tempData = {
         travelDetail: travel || {},
         traveler: traveler || {},
