@@ -160,7 +160,7 @@ export class TravelComponent implements OnInit {
   getRiskList(id) {
     this.travelRikService.getMany(id).toPromise().then((res: any) => {
       if (res) {
-        if (res.length == 0 && this.isApplication && this.prodService.viewType != 'quotation') {
+        if (res.length == 0 && this.isApplication && this.prodService.viewType != 'quotation' && this.refID) {
           this.getRiskList(this.refID)
           this.callback(this.refID)
         } else {

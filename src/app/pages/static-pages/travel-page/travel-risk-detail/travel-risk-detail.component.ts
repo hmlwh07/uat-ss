@@ -86,12 +86,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     console.log("datempData",this.tempData);
     
     // console.log("tableReform", this.tableReform);
-    if (this.prodService.viewType == "policy") {
-      this.isApplication = true
-
-    } else {
-      this.isApplication = false
-    }
+   this.isApplication=this.prodService.isApplication
 
     this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
@@ -201,7 +196,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
   saveDetailTemp(event) {
     if (this.prodDetailForm.pageType == "form" && this.tempData['travelDetail']) {
-      if (this.tempData['travelDetail'].refId)
+      if (this.tempData['travelDetail'].refId && this.tempData['travelDetail'].travel_area)
         this.updateDataAPI(this.prodDetailForm, event, this.tempData['travelDetail'].refId)
       else
         this.saveDataAPI(this.prodDetailForm, event)
