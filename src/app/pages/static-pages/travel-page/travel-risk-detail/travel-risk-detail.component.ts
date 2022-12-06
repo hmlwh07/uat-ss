@@ -83,6 +83,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.unsub.forEach(x => x.unsubscribe())
   }
   ngOnInit(): void {
+    console.log("datempData",this.tempData);
+    
     // console.log("tableReform", this.tableReform);
     if (this.prodService.viewType == "policy") {
       this.isApplication = true
@@ -502,8 +504,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       premium: this.premium,
       resourceId: this.resourceId,
       totalUnit: parseInt(this.tempData['travelDetail'].travel_unit),
-      travelDuration: null,
-      travelPlan: null,
+      travelDuration: this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null,
+      travelPlan: this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null,
       travellerName: null,
       sumInsured: (Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
       sumInsuredView: this.sumInsured,
@@ -525,8 +527,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       },
     }
     if (this.prodService.viewType == 'policy') {
-      postData.travelDuration = this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null
-      postData.travelPlan = this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null
+      // postData.travelDuration = this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null
+      // postData.travelPlan = this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null
       postData.travellerName = this.tempData['traveler'].traveler_name ? this.tempData['traveler'].traveler_name : null
     }
     console.log(postData);
@@ -535,6 +537,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       if (result) {
 
         this.updateTravelRisk(result)
+        // this.ngModal.dismiss()
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
@@ -555,9 +558,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       premium: this.premium,
       resourceId: this.resourceId,
       totalUnit: parseInt(this.tempData['travelDetail'].travel_unit),
-      travelDuration: this.tempData['travelDetail'].travel_duration,
-      travelPlan: this.tempData['travelDetail'].travel_plan,
-      travellerName: this.tempData['traveler'].traveler_name,
+      travelDuration: this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null,
+      travelPlan: this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null,
+      travellerName: null,
       sumInsured: (Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
       sumInsuredView: this.sumInsured,
       riskId: oldId ? oldId : this.tempData['travelDetail'].refId,
@@ -577,6 +580,13 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         type: this.prodService.type
       },
     }
+    if (this.prodService.viewType == 'policy') {
+      // postData.travelDuration = this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null
+      // postData.travelPlan = this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null
+      postData.travellerName = this.tempData['traveler'].traveler_name ? this.tempData['traveler'].traveler_name : null
+    }
+    console.log("POST",postData);
+    
     this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
       if (result) {
         this.updateRiskId(this.tempRefTravel, result, 'travel_detail')
@@ -590,6 +600,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         })
       }
     })
+    // this.ngModal.dismiss()
   }
 
   updateRiskId(refId, riskId, table) {

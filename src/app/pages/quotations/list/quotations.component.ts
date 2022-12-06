@@ -189,6 +189,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl("/product-form")
       }
     })
+    
   }
 
   FormatedDate(date) {
@@ -231,7 +232,10 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl("/product-form")
       }
     })
-  }
+    console.log("this.prodctService.referenceID:",this.prodctService.referenceID);
+  
 
+  }
+ 
 
 }

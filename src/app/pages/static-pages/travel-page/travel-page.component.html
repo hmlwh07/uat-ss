@@ -1,53 +1,18 @@
 <div class="form-group">
-  <button type="button" class="btn btn-primary mx-2" (click)="newData('add')">{{"FORM.add_new_data" | translate }}</button>
+    <button type="button" class="btn btn-primary mx-2" (click)="newData('add')">{{"FORM.add_new_data" | translate
+        }}</button>
 </div>
 <div class="table-responsive angular-bootstrap-table" *ngIf="isApplication">
-  <table class="table table-head-custom table-vertical-center">
-      <thead>
-          <tr>
-              <th>{{"FORM.risk_no" | translate }}</th>
-              <th>{{"FORM.travel_plan" | translate }}</th>
-              <th>{{"FORM.insured_unit" | translate }}</th>
-              <th>{{"FORM.travel_duration" | translate }}</th>
-              <th>{{"FORM.no_of_traveler" | translate }}</th>
-              <th>{{"FORM.total_unit" | translate }}</th>
-              <th>{{"FORM.traveler_name" | translate }}</th>
-              <th>{{"FORM.premium" | translate }}</th>
-              <th>{{"FORM.action" | translate }}</th>
-          </tr>
-      </thead>
-      <tbody>
-          <ng-container *ngFor="let item of listData;let i = index">
-              <tr>
-                <td>{{i+ 1}}</td>
-                <td>{{replaceT(item.travelPlan) | titlecase}}</td>
-                <td>{{replaceTInsured(item.insuredUnit)}}</td>
-                <td>{{replaceT(item.travelDuration) | titlecase}}</td>
-                <td>{{item.noOfTraveller}}</td>
-                <td>{{item.totalUnit}}</td>
-                <td>{{item.travellerName}}</td>
-                <td>{{item.premium | number:'1.2-2'}}</td>
-                  <td>
-                      <a title="Edit" class="btn btn-primary btn-cus btn-sm mx-1" (click)="newData('edit',item)">
-                          <span class="flaticon-edit"></span>
-                      </a>
-                      <a title="Delete" class="btn btn-danger btn-cus btn-sm mx-1" (click)="delete(i)">
-                          <span class="flaticon-delete"></span>
-                      </a>
-                  </td>
-              </tr>
-          </ng-container>
-      </tbody>
-  </table>
-</div>
-<div class="table-responsive angular-bootstrap-table" *ngIf="!isApplication">
     <table class="table table-head-custom table-vertical-center">
         <thead>
             <tr>
                 <th>{{"FORM.risk_no" | translate }}</th>
+                <th>{{"FORM.travel_plan" | translate }}</th>
                 <th>{{"FORM.insured_unit" | translate }}</th>
+                <th>{{"FORM.travel_duration" | translate }}</th>
                 <th>{{"FORM.no_of_traveler" | translate }}</th>
                 <th>{{"FORM.total_unit" | translate }}</th>
+                <th>{{"FORM.traveler_name" | translate }}</th>
                 <th>{{"FORM.premium" | translate }}</th>
                 <th>{{"FORM.action" | translate }}</th>
             </tr>
@@ -55,11 +20,14 @@
         <tbody>
             <ng-container *ngFor="let item of listData;let i = index">
                 <tr>
-                  <td>{{i+ 1}}</td>
-                  <td>{{replaceTInsured(item.insuredUnit)}}</td>
-                  <td>{{item.noOfTraveller}}</td>
-                  <td>{{item.totalUnit}}</td>
-                  <td>{{item.premium | number:'1.2-2'}}</td>
+                    <td>{{i+ 1}}</td>
+                    <td>{{replaceT(item.travelPlan) | titlecase}}</td>
+                    <td>{{replaceTInsured(item.insuredUnit)}}</td>
+                    <td>{{replaceT(item.travelDuration) | titlecase}}</td>
+                    <td>{{item.noOfTraveller}}</td>
+                    <td>{{item.totalUnit}}</td>
+                    <td>{{item.travellerName}}</td>
+                    <td>{{item.premium | number:'1.2-2'}}</td>
                     <td>
                         <a title="Edit" class="btn btn-primary btn-cus btn-sm mx-1" (click)="newData('edit',item)">
                             <span class="flaticon-edit"></span>
@@ -72,12 +40,50 @@
             </ng-container>
         </tbody>
     </table>
-  </div>
+</div>
+<div class="table-responsive angular-bootstrap-table" *ngIf="!isApplication">
+    <table class="table table-head-custom table-vertical-center">
+        <thead>
+            <tr>
+                <th>{{"FORM.risk_no" | translate }}</th>
+                <th>{{"FORM.travel_plan" | translate }}</th>
+                <th>{{"FORM.insured_unit" | translate }}</th>
+                <th>{{"FORM.travel_duration" | translate }}</th>
+                <th>{{"FORM.no_of_traveler" | translate }}</th>
+                <th>{{"FORM.total_unit" | translate }}</th>
+                <th>{{"FORM.premium" | translate }}</th>
+                <th>{{"FORM.action" | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of listData;let i = index">
+                <tr>
+                    <td>{{i+ 1}}</td>
+                    <td>{{replaceT(item.travelPlan) | titlecase}}</td>
+                    <td>{{replaceTInsured(item.insuredUnit)}}</td>
+                    <td>{{replaceT(item.travelDuration) | titlecase}}</td>
+                    <td>{{item.noOfTraveller}}</td>
+                    <td>{{item.totalUnit}}</td>
+                    <td>{{item.premium | number:'1.2-2'}}</td>
+                    <td>
+                        <a title="Edit" class="btn btn-primary btn-cus btn-sm mx-1" (click)="newData('edit',item)">
+                            <span class="flaticon-edit"></span>
+                        </a>
+                        <a title="Delete" class="btn btn-danger btn-cus btn-sm mx-1" (click)="delete(i)">
+                            <span class="flaticon-delete"></span>
+                        </a>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>
 <div class="row mt-3">
-  <div class="col-sm-6 mx-auto">
-      <button class="btn btn-block btn-secondary" (click)="backPage()"> {{"FORM.btn_previous" | translate }} </button>
-  </div>
-  <div class="col-sm-6 mx-auto">
-      <button class="btn btn-block btn-primary" (click)="nextPage()"> {{"FORM.btn_save_and_next" | translate }} </button>
-  </div>
+    <div class="col-sm-6 mx-auto">
+        <button class="btn btn-block btn-secondary" (click)="backPage()"> {{"FORM.btn_previous" | translate }} </button>
+    </div>
+    <div class="col-sm-6 mx-auto">
+        <button class="btn btn-block btn-primary" (click)="nextPage()"> {{"FORM.btn_save_and_next" | translate }}
+        </button>
+    </div>
 </div>

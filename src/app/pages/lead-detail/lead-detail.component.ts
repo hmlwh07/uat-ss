@@ -1727,7 +1727,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.type = 'quotation'
         this.prodctService.viewType = 'quotation'
         this.prodctService.editData = item
-        this.prodctService.referenceID = null
+        this.prodctService.referenceID = item.id
         this.prodctService.creatingLeadId = item.leadId
         this.router.navigateByUrl("/product-form")
       }

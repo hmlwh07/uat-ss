@@ -35,6 +35,7 @@ export class TravelComponent implements OnInit {
     traveler: null,
     benefi: null
   }
+  refID: string = ''
   isApplication: boolean = true
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   constructor(
@@ -50,44 +51,57 @@ export class TravelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-   
-    if (this.prodService.viewType == "policy") {
-      this.isApplication = true
+    console.log("this.refID", this.prodService.referenceID);
 
+    this.refID = this.prodService.referenceID
+    this.isApplication = this.prodService.isApplication
+
+    if (this.travelForm.length < 3 && this.prodService.viewType == "policy") {
+      this.alertService.activate("This page cann't to process because there is not match with requirement configuration. Please check travel product config in prodcut configuration", "Warning")
     } else {
-      this.isApplication = false
+      console.log("TRABEL", this.travelForm);
+
+      this.requiredForm.detail = this.travelForm.find(x => x.unitCode == "travel_detail_0001")
+      this.requiredForm.traveler = this.travelForm.find(x => x.unitCode == "traveler_0002")
+      this.requiredForm.benefi = this.travelForm.find(x => x.unitCode == "trave_benefi_0003")
+      // this.getRiskList()
+      if (!this.isApplication && this.prodService.viewType != 'quotation') {
+        this.getRiskList(this.refID)
+      } else {
+        if (this.resourcesId) {
+          this.getRiskList(this.resourcesId)
+        }
+      }
+      this.callback()
     }
 
-      if (this.travelForm.length < 3 && this.prodService.viewType == "policy") {
-        this.alertService.activate("This page cann't to process because there is not match with requirement configuration. Please check travel product config in prodcut configuration", "Warning")
-      } else {
-        this.requiredForm.detail = this.travelForm.find(x => x.unitCode == "travel_detail_0001")
-        this.requiredForm.traveler = this.travelForm.find(x => x.unitCode == "traveler_0002")
-        this.requiredForm.benefi = this.travelForm.find(x => x.unitCode == "trave_benefi_0003")
-        this.getRiskList()
-        this.callback()
-      }
-    
   }
 
   callback(ref?) {
     if (ref) {
-      // console.log("ref", ref);
-
-      this.resourcesId = ref
+      // this.resourcesId = ref
       this.getOldData({ id: ref })
+    } else {
+      // if (this.prodService.editData) {
+      //   this.resourcesId = this.prodService.editData.id
+      //   this.getOldData(this.prodService.editData)
+      // }
+      // if (this.refID) {
+      //   this.getOldData({ id: this.refID }, true)
+      // }
+
+      if (!this.isApplication && this.prodService.viewType != 'quotation') {
+        this.getOldData({ id: this.refID }, true)
+      } else {
+        if (this.resourcesId) {
+          this.getOldData(this.prodService.editData)
+        }
+      }
+      // if (this.formData[this.activePage].pageType == 'table') {
+      if (this.requiredForm.benefi)
+        this.reFormatTable(this.requiredForm.benefi.controls)
+      // }
     }
-    if (this.prodService.editData) {
-      this.resourcesId = this.prodService.editData.id
-      this.getOldData(this.prodService.editData)
-    }
-    // else if (this.referenceID) {
-    //   this.getOldData({ id: this.referenceID }, true)
-    // }
-    // if (this.formData[this.activePage].pageType == 'table') {
-    if (this.requiredForm.benefi)
-      this.reFormatTable(this.requiredForm.benefi.controls)
-    // }
   }
 
   reFormatTable(controls: ConfigInput[]) {
@@ -143,8 +157,8 @@ export class TravelComponent implements OnInit {
     // this.cdRef.detectChanges()
   }
 
-  getRiskList() {
-    this.travelRikService.getMany(this.resourcesId).toPromise().then((res: any) => {
+  getRiskList(id) {
+    this.travelRikService.getMany(id).toPromise().then((res: any) => {
       if (res) {
         this.totalSiAmt = 0
         this.globalFun.tempFormData[TRAVELID] = res
@@ -162,10 +176,10 @@ export class TravelComponent implements OnInit {
   }
 
   newData(type, detail?: any) {
-    // console.log("DETAIL", detail);
-    // console.log("this.tempData['benefi']", this.tempData['benefi']);
-    // console.log("this.tempData['travelDetail']", this.tempData['travelDetail']);
-    // console.log("this.tempData['traveler']", this.tempData['traveler']);
+    console.log("DETAIL", detail);
+    console.log("this.tempData['benefi']", this.tempData['benefi']);
+    console.log("this.tempData['travelDetail']", this.tempData['travelDetail']);
+    console.log("this.tempData['traveler']", this.tempData['traveler']);
 
     let modalRef = this.modalService.open(TravelRiskDetailComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type
@@ -181,12 +195,18 @@ export class TravelComponent implements OnInit {
     modalRef.componentInstance.tableReform = this.tableReform
     if (detail) {
       let travel = this.tempData['travelDetail'].find(x => x.risk_id == detail.riskId)
-      let traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
+      console.log("travel->1",travel);
+      let traveler = {}
       let benefi = []
-      if (this.tempData['benefi']) {
-        benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
-        this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
+      if (this.isApplication) {
+        traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
+        if (this.tempData['benefi']) {
+          benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
+          this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
+        }
       }
+      console.log("travel->2",travel);
+      
       modalRef.componentInstance.tempData = {
         travelDetail: travel || {},
         traveler: traveler || {},
@@ -212,12 +232,19 @@ export class TravelComponent implements OnInit {
           }
           // })
           this.cdf.detectChanges()
-          // console.log("DISMISS", res);
+          console.log("DISMISS", res);
 
           this.changeTravelDetail(res.detail)
           this.changeTraveler(res.traveler)
           this.changeBenefi(res.benefi, res.detail.refId)
-          this.getRiskList()
+          this.getRiskList(res.data.resourceId)
+          // if (this.prodService.isApplication) {
+          //   this.resourcesId = this.prodService.editData.id
+          //   this.getRiskList(this.resourcesId)
+          // }
+          // else if (this.refID) {
+          //   this.getRiskList(this.refID)
+          // }
           this.callback(res.data.resourceId)
           this.savePremimunFire().toPromise().then(res => {
 
@@ -231,7 +258,7 @@ export class TravelComponent implements OnInit {
     let index = -1
     if (this.tempData['travelDetail']) {
       index = this.tempData['travelDetail'].findIndex(x => x.risk_id == data.refId)
-      // console.log("INDXEDX", index);
+      console.log("INDXEDX", index);
 
       if (index < 0) {
         this.tempData['travelDetail'].push(data)
@@ -269,7 +296,14 @@ export class TravelComponent implements OnInit {
               this.listData.splice(index, 1)
               this.cdf.detectChanges()
               this.alertService.activate('This record was deleted', 'Success Message').then(result => {
-                this.getRiskList()
+                // this.getRiskList()
+                if (!this.isApplication && this.prodService.viewType != 'quotation') {
+                  this.getRiskList(this.refID)
+                } else {
+                  if (this.resourcesId) {
+                    this.getRiskList(this.resourcesId)
+                  }
+                }
                 this.callback()
               });
             }
