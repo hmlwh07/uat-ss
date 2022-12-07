@@ -83,10 +83,10 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.unsub.forEach(x => x.unsubscribe())
   }
   ngOnInit(): void {
-    console.log("datempData",this.tempData);
-    
+    console.log("datempData", this.tempData);
+
     // console.log("tableReform", this.tableReform);
-   this.isApplication=this.prodService.isApplication
+    this.isApplication = this.prodService.isApplication
 
     this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
@@ -136,6 +136,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   }
 
   toggleAccordion(type: string) {
+    console.log(type,this.activeBox);
+    
     this.activeBox = type == this.activeBox ? "" : type
   }
 
@@ -351,8 +353,14 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
           this.tempData[type] = { ...formData, refId: res[0].refId, pageId: page.id, risk_id: this.riskId }
           if (type == "travelDetail") {
             // this.riskId = res[0].refId
-            this.stepData.step1 = true
-            this.activeBox = "TRAVELER"
+           
+            if(this.isApplication){
+              this.stepData.step1 = true
+              this.activeBox = "TRAVELER"
+            }else{
+              this.stepData.step3 = true
+              this.activeBox = "COVER"
+            }
           }
           if (type == "traveler") {
             this.stepData.step2 = true
@@ -465,8 +473,13 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         if (isTable < 0) {
           this.tempData[type] = { ...formData, refId: res.refId }
           if (type == "travelDetail") {
-            this.stepData.step1 = true
-            this.activeBox = "TRAVELER"
+            if(this.isApplication){
+              this.stepData.step1 = true
+              this.activeBox = "TRAVELER"
+            }else{
+              this.stepData.step3 = true
+              this.activeBox = "COVER"
+            }
           }
           if (type == "traveler") {
             this.stepData.step2 = true
@@ -580,8 +593,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       // postData.travelPlan = this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null
       postData.travellerName = this.tempData['traveler'].traveler_name ? this.tempData['traveler'].traveler_name : null
     }
-    console.log("POST",postData);
-    
+    console.log("POST", postData);
+
     this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
       if (result) {
         this.updateRiskId(this.tempRefTravel, result, 'travel_detail')

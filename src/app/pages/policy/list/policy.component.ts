@@ -240,7 +240,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = item
-       
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/resourse-detail")
       }
     })

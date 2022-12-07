@@ -39,7 +39,7 @@ export class StaticPageViewDirective implements StaticField, OnInit {
   @Input() compId: string
   @Input() product: Product
   @Input() resourcesId: string
-
+  @Input() isApplication:boolean
   component: ComponentRef<StaticField>;
   component2: ComponentRef<StaticField>;
   constructor(
@@ -52,11 +52,13 @@ export class StaticPageViewDirective implements StaticField, OnInit {
       this.component = this.container.createComponent(component);
       this.component.instance.product = this.product
       this.component.instance.resourcesId = this.resourcesId
+      this.component.instance.isApplication = this.isApplication
       if (this.compId == "static_1635747288508") {
         const component = this.resolver.resolveComponentFactory<StaticField>(STATIC_VIEW_COMPONENT['static_1635218894755']);
         this.component2 = this.container.createComponent(component);
         this.component2.instance.product = this.product
         this.component2.instance.resourcesId = this.resourcesId
+        this.component.instance.isApplication = this.isApplication
       }
     }
 

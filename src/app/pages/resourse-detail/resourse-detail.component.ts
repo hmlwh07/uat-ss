@@ -55,7 +55,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   branchOption = [];
   selectedBranchCode: string = null;
   statusCode
-
+  isApplication: boolean = true
   constructor(
     private productService: ProductDataService,
     private location: Location,
@@ -80,6 +80,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.item = this.productService.createingProd
       this.type = this.productService.previewType
       this.resourceDetail = this.productService.editData
+      this.isApplication=this.productService.isApplication
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
@@ -551,6 +552,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.tempData = this.formatedData
       modalRef.componentInstance.resourcesId = this.resourceDetail.id
       modalRef.componentInstance.agentId = this.resourceDetail.agentId
+      //FOR_QUOTATION
+      modalRef.componentInstance.isApplication = this.isApplication
       //FOR_AUTO_ATTACHMENT
       modalRef.componentInstance.isPrint = true
       modalRef.result.then(() => { }, (res) => {
@@ -596,6 +599,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.tempData = this.formatedData
       modalRef.componentInstance.resourcesId = this.resourceDetail.id
       modalRef.componentInstance.agentId = this.resourceDetail.agentId
+       //FOR_QUOTATION
+       modalRef.componentInstance.isApplication = this.isApplication
       //FOR_AUTO_ATTACHMENT
       modalRef.componentInstance.isPrint = false
       modalRef.result.then(() => { }, (res) => {

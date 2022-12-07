@@ -212,6 +212,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.editData = item
+        this.prodctService.isApplication = false
         this.prodctService.previewType = 'quotation'
         this.router.navigateByUrl("/resourse-detail")
       }

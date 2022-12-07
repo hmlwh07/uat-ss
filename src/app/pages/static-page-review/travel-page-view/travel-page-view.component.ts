@@ -22,6 +22,7 @@ export class TravelViewComponent implements OnInit {
   @Input() referenceID?: string
   @Input() premiumAmt: string
   @Input() travelForm: PageUI[] = []
+  @Input() isApplication:boolean
   listData: any[] = []
   constructor(
     private travelRikService: TravelRiskService,

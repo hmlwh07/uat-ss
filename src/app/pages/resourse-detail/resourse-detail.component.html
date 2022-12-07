@@ -79,7 +79,7 @@
       <!-- <div class="{{Array.isArray(resultObj[page.tableName+item.id]) ? 'col-sm-12' : 'col-sm-6'}}"> -->
       <div class="col-md-12 mx-auto">
         <ng-container *ngIf="page.type === 'static';else dynView ">
-          <ng-container staticPageView [compId]="page.id" [product]="item" [resourcesId]="resourceDetail.id">
+          <ng-container staticPageView [compId]="page.id" [isApplication]="isApplication" [product]="item" [resourcesId]="resourceDetail.id">
           </ng-container>
         </ng-container>
         <ng-template #dynView>
