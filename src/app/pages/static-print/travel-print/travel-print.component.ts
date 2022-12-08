@@ -195,9 +195,9 @@ export class TravelPrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '-', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch ? this.branch : '-', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
@@ -217,29 +217,29 @@ export class TravelPrintComponent implements OnInit {
     let policyHolderInfoDetailData = [
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.cprNumber, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.idType ? (this.policyHolder.idType + "-" + this.policyHolder.cprNumber) : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.dateOfBirth, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.dateOfBirth ? this.policyHolder.dateOfBirth : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].mobileNo, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].mobileNo : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].eMailId, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].eMailId : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
         {
-          content: this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
-            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName, styles: { halign: 'left', valign: 'middle' }
+          content: this.policyHolder.partyAddress.length > 0 ? (this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
+            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName) : '', styles: { halign: 'left', valign: 'middle' }
         },
       ]
     ]
@@ -285,9 +285,9 @@ export class TravelPrintComponent implements OnInit {
       let data = this.riskInfo[i];
       let travelInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: data.travelRisk.noOfTraveller, styles: { halign: 'center', valign: 'middle' } },
-        { content: (data.travelDetail.vehicleTypeValue || "") + (data.travelDetail.vehicleNo || ""), styles: { halign: 'center', valign: 'middle' } },
-        { content: data.travelDetail.travelArea, styles: { halign: 'center', valign: 'middle' } },
+        { content: data.travelRisk.noOfTraveller ? data.travelRisk.noOfTraveller : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: data.travelDetail.vehicleTypeValue ? ((data.travelDetail.vehicleTypeValue || "") + (data.travelDetail.vehicleNo || "")) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: data.travelDetail.travelArea ? data.travelDetail.travelArea : '-', styles: { halign: 'center', valign: 'middle' } },
       ]
       travelInfoDetailList.push(travelInfoDetailData)
     }
@@ -307,10 +307,10 @@ export class TravelPrintComponent implements OnInit {
       let riskData = this.riskInfo[i];
       let riskInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.travelRisk.travellerName, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.travelerDetail.idType, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.travelerDetail.nrc || riskData.travelerDetail.idNumber, styles: { halign: 'center', valign: 'middle' } },
-        { content: (riskData.travelRisk.insuredUnitValue || '') + " - " + (riskData.travelRisk.insuredUnitValue == '1' ? "Unit" : "Units"), styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.travelRisk.travellerName ? riskData.travelRisk.travellerName : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.travelerDetail ? riskData.travelerDetail.idType : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: (riskData.travelerDetail) ? (riskData.travelerDetail.nrc || riskData.travelerDetail.idNumber) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.travelRisk.insuredUnitValue ? ((riskData.travelRisk.insuredUnitValue || '') + " - " + (riskData.travelRisk.insuredUnitValue == '1' ? "Unit" : "Units")) : '-', styles: { halign: 'center', valign: 'middle' } },
       ]
       riskInfoDetailList.push(riskInfoDetailData);
 
@@ -340,20 +340,20 @@ export class TravelPrintComponent implements OnInit {
             beneficiariesInfoDetailData = [
               { content: i + 1, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
               { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-              { content: (beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
-              { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.beneficiaryName ? beneData.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.relationshipValue ? beneData.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.idType?((beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber)):'', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.share ? (beneData.share + "%") : '', styles: { halign: 'center', valign: 'middle' } },
             ]
           } else {
             beneficiariesInfoDetailData = [
               { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-              { content: (beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
-              { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.beneficiaryName ? beneData.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.relationshipValue ? beneData.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.idType?((beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber)):'', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.share ? (beneData.share + "%") : '', styles: { halign: 'center', valign: 'middle' } },
             ]
           }
           beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
@@ -361,11 +361,11 @@ export class TravelPrintComponent implements OnInit {
           beneficiariesInfoDetailData = [
             { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
             { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
-            { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.beneficiaryName ? beneData.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.relationshipValue ? beneData.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.idType?((beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber)):'', styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '', styles: { halign: 'center', valign: 'middle' } },
+            { content: beneData.share ? (beneData.share + "%") : '', styles: { halign: 'center', valign: 'middle' } },
           ]
           beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
         }
@@ -532,32 +532,32 @@ export class TravelPrintComponent implements OnInit {
     }
 
     // Beneficiaries Information Details
-    if (this.beneficiaries.length > 0) {
-      doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
-      doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
-      doc.autoTable({
-        head: beneficiariesInfoDetailHeader,
-        body: beneficiariesInfoDetailList,
-        theme: 'grid',
-        startY: height + 35,
-        margin: { left: 10, right: 10 },
-        showHead: 'firstPage',
-        styles: {
-          fontSize: 8,
-          font: 'helvetica',
-          lineColor: '#005f99',
-          lineWidth: 0.5,
-          cellWidth: 'auto',
-          cellPadding: 5,
-        },
-        headStyles: {
-          fillColor: '#e9f8fe',
-          textColor: '#000',
-          fontStyle: 'normal',
-        },
-      });
-      height = doc.lastAutoTable.finalY;
-    }
+    // if (this.beneficiaries.length > 0) {
+    //   doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    //   doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
+    //   doc.autoTable({
+    //     head: beneficiariesInfoDetailHeader,
+    //     body: beneficiariesInfoDetailList,
+    //     theme: 'grid',
+    //     startY: height + 35,
+    //     margin: { left: 10, right: 10 },
+    //     showHead: 'firstPage',
+    //     styles: {
+    //       fontSize: 8,
+    //       font: 'helvetica',
+    //       lineColor: '#005f99',
+    //       lineWidth: 0.5,
+    //       cellWidth: 'auto',
+    //       cellPadding: 5,
+    //     },
+    //     headStyles: {
+    //       fillColor: '#e9f8fe',
+    //       textColor: '#000',
+    //       fontStyle: 'normal',
+    //     },
+    //   });
+    //   height = doc.lastAutoTable.finalY;
+    // }
 
     // new page
     if (this.beneficiaries.length > 0 && this.beneficiaries.length <= 5) {
@@ -645,14 +645,14 @@ export class TravelPrintComponent implements OnInit {
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
       if (this.isPrint) {
         console.log("HERE1==>");
-        
+
         // Download PDF document  
         doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
       } else {
         console.log("HERE2==>");
-        
+
         let data = doc.output('datauristring')
-        let test=data.split('base64,')
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

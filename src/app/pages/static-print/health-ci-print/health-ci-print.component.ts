@@ -29,7 +29,7 @@ export class HealthCiPrintComponent implements OnInit {
   @Input() agentData?: any
   @Input() branch?: string
   @Input() isPrint: any
-  base64Proposal:any
+  base64Proposal: any
   signatureDate?: string
   coverage = {
     sumInsured: false,
@@ -68,7 +68,7 @@ export class HealthCiPrintComponent implements OnInit {
     private platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService,
     public modal: NgbActiveModal,
-    private policyService:PolicyService
+    private policyService: PolicyService
   ) { }
 
   ngOnInit() {
@@ -230,16 +230,16 @@ export class HealthCiPrintComponent implements OnInit {
       }
     })
   }
-  
+
   createPdf() {
 
     // Agent Information Details
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '-', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch ? this.branch : '-', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
@@ -256,43 +256,42 @@ export class HealthCiPrintComponent implements OnInit {
     ]
 
     // Policy Holder Information Details
-    let policyHolderInfoDetailData = [
-      [
-        { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue+ " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
-      ],
-      [
-        { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.cprNumber, styles: { halign: 'left', valign: 'middle' } },
-      ],
-      [
-        { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.dateOfBirth, styles: { halign: 'left', valign: 'middle' } },
-      ],
-      [
-        { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].mobileNo, styles: { halign: 'left', valign: 'middle' } },
-      ],
-      [
-        { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].eMailId, styles: { halign: 'left', valign: 'middle' } },
-      ],
-      [
-        { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
-        {
-          content: this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
-            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName, styles: { halign: 'left', valign: 'middle' }
-        },
-      ]
-    ]
-
+    // let policyHolderInfoDetailData = [
+    //   [
+    //     { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
+    //     { content: this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', styles: { halign: 'left', valign: 'middle' } },
+    //   ],
+    //   [
+    //     { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
+    //     { content: this.policyHolder.idType ? (this.policyHolder.idType + "-" + this.policyHolder.cprNumber) : '', styles: { halign: 'left', valign: 'middle' } },
+    //   ],
+    //   [
+    //     { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
+    //     { content: this.policyHolder.dateOfBirth ? this.policyHolder.dateOfBirth : '', styles: { halign: 'left', valign: 'middle' } },
+    //   ],
+    //   [
+    //     { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
+    //     { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].mobileNo : '', styles: { halign: 'left', valign: 'middle' } },
+    //   ],
+    //   [
+    //     { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
+    //     { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].eMailId : '', styles: { halign: 'left', valign: 'middle' } },
+    //   ],
+    //   [
+    //     { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
+    //     {
+    //       content: this.policyHolder.partyAddress.length > 0 ? (this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
+    //         this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName) : '', styles: { halign: 'left', valign: 'middle' }
+    //     },
+    //   ]
+    // ]
     // Policy Information Details
     let policyInfoDetailData = [
       [
         { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.insuranceStartDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.policyInfo.insuranceStartDate ? this.formatDateDDMMYYY(this.policyInfo.insuranceStartDate) : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.insuranceEndDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.policyInfo.insuranceEndDate ? this.formatDateDDMMYYY(this.policyInfo.insuranceEndDate) : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: '1 Year', styles: { halign: 'center', valign: 'middle' } },
       ],
@@ -320,18 +319,18 @@ export class HealthCiPrintComponent implements OnInit {
     for (var i = 0; i < this.riskDetails.length; i++) {
       let riskData = this.riskDetails[i];
       let riskInfoDetailData = [
-        { content: riskData.firstName + " " + (riskData.middleName ? riskData.middleName : "") + " " + riskData.lastName, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.occupationCdValue || '', styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.genderCdValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.identityType + " - " + (riskData.identityNrc || riskData.identityNumber), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(riskData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.fatherName || '', styles: { halign: 'center', valign: 'middle' } },
-        { content: riskData.phone, styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.firstName ? (riskData.firstName + " " + (riskData.middleName ? riskData.middleName : "") + " " + riskData.lastName) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.occupationCdValue ? riskData.occupationCdValue || '' : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.genderCdValue ? riskData.genderCdValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.identityType ? (riskData.identityType + " - " + (riskData.identityNrc || riskData.identityNumber)) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.dateOfBirth ? this.formatDateDDMMYYY(riskData.dateOfBirth) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.fatherName ? riskData.fatherName || '' : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: riskData.phone ? riskData.phone : '-', styles: { halign: 'center', valign: 'middle' } },
       ]
       riskInfoDetailList.push(riskInfoDetailData);
     }
 
-    // Beneficiaries Information Details
+    // // Beneficiaries Information Details
     let beneficiariesInfoDetailList = [];
     let beneficiariesInfoDetailHeader = [
       [
@@ -343,15 +342,27 @@ export class HealthCiPrintComponent implements OnInit {
         { content: 'Share %', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
-    for (var i = 0; i < this.beneficiaries.length; i++) {
-      let beneData = this.beneficiaries[i];
+    if (this.beneficiaries) {
+      for (var i = 0; i < this.beneficiaries.length; i++) {
+        let beneData = this.beneficiaries[i];
+        let beneficiariesInfoDetailData = [
+          { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
+          { content: beneData ? beneData.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
+          { content: beneData ? beneData.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
+          { content: beneData ? (beneData.idType + " - " + (beneData.nrc || beneData.idNumber)) : '-', styles: { halign: 'center', valign: 'middle' } },
+          { content: beneData ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '-', styles: { halign: 'center', valign: 'middle' } },
+          { content: beneData ? (beneData.share + "%") : '-', styles: { halign: 'center', valign: 'middle' } },
+        ]
+        beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
+      }
+    } else {
       let beneficiariesInfoDetailData = [
-        { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
-        { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
       ]
       beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
     }
@@ -381,7 +392,7 @@ export class HealthCiPrintComponent implements OnInit {
     ]
     coverageInfoDetailList.push(coverageInfoDetailData);
 
-    // Payment Schedule Information Details
+    // // Payment Schedule Information Details
     let paymentScheduleInfoDetailData = []
     let paymentScheduleInfoDetailList = []
     let paymentScheduleInfoDetailHeader = [
@@ -442,41 +453,41 @@ export class HealthCiPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
         2: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
     height = doc.lastAutoTable.finalY;
 
     // Policy Holder Information Details
-    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
-    doc.text('Policy Holder Information Details', width / 2, height + 23, { align: 'center' });
-    doc.autoTable({
-      body: policyHolderInfoDetailData,
-      theme: 'grid',
-      startY: height + 30,
-      margin: { left: 10, right: 10 },
-      showHead: 'firstPage',
-      styles: {
-        fontSize: 8,
-        font: 'helvetica',
-        cellPadding: 5,
-        minCellHeight: 5,
-        lineColor: '#fff',
-        cellWidth: 'auto',
-      },
-      columnStyles: {
-        0: {
-          fontSize: 8,
-          fontStyle:'bold'
-        },
-      }
-    });
-    height = doc.lastAutoTable.finalY;
+    // doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    // doc.text('Policy Holder Information Details', width / 2, height + 23, { align: 'center' });
+    // doc.autoTable({
+    //   body: policyHolderInfoDetailData,
+    //   theme: 'grid',
+    //   startY: height + 30,
+    //   margin: { left: 10, right: 10 },
+    //   showHead: 'firstPage',
+    //   styles: {
+    //     fontSize: 8,
+    //     font: 'helvetica',
+    //     cellPadding: 5,
+    //     minCellHeight: 5,
+    //     lineColor: '#fff',
+    //     cellWidth: 'auto',
+    //   },
+    //   columnStyles: {
+    //     0: {
+    //       fontSize: 8,
+    //       fontStyle: 'bold'
+    //     },
+    //   }
+    // });
+    // height = doc.lastAutoTable.finalY;
 
     // Policy Information Details
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
@@ -580,7 +591,7 @@ export class HealthCiPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    //new page
+    // //new page
     doc.addPage();
     height = 0;
 
@@ -639,7 +650,7 @@ export class HealthCiPrintComponent implements OnInit {
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages();//Total Page Number
-    for (i = 0; i < pageCount; i++) {
+    for (var i = 0; i < pageCount; i++) {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
@@ -674,7 +685,7 @@ export class HealthCiPrintComponent implements OnInit {
         console.log("HERE2==>");
 
         let data = doc.output('datauristring')
-        let test=data.split('base64,')
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

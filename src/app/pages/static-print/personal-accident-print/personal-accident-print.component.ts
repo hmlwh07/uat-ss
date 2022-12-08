@@ -27,7 +27,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
   @Input() agentData?: any
   @Input() branch?: string
   @Input() isPrint: any
-  base64Proposal:any
+  base64Proposal: any
   product: any
   sumInsuredAmt: any
   listData: any[] = []
@@ -55,7 +55,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
     private platform: Platform,
     public modal: NgbActiveModal,
     private attachmentDownloadService: AttachmentDownloadService,
-    private policyService:PolicyService
+    private policyService: PolicyService
   ) { }
 
   ngOnInit() {
@@ -67,8 +67,8 @@ export class PersonalAccidentPrintComponent implements OnInit {
     }
     this.isMobile = PRINT.IS_MOBILE
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
-    if(this.signId){
-      this.fileId=this.encryption.encryptData(this.signId)
+    if (this.signId) {
+      this.fileId = this.encryption.encryptData(this.signId)
     }
     this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
@@ -160,9 +160,9 @@ export class PersonalAccidentPrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '-', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch ? this.branch : '-', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
@@ -178,33 +178,33 @@ export class PersonalAccidentPrintComponent implements OnInit {
       ]
     ]
 
-    //Policy Holder Information Details
+    // Policy Holder Information Details
     let policyHolderInfoDetailData = [
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.cprNumber, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.idType ? (this.policyHolder.idType + "-" + this.policyHolder.cprNumber) : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.dateOfBirth, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.dateOfBirth ? this.policyHolder.dateOfBirth : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].mobileNo, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].mobileNo : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].eMailId, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].eMailId : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
         {
-          content: this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
-            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName, styles: { halign: 'left', valign: 'middle' }
+          content: this.policyHolder.partyAddress.length > 0 ? (this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
+            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName) : '', styles: { halign: 'left', valign: 'middle' }
         },
       ]
     ]
@@ -239,13 +239,13 @@ export class PersonalAccidentPrintComponent implements OnInit {
     ]
     let riskInfoDetailData = [
       [
-        { content: this.lifeInsuredPolicy.paNameOfInsured, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.lifeInsuredPolicy.occupationCd, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.lifeInsuredPolicy.genderCdValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.lifeInsuredPolicy.identityType + ' - ' + (this.lifeInsuredPolicy.identityNumber || this.lifeInsuredPolicy.identityNrc), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.lifeInsuredPolicy.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.lifeInsuredPolicy.fatherName, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.lifeInsuredPolicy.phone, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.paNameOfInsured ? this.lifeInsuredPolicy.paNameOfInsured : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.occupationCd ? this.lifeInsuredPolicy.occupationCd : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.genderCdValue ? this.lifeInsuredPolicy.genderCdValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.identityType ? (this.lifeInsuredPolicy.identityType + ' - ' + (this.lifeInsuredPolicy.identityNumber || this.lifeInsuredPolicy.identityNrc)) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.dateOfBirth ? this.formatDateDDMMYYY(this.lifeInsuredPolicy.dateOfBirth) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.fatherName ? this.lifeInsuredPolicy.fatherName : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.lifeInsuredPolicy.phone ? this.lifeInsuredPolicy.phone : '-', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
 
@@ -265,11 +265,11 @@ export class PersonalAccidentPrintComponent implements OnInit {
       var beneficiary = this.beneficiaries[i];
       let beneficiariesInformationDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: beneficiary.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
-        { content: beneficiary.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: beneficiary.idType + ' - ' + (beneficiary.idNumber || beneficiary.nrc), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(beneficiary.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: beneficiary.share + ' %', styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.beneficiaryName ? beneficiary.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.relationshipValue ? beneficiary.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.idType ? (beneficiary.idType + ' - ' + (beneficiary.idNumber || beneficiary.nrc)) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.dateOfBirth ? this.formatDateDDMMYYY(beneficiary.dateOfBirth) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: beneficiary.share ? (beneficiary.share + ' %') : '-', styles: { halign: 'center', valign: 'middle' } },
       ]
       beneficiariesInfoDetailList.push(beneficiariesInformationDetailData);
     }
@@ -531,7 +531,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
         console.log("HERE2==>");
 
         let data = doc.output('datauristring')
-        let test=data.split('base64,')
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }
