@@ -131,9 +131,14 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     if (!this.parentData) {
       this.alertService.activate("This page cann't to save because there is no parent Data. Please configuration the product detail", "Warning")
     } else {
+      if (this.parentData['age']) {
+        this.currentAge = this.parentData['age']
+        console.log(this.currentAge);
 
-      this.dob = this.parentData['date_of_birth']
-      this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
+      } else {
+        this.dob = this.parentData['date_of_birth']
+        this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
+      }
     }
     this.getOldData()
     // this.getAddOn()
@@ -299,6 +304,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
       medicalCardNo: formValue.medicalCardNo,
       paymentFrequency: formValue.paymentFrequency,
       dateOfBirth: this.dob,
+      age: this.currentAge || null,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,

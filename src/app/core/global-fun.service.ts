@@ -199,8 +199,14 @@ export class GlobalFunctionService {
   }
 
   validDOBEDU(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
-    let dob = activeForm['date_of_birth']
-    let age = Math.ceil(moment().diff(dob, 'years', true));
+    let dob;
+    let age;
+    if (activeForm['age']) {
+      age = activeForm['age']
+    } else {
+      dob = activeForm['date_of_birth']
+      age = Math.ceil(moment().diff(dob, 'years', true));
+    }
     // ENDO_POLICY_TERM
     if (age >= 18 && age <= 42) {
       return true
@@ -209,8 +215,14 @@ export class GlobalFunctionService {
     return false
   }
   validDOBHealth(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
-    let dob = activeForm['date_of_birth']
-    let age = Math.ceil(moment().diff(dob, 'years', true));
+    let dob;
+    let age;
+    if (activeForm['age']) {
+      age = activeForm['age']
+    } else {
+      dob = activeForm['date_of_birth']
+      age = Math.ceil(moment().diff(dob, 'years', true));
+    }
     // ENDO_POLICY_TERM
     if (age >= 6 && age <= 75) {
       return true

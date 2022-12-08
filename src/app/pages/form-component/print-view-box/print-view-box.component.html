@@ -190,34 +190,34 @@
           <app-moter-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-moter-print>
         </ng-container>
-        <ng-container *ngIf="product.code=='PLTR01'&&isApplication ">
+        <ng-container *ngIf="product.code=='PLTR01' ">
           <app-travel-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-travel-print>
         </ng-container>
-        <ng-container *ngIf="product.code=='PLTR01'&& !isApplication ">
+        <!-- <ng-container *ngIf="product.code=='PLTR01'&& !isApplication ">
           <app-travel-print-quo [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch"
             [agentData]="agentData" [premiumAmt]="premimunAmt"></app-travel-print-quo>
-        </ng-container>
-        <ng-container *ngIf="product.code=='PCHL01'&& isApplication  ">
+        </ng-container> -->
+        <ng-container *ngIf="product.code=='PCHL01' ">
           <app-health-ci-print [isPrint]="isPrint" [product]="product" [resourcesId]="resourcesId" [branch]="branch"
             [agentData]="agentData" [premiumAmt]="premimunAmt">
           </app-health-ci-print>
         </ng-container>
-        <ng-container *ngIf="product.code=='PCHL01'&& !isApplication  ">
+        <!-- <ng-container *ngIf="product.code=='PCHL01'&& !isApplication  ">
           <app-health-ci-print-quo [isPrint]="isPrint" [product]="product" [resourcesId]="resourcesId" [branch]="branch"
             [agentData]="agentData" [premiumAmt]="premimunAmt">
           </app-health-ci-print-quo>
-        </ng-container>
-        <ng-container *ngIf="product.code=='PLPA01' && isApplication ">
+        </ng-container> -->
+        <ng-container *ngIf="product.code=='PLPA01'">
           <app-personal-accident-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch"
             [agentData]="agentData" [premiumAmt]="premimunAmt">
           </app-personal-accident-print>
         </ng-container>
-        <ng-container *ngIf="product.code=='PLPA01'&& !isApplication  ">
+        <!-- <ng-container *ngIf="product.code=='PLPA01'&& !isApplication  ">
           <app-personal-accident-print-quo [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch"
             [agentData]="agentData" [premiumAmt]="premimunAmt">
           </app-personal-accident-print-quo>
-        </ng-container>
+        </ng-container> -->
       </ng-template>
 
     </ng-container>

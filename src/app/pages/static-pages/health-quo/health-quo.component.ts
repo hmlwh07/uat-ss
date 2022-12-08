@@ -84,7 +84,16 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
     this.totalL = 0
     let firstTimeValue = 300
     let doCount = this.parentData.paymentFrequency == 'L' ? 1 : 2
-    let age = Math.ceil(moment().diff(this.parentData.dateOfBirth, 'years', true));
+    let age;
+    console.log("PARENT",this.parentData);
+    
+    if (this.parentData.age) {
+      age = this.parentData.age
+    } else {
+      age = Math.ceil(moment().diff(this.parentData.dateOfBirth, 'years', true));
+    }
+    console.log("AGE",age);
+    
     this.healthRateService.getOne(age, this.parentData.basicCoverId).toPromise().then((res: any) => {
       // console.log("healthRateService", res);
 
@@ -146,6 +155,8 @@ export class HealthQuoComponent implements OnInit, OnDestroy {
   }
 
   calculateScheduleAddOn(age: number) {
+    console.log("calculateScheduleAddOn",age);
+    
     let i = 0
     let pre
     let doCount = this.parentData.paymentFrequency == 'L' ? 1 : 2
