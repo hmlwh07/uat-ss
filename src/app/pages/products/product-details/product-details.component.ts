@@ -122,16 +122,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.product = this.itemService.selectedProd
       if (this.product.smallIcon) {
-        let small = this.encryption.encryptData(this.product.smallIcon)
-        this.product.smallIcon = (small)
+        // let small = this.encryption.encryptData(this.product.smallIcon)
+        this.product.smallIcon = (this.product.smallIcon)
       }
       if (this.product.icon) {
-        let icon = this.encryption.encryptData(this.product.icon)
-        this.product.icon = (icon)
+        // let icon = this.encryption.encryptData(this.product.icon)
+        this.product.icon = (this.product.icon)
       }
       if (this.product.coverIcon) {
-        let cover = this.encryption.encryptData(this.product.coverIcon)
-        this.product.coverIcon = (cover)
+        // let cover = this.encryption.encryptData(this.product.coverIcon)
+        this.product.coverIcon = (this.product.coverIcon)
       }
       this.product.coverages = this.product.coverages || []
       this.product.addOns = this.product.addOns || []
@@ -154,16 +154,16 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       if (res) {
         this.product = res
         if (this.product.smallIcon) {
-          let small = this.encryption.encryptData(this.product.smallIcon)
-          this.formGroup.controls['smallIcon'].setValue(small)
+          // let small = this.encryption.encryptData(this.product.smallIcon)
+          this.formGroup.controls['smallIcon'].setValue(this.product.smallIcon)
         }
         if (this.product.icon) {
-          let icon = this.encryption.encryptData(this.product.icon)
-          this.formGroup.controls['icon'].setValue(icon)
+          // let icon = this.encryption.encryptData(this.product.icon)
+          this.formGroup.controls['icon'].setValue(this.product.icon)
         }
         if (this.product.coverIcon) {
-          let cover = this.encryption.encryptData(this.product.coverIcon)
-          this.formGroup.controls['coverIcon'].setValue(cover)
+          // let cover = this.encryption.encryptData(this.product.coverIcon)
+          this.formGroup.controls['coverIcon'].setValue(this.product.coverIcon)
         }
         this.product.coverages = this.product.coverages || []
         this.product.addOns = this.product.addOns || []
@@ -221,7 +221,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       }
     })
   }
-
+  encryptData(attid) {
+    let id = this.encryption.encryptData(attid)
+    return id || null
+  }
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
@@ -366,10 +369,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       }
     });
   }
-  encryptData(attid) {
-    this.encryption.encryptData(attid)
-  }
-
   changePayment(type: string) {
     let value = this[type]
     let data: any[] = this.formGroup.value['paymentFrequency'] || []
@@ -778,14 +777,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           this.fileUpload.save(data).toPromise().then((res) => {
             if (res) {
               if (type == "cover") {
-                let cover = this.encryption.encryptData(res)
-                this.formGroup.controls['coverIcon'].setValue(cover)
+                // let cover = this.encryption.encryptData(res)
+                this.formGroup.controls['coverIcon'].setValue(res)
               } else if (type == "small") {
-                let small = this.encryption.encryptData(res)
-                this.formGroup.controls['smallIcon'].setValue(small)
+                // let small = this.encryption.encryptData(res)
+                this.formGroup.controls['smallIcon'].setValue(res)
               } else {
-                let icon = this.encryption.encryptData(res)
-                this.formGroup.controls['icon'].setValue(icon)
+                // let icon = this.encryption.encryptData(res)
+                this.formGroup.controls['icon'].setValue(res)
               }
             }
             this.cdRef.detectChanges()
