@@ -37,6 +37,7 @@ export class FirePrintComponent implements OnInit {
   optionId: any
   product: any
   addOnData: any = []
+  coverCount: number = 0
   addon: any
   additionalData: any = []
   totalPremium: number = 0
@@ -347,29 +348,56 @@ export class FirePrintComponent implements OnInit {
       let count = 0;
       let isFirstData = false;
       if (data) {
-        if (data.STHTC != 0)
+        console.log("DAATA", data);
+
+        this.coverCount = 0
+        if (data.STHTC != 0) {
           count++
-        if (data.IMPD != 0)
+          this.coverCount += 1
+        }
+        if (data.IMPD != 0) {
           count++
-        if (data.RSMD != 0)
+          this.coverCount += 1
+        }
+        if (data.RSMD != 0) {
           count++
-        if (data.BURGLARY != 0)
+          this.coverCount += 1
+        }
+        if (data.BURGLARY != 0) {
           count++
-        if (data.ACD != 0)
+          this.coverCount += 1
+        }
+        if (data.ACD != 0) {
           count++
-        if (data.EQ != 0)
+          this.coverCount += 1
+        }
+        if (data.EQ != 0) {
           count++
-        if (data.SPONTCOMB != 0)
+          this.coverCount += 1
+        }
+        if (data.SPONTCOMB != 0) {
           count++
-        if (data.SUBLSLD != 0)
+          this.coverCount += 1
+        }
+        if (data.SUBLSLD != 0) {
           count++
-        if (data.WARRISK != 0)
+          this.coverCount += 1
+        }
+        if (data.WARRISK != 0) {
           count++
-        if (data.EXPLOSION != 0)
+          this.coverCount += 1
+        }
+        if (data.EXPLOSION != 0) {
           count++
-        if (data.FLOOD != 0)
+          this.coverCount += 1
+        }
+        if (data.FLOOD != 0) {
           count++
+          this.coverCount += 1
+        }
       }
+      console.log(" this.coverCount++", this.coverCount);
+
       if (data) {
         // STHTC
         if (data.STHTC != 0) {
@@ -712,7 +740,7 @@ export class FirePrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // new page
-    if (this.addOnData.length > 1) {
+    if (this.addOnData.length > 1 || this.coverCount > 7) {
       doc.addPage();
       height = 0;
     }
@@ -744,7 +772,7 @@ export class FirePrintComponent implements OnInit {
     height = doc.lastAutoTable.finalY;
 
     // new page
-    if (this.addOnData.length > 2 || this.listData.length == 1) {
+    if ((this.addOnData.length > 2 || this.listData.length == 1) && this.coverCount < 7) {
       doc.addPage();
       height = 0;
     }
@@ -792,7 +820,7 @@ export class FirePrintComponent implements OnInit {
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 180, height + 150);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 140);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 130);
     if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
@@ -830,6 +858,7 @@ export class FirePrintComponent implements OnInit {
       // console.log("Base64 Data: ", data)
     }
   }
+
 
   formatDateDDMMYYY(date) {
     var d = new Date(date),

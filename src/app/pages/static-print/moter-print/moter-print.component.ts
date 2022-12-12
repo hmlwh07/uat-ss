@@ -261,7 +261,6 @@ export class MoterPrintComponent implements OnInit {
     this.coverageData.push(obj)
     // console.log("coverageData", this.coverageData);
   }
-
   createPdf() {
 
     //Agent Information Details
@@ -274,7 +273,7 @@ export class MoterPrintComponent implements OnInit {
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
         { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -290,7 +289,7 @@ export class MoterPrintComponent implements OnInit {
     let policyHolderInfoDetailData = [
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
@@ -349,8 +348,8 @@ export class MoterPrintComponent implements OnInit {
     ]
     let riskInfoDetailData = [
       [
-        { content: this.vehicleDetail.mEngineNo, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mMakeValue + "/" + this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.vehicleDetail.mRegistrationNo, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mMakeValue+"/"+this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity, styles: { halign: 'center', valign: 'middle' } },
         { content: this.vehicleDetail.mManufactureYearValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.motorDetail.mTypeOfVehicleValue, styles: { halign: 'center', valign: 'middle' } },
@@ -473,7 +472,7 @@ export class MoterPrintComponent implements OnInit {
     let insuranceInfoDetailData = [
       [
         { content: "Approximate Total SI", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.numberPipe.transform(this.motorDetail.mTotalRiskSi, "1.2-2") + (' ' + this.motorDetail.mCurrency || ' MMK'), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.numberPipe.transform(this.motorDetail.mTotalRiskSi, '1.2-2') + (' ' + this.motorDetail.mCurrency), styles: { halign: 'right', valign: 'middle' } },
         { content: "Approximate Total Premium", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.premiumAmt, styles: { halign: 'right', valign: 'middle' } },
       ]
@@ -542,7 +541,7 @@ export class MoterPrintComponent implements OnInit {
         0: {
           fontSize: 8,
           fontStyle: 'bold'
-        },
+        }
       }
     });
     height = doc.lastAutoTable.finalY;
@@ -726,10 +725,10 @@ export class MoterPrintComponent implements OnInit {
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 180, height + 180);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 180);
-    if (this.fileId) {
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 160);
+    if (this.signId) {
       var img = new Image()
-      img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+      img.src = this.DEFAULT_DOWNLOAD_URL + '/' + this.signId
       doc.addImage(img, 'PNG', width - 180, height + 120, 70, 50);
     }
 
@@ -764,6 +763,7 @@ export class MoterPrintComponent implements OnInit {
       // console.log("Base64 Data: ", data)
     }
   }
+
 
   formatDateDDMMYYY(date) {
     var d = new Date(date),
