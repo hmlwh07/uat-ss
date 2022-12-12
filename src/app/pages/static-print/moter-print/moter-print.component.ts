@@ -728,7 +728,7 @@ export class MoterPrintComponent implements OnInit {
     doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 160);
     if (this.signId) {
       var img = new Image()
-      img.src = this.DEFAULT_DOWNLOAD_URL + '/' + this.signId
+      img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
       doc.addImage(img, 'PNG', width - 180, height + 120, 70, 50);
     }
 
