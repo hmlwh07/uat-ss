@@ -213,9 +213,9 @@ export class PersonalAccidentPrintComponent implements OnInit {
     let policyInfoDetailData = [
       [
         { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.productDetail.formdate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.productDetail.formdate?this.formatDateDDMMYYY(this.productDetail.formdate):'-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.productDetail.todate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.productDetail.todate?this.formatDateDDMMYYY(this.productDetail.todate):'-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.productDetail.paPolicyTermValue, styles: { halign: 'center', valign: 'middle' } },
       ],

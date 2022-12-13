@@ -27,11 +27,13 @@ export class MoterPrintComponent implements OnInit {
   @Input() branch?: string
   @Input() premiumAmt?: any
   @Input() isPrint: any
-  base64Proposal:any
+  base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
   motorDriver: any = []
-  policyHolder: any = {}
+  policyHolder: any = {
+    partyAddress: []
+  }
   address: any = {}
   isTonnage: boolean = false
   vehicleDetail: any = {}
@@ -79,7 +81,7 @@ export class MoterPrintComponent implements OnInit {
     private attachmentDownloadService: AttachmentDownloadService,
     public modal: NgbActiveModal,
     private numberPipe: DecimalPipe,
-    private policyService:PolicyService
+    private policyService: PolicyService
   ) { }
 
   ngOnInit() {
@@ -276,14 +278,14 @@ export class MoterPrintComponent implements OnInit {
   }
 
   createPdf() {
-
-    //Agent Information Details
+    console.log("policyHolderInfoDetailData",this.policyHolder)
+    // Agent Information Details
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '-', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch ? this.branch : '-', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
@@ -299,44 +301,46 @@ export class MoterPrintComponent implements OnInit {
       ]
     ]
 
-    //Policy Holder Information Details
+    // Policy Holder Information Details
     let policyHolderInfoDetailData = [
+      
+      
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.cprNumber, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.idType ? (this.policyHolder.idType + "-" + this.policyHolder.cprNumber) : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.dateOfBirth, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.dateOfBirth ? this.policyHolder.dateOfBirth : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].mobileNo, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].mobileNo : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].eMailId, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].eMailId : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
         {
-          content: this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
-            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName, styles: { halign: 'left', valign: 'middle' }
+          content: this.policyHolder.partyAddress.length > 0 ? (this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
+            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName) : '', styles: { halign: 'left', valign: 'middle' }
         },
       ]
     ]
 
-    //Policy Information Details
+    // Policy Information Details
     let policyInfoDetailData = [
       [
         { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceFrom), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mPeriodOfInsuranceFrom ? this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceFrom) : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceTo), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mPeriodOfInsuranceTo ? this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceTo) : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.policyTerm[this.motorDetail.mPolicyTerm], styles: { halign: 'center', valign: 'middle' } },
       ],
@@ -362,15 +366,15 @@ export class MoterPrintComponent implements OnInit {
     ]
     let riskInfoDetailData = [
       [
-        { content: this.vehicleDetail.mEngineNo, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.vehicleDetail.mManufactureYearValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mTypeOfVehicleValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mTypeOfCoverageValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mExcessValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.currencyFormat(Number(this.motorDetail.mWindscreenValue)), styles: { halign: 'right', valign: 'middle' } },
-        { content: this.currencyFormat(Number(this.motorDetail.mTotalRiskSi)), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.vehicleDetail.mEngineNo ? this.vehicleDetail.mEngineNo : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mModelValue ? this.motorDetail.mModelValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: (this.isTonnage || this.motorDetail.mCapacity) ? (this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.vehicleDetail.mManufactureYearValue ? this.vehicleDetail.mManufactureYearValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mTypeOfVehicleValue ? this.motorDetail.mTypeOfVehicleValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mTypeOfCoverageValue ? this.motorDetail.mTypeOfCoverageValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mExcessValue ? this.motorDetail.mExcessValue : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mWindscreenValue ? this.currencyFormat(Number(this.motorDetail.mWindscreenValue)) : '-', styles: { halign: 'right', valign: 'middle' } },
+        { content: this.motorDetail.mTotalRiskSi ? this.currencyFormat(Number(this.motorDetail.mTotalRiskSi)) : '-', styles: { halign: 'right', valign: 'middle' } },
       ]
     ]
 
@@ -389,11 +393,11 @@ export class MoterPrintComponent implements OnInit {
     for (var i = 0; i < this.listData.length; i++) {
       let driverInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].firstName + " " + (this.listData[i].middleName || '') + " " + this.listData[i].lastName, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].identityType == 'NRC' ? this.listData[i].identityNrc : this.listData[i].identityNumber, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.listData[i].dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: (this.listData[i].licenseNo || ''), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].mRelationshipToPolicyholderValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].firstName ? (this.listData[i].firstName + " " + (this.listData[i].middleName || '') + " " + this.listData[i].lastName) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].identityType ? (this.listData[i].identityType == 'NRC' ? this.listData[i].identityNrc : this.listData[i].identityNumber) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].dateOfBirth ? (this.formatDateDDMMYYY(this.listData[i].dateOfBirth)) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].licenseNo ? (this.listData[i].licenseNo || '') : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].mRelationshipToPolicyholderValue ? this.listData[i].mRelationshipToPolicyholderValue : '-', styles: { halign: 'center', valign: 'middle' } },
       ]
       driverInfoDetailList.push(driverInfoDetailData);
     }
@@ -420,7 +424,7 @@ export class MoterPrintComponent implements OnInit {
       basicCoverInfoDetailList.push(basicCoverInfoDetailData);
     }
 
-    // Additional Cover Information Details (PLMO01)
+    // // Additional Cover Information Details (PLMO01)
     let additionalCoverInfoDetailData01;
     let additionalCoverInfoDetailHeader01 = [
       [
@@ -524,11 +528,11 @@ export class MoterPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
         2: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -554,7 +558,7 @@ export class MoterPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -668,7 +672,7 @@ export class MoterPrintComponent implements OnInit {
     doc.addPage();
     height = 0;
 
-    // Additional Cover Information Details
+    // // Additional Cover Information Details
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
     doc.text("Additional Cover Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
@@ -748,7 +752,7 @@ export class MoterPrintComponent implements OnInit {
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages();//Total Page Number
-    for (i = 0; i < pageCount; i++) {
+    for (var i = 0; i < pageCount; i++) {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'
@@ -783,8 +787,8 @@ export class MoterPrintComponent implements OnInit {
         console.log("HERE2==>");
 
         let data = doc.output('datauristring')
-      
-        let test=data.split('base64,')
+
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

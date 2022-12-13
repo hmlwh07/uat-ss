@@ -257,9 +257,9 @@ export class TravelPrintComponent implements OnInit {
     let policyInfoDetailData = [
       [
         { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.policyInceptionDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.policyInfo.policyInceptionDate? this.formatDateDDMMYYY(this.policyInfo.policyInceptionDate):'-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.policyInfo.policyExpiryDate), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.policyInfo.policyExpiryDate?this.formatDateDDMMYYY(this.policyInfo.policyExpiryDate):'-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.policyInfo.policyDurationValue, styles: { halign: 'center', valign: 'middle' } },
       ],
