@@ -127,7 +127,11 @@ export class SimplePageComponent implements OnInit, OnDestroy {
 
     this.parentData = this.getParent()
     console.log("this.isApplication", this.isApplication);
-
+    if (this.productType == 'quotation') {
+      let today = new Date()
+      this.staticForm.controls.insuranceStartDate.setValue(today)
+      this.doValid()
+    }
     if (!this.parentData) {
       this.alertService.activate("This page cann't to save because there is no parent Data. Please configuration the product detail", "Warning")
     } else {
