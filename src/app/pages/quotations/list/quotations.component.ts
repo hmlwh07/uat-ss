@@ -161,7 +161,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.quoList = res
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
-            // this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
+            this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
         }
