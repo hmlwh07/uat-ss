@@ -2,36 +2,39 @@
     <table class="table table-head-custom table-vertical-center">
         <thead *ngIf="contents">
             <tr>
-                <th>Item Name</th>
-                <th>Item Description</th>
-                <th style="text-align: right;">Value per Quantity</th>
+                <th *ngIf="isApplication">Item Name</th>
+                <th *ngIf="isApplication">Item Description</th>
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">Value per Quantity
+                </th>
                 <th>Quantity</th>
-                <th style="text-align: right;">Total Value</th>
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">Total Value</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody *ngIf="tableData.length>0 && contents">
             <tr *ngFor="let data of tableData">
-                <th>
+                <th *ngIf="isApplication">
                     {{data.itemName}}
                 </th>
-                <th>
+                <th *ngIf="isApplication">
                     {{data.itemDescription}}
                 </th>
-                <th style="text-align: right;">
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">
                     {{data.valuePerQuantity | number}}
                 </th>
                 <th>
                     {{data.quantity}}
                 </th>
-                <th style="text-align: right;">
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">
                     {{data.totalValue | number}}
                 </th>
                 <th>
-                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit','content')">
+                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
+                        (click)="onActionView(data,'edit','content')">
                         <span class="flaticon-edit"></span>
                     </a>
-                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1" (click)="onActionView(data,'delete','content')">
+                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1"
+                        (click)="onActionView(data,'delete','content')">
                         <span class="flaticon-delete"></span>
                     </a>
                 </th>
@@ -40,36 +43,38 @@
 
         <thead *ngIf="plant">
             <tr>
-                <th>Item Name</th>
-                <th>Item Description</th>
-                <th style="text-align: right;">Value per Quantity</th>
-                <th style="text-align: right;">Quantity</th>
-                <th style="text-align: right;">Total Value</th>
+                <th *ngIf="isApplication">Item Name</th>
+                <th *ngIf="isApplication">Item Description</th>
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">Value per Quantity</th>
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">Quantity</th>
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">Total Value</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody *ngIf="tableData.length>0 && plant">
             <tr *ngFor="let data of tableData">
-                <th>
+                <th *ngIf="isApplication">
                     {{data.itemName}}
                 </th>
-                <th>
+                <th *ngIf="isApplication">
                     {{data.itemDescription}}
                 </th>
-                <th style="text-align: right;">
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">
                     {{data.valuePerQuantity | number}}
                 </th>
-                <th style="text-align: right;">
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">
                     {{data.quantity}}
                 </th>
-                <th style="text-align: right;">
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">
                     {{data.totalValue | number}}
                 </th>
                 <th>
-                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit','plant')">
+                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
+                        (click)="onActionView(data,'edit','plant')">
                         <span class="flaticon-edit"></span>
                     </a>
-                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1" (click)="onActionView(data,'delete','plant')">
+                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1"
+                        (click)="onActionView(data,'delete','plant')">
                         <span class="flaticon-delete"></span>
                     </a>
                 </th>
@@ -77,36 +82,38 @@
         </tbody>
         <thead *ngIf="stock">
             <tr>
-                <th>Month</th>
-                <th>Description</th>
-                <th style="text-align: right;">Stock Value</th>
-                <th style="text-align: right;">Agreed SI</th>
-                <th>Remarks</th>
+                <th *ngIf="isApplication">Month</th>
+                <th *ngIf="isApplication">Description</th>
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">Stock Value</th>
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">Agreed SI</th>
+                <th *ngIf="isApplication">Remarks</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody *ngIf="tableData.length>0 && stock">
             <tr *ngFor="let data of tableData">
-                <th>
+                <th *ngIf="isApplication">
                     {{data.month}}
                 </th>
-                <th>
+                <th *ngIf="isApplication">
                     {{data.description}}
                 </th>
-                <th style="text-align: right;">
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">
                     {{data.stockValue | number}}
                 </th>
-                <th style="text-align: right;">
+                <th [ngClass]="isApplication?'txt-right':'txt-center'">
                     {{data.agreedSi | number}}
                 </th>
-                <th>
+                <th *ngIf="isApplication">
                     {{data.remark}}
                 </th>
                 <th>
-                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1" (click)="onActionView(data,'edit','stock')">
+                    <a title="Edit Form Page" class="btn btn-primary btn-cus btn-sm mx-1"
+                        (click)="onActionView(data,'edit','stock')">
                         <span class="flaticon-edit"></span>
                     </a>
-                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1" (click)="onActionView(data,'delete','stock')">
+                    <a title="Delete Form Page" class="btn btn-danger btn-cus btn-sm mx-1"
+                        (click)="onActionView(data,'delete','stock')">
                         <span class="flaticon-delete"></span>
                     </a>
                 </th>

@@ -24,7 +24,7 @@
         </div>
 
         <div *ngIf="isContents && contentsData">
-            <app-tables [contents]="true" [tableData]="contentsData" (emitter)="actionBtn($event)"></app-tables>
+            <app-tables [isApplication]='isApplication'[contents]="true" [tableData]="contentsData" (emitter)="actionBtn($event)"></app-tables>
             <div class="row" style="align-items: center;">
 
                 <div class="col-sm-12">
@@ -53,7 +53,7 @@
         </div>
 
         <div *ngIf="isPlant && plantData">
-            <app-tables [plant]="true" [tableData]="plantData" (emitter)="actionBtn($event)"></app-tables>
+            <app-tables [isApplication]='isApplication'[plant]="true" [tableData]="plantData" (emitter)="actionBtn($event)"></app-tables>
             <div class="row" style="align-items: center;">
 
                 <div class="col-sm-12">
@@ -82,7 +82,7 @@
         </div>
 
         <div *ngIf="isStock && stockData">
-            <app-tables [stock]="true" [tableData]="stockData" (emitter)="actionBtn($event)"></app-tables>
+            <app-tables [isApplication]='isApplication'[stock]="true" [tableData]="stockData" (emitter)="actionBtn($event)"></app-tables>
             <div class="row" style="align-items: center;">
                 <div class="col-sm-6">
                     <div class="form-group row">

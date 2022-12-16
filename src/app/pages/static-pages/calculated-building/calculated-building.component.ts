@@ -18,6 +18,7 @@ export class CalculatedBuildingComponent implements OnInit {
   isPlant: boolean = false
   isStock: boolean = false
   @Input() default: number = 0
+  @Input() isApplication: boolean = true
   primary = 'primary'
   totalContent: number = 0
   totalPlant: number = 0
@@ -75,6 +76,7 @@ export class CalculatedBuildingComponent implements OnInit {
       modalRef.componentInstance.type = "Contents including FFF"
       modalRef.componentInstance.pageType = pageType
       modalRef.componentInstance.riskId = this.riskId
+      modalRef.componentInstance.isApplication = this.isApplication
       modalRef.componentInstance.data = data
       modalRef.result.then(() => { }, (res) => {
         if (res) {
@@ -106,6 +108,7 @@ export class CalculatedBuildingComponent implements OnInit {
       modalRef.componentInstance.type = "Plant and Machinery"
       modalRef.componentInstance.pageType = pageType
       modalRef.componentInstance.riskId = this.riskId
+      modalRef.componentInstance.isApplication = this.isApplication
       modalRef.componentInstance.data = data
       modalRef.result.then(() => { }, (res) => {
         if (res) {
@@ -137,6 +140,7 @@ export class CalculatedBuildingComponent implements OnInit {
       modalRef.componentInstance.type = "Stock"
       modalRef.componentInstance.pageType = pageType
       modalRef.componentInstance.riskId = this.riskId
+      modalRef.componentInstance.isApplication = this.isApplication
       modalRef.componentInstance.data = data
       modalRef.componentInstance.isStock = true
       modalRef.result.then(() => { }, (res) => {

@@ -14,6 +14,7 @@ import { SurroundingDetailComponent } from './surrounding-detail/surrounding-det
 export class SurroundingBuildingComponent implements OnInit {
   @ViewChild(MaterialTableViewComponent) matTable: MaterialTableViewComponent;
   @Input() riskId: number = 1
+  @Input() isApplication: boolean = true
   ELEMENT_COL = JSON.parse(JSON.stringify(SURROUNDING_COL));
   displayedColumns = JSON.parse(JSON.stringify(SurroundingDisplayCol));
   isPopup: boolean = false
@@ -39,6 +40,7 @@ export class SurroundingBuildingComponent implements OnInit {
     modalRef.componentInstance.type = type
     modalRef.componentInstance.riskId = this.riskId
     modalRef.componentInstance.oldData = data
+    modalRef.componentInstance.isApplication = this.isApplication
     modalRef.result.then(() => { }, (res) => {
       if (res) {
         // console.log("RESSSS", res)

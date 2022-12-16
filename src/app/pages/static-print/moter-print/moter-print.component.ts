@@ -366,7 +366,7 @@ export class MoterPrintComponent implements OnInit {
     ]
     let riskInfoDetailData = [
       [
-        { content: this.vehicleDetail.mEngineNo ? this.vehicleDetail.mEngineNo : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.vehicleDetail.mRegistrationNo ? this.vehicleDetail.mRegistrationNo : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: this.motorDetail.mModelValue ? this.motorDetail.mModelValue : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: (this.isTonnage || this.motorDetail.mCapacity) ? (this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity) : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: this.vehicleDetail.mManufactureYearValue ? this.vehicleDetail.mManufactureYearValue : '-', styles: { halign: 'center', valign: 'middle' } },

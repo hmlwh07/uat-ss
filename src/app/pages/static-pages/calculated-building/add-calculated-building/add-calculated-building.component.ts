@@ -9,12 +9,13 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddCalculatedBuildingComponent implements OnInit {
   @Input() type = "Contents including FFF"
-  @Input() pageType="Add"
+  @Input() pageType = "Add"
   @Input() data: any
   @Input() riskId: any = 1
   @Input() isStock: boolean = false
+  @Input() isApplication: boolean = true
   calculatedbuildingForm: FormGroup
-  constructor(private modal: NgbActiveModal,private cdf:ChangeDetectorRef) { }
+  constructor(private modal: NgbActiveModal, private cdf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadForm(this.data)
@@ -39,8 +40,8 @@ export class AddCalculatedBuildingComponent implements OnInit {
       agreedSi: new FormControl(oldData ? oldData.agreedSi : ""),
     })
   }
-  setValidator(){
-    if(this.type=="Contents including FFF" || this.type=="Plant and Machinery"){
+  setValidator() {
+    if ((this.type == "Contents including FFF" || this.type == "Plant and Machinery") && this.isApplication) {
       this.calculatedbuildingForm.controls['itemDescription'].setValidators([Validators.required])
       this.calculatedbuildingForm.controls['itemDescription'].updateValueAndValidity()
       this.calculatedbuildingForm.controls['itemName'].setValidators([Validators.required])
@@ -52,7 +53,7 @@ export class AddCalculatedBuildingComponent implements OnInit {
       this.calculatedbuildingForm.controls['totalValue'].setValidators([Validators.required])
       this.calculatedbuildingForm.controls['totalValue'].updateValueAndValidity()
     }
-    if(this.type=="Stock"){
+    if (this.type == "Stock" && this.isApplication) {
       this.calculatedbuildingForm.controls['itemDescription'].setValidators([Validators.required])
       this.calculatedbuildingForm.controls['itemDescription'].updateValueAndValidity()
       this.calculatedbuildingForm.controls['stockValue'].setValidators([Validators.required])
@@ -64,7 +65,21 @@ export class AddCalculatedBuildingComponent implements OnInit {
       this.calculatedbuildingForm.controls['agreedSi'].setValidators([Validators.required])
       this.calculatedbuildingForm.controls['agreedSi'].updateValueAndValidity()
     }
- 
+    if ((this.type == "Contents including FFF" || this.type == "Plant and Machinery") && !this.isApplication) {
+      this.calculatedbuildingForm.controls['quantity'].setValidators([Validators.required])
+      this.calculatedbuildingForm.controls['quantity'].updateValueAndValidity()
+      this.calculatedbuildingForm.controls['valuePerQuantity'].setValidators([Validators.required])
+      this.calculatedbuildingForm.controls['valuePerQuantity'].updateValueAndValidity()
+      this.calculatedbuildingForm.controls['totalValue'].setValidators([Validators.required])
+      this.calculatedbuildingForm.controls['totalValue'].updateValueAndValidity()
+    }
+    if (this.type == "Stock" && !this.isApplication) {
+      this.calculatedbuildingForm.controls['stockValue'].setValidators([Validators.required])
+      this.calculatedbuildingForm.controls['stockValue'].updateValueAndValidity()
+      this.calculatedbuildingForm.controls['agreedSi'].setValidators([Validators.required])
+      this.calculatedbuildingForm.controls['agreedSi'].updateValueAndValidity()
+    }
+
   }
 
   calculateTotalValue() {
