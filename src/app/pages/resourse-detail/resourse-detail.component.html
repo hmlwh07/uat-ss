@@ -33,10 +33,17 @@
             <span>{{resourceDetail.policyNumber}}</span>
           </div>
           <!-- type == 'policy'  && -->
-          <button class="btn btn-outline-primary" *ngIf=" statusCode != '07'" style="margin-left: auto;"
-            (click)="viewPrint()">
-            <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
-          </button>
+          <div style="margin-left: auto;">
+            <button class="btn btn-outline-primary"
+              *ngIf=" statusCode != '07' && (item.code=='PLMO01'||item.code=='PLMO02')"
+              (click)="viewCheckListPrint()">
+              <i class="flaticon2-print"></i> {{"FORM.check_list_print" | translate}}
+            </button>
+            <button class="btn btn-outline-primary" *ngIf=" statusCode != '07'" (click)="viewPrint()"
+              style="margin-left: 5px;">
+              <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -79,7 +86,8 @@
       <!-- <div class="{{Array.isArray(resultObj[page.tableName+item.id]) ? 'col-sm-12' : 'col-sm-6'}}"> -->
       <div class="col-md-12 mx-auto">
         <ng-container *ngIf="page.type === 'static';else dynView ">
-          <ng-container staticPageView [compId]="page.id" [isApplication]="isApplication" [product]="item" [resourcesId]="resourceDetail.id">
+          <ng-container staticPageView [compId]="page.id" [isApplication]="isApplication" [product]="item"
+            [resourcesId]="resourceDetail.id">
           </ng-container>
         </ng-container>
         <ng-template #dynView>
@@ -164,9 +172,11 @@
                             <ng-container *ngFor="let control of getFormatTable(page.controls)">
                               <!-- <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
                                 {{getOtherData(control.cols,result) }}</td> -->
-                              <td  [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}" *ngIf="control.type != 'file'">{{ getOtherData(control.cols,result) }}</td>
+                              <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}"
+                                *ngIf="control.type != 'file'">{{ getOtherData(control.cols,result) }}</td>
                               <td *ngIf="control.type == 'file'" style="text-align: left;"> <a href="javascript:;"
-                                  (click)="download(control.cols,result)">{{ getOtherData(control.cols,result) }}</a> </td>
+                                  (click)="download(control.cols,result)">{{ getOtherData(control.cols,result) }}</a>
+                              </td>
                             </ng-container>
                           </tr>
                         </ng-container>

@@ -78,6 +78,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.location.back()
     } else {
       this.item = this.productService.createingProd
+      console.log("ITEM",this.item);
+      
       this.type = this.productService.previewType
       this.resourceDetail = this.productService.editData
       this.isApplication=this.productService.isApplication
@@ -530,6 +532,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       return valueData.text
     }
     return value
+  }
+  viewCheckListPrint(){
+    
   }
 
   viewPrint() {

@@ -445,6 +445,7 @@ export const locale = {
       total_unit: "ယူနစ် အားလုံး",
       traveler_name: "ခရီးသွားအမည်",
       print: "Print ထုတ်ရန်",
+      check_list_print:"Check List ထုတ်ရန်",
       application_status: "လျှောက်လွှာ အခြေအနေ",
       tcs_status: "TCS Core System ၏ လုပ်ဆောင်မှု အခြေအနေ",
       go_back: "ပြန်သွားသည်",
