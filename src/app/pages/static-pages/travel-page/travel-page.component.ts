@@ -325,7 +325,9 @@ export class TravelComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.listData.length > 0) {
+    console.log("this.tempData['traveler']",this.tempData['traveler']);
+
+    if (this.listData.length > 0 && this.tempData['traveler'] != undefined) {
       this.globalFun.tempFormData[TRAVELID] = this.listData
       this.savePremimunFire().toPromise().then(res => {
         this.actionEvent.emit({ type: StaticActionType.NEXT })
