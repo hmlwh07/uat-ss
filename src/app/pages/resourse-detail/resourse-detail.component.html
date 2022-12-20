@@ -35,7 +35,7 @@
           <!-- type == 'policy'  && -->
           <div style="margin-left: auto;">
             <button class="btn btn-outline-primary"
-              *ngIf=" statusCode != '07' && (item.code=='PLMO01'||item.code=='PLMO02')"
+              *ngIf=" statusCode != '07' && (item.code=='PLMO01'||item.code=='PLMO02') && isApplication"
               (click)="viewCheckListPrint()">
               <i class="flaticon2-print"></i> {{"FORM.check_list_print" | translate}}
             </button>

@@ -47,6 +47,7 @@ export class MotorCheckListPage implements OnInit {
     unit: false,
     premium: false,
   }
+  pageTitle:string=''
   coverageData: any = {}
   addOnData: any = {}
   @Input() resourceDetail: any = {}
@@ -715,6 +716,7 @@ export class MotorCheckListPage implements OnInit {
     // Agent Information Details
     for (var i = 0; i < this.pageOrder.length; i++) {
       var page = this.pageOrder[i]
+     this.pageTitle=page.pageTitle
       for (var d = 0; d < page.controls.length; d++) {
         var data = page.controls[d]
 
@@ -742,7 +744,7 @@ export class MotorCheckListPage implements OnInit {
     doc.addImage(img, 'PNG', 200, height, 180, 80);
 
     // Agent Information Details
-    let title = 'Document Check List'
+    let title =this.pageTitle
     doc.setFontSize(12).setFont('helvetica', 'bold', 'bold');
     doc.text(title, width / 2, height + 100, { align: 'center' });
     doc.autoTable({
@@ -812,13 +814,13 @@ export class MotorCheckListPage implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       let blobFile = doc.output('blob')
-      this.attachmentDownloadService.mobileDownload('Document Check List' + '.pdf', blobFile);
+      this.attachmentDownloadService.mobileDownload( this.pageTitle + '.pdf', blobFile);
     }
     else {
       console.log("Web")
       console.log("HERE1==>");
       // Download PDF document  
-      doc.save('Document Check List' + '.pdf');
+      doc.save( this.pageTitle + '.pdf');
     }
   }
 }
