@@ -165,7 +165,7 @@
                               <!-- <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
                                 {{getOtherData(control.cols,result) }}</td> -->
                               <td  [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}" *ngIf="control.type != 'file'">{{ getOtherData(control.cols,result) }}</td>
-                              <td *ngIf="control.type == 'file'"> <a href="javascript:;"
+                              <td *ngIf="control.type == 'file'" style="text-align: left;"> <a href="javascript:;"
                                   (click)="download(control.cols,result)">{{ getOtherData(control.cols,result) }}</a> </td>
                             </ng-container>
                           </tr>
