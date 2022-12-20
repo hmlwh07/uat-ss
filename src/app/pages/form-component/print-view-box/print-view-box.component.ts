@@ -30,13 +30,17 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() resourcesId: string = ""
   @Input() isPrint: any
   @Input() agentId: any
-  @Input() isApplication:boolean
+  @Input() isApplication: boolean
+  @Input() creatingProd: any
+  @Input() resourceDetail: any
+  @Input() branch: any
+  @Input() premiumView: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
 
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
-  branch: string = ""
+  // branch: string = ""
   today = new Date()
   agentName = ""
   agentData: any = {}
@@ -50,9 +54,8 @@ export class PrintViewBoxComponent implements OnInit {
 
   //wait for the component to render completely
   async ngOnInit() {
-    // console.log(this.product);
     if (this.resourcesId)
-      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
+      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.creatingProd.id
     await this.loadingService.activate()
     if (this.config) {
 
@@ -105,27 +108,27 @@ export class PrintViewBoxComponent implements OnInit {
         }
 
       }
-      if (this.productService.editData) {
-        this.premimunAmt = this.productService.editData.premiumView
-        this.branch = this.productService.editData.branch
+      if (this.creatingProd) {
+        this.premimunAmt = this.premiumView
+        // this.branch = this.branch
         this.getAgentData()
         if (this.product.code == 'PCHL01') {
           this.getDetail()
         }
-        // this.today = this.productService.editData.createdAt
-        this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
+        // this.today = this.creatingProd.createdAt
+        this.agentName = this.creatingProd.agentFirstName + this.creatingProd.agentLastName
       }
       this.formatedData = true
     }
-    if (this.productService.editData) {
-      this.branch = this.productService.editData.branch
-      this.premimunAmt = this.productService.editData.premiumView
+    if (this.creatingProd) {
+      // this.branch = this.creatingProd.branch
+      this.premimunAmt = this.premiumView
       this.getAgentData()
       if (this.product.code == 'PCHL01') {
         this.getDetail()
       }
-      // this.today = this.productService.editData.createdAt
-      this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
+      // this.today = this.creatingProd.createdAt
+      this.agentName = this.creatingProd.agentFirstName + this.creatingProd.agentLastName
     }
     this.formatedData = true
     await this.loadingService.deactivate()

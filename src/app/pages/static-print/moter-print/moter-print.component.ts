@@ -27,6 +27,8 @@ export class MoterPrintComponent implements OnInit {
   @Input() branch?: string
   @Input() premiumAmt?: any
   @Input() isPrint: any
+  @Input() creatingProd:any
+  @Input() resourceDetail:any
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
@@ -85,6 +87,7 @@ export class MoterPrintComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
       PRINT.IS_MOBILE = true
@@ -92,11 +95,11 @@ export class MoterPrintComponent implements OnInit {
       PRINT.IS_MOBILE = false
     }
     this.isMobile = PRINT.IS_MOBILE
-    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signId = this.resourceDetail ? this.resourceDetail.attachmentId : ""
     if (this.signId) {
       this.fileId = this.encryption.encryptData(this.signId)
     }
-    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
+    this.signatureDate = this.resourceDetail ? this.resourceDetail.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
     this.getAddonCover()
@@ -201,7 +204,7 @@ export class MoterPrintComponent implements OnInit {
   }
 
   async getAddonCover() {
-    this.product = this.productService.createingProd || this.productService.selectedProd
+    this.product = this.creatingProd
     // console.log(this.product, this.listData);
     let obj = {
       description: 'MOTOR',
@@ -235,7 +238,7 @@ export class MoterPrintComponent implements OnInit {
     // console.log("ADDONDATA", this.addOnData);
   }
   async getCoverage() {
-    this.product = this.productService.createingProd || this.productService.selectedProd
+    this.product = this.creatingProd
     // console.log(this.product, this.listData);
 
     let obj = {

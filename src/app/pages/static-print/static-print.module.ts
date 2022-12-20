@@ -34,6 +34,7 @@ import { PersonalAccidentPrintMobileComponent } from './personal-accident-print-
 import { TravelPrintQuoComponent } from './travel-print-quo/travel-print-quo.component';
 import { PersonalAccidentPrintQuoComponent } from './personal-accident-print-quo/personal-accident-print-quo.component';
 import { HealthCiPrintQuoComponent } from './health-ci-print-quo/health-ci-print-quo.component';
+import { MotorCheckListPage } from './motor-check-list/motor-check-list.page';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { HealthCiPrintQuoComponent } from './health-ci-print-quo/health-ci-print
     PersonalAccidentPrintQuoComponent,
     HealthCiPrintQuoComponent,
     TravelPrintQuoComponent,
-    PersonalAccidentPrintMobileComponent
+    PersonalAccidentPrintMobileComponent,
+    MotorCheckListPage
   ],
   exports: [
     StaticPrintDirective,
@@ -94,7 +96,8 @@ import { HealthCiPrintQuoComponent } from './health-ci-print-quo/health-ci-print
     HealthCiPrintMobileComponent,
     FirePrintMobileComponent,
     TravelPrintMobileComponent,
-    PersonalAccidentPrintMobileComponent
+    PersonalAccidentPrintMobileComponent,
+    MotorCheckListPage
   ],
   imports: [
     CommonModule,

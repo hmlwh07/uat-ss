@@ -1,31 +1,31 @@
 import { DatePipe, DecimalPipe, Location } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, map, catchError, of } from 'rxjs';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import jsPDF from 'jspdf';
+import { catchError, forkJoin, map, of } from 'rxjs';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
-import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
-import { checkVaidDep } from '../check-parent';
-import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../form-component/field.interface';
-import { LeadDetailService } from '../lead-detail/lead-detail.service';
-import { PolicyService } from '../policy/policy.service';
-import { PageDataService } from '../product-form/page-data.service';
-import { PrintConfig } from '../products/models/print-config.interface';
-import { PageUIType, ProductPages } from '../products/models/product.dto';
-import { PrintPreviewModalMobileComponent } from '../products/print-preview-modal-mobile/print-preview-modal-mobile.component';
-import { PrintPreviewModalComponent } from '../products/print-preview-modal/print-preview-modal.component';
-import { ProductDataService } from '../products/services/products-data.service';
-import { MotorCheckListPage } from '../static-print/motor-check-list/motor-check-list.page';
-import { SignaturePadComponent } from './signature-pad/signature-pad.component';
+import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { environment } from 'src/environments/environment';
+import { checkVaidDep } from '../../check-parent';
+import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../../form-component/field.interface';
+import { LeadDetailService } from '../../lead-detail/lead-detail.service';
+import { PolicyService } from '../../policy/policy.service';
+import { PageDataService } from '../../product-form/page-data.service';
+import { PrintConfig } from '../../products/models/print-config.interface';
+import { PageUIType, ProductPages } from '../../products/models/product.dto';
+import { PrintPreviewModalComponent } from '../../products/print-preview-modal/print-preview-modal.component';
+import { ProductDataService } from '../../products/services/products-data.service';
+import { SignaturePadComponent } from '../../resourse-detail/signature-pad/signature-pad.component';
 
 @Component({
-  selector: 'app-resourse-detail',
-  templateUrl: './resourse-detail.component.html',
-  styleUrls: ['./resourse-detail.component.scss']
+  selector: 'app-motor-check-list',
+  templateUrl: './motor-check-list.page.html',
+  styleUrls: ['./motor-check-list.page.scss'],
 })
-export class ResourseDetailComponent implements OnInit, OnDestroy {
+export class MotorCheckListPage implements OnInit {
   premiumAmt: string
   submittedCode: string;
   policyNumber: string;
@@ -36,6 +36,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   Object = Object;
   Array = Array;
   pageOrder: any[]
+  logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   coverage = {
     sumInsured: false,
     unit: false,
@@ -48,7 +49,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
   coverageData: any = {}
   addOnData: any = {}
-  resourceDetail: any = {}
+  @Input() resourceDetail: any = {}
+  @Input() createingProd: any
+  @Input() previewType: any
   detailInput: any = {}
   private formatedData = {}
   printConfig: PrintConfig = {}
@@ -71,142 +74,144 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private masterDataService: MasterDataService,
     private leadDetailService: LeadDetailService,
+    public modal: NgbActiveModal,
+    private attachmentDownloadService:AttachmentDownloadService,
+    private platform: Platform
   ) { }
 
   async ngOnInit() {
 
-    if (!this.productService.createingProd || !this.productService.createingProd.id) {
+    // if (!this.productService.createingProd || !this.productService.createingProd.id) {
+    //   this.location.back()
+    // } else {
+    this.item = this.createingProd
+    console.log("ITEM", this.item);
+
+    this.type = this.previewType
+    this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
+    console.log("RESOURCE", this.resourceDetail)
+
+    this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
+      if (res) {
+        this.statusCode = res;
+      }
+    })
+
+    if (!this.resourceDetail) {
       this.location.back()
-    } else {
-      this.item = this.productService.createingProd || this.productService.selectedProd
-      console.log("ITEM", this.item);
-
-      this.type = this.productService.previewType
-      this.resourceDetail = this.productService.editData
-      this.isApplication = this.productService.isApplication
-      this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
-      this.signFileId = this.resourceDetail.attachmentId
-      this.branch = this.resourceDetail.branchCode
-      console.log("RESOURCE", this.resourceDetail)
-
-      this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
-        if (res) {
-          this.statusCode = res;
-        }
-      })
-
-      if (!this.resourceDetail) {
-        this.location.back()
-        return
-      }
-      let pageUI: ProductPages = JSON.parse(this.item.config);
-
-      if (this.productService.previewType == 'quotation') {
-        this.pageOrder = pageUI.quotation || []
-        this.detailInput = pageUI.quotation_input || {}
-      } else {
-        this.pageOrder = pageUI.application || []
-        this.detailInput = pageUI.application_input || {}
-      }
-      let dumType = this.type == 'policy' ? 'application' : this.type
-      let tempFormData = this.item.productUIs.map(x => {
-        if (x.type == dumType)
-          return JSON.parse(x.dynamicProduct.config)
-      })
-      // if (this.productService.resultData) {
-      //   this.resultObj = this.productService.resultData
-      //   this.rechangePageData(tempFormData)
-      // } else {
-      this.printConfig = JSON.parse(this.item.pdfConfig)
-      this.item = this.productService.createingProd
-      this.getDetail(tempFormData)
-      // }
-      let checkTravel = this.pageOrder.findIndex(x => x.id == 'static_1648784270356')
-      // console.log(checkTravel);
-
-      if (checkTravel >= 0) {
-        let checkProd = this.pageOrder.findIndex(x => x.tableName == "travel_detail")
-        if (checkProd >= 0) {
-          this.pageOrder.splice(checkProd, 1)
-        }
-        let checkTraveler = this.pageOrder.findIndex(x => x.tableName == "traveler_detail")
-        if (checkTraveler >= 0) {
-          this.pageOrder.splice(checkTraveler, 1)
-        }
-        let checkBeneficiary = this.pageOrder.findIndex(x => x.tableName == "trave_beneficiary")
-        if (checkBeneficiary >= 0) {
-          this.pageOrder.splice(checkBeneficiary, 1)
-        }
-        let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
-        if (checkCoverage >= 0) {
-          this.pageOrder.splice(checkCoverage, 1)
-        }
-      }
-      // console.log(this.pageOrder);
-
-      // if (this.item.coverages && this.item.coverages.length > 0) {
-      //   this.coverage = {
-      //     sumInsured: this.item.coverages[0].sumInsured,
-      //     unit: this.item.coverages[0].unit,
-      //     premium: this.item.coverages[0].premium,
-      //   }
-
-      //   for (const item of this.item.coverages) {
-      //     let response: any = {};
-      //     try {
-      //       if (this.resourceDetail) {
-      //         response = await this.coverageQuo.getOne(item.id, this.resourceDetail.id).toPromise()
-      //       }
-      //     } catch (error) {
-
-      //     }
-      //     this.coverageData[item.id] = {
-      //       sum: response ? response.sumInsured || 0 : 0,
-      //       unit: response ? response.unit || 0 : 0,
-      //       premium: response ? response.premium || 0 : 0
-      //     }
-
-      //   }
-
-      // }
-      // if (this.item.addOns && this.item.addOns.length > 0) {
-      //   this.addon = {
-      //     sumInsured: this.item.addOns[0].sumInsured,
-      //     unit: this.item.addOns[0].unit,
-      //     premium: this.item.addOns[0].premium,
-      //   }
-      //   for (const item of this.item.addOns) {
-      //     let response: any = {};
-      //     try {
-      //       if (this.resourceDetail) {
-      //         response = await this.addonQuo.getOne(item.id, this.resourceDetail.id).toPromise()
-      //       }
-      //     } catch (error) {
-
-      //     }
-      //     this.addOnData[item.id] = {
-      //       sum: response ? response.sumInsured || 0 : 0,
-      //       unit: response ? response.unit || 0 : 0,
-      //       premium: response ? response.premium || 0 : 0
-      //     }
-      //   }
-      // }
-      forkJoin([
-        this.getBranch()
-      ]).toPromise().then((res: any) => {
-        if (res) {
-          this.branchOption = res[0]
-          this.cdf.detectChanges()
-          if (this.branch) {
-            this.selectedBranchCode = this.branch
-            let branch = this.branchOption.find((p) => p.code == this.branch)
-            // console.log(branch);
-
-            this.productService.editData.branch = branch.value
-          }
-        }
-      })
+      return
     }
+    let pageUI: ProductPages = JSON.parse(this.item.config);
+    console.log("ITEM.config", pageUI.application);
+    let checkList = pageUI.application.find(x => x.pageTitle == 'Motor Check List')
+    console.log("CHECKLIST", checkList);
+
+    if (this.productService.previewType == 'quotation') {
+      this.pageOrder = pageUI.quotation || []
+      this.detailInput = pageUI.quotation_input || {}
+    } else {
+      this.pageOrder = [checkList] || []
+      this.detailInput = pageUI.application_input || {}
+    }
+    let dumType = this.type == 'policy' ? 'application' : this.type
+    let tempFormData = this.item.productUIs.map(x => {
+      if (x.type == dumType)
+        return JSON.parse(x.dynamicProduct.config)
+    })
+    // if (this.productService.resultData) {
+    //   this.resultObj = this.productService.resultData
+    //   this.rechangePageData(tempFormData)
+    // } else {
+    this.printConfig = JSON.parse(this.item.pdfConfig)
+    this.item = this.productService.createingProd
+    this.getDetail(tempFormData)
+    // }
+    let checkTravel = this.pageOrder.findIndex(x => x.id == 'static_1648784270356')
+    // console.log(checkTravel);
+
+    if (checkTravel >= 0) {
+      let checkProd = this.pageOrder.findIndex(x => x.tableName == "travel_detail")
+      if (checkProd >= 0) {
+        this.pageOrder.splice(checkProd, 1)
+      }
+      let checkTraveler = this.pageOrder.findIndex(x => x.tableName == "traveler_detail")
+      if (checkTraveler >= 0) {
+        this.pageOrder.splice(checkTraveler, 1)
+      }
+      let checkBeneficiary = this.pageOrder.findIndex(x => x.tableName == "trave_beneficiary")
+      if (checkBeneficiary >= 0) {
+        this.pageOrder.splice(checkBeneficiary, 1)
+      }
+      let checkCoverage = this.pageOrder.findIndex(x => x.id == 'coverage_1634010995936')
+      if (checkCoverage >= 0) {
+        this.pageOrder.splice(checkCoverage, 1)
+      }
+    }
+    // console.log(this.pageOrder);
+
+    // if (this.item.coverages && this.item.coverages.length > 0) {
+    //   this.coverage = {
+    //     sumInsured: this.item.coverages[0].sumInsured,
+    //     unit: this.item.coverages[0].unit,
+    //     premium: this.item.coverages[0].premium,
+    //   }
+
+    //   for (const item of this.item.coverages) {
+    //     let response: any = {};
+    //     try {
+    //       if (this.resourceDetail) {
+    //         response = await this.coverageQuo.getOne(item.id, this.resourceDetail.id).toPromise()
+    //       }
+    //     } catch (error) {
+
+    //     }
+    //     this.coverageData[item.id] = {
+    //       sum: response ? response.sumInsured || 0 : 0,
+    //       unit: response ? response.unit || 0 : 0,
+    //       premium: response ? response.premium || 0 : 0
+    //     }
+
+    //   }
+
+    // }
+    // if (this.item.addOns && this.item.addOns.length > 0) {
+    //   this.addon = {
+    //     sumInsured: this.item.addOns[0].sumInsured,
+    //     unit: this.item.addOns[0].unit,
+    //     premium: this.item.addOns[0].premium,
+    //   }
+    //   for (const item of this.item.addOns) {
+    //     let response: any = {};
+    //     try {
+    //       if (this.resourceDetail) {
+    //         response = await this.addonQuo.getOne(item.id, this.resourceDetail.id).toPromise()
+    //       }
+    //     } catch (error) {
+
+    //     }
+    //     this.addOnData[item.id] = {
+    //       sum: response ? response.sumInsured || 0 : 0,
+    //       unit: response ? response.unit || 0 : 0,
+    //       premium: response ? response.premium || 0 : 0
+    //     }
+    //   }
+    // }
+    forkJoin([
+      this.getBranch()
+    ]).toPromise().then((res: any) => {
+      if (res) {
+        this.branchOption = res[0]
+        this.cdf.detectChanges()
+        if (this.branch) {
+          this.selectedBranchCode = this.branch
+          let branch = this.branchOption.find((p) => p.code == this.branch)
+          // console.log(branch);
+
+          this.productService.editData.branch = branch.value
+        }
+      }
+    })
+    // }
   }
 
   ngOnDestroy() {
@@ -272,6 +277,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             };
             this.resultObj[page.tableName + page.id] = temp
             this.formatedData = JSON.parse(JSON.stringify(this.resultObj))
+            console.log("PAGEORDER", this.pageOrder);
+
+            console.log("this.resultObj[page.tableName + page.id]", this.resultObj[page.tableName + page.id]);
+            console.log("TEMP=>", temp);
 
             if (lengthData == index) {
               this.cdf.detectChanges()
@@ -540,27 +549,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.product = this.item
     modalRef.componentInstance.tempData = this.formatedData
     modalRef.componentInstance.resourcesId = this.resourceDetail.id
-    modalRef.componentInstance.resourceDetail = this.resourceDetail
-    modalRef.componentInstance.previewType = this.type
-    modalRef.componentInstance.createingProd = this.item
-    modalRef.componentInstance.isCheckList = true
     modalRef.componentInstance.agentId = this.resourceDetail.agentId
     modalRef.result.then(() => { }, (res) => {
     })
-    // const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false }); modalRef.componentInstance.configData = this.printConfig.printFormat
-    // modalRef.componentInstance.configOrder = this.printConfig.prinitUI
-    // modalRef.componentInstance.product = this.item
-    // modalRef.componentInstance.tempData = this.formatedData
-    // modalRef.componentInstance.resourcesId = this.resourceDetail.id
-    // modalRef.componentInstance.agentId = this.resourceDetail.agentId
-    // //FOR_QUOTATION
-    // modalRef.componentInstance.isApplication = this.isApplication
-    // //FOR_AUTO_ATTACHMENT
-    // modalRef.componentInstance.isPrint = true
-    // //FOR_MOTOR_CHECK_LIST
-    // modalRef.componentInstance.isCheckList = true
-    // modalRef.result.then(() => { }, (res) => {
-    // })
   }
 
   viewPrint() {
@@ -583,15 +574,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.tempData = this.formatedData
       modalRef.componentInstance.resourcesId = this.resourceDetail.id
       modalRef.componentInstance.agentId = this.resourceDetail.agentId
-      modalRef.componentInstance.premiumView = this.resourceDetail.premiumView
-      modalRef.componentInstance.branch = this.branch
-      modalRef.componentInstance.creatingProd = this.item
       //FOR_QUOTATION
       modalRef.componentInstance.isApplication = this.isApplication
       //FOR_AUTO_ATTACHMENT
       modalRef.componentInstance.isPrint = true
-      //FOR_MOTOR_CHECK_LIST
-      modalRef.componentInstance.isCheckList = false
       modalRef.result.then(() => { }, (res) => {
       })
     }
@@ -706,5 +692,133 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     //   this.selectedBranchCode = null
     // }
 
+  }
+  printPDf() {
+
+    window.scrollTo(0, 0)
+    setTimeout(() => {
+      window.print();
+      // this.downloadFile();
+      // this.downloadAsPDF()
+      // this.downloadAsPDFWithCanvas()
+    }, 1000)
+    // const printContent = document.getElementById("componentID").cloneNode(true);;
+    // const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    // WindowPrt.document.body.append(printContent);
+    // WindowPrt.document.close();
+    // WindowPrt.focus();
+    // WindowPrt.print();
+    // WindowPrt.close();
+  }
+  createPdf() {
+    let travelInfoDetailList = [];
+    // Agent Information Details
+    for (var i = 0; i < this.pageOrder.length; i++) {
+      var page = this.pageOrder[i]
+      for (var d = 0; d < page.controls.length; d++) {
+        var data = page.controls[d]
+
+        if (data.input == 'label') {
+          let agentInfoDetailData = [
+            { content: data.name, styles: { halign: 'left', valign: 'middle' } },
+          ]
+          travelInfoDetailList.push(agentInfoDetailData)
+        }
+
+      }
+
+    }
+
+    console.log("travelInfoDetailList", travelInfoDetailList);
+    // Start creating jsPDF
+    var doc: any = new jsPDF('p', 'pt', 'a4');
+    let pageSize = doc.internal.pageSize;
+    let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+    let width = pageSize.width ? pageSize.width : pageSize.getWidth();
+    let height = 0;
+
+    var img = new Image()
+    img.src = './assets/images/header-kbzms.png'
+    doc.addImage(img, 'PNG', 200, height, 180, 80);
+
+    // Agent Information Details
+    let title = 'Document Check List'
+    doc.setFontSize(12).setFont('helvetica', 'bold', 'bold');
+    doc.text(title, width / 2, height + 100, { align: 'center' });
+    doc.autoTable({
+      body: travelInfoDetailList,
+      theme: 'grid',
+      startY: height + 110,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 8,
+        font: 'helvetica',
+        cellPadding: 5,
+        minCellHeight: 5,
+        lineColor: '#fff',
+        cellWidth: 'auto',
+      },
+      columnStyles: {
+        0: {
+          fontSize: 8,
+          fontStyle: 'bold'
+        },
+        2: {
+          fontSize: 8,
+          fontStyle: 'bold'
+        },
+      }
+    });
+    height = doc.lastAutoTable.finalY;
+
+    // Declaration By Proposer
+    // doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
+    // doc.text("Declaration By Proposer", 10, height + 20);
+    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    // doc.text("I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge and belief and I hereby agree that this declaration shall from the basic of the contract between me and KBZMS General Insurance Co., Ltd. in the event of the Proposal being accepted.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
+
+    // // Proposer's name and signature
+    // doc.setFontSize(8).setFont('helvetica', 'normal', 'bold');
+    // doc.text("PROPOSER'S NAME AND SIGNATURE", width - 180, height + 70);
+    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    // doc.text("Date", 10, height + 80);
+    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    // doc.text(this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 180, height + 80);
+    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    // doc.text("-----------------------------", 10, height + 150);
+    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    // doc.text("-----------------------------", width - 180, height + 150);
+    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    // doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 130);
+    // if (this.fileId) {
+    //   var img = new Image()
+    //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+    //   doc.addImage(img, 'PNG', width - 180, height + 90, 70, 50);
+    // }
+
+    // Add Footer Image
+    var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
+    for (let i = 0; i < pageCount; i++) {
+      doc.setPage(i);
+      var img = new Image()
+      img.src = './assets/images/footer-kbzms.png'
+      doc.addImage(img, 'PNG', 10, pageHeight - 70, width - 20, 60);
+
+      var img1 = new Image()
+      img1.src = './assets/images/watermark-kbzms.png'
+      doc.addImage(img1, 'PNG', 100, 200, width - 200, pageHeight - 300);
+    }
+
+    if (this.platform.is('android') || this.platform.is('ios')) {
+      let blobFile = doc.output('blob')
+      this.attachmentDownloadService.mobileDownload('Document Check List' + '.pdf', blobFile);
+    }
+    else {
+      console.log("Web")
+      console.log("HERE1==>");
+      // Download PDF document  
+      doc.save('Document Check List' + '.pdf');
+    }
   }
 }

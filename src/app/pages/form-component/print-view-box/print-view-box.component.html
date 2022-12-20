@@ -186,8 +186,8 @@
           <app-fire-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-fire-print>
         </ng-container>
-        <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
-          <app-moter-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+        <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01'">
+          <app-moter-print [isPrint]="isPrint" [resourceDetail]="resourceDetail" [creatingProd]="creatingProd" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-moter-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PLTR01' ">
