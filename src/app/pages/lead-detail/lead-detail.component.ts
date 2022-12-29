@@ -852,7 +852,7 @@ export class LeadDetailComponent implements OnInit {
       phoneNo: this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
       email: this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
       identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : null,
-      identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
+      identityNumber: this.leadForm.getRawValue().identityType != 'NRC' ? this.leadForm.getRawValue().identityNumber : this.leadForm.getRawValue().identityNRC,
     }
     // console.log("checkExisting: ", postData)
     if (type == "customer") {
