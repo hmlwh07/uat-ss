@@ -69,7 +69,8 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     let policyResourceRequest = {
       resourceId: resId,
       branchCode: branchCode,
-      base64Proposal: base64Proposal
+      base64Proposal: base64Proposal,
+      sourceOfBusiness: 'TEST1'
     }
     console.log("base64Proposal==>request", policyResourceRequest);
     // return base64Proposal
@@ -83,7 +84,15 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
         branchCode: branchCode
       })
   }
+  submitSourceOfBusiness(resId: string, sourceOfBusinessCode: string) {
+    return this.httpClient.put(API_QUOTATION__ATT_URL + "/sourceOfBusiness",
+      {
+        resourceId: resId,
+        sourceOfBusinessCode: sourceOfBusinessCode
+      })
+  }
 }
+
 
 
 @Injectable({

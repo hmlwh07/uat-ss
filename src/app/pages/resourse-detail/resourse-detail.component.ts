@@ -53,7 +53,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   printConfig: PrintConfig = {}
   signFileId: any = null;
   branchOption = [];
+  sourceOfBusiness: string;
+  sourceOfBusinessOption = []
   selectedBranchCode: string = null;
+  selectedSourceOfBusiness:string=null
   statusCode
 
   constructor(
@@ -188,10 +191,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //   }
       // }
       forkJoin([
-        this.getBranch()
+        this.getBranch(),
+        this.getSourceOfBusiness()
       ]).toPromise().then((res: any) => {
         if (res) {
           this.branchOption = res[0]
+          this.sourceOfBusinessOption = res[1]
           this.cdf.detectChanges()
           if (this.branch) {
             this.selectedBranchCode = this.branch
@@ -199,6 +204,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             // console.log(branch);
 
             this.productService.editData.branch = branch.value
+          }
+          if (this.sourceOfBusiness) {
+            this.selectedSourceOfBusiness = this.sourceOfBusiness
+            let sob = this.sourceOfBusinessOption.find((p) => p.code == this.branch)
+            // console.log(sob);
+
+            this.productService.editData.branch = sob.value
           }
         }
       })
@@ -494,6 +506,21 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.selectedBranchCode = null
     }
   }
+  saveSourceOfBusiness() {
+    if (this.sourceOfBusiness) {
+      this.selectedSourceOfBusiness = this.sourceOfBusiness
+      let sourceOfBusiness = this.sourceOfBusinessOption.find((p) => p.code == this.sourceOfBusiness);
+      this.policyService.submitSourceOfBusiness(this.resourceDetail.id, this.selectedBranchCode).toPromise().then(res => {
+        if (res) {
+          this.alertService.activate("This record was created", "Success Message")
+          this.productService.editData.sourceOfBusiness = sourceOfBusiness.value
+          this.productService.editData.sourceOfBusinessCode = this.selectedBranchCode
+        }
+      })
+    } else {
+      this.selectedSourceOfBusiness = null
+    }
+  }
 
   goToList() {
     // if (this.type == 'quotation') {
@@ -647,6 +674,11 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
 
   getBranch() {
     return this.masterDataService.getDataByType("CORE_BRANCH").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+      return of([])
+    }))
+  }
+  getSourceOfBusiness() {
+    return this.masterDataService.getDataByType("SOURCE_OF_BUSINESS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
   }
