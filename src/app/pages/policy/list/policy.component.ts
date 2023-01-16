@@ -178,6 +178,12 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.totalElements = res.totalElements
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
+        for (var i = 0; i < this.quoList.length; i++) {
+          if (this.quoList[i].icon) {
+            this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
+            this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
+          }
+        }
         this.cdf.detectChanges();
         this.commonList.detechStartEnd();
       }
