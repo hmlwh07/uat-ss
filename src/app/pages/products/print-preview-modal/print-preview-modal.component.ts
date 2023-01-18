@@ -30,6 +30,7 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() resourcesId: string = ""
   @Input() agentId: any
   @Input() isPrint: any
+  @Input() emailInfo:any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
   content: string;

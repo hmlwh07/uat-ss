@@ -31,6 +31,7 @@ export class TravelPrintComponent implements OnInit {
   @Input() agentData?: any
   @Input() branch?: string
   @Input() isPrint: any
+  @Input() emailInfo:any
   product: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;

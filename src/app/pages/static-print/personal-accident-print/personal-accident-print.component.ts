@@ -27,6 +27,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
   @Input() agentData?: any
   @Input() branch?: string
   @Input() isPrint: any
+  @Input() emailInfo:any
   base64Proposal:any
   product: any
   sumInsuredAmt: any

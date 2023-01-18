@@ -16,5 +16,6 @@ export interface ListItemAction {
 export enum ListActionType {
   EDIT = 'edit',
   DELETE = 'delete',
-  VIEW = 'view'
+  VIEW = 'view',
+  RESEND='resend'
 }

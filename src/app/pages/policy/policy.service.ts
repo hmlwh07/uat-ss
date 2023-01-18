@@ -7,7 +7,7 @@ import { PolicyDTO } from "./policy.dto";
 
 const API_QUOTATION_URL = `${environment.apiUrl}/policy/page`
 const API_QUOTATION__ATT_URL = `${environment.apiUrl}/policy`
-
+const API_EMAIL_URL = `${environment.apiUrl}/email`
 @Injectable({
   providedIn: 'root'
 })
@@ -75,6 +75,15 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     console.log("base64Proposal==>request", policyResourceRequest);
     // return base64Proposal
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId, policyResourceRequest)
+  }
+  getEmailInfo(productCode: string, branchCode: string) {
+    return this.httpClient.get(API_EMAIL_URL + "?productCode=" + productCode + "&branchCode=" + branchCode)
+  }
+  resendEmail(quotationNo){
+    let reqObj={
+      quotationNo:quotationNo
+    }
+    return this.httpClient.post(API_QUOTATION__ATT_URL+'/resend-mail',reqObj)
   }
 
   submitBranch(resId: string, branchCode: string) {

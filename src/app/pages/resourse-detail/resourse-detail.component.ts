@@ -56,9 +56,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   sourceOfBusiness: string;
   sourceOfBusinessOption = []
   selectedBranchCode: string = null;
-  selectedSourceOfBusiness:string=null
+  selectedSourceOfBusiness: string = null
   statusCode
-
+  emailInfo: any
   constructor(
     private productService: ProductDataService,
     private location: Location,
@@ -614,6 +614,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     } else if (this.signFileId == null) {
       this.alertService.activate("Please add Signature first", 'Warning Message')
     } else {
+      this.policyService.getEmailInfo(this.branch, this.item.code).toPromise().then((res) => {
+        console.log(res);
+        if (res) {
+          this.emailInfo = res
+        }
+      })
       const modalRef = this.modalService.open(PrintPreviewModalComponent, {
         size:
           'xl2', backdrop: false
@@ -623,6 +629,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.tempData = this.formatedData
       modalRef.componentInstance.resourcesId = this.resourceDetail.id
       modalRef.componentInstance.agentId = this.resourceDetail.agentId
+      modalRef.componentInstance.emailInfo = this.emailInfo
       //FOR_AUTO_ATTACHMENT
       modalRef.componentInstance.isPrint = false
       modalRef.result.then(() => { }, (res) => {

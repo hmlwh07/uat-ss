@@ -29,6 +29,7 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
   @Input() isPrint: any
+  @Input() emailInfo:any
   @Input() agentId: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;

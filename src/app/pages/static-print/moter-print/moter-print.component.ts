@@ -27,6 +27,7 @@ export class MoterPrintComponent implements OnInit {
   @Input() branch?: string
   @Input() premiumAmt?: any
   @Input() isPrint: any
+  @Input() emailInfo:any
   base64Proposal:any
   listData: any[] = []
   motorDetail: any = {}

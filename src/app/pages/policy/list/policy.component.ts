@@ -238,6 +238,14 @@ export class PolicyComponent implements OnInit, OnDestroy {
     } else if (event.cmd == 'edit') {
       this.editLayout(event.data)
     }
+    else if(event.cmd=='resend'){
+      this.policyService.resendEmail(event.data.submittedCode).toPromise().then((res)=>{
+        console.log(res);
+        if(res){
+          this.getPolicyList()
+        }
+      })
+    }
   }
 
   goViewDetail(item) {

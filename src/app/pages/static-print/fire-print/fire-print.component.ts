@@ -28,6 +28,7 @@ export class FirePrintComponent implements OnInit {
   @Input() agentData?: any
   @Input() branch?: string
   @Input() isPrint: any
+  @Input() emailInfo:any
   base64Proposal:any
   listData: any[] = []
   detail: any = {}
