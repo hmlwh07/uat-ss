@@ -101,6 +101,8 @@ export class MoterPrintComponent implements OnInit {
     this.getDetail()
     this.getAddonCover()
     this.getCoverage()
+    console.log("EMAIL_TEST",this.emailInfo);
+    
   }
 
   getPolicyHolder() {

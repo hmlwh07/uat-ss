@@ -57,7 +57,9 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     this.isMobile = PRINT.IS_MOBILE
     if (this.resourcesId)
       this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
-
+    
+      console.log("EMAIL_TEST",this.emailInfo);
+      
   }
 
   ngOnDestroy() { }
