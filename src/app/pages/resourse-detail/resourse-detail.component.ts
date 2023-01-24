@@ -609,8 +609,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   // }
 
   submitPolicyWithProposal() {
+    
     if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
+    } 
+    else if (!this.selectedSourceOfBusiness) {
+      this.alertService.activate("Please select Source of Business and Save first.", 'Warning Message')
     } else if (this.signFileId == null) {
       this.alertService.activate("Please add Signature first", 'Warning Message')
     } else {

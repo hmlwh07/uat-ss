@@ -29,7 +29,7 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
   @Input() isPrint: any
-  @Input() emailInfo:any
+  @Input() emailInfo: any
   @Input() agentId: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
@@ -37,6 +37,7 @@ export class PrintViewBoxComponent implements OnInit {
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
   branch: string = ""
+  sourceOfBusiness: string = ''
   today = new Date()
   agentName = ""
   agentData: any = {}
@@ -108,6 +109,7 @@ export class PrintViewBoxComponent implements OnInit {
       if (this.productService.editData) {
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
+        this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
         this.getAgentData()
         if (this.product.code == 'PCHL01') {
           this.getDetail()
@@ -119,6 +121,7 @@ export class PrintViewBoxComponent implements OnInit {
     }
     if (this.productService.editData) {
       this.branch = this.productService.editData.branch
+      this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
       if (this.product.code == 'PCHL01') {

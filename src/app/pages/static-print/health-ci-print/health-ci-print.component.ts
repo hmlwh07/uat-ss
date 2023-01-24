@@ -28,6 +28,7 @@ export class HealthCiPrintComponent implements OnInit {
   @Input() product: Product
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() sourceOfBusiness?:string
   @Input() isPrint: any
   @Input() emailInfo:any
   base64Proposal:any
@@ -225,7 +226,7 @@ export class HealthCiPrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
