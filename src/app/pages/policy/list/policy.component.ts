@@ -21,6 +21,7 @@ import { PolicyDTO } from '../policy.dto';
 import { PolicyService } from '../policy.service';
 import { PolicyDisplayCol, PolicyCol, ApplicationStatus } from './policy.const';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
+import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 
 @Component({
   selector: 'app-policy',
@@ -47,7 +48,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   totalElements: number = 0
   postedData: any
   selectedPageBtn: number = 1
-  constructor(private modalService: NgbModal, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef, private encryption: EncryptService) {
+  constructor(private modalService: NgbModal,private alert:AlertService, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef, private encryption: EncryptService) {
     this.loadForm()
   }
 
@@ -238,13 +239,29 @@ export class PolicyComponent implements OnInit, OnDestroy {
     } else if (event.cmd == 'edit') {
       this.editLayout(event.data)
     }
-    else if(event.cmd=='resend'){
-      this.policyService.resendEmail(event.data.submittedCode).toPromise().then((res)=>{
+    else if (event.cmd == 'resend') {
+      this.policyService.getEmailInfo(event.data.branchCode, event.data.productCode).toPromise().then((res: any) => {
         console.log(res);
-        if(res){
-          this.getPolicyList()
+        if (res) {
+          let reqValue = {
+            quotationNo: event.data.submittedCode,
+            resourceId: event.data.resourceId,
+            emailTo: res.emailTo,
+            emailCC: res.emailCC,
+            sourceOfBusiness: event.data.sourceOfBusiness
+          }
+          this.policyService.resendEmail(reqValue).toPromise().then((res) => {
+            console.log(res);
+            if (res) {
+              this.getPolicyList()
+            }
+          })
+        }else{
+          this.alert.activate('There is no Email to Send','Warning')
         }
+
       })
+
     }
   }
 
@@ -254,7 +271,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = item
-       
+
         this.router.navigateByUrl("/resourse-detail")
       }
     })

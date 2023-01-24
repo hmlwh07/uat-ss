@@ -85,9 +85,13 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     }
     return this.httpClient.post(API_EMAIL_URL, reqObj)
   }
-  resendEmail(quotationNo) {
+  resendEmail(reqValue) {
     let reqObj = {
-      quotationNo: quotationNo
+      quotationNo: reqValue.quotationNo,
+      emailCC: reqValue.emailCC,
+      emailTo:reqValue.emailTo,
+      resourceId:reqValue.resourceId,
+      sourceOfBusiness:reqValue.sourceOfBusiness,
     }
     return this.httpClient.post(API_QUOTATION__ATT_URL + '/resend-mail', reqObj)
   }

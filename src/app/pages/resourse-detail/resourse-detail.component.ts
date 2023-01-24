@@ -649,6 +649,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             }
           })
         }
+      }else{
+        this.alertService.activate('There is no Email to Send','Warning')
       }
     })
   }
