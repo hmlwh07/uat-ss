@@ -22,6 +22,7 @@ import { PolicyService } from '../policy.service';
 import { PolicyDisplayCol, PolicyCol, ApplicationStatus } from './policy.const';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
+import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 
 @Component({
   selector: 'app-policy',
@@ -48,7 +49,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   totalElements: number = 0
   postedData: any
   selectedPageBtn: number = 1
-  constructor(private modalService: NgbModal,private alert:AlertService, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef, private encryption: EncryptService) {
+  constructor(private modalService: NgbModal, private policyHolderService: PolicyHolderService, private alert: AlertService, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef, private encryption: EncryptService) {
     this.loadForm()
   }
 
@@ -240,24 +241,32 @@ export class PolicyComponent implements OnInit, OnDestroy {
       this.editLayout(event.data)
     }
     else if (event.cmd == 'resend') {
-      this.policyService.getEmailInfo(event.data.branchCode, event.data.productCode).toPromise().then((res: any) => {
-        console.log(res);
-        if (res) {
-          let reqValue = {
-            quotationNo: event.data.submittedCode,
-            resourceId: event.data.resourceId,
-            emailTo: res.emailTo,
-            emailCC: res.emailCC,
-            sourceOfBusiness: event.data.sourceOfBusiness
-          }
-          this.policyService.resendEmail(reqValue).toPromise().then((res) => {
-            console.log(res);
-            if (res) {
-              this.getPolicyList()
+      this.policyService.getEmailInfo(event.data.branchCode, event.data.productCode).toPromise().then((emailRes: any) => {
+        console.log(emailRes);
+        if (emailRes) {
+          this.getMasterValue(
+            event.data.branchCode
+          ).toPromise().then((res: any) => {
+            console.log("RES",res);
+            event.data.branchCode = res['CORE_BRANCH']
+            let reqValue = {
+              quotationNo: event.data.submittedCode,
+              productName: event.data.productName,
+              branchCode: event.data.branchCode,
+              resourceId: event.data.id,
+              emailTo: emailRes.emailTo,
+              emailCC: emailRes.emailCC,
+              sourceOfBusiness: event.data.sourceOfBusiness,
             }
+            this.policyService.resendEmail(reqValue).toPromise().then((res) => {
+              console.log(res);
+              if (res) {
+                this.getPolicyList()
+              }
+            })
           })
-        }else{
-          this.alert.activate('There is no Email to Send','Warning')
+        } else {
+          this.alert.activate('There is no Email to Send', 'Warning')
         }
 
       })
@@ -265,6 +274,19 @@ export class PolicyComponent implements OnInit, OnDestroy {
     }
   }
 
+  getMasterValue(codeId: string) {
+    let data = {
+      "codeBookRequest": [
+        {
+          "codeId": codeId,
+          "codeType": "CORE_BRANCH",
+          "langCd": "EN"
+        },
+
+      ]
+    }
+    return this.policyHolderService.getMasterDataSale(data)
+  }
   goViewDetail(item) {
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
       if (res) {

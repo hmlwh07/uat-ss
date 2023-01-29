@@ -86,6 +86,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
+      this.sourceOfBusiness=this.resourceDetail.sourceOfBusinessCode
       console.log("RESOURCE", this.resourceDetail)
 
       this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
@@ -195,6 +196,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.getSourceOfBusiness()
       ]).toPromise().then((res: any) => {
         if (res) {
+          console.log("SOC", res[1]);
+
           this.branchOption = res[0]
           this.sourceOfBusinessOption = res[1]
           this.cdf.detectChanges()
@@ -508,13 +511,15 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
   saveSourceOfBusiness() {
     if (this.sourceOfBusiness) {
+      let ss = this.sourceOfBusiness.split('-')
+      let soc = ss[1]
       this.selectedSourceOfBusiness = this.sourceOfBusiness
       let sourceOfBusiness = this.sourceOfBusinessOption.find((p) => p.code == this.sourceOfBusiness);
-      this.policyService.submitSourceOfBusiness(this.resourceDetail.id, this.selectedBranchCode).toPromise().then(res => {
+      this.policyService.submitSourceOfBusiness(this.resourceDetail.id, soc).toPromise().then(res => {
         if (res) {
           this.alertService.activate("This record was created", "Success Message")
           this.productService.editData.sourceOfBusiness = sourceOfBusiness.value
-          this.productService.editData.sourceOfBusinessCode = this.selectedBranchCode
+          this.productService.editData.sourceOfBusinessCode = soc
         }
       })
     } else {
@@ -613,20 +618,21 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
     }
-    else if (!this.selectedSourceOfBusiness) {
-      this.alertService.activate("Please select Source of Business and Save first.", 'Warning Message')
-    } else if (this.signFileId == null) {
+    // else if (!this.selectedSourceOfBusiness) {
+    //   this.alertService.activate("Please select Source of Business and Save first.", 'Warning Message')
+    // } 
+    else if (this.signFileId == null) {
       this.alertService.activate("Please add Signature first", 'Warning Message')
     } else {
       this.getEmailInfo()
-  }
+    }
   }
   getEmailInfo() {
     this.policyService.getEmailInfo(this.branch, this.item.code).toPromise().then((res) => {
       console.log(res);
       if (res) {
         this.emailInfo = res
-        if(this.emailInfo){
+        if (this.emailInfo) {
           const modalRef = this.modalService.open(PrintPreviewModalComponent, {
             size:
               'xl2', backdrop: false
@@ -649,8 +655,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             }
           })
         }
-      }else{
-        this.alertService.activate('There is no Email to Send','Warning')
+      } else {
+        this.alertService.activate('There is no Email to Send', 'Warning')
       }
     })
   }
@@ -696,9 +702,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     }))
   }
   getSourceOfBusiness() {
-    return this.masterDataService.getDataByType("SOURCE_OF_BUSINESS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+    // return this.masterDataService.getDataByType("SOURCE_OF_BUSINESS").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
+    //   return of([])
+    // }))
+    return this.masterDataService.getDataByParent("PRODUCT_SOB", this.item.code, 'PRODUCT').pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
+
   }
 
   getFormatOpt(res) {

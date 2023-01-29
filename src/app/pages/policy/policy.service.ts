@@ -70,9 +70,10 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
       resourceId: resId,
       branchCode: branchCode,
       base64Proposal: base64Proposal,
-      sourceOfBusiness: sourceOfBusiness || null,
+      sourceOfBusiness: sourceOfBusiness || 'KBZMS Partners Channel',
+      quotationNumber:null,
       emailTo: emailInfo.emailTo,
-      emailCC: emailInfo.emailCC
+      emailCc: emailInfo.emailCC
     }
     console.log("base64Proposal==>request", policyResourceRequest);
     // return base64Proposal
@@ -87,13 +88,17 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
   }
   resendEmail(reqValue) {
     let reqObj = {
-      quotationNo: reqValue.quotationNo,
-      emailCC: reqValue.emailCC,
+      quotationNumber: reqValue.quotationNo,
+      // quotataionNumber: reqValue.quotationNo,
+      productName:reqValue.productName,
+      branchCode: reqValue.branchCode,
+      emailCc: reqValue.emailCC,
       emailTo:reqValue.emailTo,
       resourceId:reqValue.resourceId,
-      sourceOfBusiness:reqValue.sourceOfBusiness,
+      sourceOfBusiness:reqValue.sourceOfBusiness || 'KBZMS Partners Channel',
     }
-    return this.httpClient.post(API_QUOTATION__ATT_URL + '/resend-mail', reqObj)
+    // return reqObj.quotataionNumber
+    return this.httpClient.post(environment.apiUrl + '/email-send', reqObj)
   }
 
   submitBranch(resId: string, branchCode: string) {

@@ -43,7 +43,56 @@
   </div>
 </div>
 <ng-container *ngIf="resourceDetail">
+  <!-- <div class="row" *ngIf="type == 'policy'">
+    <div class="col-12">
+      <div class="card card-custom gutter-b">
 
+        <div class="row" style="padding: 10px 10px;">
+          <div class="col-3" style="text-align: left;">
+            <div>
+              <label class="card-label" style="margin-top:3%;margin-left:10%;font-size: 1rem; font-weight: 500;">Branch
+                Selection :
+              </label>
+            </div>
+          </div>
+          <div class="col-9">
+            <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+              (change)="changeBranch($event)" [(ngModel)]="branch" [items]="branchOption" bindLabel="value"
+              bindValue="code">
+            </ng-select>
+          </div>
+        </div>
+
+
+        <div class="row" style="padding: 10px 10px;">
+          <div class="col-3" style="text-align: left;">
+            <div>
+              <label class="card-label" style="margin-top:3%;margin-left:10%;font-size: 1rem; font-weight: 500;">Source
+                Of Business Selection :
+              </label>
+            </div>
+          </div>
+          <div class="col-9">
+            <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+              (change)="changeBranch($event)" [(ngModel)]="sourceOfBusiness" [items]="sourceOfBusinessOption"
+              bindLabel="value" bindValue="code">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="row" style="padding: 10px 10px;flex-direction: row-reverse;">
+          <div class="col-2">
+            <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
+            style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()" (click)="saveBranch()">
+            {{"FORM.btn_save" | translate}}
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+  <!-- OLD_UI -->
   <div class="row" *ngIf="type == 'policy'">
     <div class="col-12">
       <div class="card card-custom gutter-b">
@@ -74,7 +123,6 @@
 
   </div>
 
-  
   <div class="row" *ngIf="type == 'policy'">
     <div class="col-12">
       <div class="card card-custom gutter-b">
@@ -87,8 +135,8 @@
           <div class="row">
             <div class="col-10">
               <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
-                (change)="changeBranch($event)" [(ngModel)]="sourceOfBusiness" [items]="sourceOfBusinessOption" bindLabel="value"
-                bindValue="code">
+                (change)="changeBranch($event)" [(ngModel)]="sourceOfBusiness" [items]="sourceOfBusinessOption"
+                bindLabel="value" bindValue="code">
               </ng-select>
             </div>
             <div class="col-2">
@@ -104,7 +152,7 @@
     </div>
 
   </div>
-
+  <!-- OLD_UI -->
 
   <div class="row">
     <ng-container *ngFor="let page of pageOrder">
@@ -196,9 +244,11 @@
                             <ng-container *ngFor="let control of getFormatTable(page.controls)">
                               <!-- <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
                                 {{getOtherData(control.cols,result) }}</td> -->
-                              <td  [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}" *ngIf="control.type != 'file'">{{ getOtherData(control.cols,result) }}</td>
+                              <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}"
+                                *ngIf="control.type != 'file'">{{ getOtherData(control.cols,result) }}</td>
                               <td *ngIf="control.type == 'file'" style="text-align: left;"> <a href="javascript:;"
-                                  (click)="download(control.cols,result)">{{ getOtherData(control.cols,result) }}</a> </td>
+                                  (click)="download(control.cols,result)">{{ getOtherData(control.cols,result) }}</a>
+                              </td>
                             </ng-container>
                           </tr>
                         </ng-container>
