@@ -30,9 +30,9 @@ export class TravelPrintComponent implements OnInit {
   @Input() premiumAmt: any
   @Input() agentData?: any
   @Input() branch?: string
-  @Input() sourceOfBusiness?:string
+  @Input() sourceOfBusiness?: string
   @Input() isPrint: any
-  @Input() emailInfo:any
+  @Input() emailInfo: any
   product: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
@@ -184,7 +184,7 @@ export class TravelPrintComponent implements OnInit {
 
   async submitPolicy() {
     this.createPdf()
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -197,7 +197,7 @@ export class TravelPrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -647,14 +647,14 @@ export class TravelPrintComponent implements OnInit {
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
       if (this.isPrint) {
         console.log("HERE1==>");
-        
+
         // Download PDF document  
         doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
       } else {
         console.log("HERE2==>");
-        
+
         let data = doc.output('datauristring')
-        let test=data.split('base64,')
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

@@ -237,7 +237,7 @@ export class FirePrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness :this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
