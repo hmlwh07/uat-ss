@@ -86,7 +86,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
-      this.sourceOfBusiness=this.resourceDetail.sourceOfBusinessCode
+      this.sourceOfBusiness = this.resourceDetail.sourceOfBusiness ? (this.item.code + '-' + this.resourceDetail.sourceOfBusiness) : null
+      console.log("this.sourceOfBusiness", this.sourceOfBusiness);
+    
       console.log("RESOURCE", this.resourceDetail)
 
       this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
@@ -208,12 +210,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
 
             this.productService.editData.branch = branch.value
           }
+          
           if (this.sourceOfBusiness) {
             this.selectedSourceOfBusiness = this.sourceOfBusiness
-            let sob = this.sourceOfBusinessOption.find((p) => p.code == this.branch)
+            let sob = this.sourceOfBusinessOption.find((p) => p.code == this.sourceOfBusiness)
             // console.log(sob);
-
-            this.productService.editData.branch = sob.value
+            this.productService.editData.sourceOfBusiness = sob.value
           }
         }
       })
@@ -495,18 +497,31 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     // })
   }
   saveBranch() {
-    if (this.branch) {
+    if (!this.branch) {
+      this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
+    }
+    else if (!this.sourceOfBusiness) {
+      this.alertService.activate("Please select Source of Business and Save first.", 'Warning Message')
+    }
+    if (this.branch && this.sourceOfBusiness) {
       this.selectedBranchCode = this.branch
       let branch = this.branchOption.find((p) => p.code == this.branch);
-      this.policyService.submitBranch(this.resourceDetail.id, this.selectedBranchCode).toPromise().then(res => {
+      let ss = this.sourceOfBusiness.split('-')
+      let soc = ss[1]
+      this.selectedSourceOfBusiness = this.sourceOfBusiness
+      let sourceOfBusiness = this.sourceOfBusinessOption.find((p) => p.code == this.sourceOfBusiness);
+      this.policyService.submitBranch(this.resourceDetail.id, this.selectedBranchCode, soc).toPromise().then(res => {
         if (res) {
           this.alertService.activate("This record was created", "Success Message")
           this.productService.editData.branch = branch.value
           this.productService.editData.branchCode = this.selectedBranchCode
+          this.productService.editData.sourceOfBusiness = sourceOfBusiness.value
+          this.productService.editData.sourceOfBusinessCode = soc
         }
       })
     } else {
       this.selectedBranchCode = null
+      this.selectedSourceOfBusiness = null
     }
   }
   saveSourceOfBusiness() {
@@ -618,9 +633,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
     }
-    // else if (!this.selectedSourceOfBusiness) {
-    //   this.alertService.activate("Please select Source of Business and Save first.", 'Warning Message')
-    // } 
+    else if (!this.selectedSourceOfBusiness) {
+      this.alertService.activate("Please select Source of Business and Save first.", 'Warning Message')
+    }
     else if (this.signFileId == null) {
       this.alertService.activate("Please add Signature first", 'Warning Message')
     } else {

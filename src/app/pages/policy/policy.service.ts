@@ -71,7 +71,7 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
       branchCode: branchCode,
       base64Proposal: base64Proposal,
       sourceOfBusiness: sourceOfBusiness || 'KBZMS Partners Channel',
-      quotationNumber:null,
+      quotationNumber: null,
       emailTo: emailInfo.emailTo,
       emailCc: emailInfo.emailCC
     }
@@ -90,22 +90,23 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     let reqObj = {
       quotationNumber: reqValue.quotationNo,
       // quotataionNumber: reqValue.quotationNo,
-      productName:reqValue.productName,
+      productName: reqValue.productName,
       branchCode: reqValue.branchCode,
       emailCc: reqValue.emailCC,
-      emailTo:reqValue.emailTo,
-      resourceId:reqValue.resourceId,
-      sourceOfBusiness:reqValue.sourceOfBusiness || 'KBZMS Partners Channel',
+      emailTo: reqValue.emailTo,
+      resourceId: reqValue.resourceId,
+      sourceOfBusiness: reqValue.sourceOfBusiness || 'KBZMS Partners Channel',
     }
     // return reqObj.quotataionNumber
     return this.httpClient.post(environment.apiUrl + '/email-send', reqObj)
   }
 
-  submitBranch(resId: string, branchCode: string) {
+  submitBranch(resId: string, branchCode: string, soc: string) {
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/branch",
       {
         resourceId: resId,
-        branchCode: branchCode
+        branchCode: branchCode,
+        sourceOfBusiness:soc
       })
   }
   submitSourceOfBusiness(resId: string, sourceOfBusinessCode: string) {

@@ -33,7 +33,8 @@
           Sales Channel
         </div>
         <div class="col-sm-3">
-          {{agentData.sourceOfBusiness}}
+          <!-- {{agentData.sourceOfBusiness}} -->
+        {{sourceOfBusiness || agentData.sourceOfBusiness}}
         </div>
         <div class="col-sm-3 text-bold">
           Branch
