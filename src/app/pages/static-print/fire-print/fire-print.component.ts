@@ -28,6 +28,7 @@ export class FirePrintComponent implements OnInit {
   @Input() agentData?: any
   @Input() branch?: string
   @Input() sourceOfBusiness?:string
+@Input() sourceOfBusinessCode?:string
   @Input() isPrint: any
   @Input() emailInfo:any
   base64Proposal:any
@@ -223,7 +224,7 @@ export class FirePrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }

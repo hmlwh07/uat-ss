@@ -38,6 +38,7 @@ export class PrintViewBoxComponent implements OnInit {
   premimunAmt: string = ""
   branch: string = ""
   sourceOfBusiness: string = ''
+  sourceOfBusinessCode:string=''
   today = new Date()
   agentName = ""
   agentData: any = {}
@@ -110,6 +111,7 @@ export class PrintViewBoxComponent implements OnInit {
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
+        this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
         this.getAgentData()
         if (this.product.code == 'PCHL01') {
           this.getDetail()
@@ -122,6 +124,7 @@ export class PrintViewBoxComponent implements OnInit {
     if (this.productService.editData) {
       this.branch = this.productService.editData.branch
       this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
+      this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
       if (this.product.code == 'PCHL01') {

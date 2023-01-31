@@ -25,11 +25,12 @@ export class MoterPrintComponent implements OnInit {
   @Input() resourcesId?: string
   @Input() agentData?: any
   @Input() branch?: string
-  @Input() sourceOfBusiness?:string
+  @Input() sourceOfBusiness?: string
+  @Input() sourceOfBusinessCode?: string
   @Input() premiumAmt?: any
   @Input() isPrint: any
-  @Input() emailInfo:any
-  base64Proposal:any
+  @Input() emailInfo: any
+  base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
   motorDriver: any = []
@@ -81,7 +82,7 @@ export class MoterPrintComponent implements OnInit {
     private attachmentDownloadService: AttachmentDownloadService,
     public modal: NgbActiveModal,
     private numberPipe: DecimalPipe,
-    private policyService:PolicyService
+    private policyService: PolicyService
   ) { }
 
   ngOnInit() {
@@ -101,8 +102,8 @@ export class MoterPrintComponent implements OnInit {
     this.getDetail()
     this.getAddonCover()
     this.getCoverage()
-    console.log("EMAIL_TEST",this.emailInfo);
-    
+    console.log("EMAIL_TEST", this.emailInfo);
+
   }
 
   getPolicyHolder() {
@@ -272,7 +273,7 @@ export class MoterPrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -285,7 +286,7 @@ export class MoterPrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.sourceOfBusiness ? this.sourceOfBusiness :this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -528,11 +529,11 @@ export class MoterPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
         2: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -558,7 +559,7 @@ export class MoterPrintComponent implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle:'bold'
+          fontStyle: 'bold'
         },
       }
     });
@@ -787,8 +788,8 @@ export class MoterPrintComponent implements OnInit {
         console.log("HERE2==>");
 
         let data = doc.output('datauristring')
-      
-        let test=data.split('base64,')
+
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

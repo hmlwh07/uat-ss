@@ -88,7 +88,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.branch = this.resourceDetail.branchCode
       this.sourceOfBusiness = this.resourceDetail.sourceOfBusiness ? (this.item.code + '-' + this.resourceDetail.sourceOfBusiness) : null
       console.log("this.sourceOfBusiness", this.sourceOfBusiness);
-    
+
       console.log("RESOURCE", this.resourceDetail)
 
       this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
@@ -210,12 +210,14 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
 
             this.productService.editData.branch = branch.value
           }
-          
+
           if (this.sourceOfBusiness) {
             this.selectedSourceOfBusiness = this.sourceOfBusiness
+            let ss = this.sourceOfBusiness.split('-')
+            let soc = ss[1]
             let sob = this.sourceOfBusinessOption.find((p) => p.code == this.sourceOfBusiness)
-            // console.log(sob);
             this.productService.editData.sourceOfBusiness = sob.value
+            this.productService.editData.sourceOfBusinessCode = soc
           }
         }
       })

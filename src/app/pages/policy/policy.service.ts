@@ -64,13 +64,14 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
   submitPolicy(resId: string, branchCode: string) {
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})
   }
-  submitPolicyWithProposal(resId: string, branchCode: string, base64Proposal, sourceOfBusiness, emailInfo) {
+  submitPolicyWithProposal(resId: string, branchCode: string, base64Proposal, sourceOfBusiness, emailInfo,sourceOfBusinessCode) {
 
     let policyResourceRequest = {
       resourceId: resId,
       branchCode: branchCode,
       base64Proposal: base64Proposal,
       sourceOfBusiness: sourceOfBusiness || 'KBZMS Partners Channel',
+      sourceOfBusinessCode: sourceOfBusinessCode || null,
       quotationNumber: null,
       emailTo: emailInfo.emailTo,
       emailCc: emailInfo.emailCC
@@ -106,7 +107,7 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
       {
         resourceId: resId,
         branchCode: branchCode,
-        sourceOfBusiness:soc
+        sourceOfBusiness: soc
       })
   }
   submitSourceOfBusiness(resId: string, sourceOfBusinessCode: string) {
