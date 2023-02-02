@@ -98,7 +98,9 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
       resourceId: reqValue.resourceId,
       sourceOfBusiness: reqValue.sourceOfBusiness || 'KBZMS Partners Channel',
     }
-    // return reqObj.quotataionNumber
+    console.log(reqObj);
+    
+    // return reqObj.quotationNumber
     return this.httpClient.post(environment.apiUrl + '/email-send', reqObj)
   }
 

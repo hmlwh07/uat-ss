@@ -245,10 +245,11 @@ export class PolicyComponent implements OnInit, OnDestroy {
         console.log(emailRes);
         if (emailRes) {
           this.getMasterValue(
-            event.data.branchCode
+            event.data.branchCode,event.data.sourceOfBusiness, event.data.productCode
           ).toPromise().then((res: any) => {
             console.log("RES",res);
             event.data.branchCode = res['CORE_BRANCH']
+            event.data.sourceOfBusiness = res['PRODUCT_SOB']
             let reqValue = {
               quotationNo: event.data.submittedCode,
               productName: event.data.productName,
@@ -274,7 +275,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     }
   }
 
-  getMasterValue(codeId: string) {
+  getMasterValue(codeId: string,sourceOfBusiness,productCode?) {
     let data = {
       "codeBookRequest": [
         {
@@ -282,7 +283,11 @@ export class PolicyComponent implements OnInit, OnDestroy {
           "codeType": "CORE_BRANCH",
           "langCd": "EN"
         },
-
+        {
+          "codeId": productCode+('-')+sourceOfBusiness,
+          "codeType": "PRODUCT_SOB",
+          "langCd": "EN"
+        },
       ]
     }
     return this.policyHolderService.getMasterDataSale(data)
