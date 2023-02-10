@@ -29,4 +29,25 @@
     width: 100%;
     text-align: center;
   }
-  
+
+  .btm-area{
+   .row{
+    margin: 3px 3px;
+   }
+  }
+
+.sign-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12pt;
+
+  .sign-area {
+    width: 140px;
+    height: 80px;
+    border-bottom: 1px #000 dashed;
+  }
+
+  .sign-date {
+    padding-top: 50px;
+  }
+}

@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-  
+
     <ng-container *ngIf="resourceDetail">
 
       <div class="row" style=" padding: 5px 10px;">
@@ -22,11 +22,11 @@
           <div class="product-name mt-5 mb-5">{{page.pageTitle}} </div>
           <div class="col-md-12 mx-auto">
             <ng-container *ngIf="page.type === 'static';else dynView ">
-            
+
             </ng-container>
             <ng-template #dynView>
               <div class="card card-custom gutter-b">
-                
+
                 <div class="card-body customer-card-body" style="padding: 0rem 0.85rem !important;">
                   <ng-container>
                     <ng-container *ngIf="resultObj[page.tableName+page.id]">
@@ -34,8 +34,7 @@
                         <ng-container *ngFor="let cont of page.controls">
                           <ng-container *ngIf="cont.show">
                             <!-- <hr > -->
-                            <li *ngIf="cont.input == 'label'" class="list-group-item"
-                              style="padding: 1rem 1rem;">
+                            <li *ngIf="cont.input == 'label'" class="list-group-item" style="padding: 1rem 1rem;">
                               <h5 style="margin-bottom: 0px;">{{"TABLE."+cont.name | translate}} </h5>
 
                             </li>
@@ -54,6 +53,44 @@
         </ng-container>
       </div>
 
+    </ng-container>
+    <ng-container>
+      <div class="btm-area">
+      <div class="row" *ngIf="policyHolder">
+        <!-- -->
+        <div class="col-sm-2 offset-sm-6  ">
+          <label class="text-bold">Name </label>
+        </div>
+        <div class="col-sm-4">
+          <label>{{policyHolder.titleValue}} {{policyHolder.firstName}}
+            {{policyHolder.middleName}} {{policyHolder.lastName}}</label>
+        </div>
+      </div>
+      <div class="row" *ngIf="vehicleDetail">
+        <div class="col-sm-2  offset-sm-6 ">
+          <label class="text-bold">Vehicle No  </label>
+        </div>
+        <div class="col-sm-4">
+          <label> {{vehicleDetail.mRegistrationNo}}</label>
+        </div>
+      </div>
+      <div class="row" *ngIf="fileId">
+        <div class="col-sm-2  offset-sm-6 ">
+          <label class="text-bold">SIGN</label>
+        </div>
+        <div  >
+          <div class="sign-row">
+            <div class="sign-box">
+              <div class="sign-area">
+                <ng-container>
+                  <img [src]="DEFAULT_DOWNLOAD_URL+ '?id=' + fileId" alt="" class="sign-img">
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     </ng-container>
   </div>
 </div>

@@ -545,6 +545,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.createingProd = this.item
     modalRef.componentInstance.isCheckList = true
     modalRef.componentInstance.agentId = this.resourceDetail.agentId
+    modalRef.componentInstance.signId = this.signFileId || null
     modalRef.result.then(() => { }, (res) => {
     })
     // const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false }); modalRef.componentInstance.configData = this.printConfig.printFormat

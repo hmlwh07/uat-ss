@@ -8,6 +8,7 @@ import { catchError, forkJoin, map, of } from 'rxjs';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { environment } from 'src/environments/environment';
 import { checkVaidDep } from '../../check-parent';
 import { ConfigInput, ConfigPage, FromGroupData, OptionValue } from '../../form-component/field.interface';
@@ -17,8 +18,10 @@ import { PageDataService } from '../../product-form/page-data.service';
 import { PrintConfig } from '../../products/models/print-config.interface';
 import { PageUIType, ProductPages } from '../../products/models/product.dto';
 import { PrintPreviewModalComponent } from '../../products/print-preview-modal/print-preview-modal.component';
+import { MotorPrintService } from '../../products/services/motor-print.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { SignaturePadComponent } from '../../resourse-detail/signature-pad/signature-pad.component';
+import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 
 @Component({
   selector: 'app-motor-check-list',
@@ -31,12 +34,19 @@ export class MotorCheckListPage implements OnInit {
   policyNumber: string;
   branch: string;
   item: any
+  fileId: any
+  signatureDate: any
+  motorDetail: any;
+  listData: any;
+  vehicleDetail: any;
+  policyHolder: any
   resultObj: any = {}
   type: string
   Object = Object;
   Array = Array;
   pageOrder: any[]
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
+  DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   coverage = {
     sumInsured: false,
     unit: false,
@@ -47,12 +57,14 @@ export class MotorCheckListPage implements OnInit {
     unit: false,
     premium: false,
   }
-  pageTitle:string=''
+  pageTitle: string = ''
   coverageData: any = {}
   addOnData: any = {}
   @Input() resourceDetail: any = {}
   @Input() createingProd: any
   @Input() previewType: any
+  @Input() resourcesId
+  @Input() signId?: string
   detailInput: any = {}
   private formatedData = {}
   printConfig: PrintConfig = {}
@@ -76,8 +88,11 @@ export class MotorCheckListPage implements OnInit {
     private masterDataService: MasterDataService,
     private leadDetailService: LeadDetailService,
     public modal: NgbActiveModal,
-    private attachmentDownloadService:AttachmentDownloadService,
-    private platform: Platform
+    private attachmentDownloadService: AttachmentDownloadService,
+    private platform: Platform,
+    private encryption: EncryptService,
+    private policyHolderService: PolicyHolderService,
+    private motorService: MotorPrintService
   ) { }
 
   async ngOnInit() {
@@ -102,6 +117,7 @@ export class MotorCheckListPage implements OnInit {
       this.location.back()
       return
     }
+
     let pageUI: ProductPages = JSON.parse(this.item.config);
     console.log("ITEM.config", pageUI.application);
     let checkList = pageUI.application.find(x => x.pageTitle == 'Motor Check List')
@@ -213,6 +229,78 @@ export class MotorCheckListPage implements OnInit {
       }
     })
     // }
+
+    if (this.signId) {
+      this.fileId = this.encryption.encryptData(this.signId)
+    }
+    this.signatureDate = this.resourceDetail ? this.resourceDetail.signatureDate : ""
+    this.getPolicyHolder()
+    this.getProductDetail()
+
+  }
+  getPolicyHolder() {
+    this.policyHolderService.getOne(this.resourcesId).toPromise().then((res: any) => {
+      if (res) {
+        console.log("getPolicyHolder", res);
+
+        this.policyHolder = res
+        this.getMasterValue(
+          this.policyHolder.partyAddress[0].city,
+          this.policyHolder.partyAddress[0].district,
+          this.policyHolder.partyAddress[0].state,
+          this.policyHolder.title
+        ).toPromise().then((res: any) => {
+          this.policyHolder = {
+            ...this.policyHolder,
+            townshipName: res['PT_TOWNSHIP'],
+            districtName: res['PT_DISTRICT'],
+            stateName: res['PT_STATE'],
+            titleValue: res['TITLE'],
+          }
+        })
+      }
+    })
+  }
+  getMasterValue(townshipCd: string, districtCd: string, stateCd: string, titleCd: string) {
+    let data = {
+      "codeBookRequest": [
+        {
+          "codeId": "TA-" + townshipCd,
+          "codeType": "PT_TOWNSHIP",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + districtCd,
+          "codeType": "PT_DISTRICT",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "TA-" + stateCd,
+          "codeType": "PT_STATE",
+          "langCd": "EN"
+        },
+        {
+          "codeId": "T-" + titleCd,
+          "codeType": "TITLE",
+          "langCd": "EN"
+        },
+      ]
+    }
+    return this.policyHolderService.getMasterDataSale(data)
+  }
+
+  getProductDetail() {
+    this.motorService.getOne(this.resourcesId).toPromise().then((res: any) => {
+      console.log("getProductDetail", res);
+
+      if (res.motorDetail) {
+        this.motorDetail = res.motorDetail
+        if (res.motorDriver)
+          this.listData = res.motorDriver
+        if (res.vehicleDetail)
+          this.vehicleDetail = res.vehicleDetail
+      }
+    })
   }
 
   ngOnDestroy() {
@@ -712,26 +800,26 @@ export class MotorCheckListPage implements OnInit {
     // WindowPrt.close();
   }
   createPdf() {
-    let travelInfoDetailList = [];
+    let checkListInfoDetailList = [];
     // Agent Information Details
     for (var i = 0; i < this.pageOrder.length; i++) {
       var page = this.pageOrder[i]
-     this.pageTitle=page.pageTitle
+      this.pageTitle = page.pageTitle
       for (var d = 0; d < page.controls.length; d++) {
         var data = page.controls[d]
 
         if (data.input == 'label') {
-          let agentInfoDetailData = [
+          let checkListInfoDetailData = [
             { content: data.name, styles: { halign: 'left', valign: 'middle' } },
           ]
-          travelInfoDetailList.push(agentInfoDetailData)
+          checkListInfoDetailList.push(checkListInfoDetailData)
         }
 
       }
 
     }
 
-    console.log("travelInfoDetailList", travelInfoDetailList);
+    console.log("travelInfoDetailList", checkListInfoDetailList);
     // Start creating jsPDF
     var doc: any = new jsPDF('p', 'pt', 'a4');
     let pageSize = doc.internal.pageSize;
@@ -744,11 +832,11 @@ export class MotorCheckListPage implements OnInit {
     doc.addImage(img, 'PNG', 200, height, 180, 80);
 
     // Agent Information Details
-    let title =this.pageTitle
+    let title = this.pageTitle
     doc.setFontSize(12).setFont('helvetica', 'bold', 'bold');
     doc.text(title, width / 2, height + 100, { align: 'center' });
     doc.autoTable({
-      body: travelInfoDetailList,
+      body: checkListInfoDetailList,
       theme: 'grid',
       startY: height + 110,
       margin: { left: 10, right: 10 },
@@ -764,41 +852,33 @@ export class MotorCheckListPage implements OnInit {
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle: 'bold'
+          fontStyle: 'normal'
         },
         2: {
           fontSize: 8,
-          fontStyle: 'bold'
+          fontStyle: 'normal'
         },
       }
     });
     height = doc.lastAutoTable.finalY;
-
-    // Declaration By Proposer
-    // doc.setFontSize(10).setFont('helvetica', 'normal', 'normal');
-    // doc.text("Declaration By Proposer", 10, height + 20);
-    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    // doc.text("I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge and belief and I hereby agree that this declaration shall from the basic of the contract between me and KBZMS General Insurance Co., Ltd. in the event of the Proposal being accepted.", 10, height + 40, { maxWidth: width - 20, align: 'justify' });
-
-    // // Proposer's name and signature
-    // doc.setFontSize(8).setFont('helvetica', 'normal', 'bold');
-    // doc.text("PROPOSER'S NAME AND SIGNATURE", width - 180, height + 70);
-    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    // doc.text("Date", 10, height + 80);
-    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    // doc.text(this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, width - 180, height + 80);
-    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    // doc.text("-----------------------------", 10, height + 150);
-    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    // doc.text("-----------------------------", width - 180, height + 150);
-    // doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    // doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 130);
-    // if (this.fileId) {
-    //   var img = new Image()
-    //   img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-    //   doc.addImage(img, 'PNG', width - 180, height + 90, 70, 50);
-    // }
-
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("Name", width - 230, height + 30);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', width - 180, height + 30);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("Vehicle No", width - 230, height + 50);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text(this.vehicleDetail ? (this.vehicleDetail.mRegistrationNo) : '', width - 180, height + 50);
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("SIGN", width - 230, height + 70);
+     if (this.fileId) {
+      var img = new Image()
+      img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
+      doc.addImage(img, 'PNG', width - 150, height + 70, 70, 50);
+    }
+    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
+    doc.text("-----------------------------", width - 150, height + 110);
+   
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
     for (let i = 0; i < pageCount; i++) {
@@ -814,13 +894,13 @@ export class MotorCheckListPage implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       let blobFile = doc.output('blob')
-      this.attachmentDownloadService.mobileDownload( this.pageTitle + '.pdf', blobFile);
+      this.attachmentDownloadService.mobileDownload(this.pageTitle + '.pdf', blobFile);
     }
     else {
       console.log("Web")
       console.log("HERE1==>");
       // Download PDF document  
-      doc.save( this.pageTitle + '.pdf');
+      doc.save(this.pageTitle + '.pdf');
     }
   }
 }
