@@ -17,6 +17,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PRINT } from '../static-print-const';
+import { PolicyService } from '../../policy/policy.service';
 
 @Component({
   selector: 'app-travel-print',
@@ -29,6 +30,10 @@ export class TravelPrintComponent implements OnInit {
   @Input() premiumAmt: any
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() sourceOfBusiness?: string
+  @Input() sourceOfBusinessCode?: string
+  @Input() isPrint: any
+  @Input() emailInfo: any
   product: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
@@ -50,6 +55,7 @@ export class TravelPrintComponent implements OnInit {
   fileId: string = ''
   isMobile: boolean = false
   isBreak: boolean = true
+  base64Proposal: any = ''
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   constructor(
@@ -60,7 +66,8 @@ export class TravelPrintComponent implements OnInit {
     private encryption: EncryptService,
     private attachmentDownloadService: AttachmentDownloadService,
     private platform: Platform,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private policyService: PolicyService
   ) { }
 
   ngOnInit() {
@@ -176,13 +183,22 @@ export class TravelPrintComponent implements OnInit {
     })
   }
 
+  async submitPolicy() {
+    this.createPdf()
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
+      if (res) {
+        this.modal.dismiss({ data: res })
+      }
+    })
+  }
+
   createPdf() {
 
     // Agent Information Details
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -283,7 +299,7 @@ export class TravelPrintComponent implements OnInit {
     let riskInfoDetailList = [];
     let riskInfoDetailHeader = [
       [
-        { content: 'No.', styles: { halign: 'center', valign: 'middle' }},
+        { content: 'No.', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Traveler Name', styles: { halign: 'center', valign: 'middle' } },
         { content: 'ID Type', styles: { halign: 'center', valign: 'middle' } },
         { content: 'ID Number', styles: { halign: 'center', valign: 'middle' } },
@@ -595,7 +611,7 @@ export class TravelPrintComponent implements OnInit {
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 180, height + 150);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 150);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 130);
     if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
@@ -617,20 +633,32 @@ export class TravelPrintComponent implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
-      let blobFile = doc.output('blob')
-      // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
-      this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      if (this.isPrint) {
+        let blobFile = doc.output('blob')
+        // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+        this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      } else {
+        let data = doc.output('datauristring')
+        this.base64Proposal = data
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     } else {
       console.log("Web")
       // Open PDF document in new tab
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      if (this.isPrint) {
+        console.log("HERE1==>");
 
-      // Download PDF document  
-      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+        // Download PDF document  
+        doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+      } else {
+        console.log("HERE2==>");
 
-      // Base64 output
-      // let data = doc.output('datauri')
-      // console.log("Base64 Data: ", data)
+        let data = doc.output('datauristring')
+        let test = data.split('base64,')
+        this.base64Proposal = test[1]
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     }
   }
 

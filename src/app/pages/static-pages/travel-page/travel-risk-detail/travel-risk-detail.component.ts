@@ -617,3 +617,4 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
 
 }
+

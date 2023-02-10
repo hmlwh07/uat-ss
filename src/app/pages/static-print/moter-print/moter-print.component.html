@@ -386,8 +386,20 @@
   </div>
 </div>
 <!-- *ngIf="isMobile" -->
-<div class="modal-footer" style="margin-top: 5%;">
+<div class="modal-footer" style="margin-top: 5%;" *ngIf="isPrint">
   <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="createPdf()">Print</button>
   <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
+</div>
 
+
+<div  style="margin-top: 5%;" *ngIf="!isPrint">
+
+  <div class="row">
+      <div class="col-sm-6">
+          <button type="button" class="btn btn-primary btn-block" (click)="submitPolicy()">Submit</button>
+      </div>
+      <div class="col-sm-6">
+          <button type="button" class="btn btn-secondary btn-block" (click)="modal.dismiss()">Cancel</button>
+      </div>
+  </div>
 </div>

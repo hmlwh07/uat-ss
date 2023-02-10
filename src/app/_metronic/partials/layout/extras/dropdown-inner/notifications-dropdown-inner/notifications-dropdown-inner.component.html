@@ -34,14 +34,41 @@
                         </div>
                     </div> -->
 
-                    <div class="card card-custom" class="{{noti.policyStatus | firstWord}}">
-                        <div class="card-header" style="padding: 10px;">
+                    <div *ngIf="!noti.emailStatus" class="card card-custom" class="{{noti.policyStatus | firstWord}}">
+                        <div class="card-header" style="padding: 5px 10px;">
 
                             <div class="card-title">
                                 <div class="navi-icon mr-2 " *ngIf="noti.policyStatus!='FAIL'">
                                     <i class="flaticon2-bell text-success "></i>
                                 </div>
                                 <div class="navi-icon mr-2 " *ngIf="noti.policyStatus=='FAIL'">
+                                    <i class="flaticon2-bell text-danger "></i>
+                                </div>
+                                <label class="title" >{{noti.title}} <br>
+                                    <span class="date-title">{{noti.createdAt}}</span>
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="card-body customer-card-body" style="margin-top: 10px;">
+                            <div class="row">
+                                <p style="justify-content: center; margin-left: 15px;"> {{noti.message}} (
+                                    {{noti.resourceId}}) </p>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="noti.emailStatus" class="card card-custom" class="{{noti.emailStatus}}">
+                        <div class="card-header" style="padding: 5px 10px;">
+
+                            <div class="card-title">
+                                <div class="navi-icon mr-2 " *ngIf="noti.emailStatus!='FAIL'">
+                                    <i class="flaticon2-bell text-success "></i>
+                                </div>
+                                <div class="navi-icon mr-2 " *ngIf="noti.emailStatus=='FAIL'">
                                     <i class="flaticon2-bell text-danger "></i>
                                 </div>
                                 <label class="title" >{{noti.title}} <br>

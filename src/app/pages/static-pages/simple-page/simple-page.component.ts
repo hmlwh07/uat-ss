@@ -60,6 +60,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   currentAge = 0
   dob: string = ""
   currencyType: string = "MMK"
+  productType: string = ''
+  isApplication: boolean = false
   unsub: Subscription[] = []
   private addValid: boolean = false
   constructor(
@@ -108,6 +110,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     console.log('this.product.addOns', this.product.addOns);
 
     this.refID = this.prodService.referenceID
+    this.productType = this.prodService.type
+    this.isApplication = this.prodService.isApplication
     let toDate = moment().subtract(5, `days`)
     this.fromMinDate = toDate.format('YYYY-MM-DD')
     // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
@@ -122,10 +126,12 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     // if (this.prodService.editData || this.refID)
 
     this.parentData = this.getParent()
+    console.log("this.isApplication", this.isApplication);
 
     if (!this.parentData) {
       this.alertService.activate("This page cann't to save because there is no parent Data. Please configuration the product detail", "Warning")
     } else {
+
       this.dob = this.parentData['date_of_birth']
       this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
     }
@@ -247,12 +253,20 @@ export class SimplePageComponent implements OnInit, OnDestroy {
     return control.dirty || control.touched;
   }
   nextPage() {
-    if (this.staticForm.invalid) {
-      if (this.staticForm.controls['insuranceStartDate'].errors) {
-        this.alert.activate('No back date is allowed. Please select the correct date.', 'Error')
+    if (this.productType != 'quotation') {
+      if (this.staticForm.invalid) {
+        if (this.staticForm.controls['insuranceStartDate'].errors) {
+          this.alert.activate('No back date is allowed. Please select the correct date.', 'Error')
+        } else {
+          validateAllFields(this.staticForm)
+          return true
+        }
       } else {
-        validateAllFields(this.staticForm)
-        return true
+        if (this.editId) {
+          this.saveData(this.editId)
+        } else {
+          this.saveData()
+        }
       }
     } else {
       if (this.editId) {
@@ -268,7 +282,9 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   }
 
   saveData(id?) {
-    if (this.staticForm.invalid) return false
+    if (this.staticForm.invalid && this.productType != 'quotation') return false
+
+
     const formValue = this.staticForm.value
     let coverd = this.product.coverages.find(x => x.code == formValue.basicCoverId)
     if (!coverd) {
@@ -291,8 +307,8 @@ export class SimplePageComponent implements OnInit, OnDestroy {
         premiumView: this.premiumAmt,
         // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
         // sumInsuredView:this.sumInsured,
-        policyInceptionDate: moment(formValue.insuranceStartDate).format("YYYY-MM-DD"),
-        policyExpireDate: moment(formValue.insuranceEndDate).format("YYYY-MM-DD"),
+        policyInceptionDate: moment(formValue.insuranceStartDate).format("YYYY-MM-DD") != "Invalid date" ? moment(formValue.insuranceStartDate).format("YYYY-MM-DD") : null,
+        policyExpireDate: moment(formValue.insuranceEndDate).format("YYYY-MM-DD") != "Invalid date" ? moment(formValue.insuranceEndDate).format("YYYY-MM-DD") : null,
         productId: this.prodService.createingProd.id,
         productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
@@ -303,7 +319,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
       resourceId: this.resourcesId,
       sumInsuredMainCover: formValue.sumInsuredMainCover,
     }
-    // console.log(postData);
+    console.log(postData);
     if (!id) {
       this.healthService.save(postData).toPromise().then((res: any) => {
         if (res) {
@@ -339,24 +355,31 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   // }))
   getOldData(dataget: boolean = false) {
     // let dataget = false
-    if (this.resourcesId || this.refID) {
-      let resId = dataget ? this.refID : (this.resourcesId || this.refID)
-      if (!resId) return false
-      this.healthService.getOne(resId).toPromise().then((res: any) => {
-        // dataget = true
-        if (res) {
-          this.oldData = { ...res, id: null }
-          this.editId = resId == this.resourcesId ? res.id : null
-          this.getAddOn()
-          this.reloadOldValueForm()
-        } else {
-          if (!dataget && resId != this.refID) {
-            this.getAddOn(true)
-            this.getOldData(true)
-          }
-        }
-      })
+    let resId;
+    if (!this.isApplication && this.productType != 'quotation') {
+      resId = this.refID
+    } else {
+      if (this.resourcesId) {
+        // resId = dataget ? this.refID : (this.resourcesId || this.refID)
+        resId = this.resourcesId
+      }
     }
+
+    if (!resId) return false
+    this.healthService.getOne(resId).toPromise().then((res: any) => {
+      // dataget = true
+      if (res) {
+        this.oldData = { ...res, id: null }
+        this.editId = resId == this.resourcesId ? res.id : null
+        this.getAddOn()
+        this.reloadOldValueForm()
+      } else {
+        if (!dataget && resId != this.refID) {
+          this.getAddOn(true)
+          this.getOldData(true)
+        }
+      }
+    })
   }
 
   reloadOldValueForm() {
@@ -399,34 +422,42 @@ export class SimplePageComponent implements OnInit, OnDestroy {
   }
 
   async getAddOn(dataget: boolean = false) {
-    if (this.resourcesId || this.refID) {
-      let callAgain = true
-      let resId = dataget ? this.refID : (this.resourcesId || this.refID)
-      if (!resId) return false
-      for (const item of this.product.addOns) {
-        let response: any = {};
-        try {
-          response = await this.addOnQuoService.getOne(item.id, resId, resId).toPromise()
-        } catch (error) {
-        }
-        if (response) {
-          callAgain = false
-          this.addOns[item.id + 'opt'] = response.sumInsured ? true : false
-          this.addOns[item.id + 'value'] = response.sumInsured
-        } else {
-          this.addOns[item.id + 'opt'] = false
-          this.addOns[item.id + 'value'] = null
-        }
-
+    let resId;
+    let callAgain = true
+    if (!this.isApplication && this.productType != 'quotation') {
+      resId = this.refID
+    } else {
+      if (this.resourcesId) {
+        // resId = dataget ? this.refID : (this.resourcesId || this.refID)
+        resId = this.resourcesId
       }
-      // if (callAgain && resId != this.refID && !dataget) {
-      //   this.getAddOn(true)
-      // } else {
-      this.cdf.detectChanges()
-      // }
     }
-  }
+    if (!resId) return false
 
+    for (const item of this.product.addOns) {
+      let response: any = {};
+      try {
+        response = await this.addOnQuoService.getOne(item.id, resId, resId).toPromise()
+      } catch (error) {
+      }
+      if (response) {
+        console.log("ADDON", response);
+
+        callAgain = false
+        this.addOns[item.id + 'opt'] = response.sumInsured ? true : false
+        this.addOns[item.id + 'value'] = response.sumInsured
+      } else {
+        this.addOns[item.id + 'opt'] = false
+        this.addOns[item.id + 'value'] = null
+      }
+
+    }
+    // if (callAgain && resId != this.refID && !dataget) {
+    //   this.getAddOn(true)
+    // } else {
+    this.cdf.detectChanges()
+    // }
+  }
 
   saveAddOn() {
     const formValue = this.staticForm.value

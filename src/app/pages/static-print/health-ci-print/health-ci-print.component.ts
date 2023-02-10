@@ -14,6 +14,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { PRINT } from '../static-print-const';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { PolicyService } from '../../policy/policy.service';
 
 @Component({
   selector: 'app-health-ci-print',
@@ -27,6 +28,11 @@ export class HealthCiPrintComponent implements OnInit {
   @Input() product: Product
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() sourceOfBusiness?:string
+@Input() sourceOfBusinessCode?:string
+  @Input() isPrint: any
+  @Input() emailInfo:any
+  base64Proposal:any
   signatureDate?: string
   coverage = {
     sumInsured: false,
@@ -64,7 +70,8 @@ export class HealthCiPrintComponent implements OnInit {
     private encryption: EncryptService,
     private platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private policyService:PolicyService
   ) { }
 
   ngOnInit() {
@@ -217,14 +224,23 @@ export class HealthCiPrintComponent implements OnInit {
     }
     return this.policyHolderService.getMasterDataSale(data)
   }
-
+  async submitPolicy() {
+    this.createPdf()
+    let res = true
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
+      if (res) {
+        this.modal.dismiss({ data: res })
+      }
+    })
+  }
+  
   createPdf() {
 
     // Agent Information Details
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness :this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -281,7 +297,7 @@ export class HealthCiPrintComponent implements OnInit {
         { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.formatDateDDMMYYY(this.policyInfo.insuranceEndDate), styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.policyInfo.sumInsuredMainCover + 'Units', styles: { halign: 'center', valign: 'middle' } },
+        { content: '1 Year', styles: { halign: 'center', valign: 'middle' } },
       ],
       [
         { content: 'Policy Plan', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
@@ -617,7 +633,7 @@ export class HealthCiPrintComponent implements OnInit {
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 180, height + 180);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 170);
+    doc.text(this.signatureDate ? this.formatDateDDMMYYY(this.signatureDate) : '', 10, height + 160);
     if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
@@ -639,20 +655,32 @@ export class HealthCiPrintComponent implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
-      let blobFile = doc.output('blob')
-      // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
-      this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      if (this.isPrint) {
+        let blobFile = doc.output('blob')
+        // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+        this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      } else {
+        let data = doc.output('datauristring')
+        this.base64Proposal = data
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     } else {
       console.log("Web")
       // Open PDF document in new tab
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      if (this.isPrint) {
+        console.log("HERE1==>");
 
-      // Download PDF document  
-      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+        // Download PDF document  
+        doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+      } else {
+        console.log("HERE2==>");
 
-      // Base64 output
-      // let data = doc.output('datauri')
-      // console.log("Base64 Data: ", data)
+        let data = doc.output('datauristring')
+        let test=data.split('base64,')
+        this.base64Proposal = test[1]
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     }
   }
 

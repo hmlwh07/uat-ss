@@ -14,6 +14,7 @@ import 'jspdf-autotable';
 import { DecimalPipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PRINT } from '../static-print-const';
+import { PolicyService } from '../../policy/policy.service';
 
 @Component({
   selector: 'app-fire-print',
@@ -26,6 +27,11 @@ export class FirePrintComponent implements OnInit {
   @Input() premiumAmt?: any
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() sourceOfBusiness?:string
+@Input() sourceOfBusinessCode?:string
+  @Input() isPrint: any
+  @Input() emailInfo:any
+  base64Proposal:any
   listData: any[] = []
   detail: any = {}
   policyHolder: any = {
@@ -69,7 +75,8 @@ export class FirePrintComponent implements OnInit {
     private platform: Platform,
     private attachmentDownloadService: AttachmentDownloadService,
     private numberPipe: DecimalPipe,
-    public modal: NgbActiveModal
+    public modal: NgbActiveModal,
+    private policyService:PolicyService
   ) { }
 
   ngOnInit() {
@@ -215,13 +222,24 @@ export class FirePrintComponent implements OnInit {
     }
   }
 
+  async submitPolicy() {
+    this.createPdf()
+    let res = true
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
+      if (res) {
+        this.modal.dismiss({ data: res })
+      }
+    })
+  }
+
+
   createPdf() {
 
     // Agent Information Details
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness :this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -842,20 +860,32 @@ export class FirePrintComponent implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
-      let blobFile = doc.output('blob')
-      // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
-      this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      if (this.isPrint) {
+        let blobFile = doc.output('blob')
+        // var blobPDF = new Blob([doc.output()], { type: 'application/pdf' });
+        this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
+      } else {
+        let data = doc.output('datauristring')
+        this.base64Proposal = data
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     } else {
       console.log("Web")
       // Open PDF document in new tab
       // doc.output('dataurlnewwindow', { filename: this.product.name + '(' + this.product.code + ')' + '.pdf' })
+      if (this.isPrint) {
+        console.log("HERE1==>");
 
-      // Download PDF document  
-      doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+        // Download PDF document  
+        doc.save(this.product.name + '(' + this.product.code + ')' + '.pdf');
+      } else {
+        console.log("HERE2==>");
 
-      // Base64 output
-      // let data = doc.output('datauri')
-      // console.log("Base64 Data: ", data)
+        let data = doc.output('datauristring')
+        let test=data.split('base64,')
+        this.base64Proposal = test[1]
+        console.log("this.base64Proposal: ", this.base64Proposal)
+      }
     }
   }
 

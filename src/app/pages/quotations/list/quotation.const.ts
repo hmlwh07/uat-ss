@@ -54,21 +54,22 @@ export const QuotationCol: TableCol[] = [
     // isTitle?: boolean
     isDate: true
   },
-  {
-    title: "Application",
-    type: COLTYPE.TEXT,
-    field: "create application",
-    // amtFormat?: boolean,
-    // isTitle?: boolean
-    // isDate: true
-  },
+  // {
+  //   title: "Application",
+  //   type: COLTYPE.TEXT,
+  //   field: "create application",
+  //   // amtFormat?: boolean,
+  //   // isTitle?: boolean
+  //   // isDate: true
+  // },
   {
     title: "Actions",
     type: COLTYPE.ACTION,
     field: "actions",
     btn:{
       view: true,
-      edit: true
+      edit: true,
+      editOnState: true
     }
     // amtFormat?: boolean,
     // isTitle?: boolean
@@ -84,6 +85,6 @@ export const QuoDisplayCol: string[] = [
   "premium",
   "status",
   "createdAt",
-  "create application",
+  // "create application",
   "actions",
 ]

@@ -495,8 +495,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         if (res) {
           if (res.type == 'save') {
             if (type) {
-              // console.log(res);
+              console.log(res);
               this.product[type + '_input'][page.id] = res.data
+             
               this.reSaveUpdatePageOrder()
             }
             this.cdRef.detectChanges();

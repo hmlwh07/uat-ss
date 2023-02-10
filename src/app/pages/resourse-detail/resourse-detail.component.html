@@ -32,7 +32,8 @@
             {{"FORM.bancs_policy_no" | translate}} <br>
             <span>{{resourceDetail.policyNumber}}</span>
           </div>
-          <button class="btn btn-outline-primary" *ngIf="type == 'policy'  && statusCode != '07'" style="margin-left: auto;"
+          <!-- type == 'policy'  && -->
+          <button class="btn btn-outline-primary" *ngIf=" statusCode != '07'" style="margin-left: auto;"
             (click)="viewPrint()">
             <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
           </button>
@@ -42,8 +43,57 @@
   </div>
 </div>
 <ng-container *ngIf="resourceDetail">
+  <div class="row" *ngIf="type == 'policy'">
+    <div class="col-12">
+      <div class="card card-custom gutter-b">
 
-  <div class="row">
+        <div class="row" style="padding: 10px 10px;">
+          <div class="col-3" style="text-align: left;">
+            <div>
+              <label class="card-label" style="margin-top:3%;margin-left:10%;font-size: 1rem; font-weight: 500;">Branch
+                Selection :
+              </label>
+            </div>
+          </div>
+          <div class="col-9">
+            <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+              (change)="changeBranch($event)" [(ngModel)]="branch" [items]="branchOption" bindLabel="value"
+              bindValue="code">
+            </ng-select>
+          </div>
+        </div>
+
+
+        <div class="row" style="padding: 10px 10px;">
+          <div class="col-3" style="text-align: left;">
+            <div>
+              <label class="card-label" style="margin-top:3%;margin-left:10%;font-size: 1rem; font-weight: 500;">Source
+                Of Business Selection :
+              </label>
+            </div>
+          </div>
+          <div class="col-9">
+            <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+              (change)="changeBranch($event)" [(ngModel)]="sourceOfBusiness" [items]="sourceOfBusinessOption"
+              bindLabel="value" bindValue="code">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="row" style="padding: 10px 10px;flex-direction: row-reverse;">
+          <div class="col-2">
+            <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
+            style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()" (click)="saveBranch()">
+            {{"FORM.btn_save" | translate}}
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- OLD_UI -->
+  <!-- <div class="row" *ngIf="type == 'policy'">
     <div class="col-12">
       <div class="card card-custom gutter-b">
         <div class="card-header">
@@ -59,7 +109,7 @@
                 bindValue="code">
               </ng-select>
             </div>
-            <div class="col-2" >
+            <div class="col-2">
               <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
                 style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()"
                 (click)="saveBranch()">
@@ -72,6 +122,37 @@
     </div>
 
   </div>
+
+  <div class="row" *ngIf="type == 'policy'">
+    <div class="col-12">
+      <div class="card card-custom gutter-b">
+        <div class="card-header">
+          <div class="card-title">
+            <h3 class="card-label">Source Of Business : </h3>
+          </div>
+        </div>
+        <div class="card-body customer-card-body mt-5">
+          <div class="row">
+            <div class="col-10">
+              <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+                (change)="changeBranch($event)" [(ngModel)]="sourceOfBusiness" [items]="sourceOfBusinessOption"
+                bindLabel="value" bindValue="code">
+              </ng-select>
+            </div>
+            <div class="col-2">
+              <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
+                style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()"
+                (click)="saveSourceOfBusiness()">
+                {{"FORM.btn_save" | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+  <!-- OLD_UI -->
 
   <div class="row">
     <ng-container *ngFor="let page of pageOrder">
@@ -161,8 +242,13 @@
                           <tr *ngFor="let result of resultObj[page.tableName+page.id];let i = index">
                             <td>{{i+1}}</td>
                             <ng-container *ngFor="let control of getFormatTable(page.controls)">
-                              <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
-                                {{getOtherData(control.cols,result) }}</td>
+                              <!-- <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}">
+                                {{getOtherData(control.cols,result) }}</td> -->
+                              <td [ngStyle]="{'text-align': control.subType == 'currency' ? 'right' : 'left'}"
+                                *ngIf="control.type != 'file'">{{ getOtherData(control.cols,result) }}</td>
+                              <td *ngIf="control.type == 'file'" style="text-align: left;"> <a href="javascript:;"
+                                  (click)="download(control.cols,result)">{{ getOtherData(control.cols,result) }}</a>
+                              </td>
                             </ng-container>
                           </tr>
                         </ng-container>
@@ -209,15 +295,16 @@
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy'">
-              <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()" (click)="createSign()">
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()"
+                (click)="createSign()">
                 {{"FORM.create_signature" | translate}}
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy'">
               <!-- [disabled]="resourceDetail.status == 'submitted'" -->
               <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()"
-                (click)="submitPolicy()">
-                {{"FORM.submit_application" | translate}}
+                (click)="submitPolicyWithProposal()">
+                {{"FORM.generate_proposal" | translate}}
               </button>
             </div>
           </div>

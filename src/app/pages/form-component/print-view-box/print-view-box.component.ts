@@ -28,13 +28,17 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() product: Product = {}
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
-@Input() agentId:any
+  @Input() isPrint: any
+  @Input() emailInfo: any
+  @Input() agentId: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
 
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
   branch: string = ""
+  sourceOfBusiness: string = ''
+  sourceOfBusinessCode:string=''
   today = new Date()
   agentName = ""
   agentData: any = {}
@@ -42,7 +46,7 @@ export class PrintViewBoxComponent implements OnInit {
   qrLocation: string
   policyInfo: any = {}
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
-  constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService,private healthPrintService:HealthPrintService) {
+  constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService, private healthPrintService: HealthPrintService) {
 
   }
 
@@ -106,8 +110,10 @@ export class PrintViewBoxComponent implements OnInit {
       if (this.productService.editData) {
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
+        this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
+        this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
         this.getAgentData()
-        if(this.product.code=='PCHL01'){
+        if (this.product.code == 'PCHL01') {
           this.getDetail()
         }
         // this.today = this.productService.editData.createdAt
@@ -117,9 +123,11 @@ export class PrintViewBoxComponent implements OnInit {
     }
     if (this.productService.editData) {
       this.branch = this.productService.editData.branch
+      this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
+      this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
-      if(this.product.code=='PCHL01'){
+      if (this.product.code == 'PCHL01') {
         this.getDetail()
       }
       // this.today = this.productService.editData.createdAt
@@ -170,7 +178,7 @@ export class PrintViewBoxComponent implements OnInit {
   }
 
   getAgentData() {
-    this.productService.getAgentInfo(this.agentId|| 1).toPromise().then((res: any) => {
+    this.productService.getAgentInfo(this.agentId || 1).toPromise().then((res: any) => {
       if (res) {
         // console.log("RES",res);
 

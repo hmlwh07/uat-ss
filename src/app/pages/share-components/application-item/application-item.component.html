@@ -14,20 +14,27 @@
         || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail' && itemData.leadStatusCode != '07')">
         <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
       </div>
+      
+      <div class="actions" style="  background: #05acea;" *ngIf="((itemData.emailStatus)=='fail')">
+        <img src="../../../assets/images/email-mail-svgrepo-com.svg"  (click)="actionBtn(itemData,eventType.RESEND)"
+          alt="view" style="width: 20px;height: 20px;margin: 4px 7px;     background: #05acea;" />
+      </div>
     </section>
   </div>
 </div>
 
 <div class="data-content row">
   <div class="col-4">
-    <label *ngIf="itemData.agentFirstName"> {{ itemData.agentFirstName }} {{ itemData.agentMiddleName }} {{ itemData.agentLastName }}</label>
+    <label *ngIf="itemData.agentFirstName"> {{ itemData.agentFirstName }} {{ itemData.agentMiddleName }} {{
+      itemData.agentLastName }}</label>
     <label *ngIf="itemData.productName"> {{ itemData.productName }} </label>
     <label *ngIf="itemData.submittedCode"> {{ itemData.submittedCode }} </label>
   </div>
 
-  <div class="col-4 text-left" >
-    <label *ngIf="itemData.policyInceptionDate">Inception Date :  {{ itemData.policyInceptionDate | date:'dd/MM/YYYY' }} </label>
-    <label *ngIf="itemData.policyExpireDate">Expiry Date :  {{ itemData.policyExpireDate | date:'dd/MM/YYYY' }} </label>
+  <div class="col-4 text-left">
+    <label *ngIf="itemData.policyInceptionDate">Inception Date : {{ itemData.policyInceptionDate | date:'dd/MM/YYYY' }}
+    </label>
+    <label *ngIf="itemData.policyExpireDate">Expiry Date : {{ itemData.policyExpireDate | date:'dd/MM/YYYY' }} </label>
     <label *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' "
       style="color: #FF8100 !important;"> In Progress </label>
     <label *ngIf="itemData.status == 'cancel' || itemData.status == 'Cancel' " style="color: #00ACEA !important;">
@@ -44,8 +51,10 @@
 
   <div class="col-4 text-left" style="padding: 10px 0">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
-    <label *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
-    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
+    <label
+      *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI
+      : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
+    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus | titlecase }}</label>
 
   </div>
 </div>

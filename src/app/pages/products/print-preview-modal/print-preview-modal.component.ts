@@ -29,6 +29,8 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
   @Input() agentId: any
+  @Input() isPrint: any
+  @Input() emailInfo:any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
   content: string;
@@ -55,7 +57,9 @@ export class PrintPreviewModalComponent implements OnInit, OnDestroy {
     this.isMobile = PRINT.IS_MOBILE
     if (this.resourcesId)
       this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
-
+    
+      console.log("EMAIL_TEST",this.emailInfo);
+      
   }
 
   ngOnDestroy() { }

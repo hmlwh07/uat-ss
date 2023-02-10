@@ -14,7 +14,7 @@
       <label style="margin-bottom: 0px;margin-right: 15px;">{{item | titlecase}}</label>
       <!-- <div class="col-md-6 col-xl-4"> -->
       <div style="display: flex">
-        <div *ngIf="inputData[item] >= 2" style="margin-right: 10px;">
+        <div *ngIf="inputData[item] >= 1" style="margin-right: 10px;">
           <label for="">On Reference</label>
           <span class="switch switch-icon">
             <label>
@@ -28,7 +28,7 @@
           <label for="">Read Only</label>
           <span class="switch switch-icon">
             <label>
-              <input type="checkbox" name="disabled" [checked]="inputData[item] >= 2"
+              <input type="checkbox" name="disabled" [checked]="inputData[item] == 2"
                 (change)="changeCheckRead(item,$event)" />
               <span></span>
             </label>
