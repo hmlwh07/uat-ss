@@ -50,8 +50,57 @@
   </div>
 </div>
 <ng-container *ngIf="resourceDetail">
-
   <div class="row" *ngIf="type == 'policy'">
+    <div class="col-12">
+      <div class="card card-custom gutter-b">
+
+        <div class="row" style="padding: 10px 10px;">
+          <div class="col-3" style="text-align: left;">
+            <div>
+              <label class="card-label" style="margin-top:3%;margin-left:10%;font-size: 1rem; font-weight: 500;">Branch
+                Selection :
+              </label>
+            </div>
+          </div>
+          <div class="col-9">
+            <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+              (change)="changeBranch($event)" [(ngModel)]="branch" [items]="branchOption" bindLabel="value"
+              bindValue="code">
+            </ng-select>
+          </div>
+        </div>
+
+
+        <div class="row" style="padding: 10px 10px;">
+          <div class="col-3" style="text-align: left;">
+            <div>
+              <label class="card-label" style="margin-top:3%;margin-left:10%;font-size: 1rem; font-weight: 500;">Source
+                Of Business Selection :
+              </label>
+            </div>
+          </div>
+          <div class="col-9">
+            <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+              (change)="changeBranch($event)" [(ngModel)]="sourceOfBusiness" [items]="sourceOfBusinessOption"
+              bindLabel="value" bindValue="code">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="row" style="padding: 10px 10px;flex-direction: row-reverse;">
+          <div class="col-2">
+            <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
+              style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()" (click)="saveBranch()">
+              {{"FORM.btn_save" | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- OLD_UI -->
+  <!-- <div class="row" *ngIf="type == 'policy'">
     <div class="col-12">
       <div class="card card-custom gutter-b">
         <div class="card-header">
@@ -80,6 +129,37 @@
     </div>
 
   </div>
+
+  <div class="row" *ngIf="type == 'policy'">
+    <div class="col-12">
+      <div class="card card-custom gutter-b">
+        <div class="card-header">
+          <div class="card-title">
+            <h3 class="card-label">Source Of Business : </h3>
+          </div>
+        </div>
+        <div class="card-body customer-card-body mt-5">
+          <div class="row">
+            <div class="col-10">
+              <ng-select class="ng-custom-select" [disabled]="checkDisabled()" placeholder="Please Select"
+                (change)="changeBranch($event)" [(ngModel)]="sourceOfBusiness" [items]="sourceOfBusinessOption"
+                bindLabel="value" bindValue="code">
+              </ng-select>
+            </div>
+            <div class="col-2">
+              <button class="btn btn-primary btn-elevate mx-2" *ngIf="type == 'policy'"
+                style="margin-left: auto; float: right; width: 100%;" [disabled]="checkDisabled()"
+                (click)="saveSourceOfBusiness()">
+                {{"FORM.btn_save" | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> -->
+  <!-- OLD_UI -->
 
   <div class="row">
     <ng-container *ngFor="let page of pageOrder">
@@ -134,13 +214,21 @@
                                 (resultObj[page.tableName+page.id][cont.name] | date: 'dd/MM/yyyy') : "" }}
 
                               </span>
-                              <span *ngIf="cont.type != 'currency' && cont.input != 'date'">
+                              <span *ngIf="cont.type != 'currency' && cont.input != 'date' && cont.input != 'file'" >
                                 {{resultObj[page.tableName+page.id][cont.name]}}
+                              </span>
+                              <!-- <span *ngIf="cont.input == 'file'" style="color:red">
+                                {{resultObj[page.tableName+page.id][cont.name]}}
+                              </span> -->
+                              <span *ngIf="cont.input == 'file'"> <a href="javascript:;"
+                                  (click)="downloadFile(resultObj[page.tableName+page.id][cont.name])">
+                                  {{getFileName(resultObj[page.tableName+page.id][cont.name])}}</a>
                               </span>
                               <ng-container *ngIf="cont.input == 'date' && cont.type == 'policy'">
                                 <!-- {{cont.endLabel == '-' }}  --> -
                                 {{resultObj[page.tableName+page.id][cont.endName] | date: 'dd/MM/yyyy'}}
                               </ng-container>
+
                             </ng-template>
                             <div style="clear: both;"></div>
                           </li>
@@ -232,7 +320,7 @@
               <!-- [disabled]="resourceDetail.status == 'submitted'" -->
               <button type="submit" class="btn btn-primary btn-block" [disabled]="checkDisabled()"
                 (click)="submitPolicyWithProposal()">
-                {{"FORM.submit_application" | translate}}
+                {{"FORM.generate_proposal" | translate}}
               </button>
             </div>
           </div>

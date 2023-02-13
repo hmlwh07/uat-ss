@@ -33,7 +33,8 @@
           Sales Channel
         </div>
         <div class="col-sm-3">
-          {{agentData.sourceOfBusiness}}
+          <!-- {{agentData.sourceOfBusiness}} -->
+        {{sourceOfBusiness || agentData.sourceOfBusiness}}
         </div>
         <div class="col-sm-3 text-bold">
           Branch
@@ -183,15 +184,48 @@
       </ng-container>
       <ng-template #staticPrint>
         <ng-container *ngIf="product.code=='CLFR01'">
-          <app-fire-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+          <app-fire-print [isPrint]="isPrint"  [emailInfo]="emailInfo" [resourcesId]="resourcesId" [sourceOfBusinessCode]="sourceOfBusinessCode" [sourceOfBusiness]="sourceOfBusiness" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-fire-print>
         </ng-container>
-        <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01'">
-          <app-moter-print [isPrint]="isPrint" [resourceDetail]="resourceDetail" [creatingProd]="creatingProd" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+        <ng-container *ngIf="product.code=='PLMO02'|| product.code=='PLMO01' ">
+          <app-moter-print [isPrint]="isPrint" [emailInfo]="emailInfo"  [resourcesId]="resourcesId" [sourceOfBusinessCode]="sourceOfBusinessCode" [sourceOfBusiness]="sourceOfBusiness" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-moter-print>
         </ng-container>
         <ng-container *ngIf="product.code=='PLTR01' ">
-          <app-travel-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch" [agentData]="agentData"
+          <!-- <div class="container">
+            <div id="pdfTable" #pdfTable>
+              <h2>Angular HTML To PDF Using PDFMAKE and htm-to-pdfmake Example - readerstacks.com</h2>
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>S.no.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Rem</td>
+                    <td>Rem@yopmail.com</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Joe</td>
+                    <td>joe@yopmail.com</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Kuple</td>
+                    <td>Kuple@yopmail.com</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="btn btn-primary" (click)="downloadAsPDF();">Export To PDF</button>
+          </div>-->
+          <app-travel-print [isPrint]="isPrint" [emailInfo]="emailInfo"  [resourcesId]="resourcesId" [sourceOfBusinessCode]="sourceOfBusinessCode" [sourceOfBusiness]="sourceOfBusiness" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-travel-print>
         </ng-container>
         <!-- <ng-container *ngIf="product.code=='PLTR01'&& !isApplication ">
@@ -199,18 +233,13 @@
             [agentData]="agentData" [premiumAmt]="premimunAmt"></app-travel-print-quo>
         </ng-container> -->
         <ng-container *ngIf="product.code=='PCHL01' ">
-          <app-health-ci-print [isPrint]="isPrint" [product]="product" [resourcesId]="resourcesId" [branch]="branch"
-            [agentData]="agentData" [premiumAmt]="premimunAmt">
+          <app-health-ci-print [isPrint]="isPrint" [emailInfo]="emailInfo"  [product]="product" [resourcesId]="resourcesId" [sourceOfBusinessCode]="sourceOfBusinessCode" [sourceOfBusiness]="sourceOfBusiness" [branch]="branch" [agentData]="agentData"
+            [premiumAmt]="premimunAmt">
           </app-health-ci-print>
         </ng-container>
-        <!-- <ng-container *ngIf="product.code=='PCHL01'&& !isApplication  ">
-          <app-health-ci-print-quo [isPrint]="isPrint" [product]="product" [resourcesId]="resourcesId" [branch]="branch"
-            [agentData]="agentData" [premiumAmt]="premimunAmt">
-          </app-health-ci-print-quo>
-        </ng-container> -->
-        <ng-container *ngIf="product.code=='PLPA01'">
-          <app-personal-accident-print [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch"
-            [agentData]="agentData" [premiumAmt]="premimunAmt">
+        <ng-container *ngIf="product.code=='PLPA01' ">
+          <app-personal-accident-print [isPrint]="isPrint" [emailInfo]="emailInfo"  [resourcesId]="resourcesId" [sourceOfBusinessCode]="sourceOfBusinessCode" [sourceOfBusiness]="sourceOfBusiness" [branch]="branch" [agentData]="agentData"
+            [premiumAmt]="premimunAmt">
           </app-personal-accident-print>
         </ng-container>
         <!-- <ng-container *ngIf="product.code=='PLPA01'&& !isApplication  ">

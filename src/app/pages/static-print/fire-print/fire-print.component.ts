@@ -27,15 +27,18 @@ export class FirePrintComponent implements OnInit {
   @Input() premiumAmt?: any
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() sourceOfBusiness?: string
+  @Input() sourceOfBusinessCode?: string
   @Input() isPrint: any
+  @Input() emailInfo: any
   base64Proposal: any
-  coverCount: number = 0;
   listData: any[] = []
   detail: any = {}
   policyHolder: any = {
     partyAddress: []
   }
   isExistData = false;
+  coverCount: number = 0
   address: any = {}
   additionalcoverinfo: any = {}
   optionId: any
@@ -222,7 +225,7 @@ export class FirePrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo, this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -236,7 +239,7 @@ export class FirePrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],

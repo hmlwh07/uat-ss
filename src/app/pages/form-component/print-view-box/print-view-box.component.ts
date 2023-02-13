@@ -29,6 +29,7 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() tempData: any = {}
   @Input() resourcesId: string = ""
   @Input() isPrint: any
+  @Input() emailInfo: any
   @Input() agentId: any
   @Input() isApplication: boolean
   @Input() creatingProd: any
@@ -40,7 +41,8 @@ export class PrintViewBoxComponent implements OnInit {
 
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
-  // branch: string = ""
+  sourceOfBusiness: string = ''
+  sourceOfBusinessCode:string=''
   today = new Date()
   agentName = ""
   agentData: any = {}
@@ -108,9 +110,11 @@ export class PrintViewBoxComponent implements OnInit {
         }
 
       }
-      if (this.creatingProd) {
-        this.premimunAmt = this.premiumView
-        // this.branch = this.branch
+      if (this.productService.editData) {
+        this.premimunAmt = this.productService.editData.premiumView
+        this.branch = this.productService.editData.branch
+        this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
+        this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
         this.getAgentData()
         if (this.product.code == 'PCHL01') {
           this.getDetail()
@@ -120,9 +124,11 @@ export class PrintViewBoxComponent implements OnInit {
       }
       this.formatedData = true
     }
-    if (this.creatingProd) {
-      // this.branch = this.creatingProd.branch
-      this.premimunAmt = this.premiumView
+    if (this.productService.editData) {
+      this.branch = this.productService.editData.branch
+      this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
+      this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
+      this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
       if (this.product.code == 'PCHL01') {
         this.getDetail()

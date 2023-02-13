@@ -25,10 +25,11 @@ export class MoterPrintComponent implements OnInit {
   @Input() resourcesId?: string
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() sourceOfBusiness?: string
+  @Input() sourceOfBusinessCode?: string
   @Input() premiumAmt?: any
   @Input() isPrint: any
-  @Input() creatingProd:any
-  @Input() resourceDetail:any
+  @Input() emailInfo: any
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
@@ -69,6 +70,7 @@ export class MoterPrintComponent implements OnInit {
   coverageData: any = []
   coverage: any
   coverageData2: any = []
+  resourceDetail:any={}
   isMobile: boolean = false
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
@@ -104,6 +106,8 @@ export class MoterPrintComponent implements OnInit {
     this.getDetail()
     this.getAddonCover()
     this.getCoverage()
+    console.log("EMAIL_TEST", this.emailInfo);
+
   }
 
   getPolicyHolder() {
@@ -204,7 +208,7 @@ export class MoterPrintComponent implements OnInit {
   }
 
   async getAddonCover() {
-    this.product = this.creatingProd
+    this.product = this.productService.createingProd || this.productService.selectedProd
     // console.log(this.product, this.listData);
     let obj = {
       description: 'MOTOR',
@@ -238,7 +242,7 @@ export class MoterPrintComponent implements OnInit {
     // console.log("ADDONDATA", this.addOnData);
   }
   async getCoverage() {
-    this.product = this.creatingProd
+    this.product = this.productService.createingProd || this.productService.selectedProd
     // console.log(this.product, this.listData);
 
     let obj = {
@@ -273,7 +277,7 @@ export class MoterPrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -286,7 +290,7 @@ export class MoterPrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '-', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch ? this.branch : '-', styles: { halign: 'left', valign: 'middle' } },
       ],

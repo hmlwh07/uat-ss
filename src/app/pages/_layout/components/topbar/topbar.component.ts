@@ -165,13 +165,14 @@ export class TopbarComponent implements OnInit, AfterViewInit {
 
   getNotiList(index?) {
     if (index > 0) {
-      
+
       index++
       this.notificationService.getById(this.currentUser.username).toPromise()
         .then(async (res: any) => {
           if (res) {
             for (let data of res) {
               data.policyStatus = data.policyStatus.toUpperCase();
+              data.emailStatus = data.emailStatus ? data.emailStatus.toUpperCase() : null;
               data.createdAt = moment(data.createdAt).format("yyyy-MM-DD HH:mm:ss")
               if (this.notiCount > 0) {
                 localStorage.setItem("KBZ_NOTI", 0 + "")
@@ -183,7 +184,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
           }
         });
     } else {
-      
+
       this.notificationService.getById(this.currentUser.username).toPromise()
         .then(async (res: any) => {
           if (res) {

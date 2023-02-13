@@ -33,10 +33,10 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   @Input() travelerForm: PageUI
   @Input() benefiForm: PageUI
   @Input() riskId: number
+  isApplication: boolean = true
   @Input() sumInsured: any
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
-  isApplication: boolean = true
   tempRefTravel: any = []
   tempRefTraveler: any = []
   tempRefBeni: any = []
@@ -83,10 +83,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     this.unsub.forEach(x => x.unsubscribe())
   }
   ngOnInit(): void {
-    console.log("datempData", this.tempData);
-
     // console.log("tableReform", this.tableReform);
-    this.isApplication = this.prodService.isApplication
 
     this.unsub[0] = this.globalFun.currenyValueObs.subscribe((res) => {
       if (this.currencyType != res) {
@@ -103,8 +100,6 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
     if (this.oldData.id) {
       this.updateTravelRisk(this.oldData.id)
     } else {
-      console.log("HERE");
-
       this.saveTravelRisk()
     }
   }
@@ -136,8 +131,8 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   }
 
   toggleAccordion(type: string) {
-    console.log(type,this.activeBox);
-    
+    console.log(type, this.activeBox);
+
     this.activeBox = type == this.activeBox ? "" : type
   }
 
@@ -198,7 +193,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
   saveDetailTemp(event) {
     if (this.prodDetailForm.pageType == "form" && this.tempData['travelDetail']) {
-      if (this.tempData['travelDetail'].refId && this.tempData['travelDetail'].travel_area)
+      if (this.tempData['travelDetail'].refId)
         this.updateDataAPI(this.prodDetailForm, event, this.tempData['travelDetail'].refId)
       else
         this.saveDataAPI(this.prodDetailForm, event)
@@ -353,11 +348,11 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
           this.tempData[type] = { ...formData, refId: res[0].refId, pageId: page.id, risk_id: this.riskId }
           if (type == "travelDetail") {
             // this.riskId = res[0].refId
-           
-            if(this.isApplication){
+
+            if (this.isApplication) {
               this.stepData.step1 = true
               this.activeBox = "TRAVELER"
-            }else{
+            } else {
               this.stepData.step3 = true
               this.activeBox = "COVER"
             }
@@ -473,10 +468,10 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         if (isTable < 0) {
           this.tempData[type] = { ...formData, refId: res.refId }
           if (type == "travelDetail") {
-            if(this.isApplication){
+            if (this.isApplication) {
               this.stepData.step1 = true
               this.activeBox = "TRAVELER"
-            }else{
+            } else {
               this.stepData.step3 = true
               this.activeBox = "COVER"
             }
@@ -512,9 +507,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       premium: this.premium,
       resourceId: this.resourceId,
       totalUnit: parseInt(this.tempData['travelDetail'].travel_unit),
-      travelDuration: this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null,
-      travelPlan: this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null,
-      travellerName: null,
+      travelDuration: this.tempData['travelDetail'].travel_duration,
+      travelPlan: this.tempData['travelDetail'].travel_plan,
+      travellerName: this.tempData['traveler'].traveler_name,
       sumInsured: (Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
       sumInsuredView: this.sumInsured,
       riskId: this.tempData['travelDetail'].refId,
@@ -534,18 +529,10 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         type: this.prodService.type
       },
     }
-    if (this.prodService.viewType == 'policy') {
-      // postData.travelDuration = this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null
-      // postData.travelPlan = this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null
-      postData.travellerName = this.tempData['traveler'].traveler_name ? this.tempData['traveler'].traveler_name : null
-    }
-    console.log(postData);
-
     this.travelRikService.save(postData).toPromise().then((result: any) => {
       if (result) {
 
         this.updateTravelRisk(result)
-        // this.ngModal.dismiss()
         this.ngModal.dismiss({
           type: "save", data: { ...postData, id: result },
           detail: this.tempData['travelDetail'], traveler: this.tempData['traveler'],
@@ -566,9 +553,9 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
       premium: this.premium,
       resourceId: this.resourceId,
       totalUnit: parseInt(this.tempData['travelDetail'].travel_unit),
-      travelDuration: this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null,
-      travelPlan: this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null,
-      travellerName: null,
+      travelDuration: this.tempData['travelDetail'].travel_duration,
+      travelPlan: this.tempData['travelDetail'].travel_plan,
+      travellerName: this.tempData['traveler'].traveler_name,
       sumInsured: (Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
       sumInsuredView: this.sumInsured,
       riskId: oldId ? oldId : this.tempData['travelDetail'].refId,
@@ -588,13 +575,6 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         type: this.prodService.type
       },
     }
-    if (this.prodService.viewType == 'policy') {
-      // postData.travelDuration = this.tempData['travelDetail'].travel_duration ? this.tempData['travelDetail'].travel_duration : null
-      // postData.travelPlan = this.tempData['travelDetail'].travel_plan ? this.tempData['travelDetail'].travel_plan : null
-      postData.travellerName = this.tempData['traveler'].traveler_name ? this.tempData['traveler'].traveler_name : null
-    }
-    console.log("POST", postData);
-
     this.travelRikService.updateNoID(postData).toPromise().then((result: any) => {
       if (result) {
         this.updateRiskId(this.tempRefTravel, result, 'travel_detail')
@@ -608,7 +588,6 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
         })
       }
     })
-    // this.ngModal.dismiss()
   }
 
   updateRiskId(refId, riskId, table) {
@@ -652,3 +631,4 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
 
 
 }
+

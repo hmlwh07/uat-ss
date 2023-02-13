@@ -50,6 +50,8 @@ export class CustomInputAlertComponent implements OnInit {
         this.alertService.activate('This file size is greater than 20MB.', 'Warning')
       } else {
         // console.log(file);
+        // console.log(file.name.split('.'));
+        
         const reader = getFileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {

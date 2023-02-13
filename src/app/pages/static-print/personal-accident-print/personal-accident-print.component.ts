@@ -26,8 +26,11 @@ export class PersonalAccidentPrintComponent implements OnInit {
   @Input() premiumAmt: any
   @Input() agentData?: any
   @Input() branch?: string
+  @Input() sourceOfBusiness?:string
+@Input() sourceOfBusinessCode?:string
   @Input() isPrint: any
-  base64Proposal: any
+  @Input() emailInfo:any
+  base64Proposal:any
   product: any
   sumInsuredAmt: any
   listData: any[] = []
@@ -146,7 +149,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -160,7 +163,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '-', styles: { halign: 'left', valign: 'middle' } },
+        { content:this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch ? this.branch : '-', styles: { halign: 'left', valign: 'middle' } },
       ],

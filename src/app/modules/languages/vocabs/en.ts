@@ -414,6 +414,7 @@ export const locale = {
       expired_start_date: "Expired Start Date",
       expired_end_date: "Expired End Date",
       expiredDate: "Expired Date",
+      generate_proposal:"Generate Proposal",
     },
     NAV: {
       my_acc: "My Account",

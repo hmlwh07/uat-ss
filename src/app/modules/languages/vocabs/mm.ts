@@ -471,6 +471,7 @@ export const locale = {
       expired_start_date:"Expired Start Date",
       expired_end_date:"Expired End Date",
       expiredDate:"Expired Date",
+      generate_proposal:"လျှောက်လွှာ ဖန်တီးရန်",
     },
     NAV: {
       my_acc: "ကိုယ်ပိုင်အကောင့်",
