@@ -266,6 +266,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.pageOrder[index].tableName = page.tableName
         this.pageOrder[index].id = page.id
         this.pageOrder[index].controls = page.controls
+        console.log("this.pageOrder[index].controls ", this.pageOrder[index].controls);
 
         this.pageDataService.getDetail(page.tableName, oldData.id, page.id, true, page.controls).toPromise().then((res: any[]) => {
           if (res) {
@@ -307,10 +308,18 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     let fileName = this.getOtherData(cols, data)
     if (value) {
       let valueId = value.split("].")[0].replace("[", "")
-      console.log("vvalueId", valueId);
-
+      
       this.downloadService.getDownload(valueId, fileName)
     }
+  }
+  downloadFile(data: any) {
+    let test = data.split("].")
+    let file = test[0].split("[")
+    this.downloadService.getDownload(file[1], test[1])
+  }
+  getFileName(data: any) {
+    let test = data.split("].")
+    return test[1]
   }
 
   getFormatTable(controls: ConfigInput[]) {
@@ -744,3 +753,4 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
 
   }
 }
+
