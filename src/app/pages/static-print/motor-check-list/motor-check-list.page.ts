@@ -5,6 +5,8 @@ import { Platform } from '@ionic/angular';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import jsPDF from 'jspdf';
 import { catchError, forkJoin, map, of } from 'rxjs';
+import { LanguagesService } from 'src/app/modules/languages/languages.service';
+import { TranslatePipe } from 'src/app/modules/languages/translate.pipe';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { AttachmentDownloadService } from 'src/app/_metronic/core/services/attachment-data.service';
@@ -22,7 +24,7 @@ import { MotorPrintService } from '../../products/services/motor-print.service';
 import { ProductDataService } from '../../products/services/products-data.service';
 import { SignaturePadComponent } from '../../resourse-detail/signature-pad/signature-pad.component';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
-
+import { font } from "./font";
 @Component({
   selector: 'app-motor-check-list',
   templateUrl: './motor-check-list.page.html',
@@ -85,6 +87,7 @@ export class MotorCheckListPage implements OnInit {
     private modalService: NgbModal,
     private policyService: PolicyService,
     private alertService: AlertService,
+    private languageService: LanguagesService,
     private masterDataService: MasterDataService,
     private leadDetailService: LeadDetailService,
     public modal: NgbActiveModal,
@@ -92,7 +95,7 @@ export class MotorCheckListPage implements OnInit {
     private platform: Platform,
     private encryption: EncryptService,
     private policyHolderService: PolicyHolderService,
-    private motorService: MotorPrintService
+    private motorService: MotorPrintService,
   ) { }
 
   async ngOnInit() {
@@ -810,7 +813,7 @@ export class MotorCheckListPage implements OnInit {
 
         if (data.input == 'label') {
           let checkListInfoDetailData = [
-            { content: data.name, styles: { halign: 'left', valign: 'middle' } },
+            { content: data.nameMM, styles: { halign: 'left', valign: 'middle' } },
           ]
           checkListInfoDetailList.push(checkListInfoDetailData)
         }
@@ -822,6 +825,10 @@ export class MotorCheckListPage implements OnInit {
     console.log("travelInfoDetailList", checkListInfoDetailList);
     // Start creating jsPDF
     var doc: any = new jsPDF('p', 'pt', 'a4');
+    doc.addFileToVFS("Zawgyi-one.ttf", font);
+    doc.addFont("Zawgyi-one.ttf", "Zawgyi", "normal");
+    doc.setFont("Zawgyi");
+
     let pageSize = doc.internal.pageSize;
     let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
     let width = pageSize.width ? pageSize.width : pageSize.getWidth();
@@ -833,7 +840,7 @@ export class MotorCheckListPage implements OnInit {
 
     // Agent Information Details
     let title = this.pageTitle
-    doc.setFontSize(12).setFont('helvetica', 'bold', 'bold');
+    doc.setFontSize(12).setFont('Zawgyi', 'bold', 'bold');
     doc.text(title, width / 2, height + 100, { align: 'center' });
     doc.autoTable({
       body: checkListInfoDetailList,
@@ -843,7 +850,7 @@ export class MotorCheckListPage implements OnInit {
       showHead: 'firstPage',
       styles: {
         fontSize: 8,
-        font: 'helvetica',
+        font: 'Zawgyi',
         cellPadding: 5,
         minCellHeight: 5,
         lineColor: '#fff',
@@ -871,14 +878,14 @@ export class MotorCheckListPage implements OnInit {
     doc.text(this.vehicleDetail ? (this.vehicleDetail.mRegistrationNo) : '', width - 180, height + 50);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("SIGN", width - 230, height + 70);
-     if (this.fileId) {
+    if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
       doc.addImage(img, 'PNG', width - 150, height + 70, 70, 50);
     }
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 150, height + 110);
-   
+
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
     for (let i = 0; i < pageCount; i++) {

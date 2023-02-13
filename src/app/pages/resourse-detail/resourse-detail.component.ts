@@ -271,7 +271,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.pageOrder[index].tableName = page.tableName
         this.pageOrder[index].id = page.id
         this.pageOrder[index].controls = page.controls
-     
+        console.log("this.pageOrder[index].controls",this.pageOrder[index].controls);
+        
         this.pageDataService.getDetail(page.tableName, oldData.id, page.id, true, page.controls).toPromise().then((res: any[]) => {
           if (res) {
             let temp = page.pageType == 'form' ? {} : []
