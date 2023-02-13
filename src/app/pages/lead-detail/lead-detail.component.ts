@@ -1703,6 +1703,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = item
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/resourse-detail")
       }
     })
@@ -1713,6 +1714,7 @@ export class LeadDetailComponent implements OnInit {
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.editData = item
+        this.prodctService.isApplication = false
         this.prodctService.previewType = 'quotation'
         this.router.navigateByUrl("/resourse-detail")
       }
