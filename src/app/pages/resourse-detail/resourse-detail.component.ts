@@ -318,8 +318,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     this.downloadService.getDownload(file[1], test[1])
   }
   getFileName(data: any) {
-    let test = data.split("].")
-    return test[1]
+    if(data){
+      if(data.includes('[')){
+        let test = data.split("].")
+        return test[1]
+      }
+    }
+    return data
   }
 
   getFormatTable(controls: ConfigInput[]) {
