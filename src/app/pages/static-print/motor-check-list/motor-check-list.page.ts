@@ -868,16 +868,16 @@ export class MotorCheckListPage implements OnInit {
       }
     });
     height = doc.lastAutoTable.finalY;
-    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text("Name", width - 230, height + 30);
+    doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
+    doc.text("အမည္", width - 230, height + 30);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text(this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', width - 180, height + 30);
+    doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
+    doc.text("​ေမာ္​ေတာ္ယာဥ္အမွတ္", width - 230, height + 50);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text("Vehicle No", width - 230, height + 50);
-    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.vehicleDetail ? (this.vehicleDetail.mRegistrationNo) : '', width - 180, height + 50);
-    doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text("SIGN", width - 230, height + 70);
+    doc.text(this.vehicleDetail ? (this.vehicleDetail.mRegistrationNo) : '', width - 150, height + 50);
+    doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
+    doc.text("လက္မွတ္", width - 230, height + 70);
     if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
