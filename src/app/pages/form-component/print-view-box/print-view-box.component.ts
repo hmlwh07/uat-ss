@@ -57,7 +57,7 @@ export class PrintViewBoxComponent implements OnInit {
   //wait for the component to render completely
   async ngOnInit() {
     if (this.resourcesId)
-      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.creatingProd.id
+      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
     await this.loadingService.activate()
     if (this.config) {
 
@@ -120,7 +120,7 @@ export class PrintViewBoxComponent implements OnInit {
           this.getDetail()
         }
         // this.today = this.creatingProd.createdAt
-        this.agentName = this.creatingProd.agentFirstName + this.creatingProd.agentLastName
+        this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
       }
       this.formatedData = true
     }
@@ -133,8 +133,8 @@ export class PrintViewBoxComponent implements OnInit {
       if (this.product.code == 'PCHL01') {
         this.getDetail()
       }
-      // this.today = this.creatingProd.createdAt
-      this.agentName = this.creatingProd.agentFirstName + this.creatingProd.agentLastName
+      // this.today = this.createingProd.createdAt
+      this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
     }
     this.formatedData = true
     await this.loadingService.deactivate()
