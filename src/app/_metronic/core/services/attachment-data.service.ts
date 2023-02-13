@@ -97,11 +97,11 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
 
 
   async getDownload(id, fileName: string) {
-    // this.fileId = this.encryptService.encryptData(id)
-    // console.log(this.fileId);
+    this.fileId = this.encryptService.encryptData(id)
+    console.log(this.fileId);
 
-    // if(this.fileId){
-    this.httpClient.get(API_DOWNLOAD_URL + "/" + id, { responseType: 'blob' }).toPromise().then((res) => {
+    if(this.fileId){
+    this.httpClient.get(API_DOWNLOAD_URL + "?id=" + this.fileId, { responseType: 'blob' }).toPromise().then((res) => {
       if (res) {
         if (Capacitor.isNativePlatform()) {
           this.mobileDownload(fileName, res)
@@ -111,7 +111,7 @@ export class AttachmentDownloadService extends BizOperationService<any, number>{
       }
       // this.downloadFile(res, fileName)
     })
-    // }
+    }
   }
 
   downloadFile(data, fileName) {
