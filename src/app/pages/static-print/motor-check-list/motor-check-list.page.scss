@@ -12,6 +12,14 @@
       margin-right: 10px;
     }
   }
+  .list-group-item:first-child{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem !important;
+  }
+  .list-group-item{
+    font-size: 1rem;
+  }
   
   .header-logo {
     display: flex;

@@ -60,6 +60,7 @@ export class MotorCheckListPage implements OnInit {
     premium: false,
   }
   pageTitle: string = ''
+  subTitle: string = ''
   coverageData: any = {}
   addOnData: any = {}
   @Input() resourceDetail: any = {}
@@ -804,13 +805,14 @@ export class MotorCheckListPage implements OnInit {
   }
   createPdf() {
     let checkListInfoDetailList = [];
+    let removeFistcheckListInfoDetailList = []
     // Agent Information Details
     for (var i = 0; i < this.pageOrder.length; i++) {
       var page = this.pageOrder[i]
       this.pageTitle = page.pageTitle
       for (var d = 0; d < page.controls.length; d++) {
         var data = page.controls[d]
-
+        this.subTitle = page.controls[0].nameMM
         if (data.input == 'label') {
           let checkListInfoDetailData = [
             { content: data.nameMM, styles: { halign: 'left', valign: 'middle' } },
@@ -821,8 +823,9 @@ export class MotorCheckListPage implements OnInit {
       }
 
     }
+    removeFistcheckListInfoDetailList = checkListInfoDetailList.slice(1)
+    console.log(this.subTitle);
 
-    console.log("travelInfoDetailList", checkListInfoDetailList);
     // Start creating jsPDF
     var doc: any = new jsPDF('p', 'pt', 'a4');
     doc.addFileToVFS("Zawgyi-one.ttf", font);
@@ -840,19 +843,22 @@ export class MotorCheckListPage implements OnInit {
 
     // Agent Information Details
     let title = this.pageTitle
-    doc.setFontSize(12).setFont('Zawgyi', 'bold', 'bold');
+    doc.setFontSize(12).setFont('Zawgyi', 'normal', 'normal');
     doc.text(title, width / 2, height + 100, { align: 'center' });
+
+    doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
+    doc.text(this.subTitle, width / 2, height + 120, { align: 'center' });
     doc.autoTable({
-      body: checkListInfoDetailList,
+      body: removeFistcheckListInfoDetailList,
       theme: 'grid',
-      startY: height + 110,
+      startY: height + 130,
       margin: { left: 15, right: 10 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 8,
+        fontSize: 10,
         font: 'Zawgyi',
-        cellPadding: 15,
-        minCellHeight: 35,
+        cellPadding: 10,
+        minCellHeight: 30,
         lineColor: '#fff',
         cellWidth: 'auto',
       },
@@ -884,7 +890,7 @@ export class MotorCheckListPage implements OnInit {
       doc.addImage(img, 'PNG', width - 150, height + 70, 70, 50);
     }
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 150, height + 110);
+    doc.text("-----------------------------", width - 150, height + 120);
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
@@ -901,7 +907,7 @@ export class MotorCheckListPage implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       let blobFile = doc.output('blob')
-      this.attachmentDownloadService.mobileDownload(this.pageTitle + '.pdf', blobFile);
+      this.attachmentDownloadService.mobileDownload((this.pageTitle + '_CheckList') + '.pdf', blobFile);
     }
     else {
       console.log("Web")
