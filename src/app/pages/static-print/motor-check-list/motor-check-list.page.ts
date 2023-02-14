@@ -123,7 +123,7 @@ export class MotorCheckListPage implements OnInit {
 
     let pageUI: ProductPages = JSON.parse(this.item.config);
     console.log("ITEM.config", pageUI.application);
-    let checkList = pageUI.application.find(x => x.pageTitle == 'Motor Check List')
+    let checkList = pageUI.application.find(x => x.pageTitle == 'Comprehensive Motor Insurance')
     console.log("CHECKLIST", checkList);
 
     if (this.productService.previewType == 'quotation') {
