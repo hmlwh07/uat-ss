@@ -914,7 +914,7 @@ export class MotorCheckListPage implements OnInit {
       console.log("Web")
       console.log("HERE1==>");
       // Download PDF document  
-      doc.save(this.pageTitle + '.pdf');
+      doc.save((this.pageTitle + '_CheckList') + '.pdf');
     }
   }
 }
