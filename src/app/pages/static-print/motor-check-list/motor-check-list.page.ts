@@ -815,7 +815,7 @@ export class MotorCheckListPage implements OnInit {
         this.subTitle = page.controls[0].nameMM
         if (data.input == 'label') {
           let checkListInfoDetailData = [
-            { content: data.nameMM, styles: { halign: 'left', valign: 'middle' } },
+            { content: data.nameMM, styles: { halign: 'left', valign: 'middle', lineHeight: '2.5' } },
           ]
           checkListInfoDetailList.push(checkListInfoDetailData)
         }
@@ -827,11 +827,11 @@ export class MotorCheckListPage implements OnInit {
     console.log(this.subTitle);
 
     // Start creating jsPDF
-    var doc: any = new jsPDF('p', 'pt', 'a4');
+    var doc: any = new jsPDF('p', 'pt', 'a4',);
     doc.addFileToVFS("Zawgyi-one.ttf", font);
     doc.addFont("Zawgyi-one.ttf", "Zawgyi", "normal");
     doc.setFont("Zawgyi");
-
+    doc.setLineHeightFactor(2.5)
     let pageSize = doc.internal.pageSize;
     let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
     let width = pageSize.width ? pageSize.width : pageSize.getWidth();
@@ -848,46 +848,47 @@ export class MotorCheckListPage implements OnInit {
 
     doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
     doc.text(this.subTitle, width / 2, height + 120, { align: 'center' });
+
     doc.autoTable({
       body: removeFistcheckListInfoDetailList,
       theme: 'grid',
       startY: height + 130,
-      margin: { left: 15, right: 10 },
+      margin: { left: 15, right: 10, bottom: 65 },
       showHead: 'firstPage',
       styles: {
         fontSize: 10,
         font: 'Zawgyi',
-        cellPadding: 10,
-        minCellHeight: 30,
+        cellPadding: 22,
+        minCellHeight: 35,
         lineColor: '#fff',
         cellWidth: 'auto',
       },
       columnStyles: {
         0: {
           fontSize: 8,
-          fontStyle: 'normal'
+          fontStyle: 'normal',
         },
         2: {
           fontSize: 8,
-          fontStyle: 'normal'
+          fontStyle: 'normal',
         },
       }
     });
     height = doc.lastAutoTable.finalY;
     doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
-    doc.text("အမည္", width - 230, height + 30);
+    doc.text("အမည္", width - 260, height + 30);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text(this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', width - 180, height + 30);
     doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
-    doc.text("​ေမာ္​ေတာ္ယာဥ္အမွတ္", width - 230, height + 50);
+    doc.text("​ေမာ္​ေတာ္ယာဥ္အမွတ္", width - 260, height + 50);
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text(this.vehicleDetail ? (this.vehicleDetail.mRegistrationNo) : '', width - 150, height + 50);
+    doc.text(this.vehicleDetail ? (this.vehicleDetail.mRegistrationNo) : '', width - 180, height + 50);
     doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
-    doc.text("လက္မွတ္", width - 230, height + 70);
+    doc.text("လက္မွတ္", width - 260, height + 70);
     if (this.fileId) {
       var img = new Image()
       img.src = this.DEFAULT_DOWNLOAD_URL + '?id=' + this.fileId
-      doc.addImage(img, 'PNG', width - 150, height + 70, 70, 50);
+      doc.addImage(img, 'PNG', width - 180, height + 70, 70, 50);
     }
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
     doc.text("-----------------------------", width - 150, height + 120);
