@@ -155,6 +155,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
+            // this.quoList[i].tcsStatus=this.getTCSStatus(this.quoList[i].submittedCode)
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
@@ -164,6 +165,14 @@ export class PolicyComponent implements OnInit, OnDestroy {
 
         //this.matTable.reChangeData()
         // })
+      }
+    })
+  }
+  async getTCSStatus(quoNumber) {
+    await this.policyService.getPolicyList(quoNumber).toPromise().then((res: any) => {
+      if (res) {
+        console.log(res);
+        return res
       }
     })
   }
@@ -245,9 +254,9 @@ export class PolicyComponent implements OnInit, OnDestroy {
         console.log(emailRes);
         if (emailRes) {
           this.getMasterValue(
-            event.data.branchCode,event.data.sourceOfBusiness, event.data.productCode
+            event.data.branchCode, event.data.sourceOfBusiness, event.data.productCode
           ).toPromise().then((res: any) => {
-            console.log("RES",res);
+            console.log("RES", res);
             event.data.branchCode = res['CORE_BRANCH']
             event.data.sourceOfBusiness = res['PRODUCT_SOB']
             let reqValue = {
@@ -275,7 +284,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     }
   }
 
-  getMasterValue(codeId: string,sourceOfBusiness,productCode?) {
+  getMasterValue(codeId: string, sourceOfBusiness, productCode?) {
     let data = {
       "codeBookRequest": [
         {
@@ -284,7 +293,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
           "langCd": "EN"
         },
         {
-          "codeId": productCode+('-')+sourceOfBusiness,
+          "codeId": productCode + ('-') + sourceOfBusiness,
           "codeType": "PRODUCT_SOB",
           "langCd": "EN"
         },
