@@ -237,7 +237,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 if (this.platform == 'android') {
                   // window.open('http://104.248.152.205:8089/opt/workspace/app/KBZ-Customer-Care.apk', '_system');
                   // window.open('https://bnkcm.com/app/BNK_AGENT.apk', '_system');
-                  window.open('https://bluestonecenter.sharepoint.com/:u:/s/Everest-DigitalFront-endKBZMS/EV5e4sGBRCdOsK5nHJ_aMdsBRS_qhtVKX972Qt12NgSVcg?e=DwwQqI','_system');
+                  window.open('https://bluestonecenter.sharepoint.com/:u:/s/Everest-DigitalFront-endKBZMS/EVP9U3M2npZPlHdrMWblA0MBosc9YkrIjq5JmIV2eUkSbA?e=nd6b1e','_system');
                 }
               }
             });
