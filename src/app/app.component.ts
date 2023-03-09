@@ -17,7 +17,7 @@ import { LoadingService } from './modules/loading-toast/loading/loading.service'
 import { MasterDataService } from './modules/master-data/master-data.service';
 import { AuthService } from './modules/auth';
 import { Device } from "@capacitor/device"
-import { App as CapacitorApp } from '@capacitor/app';
+import { App,App as CapacitorApp } from '@capacitor/app';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { AlertService } from './modules/loading-toast/alert-model/alert.service';
 import { MenuDataService } from './core/menu-data.service';
@@ -29,6 +29,7 @@ import { locale as enLang } from './modules/languages/vocabs/en';
 import { locale as mmLang } from './modules/languages/vocabs/mm';
 import { LanguagesService } from './modules/languages/languages.service';
 import { Capacitor } from '@capacitor/core';
+
 import {
   ActionPerformed,
   PushNotificationSchema, 
@@ -36,6 +37,7 @@ import {
   Token,
 } from '@capacitor/push-notifications';
 import { FireTopicService } from './fire-top.service';
+import { ApiService } from './api.service';
 @Component({ 
   // tslint:disable-next-line:component-selector
   selector: 'app-root',
@@ -48,6 +50,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private userToken = ""
   private user = null
   private pushToken = ""
+  public appInfo:any;
+  public platform: string = "web"
+  private apiPath = "app-version/check-latest.htm?"
   constructor( 
     private splashScreenService: SplashScreenService,
     private router: Router,
@@ -69,6 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private plat: Platform,
     private topicService: FireTopicService,
+    private apiService:ApiService
   ) {
     this.langageService.loadTranslations(
       enLang,
@@ -145,6 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     Device.getInfo().then((res) => {
       if (res.platform != "web") {
+        this.versionControl()
         CapacitorApp.addListener('backButton', ({ canGoBack }) => {
           if (!canGoBack) {
             this.confirmExist();
@@ -188,6 +195,56 @@ export class AppComponent implements OnInit, OnDestroy {
       this.checkTimeOut()
     })
     this.unsubscribe.push(unsubtime);
+  }
+
+  versionControl(){
+    App.getInfo().then((res) => {
+      this.appInfo = res
+      let param: any = {
+        appId: this.appInfo.id,
+        appVersion: this.appInfo.version,
+        platform: this.plat
+      }
+      
+      console.log("Request ==> ", param)
+      this.apiService.get(this.apiPath, param).toPromise().then(async (response: any) => {
+        if (response) {
+          let message=`A new version (${response.appVersion}) is now available. Please update your application.`
+          console.log("Response ==> ", response)
+          if (!response.isLatestVersion) {
+            let alert = await this.alertCtrl.create({
+              header: 'Update Required',
+              message: message,
+              buttons: [
+                // { role: "update", text: "Update Now", cssClass: (param.plat == 'android') ? 'update-alert-button-android' : 'update-alert-button-ios' },
+                { role: "download", text: "Direct Download", cssClass: 'download-alert-button' },
+              ],
+              backdropDismiss: false,
+              cssClass: "my-customer-alert1",
+            });
+            await alert.present();
+            alert.onDidDismiss().then((res) => {
+              if (res.role == "update") {
+                console.log("Platform: ", this.platform)
+                if (this.platform == 'ios') {
+                  window.open("https://apps.apple.com/app/kbzms/id1641859832");
+                }
+                if (this.platform == 'android') {
+                  window.open("https://play.google.com/store/apps/details?id=com.bluestone.kbzms_preprod");
+                }
+              }
+              if(res.role=='download'){
+                if (this.platform == 'android') {
+                  // window.open('http://104.248.152.205:8089/opt/workspace/app/KBZ-Customer-Care.apk', '_system');
+                  // window.open('https://bnkcm.com/app/BNK_AGENT.apk', '_system');
+                  window.open('https://bluestonecenter.sharepoint.com/:u:/s/Everest-DigitalFront-endKBZMS/EV5e4sGBRCdOsK5nHJ_aMdsBRS_qhtVKX972Qt12NgSVcg?e=DwwQqI','_system');
+                }
+              }
+            });
+          }
+        }
+      });
+    })
   }
 
   initNoti() {
@@ -382,3 +439,4 @@ export class AppComponent implements OnInit, OnDestroy {
     })
   }
 }
+
