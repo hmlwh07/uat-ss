@@ -43,7 +43,7 @@ export class FireRiskComponent implements OnInit {
   optionId: any;
   additionalData: any;
   addOnData: any = [] = []
-
+  isApplication: boolean = true
   constructor(
     private globalFun: GlobalFunctionService,
     private fireRiskService: FireRiskService,
@@ -58,6 +58,8 @@ export class FireRiskComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('this.prodService', this.prodService);
+    this.isApplication = this.prodService.isApplication
     this.getRiskList();
   }
   nextPage() {
@@ -102,6 +104,7 @@ export class FireRiskComponent implements OnInit {
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.editData = this.editData;
     modalRef.componentInstance.premiumAmt = this.premiumAmt;
+    modalRef.componentInstance.isApplication = this.prodService.isApplication
     modalRef.result.then(
       () => { },
       (res) => {
@@ -254,14 +257,16 @@ export class FireRiskComponent implements OnInit {
     let parentData1 = this.globalFun.tempFormData[FireRiskID];
     let parentData2 = this.globalFun.tempFormData[FirePageID];
     for (var i = 0; i < parentData1.length; i++) {
+      
       let totalPremiumNotStampDuty: any = 0;
       totalPremium += parseFloat(parentData1[i].premium);
-      if(parentData1[i].sumInsure){
-        totalSI += parseFloat(parentData1[i].sumInsure);
-      }
-      if(parentData1[i].riskSi){
+      if (parentData1[i].riskSi) {
         totalSI += parseFloat(parentData1[i].riskSi);
+        
       }
+      else if (parentData1[i].sumInsure) {
+        totalSI += parseFloat(parentData1[i].sumInsure);
+       }
       let reqBody = {
         addOnIds: this.product.addOns.map(x => { return x.id }),
         optionalKey: parentData1[i].id || '',
@@ -296,3 +301,4 @@ export class FireRiskComponent implements OnInit {
 
 
 }
+
