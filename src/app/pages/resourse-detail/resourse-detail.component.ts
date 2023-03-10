@@ -607,15 +607,15 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   // }
   Test() {
     if (!this.quoResult) {
-      this.alertService.activate("Somethings was wrong in Coverage Data", 'Warning Message')
+      this.alertService.activate("Somethings was wrong in Coverage data", 'Warning Message')
     }
   }
   
   async submitPolicyWithProposal() {
     if (!this.quoResult) {
-      this.alertService.activate("Somethings was wrong in Coverage Data", 'Warning Message')
+      this.alertService.activate("Somethings was wrong in Coverage data", 'Warning')
     }
-    if (!this.selectedBranchCode) {
+    else if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
     }
     else if (!this.selectedSourceOfBusiness) {

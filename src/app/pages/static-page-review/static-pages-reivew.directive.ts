@@ -53,11 +53,12 @@ export class StaticPageViewDirective implements StaticField, OnInit {
       this.component = this.container.createComponent(component);
       this.component.instance.product = this.product
       this.component.instance.resourcesId = this.resourcesId
-      if (this.compId == 'coverage_1634010995936') {
-        this.globalFun.quotationResult.subscribe((res) => {
-          console.log('quotationResult', res);
-          this.getQuoResult.emit(res)
-        })
+      if (this.product.code == 'PLMO01' || this.product.code == 'PLMO02') {
+        if (this.compId == 'coverage_1634010995936') {
+          this.globalFun.quotationResult.subscribe((res) => {
+            this.getQuoResult.emit(res)
+          })
+        }
       }
       if (this.compId == "static_1635747288508") {
         const component = this.resolver.resolveComponentFactory<StaticField>(STATIC_VIEW_COMPONENT['static_1635218894755']);

@@ -18,6 +18,7 @@ export class CoverageViewComponent implements OnInit {
     premium: false,
   }
   coverageData: any = {}
+  tempList: any = []
   constructor(
     private coverageQuo: CoverageQuoService,
     private globalFun: GlobalFunctionService,
@@ -35,21 +36,29 @@ export class CoverageViewComponent implements OnInit {
         if (this.resourcesId) {
           this.coverageQuo.getOne(item.id, this.resourcesId, this.optionId).toPromise().then((response: any) => {
             if (response) {
-              this.globalFun.quotationRes(true)
-              
               this.coverageData[item.id] = {
                 sum: response ? Number(response.sumInsured.replace(',', '')) || 0 : 0,
                 unit: response ? response.unit || 0 : 0,
                 premium: response ? Number(response.premium.replace(',', '')) || 0 : 0
               }
+              this.tempList.push(response)
+              if (this.product.code == 'PLMO01' || this.product.code == 'PLMO02') {
+                console.log(this.tempList.length,this.product.coverages.length);
+                
+                if (this.tempList.length == this.product.coverages.length) {
+                  this.globalFun.quotationRes(true)
+                } else {
+                  this.globalFun.quotationRes(false)
+                }
+              }
             } else {
-              console.log("FALSE");
-              this.globalFun.quotationRes(false)
-             
+
             }
           })
         }
       }
+     
+
     }
   }
   async getDetail() {
@@ -59,6 +68,7 @@ export class CoverageViewComponent implements OnInit {
         unit: this.product.coverages[0].unit,
         premium: this.product.coverages[0].premium,
       }
+
       for (const item of this.product.coverages) {
         let response: any = {};
         try {
