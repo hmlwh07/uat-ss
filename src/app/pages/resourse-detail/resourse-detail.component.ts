@@ -96,6 +96,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.location.back()
         return
       }
+      if(this.resourceDetail.updateAt){
+        this.resourceDetail.updateAt=this.formatDateDDMMYYY(this.resourceDetail.updateAt)
+      }
       let pageUI: ProductPages = JSON.parse(this.item.config);
       if (this.productService.previewType == 'quotation') {
         this.pageOrder = pageUI.quotation || []
@@ -663,6 +666,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   createSign() {
     const modalRef = this.modalService.open(SignaturePadComponent, { size: 'md', backdrop: false });
     modalRef.result.then(() => { }, (res) => {
+      console.log("DD",res);
+      
       if (res) {
         if (res.type == "save") {
           this.policyService.updateAttachment(this.resourceDetail.id, res.data.signId, res.data.signDate).toPromise().then((response) => {
@@ -676,6 +681,18 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         }
       }
     })
+  }
+
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
   }
   submitPolicy() {
     if (!this.selectedBranchCode) {

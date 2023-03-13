@@ -34,6 +34,7 @@ export class TravelPrintComponent implements OnInit {
   @Input() sourceOfBusinessCode?: string
   @Input() isPrint: any
   @Input() emailInfo: any
+  @Input() updateData:any=new Date()
   product: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
@@ -206,7 +207,7 @@ export class TravelPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData? this.updateData: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },

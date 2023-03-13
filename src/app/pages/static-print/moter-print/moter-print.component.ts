@@ -30,6 +30,7 @@ export class MoterPrintComponent implements OnInit {
   @Input() premiumAmt?: any
   @Input() isPrint: any
   @Input() emailInfo: any
+  @Input() updateData:any=new Date()
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
@@ -294,7 +295,7 @@ export class MoterPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData? this.updateData: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },

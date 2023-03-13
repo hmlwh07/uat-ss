@@ -44,6 +44,7 @@ export class PrintViewBoxComponent implements OnInit {
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
+  updateData:string;
   policyInfo: any = {}
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService, private healthPrintService: HealthPrintService) {
@@ -108,6 +109,7 @@ export class PrintViewBoxComponent implements OnInit {
 
       }
       if (this.productService.editData) {
+        this.updateData=this.productService.editData.updateAt
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
@@ -122,6 +124,7 @@ export class PrintViewBoxComponent implements OnInit {
       this.formatedData = true
     }
     if (this.productService.editData) {
+      this.updateData=this.productService.editData.updateAt
       this.branch = this.productService.editData.branch
       this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
       this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
