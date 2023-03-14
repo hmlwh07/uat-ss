@@ -294,6 +294,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
   goViewDetail(item) {
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
+      console.log("ITEM",item);
+      
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'

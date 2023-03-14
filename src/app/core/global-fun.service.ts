@@ -10,7 +10,6 @@ import { ProductPages } from "../pages/products/models/product.dto";
 import { IN_BOUND, OUT_BOUND } from "./const-data-value";
 import { IsJsonString } from "./is-json";
 import { MotorRateService } from "./rate-datas/motor-rate.service";
-
 @Injectable({
   providedIn: 'root',
 })
@@ -30,9 +29,9 @@ export class GlobalFunctionService {
   travelPlanResult = new BehaviorSubject(null)
   currenyValueObs = new BehaviorSubject("MMK")
   InceptionDateResult = new BehaviorSubject(null)
+  quotationResult = new BehaviorSubject(null)
   tempFormData = {}
   exChange: number = 1650
-
   optionResultChange = new Subject()
   sumInsuredResult = new Subject()
   crossPercent = {
@@ -42,9 +41,7 @@ export class GlobalFunctionService {
     "T-001": 1,
   }
   constructor(private numberPipe: DecimalPipe, private alert: AlertService, private exChangeService: LatestCurrencyExchangeService, private motorService: MotorRateService) {
-
   }
-
   async getRate(type: string) {
     if (!type) return false
     try {
@@ -54,21 +51,20 @@ export class GlobalFunctionService {
         return res.amount
       }
     } catch (error) {
-
     }
-
   }
-
   testingFun() {
     this.testingFunResult.next('value testing')
   }
   fireBurgery(currentValue: string, activeForm?: any, option?: any[], form?: boolean) {
     this.fireBurgeryResult.next(currentValue)
   }
+  quotationRes(currentValue:any){
+    this.quotationResult.next(currentValue)
+  }
   InceptionDate(currentValue: string, activeForm?: any, option?: any[], form?: boolean) {
     this.InceptionDateResult.next(currentValue)
   }
-
   async paPremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     //console.log("call paPremiumCalculation",activeForm);
     let currency = ""
@@ -78,20 +74,17 @@ export class GlobalFunctionService {
       // if (!this.sumInsuredValidation("form", activeForm, [], true)) {
       //   return false
       // }
-
       if (activeForm.pa_policy_term) {
         term = activeForm.pa_policy_term
       } else if (this.tempFormData['pa_product_detail']) {
         term = this.tempFormData['pa_product_detail']['pa_policy_term'] || 0
       }
-
     if (activeForm.sum_insured) {
       sumIn = activeForm.sum_insured
     }
     if (activeForm.currency) {
       currency = activeForm.currency
     }
-
     let fector = 1
     if (term == 'T-001') {
       fector = 1 / 4
@@ -108,14 +101,12 @@ export class GlobalFunctionService {
     this.paPremiumResult.next(this.numberPipe.transform(result, "1.2-2") + " " + currency)
     return true
   }
-
   sumInsured(currentValue: any, activeForm: any, option?: any[], form?: boolean) {
     let currency = ""
     let stumDuty = currency == "MMK" ? 100 : 1
     if (activeForm.currency) {
       currency = activeForm.currency
     }
-
     let result = this.calculateDecimal((currentValue)) + stumDuty
     this.sumInsuredResult.next(this.numberPipe.transform(result) + " " + currency)
   }
@@ -128,20 +119,17 @@ export class GlobalFunctionService {
     this.halfOfSumInsured(sumInsured, activeForm)
     this.snakeSumInsuredResult.next(sumInsured)
   }
-
   halfOfSumInsured(currentValue: any, activeForm: any, option?: any[], form?: boolean) {
     let valInt = parseFloat(currentValue)
     let value = this.calculateDecimal(valInt * 0.5)
     this.halfOfSumInsuredResult.next(value)
   }
-
   snakePremiumCalculation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let sumInsured = parseFloat(activeForm.sum_insured_amount)
     let premium = this.calculateDecimal(sumInsured * 0.001)
     this.paPremiumResult.next(this.numberPipe.transform(premium, "1.2-2") + " MMK")
     return true
   }
-
   sumInsuredValidation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let currency = ""
     let sumIn = 0
@@ -170,7 +158,6 @@ export class GlobalFunctionService {
     }
     return false
   }
-
   validEndoTerm(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let policy = activeForm['policy_term']
     let arrayTxt = Object.keys(this.tempFormData)
@@ -197,7 +184,6 @@ export class GlobalFunctionService {
     }
     return false
   }
-
   validDOBEDU(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let dob = activeForm['date_of_birth']
     let age = Math.ceil(moment().diff(dob, 'years', true));
@@ -240,13 +226,11 @@ export class GlobalFunctionService {
     this.paPremiumResult.next(this.numberPipe.transform(calculatedAmt, "1.2-2") + " MMK")
     return true
   }
-
   async motorFormValidation(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let total = activeForm['m_total_risk_si']
     let validAmt = 20000000
     let excess = activeForm['m_excess']
     let currency = activeForm['m_currency']
-
     if (excess == "T-ED" && currency == "MMK") {
       if (total > validAmt) {
         return true
@@ -257,18 +241,12 @@ export class GlobalFunctionService {
     }
     return true
   }
-
-
-
   // validDOB(currentValue: string, activeForm: any, option?: any[], form?: boolean, productCode?: string) {
   //   let dob = activeForm['date_of_birth']
   //   let age = Math.ceil(moment().diff(dob, 'years', true));
   //   if(productCode == "SASS01" && age > 67){
-
   //   }
   // }
-
-
   motorTotalSi(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let vehicle_si = 0
     let trailer_one_si = 0
@@ -286,14 +264,10 @@ export class GlobalFunctionService {
     if (activeForm.m_trailer_three_si) {
       trailer_three_si = parseInt(activeForm.m_trailer_three_si)
     }
-
     this.motorTotalSiResult.next(vehicle_si + trailer_one_si + trailer_two_si + trailer_three_si)
   }
-
-
   getMotorRate(motorDetail) {
     // console.log("motorDetail", motorDetail);
-
     let cc = ""
     let currency = ""
     let sumIn = 0
@@ -320,7 +294,6 @@ export class GlobalFunctionService {
     }
     return this.motorService.getOne(currency, sumIn, typeOfCoverage, typeOfVehicle, cc, productCode)
   }
-
   getMotorThirdRate(motorDetail) {
     let cc = ""
     let currency = ""
@@ -348,31 +321,26 @@ export class GlobalFunctionService {
     }
     return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc, productCode)
   }
-
   motorOwnDamage(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
     return this.getMotorRate(motorDetail).pipe(map((res: any) => {
       if (res)
         // console.log("motorOwnDamage", res);
-
         return (res.rate * term)
       return 0
     }))
   }
-
   motorThirdParty(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
     return this.getMotorThirdRate(motorDetail).pipe(map((res: any) => {
       if (res)
         // console.log("MOTORThird", res);
-
         return (res.rate * term)
       return 0
     }))
   }
-
   motorSRCC(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -407,13 +375,11 @@ export class GlobalFunctionService {
         }
       }
       // console.log("SRCC-SUM-Rate", sumIn, rate);
-
       return of((sumIn * rate) * term)
     }
     return of(0)
     // }))
   }
-
   motorWindScreen(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -455,7 +421,6 @@ export class GlobalFunctionService {
       value = 0
     return of(value)
   }
-
   motorMedicalExpense(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -464,14 +429,12 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
     let fixed = 20
     return of(fixed)
   }
-
   motorWarRisk(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -486,7 +449,6 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
@@ -496,7 +458,6 @@ export class GlobalFunctionService {
     if (motorDetail) {
       productCode = motorDetail['productCode']
     }
-
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0.00065
@@ -512,7 +473,6 @@ export class GlobalFunctionService {
     return of(0)
     // }))
   }
-
   motorActOfGod(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -555,7 +515,6 @@ export class GlobalFunctionService {
     return of(0)
     // }))
   }
-
   motorTheft(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -565,14 +524,12 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-
     return this.motorOwnDamage(motorDetail).pipe(map(res => {
       if (res > 0) {
         let rate = 0
@@ -584,13 +541,11 @@ export class GlobalFunctionService {
           rate = 0.15
         }
         // console.log("THEFT", res, rate);
-
         return ((res * rate))
       }
       return 0
     }))
   }
-
   motorEndorsement(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -600,17 +555,14 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-
     return this.motorOwnDamage(motorDetail).pipe(map(res => {
       // console.log("motorEndorsement", res);
-
       if (res > 0) {
         let rate = 0.30
         return ((res * rate))
@@ -618,7 +570,6 @@ export class GlobalFunctionService {
       return 0
     }))
   }
-
   motorLuggage(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -627,7 +578,6 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_coverage'] || 0
     }
@@ -640,9 +590,7 @@ export class GlobalFunctionService {
     // }
     return of(fixed * term)
   }
-
   // ----------------------------NEW CR ----------------------
-
   getMotorThirdRateYear(motorDetail) {
     let cc = ""
     let currency = ""
@@ -670,31 +618,26 @@ export class GlobalFunctionService {
     }
     return this.motorService.getThrid(currency, typeOfCoverage, typeOfVehicle, cc, productCode)
   }
-
   motorOwnDamageYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
     return this.getMotorRate(motorDetail).pipe(map((res: any) => {
       if (res)
         // console.log("motorOwnDamage", res);
-
         return (res.rate)
       return 0
     }))
   }
-
   motorThirdPartyYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
     return this.getMotorThirdRate(motorDetail).pipe(map((res: any) => {
       if (res)
         // console.log("MOTORThird", res);
-
         return (res.rate)
       return 0
     }))
   }
-
   motorSRCCYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -729,13 +672,11 @@ export class GlobalFunctionService {
         }
       }
       // console.log("SRCC-SUM-Rate", sumIn, rate);
-
       return of((sumIn * rate))
     }
     return of(0)
     // }))
   }
-
   motorWindScreenYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -777,7 +718,6 @@ export class GlobalFunctionService {
       value = 0
     return of(value)
   }
-
   motorMedicalExpenseYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -786,7 +726,6 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
@@ -798,7 +737,6 @@ export class GlobalFunctionService {
     // }
     return of(fixed)
   }
-
   motorWarRiskYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -813,7 +751,6 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
@@ -823,7 +760,6 @@ export class GlobalFunctionService {
     if (motorDetail) {
       productCode = motorDetail['productCode']
     }
-
     // return this.motorOwnDamage().pipe(map(res => {
     if (sumIn > 0) {
       let rate = 0.00065
@@ -839,7 +775,6 @@ export class GlobalFunctionService {
     return of(0)
     // }))
   }
-
   motorActOfGodYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -882,7 +817,6 @@ export class GlobalFunctionService {
     return of(0)
     // }))
   }
-
   motorTheftYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -892,14 +826,12 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-
     return this.motorOwnDamageYear(motorDetail).pipe(map(res => {
       if (res > 0) {
         let rate = 0
@@ -911,13 +843,11 @@ export class GlobalFunctionService {
           rate = 0.15
         }
         // console.log("THEFT", res, rate);
-
         return ((res * rate))
       }
       return 0
     }))
   }
-
   motorEndorsementYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -927,17 +857,14 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfCoverage = motorDetail['m_type_of_coverage'] || 0
     }
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_vehicle'] || 0
     }
-
     return this.motorOwnDamageYear(motorDetail).pipe(map(res => {
       // console.log("motorEndorsement", res);
-
       if (res > 0) {
         let rate = 0.30
         return ((res * rate))
@@ -945,7 +872,6 @@ export class GlobalFunctionService {
       return 0
     }))
   }
-
   motorLuggageYear(motorDetail) {
     let m_term = motorDetail['m_policy_term']
     let term = this.crossPercent[m_term]
@@ -954,7 +880,6 @@ export class GlobalFunctionService {
     if (motorDetail) {
       currency = motorDetail['m_currency'] || 0
     }
-
     if (motorDetail) {
       typeOfVehicle = motorDetail['m_type_of_coverage'] || 0
     }
@@ -967,7 +892,6 @@ export class GlobalFunctionService {
     // }
     return of(fixed)
   }
-
   motorPaidDriverYear(motorDriverDetail) {
     let length = 0
     if (motorDriverDetail) {
@@ -978,15 +902,10 @@ export class GlobalFunctionService {
   motorLiabilityYear() {
     return of(25)
   }
-
   // ----------------------------NEW CR ----------------------
-
   motorLiability() {
     return of(25)
   }
-
-
-
   motorPaidDriver(motorDriverDetail) {
     let length = 0
     if (motorDriverDetail) {
@@ -994,8 +913,6 @@ export class GlobalFunctionService {
     }
     return of(30 * length)
   }
-
-
   ifMedicalExpense(motorDetail) {
     let currency = ""
     let typeOfCoverage = ""
@@ -1017,7 +934,6 @@ export class GlobalFunctionService {
     // }
     return true
   }
-
   ifWarRisk(motorDetail) {
     let currency = ""
     let typeOfCoverage = ""
@@ -1036,7 +952,6 @@ export class GlobalFunctionService {
     }
     return true
   }
-
   ifEndorsement(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
@@ -1057,7 +972,6 @@ export class GlobalFunctionService {
     }
     return true
   }
-
   ifLiability(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
@@ -1068,7 +982,6 @@ export class GlobalFunctionService {
     }
     return false
   }
-
   ifPaidDriver(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
@@ -1079,7 +992,6 @@ export class GlobalFunctionService {
     }
     return false
   }
-
   ifCrossBorder(motorDetail) {
     let typeOfVehicle = ""
     if (motorDetail) {
@@ -1090,15 +1002,12 @@ export class GlobalFunctionService {
     // }
     return true
   }
-
   smSumInsuredAmt(currentValue: any, activeForm: any, option?: any[]) {
     let type = ""
     const defVal = 1000000
-
     if (activeForm.sm_policy_type) {
       type = activeForm.sm_policy_type
     }
-
     if (type == "T-002") {
       this.smSumInsuredAmtResult.next(defVal)
     } else {
@@ -1109,9 +1018,7 @@ export class GlobalFunctionService {
       let insuredVale = defVal * currentValue
       this.smSumInsuredAmtResult.next(insuredVale)
     }
-
   }
-
   paCoverage(currentValue: string, activeForm: any, option?: any[]) {
     let sumIn = 0
     let currency = ""
@@ -1126,10 +1033,8 @@ export class GlobalFunctionService {
       sumIn = this.tempFormData['pa_product_detail']['sum_insured'] || 0
     }
     // console.log("SUMIN", sumIn);
-
     this.paCoverageResult.next(this.numberPipe.transform(sumIn, "1.2-2") + " " + currency)
   }
-
   paPolicyValidation(value, option?: any[]) {
     let term = value
     let valid = option.find(x => x.codeId == term)
@@ -1137,11 +1042,9 @@ export class GlobalFunctionService {
       this.paPolicyValidationResult.next(valid)
     }
   }
-
   travelPlan(currentValue: string, activeForm: any, options?: any[]) {
     this.travelPlanResult.next(currentValue)
   }
-
   normalCoverage(currentValue: string, activeForm: any, options?: any[]) {
     if (options) {
       let valid = options.find(x => x.codeId == currentValue)
@@ -1152,7 +1055,6 @@ export class GlobalFunctionService {
       this.normalCoverageResult.next(currentValue)
     }
   }
-
   validSharePercent(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let oldData = option ? JSON.parse(JSON.stringify(option)) : []
     let currentPercent = parseFloat(activeForm.share)
@@ -1177,12 +1079,10 @@ export class GlobalFunctionService {
       return true
     }
   }
-
   checkPercent(currentValue: any[]) {
     let total = currentValue.reduce(function (a, b) { return a + parseFloat(b.share); }, 0);
     return total == 100 ? true : false
   }
-
   smPremium(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let type = ""
     let policy = ""
@@ -1211,7 +1111,6 @@ export class GlobalFunctionService {
     }
     return true
   }
-
   travelPremium(currentValue: string, activeForm: any, option?: any[], form?: boolean) {
     let searchData = []
     let plan = ''
@@ -1222,39 +1121,30 @@ export class GlobalFunctionService {
     if (activeForm.travel_plan) {
       plan = activeForm.travel_plan
     }
-
     if (activeForm.travel_duration) {
       duration = activeForm.travel_duration
     }
-
     if (activeForm.insured_unit) {
       unit = activeForm.insured_unit
       let uData = parseInt((unit).replace("T-", ""))
       unitData = "T-" + uData
-
     }
     if (activeForm.no_of_traveler) {
       travelNo = activeForm.no_of_traveler
     }
-
     if (plan && duration && unit) {
       searchData = plan == 'T-INBOUND' ? IN_BOUND : OUT_BOUND
       let premium = searchData.find(x => (x.travel_duration + "").toLowerCase() == duration.toLowerCase() && x.travel_unit.toLowerCase() == unitData.toLowerCase())
       // console.log("TRAVELPRE", premium);
-
       if (premium) {
         let prem = ((parseInt(premium.rate) * travelNo) * 1.00).toFixed(2);
-
         // console.log("TRAVEL", prem);
-
         this.travelPremiumResult.next(prem)
       }
-
     }
     return true
     // travel_duration
   }
-
   totalTravelUnit(currentValue: string, activeForm: any, options?: any[], form?: boolean) {
     let noTraveler = 1
     let insuredUnit = 0
@@ -1265,10 +1155,8 @@ export class GlobalFunctionService {
       let data = String(activeForm['insured_unit']).padStart(5, '0');
       insuredUnit = parseInt((data).replace("T-", ""))
       // console.log("INSUREDUNIT", insuredUnit, data);
-
       //OLD-CODE
       // insuredUnit = parseInt(activeForm['insured_unit'].replace("T-", ""))
-
     }
     let total = noTraveler * insuredUnit
     if (options) {
@@ -1279,17 +1167,14 @@ export class GlobalFunctionService {
     }
     this.totalTravelUnitResult.next(total)
   }
-
   pad(num: number, size: number): string {
     let s = num + "";
     while (s.length < size) s = "0" + s;
     return s;
   }
-
   calculateDecimal(value: any) {
     return Math.round(value * 100) / 100
   }
-
   getParnet(product: any, type: string, unitCode: string) {
     if (IsJsonString(product.config)) {
       let pageUI: ProductPages = JSON.parse(product.config);
@@ -1302,5 +1187,4 @@ export class GlobalFunctionService {
     }
     return null
   }
-
 }

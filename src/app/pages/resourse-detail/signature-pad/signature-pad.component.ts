@@ -39,6 +39,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
 
   saveSign() {
     let date = new Date().getTime()
+    
     if (this.signaturePad.isEmpty()) {
       this.alertService.activate("Please add Signature first", 'Warning Message');
     } else {
@@ -68,6 +69,7 @@ export class SignaturePadComponent implements OnInit, AfterViewInit {
       })
     }
   }
+
 
   deleteEditModal() {
     this.alertService.activate('Are you sure want to delete?', 'Warning Message').then(result => {
