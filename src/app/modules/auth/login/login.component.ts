@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   firstPage: string;
   platform: string;
   appInfo: any;
-  private apiPath = "/app-version/check-latest"
+  private apiPath = "/app-version/check-latest?"
   isLoading$: Observable<boolean>;
   public showPassword: boolean;
   public showoldPassword: boolean;

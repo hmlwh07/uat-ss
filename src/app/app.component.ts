@@ -52,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private pushToken = ""
   public appInfo:any;
   public platform: string = "web"
-  private apiPath = "app-version/check-latest.htm?"
+  private apiPath = "app-version/check-latest?"
   constructor( 
     private splashScreenService: SplashScreenService,
     private router: Router,
