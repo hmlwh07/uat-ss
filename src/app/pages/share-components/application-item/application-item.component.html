@@ -9,12 +9,16 @@
       <div class="actions">
         <img src="../../../assets/images/view-01.svg" (click)="actionBtn(itemData,eventType.VIEW)" alt="view" />
       </div>
-      <div class="actions"
+      <!-- <div class="actions"
+        *ngIf="((itemData.status == 'in_progress' || itemData.status == 'In_progress' )&& itemData.leadStatusCode != '07' ) 
+        || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail' && itemData.leadStatusCode != '07')">
+        <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
+      </div> -->
+       <div class="actions"
         *ngIf="((itemData.status == 'in_progress' || itemData.status == 'In_progress' )&& itemData.leadStatusCode != '07' ) 
         || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail' && itemData.leadStatusCode != '07')">
         <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
       </div>
-      
       <div class="actions" style="  background: #05acea;" *ngIf="((itemData.emailStatus)=='fail')">
         <img src="../../../assets/images/email-mail-svgrepo-com.svg"  (click)="actionBtn(itemData,eventType.RESEND)"
           alt="view" style="width: 20px;height: 20px;margin: 4px 7px;     background: #05acea;" />

@@ -154,6 +154,14 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.totalPages = res.totalPages
         this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
+          console.log("this.quoList[i].submittedCode", this.quoList[i].submittedCode);
+
+          if (this.quoList[i].submittedCode) {
+            this.policyService.getTcsStatus(this.quoList[i].submittedCode).toPromise().then((res) => {
+              console.log(res);
+              this.quoList[i].TcsStatus= 'ACTIVE POLICY'
+            })
+          }
           if (this.quoList[i].icon) {
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
@@ -184,6 +192,12 @@ export class PolicyComponent implements OnInit, OnDestroy {
           if (this.quoList[i].icon) {
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
+          }
+          if (this.quoList[i].submittedCode) {
+            this.policyService.getTcsStatus(this.quoList[i].submittedCode).toPromise().then((res) => {
+              console.log(res);
+              this.quoList[i].TcsStatus= 'ACTIVE POLICY'
+            })
           }
         }
         this.cdf.detectChanges();
@@ -245,9 +259,9 @@ export class PolicyComponent implements OnInit, OnDestroy {
         console.log(emailRes);
         if (emailRes) {
           this.getMasterValue(
-            event.data.branchCode,event.data.sourceOfBusiness, event.data.productCode
+            event.data.branchCode, event.data.sourceOfBusiness, event.data.productCode
           ).toPromise().then((res: any) => {
-            console.log("RES",res);
+            console.log("RES", res);
             event.data.branchCode = res['CORE_BRANCH']
             event.data.sourceOfBusiness = res['PRODUCT_SOB']
             let reqValue = {
@@ -275,7 +289,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     }
   }
 
-  getMasterValue(codeId: string,sourceOfBusiness,productCode?) {
+  getMasterValue(codeId: string, sourceOfBusiness, productCode?) {
     let data = {
       "codeBookRequest": [
         {
@@ -284,7 +298,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
           "langCd": "EN"
         },
         {
-          "codeId": productCode+('-')+sourceOfBusiness,
+          "codeId": productCode + ('-') + sourceOfBusiness,
           "codeType": "PRODUCT_SOB",
           "langCd": "EN"
         },
@@ -294,8 +308,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
   goViewDetail(item) {
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
-      console.log("ITEM",item);
-      
+      console.log("ITEM", item);
+
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
