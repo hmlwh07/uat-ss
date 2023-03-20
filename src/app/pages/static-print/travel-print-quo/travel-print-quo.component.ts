@@ -182,11 +182,11 @@ export class TravelPrintQuoComponent implements OnInit {
 
   async submitPolicy() {
     this.createPdf()
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
-      if (res) {
-        this.modal.dismiss({ data: res })
-      }
-    })
+    // this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal).toPromise().then((res) => {
+    //   if (res) {
+    //     this.modal.dismiss({ data: res })
+    //   }
+    // })
   }
 
   createPdf() {

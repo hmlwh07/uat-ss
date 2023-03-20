@@ -585,13 +585,13 @@ export class MotorCheckListPage implements OnInit {
     if (this.branch) {
       this.selectedBranchCode = this.branch
       let branch = this.branchOption.find((p) => p.code == this.branch);
-      this.policyService.submitBranch(this.resourceDetail.id, this.selectedBranchCode).toPromise().then(res => {
-        if (res) {
-          this.alertService.activate("This record was created", "Success Message")
-          this.productService.editData.branch = branch.value
-          this.productService.editData.branchCode = this.selectedBranchCode
-        }
-      })
+      // this.policyService.submitBranch(this.resourceDetail.id, this.selectedBranchCode).toPromise().then(res => {
+      //   if (res) {
+      //     this.alertService.activate("This record was created", "Success Message")
+      //     this.productService.editData.branch = branch.value
+      //     this.productService.editData.branchCode = this.selectedBranchCode
+      //   }
+      // })
     } else {
       this.selectedBranchCode = null
     }
