@@ -17,6 +17,7 @@ import { PageUIType, ProductPages } from '../products/models/product.dto';
 import { PrintPreviewModalMobileComponent } from '../products/print-preview-modal-mobile/print-preview-modal-mobile.component';
 import { PrintPreviewModalComponent } from '../products/print-preview-modal/print-preview-modal.component';
 import { ProductDataService } from '../products/services/products-data.service';
+import { MotorCheckListPage } from '../static-print/motor-check-list/motor-check-list.page';
 import { SignaturePadComponent } from './signature-pad/signature-pad.component';
 @Component({
   selector: 'app-resourse-detail',
@@ -59,6 +60,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   statusCode
   emailInfo: any
   quoResult: boolean = true
+  isApplication: boolean = true
   constructor(
     private productService: ProductDataService,
     private location: Location,
@@ -78,9 +80,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     if (!this.productService.createingProd || !this.productService.createingProd.id) {
       this.location.back()
     } else {
-      this.item = this.productService.createingProd
+      this.item = this.productService.createingProd || this.productService.selectedProd
+      console.log("ITEM", this.item);
+
       this.type = this.productService.previewType
       this.resourceDetail = this.productService.editData
+      this.isApplication = this.productService.isApplication
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
@@ -559,6 +564,36 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     }
     return value
   }
+  viewCheckListPrint() {
+    const modalRef = this.modalService.open(MotorCheckListPage, { size: 'xl2', backdrop: false });
+    modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+    modalRef.componentInstance.product = this.item
+    modalRef.componentInstance.tempData = this.formatedData
+    modalRef.componentInstance.resourcesId = this.resourceDetail.id
+    modalRef.componentInstance.resourceDetail = this.resourceDetail
+    modalRef.componentInstance.previewType = this.type
+    modalRef.componentInstance.createingProd = this.item
+    modalRef.componentInstance.isCheckList = true
+    modalRef.componentInstance.agentId = this.resourceDetail.agentId
+    modalRef.componentInstance.signId = this.signFileId || null
+    modalRef.result.then(() => { }, (res) => {
+    })
+    // const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false }); modalRef.componentInstance.configData = this.printConfig.printFormat
+    // modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+    // modalRef.componentInstance.product = this.item
+    // modalRef.componentInstance.tempData = this.formatedData
+    // modalRef.componentInstance.resourcesId = this.resourceDetail.id
+    // modalRef.componentInstance.agentId = this.resourceDetail.agentId
+    // //FOR_QUOTATION
+    // modalRef.componentInstance.isApplication = this.isApplication
+    // //FOR_AUTO_ATTACHMENT
+    // modalRef.componentInstance.isPrint = true
+    // //FOR_MOTOR_CHECK_LIST
+    // modalRef.componentInstance.isCheckList = true
+    // modalRef.result.then(() => { }, (res) => {
+    // })
+  }
+
   viewPrint() {
     if (!this.selectedBranchCode && this.type == 'policy') {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
@@ -579,8 +614,15 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.tempData = this.formatedData
       modalRef.componentInstance.resourcesId = this.resourceDetail.id
       modalRef.componentInstance.agentId = this.resourceDetail.agentId
+      modalRef.componentInstance.premiumView = this.resourceDetail.premiumView
+      modalRef.componentInstance.branch = this.branch
+      modalRef.componentInstance.creatingProd = this.item
+      //FOR_QUOTATION
+      modalRef.componentInstance.isApplication = this.isApplication
       //FOR_AUTO_ATTACHMENT
       modalRef.componentInstance.isPrint = true
+      //FOR_MOTOR_CHECK_LIST
+      modalRef.componentInstance.isCheckList = false
       modalRef.result.then(() => { }, (res) => {
       })
     }

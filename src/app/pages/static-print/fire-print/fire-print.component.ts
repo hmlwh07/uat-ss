@@ -77,7 +77,7 @@ export class FirePrintComponent implements OnInit {
     private attachmentDownloadService: AttachmentDownloadService,
     private numberPipe: DecimalPipe,
     public modal: NgbActiveModal,
-    private policyService:PolicyService
+    private policyService: PolicyService
   ) { }
 
   ngOnInit() {
@@ -883,7 +883,7 @@ export class FirePrintComponent implements OnInit {
         console.log("HERE2==>");
 
         let data = doc.output('datauristring')
-        let test=data.split('base64,')
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

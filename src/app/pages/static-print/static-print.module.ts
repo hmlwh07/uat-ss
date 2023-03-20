@@ -31,6 +31,10 @@ import { HealthCiPrintMobileComponent } from './health-ci-print-mobile/health-ci
 import { FirePrintMobileComponent } from './fire-print-mobile/fire-print-mobile.component';
 import { TravelPrintMobileComponent } from './travel-print-mobile/travel-print-mobile.component';
 import { PersonalAccidentPrintMobileComponent } from './personal-accident-print-mobile/personal-accident-print-mobile.component';
+import { TravelPrintQuoComponent } from './travel-print-quo/travel-print-quo.component';
+import { PersonalAccidentPrintQuoComponent } from './personal-accident-print-quo/personal-accident-print-quo.component';
+import { HealthCiPrintQuoComponent } from './health-ci-print-quo/health-ci-print-quo.component';
+import { MotorCheckListPage } from './motor-check-list/motor-check-list.page';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,11 @@ import { PersonalAccidentPrintMobileComponent } from './personal-accident-print-
     HealthCiPrintMobileComponent,
     FirePrintMobileComponent,
     TravelPrintMobileComponent,
-    PersonalAccidentPrintMobileComponent
+    PersonalAccidentPrintQuoComponent,
+    HealthCiPrintQuoComponent,
+    TravelPrintQuoComponent,
+    PersonalAccidentPrintMobileComponent,
+    MotorCheckListPage
   ],
   exports: [
     StaticPrintDirective,
@@ -79,13 +87,17 @@ import { PersonalAccidentPrintMobileComponent } from './personal-accident-print-
     FirePrintComponent,
     HolderPrintComponent,
     TravelPrintComponent,
+    TravelPrintQuoComponent,
+    PersonalAccidentPrintQuoComponent,
+    HealthCiPrintQuoComponent,
     HealthCiPrintComponent,
     PersonalAccidentPrintComponent,
     MotorPrintMobileComponent,
     HealthCiPrintMobileComponent,
     FirePrintMobileComponent,
     TravelPrintMobileComponent,
-    PersonalAccidentPrintMobileComponent
+    PersonalAccidentPrintMobileComponent,
+    MotorCheckListPage
   ],
   imports: [
     CommonModule,

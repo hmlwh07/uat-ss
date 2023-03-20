@@ -2,10 +2,10 @@
     <!--begin::Login-->
     <div class="change-language" (click)="changeLanguage()">
         <img src="assets/media/svg/login_Language_2-01.svg" alt="">
-        
+
     </div>
-    <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login" 
-        [style.backgroundImage]="'url(assets/kris/Pattern.png),url(assets/kris/welcomeToKris.png), url(assets/kris/Picture.png)'" >
+    <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login"
+        [style.backgroundImage]="'url(assets/kris/Pattern.png),url(assets/kris/welcomeToKris.png), url(assets/kris/Picture.png)'">
         <!--begin::Aside-->
         <!-- <div class="login-aside d-flex flex-column flex-row-auto" style="background-color: #F2C98A;"> -->
         <!--begin::Aside Top-->
@@ -33,7 +33,8 @@
 
 
         <!--begin::Content-->
-        <div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 ptb-05 mx-auto">
+        <div
+            class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 ptb-05 mx-auto">
             <!--begin::Content body//flex-center-->
             <div class="d-flex flex-column-fluid f-center">
                 <router-outlet></router-outlet>
@@ -41,12 +42,15 @@
             <!--end::Content body-->
 
             <!--begin::Content footer-->
-            <!-- <div class="d-flex justify-content-lg-start justify-content-center align-items-end py-7 py-lg-0">
-                <a href="#" class="text-primary font-weight-bolder font-size-h5">Terms</a>
-                <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">Plans</a>
-                <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">Contact Us</a>
-            </div> -->
-            <!--end::Content footer-->
+            <div class="d-flex justify-content-lg-start justify-content-center align-items-end ">
+                <div class="d-flex flex-column-fluid j-center">
+                    <label class="text-primary font-weight-bolder" style="color:#fff !important; font-size: 15px;">
+                        Version ({{appVersion}})</label>
+                </div>
+                <!-- <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">Plans</a>
+                <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">Contact Us</a> -->
+            </div>
+            <!--end::Content footer -->
         </div>
         <!--end::Content-->
     </div>

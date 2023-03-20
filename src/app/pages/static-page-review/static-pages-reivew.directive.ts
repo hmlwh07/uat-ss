@@ -39,6 +39,7 @@ export class StaticPageViewDirective implements StaticField, OnInit {
   @Input() compId: string
   @Input() product: Product
   @Input() resourcesId: string
+  @Input() isApplication:any;
   @Output() getQuoResult = new EventEmitter()
   component: ComponentRef<StaticField>;
   component2: ComponentRef<StaticField>;
@@ -65,6 +66,7 @@ export class StaticPageViewDirective implements StaticField, OnInit {
         this.component2 = this.container.createComponent(component);
         this.component2.instance.product = this.product
         this.component2.instance.resourcesId = this.resourcesId
+        this.component.instance.isApplication = this.isApplication
       }
     }
   }

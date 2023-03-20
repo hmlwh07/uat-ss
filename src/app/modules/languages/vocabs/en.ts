@@ -400,6 +400,7 @@ export const locale = {
       total_unit: "Total Unit",
       traveler_name: "Traveler Name",
       print: "Print",
+      check_list_print:"Check List",
       application_status: "Application Status",
       tcs_status: "TCS Status",
       go_back: "Go Back",

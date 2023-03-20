@@ -16,6 +16,7 @@ interface LanguageFlag {
 export class AuthComponent implements OnInit {
   today: Date = new Date();
   lang: string = 'EN'
+  appVersion:string='1.0.11'
   @Output() emitter = new EventEmitter();
   constructor(private cdf: ChangeDetectorRef, private languageService: LanguagesService) { }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-tables',
@@ -6,26 +6,26 @@ import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
   styleUrls: ['./tables.component.scss']
 })
 export class TablesComponent implements OnInit {
-@Input() contents:boolean=false
-@Input() plant:boolean=false
-@Input() stock:boolean=false
-@Input() tableData=[]
-
+  @Input() contents: boolean = false
+  @Input() plant: boolean = false
+  @Input() stock: boolean = false
+  @Input() tableData = []
+  @Input() isApplication: boolean = true
   constructor() { }
   @Output()
   emitter = new EventEmitter<any>();
-  
+
   ngOnInit(): void {
   }
 
-  onActionView(data,type,tbtype){
+  onActionView(data, type, tbtype) {
     this.emitter.emit({
       cmd: type,
       data: data,
-      tbtype:tbtype
+      tbtype: tbtype
     });
   }
- 
+
 
   ngOnDestroy() {
     this.emitter.unsubscribe();

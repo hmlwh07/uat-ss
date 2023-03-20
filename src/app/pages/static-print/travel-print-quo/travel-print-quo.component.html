@@ -1,0 +1,145 @@
+    <div class="addon-print">
+      <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
+      <table width="100%">
+          <tr>
+              <td class="field-col" style="background-color:#e9f8fe;">
+                  Policy Effective Date
+              </td>
+              <td class="field-pd">{{policyInfo.policyInceptionDate | date: 'dd/MM/YYYY'}}</td>
+              <td class="field-col" style="background-color:#e9f8fe;">
+                  Policy Expiry Date
+              </td>
+              <td class="field-pd">{{policyInfo.policyExpiryDate | date: 'dd/MM/YYYY'}}</td>
+              <td class="field-col" style="background-color:#e9f8fe;">
+                  Policy Duration
+              </td>
+              <td class="field-pd">{{policyInfo.policyDurationValue}}</td>
+          </tr>
+          <tr>
+              <td class="field-col" style="background-color:#e9f8fe;">
+                  Travel Plan
+              </td>
+              <td class="field-pd" colspan="2">{{policyInfo.travelPlanValue}}</td>
+              <td class="field-col" style="background-color:#e9f8fe;">
+                  Currency
+              </td>
+              <td class="field-pd" colspan="2">{{policyInfo.currency || "MMK"}}</td>
+          </tr>
+      </table>
+  </div>
+  
+  <div class="addon-print">
+      <div class="title-style text-bold mt-5 mb-5">Travel Information Details</div>
+      <table class="tbody-align" width="100%">
+          <tr>
+              <!-- <td class="field-col">
+                  No.
+              </td> -->
+              <td class="field-col">
+                  No. of Traveler
+              </td>
+          </tr>
+          <tbody class="tbody-align val-col">
+              <ng-container *ngFor="let data of riskInfo; let i=index;">
+                  <tr>
+                      <!-- <td class="field-pd">{{i+1}}</td> -->
+                      <td class="field-pd">{{data.travelRisk.noOfTraveller}}</td>
+              </ng-container>
+          </tbody>
+      </table>
+  </div>
+  
+  <div class="addon-print">
+      <div class="title-style text-bold mt-5 mb-5">Risk Information Details</div>
+      <table class="tbody-align" width="100%">
+          <tr>
+              <!-- <td class="field-col">
+                  No.
+              </td>
+              -->
+              <td class="field-col">
+                  Insured Unit
+              </td>
+          </tr>
+          <tbody class="tbody-align val-col">
+              <ng-container *ngFor="let data of riskInfo; let i=index;">
+                  <tr>
+                      <!-- <td class="field-value">{{i+1}}</td> -->
+                      <td class="field-value">{{data.travelRisk? data.travelRisk.insuredUnitValue:""}} -
+                          {{data.travelRisk.insuredUnitValue == '1' ? "Unit":"Units"}}</td>
+                  </tr>
+              </ng-container>
+          </tbody>
+      </table>
+  </div>
+  
+  <div class="pagebreak" *ngIf="isBreak"> </div>
+  <div class="addon-print">
+      <div class="title-style text-bold mt-5 mb-5">Insurance Information Details</div>
+      <table width="100%">
+          <tr>
+              <td class="field-col" style="background-color:#e9f8fe;">
+                  Total SI
+              </td>
+              <td class="value-col" colspan="4">{{totalSI || 0}} {{policyInfo.currency || "MMK"}}</td>
+              <td class="field-col" style="background-color:#e9f8fe;">
+                  Total Premium
+              </td>
+              <td class="value-col" colspan="4">{{premiumAmt || 0}}</td>
+          </tr>
+      </table>
+  </div>
+  
+  <div class="addon-print">
+      <div class="row">
+          <div class="text-bold mt-10 mb-5 ml-4" style="margin-left:10px;font-size: 1.5rem;">Declaration By Proposer</div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <p style="font-size:12pt;">
+                  I hereby declare that the statements made by me in this Proposal are true to the best of my knowledge
+                  and belief and I hereby agree that this declaration shall from the basic of the contract between me and
+                  KBZMS General Insurance Co., Ltd. in the event of the Proposal being accepted.
+              </p>
+          </div>
+      </div>
+  </div>
+  
+  <div class="moter-print">
+      <div class="sign-row mt-5">
+          <div class="sign-box">
+              <br>
+              <label class="mt-2">Date</label>
+              <div class="sign-area sign-date">{{signatureDate | date : "dd/MM/yyyy"}}</div>
+          </div>
+          <div class="sign-box">
+              <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
+              <br>
+              <label> {{policyHolder.titleValue}} {{policyHolder.firstName}} {{policyHolder.middleName}}
+                  {{policyHolder.lastName}}</label>
+              <div class="sign-area">
+                  <ng-container *ngIf="fileId">
+                      <img [src]="DEFAULT_DOWNLOAD_URL+ '?id=' + fileId" alt="" class="sign-img">
+                  </ng-container>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- *ngIf="isMobile" -->
+  <div class="modal-footer" style="margin-top: 5%;" *ngIf="isPrint">
+      <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="createPdf()">Print</button>
+      <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
+  </div>
+  
+  
+  <div  style="margin-top: 5%;" *ngIf="!isPrint">
+  
+      <div class="row">
+          <div class="col-sm-6">
+              <button type="button" class="btn btn-primary btn-block" (click)="submitPolicy()">Submit</button>
+          </div>
+          <div class="col-sm-6">
+              <button type="button" class="btn btn-secondary btn-block" (click)="modal.dismiss()">Cancel</button>
+          </div>
+      </div>
+  </div>

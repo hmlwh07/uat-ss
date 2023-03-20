@@ -364,6 +364,11 @@ const routes: Routes = [
     path: 're-rerun-job',
     loadChildren: () => import('./re-rerun-job/re-rerun-job.module').then( m => m.ReRerunJobPageModule)
   },
+  {
+    path: 'motor-check-list',
+    loadChildren: () => import('./static-print/motor-check-list/motor-check-list.module').then( m => m.MotorCheckListPageModule)
+  },
+  
 
 
 ];

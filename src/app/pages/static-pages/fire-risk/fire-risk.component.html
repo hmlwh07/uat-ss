@@ -5,7 +5,7 @@
     <table class="table table-head-custom table-vertical-center">
         <thead>
             <tr>
-                <th>{{"FORM.building_description" | translate }}</th>
+                <th *ngIf="isApplication">{{"FORM.building_description" | translate }}</th>
                 <th>{{"FORM.sum_insured" | translate }}</th>
                 <th>{{"FORM.premium" | translate }}</th>
                 <th>{{"TABLE.Action" | translate }}</th>
@@ -14,7 +14,7 @@
         <tbody>
             <ng-container *ngFor="let item of listData">
                 <tr>
-                    <td>{{item.buildingDescription}}</td>
+                    <td *ngIf="isApplication">{{item.buildingDescription}}</td>
                     <td>{{item.riskSi | number:"1.2-2"}}</td>
                     <td>{{item.totalPremiumNotStampDuty | number:"1.2-2"}}</td>
                     <td>

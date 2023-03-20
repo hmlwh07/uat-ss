@@ -9,6 +9,7 @@ export interface StaticField {
   resourcesId?: string
   referenceID?: string
   premiumAmt?: string
+  isApplication?: boolean
   actionEvent?: EventEmitter<StaticPageAction>
   travelForm?: PageUI[]
 }

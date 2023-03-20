@@ -31,11 +31,15 @@ export class MoterPrintComponent implements OnInit {
   @Input() isPrint: any
   @Input() emailInfo: any
   @Input() updateData:any=new Date()
+  @Input() creatingProd:any
+  @Input() resourceDetail:any
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
   motorDriver: any = []
-  policyHolder: any = {}
+  policyHolder: any = {
+    partyAddress: []
+  }
   address: any = {}
   isTonnage: boolean = false
   vehicleDetail: any = {}
@@ -87,6 +91,7 @@ export class MoterPrintComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
       PRINT.IS_MOBILE = true
@@ -94,11 +99,11 @@ export class MoterPrintComponent implements OnInit {
       PRINT.IS_MOBILE = false
     }
     this.isMobile = PRINT.IS_MOBILE
-    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
+    this.signId = this.resourceDetail ? this.resourceDetail.attachmentId : ""
     if (this.signId) {
       this.fileId = this.encryption.encryptData(this.signId)
     }
-    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
+    this.signatureDate = this.resourceDetail ? this.resourceDetail.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
     this.getAddonCover()
@@ -205,7 +210,7 @@ export class MoterPrintComponent implements OnInit {
   }
 
   async getAddonCover() {
-    this.product = this.productService.createingProd || this.productService.selectedProd
+    this.product = this.creatingProd
     // console.log(this.product, this.listData);
     let obj = {
       description: 'MOTOR',
@@ -239,7 +244,7 @@ export class MoterPrintComponent implements OnInit {
     // console.log("ADDONDATA", this.addOnData);
   }
   async getCoverage() {
-    this.product = this.productService.createingProd || this.productService.selectedProd
+    this.product = this.creatingProd
     // console.log(this.product, this.listData);
 
     let obj = {
@@ -282,14 +287,14 @@ export class MoterPrintComponent implements OnInit {
   }
 
   createPdf() {
-
-    //Agent Information Details
+    console.log("policyHolderInfoDetailData",this.policyHolder)
+    // Agent Information Details
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
         { content: this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.branch ? this.branch : '-', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
@@ -305,44 +310,46 @@ export class MoterPrintComponent implements OnInit {
       ]
     ]
 
-    //Policy Holder Information Details
+    // Policy Holder Information Details
     let policyHolderInfoDetailData = [
+      
+      
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
         { content: this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.cprNumber, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.idType ? (this.policyHolder.idType + "-" + this.policyHolder.cprNumber) : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Date of Birth', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.dateOfBirth, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.dateOfBirth ? this.policyHolder.dateOfBirth : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Mobile', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].mobileNo, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].mobileNo : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Email', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.partyAddress[0].eMailId, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.partyAddress.length > 0 ? this.policyHolder.partyAddress[0].eMailId : '', styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Address', styles: { halign: 'left', valign: 'middle' } },
         {
-          content: this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
-            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName, styles: { halign: 'left', valign: 'middle' }
+          content: this.policyHolder.partyAddress.length > 0 ? (this.policyHolder.partyAddress[0].address1 + ", " + this.policyHolder.partyAddress[0].address2 + ", " + this.policyHolder.partyAddress[0].address3 + ", " +
+            this.policyHolder.townshipName + ", " + this.policyHolder.districtName + ", " + this.policyHolder.stateName) : '', styles: { halign: 'left', valign: 'middle' }
         },
       ]
     ]
 
-    //Policy Information Details
+    // Policy Information Details
     let policyInfoDetailData = [
       [
         { content: 'Policy Effective Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceFrom), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mPeriodOfInsuranceFrom ? this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceFrom) : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Expiry Date', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceTo), styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mPeriodOfInsuranceTo ? this.formatDateDDMMYYY(this.motorDetail.mPeriodOfInsuranceTo) : '-', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Policy Duration', styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.policyTerm[this.motorDetail.mPolicyTerm], styles: { halign: 'center', valign: 'middle' } },
       ],
@@ -395,11 +402,11 @@ export class MoterPrintComponent implements OnInit {
     for (var i = 0; i < this.listData.length; i++) {
       let driverInfoDetailData = [
         { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].firstName + " " + (this.listData[i].middleName || '') + " " + this.listData[i].lastName, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].identityType == 'NRC' ? this.listData[i].identityNrc : this.listData[i].identityNumber, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(this.listData[i].dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
-        { content: (this.listData[i].licenseNo || ''), styles: { halign: 'center', valign: 'middle' } },
-        { content: this.listData[i].mRelationshipToPolicyholderValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].firstName ? (this.listData[i].firstName + " " + (this.listData[i].middleName || '') + " " + this.listData[i].lastName) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].identityType ? (this.listData[i].identityType == 'NRC' ? this.listData[i].identityNrc : this.listData[i].identityNumber) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].dateOfBirth ? (this.formatDateDDMMYYY(this.listData[i].dateOfBirth)) : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].licenseNo ? (this.listData[i].licenseNo || '') : '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: this.listData[i].mRelationshipToPolicyholderValue ? this.listData[i].mRelationshipToPolicyholderValue : '-', styles: { halign: 'center', valign: 'middle' } },
       ]
       driverInfoDetailList.push(driverInfoDetailData);
     }
@@ -426,7 +433,7 @@ export class MoterPrintComponent implements OnInit {
       basicCoverInfoDetailList.push(basicCoverInfoDetailData);
     }
 
-    // Additional Cover Information Details (PLMO01)
+    // // Additional Cover Information Details (PLMO01)
     let additionalCoverInfoDetailData01;
     let additionalCoverInfoDetailHeader01 = [
       [
@@ -674,7 +681,7 @@ export class MoterPrintComponent implements OnInit {
     doc.addPage();
     height = 0;
 
-    // Additional Cover Information Details
+    // // Additional Cover Information Details
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
     doc.text("Additional Cover Information Details", width / 2, height + 23, { align: 'center' });
     doc.autoTable({
@@ -754,7 +761,7 @@ export class MoterPrintComponent implements OnInit {
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages();//Total Page Number
-    for (i = 0; i < pageCount; i++) {
+    for (var i = 0; i < pageCount; i++) {
       doc.setPage(i);
       var img = new Image()
       img.src = './assets/images/footer-kbzms.png'

@@ -10,7 +10,9 @@ import { MenuDataService } from '../../../core/menu-data.service';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { AppComponent } from 'src/app/app.component';
 import { AlertService } from '../../loading-toast/alert-model/alert.service';
-
+import { App } from '@capacitor/app';
+import { Device } from '@capacitor/device';
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component-kris.html',
@@ -30,6 +32,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   hasError: boolean;
   returnUrl: string;
   firstPage: string;
+  platform: string;
+  appInfo: any;
+  private apiPath = "/app-version/check-latest?"
   isLoading$: Observable<boolean>;
   public showPassword: boolean;
   public showoldPassword: boolean;
@@ -45,7 +50,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private menuDataService: MenuDataService,
     private globalService: GlobalFunctionService,
     private appComponent: AppComponent,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private alertCtrl:AlertController
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -55,6 +61,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    Device.getInfo().then(info => {
+      this.platform = info.platform
+    })
     this.initForm();
     // get return url from route parameters or default to '/'
     // this.returnUrl =
@@ -93,32 +102,190 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    if (this.loginForm.controls['email'].valid && this.loginForm.controls['password'].valid) {
-      this.hasError = false;
-      const loginSubscr = this.authService
-        .login(this.f.email.value, this.f.password.value)
-        .pipe(first(), mergeMap((x) => {
-          return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
-            // console.log("DATAMENU", data[0].page);
-            this.firstPage = data[0].page
-            return of(x)
-          }))
-        }))
-        .subscribe((user: UserModel) => {
-          if (user) {
-            this.appComponent.ngOnInit()
-            this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
-          } else {
-            this.hasError = true;
+
+    if (this.platform != 'web') {
+      App.getInfo().then((res) => {
+        this.appInfo = res
+        let param: any = {
+          appId: this.appInfo.id,
+          appVersion: this.appInfo.version,
+          platform: this.platform
+        }
+        this.authService.get(this.apiPath, param).toPromise().then(async (response: any) => {
+          if (response) {
+            let message=`A new version (${response.appVersion}) is now available. Please update your application.`
+            if (!response.isLatestVersion) {
+              let alert = await this.alertCtrl.create({
+                header: 'Update Required',
+                message: message,
+                buttons: [
+                  // { role: "update", text: "Update Now", cssClass: (param.platform == 'android') ? 'update-alert-button-android' : 'update-alert-button-ios' },
+                  { role: "download", text: "Direct Download", cssClass: 'download-alert-button' },
+                ],
+                backdropDismiss: false,
+                cssClass: "my-customer-alert1",
+              });
+              await alert.present();
+              alert.onDidDismiss().then((res) => {
+                if (res.role == "update") {
+                  console.log("Platform: ", this.platform)
+                  if (this.platform == 'ios') {
+                    window.open("https://apps.apple.com/app/kbzms/id1641859832");
+                  }
+                  if (this.platform == 'android') {
+                    window.open("https://play.google.com/store/apps/details?id=com.bluestone.kbzms_preprod");
+                  }
+                }
+                if (res.role == 'download') {
+                  if (this.platform == 'android') {
+                    window.open('https://bluestonecenter.sharepoint.com/:u:/s/Everest-DigitalFront-endKBZMS/EVP9U3M2npZPlHdrMWblA0MBosc9YkrIjq5JmIV2eUkSbA?e=nd6b1e','_system');
+                  }
+                }
+
+              });
+
+            } else {
+              if (this.loginForm.controls['email'].valid && this.loginForm.controls['password'].valid) {
+                this.hasError = false;
+                const loginSubscr = this.authService
+                  .login(this.f.email.value, this.f.password.value)
+                  .pipe(first(), mergeMap((x) => {
+                    return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
+                      // console.log("DATAMENU", data[0].page);
+                      this.firstPage = data[0].page
+                      return of(x)
+                    }))
+                  }))
+                  .subscribe(async (user: UserModel) => {
+                    if (user) {
+                      // let alert = await this.alertCtrl.create({
+                      //   header: 'Update Required',
+                      //   message: 'A new version is now available. Please update your application.',
+                      //   buttons: [
+                      //     { role: "update", text: "Update Now", cssClass: 'update-alert-button-android' },
+                      //     { role: "download", text: "Direct Download", cssClass: 'download-alert-button' },
+                      //   ],
+                      //   backdropDismiss: false,
+                      //   cssClass: "my-customer-alert1",
+                      // });
+                      // await alert.present();
+                      // alert.onDidDismiss().then((res) => {
+                      //   if (res.role == "update") {
+                      //     console.log("Platform: ", this.platform)
+                      //     if (this.platform == 'ios') {
+                      //       window.open("https://apps.apple.com/app/kbzms/id1641859832");
+                      //     }
+                      //     if (this.platform == 'android') {
+                      //       window.open("https://play.google.com/store/apps/details?id=com.kbzms.sale_pre_prod");
+                      //     }
+                      //   }
+                      //   if (res.role == 'download') {
+                      //     if (this.platform == 'android') {
+                      //       window.open('http://104.248.152.205:8089/api/v1/app/download.htm?appName=KBZ_Customer_Care.apk');
+                      //     }
+                      //   }
+        
+                      // });
+                      this.appComponent.ngOnInit()
+                      this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
+                    } else {
+                      this.hasError = true;
+                    }
+                  });
+
+
+                this.unsubscribe.push(loginSubscr);
+
+              } else {
+                this.alertService.activate('Enter any username and password', 'Error Message');
+              }
+            }
           }
         });
-  
-  
-      this.unsubscribe.push(loginSubscr);
-
+      })
     } else {
-      this.alertService.activate('Enter any username and password', 'Error Message');
+      if (this.loginForm.controls['email'].valid && this.loginForm.controls['password'].valid) {
+        this.hasError = false;
+        const loginSubscr = this.authService
+          .login(this.f.email.value, this.f.password.value)
+          .pipe(first(), mergeMap((x) => {
+            return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
+              // console.log("DATAMENU", data[0].page);
+              this.firstPage = data[0].page
+              return of(x)
+            }))
+          }))
+          .subscribe(async (user: UserModel) => {
+            if (user) {
+              // let alert = await this.alertCtrl.create({
+              //   header: 'Update Required',
+              //   message: 'A new version is now available. Please update your application.',
+              //   buttons: [
+              //     { role: "update", text: "Update Now", cssClass: 'update-alert-button-android'  },
+              //     // { role: "download", text: "Direct Download", cssClass: 'download-alert-button' },
+              //   ],
+              //   backdropDismiss: false,
+              //   cssClass: "my-customer-alert1",
+              // });
+              // await alert.present();
+              // alert.onDidDismiss().then((res) => {
+              //   if (res.role == "update") {
+              //     console.log("Platform: ", this.platform)
+              //     if (this.platform == 'ios') {
+              //       window.open("https://apps.apple.com/app/kbzms/id1641859832");
+              //     }
+              //     if (this.platform == 'android') {
+              //       window.open("https://play.google.com/store/apps/details?id=com.kbzms.sale_pre_prod");
+              //     }
+              //   }
+              //   if (res.role == 'download') {
+              //     if (this.platform == 'android') {
+              //       window.open('http://104.248.152.205:8089/api/v1/app/download.htm?appName=KBZ_Customer_Care.apk');
+              //     }
+              //   }
+
+              // });
+              this.appComponent.ngOnInit()
+              this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
+            } else {
+              this.hasError = true;
+            }
+          });
+
+
+        this.unsubscribe.push(loginSubscr);
+
+      } else {
+        this.alertService.activate('Enter any username and password', 'Error Message');
+      }
     }
+
+    // if (this.loginForm.controls['email'].valid && this.loginForm.controls['password'].valid) {
+    //   this.hasError = false;
+    //   const loginSubscr = this.authService
+    //     .login(this.f.email.value, this.f.password.value)
+    //     .pipe(first(), mergeMap((x) => {
+    //       return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
+    //         // console.log("DATAMENU", data[0].page);
+    //         this.firstPage = data[0].page
+    //         return of(x)
+    //       }))
+    //     }))
+    //     .subscribe((user: UserModel) => {
+    //       if (user) {
+    //         this.appComponent.ngOnInit()
+    //         this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
+    //       } else {
+    //         this.hasError = true;
+    //       }
+    //     });
+
+
+    //   this.unsubscribe.push(loginSubscr);
+
+    // } else {
+    //   this.alertService.activate('Enter any username and password', 'Error Message');
+    // }
   }
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
@@ -126,3 +293,4 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
 }
+

@@ -39,7 +39,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId?: string
   @Input() premiumAmt: string
-  @Input() sumInsured:any
+  @Input() sumInsured: any
   @Output() actionEvent = new EventEmitter<StaticPageAction>();
   staticForm: FormGroup
   toMinDate = null
@@ -123,8 +123,16 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
     // let dobMinDate = moment().subtract(75, `years`)
     // this.dobMinDate = { year: parseInt(dobMinDate.format('YYYY')), month: parseInt(dobMinDate.format('M')), day: parseInt(dobMinDate.format('D')) };
     this.parentData = this.getParent()
-    this.dob = this.parentData['date_of_birth']
-    this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
+    if (this.parentData['age']) {
+      this.currentAge = this.parentData['age']
+      console.log(this.currentAge);
+
+    } else {
+      this.dob = this.parentData['date_of_birth']
+      this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
+    }
+
+    // this.currentAge = Math.ceil(moment().diff(this.dob, 'years', true));
     this.getOldData()
 
   }
@@ -227,7 +235,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
       return false
     }
     let tempPre = this.globalFun.calculateDecimal(this.totalP / 12) + this.totalL
-    this.premiumAmt = this.numberPipe.transform(tempPre,"1.2-2") + " MMK / month"
+    this.premiumAmt = this.numberPipe.transform(tempPre, "1.2-2") + " MMK / month"
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     let postData = {
       basicCoverId: formValue.basicCoverId,
@@ -237,6 +245,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
       medicalCardNo: formValue.medicalCardNo,
       paymentFrequency: formValue.paymentFrequency,
       dateOfBirth: this.dob,
+      age: this.currentAge || null,
       resourceData: {
         agentId: this.auth.currentUserValue.id || 1,
         customerId: this.prodService.creatingCustomer.customerId || 1,
@@ -246,7 +255,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
         // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
         // sumInsuredView:this.sumInsured,
         productId: this.prodService.createingProd.id,
-        productCode:this.prodService.createingProd.code,
+        productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
         leadId: this.prodService.creatingLeadId || null,
         // status: ,
@@ -408,7 +417,7 @@ export class SimplePagePolicyComponent implements OnInit, OnDestroy {
           // sumInsured:(Number(this.sumInsured.split(" ")[0].split(',').join("")) || 0) + "",
           // sumInsuredView:this.sumInsured,
           "productId": this.product.id,
-          "productCode":this.product.code,
+          "productCode": this.product.code,
           "quotationId": this.prodService.referenceID,
           "type": this.prodService.type,
           leadId: this.prodService.creatingLeadId,
