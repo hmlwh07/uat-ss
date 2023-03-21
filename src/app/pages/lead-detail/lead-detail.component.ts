@@ -860,7 +860,7 @@ export class LeadDetailComponent implements OnInit {
       phoneNo: this.leadForm.controls.phoneNo.value ? this.leadForm.controls.phoneNo.value : "",
       email: this.leadForm.controls.email.value ? this.leadForm.controls.email.value : "",
       identityType: this.leadForm.controls.identityType.value ? this.leadForm.controls.identityType.value : null,
-      identityNumber: this.leadForm.controls.identityNumber.value ? this.leadForm.controls.identityNumber.value : "",
+      identityNumber: this.leadForm.getRawValue().identityType != 'NRC' ? this.leadForm.getRawValue().identityNumber : this.leadForm.getRawValue().identityNRC,
     }
     // console.log("checkExisting: ", postData)
     if (type == "customer") {
@@ -1703,6 +1703,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = item
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/resourse-detail")
       }
     })
@@ -1744,6 +1745,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.editData = item
         this.prodctService.referenceID = item.quotationId
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/product-form")
       }
     })

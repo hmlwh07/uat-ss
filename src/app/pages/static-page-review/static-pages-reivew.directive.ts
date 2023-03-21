@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, EventEmitter, Input, OnInit, Output, Renderer2, ViewContainerRef } from "@angular/core";
+import { GlobalFunctionService } from "src/app/core/global-fun.service";
 import { PolicyDTO } from "../policy/policy.dto";
 import { Product } from "../products/models/product.dto";
 import { QuotationDTO } from "../quotations/quotation.dto";
@@ -35,16 +36,17 @@ const STATIC_VIEW_COMPONENT = {
   selector: '[staticPageView]'
 })
 export class StaticPageViewDirective implements StaticField, OnInit {
-
   @Input() compId: string
   @Input() product: Product
   @Input() resourcesId: string
-
+  @Input() isApplication:any;
+  @Output() getQuoResult = new EventEmitter()
   component: ComponentRef<StaticField>;
   component2: ComponentRef<StaticField>;
   constructor(
     private resolver: ComponentFactoryResolver,
     private container: ViewContainerRef,
+    private globalFun: GlobalFunctionService
   ) { }
   ngOnInit() {
     if (STATIC_VIEW_COMPONENT[this.compId]) {
@@ -52,14 +54,20 @@ export class StaticPageViewDirective implements StaticField, OnInit {
       this.component = this.container.createComponent(component);
       this.component.instance.product = this.product
       this.component.instance.resourcesId = this.resourcesId
+      if (this.product.code == 'PLMO01' || this.product.code == 'PLMO02') {
+        if (this.compId == 'coverage_1634010995936') {
+          this.globalFun.quotationResult.subscribe((res) => {
+            this.getQuoResult.emit(res)
+          })
+        }
+      }
       if (this.compId == "static_1635747288508") {
         const component = this.resolver.resolveComponentFactory<StaticField>(STATIC_VIEW_COMPONENT['static_1635218894755']);
         this.component2 = this.container.createComponent(component);
         this.component2.instance.product = this.product
         this.component2.instance.resourcesId = this.resourcesId
+        this.component.instance.isApplication = this.isApplication
       }
     }
-
   }
-
 }

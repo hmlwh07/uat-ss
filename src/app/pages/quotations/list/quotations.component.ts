@@ -42,7 +42,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   isTeam: boolean = false
   product: any = []
   productOption: any = []
-  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private encryption: EncryptService) {
     this.loadForm()
   }
@@ -212,6 +212,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.editData = item
+        this.prodctService.isApplication = false
         this.prodctService.previewType = 'quotation'
         this.router.navigateByUrl("/resourse-detail")
       }

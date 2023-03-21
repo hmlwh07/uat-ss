@@ -12,7 +12,7 @@
         <table class="table table-head-custom table-vertical-center">
             <thead>
                 <tr>
-                    <th>Building Description</th>
+                    <th *ngIf="isApplication">Building Description</th>
                     <th>Type of Building</th>
                     <th>Occupation</th>
                     <th>Class</th>
@@ -22,7 +22,7 @@
             </thead>
             <tbody *ngIf="surrounding.length>0">
                 <tr *ngFor="let data of surrounding">
-                    <th>
+                    <th *ngIf="isApplication">
                         {{data.buildingDescription}}
                     </th>
                     <th>

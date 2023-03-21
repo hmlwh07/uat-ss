@@ -31,12 +31,16 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() isPrint: any
   @Input() emailInfo: any
   @Input() agentId: any
+  @Input() isApplication: boolean
+  @Input() creatingProd: any
+  @Input() resourceDetail: any
+  @Input() branch: any
+  @Input() premiumView: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
 
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
-  branch: string = ""
   sourceOfBusiness: string = ''
   sourceOfBusinessCode:string=''
   today = new Date()
@@ -44,6 +48,7 @@ export class PrintViewBoxComponent implements OnInit {
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
+  updateData:string;
   policyInfo: any = {}
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService, private healthPrintService: HealthPrintService) {
@@ -52,9 +57,8 @@ export class PrintViewBoxComponent implements OnInit {
 
   //wait for the component to render completely
   async ngOnInit() {
-    // console.log(this.product);
     if (this.resourcesId)
-      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
+      this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.creatingProd.id
     await this.loadingService.activate()
     if (this.config) {
 
@@ -107,7 +111,10 @@ export class PrintViewBoxComponent implements OnInit {
         }
 
       }
+      console.log("this.productService.editData.updateAt",this.productService.editData.updatedAt);
+      
       if (this.productService.editData) {
+        this.updateData=this.productService.editData.updatedAt
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
@@ -116,12 +123,13 @@ export class PrintViewBoxComponent implements OnInit {
         if (this.product.code == 'PCHL01') {
           this.getDetail()
         }
-        // this.today = this.productService.editData.createdAt
-        this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
+        // this.today = this.creatingProd.createdAt
+        this.agentName = this.creatingProd.agentFirstName + this.creatingProd.agentLastName
       }
       this.formatedData = true
     }
     if (this.productService.editData) {
+      this.updateData=this.productService.editData.updatedAt
       this.branch = this.productService.editData.branch
       this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
       this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
@@ -130,8 +138,8 @@ export class PrintViewBoxComponent implements OnInit {
       if (this.product.code == 'PCHL01') {
         this.getDetail()
       }
-      // this.today = this.productService.editData.createdAt
-      this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
+      // this.today = this.creatingProd.createdAt
+      this.agentName = this.creatingProd.agentFirstName + this.creatingProd.agentLastName
     }
     this.formatedData = true
     await this.loadingService.deactivate()

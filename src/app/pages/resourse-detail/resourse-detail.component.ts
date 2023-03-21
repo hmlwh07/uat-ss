@@ -17,8 +17,8 @@ import { PageUIType, ProductPages } from '../products/models/product.dto';
 import { PrintPreviewModalMobileComponent } from '../products/print-preview-modal-mobile/print-preview-modal-mobile.component';
 import { PrintPreviewModalComponent } from '../products/print-preview-modal/print-preview-modal.component';
 import { ProductDataService } from '../products/services/products-data.service';
+import { MotorCheckListPage } from '../static-print/motor-check-list/motor-check-list.page';
 import { SignaturePadComponent } from './signature-pad/signature-pad.component';
-
 @Component({
   selector: 'app-resourse-detail',
   templateUrl: './resourse-detail.component.html',
@@ -59,6 +59,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   selectedSourceOfBusiness: string = null
   statusCode
   emailInfo: any
+  quoResult: boolean = true
+  isApplication: boolean = true
   constructor(
     private productService: ProductDataService,
     private location: Location,
@@ -74,35 +76,35 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     private masterDataService: MasterDataService,
     private leadDetailService: LeadDetailService,
   ) { }
-
   async ngOnInit() {
-
     if (!this.productService.createingProd || !this.productService.createingProd.id) {
       this.location.back()
     } else {
-      this.item = this.productService.createingProd
+      this.item = this.productService.createingProd || this.productService.selectedProd
+      console.log("ITEM", this.item);
+
       this.type = this.productService.previewType
       this.resourceDetail = this.productService.editData
+      this.isApplication = this.productService.isApplication
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
       this.sourceOfBusiness = this.resourceDetail.sourceOfBusiness ? (this.item.code + '-' + this.resourceDetail.sourceOfBusiness) : null
       console.log("this.sourceOfBusiness", this.sourceOfBusiness);
-
       console.log("RESOURCE", this.resourceDetail)
-
       this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
         if (res) {
           this.statusCode = res;
         }
       })
-
       if (!this.resourceDetail) {
         this.location.back()
         return
       }
+      if(this.resourceDetail.updateAt){
+        this.resourceDetail.updateAt=this.formatDateDDMMYYY(this.resourceDetail.updateAt)
+      }
       let pageUI: ProductPages = JSON.parse(this.item.config);
-
       if (this.productService.previewType == 'quotation') {
         this.pageOrder = pageUI.quotation || []
         this.detailInput = pageUI.quotation_input || {}
@@ -125,7 +127,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       // }
       let checkTravel = this.pageOrder.findIndex(x => x.id == 'static_1648784270356')
       // console.log(checkTravel);
-
       if (checkTravel >= 0) {
         let checkProd = this.pageOrder.findIndex(x => x.tableName == "travel_detail")
         if (checkProd >= 0) {
@@ -145,14 +146,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         }
       }
       // console.log(this.pageOrder);
-
       // if (this.item.coverages && this.item.coverages.length > 0) {
       //   this.coverage = {
       //     sumInsured: this.item.coverages[0].sumInsured,
       //     unit: this.item.coverages[0].unit,
       //     premium: this.item.coverages[0].premium,
       //   }
-
       //   for (const item of this.item.coverages) {
       //     let response: any = {};
       //     try {
@@ -160,16 +159,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //         response = await this.coverageQuo.getOne(item.id, this.resourceDetail.id).toPromise()
       //       }
       //     } catch (error) {
-
       //     }
       //     this.coverageData[item.id] = {
       //       sum: response ? response.sumInsured || 0 : 0,
       //       unit: response ? response.unit || 0 : 0,
       //       premium: response ? response.premium || 0 : 0
       //     }
-
       //   }
-
       // }
       // if (this.item.addOns && this.item.addOns.length > 0) {
       //   this.addon = {
@@ -184,7 +180,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       //         response = await this.addonQuo.getOne(item.id, this.resourceDetail.id).toPromise()
       //       }
       //     } catch (error) {
-
       //     }
       //     this.addOnData[item.id] = {
       //       sum: response ? response.sumInsured || 0 : 0,
@@ -199,7 +194,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       ]).toPromise().then((res: any) => {
         if (res) {
           console.log("SOC", res[1]);
-
           this.branchOption = res[0]
           this.sourceOfBusinessOption = res[1]
           this.cdf.detectChanges()
@@ -207,10 +201,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             this.selectedBranchCode = this.branch
             let branch = this.branchOption.find((p) => p.code == this.branch)
             // console.log(branch);
-
             this.productService.editData.branch = branch.value
           }
-
           if (this.sourceOfBusiness) {
             this.selectedSourceOfBusiness = this.sourceOfBusiness
             let ss = this.sourceOfBusiness.split('-')
@@ -223,19 +215,21 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       })
     }
   }
-
   ngOnDestroy() {
     this.productService.createingProd = null
     this.productService.editData = null;
   }
-
   getDetail(tempFormData) {
     this.getOldData(this.resourceDetail, tempFormData)
   }
-
+  getQuoResult(event) {
+    if (this.item.code == 'PLMO01' || this.item.code == 'PLMO02') {
+      console.log("EVE", event);
+      this.quoResult = event
+    }
+  }
   checkDisabled() {
     let isDisabled = true
-
     if (this.resourceDetail.apiStatus != null) {
       let status = this.resourceDetail.apiStatus.toLowerCase()
       if (status != 'fail') {
@@ -254,7 +248,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     }
     return isDisabled
   }
-
   getOldData(oldData: any, tempFormData) {
     let index = 0
     // this.pageOrder.forEach((element) => {
@@ -266,8 +259,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.pageOrder[index].tableName = page.tableName
         this.pageOrder[index].id = page.id
         this.pageOrder[index].controls = page.controls
-        console.log("this.pageOrder[index].controls ", this.pageOrder[index].controls);
-
+        // console.log("this.pageOrder[index].controls ", this.pageOrder[index].controls);
         this.pageDataService.getDetail(page.tableName, oldData.id, page.id, true, page.controls).toPromise().then((res: any[]) => {
           if (res) {
             let temp = page.pageType == 'form' ? {} : []
@@ -288,7 +280,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
             };
             this.resultObj[page.tableName + page.id] = temp
             this.formatedData = JSON.parse(JSON.stringify(this.resultObj))
-
             if (lengthData == index) {
               this.cdf.detectChanges()
             }
@@ -296,19 +287,15 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         })
       }
       index += 1
-
     }
     this.cdf.detectChanges()
     // });
-
   }
-
   download(cols: string[], data: any) {
     let value = this.getOtherDataID(cols, data)
     let fileName = this.getOtherData(cols, data)
     if (value) {
       let valueId = value.split("].")[0].replace("[", "")
-
       this.downloadService.getDownload(valueId, fileName)
     }
   }
@@ -323,10 +310,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         let test = data.split("].")
         return test[1]
       }
-    } return data
-
+    }
+    return data
   }
-
   getFormatTable(controls: ConfigInput[]) {
     // let tableReform = []
     // let parentArray: string[] = []
@@ -359,7 +345,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     //   }
     // }
     // return tableReform
-
     let tableReform = []
     let parentArray: string[] = []
     let tempControls: ConfigInput[] = JSON.parse(JSON.stringify(controls))
@@ -411,10 +396,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       }
     }
     // console.log("TABLE",tableReform);
-
     return tableReform
   }
-
   getOtherData(cols: any[], data: any) {
     for (let col of cols) {
       if (data[col.name]) {
@@ -440,9 +423,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   getOtherDataID(cols: any[], data: any) {
-
     for (let col of cols) {
       if (data[col.name]) {
         if ((data[col.name] + "").length > 0) {
@@ -469,9 +450,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   findPageValue(array: ConfigPage[], value: string) {
-
     let data: FromGroupData
     for (let index = 0; index < array.length; index++) {
       if (!array[index]) continue
@@ -486,15 +465,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
           }
           return x
         })
-
         break
       }
       // break
     }
-
     return data
   }
-
   rechangePageData(tempFormData) {
     for (let index = 0; index < this.pageOrder.length; index++) {
       const element = this.pageOrder[index];
@@ -503,12 +479,10 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
         this.pageOrder[index].tableName = page.tableName
         this.pageOrder[index].id = page.id
         this.pageOrder[index].controls = page.controls
-
       }
     }
     // this.pageOrder.forEach((element) => {
     //   if (element.id != 'coverage' && element.id != 'addon') {
-
     //   }
     // })
   }
@@ -557,7 +531,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.selectedSourceOfBusiness = null
     }
   }
-
   goToList() {
     // if (this.type == 'quotation') {
     //   this.productService.createingProd = null;
@@ -567,7 +540,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     //   this.router.navigateByUrl("/sales/application/list")
     this.location.back()
   }
-
   createPolicy() {
     this.productService.createingProdRef = this.item
     this.productService.viewType = 'policy'
@@ -583,7 +555,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       return checkVaidDep(dependency, { value: checkData })
     return true
   }
-
   getOptionValue(value, options: OptionValue[], id: string, name: string) {
     let valueData = options.find(x => x.value == value)
     if (valueData) {
@@ -592,6 +563,35 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       return valueData.text
     }
     return value
+  }
+  viewCheckListPrint() {
+    const modalRef = this.modalService.open(MotorCheckListPage, { size: 'xl2', backdrop: false });
+    modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+    modalRef.componentInstance.product = this.item
+    modalRef.componentInstance.tempData = this.formatedData
+    modalRef.componentInstance.resourcesId = this.resourceDetail.id
+    modalRef.componentInstance.resourceDetail = this.resourceDetail
+    modalRef.componentInstance.previewType = this.type
+    modalRef.componentInstance.createingProd = this.item
+    modalRef.componentInstance.isCheckList = true
+    modalRef.componentInstance.agentId = this.resourceDetail.agentId
+    modalRef.componentInstance.signId = this.signFileId || null
+    modalRef.result.then(() => { }, (res) => {
+    })
+    // const modalRef = this.modalService.open(PrintPreviewModalComponent, { size: 'xl2', backdrop: false }); modalRef.componentInstance.configData = this.printConfig.printFormat
+    // modalRef.componentInstance.configOrder = this.printConfig.prinitUI
+    // modalRef.componentInstance.product = this.item
+    // modalRef.componentInstance.tempData = this.formatedData
+    // modalRef.componentInstance.resourcesId = this.resourceDetail.id
+    // modalRef.componentInstance.agentId = this.resourceDetail.agentId
+    // //FOR_QUOTATION
+    // modalRef.componentInstance.isApplication = this.isApplication
+    // //FOR_AUTO_ATTACHMENT
+    // modalRef.componentInstance.isPrint = true
+    // //FOR_MOTOR_CHECK_LIST
+    // modalRef.componentInstance.isCheckList = true
+    // modalRef.result.then(() => { }, (res) => {
+    // })
   }
 
   viewPrint() {
@@ -614,8 +614,15 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.tempData = this.formatedData
       modalRef.componentInstance.resourcesId = this.resourceDetail.id
       modalRef.componentInstance.agentId = this.resourceDetail.agentId
+      modalRef.componentInstance.premiumView = this.resourceDetail.premiumView
+      modalRef.componentInstance.branch = this.branch
+      modalRef.componentInstance.creatingProd = this.item
+      //FOR_QUOTATION
+      modalRef.componentInstance.isApplication = this.isApplication
       //FOR_AUTO_ATTACHMENT
       modalRef.componentInstance.isPrint = true
+      //FOR_MOTOR_CHECK_LIST
+      modalRef.componentInstance.isCheckList = false
       modalRef.result.then(() => { }, (res) => {
       })
     }
@@ -643,10 +650,17 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   //   tableName:"attachment"
   //   type:"policy"
   // }
-
+  Test() {
+    if (!this.quoResult) {
+      this.alertService.activate("Somethings was wrong in Coverage data", 'Warning Message')
+    }
+  }
+  
   async submitPolicyWithProposal() {
-
-    if (!this.selectedBranchCode) {
+    if (!this.quoResult) {
+      this.alertService.activate("Somethings was wrong in Coverage data", 'Warning')
+    }
+    else if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
     }
     else if (!this.selectedSourceOfBusiness) {
@@ -660,7 +674,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   }
   getEmailInfo() {
     this.policyService.getEmailInfo(this.branch, this.item.code).toPromise().then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res) {
         this.emailInfo = res
         if (this.emailInfo) {
@@ -677,8 +691,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
           //FOR_AUTO_ATTACHMENT
           modalRef.componentInstance.isPrint = false
           modalRef.result.then(() => { }, (res) => {
-            console.log("submitPolicyWithProposal", res);
-            if (res) {
+            // console.log("submitPolicyWithProposal", res);
+            if (res.data) {
               this.alertService.activate('This record was submitted', 'Success Message');
               this.resourceDetail.apiStatus = 'sending'
               this.resourceDetail.status = 'submitted'
@@ -691,10 +705,11 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       }
     })
   }
-
   createSign() {
     const modalRef = this.modalService.open(SignaturePadComponent, { size: 'md', backdrop: false });
     modalRef.result.then(() => { }, (res) => {
+      console.log("DD",res);
+      
       if (res) {
         if (res.type == "save") {
           this.policyService.updateAttachment(this.resourceDetail.id, res.data.signId, res.data.signDate).toPromise().then((response) => {
@@ -710,6 +725,17 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     })
   }
 
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
+  }
   submitPolicy() {
     if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')
@@ -726,7 +752,6 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       })
     }
   }
-
   getBranch() {
     return this.masterDataService.getDataByType("CORE_BRANCH").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
@@ -739,15 +764,12 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     return this.masterDataService.getDataByParent("PRODUCT_SOB", this.item.code, 'PRODUCT').pipe(map(x => this.getFormatOpt(x)), catchError(e => {
       return of([])
     }))
-
   }
-
   getFormatOpt(res) {
     return res.map(x => {
       return { 'code': x.codeId, 'value': x.codeName || x.codeValue }
     })
   }
-
   changeBranch(event: any) {
     // if (event) {
     //   this.selectedBranchCode = event.code
@@ -755,7 +777,5 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     // } else {
     //   this.selectedBranchCode = null
     // }
-
   }
 }
-

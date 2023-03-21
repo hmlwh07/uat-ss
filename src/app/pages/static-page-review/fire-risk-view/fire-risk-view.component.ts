@@ -20,6 +20,7 @@ export class FireRiskViewComponent implements OnInit {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string
+  @Input() isApplication: boolean = true
   premiumAmt: string = ""
   listData: any[] = []
   totalPremium: number = 0
@@ -32,9 +33,9 @@ export class FireRiskViewComponent implements OnInit {
   unsub: Subscription[] = []
   currencyType: string;
   constructor(
-    private fireRiskService: FireRiskService, private fireRsikService: FireRiskService, 
-    private productSerice: ProductDataService, private addonQuo: AddOnQuoService, 
-    private cdf: ChangeDetectorRef,  private globalFun: GlobalFunctionService
+    private fireRiskService: FireRiskService, private fireRsikService: FireRiskService,
+    private productSerice: ProductDataService, private addonQuo: AddOnQuoService,
+    private cdf: ChangeDetectorRef, private globalFun: GlobalFunctionService
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +51,7 @@ export class FireRiskViewComponent implements OnInit {
 
 
   async getRiskList() {
-   await this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
+    await this.fireRiskService.getMany(this.resourcesId).toPromise().then((res: any) => {
       // console.log('getRiskList', res);
       if (res) {
         this.listData = res
@@ -60,7 +61,7 @@ export class FireRiskViewComponent implements OnInit {
   async getRiskDetail() {
     this.totalPremium = 0
     this.totalSi = 0;
-   await this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
+    await this.fireRsikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
         this.riskData = res
         // console.log("riskDetail", this.listData);
@@ -80,13 +81,13 @@ export class FireRiskViewComponent implements OnInit {
     this.product = this.productSerice.createingProd || this.productSerice.selectedProd
     // console.log(this.product, this.listData);
     let count = 0
-    for (var i= 0; i < this.listData.length; i++) {
+    for (var i = 0; i < this.listData.length; i++) {
 
       count += 1
       let obj = {
         description: this.listData[i].buildingDescription,
         premium: this.listData[i].premium,
-        firepremium:  this.listData[i].premium
+        firepremium: this.listData[i].premium
       }
       for (const item of this.product.addOns) {
         this.optionId = this.listData[i].id
@@ -101,7 +102,7 @@ export class FireRiskViewComponent implements OnInit {
             if (this.additionalData) {
               obj[item.code] = this.additionalData.premium || 0
               obj.premium += parseFloat(this.additionalData.premium)
-              
+
             } else {
               obj[item.code] = 0
             }
@@ -120,7 +121,7 @@ export class FireRiskViewComponent implements OnInit {
       } else {
         stampDuty = 0.05;
       }
-     this.listData[i].totalPremium  = this.globalFun.calculateDecimal(obj.premium + stampDuty);
+      this.listData[i].totalPremium = this.globalFun.calculateDecimal(obj.premium + stampDuty);
 
       // console.log('==========> ', this.listData[i]);
 

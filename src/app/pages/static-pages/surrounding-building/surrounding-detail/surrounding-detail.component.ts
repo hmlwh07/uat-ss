@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/modules/auth';
@@ -12,6 +12,7 @@ import { SurroundingBuildingService } from '../models&services/surrounding-build
   styleUrls: ['./surrounding-detail.component.scss']
 })
 export class SurroundingDetailComponent implements OnInit {
+  @Input() isApplication: boolean = true
   surroundingdetailform: FormGroup;
   typeOfBuildingOption: any = []
   occupationOfBuildingOption: any[] = []
@@ -26,13 +27,13 @@ export class SurroundingDetailComponent implements OnInit {
   ngOnInit(): void {
     if (this.type == 'create') {
       this.loadForm()
-    } else {  
+    } else {
       this.loadForm(this.oldData)
     }
     this.getBuildingClass()
     this.getBuildingType()
     this.getBuildingOccupation()
-   
+
 
   }
   getBuildingClass() {
@@ -79,8 +80,8 @@ export class SurroundingDetailComponent implements OnInit {
           this.cdf.detectChanges();
         }
       });
-      
-      
+
+
   }
   getPremiumRate() {
     let buildingClass = this.surroundingdetailform.value.buildingClass
@@ -95,20 +96,29 @@ export class SurroundingDetailComponent implements OnInit {
 
 
   loadForm(oldData?) {
-  
+
     this.surroundingdetailform = new FormGroup({
-      buildingClass: new FormControl(oldData ? oldData.buildingClass : "",Validators.required),
-      buildingDescription: new FormControl(oldData ? oldData.buildingDescription : "",Validators.required),
-      distanceToBuilding: new FormControl(oldData ? oldData.distanceToBuilding : "", [Validators.max(100),Validators.required]),
+      buildingClass: new FormControl(oldData ? oldData.buildingClass : "", Validators.required),
+      buildingDescription: new FormControl(oldData ? oldData.buildingDescription : "", Validators.required),
+      distanceToBuilding: new FormControl(oldData ? oldData.distanceToBuilding : "", [Validators.max(100), Validators.required]),
       firePolicyRiskId: new FormControl(this.riskId),
       id: new FormControl(oldData ? oldData.id : ""),
-      occupationOfBuilding: new FormControl(oldData ? oldData.occupationOfBuilding : "",Validators.required),
-      premiumRate: new FormControl(oldData ? oldData.premiumRate : "",Validators.required),
-      typeOfBuilding: new FormControl(oldData ? oldData.typeOfBuilding : "",Validators.required),
+      occupationOfBuilding: new FormControl(oldData ? oldData.occupationOfBuilding : "", Validators.required),
+      premiumRate: new FormControl(oldData ? oldData.premiumRate : "", Validators.required),
+      typeOfBuilding: new FormControl(oldData ? oldData.typeOfBuilding : "", Validators.required),
     })
-   
+
+  }
+  removeValidator(){
+    if(!this.isApplication){
+      this.surroundingdetailform.controls['buildingDescription'].clearValidators()
+      this.surroundingdetailform.controls['buildingDescription'].updateValueAndValidity()
+    }
   }
   createSurrounding() {
+    if(!this.isApplication){
+      this.removeValidator()
+    }
     if (this.surroundingdetailform.invalid)
       return false
     let data = this.surroundingdetailform.getRawValue();

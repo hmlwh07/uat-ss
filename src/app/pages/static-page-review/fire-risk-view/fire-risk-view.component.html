@@ -9,19 +9,19 @@
       <table class="table table-head-custom table-vertical-center fire-table">
         <thead>
           <tr>
-            <th>{{"FORM.building_description" | translate}} </th>
-            <th style="text-align: right;">{{"FORM.sum_insured" | translate}}</th>
-            <th style="text-align: right;">{{"FORM.premium" | translate}} </th>
+            <th *ngIf="isApplication">{{"FORM.building_description" | translate}} </th>
+            <th [ngClass]="isApplication?'txt-right':'txt-center'">{{"FORM.sum_insured" | translate}}</th>
+            <th [ngClass]="isApplication?'txt-right':'txt-center'">{{"FORM.premium" | translate}} </th>
             <!-- <th>Other Building </th> -->
           </tr>
         </thead>
         <tbody>
           <ng-container *ngFor="let item of listData">
             <tr>
-              <td>{{item.buildingDescription}}</td>
-              <td style="text-align: right;">{{item.riskSi | number}}</td>
-              <!-- <td style="text-align: right;">{{item.premium | number}}</td> -->
-              <td style="text-align: right;">{{item.totalPremium | number}}</td>
+              <td *ngIf="isApplication">{{item.buildingDescription}}</td>
+              <td [ngClass]="isApplication?'txt-right':'txt-center'">{{item.riskSi | number}}</td>
+              <!-- <td [ngClass]="isApplication?'txt-right':'txt-center'">{{item.premium | number}}</td> -->
+              <td [ngClass]="isApplication?'txt-right':'txt-center'">{{item.totalPremium | number}}</td>
               <!-- <td>
                 <span class="text-primary" style="text-decoration: underline;white-space: nowrap;cursor: pointer;"
                   (click)="createPolicyBtn(item)">Other Info</span>
@@ -46,7 +46,7 @@
       <table class="table table-head-custom table-vertical-center fire-table">
         <thead>
           <tr>
-            <th>
+            <th *ngIf="isApplication">
               {{"TABLE.Building Description" | translate}}
             </th>
             <th>
@@ -84,7 +84,7 @@
         <tbody>
           <ng-container *ngFor="let data of listData;">
             <tr>
-              <td>{{data.buildingDescription}}</td>
+              <td *ngIf="isApplication">{{data.buildingDescription}}</td>
               <td>{{data.typeOfBuildingValue}}</td>
               <td>{{data.occupationOfBuildingValue}}</td>
               <td>{{data.buildingClassValue}}</td>
@@ -115,7 +115,7 @@
       <table class="table table-head-custom table-vertical-center fire-table">
         <thead>
           <tr>
-            <th class="field-col">
+            <th class="field-col" *ngIf="isApplication">
               {{"TABLE.Building Description" | translate }}
             </th>
             <th class="field-col">
@@ -162,7 +162,7 @@
         <tbody *ngIf="addOnData.length>0">
           <ng-container *ngFor="let data of addOnData;">
             <tr>
-              <td>{{data.description}}</td>
+              <td *ngIf="isApplication">{{data.description}}</td>
               <td>{{data.firepremium || 0 | number:'1.2-2' }}</td>
               <td>{{data.STHTC | number:'1.2-2' }}</td>
               <td>{{data.IMPD | number:'1.2-2' }}</td>
