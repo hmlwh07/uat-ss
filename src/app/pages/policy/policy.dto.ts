@@ -8,7 +8,7 @@ export interface PolicyDTO {
   quotationId?: string,
   preminum?: string,
   createdAt?: string,
-  TcsStatus?:string,
+  tcsStatus?:any,
   submittedCode?:any;
 }
 
