@@ -525,16 +525,16 @@ export class AddonPageComponent implements OnInit {
             discount2 = -(10000 * percent)
           }
         }
-        if (excess == "T-STNDEX" && currency == "MMK") {
-          if (purpose == 'T-PRI') {
-            discount = -50000
-            discount2 = -50000
-          }
-          if (purpose == 'T-COM') {
-            discount = -100000
-            discount2 = -100000
-          }
-        }
+        // if (excess == "T-STNDEX" && currency == "MMK") {
+        //   if (purpose == 'T-PRI') {
+        //     discount = -50000
+        //     discount2 = -50000
+        //   }
+        //   if (purpose == 'T-COM') {
+        //     discount = -100000
+        //     discount2 = -100000
+        //   }
+        // }
 
       }
     }
