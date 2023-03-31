@@ -99,6 +99,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       if(this.resourceDetail.updateAt){
         this.resourceDetail.updateAt=this.formatDateDDMMYYY(this.resourceDetail.updateAt)
       }
+      else if(this.resourceDetail.updatedAt){
+        this.resourceDetail.updateAt=this.formatDateDDMMYYY(this.resourceDetail.updatedAt)
+      }
       let pageUI: ProductPages = JSON.parse(this.item.config);
       if (this.productService.previewType == 'quotation') {
         this.pageOrder = pageUI.quotation || []

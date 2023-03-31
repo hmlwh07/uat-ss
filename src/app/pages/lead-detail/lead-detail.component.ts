@@ -1698,6 +1698,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   goAppViewDetail(item) {
+    console.log("ITEM",item);
+    
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
       if (res) {
         this.prodctService.createingProd = res
