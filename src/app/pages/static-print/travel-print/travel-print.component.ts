@@ -602,7 +602,7 @@ export class TravelPrintComponent implements OnInit {
     }
 
     // new page
-    if (this.beneficiaries.length > 0 && this.beneficiaries.length <= 5) {
+    if (this.beneficiaries.length >= 0 && this.beneficiaries.length <= 5) {
       doc.addPage();
       height = 0;
     }
