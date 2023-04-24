@@ -15,39 +15,44 @@ export class ApplicationItemComponent implements OnInit {
 
   ngOnInit() {
     if (this.itemData) {
-      this.policyService.getTcsStatus(this.itemData.submittedCode).toPromise().then((res: any) => {
-        console.log("RES",res);
-        
-        if (res.datum) {
-          this.itemData.tcsStatus = res.datum.policyStatusDesc
-          this.cdf.detectChanges()
-        } else {
-          this.itemData.tcsStatus ='fail'
-          this.cdf.detectChanges()
-        }
-      })
+      // if (this.itemData.submittedCode != null) {
+        this.policyService.getTcsStatus(this.itemData.submittedCode).toPromise().then((res: any) => {
+          console.log("RES", res);
 
-      this.cdf.detectChanges()
-    }
+          if (res.datum) {
+            this.itemData.tcsStatus = res.datum.policyStatusDesc
+            this.cdf.detectChanges()
+          } else {
+            this.itemData.tcsStatus = null
+            this.cdf.detectChanges()
+          }
+        })
+
+        this.cdf.detectChanges()
+      }
+    
   }
 
   actionBtn(event, type?: ListActionType) {
     this.btnEvent.emit({ cmd: type, data: event })
   }
-  getTcsStatus(data){
-    this.policyService.getTcsStatus(data.submittedCode).toPromise().then((res: any) => {
-      console.log("RES",res);
-      if (res.datum) {
-        data.tcsStatus = res.datum.policyStatusDesc
-        this.cdf.detectChanges()
-      } else {
-        data.tcsStatus ='fail'
-        this.cdf.detectChanges()
-      }
-    })
+  getTcsStatus(data) {
+    if (data.submittedCode != null) {
+      this.policyService.getTcsStatus(data.submittedCode).toPromise().then((res: any) => {
+        console.log("RES", res);
+        if (res.datum) {
+          data.tcsStatus = res.datum.policyStatusDesc
+          this.cdf.detectChanges()
+        } else {
+          data.tcsStatus = null
+          this.cdf.detectChanges()
+        }
+      })
 
-    this.cdf.detectChanges()
-  
+      this.cdf.detectChanges()
+    } else {
+
+    }
   }
 
 }

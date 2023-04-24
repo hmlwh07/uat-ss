@@ -6,7 +6,8 @@
   </div>
   <div class="col-4">
     <section class="icon-group">
-      <div class="actions" style="  background: #05acea;" *ngIf="(itemData.tcsStatus=='fail')&&(itemData.status == 'submitted'||itemData.status == 'approved')&&(itemData.apiStatus!='fail')">
+      <!-- *ngIf="(itemData.tcsStatus=='fail')&&(itemData.status == 'submitted'||itemData.status == 'approved')&&(itemData.apiStatus!='fail')" -->
+      <div class="actions" style="  background: #05acea;" >
         <img src="../../../assets/images/refresh-data.svg"  (click)="getTcsStatus(itemData)"
           alt="view" style="width: 20px;height: 20px;margin: 4px 7px;     background: #05acea;" />
       </div>
@@ -64,6 +65,7 @@
     *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI
     : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
     <label *ngIf="itemData.apiStatus=='fail'">{{ itemData.apiStatus | titlecase }} </label>
-    <label *ngIf="itemData.tcsStatus !='fail'"> <span style="color: #005f99;font-weight: bold;" *ngIf="itemData.tcsStatus !='fail'"> Bancs : </span> {{itemData.tcsStatus}}</label>
+    <!-- <label *ngIf="itemData.tcsStatus !='fail'"> <span style="color: #005f99;font-weight: bold;" *ngIf="itemData.tcsStatus !='fail'"> Bancs : </span> {{itemData.tcsStatus}}</label> -->
+    <label *ngIf="itemData.apiStatus !='fail'"> <span style="color: #005f99;font-weight: bold;"> Bancs : </span> {{itemData.tcsStatus?itemData.tcsStatus:null}}</label>
   </div>
 </div>

@@ -146,7 +146,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   async getPolicyList(offset: number = 1) {
     let postData = { ...this.policyForm.getRawValue(), limit: 5, offset: offset }
     this.postedData = postData
-      
+
 
     this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
       if (res) {
@@ -158,10 +158,12 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
-            // this.quoList[i].tcsStatus=this.getTCSStatus(this.quoList[i].submittedCode)
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
+          // if (this.quoList[i].submittedCode != null) {
+          //   this.quoList[i].tcsStatus =  this.getTCSStatus(this.quoList[i].submittedCode)
+          // }
         }
 
       }
@@ -172,30 +174,18 @@ export class PolicyComponent implements OnInit, OnDestroy {
     })
   }
   async getTCSStatus(quoNumber) {
-    await this.policyService.getPolicyList(quoNumber).toPromise().then((res: any) => {
-      if (res) {
-        console.log(res);
-        return res
-      }
-    })
-  }
-
-  getTcsStatus() {
-    if (this.quoList.length > 0) {
-      this.quoList.forEach(element => {
-        this.policyService.getTcsStatus(element.submittedCode).toPromise().then((res: any) => {
-          console.log("HERE", res);
-          this.isTcs = true
-          if (res) {
-
-            element.tcsStatus == res.datum.policyStatusDesc
-          }
-        })
-
+    if (quoNumber != null) {
+      await this.policyService.getPolicyList(quoNumber).toPromise().then((res: any) => {
+        if (res) {
+          console.log(res);
+          return res.datum.policyStatusDesc
+        }
       })
-    }
+    } else {
 
+    }
   }
+
 
   async getDatabyPage(page) {
     this.currentPage = page
@@ -214,12 +204,9 @@ export class PolicyComponent implements OnInit, OnDestroy {
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
-          if (this.quoList[i].submittedCode) {
-            this.policyService.getTcsStatus(this.quoList[i].submittedCode).toPromise().then((res) => {
-              console.log(res);
-              this.quoList[i].tcsStatus = 'ACTIVE POLICY'
-            })
-          }
+          // if (this.quoList[i].submittedCode != null) {
+          //   this.quoList[i].tcsStatus =  this.getTCSStatus(this.quoList[i].submittedCode)
+          // }
         }
         this.cdf.detectChanges();
         this.commonList.detechStartEnd();

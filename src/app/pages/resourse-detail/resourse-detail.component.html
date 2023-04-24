@@ -34,11 +34,11 @@
           </div>
           <!-- type == 'policy'  && -->
           <div style="margin-left: auto;">
-            <!-- <button class="btn btn-outline-primary"
+            <button class="btn btn-outline-primary"
               *ngIf=" statusCode != '07' && (item.code=='PLMO01'||item.code=='PLMO02') && isApplication"
               (click)="viewCheckListPrint()">
               <i class="flaticon2-print"></i> {{"FORM.check_list_print" | translate}}
-            </button> -->
+            </button>
             <button class="btn btn-outline-primary" *ngIf=" statusCode != '07'" (click)="viewPrint()"
               style="margin-left: 5px;">
               <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
