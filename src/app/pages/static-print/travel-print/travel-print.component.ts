@@ -34,6 +34,7 @@ export class TravelPrintComponent implements OnInit {
   @Input() sourceOfBusinessCode?: string
   @Input() isPrint: any
   @Input() emailInfo: any
+  @Input() updateData:any=new Date()
   product: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
@@ -185,7 +186,7 @@ export class TravelPrintComponent implements OnInit {
 
   async submitPolicy() {
     this.createPdf()
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo, this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -206,7 +207,7 @@ export class TravelPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData? this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
@@ -333,48 +334,60 @@ export class TravelPrintComponent implements OnInit {
         { content: 'Share %', styles: { halign: 'center', valign: 'middle' } },
       ]
     ]
-    for (var i = 0; i < this.tempArray.length; i++) {
-      let data = this.tempArray[i];
-      console.log(data, data.length)
-      for (var j = 0; j < data.length; j++) {
-        let beneData = data[j];
-        if (data.length > 1) {
-          if (j == 0) {
-            beneficiariesInfoDetailData = [
-              { content: i + 1, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
-              { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.beneficiaryName ? beneData.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.relationshipValue ? beneData.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.idType?((beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber)):'', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.share ? (beneData.share + "%") : '', styles: { halign: 'center', valign: 'middle' } },
-            ]
+    if (this.tempArray.length == 0) {
+      beneficiariesInfoDetailData = [
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+        { content: '-', styles: { halign: 'center', valign: 'middle' } },
+      ]
+      beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
+    } else {
+      for (var i = 0; i < this.tempArray.length; i++) {
+        let data = this.tempArray[i];
+        console.log(data, data.length)
+        for (var j = 0; j < data.length; j++) {
+          let beneData = data[j];
+          if (data.length > 1) {
+            if (j == 0) {
+              beneficiariesInfoDetailData = [
+                { content: i + 1, rowSpan: data.length, styles: { halign: 'center', valign: 'middle' } },
+                { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
+                { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+                { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+                { content: (beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+                { content: this.formatDateDDMMYYY(beneData.dateOfBirth), styles: { halign: 'center', valign: 'middle' } },
+                { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+              ]
+            } else {
+              beneficiariesInfoDetailData = [
+                { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
+                { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+                { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+                { content: (beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+                { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '-', styles: { halign: 'center', valign: 'middle' } },
+                { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
+              ]
+            }
+            beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
           } else {
             beneficiariesInfoDetailData = [
+              { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
               { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.beneficiaryName ? beneData.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.relationshipValue ? beneData.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.idType?((beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber)):'', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '', styles: { halign: 'center', valign: 'middle' } },
-              { content: beneData.share ? (beneData.share + "%") : '', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.beneficiaryName, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.relationshipValue, styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.idType + " - " + (beneData.nrc || beneData.idNumber), styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '-', styles: { halign: 'center', valign: 'middle' } },
+              { content: beneData.share + "%", styles: { halign: 'center', valign: 'middle' } },
             ]
+            beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
           }
-          beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
-        } else {
-          beneficiariesInfoDetailData = [
-            { content: i + 1, styles: { halign: 'center', valign: 'middle' } },
-            { content: j + 1, styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.beneficiaryName ? beneData.beneficiaryName : '-', styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.relationshipValue ? beneData.relationshipValue : '-', styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.idType?((beneData.idType || " ") + " - " + (beneData.nrc || beneData.idNumber)):'', styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.dateOfBirth ? this.formatDateDDMMYYY(beneData.dateOfBirth) : '', styles: { halign: 'center', valign: 'middle' } },
-            { content: beneData.share ? (beneData.share + "%") : '', styles: { halign: 'center', valign: 'middle' } },
-          ]
-          beneficiariesInfoDetailList.push(beneficiariesInfoDetailData);
         }
       }
     }
-
     // Insurance Information Details
     let insuranceInfoDetailData = [
       [
@@ -535,32 +548,58 @@ export class TravelPrintComponent implements OnInit {
     }
 
     // Beneficiaries Information Details
-    // if (this.beneficiaries.length > 0) {
-    //   doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
-    //   doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
-    //   doc.autoTable({
-    //     head: beneficiariesInfoDetailHeader,
-    //     body: beneficiariesInfoDetailList,
-    //     theme: 'grid',
-    //     startY: height + 35,
-    //     margin: { left: 10, right: 10 },
-    //     showHead: 'firstPage',
-    //     styles: {
-    //       fontSize: 8,
-    //       font: 'helvetica',
-    //       lineColor: '#005f99',
-    //       lineWidth: 0.5,
-    //       cellWidth: 'auto',
-    //       cellPadding: 5,
-    //     },
-    //     headStyles: {
-    //       fillColor: '#e9f8fe',
-    //       textColor: '#000',
-    //       fontStyle: 'normal',
-    //     },
-    //   });
-    //   height = doc.lastAutoTable.finalY;
-    // }
+    if (this.beneficiaries.length ==0) {
+      doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+      doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
+      doc.autoTable({
+        head: beneficiariesInfoDetailHeader,
+        body: beneficiariesInfoDetailList,
+        theme: 'grid',
+        startY: height + 35,
+        margin: { left: 10, right: 10 },
+        showHead: 'firstPage',
+        styles: {
+          fontSize: 8,
+          font: 'helvetica',
+          lineColor: '#005f99',
+          lineWidth: 0.5,
+          cellWidth: 'auto',
+          cellPadding: 5,
+        },
+        headStyles: {
+          fillColor: '#e9f8fe',
+          textColor: '#000',
+          fontStyle: 'normal',
+        },
+      });
+      height = doc.lastAutoTable.finalY;
+    }
+    if (this.beneficiaries.length > 0) {
+      doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+      doc.text("Beneficiaries Information Details", width / 2, height + 23, { align: 'center' });
+      doc.autoTable({
+        head: beneficiariesInfoDetailHeader,
+        body: beneficiariesInfoDetailList,
+        theme: 'grid',
+        startY: height + 35,
+        margin: { left: 10, right: 10 },
+        showHead: 'firstPage',
+        styles: {
+          fontSize: 8,
+          font: 'helvetica',
+          lineColor: '#005f99',
+          lineWidth: 0.5,
+          cellWidth: 'auto',
+          cellPadding: 5,
+        },
+        headStyles: {
+          fillColor: '#e9f8fe',
+          textColor: '#000',
+          fontStyle: 'normal',
+        },
+      });
+      height = doc.lastAutoTable.finalY;
+    }
 
     // new page
     if (this.beneficiaries.length > 0 && this.beneficiaries.length <= 5) {

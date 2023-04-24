@@ -30,8 +30,9 @@ export class FirePrintComponent implements OnInit {
   @Input() sourceOfBusiness?: string
   @Input() sourceOfBusinessCode?: string
   @Input() isPrint: any
-  @Input() emailInfo: any
-  base64Proposal: any
+  @Input() emailInfo:any
+  @Input() updateData:any=new Date()
+  base64Proposal:any
   listData: any[] = []
   detail: any = {}
   policyHolder: any = {
@@ -247,7 +248,7 @@ export class FirePrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData?this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
@@ -888,6 +889,7 @@ export class FirePrintComponent implements OnInit {
       }
     }
   }
+
 
   formatDateDDMMYYY(date) {
     var d = new Date(date),

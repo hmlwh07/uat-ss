@@ -26,9 +26,7 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
   districtValue: any
   stateValue: any
   constructor(private masterData: MasterDataService, private policyHolderService: PolicyHolderService, private cdf: ChangeDetectorRef, private globalFun: GlobalFunctionService) {
-    // this.getAllTownship()
-    // this.getAllState()
-    // this.getAllDistrict()
+  
   }
 
   ngOnInit() {
@@ -88,73 +86,66 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
     })
   }
 
-  getAllState() {
-    this.masterData.getDataByType("PT_STATE", true).toPromise().then((res: any) => {
-      if (res) {
-        this.state = res
-      }
-    })
-  }
-  getAddressData(filter) {
-    this.masterData.getDataByType("PT_TOWNSHIP", true).toPromise().then((res: any) => {
-      if (res) {
-        this.township = res
-        let district = this.township.find(x => x.codeId == filter)
-        this.districtCode = district.parentCode
-        this.getMasterValueDistrict(this.districtCode).toPromise().then((res) => {
-          console.log('PT_DISTRICT', res);
-          if (res['PT_DISTRICT']) {
-            this.districtValue = res['PT_DISTRICT']
-            this.group.controls['f_district'].setValue(this.districtValue)
-          }
-        })
+  // getAddressData(filter) {
+  //   this.masterData.getDataByType("PT_TOWNSHIP", true).toPromise().then((res: any) => {
+  //     if (res) {
+  //       this.township = res
+  //       let district = this.township.find(x => x.codeId == filter)
+  //       this.districtCode = district.parentCode
+  //       this.getMasterValueDistrict(this.districtCode).toPromise().then((res) => {
+  //         console.log('PT_DISTRICT', res);
+  //         if (res['PT_DISTRICT']) {
+  //           this.districtValue = res['PT_DISTRICT']
+  //           this.group.controls['f_district'].setValue(this.districtValue)
+  //         }
+  //       })
 
-        if (this.districtCode) {
-          this.masterData.getDataByType("PT_DISTRICT", true).toPromise().then((res: any) => {
-            if (res) {
-              this.district = res
-              let state = this.district.find(x => x.codeId == this.districtCode)
-              this.stateCode = state.parentCode
-              this.getMasterValueState(this.stateCode).toPromise().then((res) => {
-                if (res['PT_STATE']) {
-                  this.stateValue = res['PT_STATE']
-                  this.group.controls['f_state'].setValue(this.stateValue)
-                }
-              })
+  //       if (this.districtCode) {
+  //         this.masterData.getDataByType("PT_DISTRICT", true).toPromise().then((res: any) => {
+  //           if (res) {
+  //             this.district = res
+  //             let state = this.district.find(x => x.codeId == this.districtCode)
+  //             this.stateCode = state.parentCode
+  //             this.getMasterValueState(this.stateCode).toPromise().then((res) => {
+  //               if (res['PT_STATE']) {
+  //                 this.stateValue = res['PT_STATE']
+  //                 this.group.controls['f_state'].setValue(this.stateValue)
+  //               }
+  //             })
 
-            }
-          })
-        }
-      }
-    })
-  }
-  getMasterValueDistrict(districtCd) {
+  //           }
+  //         })
+  //       }
+  //     }
+  //   })
+  // }
+  // getMasterValueDistrict(districtCd) {
 
-    let data = {
-      "codeBookRequest": [
+  //   let data = {
+  //     "codeBookRequest": [
 
-        {
-          "codeId": districtCd,
-          "codeType": "PT_DISTRICT",
-          "langCd": "EN"
-        },
-      ]
-    }
-    return this.policyHolderService.getMasterDataSale(data)
-  }
-  getMasterValueState(stateCd) {
-    let data = {
-      "codeBookRequest": [
+  //       {
+  //         "codeId": districtCd,
+  //         "codeType": "PT_DISTRICT",
+  //         "langCd": "EN"
+  //       },
+  //     ]
+  //   }
+  //   return this.policyHolderService.getMasterDataSale(data)
+  // }
+  // getMasterValueState(stateCd) {
+  //   let data = {
+  //     "codeBookRequest": [
 
-        {
-          "codeId": stateCd,
-          "codeType": "PT_STATE",
-          "langCd": "EN"
-        },
-      ]
-    }
-    return this.policyHolderService.getMasterDataSale(data)
-  }
+  //       {
+  //         "codeId": stateCd,
+  //         "codeType": "PT_STATE",
+  //         "langCd": "EN"
+  //       },
+  //     ]
+  //   }
+  //   return this.policyHolderService.getMasterDataSale(data)
+  // }
 
 
 
@@ -170,30 +161,89 @@ export class SelectBoxComponent implements Field, OnInit, OnDestroy {
     let address = this.config.type == "address" ? true : false
     console.log(address, this.config.masterData);
 
-    this.masterData.getDataByType(this.config.masterData, address).pipe(map((res: any) => {
-      return res.filter(x => x[depend.relatedField] == filter)
+    this.masterData.getDataByType(this.config.masterData, address).pipe(map(async (res: any) => {
+      let respond = res
+      // .filter(x => x[depend.relatedField] == filter)
+      if (this.config.masterData == 'PT_DISTRICT') {
+        this.masterData.getDataByType("PT_TOWNSHIP", true).toPromise().then(async (res: any) => {
+          if (res) {
+            this.township = res
+            let district = this.township.find(x => x.codeId == filter)
+            this.districtCode = district.parentCode
+            this.masterData.getDataByType("PT_DISTRICT", true).toPromise().then(async (res: any) => {
+              if (res) {
+                this.district = res
+                respond = this.district.filter(x => x.codeId == this.districtCode)
+                this.masterOption = respond.map(x => {
+                  if (x[valueKey] == value) {
+                    same = true
+                  }
+                  return { 'value': x[valueKey], 'text': x[showKey], ...x }
+                })
+                if (same) {
+                  this.group.controls[this.config.name].setValue(value)
+                } else {
+                  if (this.masterOption.length > 0) {
+                    this.group.controls[this.config.name].setValue(this.masterOption[0]['value'])
+                  }
+                }
+                this.cdf.detectChanges()
+                this.doFunction()
+
+              }
+            })
+          }
+        })
+      }
+      if (this.config.masterData == 'PT_STATE') {
+            this.masterData.getDataByType("PT_DISTRICT", true).toPromise().then(async (res: any) => {
+              if (res) {
+                this.district = res
+                respond = this.district.find(x => x.codeId == filter)
+                this.stateCode = respond.parentCode
+                this.masterData.getDataByType("PT_STATE", true).toPromise().then(async (res: any) => {
+                  if (res) {
+                    this.state = res
+                    respond = this.state.filter(x => x.codeId == this.stateCode)
+                    this.masterOption = respond.map(x => {
+                      if (x[valueKey] == value) {
+                        same = true
+                      }
+                      return { 'value': x[valueKey], 'text': x[showKey], ...x }
+                    })
+                    if (same) {
+                      this.group.controls[this.config.name].setValue(value)
+                    } else {
+                      if (this.masterOption.length > 0) {
+                        this.group.controls[this.config.name].setValue(this.masterOption[0]['value'])
+                      }
+                    }
+                    this.cdf.detectChanges()
+                    this.doFunction()
+
+                  }
+                })
+              }
+            })
+      }
+      else {
+        return respond.filter(x => x[depend.relatedField] == filter)
+      }
     })).toPromise().then(async (res: any) => {
       if (res) {
-        if (address && this.config.masterData == 'PT_DISTRICT') {
-          this.getAddressData(filter)
-        }
         this.masterOption = res.map(x => {
           if (x[valueKey] == value) {
             same = true
           }
           return { 'value': x[valueKey], 'text': x[showKey], ...x }
         })
+        console.log(this.masterOption);
+
         if (same) {
           this.group.controls[this.config.name].setValue(value)
         } else {
           if (this.masterOption.length > 0) {
             this.group.controls[this.config.name].setValue(this.masterOption[0]['value'])
-          }
-          if (address && this.config.masterData == 'PT_DISTRICT') {
-            if (this.districtValue) {
-              this.group.controls['f_district'].setValue(this.districtValue)
-              this.group.controls['f_state'].setValue(this.stateValue)
-            }
           }
         }
         this.cdf.detectChanges()

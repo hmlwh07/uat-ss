@@ -76,10 +76,11 @@
         }
         div:nth-child(2) {
           padding: 0;
-          float: right;
+          float: right !important;
           .icon-group {
             width: auto !important;
-            max-width: 85px;
+            float: right;
+            // max-width: 225px;
             overflow: hidden;
             // margin: 0 auto;
             margin-left: auto;
@@ -89,7 +90,7 @@
               border-radius: 5px;
               background: #005f99;
               float: left;
-              margin-right: 15px;
+              margin-left: 15px;
               cursor: pointer;
               margin-bottom: 5px;
               img {

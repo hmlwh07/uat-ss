@@ -35,6 +35,7 @@ export class TravelRiskDetailComponent implements OnInit, OnDestroy {
   @Input() riskId: number
   isApplication: boolean = true
   @Input() sumInsured: any
+  @Input() isApplication: any = true
   @ViewChild(DynamicFormComponent) dynForm: DynamicFormComponent
   @ViewChild(DynamicFormComponent) dynFormTraveler: DynamicFormComponent
   tempRefTravel: any = []

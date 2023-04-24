@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateAdapter } from 'angular-calendar';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { MY_FORMATS } from '../../../core/is-json';
 import { environment } from 'src/environments/environment';
 import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
@@ -48,6 +48,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   totalPages: number = 0
   totalElements: number = 0
   postedData: any
+  isTcs: boolean = false
   selectedPageBtn: number = 1
   constructor(private modalService: NgbModal, private policyHolderService: PolicyHolderService, private alert: AlertService, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef, private encryption: EncryptService) {
     this.loadForm()
@@ -142,9 +143,11 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.getDatabyPage(this.currentPage)
   }
 
-  getPolicyList(offset: number = 1) {
+  async getPolicyList(offset: number = 1) {
     let postData = { ...this.policyForm.getRawValue(), limit: 5, offset: offset }
     this.postedData = postData
+      
+
     this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
       if (res) {
         // console.log(res);
@@ -155,17 +158,43 @@ export class PolicyComponent implements OnInit, OnDestroy {
         this.selectedPageBtn = this.currentPage
         for (var i = 0; i < this.quoList.length; i++) {
           if (this.quoList[i].icon) {
+            // this.quoList[i].tcsStatus=this.getTCSStatus(this.quoList[i].submittedCode)
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
         }
-        this.cdRef.detectChanges()
-        this.commonList.detchChangePagination()
 
-        //this.matTable.reChangeData()
-        // })
+      }
+
+      this.cdRef.detectChanges()
+      this.commonList.detchChangePagination()
+
+    })
+  }
+  async getTCSStatus(quoNumber) {
+    await this.policyService.getPolicyList(quoNumber).toPromise().then((res: any) => {
+      if (res) {
+        console.log(res);
+        return res
       }
     })
+  }
+
+  getTcsStatus() {
+    if (this.quoList.length > 0) {
+      this.quoList.forEach(element => {
+        this.policyService.getTcsStatus(element.submittedCode).toPromise().then((res: any) => {
+          console.log("HERE", res);
+          this.isTcs = true
+          if (res) {
+
+            element.tcsStatus == res.datum.policyStatusDesc
+          }
+        })
+
+      })
+    }
+
   }
 
   async getDatabyPage(page) {
@@ -184,6 +213,12 @@ export class PolicyComponent implements OnInit, OnDestroy {
           if (this.quoList[i].icon) {
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
+          }
+          if (this.quoList[i].submittedCode) {
+            this.policyService.getTcsStatus(this.quoList[i].submittedCode).toPromise().then((res) => {
+              console.log(res);
+              this.quoList[i].tcsStatus = 'ACTIVE POLICY'
+            })
           }
         }
         this.cdf.detectChanges();
@@ -294,6 +329,8 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
   goViewDetail(item) {
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
+      console.log("ITEM", item);
+
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'

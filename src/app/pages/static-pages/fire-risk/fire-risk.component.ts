@@ -257,14 +257,16 @@ export class FireRiskComponent implements OnInit {
     let parentData1 = this.globalFun.tempFormData[FireRiskID];
     let parentData2 = this.globalFun.tempFormData[FirePageID];
     for (var i = 0; i < parentData1.length; i++) {
+      
       let totalPremiumNotStampDuty: any = 0;
       totalPremium += parseFloat(parentData1[i].premium);
-      if (parentData1[i].sumInsure) {
-        totalSI += parseFloat(parentData1[i].sumInsure);
-      }
       if (parentData1[i].riskSi) {
         totalSI += parseFloat(parentData1[i].riskSi);
+        
       }
+      else if (parentData1[i].sumInsure) {
+        totalSI += parseFloat(parentData1[i].sumInsure);
+       }
       let reqBody = {
         addOnIds: this.product.addOns.map(x => { return x.id }),
         optionalKey: parentData1[i].id || '',
@@ -299,3 +301,4 @@ export class FireRiskComponent implements OnInit {
 
 
 }
+

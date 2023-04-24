@@ -7,6 +7,7 @@ import { PolicyDTO } from "./policy.dto";
 const API_QUOTATION_URL = `${environment.apiUrl}/policy/page`
 const API_QUOTATION__ATT_URL = `${environment.apiUrl}/policy`
 const API_EMAIL_URL = `${environment.apiUrl}/email-info`
+const API_TCS_STATUS = `${environment.apiUrl}/policy/getTcsStatus`
 @Injectable({
   providedIn: 'root'
 })
@@ -47,6 +48,10 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     }
     return this.httpClient.get(url)
   }
+  getTcsStatus(quoId) {
+    return this.httpClient.get(API_TCS_STATUS+'?quotationId='+quoId)
+  }
+
   updateAttachment(resId: string, attId: any, signDate: string) {
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/attachment",
       {
@@ -58,7 +63,8 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
   submitPolicy(resId: string, branchCode: string) {
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})
   }
-  submitPolicyWithProposal(resId?: string, branchCode?: string, base64Proposal?, sourceOfBusiness?, emailInfo?,sourceOfBusinessCode?) {
+  submitPolicyWithProposal(resId: string, branchCode: string, base64Proposal, sourceOfBusiness, emailInfo, sourceOfBusinessCode) {
+
     let policyResourceRequest = {
       resourceId: resId,
       branchCode: branchCode,
@@ -92,7 +98,7 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
       sourceOfBusiness: reqValue.sourceOfBusiness || 'KBZMS Partners Channel',
     }
     console.log(reqObj);
-    
+
     // return reqObj.quotationNumber
     return this.httpClient.post(environment.apiUrl + '/email-send', reqObj)
   }

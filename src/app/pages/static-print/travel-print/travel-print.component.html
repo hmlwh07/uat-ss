@@ -230,8 +230,62 @@
                         <td class="field-pd">{{bene.relationshipValue}}</td>
                         <td class="field-pd">{{bene.idType}} - {{bene.idType !='NRC' ? bene.idNumber : bene.nrc }}
                         </td>
-                        <td class="field-pd">{{bene.dateOfBirth | date: 'dd/MM/YYYY' }}</td>
+                        <td class="field-pd">{{bene.dateOfBirth? (bene.dateOfBirth | date: 'dd/MM/YYYY'): '-' }}</td>
                         <td class="field-pd">{{bene.share}} % </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+
+        </tbody>
+    </table>
+</div>
+<div class="addon-print" *ngIf="beneficiaries.length==0">
+    <div class="title-style text-bold mt-5 mb-5">Beneficiaries Information Details</div>
+    <table class="tbody-align" width="100%">
+        <tr>
+            <td class="field-col">
+                Risk No.
+            </td>
+            <td class="field-col">
+                No.
+            </td>
+            <td class="field-col">
+                Name
+            </td>
+            <td class="field-col">
+                Relationship
+            </td>
+            <td class="field-col">
+                ID
+            </td>
+            <td class="field-col">
+                Date of Birth
+            </td>
+            <td class="field-col">
+                Share %
+            </td>
+        </tr>
+        <tbody class="tbody-align val-col">
+
+            <ng-container >
+                <ng-container >
+                    <tr>
+                        <!-- <td class="field-pd" *ngIf="i==0" [attr.rowspan]="data.length">{{no+1}}</td>
+                        <td class="field-pd" *ngIf="i==0">{{i+1}}</td>
+                        <td class="field-pd" *ngIf="i>=1">{{i+1}}</td>
+                        <td class="field-pd">{{bene.beneficiaryName}}</td>
+                        <td class="field-pd">{{bene.relationshipValue}}</td>
+                        <td class="field-pd">{{bene.idType}} - {{bene.idType !='NRC' ? bene.idNumber : bene.nrc }}
+                        </td>
+                        <td class="field-pd">{{bene.dateOfBirth? (bene.dateOfBirth | date: 'dd/MM/YYYY'): '-' }}</td>
+                        <td class="field-pd">{{bene.share}} % </td> -->
+                        <td class="field-pd">-</td>
+                        <td class="field-pd">-</td>
+                        <td class="field-pd">-</td>
+                        <td class="field-pd">-</td>
+                        <td class="field-pd">-</td>
+                        <td class="field-pd">-</td>
+                        <td class="field-pd">-</td>
                     </tr>
                 </ng-container>
             </ng-container>

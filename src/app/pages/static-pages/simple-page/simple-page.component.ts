@@ -104,7 +104,7 @@ export class SimplePageComponent implements OnInit, OnDestroy {
       this.product.addOns.sort(function (a, b) {
         var textA = a.description.toUpperCase();
         var textB = b.description.toUpperCase();
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
       });
     }
     console.log('this.product.addOns', this.product.addOns);

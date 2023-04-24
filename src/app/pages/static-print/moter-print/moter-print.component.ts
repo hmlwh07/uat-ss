@@ -30,6 +30,9 @@ export class MoterPrintComponent implements OnInit {
   @Input() premiumAmt?: any
   @Input() isPrint: any
   @Input() emailInfo: any
+  @Input() updateData:any=new Date()
+  @Input() creatingProd:any
+  @Input() resourceDetail:any
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
@@ -70,7 +73,6 @@ export class MoterPrintComponent implements OnInit {
   coverageData: any = []
   coverage: any
   coverageData2: any = []
-  resourceDetail:any={}
   isMobile: boolean = false
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
@@ -296,9 +298,9 @@ export class MoterPrintComponent implements OnInit {
       ],
       [
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData? this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
@@ -314,7 +316,7 @@ export class MoterPrintComponent implements OnInit {
       
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.policyHolder.titleValue ? (this.policyHolder.titleValue + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName) : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'ID', styles: { halign: 'left', valign: 'middle' } },
@@ -373,15 +375,15 @@ export class MoterPrintComponent implements OnInit {
     ]
     let riskInfoDetailData = [
       [
-        { content: this.vehicleDetail.mRegistrationNo ? this.vehicleDetail.mRegistrationNo : '-', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mModelValue ? this.motorDetail.mModelValue : '-', styles: { halign: 'center', valign: 'middle' } },
-        { content: (this.isTonnage || this.motorDetail.mCapacity) ? (this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity) : '-', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.vehicleDetail.mManufactureYearValue ? this.vehicleDetail.mManufactureYearValue : '-', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mTypeOfVehicleValue ? this.motorDetail.mTypeOfVehicleValue : '-', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mTypeOfCoverageValue ? this.motorDetail.mTypeOfCoverageValue : '-', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mExcessValue ? this.motorDetail.mExcessValue : '-', styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mWindscreenValue ? this.currencyFormat(Number(this.motorDetail.mWindscreenValue)) : '-', styles: { halign: 'right', valign: 'middle' } },
-        { content: this.motorDetail.mTotalRiskSi ? this.currencyFormat(Number(this.motorDetail.mTotalRiskSi)) : '-', styles: { halign: 'right', valign: 'middle' } },
+        { content: this.vehicleDetail.mRegistrationNo, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mMakeValue+"/"+this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.vehicleDetail.mManufactureYearValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mTypeOfVehicleValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mTypeOfCoverageValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mExcessValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.currencyFormat(Number(this.motorDetail.mWindscreenValue)), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.currencyFormat(Number(this.motorDetail.mTotalRiskSi)), styles: { halign: 'right', valign: 'middle' } },
       ]
     ]
 
@@ -497,7 +499,7 @@ export class MoterPrintComponent implements OnInit {
     let insuranceInfoDetailData = [
       [
         { content: "Approximate Total SI", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
-        { content: this.numberPipe.transform(this.motorDetail.mTotalRiskSi, "1.2-2") + (' ' + this.motorDetail.mCurrency || ' MMK'), styles: { halign: 'right', valign: 'middle' } },
+        { content: this.numberPipe.transform(this.motorDetail.mTotalRiskSi, '1.2-2') + (' ' + this.motorDetail.mCurrency), styles: { halign: 'right', valign: 'middle' } },
         { content: "Approximate Total Premium", styles: { halign: 'center', valign: 'middle', fillColor: '#e9f8fe' } },
         { content: this.premiumAmt, styles: { halign: 'right', valign: 'middle' } },
       ]
@@ -801,6 +803,7 @@ export class MoterPrintComponent implements OnInit {
       }
     }
   }
+
 
   formatDateDDMMYYY(date) {
     var d = new Date(date),
