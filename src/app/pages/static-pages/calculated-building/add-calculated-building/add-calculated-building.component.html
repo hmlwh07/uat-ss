@@ -8,19 +8,24 @@
     <form action="#" class="form" [formGroup]="calculatedbuildingForm" (ngSubmit)="create()">
         <div class="overlay overlay-block cursor-default modal-body">
             <div class="row" style="align-items: center">
-                <div class="col-sm-6">
+                <div class="col-sm-6" *ngIf="isApplication">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Item Description</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm " name="itemDescription" autocomplete="off" [class.is-invalid]="isControlInvalid('itemDescription')" [class.is-valid]="isControlValid('itemDescription')" formControlName="itemDescription" />
+                            <input type="text" class="form-control form-control-sm " name="itemDescription"
+                                autocomplete="off" [class.is-invalid]="isControlInvalid('itemDescription')"
+                                [class.is-valid]="isControlValid('itemDescription')"
+                                formControlName="itemDescription" />
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6" *ngIf="!isStock">
+                <div class="col-sm-6" *ngIf="!isStock && isApplication">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Item Name</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm " name="itemName" autocomplete="off" [class.is-invalid]="isControlInvalid('itemName')" [class.is-valid]="isControlValid('itemName')" formControlName="itemName" />
+                            <input type="text" class="form-control form-control-sm " name="itemName" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('itemName')"
+                                [class.is-valid]="isControlValid('itemName')" formControlName="itemName" />
                         </div>
                     </div>
                 </div>
@@ -28,19 +33,24 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Stock Value</label>
                         <div class="col-sm-8">
-                            <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " name="stockValue" autocomplete="off" [class.is-invalid]="isControlInvalid('stockValue')" [class.is-valid]="isControlValid('stockValue')"
-                                formControlName="stockValue" />
+                            <input type="tel" currencyMask
+                                [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+                                class="form-control form-control-sm " name="stockValue" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('stockValue')"
+                                [class.is-valid]="isControlValid('stockValue')" formControlName="stockValue" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" style="align-items: center">
-                <div class="col-sm-6" *ngIf="!isStock">
+                <div class="col-sm-6" *ngIf="!isStock ">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Quantity</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control form-control-sm " (ngModelChange)="calculateTotalValue()" name="quantity" autocomplete="off" [class.is-invalid]="isControlInvalid('quantity')" [class.is-valid]="isControlValid('quantity')" formControlName="quantity"
-                            />
+                            <input type="number" class="form-control form-control-sm "
+                                (ngModelChange)="calculateTotalValue()" name="quantity" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('quantity')"
+                                [class.is-valid]="isControlValid('quantity')" formControlName="quantity" />
                         </div>
                     </div>
                 </div>
@@ -48,37 +58,49 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Total Value</label>
                         <div class="col-sm-8">
-                            <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " name="totalValue" autocomplete="off" [class.is-invalid]="isControlInvalid('totalValue')" [class.is-valid]="isControlValid('totalValue')"
-                                formControlName="totalValue" readonly />
+                            <input type="tel" currencyMask
+                                [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+                                class="form-control form-control-sm " name="totalValue" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('totalValue')"
+                                [class.is-valid]="isControlValid('totalValue')" formControlName="totalValue" readonly />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" style="align-items: center" *ngIf="isStock">
-                <div class="col-sm-6">
+                <div class="col-sm-6" *ngIf="isApplication">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Month</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm " name="month" autocomplete="off" [class.is-invalid]="isControlInvalid('month')" [class.is-valid]="isControlValid('month')" formControlName="month" />
+                            <input type="text" class="form-control form-control-sm " name="month" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('month')"
+                                [class.is-valid]="isControlValid('month')" formControlName="month" />
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6" *ngIf="isApplication">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Remark</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm " name="remark" autocomplete="off" [class.is-invalid]="isControlInvalid('remark')" [class.is-valid]="isControlValid('remark')" formControlName="remark" />
+                            <input type="text" class="form-control form-control-sm " name="remark" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('remark')"
+                                [class.is-valid]="isControlValid('remark')" formControlName="remark" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row" style="align-items: center">
-                <div class="col-sm-6" *ngIf="!isStock">
+                <div class="col-sm-6" *ngIf="!isStock &&isApplication">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Value Per Quantity</label>
                         <div class="col-sm-8">
-                            <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " (ngModelChange)="calculateTotalValue()" name="valuePerQuantity" autocomplete="off" [class.is-invalid]="isControlInvalid('valuePerQuantity')"
-                                [class.is-valid]="isControlValid('valuePerQuantity')" formControlName="valuePerQuantity" />
+                            <input type="tel" currencyMask
+                                [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+                                class="form-control form-control-sm " (ngModelChange)="calculateTotalValue()"
+                                name="valuePerQuantity" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('valuePerQuantity')"
+                                [class.is-valid]="isControlValid('valuePerQuantity')"
+                                formControlName="valuePerQuantity" />
                         </div>
                     </div>
                 </div>
@@ -86,8 +108,11 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">Agreed SI</label>
                         <div class="col-sm-8">
-                            <input type="tel" currencyMask [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }" class="form-control form-control-sm " name="agreedSi" autocomplete="off" [class.is-invalid]="isControlInvalid('agreedSi')" [class.is-valid]="isControlValid('agreedSi')"
-                                formControlName="agreedSi" />
+                            <input type="tel" currencyMask
+                                [options]="{ prefix: '', thousands: ',', precision: 0,allowNegative:false,align:'left' }"
+                                class="form-control form-control-sm " name="agreedSi" autocomplete="off"
+                                [class.is-invalid]="isControlInvalid('agreedSi')"
+                                [class.is-valid]="isControlValid('agreedSi')" formControlName="agreedSi" />
                         </div>
                     </div>
                 </div>
@@ -95,8 +120,10 @@
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="dismissModal()">{{"FORM.btn_cancel" | translate }}</button>
-            <button type="submit" class="btn btn-primary btn-elevate" [disabled]="calculatedbuildingForm.invalid">{{"FORM.btn_save" | translate }}</button>
+            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="dismissModal()">{{"FORM.btn_cancel" |
+                translate }}</button>
+            <button type="submit" class="btn btn-primary btn-elevate"
+                [disabled]="calculatedbuildingForm.invalid">{{"FORM.btn_save" | translate }}</button>
         </div>
     </form>
 </div>

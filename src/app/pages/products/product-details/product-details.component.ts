@@ -221,7 +221,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       }
     })
   }
-
+  encryptData(attid) {
+    let id = this.encryption.encryptData(attid)
+    return id || null
+  }
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
@@ -366,10 +369,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       }
     });
   }
-  encryptData(attid) {
-    return this.encryption.encryptData(attid)
-  }
-
   changePayment(type: string) {
     let value = this[type]
     let data: any[] = this.formGroup.value['paymentFrequency'] || []

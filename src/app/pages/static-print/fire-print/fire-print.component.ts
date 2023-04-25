@@ -27,8 +27,8 @@ export class FirePrintComponent implements OnInit {
   @Input() premiumAmt?: any
   @Input() agentData?: any
   @Input() branch?: string
-  @Input() sourceOfBusiness?:string
-@Input() sourceOfBusinessCode?:string
+  @Input() sourceOfBusiness?: string
+  @Input() sourceOfBusinessCode?: string
   @Input() isPrint: any
   @Input() emailInfo:any
   @Input() updateData:any=new Date()
@@ -39,12 +39,12 @@ export class FirePrintComponent implements OnInit {
     partyAddress: []
   }
   isExistData = false;
+  coverCount: number = 0
   address: any = {}
   additionalcoverinfo: any = {}
   optionId: any
   product: any
   addOnData: any = []
-  coverCount: number = 0
   addon: any
   additionalData: any = []
   totalPremium: number = 0
@@ -77,7 +77,7 @@ export class FirePrintComponent implements OnInit {
     private attachmentDownloadService: AttachmentDownloadService,
     private numberPipe: DecimalPipe,
     public modal: NgbActiveModal,
-    private policyService:PolicyService
+    private policyService: PolicyService
   ) { }
 
   ngOnInit() {
@@ -226,7 +226,7 @@ export class FirePrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal,this.sourceOfBusiness,this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo, this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -240,7 +240,7 @@ export class FirePrintComponent implements OnInit {
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.sourceOfBusiness ? this.sourceOfBusiness :this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
+        { content: this.sourceOfBusiness ? this.sourceOfBusiness : this.agentData.sourceOfBusiness ? this.agentData.sourceOfBusiness : '', styles: { halign: 'left', valign: 'middle' } },
         { content: 'Branch', styles: { halign: 'left', valign: 'middle' } },
         { content: this.branch, styles: { halign: 'left', valign: 'middle' } },
       ],
@@ -883,7 +883,7 @@ export class FirePrintComponent implements OnInit {
         console.log("HERE2==>");
 
         let data = doc.output('datauristring')
-        let test=data.split('base64,')
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

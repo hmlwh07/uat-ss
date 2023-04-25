@@ -228,6 +228,10 @@
           <app-travel-print [isPrint]="isPrint" [updateData]="updateData" [emailInfo]="emailInfo"  [resourcesId]="resourcesId" [sourceOfBusinessCode]="sourceOfBusinessCode" [sourceOfBusiness]="sourceOfBusiness" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt"></app-travel-print>
         </ng-container>
+        <!-- <ng-container *ngIf="product.code=='PLTR01'&& !isApplication ">
+          <app-travel-print-quo [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch"
+            [agentData]="agentData" [premiumAmt]="premimunAmt"></app-travel-print-quo>
+        </ng-container> -->
         <ng-container *ngIf="product.code=='PCHL01' ">
           <app-health-ci-print [isPrint]="isPrint" [updateData]="updateData" [emailInfo]="emailInfo"  [product]="product" [resourcesId]="resourcesId" [sourceOfBusinessCode]="sourceOfBusinessCode" [sourceOfBusiness]="sourceOfBusiness" [branch]="branch" [agentData]="agentData"
             [premiumAmt]="premimunAmt">
@@ -238,6 +242,11 @@
             [premiumAmt]="premimunAmt">
           </app-personal-accident-print>
         </ng-container>
+        <!-- <ng-container *ngIf="product.code=='PLPA01'&& !isApplication  ">
+          <app-personal-accident-print-quo [isPrint]="isPrint" [resourcesId]="resourcesId" [branch]="branch"
+            [agentData]="agentData" [premiumAmt]="premimunAmt">
+          </app-personal-accident-print-quo>
+        </ng-container> -->
       </ng-template>
 
     </ng-container>

@@ -31,12 +31,16 @@ export class PrintViewBoxComponent implements OnInit {
   @Input() isPrint: any
   @Input() emailInfo: any
   @Input() agentId: any
+  @Input() isApplication: boolean
+  @Input() creatingProd: any
+  @Input() resourceDetail: any
+  @Input() branch: any
+  @Input() premiumView: any
   @ViewChild('pdfTable')
   pdfTable!: ElementRef;
 
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
-  branch: string = ""
   sourceOfBusiness: string = ''
   sourceOfBusinessCode:string=''
   today = new Date()
@@ -53,7 +57,6 @@ export class PrintViewBoxComponent implements OnInit {
 
   //wait for the component to render completely
   async ngOnInit() {
-    // console.log(this.product);
     if (this.resourcesId)
       this.qrLocation = location.origin + "/qr-source-link?resourceId=" + this.resourcesId + "&productId=" + this.productService.createingProd.id
     await this.loadingService.activate()
@@ -120,7 +123,7 @@ export class PrintViewBoxComponent implements OnInit {
         if (this.product.code == 'PCHL01') {
           this.getDetail()
         }
-        // this.today = this.productService.editData.createdAt
+        // this.today = this.creatingProd.createdAt
         this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
       }
       this.formatedData = true
@@ -135,7 +138,7 @@ export class PrintViewBoxComponent implements OnInit {
       if (this.product.code == 'PCHL01') {
         this.getDetail()
       }
-      // this.today = this.productService.editData.createdAt
+      // this.today = this.createingProd.createdAt
       this.agentName = this.productService.editData.agentFirstName + this.productService.editData.agentLastName
     }
     this.formatedData = true

@@ -33,10 +33,17 @@
             <span>{{resourceDetail.policyNumber}}</span>
           </div>
           <!-- type == 'policy'  && -->
-          <button class="btn btn-outline-primary" *ngIf=" statusCode != '07'" style="margin-left: auto;"
-            (click)="viewPrint()">
-            <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
-          </button>
+          <div style="margin-left: auto;">
+            <button class="btn btn-outline-primary"
+              *ngIf=" statusCode != '07' && (item.code=='PLMO01'||item.code=='PLMO02') && isApplication"
+              (click)="viewCheckListPrint()">
+              <i class="flaticon2-print"></i> {{"FORM.check_list_print" | translate}}
+            </button>
+            <button class="btn btn-outline-primary" *ngIf=" statusCode != '07'" (click)="viewPrint()"
+              style="margin-left: 5px;">
+              <i class="flaticon2-print"></i> {{"FORM.print" | translate}}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -178,11 +185,12 @@
                         <!-- <hr > -->
                         <li *ngIf="cont.input == 'label'" class="list-group-item"
                           style="border-top: 0.5px solid #dad9d9 !important;">
-                          <h5 style="margin-bottom: 0px;">{{"TABLE."+cont.name | translate}} </h5>
+                          <label style="margin-bottom: 0px; font-size: 1rem;">{{"TABLE."+cont.name | translate}}
+                          </label>
 
                         </li>
                         <ng-container
-                          *ngIf="!cont.isHideView && checkDep(cont.dependency,resultObj[page.tableName+page.id]) && cont.input != 'underline' && cont.input != 'label'">
+                          *ngIf="!cont.isHideView && checkDep(cont.dependency,resultObj[page.tableName+page.id]) && cont.input != 'underline' && cont.input != 'label'&& cont.input!='checkbox'">
                           <li class="list-group-item">
                             <!-- <span class="pull-right"> -->
                             <!-- <span class="btn btn-xs btn-default"> -->
@@ -206,7 +214,7 @@
                                 (resultObj[page.tableName+page.id][cont.name] | date: 'dd/MM/yyyy') : "" }}
 
                               </span>
-                              <span *ngIf="cont.type != 'currency' && cont.input != 'date' && cont.input != 'file'" >
+                              <span *ngIf="cont.type != 'currency' && cont.input != 'date' && cont.input != 'file' ">
                                 {{resultObj[page.tableName+page.id][cont.name]}}
                               </span>
                               <!-- <span *ngIf="cont.input == 'file'" style="color:red">

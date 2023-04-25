@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { log } from 'console';
 import { LanguagesService } from '../languages/languages.service';
 
 @Pipe({ name: 'translate', pure: false })
@@ -8,6 +9,7 @@ export class TranslatePipe implements PipeTransform {
   }
 
   transform(value: string) {
+    
     if (value) {
       let current = this._languageService.getSelectedLanguage();
       let valueObj = value.split('.')

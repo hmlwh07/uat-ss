@@ -8,7 +8,8 @@ export interface PolicyDTO {
   quotationId?: string,
   preminum?: string,
   createdAt?: string,
-
+  tcsStatus?:any,
+  submittedCode?:any;
 }
 
 export enum StatusType {

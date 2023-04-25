@@ -1,0 +1,61 @@
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #005f99;
+    position: absolute;
+  
+    .logo {
+      width: 30%;
+      margin-right: 10px;
+    }
+  }
+  .list-group-item:first-child{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem !important;
+  }
+  .list-group-item{
+    font-size: 1rem;
+  }
+  
+  .header-logo {
+    display: flex;
+    justify-content: center;
+  
+    .logo {
+      width: 30%;
+      margin-right: 10px;
+    }
+  }
+  
+  .product-name {
+    font-size: 1.7rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+  }
+
+  .btm-area{
+   .row{
+    margin: 3px 3px;
+   }
+  }
+
+.sign-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12pt;
+
+  .sign-area {
+    width: 140px;
+    height: 80px;
+    border-bottom: 1px #000 dashed;
+  }
+
+  .sign-date {
+    padding-top: 50px;
+  }
+}

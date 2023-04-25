@@ -2,19 +2,29 @@
   <div class="col-8">
     <!-- <img src="../../../assets/images/customer/custoner_list.svg" alt="quo" /> -->
     <img [src]="itemData.productImage" alt="" />
-    <label> {{ itemData.id }} </label>
+    <label> {{ itemData.id }}  <span style="color: rgb(1 95 152);" *ngIf="itemData.quotationId"> - ({{itemData.quotationId}}) </span></label>
   </div>
   <div class="col-4">
     <section class="icon-group">
+      <!-- *ngIf="(itemData.tcsStatus=='fail')&&(itemData.status == 'submitted'||itemData.status == 'approved')&&(itemData.apiStatus!='fail')" -->
+      <div class="actions" style="  background: #05acea;" >
+        <img src="../../../assets/images/refresh-data.svg"  (click)="getTcsStatus(itemData)"
+          alt="view" style="width: 20px;height: 20px;margin: 4px 7px;     background: #05acea;" />
+      </div>
       <div class="actions">
         <img src="../../../assets/images/view-01.svg" (click)="actionBtn(itemData,eventType.VIEW)" alt="view" />
-      </div>
-      <div class="actions"
+      </div> 
+      <!-- <div class="actions"
+        *ngIf="((itemData.status == 'in_progress' || itemData.status == 'In_progress' )&& itemData.leadStatusCode != '07' ) 
+        || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail' && itemData.leadStatusCode != '07')">
+        <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
+      </div> -->
+      
+       <div class="actions"
         *ngIf="((itemData.status == 'in_progress' || itemData.status == 'In_progress' )&& itemData.leadStatusCode != '07' ) 
         || ((itemData.status == 'submitted' || itemData.status == 'Submitted') && itemData.apiStatus == 'fail' && itemData.leadStatusCode != '07')">
         <img src="../../../assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
       </div>
-      
       <div class="actions" style="  background: #05acea;" *ngIf="((itemData.emailStatus)=='fail')">
         <img src="../../../assets/images/email-mail-svgrepo-com.svg"  (click)="actionBtn(itemData,eventType.RESEND)"
           alt="view" style="width: 20px;height: 20px;margin: 4px 7px;     background: #05acea;" />
@@ -52,9 +62,10 @@
   <div class="col-4 text-left" style="padding: 10px 0">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
     <label
-      *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI
-      : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
-    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus | titlecase }}</label>
-
+    *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI
+    : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
+    <label *ngIf="itemData.apiStatus=='fail'">{{ itemData.apiStatus | titlecase }} </label>
+    <!-- <label *ngIf="itemData.tcsStatus !='fail'"> <span style="color: #005f99;font-weight: bold;" *ngIf="itemData.tcsStatus !='fail'"> Bancs : </span> {{itemData.tcsStatus}}</label> -->
+    <label *ngIf="itemData.apiStatus !='fail'"> <span style="color: #005f99;font-weight: bold;"> Bancs : </span> {{itemData.tcsStatus?itemData.tcsStatus:null}}</label>
   </div>
 </div>

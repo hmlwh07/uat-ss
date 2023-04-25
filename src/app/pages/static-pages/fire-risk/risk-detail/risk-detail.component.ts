@@ -27,6 +27,7 @@ import { FireRiskService } from '../models&services/fire-risk.service';
 export class RiskDetailComponent implements OnInit, OnDestroy {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
+  @Input() isApplication: boolean = true
   @ViewChild(CalculatedBuildingComponent) stockTemp: CalculatedBuildingComponent
   fireRiskform: FormGroup;
   typeOfBuildingOption: any = []
@@ -73,7 +74,9 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if(this.totalPremium == 0){
+    console.log("isApplication", this.isApplication);
+
+    if (this.totalPremium == 0) {
       this.totalPremium = 0;
     }
     this.unsub[0] = this.globalService.currenyValueObs.subscribe((res) => {
@@ -273,10 +276,46 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       }
     }
 
+
+
     if (this.currencyType == 'USD') {
       this.sumInsure.clearValidators();
       this.sumInsure.updateValueAndValidity();
     }
+    if (!this.isApplication) {
+      this.removeValidator()
+    }
+  }
+
+  //FOR_QUOTATION
+  removeValidator() {
+    this.fireRiskform.controls['buildingDescription'].clearValidators()
+    this.fireRiskform.controls['buildingDescription'].updateValueAndValidity()
+    this.fireRiskform.controls['constructionOfFloor'].clearValidators()
+    this.fireRiskform.controls['constructionOfFloor'].updateValueAndValidity()
+    this.fireRiskform.controls['constructionOfRoof'].clearValidators()
+    this.fireRiskform.controls['constructionOfRoof'].updateValueAndValidity()
+    this.fireRiskform.controls['constructionOfWall'].clearValidators()
+    this.fireRiskform.controls['constructionOfWall'].updateValueAndValidity()
+    this.fireRiskform.controls['height'].clearValidators()
+    this.fireRiskform.controls['height'].updateValueAndValidity()
+    this.fireRiskform.controls['length'].clearValidators()
+    this.fireRiskform.controls['length'].updateValueAndValidity()
+    this.fireRiskform.controls['width'].clearValidators()
+    this.fireRiskform.controls['width'].updateValueAndValidity()
+    this.fireRiskform.controls['rate'].clearValidators()
+    this.fireRiskform.controls['rate'].updateValueAndValidity()
+    this.fireRiskform.controls['storyOfBuilding'].clearValidators()
+    this.fireRiskform.controls['storyOfBuilding'].updateValueAndValidity()
+    this.fireRiskform.controls['totalSquareFoot'].clearValidators()
+    this.fireRiskform.controls['totalSquareFoot'].updateValueAndValidity()
+    this.fireRiskform.controls['yearOfConstruction'].clearValidators()
+    this.fireRiskform.controls['yearOfConstruction'].updateValueAndValidity()
+    this.fireRiskform.controls['buildingSi'].clearValidators()
+    this.fireRiskform.controls['buildingSi'].updateValueAndValidity()
+    this.fireRiskform.controls['riskSi'].clearValidators()
+    this.fireRiskform.controls['riskSi'].updateValueAndValidity()
+
   }
 
   get sumInsure() {
@@ -284,16 +323,22 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   }
 
   createRisk(closeModal?: boolean, loop?: boolean) {
+    console.log("HERE1");
+    
     if (this.currencyType == 'USD') {
       this.sumInsure.clearValidators();
       this.sumInsure.updateValueAndValidity();
     }
-
+    if(!this.isApplication){
+      this.removeValidator()
+    }
     if (this.fireRiskform.invalid) {
+      console.log("HERE1");
       validateAllFields(this.fireRiskform)
       return true
     }
     let data = this.fireRiskform.getRawValue();
+    console.log("HERE3",data);
     this.step1Com = true
     loop
     if (!closeModal && !loop) {
@@ -317,8 +362,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     //     // if(this.prodService.totalPremium !=0){
     //     //   this.totalPremium += 
     //     // }
-        
-       
+
+
 
     //     let total: any 
     //     console.log('oldData =====> ', this.oldData);
@@ -328,12 +373,12 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
     //       this.totalPremium = total;
     //       console.log('replaceCurrency =====> ', this.totalPremium);
     //     }
-        
+
 
     console.log('risk detail totalPremium ', this.totalPremium);
     //   })
 
-     
+
     let postData = {
       ...this.oldData,
       ...data,
@@ -346,8 +391,8 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         policyNumber: null,
         premium: this.totalPremium,
         premiumView: this.numberPipe.transform(this.globalService.calculateDecimal(this.totalPremium) || 0, "1.2-2") + ' MMK',
-        sumInsure: data.sumInsure || 0 ,
-        sumInsureView: this.numberPipe.transform(data.sumInsure || 0, "1.2-2")+ ' MMK' || null,
+        sumInsure: data.sumInsure || 0,
+        sumInsureView: this.numberPipe.transform(data.sumInsure || 0, "1.2-2") + ' MMK' || null,
         productId: this.prodService.createingProd.id,
         productCode: this.prodService.createingProd.code,
         quotationId: this.prodService.referenceID,
@@ -474,7 +519,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       this.riskSi = this.otherSi + this.buildingSi
     else
       this.riskSi = this.otherSi
-      // this.fireRiskform.controls['sumInsure'].setValue(this.riskSi)
+    // this.fireRiskform.controls['sumInsure'].setValue(this.riskSi)
     if (this.oldData) {
       this.oldData.buildingSi = this.buildingSi
       this.oldData.riskSi = this.riskSi
@@ -491,7 +536,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       this.riskSi = (this.otherSi * 0.75) + this.buildingSi
     else
       this.riskSi = this.otherSi * 0.75
-      this.fireRiskform.controls['sumInsure'].setValue(this.riskSi)
+    this.fireRiskform.controls['sumInsure'].setValue(this.riskSi)
     if (this.oldData) {
       this.riskSi = this.oldData.proposeStockValue || 0
       this.oldData.riskSi = this.riskSi
@@ -504,10 +549,10 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
   }
 
   async calPremimun(close: boolean = true) {
-    if(this.totalPremium == 0){
+    if (this.totalPremium == 0) {
       this.totalPremium = 0;
     }
-   
+
 
     console.log("rateData,rate1,rate2,", this.oldData);
     if (this.oldData.id) {
@@ -584,7 +629,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       console.log(' this.prodService.totalPremium =====> ', this.prodService.totalPremium);
 
       this.totalPremium = this.oldData.premium + this.prodService.totalPremium;
-      
+
 
       if (this.currencyType == 'MMK') {
         this.totalPremium = this.totalPremium + 100;
@@ -592,7 +637,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
         this.totalPremium = this.totalPremium + 0.05;
       }
 
-      
+
 
       //console.log('this.globalService.paPremiumResult =====> ', this.tempTotalPremiumAmount);
 
@@ -606,7 +651,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
 
 
 
-      
+
 
       //this.productService.totalPremiumView
       // if(this.totalPremium > 0){
@@ -617,7 +662,7 @@ export class RiskDetailComponent implements OnInit, OnDestroy {
       // }
 
 
-     await this.createRisk(close, true)
+      await this.createRisk(close, true)
     } else {
       this.modal.dismiss()
     }

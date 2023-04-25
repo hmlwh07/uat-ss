@@ -1,0 +1,100 @@
+<div id="printable">
+  <div id="second-print">
+    <div class="report-header">
+      <div>
+        <div class="report-header-cell">
+          <div class="header-info">
+            <div class="print-header">
+              <div class="header-logo">
+                <img [src]="logo" alt="" class="logo">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="resourceDetail">
+
+      <div class="row" style=" padding: 5px 10px;">
+        <ng-container *ngFor="let page of pageOrder">
+          <div class="product-name mt-5 mb-5">{{page.pageTitle}} </div>
+          <div class="col-md-12 mx-auto">
+            <ng-container *ngIf="page.type === 'static';else dynView ">
+
+            </ng-container>
+            <ng-template #dynView>
+              <div class="card card-custom gutter-b">
+
+                <div class="card-body customer-card-body" style="padding: 0rem 0.85rem !important;">
+                  <ng-container>
+                    <ng-container *ngIf="resultObj[page.tableName+page.id]">
+                      <ul class="list-group">
+                        <ng-container *ngFor="let cont of page.controls">
+                          <ng-container *ngIf="cont.show">
+                            <!-- <hr > -->
+                            <li *ngIf="cont.input == 'label'" class="list-group-item" style="padding: 1rem 1rem;">
+                              <label style="margin-bottom: 15px;">{{cont.name }} </label>
+
+                            </li>
+
+                          </ng-container>
+                        </ng-container>
+                      </ul>
+
+                    </ng-container>
+                  </ng-container>
+
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </ng-container>
+      </div>
+
+    </ng-container>
+    <ng-container>
+      <div class="btm-area">
+      <div class="row" *ngIf="policyHolder">
+        <!-- -->
+        <div class="col-sm-2 offset-sm-6  ">
+          <label class="text-bold">အမည် </label>
+        </div>
+        <div class="col-sm-">
+          <label>{{policyHolder.titleValue}} {{policyHolder.firstName}}
+            {{policyHolder.middleName}} {{policyHolder.lastName}}</label>
+        </div>
+      </div>
+      <div class="row" *ngIf="vehicleDetail">
+        <div class="col-sm-2  offset-sm-6 ">
+          <label class="text-bold">​မော်​တော်ယာဥ်အမှတ်  </label>
+        </div>
+        <div class="col-sm-4">
+          <label> {{vehicleDetail.mRegistrationNo}}</label>
+        </div>
+      </div>
+      <div class="row" *ngIf="fileId">
+        <div class="col-sm-2  offset-sm-6 ">
+          <label class="text-bold">လက်မှတ်</label>
+        </div>
+        <div  >
+          <div class="sign-row">
+            <div class="sign-box">
+              <div class="sign-area">
+                <ng-container>
+                  <img [src]="DEFAULT_DOWNLOAD_URL+ '?id=' + fileId" alt="" class="sign-img">
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </ng-container>
+  </div>
+</div>
+<div class="modal-footer" style="margin-top: 5%;">
+  <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="createPdf()">Print</button>
+  <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
+</div>

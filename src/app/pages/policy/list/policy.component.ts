@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateAdapter } from 'angular-calendar';
 import * as moment from 'moment';
 import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { MY_FORMATS } from '../../../core/is-json';
 import { environment } from 'src/environments/environment';
 import { defaultAccessObj, MenuDataService } from '../../../core/menu-data.service';
@@ -48,6 +48,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
   totalPages: number = 0
   totalElements: number = 0
   postedData: any
+  isTcs: boolean = false
   selectedPageBtn: number = 1
   constructor(private modalService: NgbModal, private policyHolderService: PolicyHolderService, private alert: AlertService, private prodctService: ProductDataService, private router: Router, private policyService: PolicyService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private cdf: ChangeDetectorRef, private encryption: EncryptService) {
     this.loadForm()
@@ -142,9 +143,11 @@ export class PolicyComponent implements OnInit, OnDestroy {
     this.getDatabyPage(this.currentPage)
   }
 
-  getPolicyList(offset: number = 1) {
+  async getPolicyList(offset: number = 1) {
     let postData = { ...this.policyForm.getRawValue(), limit: 5, offset: offset }
     this.postedData = postData
+
+
     this.policyService.getPolicyList(this.postedData).toPromise().then((res: any) => {
       if (res) {
         // console.log(res);
@@ -158,15 +161,31 @@ export class PolicyComponent implements OnInit, OnDestroy {
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
+          // if (this.quoList[i].submittedCode != null) {
+          //   this.quoList[i].tcsStatus =  this.getTCSStatus(this.quoList[i].submittedCode)
+          // }
         }
-        this.cdRef.detectChanges()
-        this.commonList.detchChangePagination()
 
-        //this.matTable.reChangeData()
-        // })
       }
+
+      this.cdRef.detectChanges()
+      this.commonList.detchChangePagination()
+
     })
   }
+  async getTCSStatus(quoNumber) {
+    if (quoNumber != null) {
+      await this.policyService.getPolicyList(quoNumber).toPromise().then((res: any) => {
+        if (res) {
+          console.log(res);
+          return res.datum.policyStatusDesc
+        }
+      })
+    } else {
+
+    }
+  }
+
 
   async getDatabyPage(page) {
     this.currentPage = page
@@ -185,6 +204,9 @@ export class PolicyComponent implements OnInit, OnDestroy {
             this.quoList[i].icon = this.encryption.encryptData(this.quoList[i].icon)
             this.quoList[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.quoList[i].icon
           }
+          // if (this.quoList[i].submittedCode != null) {
+          //   this.quoList[i].tcsStatus =  this.getTCSStatus(this.quoList[i].submittedCode)
+          // }
         }
         this.cdf.detectChanges();
         this.commonList.detechStartEnd();
@@ -245,9 +267,9 @@ export class PolicyComponent implements OnInit, OnDestroy {
         console.log(emailRes);
         if (emailRes) {
           this.getMasterValue(
-            event.data.branchCode,event.data.sourceOfBusiness, event.data.productCode
+            event.data.branchCode, event.data.sourceOfBusiness, event.data.productCode
           ).toPromise().then((res: any) => {
-            console.log("RES",res);
+            console.log("RES", res);
             event.data.branchCode = res['CORE_BRANCH']
             event.data.sourceOfBusiness = res['PRODUCT_SOB']
             let reqValue = {
@@ -275,7 +297,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
     }
   }
 
-  getMasterValue(codeId: string,sourceOfBusiness,productCode?) {
+  getMasterValue(codeId: string, sourceOfBusiness, productCode?) {
     let data = {
       "codeBookRequest": [
         {
@@ -284,7 +306,7 @@ export class PolicyComponent implements OnInit, OnDestroy {
           "langCd": "EN"
         },
         {
-          "codeId": productCode+('-')+sourceOfBusiness,
+          "codeId": productCode + ('-') + sourceOfBusiness,
           "codeType": "PRODUCT_SOB",
           "langCd": "EN"
         },
@@ -294,13 +316,13 @@ export class PolicyComponent implements OnInit, OnDestroy {
   }
   goViewDetail(item) {
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
-      console.log("ITEM",item);
-      
+      console.log("ITEM", item);
+
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = item
-
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/resourse-detail")
       }
     })

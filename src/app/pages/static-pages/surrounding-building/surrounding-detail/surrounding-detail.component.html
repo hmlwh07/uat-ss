@@ -9,7 +9,7 @@
         <div class="overlay overlay-block cursor-default modal-body">
 
             <div class="row" style="align-items: center">
-                <div class="col-sm-6">
+                <div class="col-sm-6" *ngIf="isApplication">
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">{{"FORM.building_description" | translate }}</label>
                         <div class="col-sm-8">

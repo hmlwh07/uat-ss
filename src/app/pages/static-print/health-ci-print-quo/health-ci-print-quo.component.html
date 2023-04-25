@@ -1,0 +1,167 @@
+  <div class="addon-print">
+    <div class="title-style text-bold mt-5 mb-5">Policy Information Details</div>
+    <table width="100%">
+      <tr>
+        <td class="field-col" style="background-color: #e9f8fe;">Policy Duration
+        </td>
+        <!-- <td class="field-pd">{{policyInfo.sumInsuredMainCover}} Units</td> -->
+        <td class="field-pd" colspan="6"> 1 Year</td> 
+      </tr>
+      <tr>
+        <td class="field-col" style="background-color: #e9f8fe;">Policy Plan</td>
+        <td class="field-pd " colspan="2">{{policyInfo.basicCoverId=='HEALTH'?'Health Insurance':'Critical Illness Insurance'}}</td>
+        <td class="field-col" style="background-color: #e9f8fe;">Payment Frequency</td>
+        <td class="field-pd" colspan="2">{{policyInfo.paymentFrequency == 'S'? 'Semi-Annually':'Lump Sum'}}</td>
+  
+      </tr>
+      <!-- <tr>
+        <td class="field-col" style="background-color: #e9f8fe;">Risk Address</td>
+        <td class="pd-col" colspan="10">{{address.f_house_no}}/{{address.f_block_no}}/{{address.f_area_name}}/{{address.stateValue}}/{{address.districtValue}}/{{address.townshipValue}}</td>
+      </tr> -->
+    </table>
+  </div>
+   
+  <div class="addon-print">
+    <div class="title-style text-bold mt-5 mb-5">Risk Information Details</div>
+    <table class="tbody-align" width="100%">
+      <tr>
+        <td class="field-col">Name</td>
+        <td class="field-col">Occupation</td>
+        <td class="field-col">Gender</td>
+        <td class="field-col">ID</td>
+        <td class="field-col">Date of Birth</td>
+        <td class="field-col">Father Name</td>
+        <td class="field-col">Phone Number</td>
+      </tr>
+      <tbody class="tbody-align val-col">
+        <ng-container *ngFor="let riskDetail of riskDetails;">
+          <tr>
+            <td class="field-pd">{{riskDetail.firstName}} {{riskDetail.middleName}} {{riskDetail.lastName}}</td>
+            <td class="field-pd">{{riskDetail.occupationCdValue}}</td>
+            <td class="field-pd">{{riskDetail.genderCdValue}}</td>
+            <td class="field-pd">{{riskDetail.identityType}} -
+              {{riskDetail.identityType=='NRC'? riskDetail.identityNrc : riskDetail.identityNumber}}</td>
+            <td class="field-pd">{{riskDetail.dateOfBirth | date: 'dd/MM/YYYY'}}</td>
+            <td class="field-pd">{{riskDetail.fatherName}}</td>
+            <td class="field-pd">{{riskDetail.phone}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  <div class="addon-print">
+    <div class="title-style text-bold mt-5 mb-5">Coverage Information Details</div>
+    <table class="tbody-align" style="width: 100%;">
+      <tr>
+        <td class="field-col" style="width: 50px;">No.</td>
+        <td class="field-col" style="width: 70%;">Coverage Name</td>
+        <td class="field-col" style="width: 20%;">Units</td>
+      </tr>
+      <tbody class="tbody-align val-col">
+        <ng-container>
+          <tr *ngFor="let data of AddonData; let i=index">
+            <td class="field-pd" style="width: 50px;">{{i+1}}</td>
+            <td class="field-pd" style="width: 70%;" *ngIf="data.keyName=='Health Insurance'">Death & Hospitalization</td>
+            <td class="field-pd" style="width: 70%;" *ngIf="data.keyName=='Critical illness'">Death & Critical Illness
+            </td>
+            <td class="field-pd" style="width: 70%;"
+              *ngIf="data.keyName != 'Critical illness' && data.keyName !='Health Insurance'">{{data.keyName}}</td>
+            <td class="field-pd" style="width: 20%;">{{data.value}} {{data.value=='1'? "Unit" :"Units"}}</td>
+          </tr>
+          <tr *ngIf="AddonData.length > 0">
+            <td class="field-pd" colspan="2">Total</td>
+            <td class="field-pd">{{coveragesTotalValue}} Units </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagebreak"> </div>
+  <div class="addon-print">
+    <div class="title-style text-bold mt-5 mb-5">Payment Schedule Information Details</div>
+    <table class="tbody-align" style="width: 100%;">
+      <tr>
+        <td class="field-col" style="width: 25%;">No. of Installment</td>
+        <td class="field-col" style="width: 25%;">Installment Premium</td>
+        <td class="field-col" style="width: 25%;">Stamp Duty</td>
+        <td class="field-col" style="width: 25%;">Total Premium</td>
+      </tr>
+      <tbody class="tbody-align val-col">
+        <ng-container>
+          <tr *ngFor="let data of tempPaymentSchedule; let i=index">
+            <td class="field-pd" style="width: 25%;">{{i+1}}</td>
+            <td class="pd-col" style="width: 25%;">{{data.premium | number : '1.2-2'}}</td>
+            <td class="pd-col" style="width: 25%;">{{data.levy | number : '1.2-2'}}</td>
+            <td class="pd-col" style="width: 25%;">{{(data.premium + data.levy) | number : '1.2-2'}}</td>
+          </tr>
+          <tr *ngIf="tempPaymentSchedule.length > 0">
+            <td class="field-pd">Annual Premium</td>
+            <td class="pd-col">{{totalP | number : '1.2-2'}}</td>
+            <td class="field-pd">Total payable premium</td>
+            <td class="pd-col">{{(totalP+totalL) | number : '1.2-2'}}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="addon-print">
+    <div class="row">
+      <div class="text-bold mt-10 mb-5" style="margin-left:10px;font-size:1.5rem">Declaration By Proposer</div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p style="font-size: 12pt;">I hereby declare that I am in good health which I submitting the proposal.I certify
+          that the above-mentioned statements are true and correct to the best of my knowledge. I am fully aware that
+          these are basic principles of the agreement between KBZMS General Insurance Co., Ltd. and me. I also know that
+          if any information, declarations and supplements are inaccurate, the agreement will be voided and the benefits
+          will be forfeited.
+        </p>
+        <br>
+        <p style="font-size: 12pt;"><b>Remark: </b> The benefits will be issued to beneficiary’s parents or guardians if
+          he/she is under 18.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="moter-print">
+    <div class="sign-row mt-5">
+      <div class="sign-box">
+        <br>
+        <label class="mt-2">Date</label>
+        <div class="sign-area sign-date">{{signatureDate | date : "dd/MM/yyyy"}}</div>
+      </div>
+      <div class="sign-box">
+        <label class="text-bold">PROPOSER'S NAME AND SIGNATURE</label>
+        <br>
+        <label> {{policyHolder.titleValue}} {{policyHolder.firstName}} {{policyHolder.middleName}}
+          {{policyHolder.lastName}}</label>
+        <div class="sign-area">
+          <ng-container *ngIf="fileId">
+            <img [src]="DEFAULT_DOWNLOAD_URL+ '?id=' + fileId" alt="" class="sign-img">
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- *ngIf="isMobile" -->
+  <div class="modal-footer" style="margin-top: 5%;" *ngIf="isPrint">
+    <button type="button" class="btn btn-outline-primary btn-elevate mr-2" (click)="createPdf()">Print</button>
+    <button type="button" class="btn btn-outline-secondary btn-elevate mr-2" (click)="modal.dismiss()">Close</button>
+  </div>
+  
+  
+  <div  style="margin-top: 5%;" *ngIf="!isPrint">
+  
+    <div class="row">
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-primary btn-block" (click)="submitPolicy()">Submit</button>
+        </div>
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-secondary btn-block" (click)="modal.dismiss()">Cancel</button>
+        </div>
+    </div>
+  </div>

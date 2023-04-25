@@ -1705,6 +1705,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.createingProd = res
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = item
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/resourse-detail")
       }
     })
@@ -1715,6 +1716,7 @@ export class LeadDetailComponent implements OnInit {
       if (res) {
         this.prodctService.createingProd = res
         this.prodctService.editData = item
+        this.prodctService.isApplication = false
         this.prodctService.previewType = 'quotation'
         this.router.navigateByUrl("/resourse-detail")
       }
@@ -1746,6 +1748,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.editData = item
         this.prodctService.referenceID = item.quotationId
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/product-form")
       }
     })
