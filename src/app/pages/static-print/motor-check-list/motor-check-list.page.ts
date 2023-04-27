@@ -61,6 +61,7 @@ export class MotorCheckListPage implements OnInit {
   }
   pageTitle: string = ''
   subTitle: string = ''
+  subTitle2: string = ''
   coverageData: any = {}
   addOnData: any = {}
   @Input() resourceDetail: any = {}
@@ -132,6 +133,8 @@ export class MotorCheckListPage implements OnInit {
       this.detailInput = pageUI.quotation_input || {}
     } else {
       this.pageOrder = [checkList] || []
+      console.log("{AGE",this.pageOrder);
+      
       this.detailInput = pageUI.application_input || {}
     }
     let dumType = this.type == 'policy' ? 'application' : this.type
@@ -813,9 +816,10 @@ export class MotorCheckListPage implements OnInit {
       for (var d = 0; d < page.controls.length; d++) {
         var data = page.controls[d]
         this.subTitle = page.controls[0].nameMM
+        this.subTitle2 = page.controls[1].nameMM
         if (data.input == 'label') {
           let checkListInfoDetailData = [
-            { content: data.nameMM, styles: { halign: 'left', valign: 'middle', lineHeight: '2.5' } },
+            { content: data.nameMM, styles: { halign: 'left', valign: 'middle', lineHeight: '1.5' } },
           ]
           checkListInfoDetailList.push(checkListInfoDetailData)
         }
@@ -823,15 +827,15 @@ export class MotorCheckListPage implements OnInit {
       }
 
     }
-    removeFistcheckListInfoDetailList = checkListInfoDetailList.slice(1)
+    removeFistcheckListInfoDetailList = checkListInfoDetailList.slice(2)
     console.log(this.subTitle);
-
+    console.log(this.subTitle2);
     // Start creating jsPDF
     var doc: any = new jsPDF('p', 'pt', 'a4',);
     doc.addFileToVFS("Zawgyi-one.ttf", font);
     doc.addFont("Zawgyi-one.ttf", "Zawgyi", "normal");
     doc.setFont("Zawgyi");
-    doc.setLineHeightFactor(2.5)
+    // doc.setLineHeightFactor(1.5)
     let pageSize = doc.internal.pageSize;
     let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
     let width = pageSize.width ? pageSize.width : pageSize.getWidth();
@@ -843,36 +847,51 @@ export class MotorCheckListPage implements OnInit {
 
     // Agent Information Details
     let title = this.pageTitle
-    doc.setFontSize(12).setFont('Zawgyi', 'normal', 'normal');
+    doc.setFontSize(12).setFont('Zawgyi', 'bold', 'bold');
     doc.text(title, width / 2, height + 100, { align: 'center' });
 
     doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
     doc.text(this.subTitle, width / 2, height + 120, { align: 'center' });
 
+    doc.setFontSize(8).setFont('Zawgyi', 'bold', 'bold');
+    doc.text(this.subTitle2, width / 2, height + 140, { align: 'center' });
+
     doc.autoTable({
       body: removeFistcheckListInfoDetailList,
       theme: 'grid',
-      startY: height + 130,
+      startY: height + 150,
       margin: { left: 15, right: 10, bottom: 65 },
       showHead: 'firstPage',
       styles: {
-        fontSize: 10,
+        overflow: 'linebreak',
+        cellWidth: 'wrap',
+        fontSize: 8,
         font: 'Zawgyi',
-        cellPadding: 22,
-        minCellHeight: 35,
         lineColor: '#fff',
-        cellWidth: 'auto',
       },
-      columnStyles: {
-        0: {
-          fontSize: 8,
-          fontStyle: 'normal',
-        },
-        2: {
-          fontSize: 8,
-          fontStyle: 'normal',
-        },
-      }
+      cellStyles: { lineHeight: 2.5}
+      // styles: {
+      //   fontSize: 10,
+      //   font: 'Zawgyi',
+      //   overflow: 'linebreak',
+      //   cellPadding: 5,
+      //   // minCellHeight: 25,
+      //   lineColor: '#fff',
+      //   cellWidth: 'auto',
+      //   cell:{
+      //     autoSize:true
+      //   }
+      // },
+      // columnStyles: {
+      //   0: {
+      //     fontSize: 8,
+      //     fontStyle: 'normal',
+      //   },
+      //   2: {
+      //     fontSize: 8,
+      //     fontStyle: 'normal',
+      //   },
+      // }
     });
     height = doc.lastAutoTable.finalY;
     doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
@@ -914,6 +933,8 @@ export class MotorCheckListPage implements OnInit {
       console.log("Web")
       console.log("HERE1==>");
       // Download PDF document  
+      var blob = doc.output("blob");
+      // window.open(URL.createObjectURL(blob));
       doc.save((this.pageTitle + '_CheckList') + '.pdf');
     }
   }
