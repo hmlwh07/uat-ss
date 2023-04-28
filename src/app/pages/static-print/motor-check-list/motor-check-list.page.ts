@@ -133,8 +133,8 @@ export class MotorCheckListPage implements OnInit {
       this.detailInput = pageUI.quotation_input || {}
     } else {
       this.pageOrder = [checkList] || []
-      console.log("{AGE",this.pageOrder);
-      
+      console.log("{AGE", this.pageOrder);
+
       this.detailInput = pageUI.application_input || {}
     }
     let dumType = this.type == 'policy' ? 'application' : this.type
@@ -866,11 +866,11 @@ export class MotorCheckListPage implements OnInit {
         overflow: 'linebreak',
         cellWidth: 'wrap',
         fontSize: 8,
-          cellPadding: 15,
+        cellPadding: 15,
         font: 'Zawgyi',
         lineColor: '#fff',
       },
-      cellStyles: { lineHeight: 2.5}
+      cellStyles: { lineHeight: 2.5 }
       // styles: {
       //   fontSize: 10,
       //   font: 'Zawgyi',
@@ -928,15 +928,16 @@ export class MotorCheckListPage implements OnInit {
 
     if (this.platform.is('android') || this.platform.is('ios')) {
       let blobFile = doc.output('blob')
-      this.attachmentDownloadService.mobileDownload((this.pageTitle + '_CheckList') + '.pdf', blobFile);
+      this.attachmentDownloadService.mobileDownload("Motor Insurance Checklist for (" + this.resourcesId + ")"+ '.pdf', blobFile);
     }
     else {
       console.log("Web")
       console.log("HERE1==>");
       // Download PDF document  
-      var blob = doc.output("blob");
+      var blob = doc.output("blob"); 
       // window.open(URL.createObjectURL(blob));
-      doc.save((this.pageTitle + '_CheckList') + '.pdf');
+      // "Motor Insurance Checklist for (" + this.resourcesId + ")"
+      doc.save("Motor Insurance Checklist for (" + this.resourcesId + ")" + '.pdf');
     }
   }
 }
