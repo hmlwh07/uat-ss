@@ -620,6 +620,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.premiumView = this.resourceDetail.premiumView
       modalRef.componentInstance.branch = this.branch
       modalRef.componentInstance.creatingProd = this.item
+      this.productService.createingProd=this.item
+      this.productService.editData=this.resourceDetail
       //FOR_QUOTATION
       modalRef.componentInstance.isApplication = this.isApplication
       //FOR_AUTO_ATTACHMENT
