@@ -32,7 +32,7 @@ export class MoterPrintComponent implements OnInit {
   @Input() emailInfo: any
   @Input() updateData:any=new Date()
   @Input() creatingProd:any
-  @Input() resourceDetail:any
+  resourceDetail:any
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
@@ -99,11 +99,15 @@ export class MoterPrintComponent implements OnInit {
       PRINT.IS_MOBILE = false
     }
     this.isMobile = PRINT.IS_MOBILE
-    this.signId = this.resourceDetail ? this.resourceDetail.attachmentId : ""
+    
+    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
+      console.log(this.signId);
+      
       this.fileId = this.encryption.encryptData(this.signId)
+      console.log(this.fileId);
     }
-    this.signatureDate = this.resourceDetail ? this.resourceDetail.signatureDate : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
     this.getAddonCover()

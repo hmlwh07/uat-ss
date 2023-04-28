@@ -835,7 +835,7 @@ export class MotorCheckListPage implements OnInit {
     doc.addFileToVFS("Zawgyi-one.ttf", font);
     doc.addFont("Zawgyi-one.ttf", "Zawgyi", "normal");
     doc.setFont("Zawgyi");
-    // doc.setLineHeightFactor(1.5)
+    doc.setLineHeightFactor(1.5)
     let pageSize = doc.internal.pageSize;
     let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
     let width = pageSize.width ? pageSize.width : pageSize.getWidth();
@@ -846,26 +846,27 @@ export class MotorCheckListPage implements OnInit {
     doc.addImage(img, 'PNG', 200, height, 180, 80);
 
     // Agent Information Details
-    let title = this.pageTitle
-    doc.setFontSize(12).setFont('Zawgyi', 'bold', 'bold');
-    doc.text(title, width / 2, height + 100, { align: 'center' });
+    // let title = this.pageTitle
+    // doc.setFontSize(12).setFont('Zawgyi', 'bold', 'bold');
+    // doc.text(title, width / 2, height + 100, { align: 'center' });
 
-    doc.setFontSize(8).setFont('Zawgyi', 'normal', 'normal');
-    doc.text(this.subTitle, width / 2, height + 120, { align: 'center' });
+    doc.setFontSize(10).setFont('Zawgyi', 'normal', 'normal');
+    doc.text(this.subTitle, width / 2, height + 100, { align: 'center' });
 
-    doc.setFontSize(8).setFont('Zawgyi', 'bold', 'bold');
-    doc.text(this.subTitle2, width / 2, height + 140, { align: 'center' });
+    doc.setFontSize(10).setFont('Zawgyi', 'bold', 'bold');
+    doc.text(this.subTitle2, width / 2, height + 120, { align: 'center' });
 
     doc.autoTable({
       body: removeFistcheckListInfoDetailList,
       theme: 'grid',
-      startY: height + 150,
+      startY: height + 130,
       margin: { left: 15, right: 10, bottom: 65 },
       showHead: 'firstPage',
       styles: {
         overflow: 'linebreak',
         cellWidth: 'wrap',
         fontSize: 8,
+          cellPadding: 15,
         font: 'Zawgyi',
         lineColor: '#fff',
       },
@@ -910,7 +911,7 @@ export class MotorCheckListPage implements OnInit {
       doc.addImage(img, 'PNG', width - 180, height + 70, 70, 50);
     }
     doc.setFontSize(8).setFont('helvetica', 'normal', 'normal');
-    doc.text("-----------------------------", width - 150, height + 120);
+    doc.text("-----------------------------", width - 180, height + 120);
 
     // Add Footer Image
     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
