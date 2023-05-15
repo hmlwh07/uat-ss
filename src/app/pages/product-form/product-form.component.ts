@@ -607,8 +607,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       agentId: this.auth.currentUserValue.id || 1,
       quotationId: this.referenceID,
       pageId: page.id,
-      customerId: this.creatingCustomer.customerId || null,
-      leadId: this.creatingLeadId || null,
+      customerId: this.creatingCustomer ? this.creatingCustomer.customerId : null,
+      leadId: this.creatingLeadId ? this.creatingLeadId : null,
       currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
@@ -757,7 +757,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
     }
     let submited = this.dynForm.handleSubmit()
-  
+
     if (!submited) return false
     this.dynForm.reCreateFrom()
   }
@@ -840,7 +840,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     // if (this.pageOrder.length > this.activePage + 1) {
     let activeForm = this.formData[this.activePage]
-  
+
     if (activeForm.function) {
       let fun = await this.globalFun[activeForm.function]("", this.dynForm.form.getRawValue(), [], true);
       if (!fun) {
@@ -848,7 +848,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
     }
     let submited = this.dynForm.handleSubmit()
-   
+
     if (!submited) return false
 
     // } else {
@@ -989,7 +989,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   mapPartyCustomer(page: FromGroupData) {
-    
+
     let temp = {}
     let config = page.controls.find(x => x.name == "customer_id")
 
