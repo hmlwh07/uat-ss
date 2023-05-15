@@ -137,6 +137,8 @@ export class DynamicFormComponent implements OnInit {
           return false
         }
       } else {
+       console.log(this.form.getRawValue());
+       
         this.submit.emit(this.form.getRawValue());
         return true
 

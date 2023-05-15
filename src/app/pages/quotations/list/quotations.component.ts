@@ -21,6 +21,7 @@ import { QuotationDTO } from '../quotation.dto';
 import { QuotationService } from '../quotation.service';
 import { QuoDisplayCol, QuotationCol } from './quotation.const';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
+import { AuthService } from 'src/app/modules/auth';
 
 @Component({
   selector: 'app-quotations',
@@ -42,8 +43,9 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   isTeam: boolean = false
   product: any = []
   productOption: any = []
+  user: any;
   Default_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
-  constructor(private modalService: NgbModal, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private encryption: EncryptService) {
+  constructor(private modalService: NgbModal, private authService: AuthService, private cdf: ChangeDetectorRef, private prodctService: ProductDataService, private router: Router, private quoService: QuotationService, private cdRef: ChangeDetectorRef, private customerService: CustomerDetailService, private menuService: MenuDataService, private encryption: EncryptService) {
     this.loadForm()
   }
 
@@ -55,6 +57,9 @@ export class QuotationsComponent implements OnInit, OnDestroy {
     this.getQuoList()
     this.getProduct()
     // })
+  }
+  ngAfterViewInit() {
+    this.user = this.authService.currentUserValue;
   }
   loadForm() {
     let date = new Date();
@@ -189,7 +194,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl("/product-form")
       }
     })
-    
+
   }
 
   FormatedDate(date) {
@@ -233,10 +238,34 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl("/product-form")
       }
     })
-    console.log("this.prodctService.referenceID:",this.prodctService.referenceID);
-  
+    console.log("this.prodctService.referenceID:", this.prodctService.referenceID);
+
 
   }
- 
+  createQuo() {
+    const modalRef = this.modalService.open(ProductsComponent, { size: 'xl', backdrop: false });
+    modalRef.componentInstance.type = 'modal'
+    modalRef.componentInstance.isShowList = 'yes'
+    modalRef.result.then(() => { }, (prod) => {
+      if (prod) {
+        if (prod.type == 'save') {
+          // let customerId = this.user.id
+          // this.customerService.findOne(customerId).toPromise().then((res) => {
+          //   this.prodctService.creatingCustomer = res
+            this.prodctService.createingProd = prod.data
+            // this.prodctService.creatingLeadId = this.oldId
+            this.prodctService.editData = null
+            this.prodctService.referenceID = null
+            this.prodctService.isApplication = false
+            this.prodctService.viewType = 'quotation'
+            this.prodctService.type = 'quotation'
+            this.router.navigateByUrl("/product-form")
+          // })
+
+        }
+      }
+    })
+  }
+
 
 }

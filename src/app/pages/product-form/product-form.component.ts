@@ -474,7 +474,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       tableName: page.tableName,
       resourceId: this.resourceId,
       refId: refId,
-      customerId: this.creatingCustomer.customerId,
+      customerId: this.creatingCustomer.customerId || null,
       quotationId: this.referenceID,
       agentId: this.auth.currentUserValue.id || 1,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
@@ -607,7 +607,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       agentId: this.auth.currentUserValue.id || 1,
       quotationId: this.referenceID,
       pageId: page.id,
-      customerId: this.creatingCustomer.customerId,
+      customerId: this.creatingCustomer.customerId || null,
       leadId: this.creatingLeadId || null,
       currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
@@ -757,6 +757,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
     }
     let submited = this.dynForm.handleSubmit()
+  
     if (!submited) return false
     this.dynForm.reCreateFrom()
   }
@@ -839,6 +840,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     // if (this.pageOrder.length > this.activePage + 1) {
     let activeForm = this.formData[this.activePage]
+  
     if (activeForm.function) {
       let fun = await this.globalFun[activeForm.function]("", this.dynForm.form.getRawValue(), [], true);
       if (!fun) {
@@ -846,6 +848,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
     }
     let submited = this.dynForm.handleSubmit()
+   
     if (!submited) return false
 
     // } else {
@@ -986,6 +989,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   mapPartyCustomer(page: FromGroupData) {
+    
     let temp = {}
     let config = page.controls.find(x => x.name == "customer_id")
 
