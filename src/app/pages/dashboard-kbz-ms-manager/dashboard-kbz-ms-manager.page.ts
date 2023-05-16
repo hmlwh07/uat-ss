@@ -632,7 +632,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
         // this.cdf.detectChanges()
         this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
           if (res) {
-            this.data.agentInfo.attId = res
+            this.data.agentInfo.attId = this.encryptData(postData.attId)
             this.cdf.detectChanges()
           }
         })
