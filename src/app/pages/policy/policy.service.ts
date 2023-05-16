@@ -60,6 +60,9 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
         policyNo: resId
       })
   }
+  getOne(resId) {
+    return this.httpClient.get(API_QUOTATION__ATT_URL + '/' + resId)
+  }
   submitPolicy(resId: string, branchCode: string) {
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})
   }

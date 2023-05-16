@@ -46,11 +46,12 @@ export class NotificationsDropdownInnerComponent implements OnInit {
     return 'topbar_notifications_events'
   }
   navDetail(item) {
-    forkJoin([this.prodctService.findOne(item.productId), this.policyService.findOne(item.resourceId).pipe(catchError(e => { return of(undefined)}))]).toPromise().then((res) => {
+    forkJoin([this.prodctService.findOne(item.productId), this.policyService.getOne(item.resourceId).pipe(catchError(e => { return of(undefined)}))]).toPromise().then((res) => {
       if (res[0] && res[1]) {
         this.prodctService.createingProd = res[0]
         this.prodctService.previewType = 'policy'
         this.prodctService.editData = res[1]
+        this.prodctService.isApplication = true
         this.router.navigateByUrl("/resourse-detail")
         this.emitter.emit(true)
       }
