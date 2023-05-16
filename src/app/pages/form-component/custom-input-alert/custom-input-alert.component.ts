@@ -39,7 +39,11 @@ export class CustomInputAlertComponent implements OnInit {
       this.modal.dismiss(this.lostReason)
     }
     if (this.type == 'description') {
-      this.modal.dismiss({ data: this.fileData, description: this.description })
+      if(this.fileName && this.description){
+        this.modal.dismiss({ data: this.fileData, description: this.description })
+      }else{
+        this.alertService.activate('Please Choose The Document.', 'Warning')
+      }
     }
   }
 

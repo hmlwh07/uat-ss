@@ -119,7 +119,11 @@ export class DynamicFormComponent implements OnInit {
     console.log(this.form);
     if (this.form.controls['m_policy_term'] ? this.form.controls['m_policy_term'].value == null : false) {
       this.alert.activate('Please Select Policy Term First.', 'Error')
-    } else {
+    } 
+    if(this.form.controls['attachment'] ? this.form.controls['attachment'].value == null : false){
+      this.alert.activate('Please Choose The Document.', 'Warning')
+    } 
+    else {
       if (this.form.invalid) {
         if (this.form.controls['m_period_of_insurance_from']?this.form.controls['m_period_of_insurance_from'].errors:false) {
           this.alert.activate('No back date is allowed. Please select the correct date.', 'Error')
