@@ -616,7 +616,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
         }
         this.DashboardAttachmentService.save(postData).toPromise().then((res) => {
           if (res) {
-            this.data.agentInfo.attId = postData.attId
+            this.data.agentInfo.attId = this.encryptData(postData.attId)
             this.cdf.detectChanges()
           }
         })
