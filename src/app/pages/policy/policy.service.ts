@@ -49,7 +49,7 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     return this.httpClient.get(url)
   }
   getTcsStatus(quoId) {
-    return this.httpClient.get(API_TCS_STATUS+'?quotationId='+quoId)
+    return this.httpClient.get(API_TCS_STATUS + '?quotationId=' + quoId)
   }
 
   updateAttachment(resId: string, attId: any, signDate: string) {
@@ -59,6 +59,9 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
         signatureDate: signDate,
         policyNo: resId
       })
+  }
+  getOne(resId) {
+    return this.httpClient.get(API_QUOTATION__ATT_URL + '/' + resId)
   }
   submitPolicy(resId: string, branchCode: string) {
     return this.httpClient.put(API_QUOTATION__ATT_URL + "/status/submit/" + resId + "?branchCode=" + branchCode, {})

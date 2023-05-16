@@ -34,7 +34,7 @@
                         </div>
                     </div> -->
 
-                    <div *ngIf="!noti.emailStatus" class="card card-custom" class="{{noti.policyStatus | firstWord}}">
+                    <div *ngIf="!noti.emailStatus" class="card card-custom" class="{{noti.policyStatus | firstWord}}"  (click)="navDetail(noti)">
                         <div class="card-header" style="padding: 5px 10px;">
 
                             <div class="card-title">
@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="noti.emailStatus" class="card card-custom" class="{{noti.emailStatus}}">
+                    <div *ngIf="noti.emailStatus" class="card card-custom" class="{{noti.emailStatus}}" (click)="navDetail(noti)">
                         <div class="card-header" style="padding: 5px 10px;">
 
                             <div class="card-title">
