@@ -263,6 +263,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
   getRenewalPremium(id?) {
     this.tempPolicy = []
     this.renewalPremium = []
+    this.totalPremium =0
     let post = {
       "agentId": id
     }
@@ -302,7 +303,8 @@ export class DashboardKbzMsManagerPage implements OnInit {
           data.productSmallIcon = this.encryptData(data.productSmallIcon)
         })
         this.productPremium.push(...this.renewalPremium)
-
+        console.log(this.productPremium);
+        
         this.productPremium.forEach(element => {
           this.totalPremium += Number(element.premium)
           this.cdf.detectChanges()
@@ -348,9 +350,11 @@ export class DashboardKbzMsManagerPage implements OnInit {
         })
 
       }
+     
       if (page) {
         let pg = "/" + page
         if (pg == this.activeRoute) {
+         
           this.getList(agent.empId)
           this.getLeadList(agent.empId);
           this.getAgentList(agent.empId);

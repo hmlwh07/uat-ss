@@ -204,6 +204,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   getRenewalPremium(id?) {
     this.tempPolicy = []
     this.renewalPremium = []
+    this.totalPremium =0
     let post = {
       "agentId": id
     }
