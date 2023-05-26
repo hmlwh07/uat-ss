@@ -405,6 +405,7 @@ export const locale = {
       tcs_status: "TCS Status",
       go_back: "Go Back",
       create_new_application: "Create New Application",
+      create_new_opportunity:"Create New Opportunity",
       source_place: "Source Place",
       destination_place: "Destination Place",
       create_signature: "Create Signature",

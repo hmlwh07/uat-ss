@@ -20,7 +20,7 @@ export class FireRiskViewComponent implements OnInit {
   @Input() product: Product
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() resourcesId: string
-  @Input() isApplication: boolean = true
+  @Input() isApplication: boolean 
   premiumAmt: string = ""
   listData: any[] = []
   totalPremium: number = 0

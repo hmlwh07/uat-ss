@@ -61,6 +61,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   statusCode
   emailInfo: any
   quoResult: boolean = true
+  isFromLead: boolean
   constructor(
     private productService: ProductDataService,
     private location: Location,
@@ -86,23 +87,29 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.type = this.productService.previewType
       this.resourceDetail = this.productService.editData
       this.isApplication = this.productService.isApplication
+      this.isFromLead = this.productService.isFromLead
+      console.log(' this.isFromLead ', this.isFromLead);
+
       this.resourceDetail.status = this.resourceDetail.status ? this.resourceDetail.status : 'in_progress'
       this.signFileId = this.resourceDetail.attachmentId
       this.branch = this.resourceDetail.branchCode
       this.sourceOfBusiness = this.resourceDetail.sourceOfBusiness ? (this.item.code + '-' + this.resourceDetail.sourceOfBusiness) : null
       console.log("this.sourceOfBusiness", this.sourceOfBusiness);
       console.log("RESOURCE", this.resourceDetail)
-      this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
-        if (res) {
-          this.statusCode = res;
-        }
-      })
+      if (this.isApplication) {
+        this.leadDetailService.getStatusById(this.resourceDetail.leadId).toPromise().then(res => {
+          if (res) {
+            this.statusCode = res;
+          }
+        })
+      }
+
       if (!this.resourceDetail) {
         this.location.back()
         return
       }
-      if(this.resourceDetail.updateAt){
-        this.resourceDetail.updateAt=this.formatDateDDMMYYY(this.resourceDetail.updateAt)
+      if (this.resourceDetail.updateAt) {
+        this.resourceDetail.updateAt = this.formatDateDDMMYYY(this.resourceDetail.updateAt)
       }
       let pageUI: ProductPages = JSON.parse(this.item.config);
       if (this.productService.previewType == 'quotation') {
@@ -547,6 +554,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     this.productService.referenceID = this.resourceDetail.id
     this.productService.referenceStatus = this.resourceDetail.status
     this.productService.creatingLeadId = this.resourceDetail.leadId
+    this.productService.isApplication = true
     this.productService.editData = null
     this.router.navigateByUrl("/product-form")
   }
@@ -655,7 +663,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       this.alertService.activate("Somethings was wrong in Coverage data", 'Warning Message')
     }
   }
-  
+
   async submitPolicyWithProposal() {
     if (!this.quoResult) {
       this.alertService.activate("Somethings was wrong in Coverage data", 'Warning')
@@ -708,8 +716,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   createSign() {
     const modalRef = this.modalService.open(SignaturePadComponent, { size: 'md', backdrop: false });
     modalRef.result.then(() => { }, (res) => {
-      console.log("DD",res);
-      
+      console.log("DD", res);
+
       if (res) {
         if (res.type == "save") {
           this.policyService.updateAttachment(this.resourceDetail.id, res.data.signId, res.data.signDate).toPromise().then((response) => {

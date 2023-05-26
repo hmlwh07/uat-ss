@@ -25,11 +25,13 @@ export class TravelComponent implements OnInit {
   @Input() referenceID?: string
   @Input() premiumAmt: string
   @Input() travelForm: PageUI[] = []
+  @Input() isApplication: boolean
   totalSiAmt: number = 0
   totalSiAmtView: string
   listData: any[] = []
   tempData: any = {}
   tableReform: any[] = []
+  isFromQuo: boolean = false
   requiredForm = {
     detail: null,
     traveler: null,
@@ -49,14 +51,24 @@ export class TravelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.travelForm.length < 3) {
+    console.log("this.isApplication", this.isApplication, this.editData, this.travelForm);
+
+    if (this.travelForm.length < 3 && this.isApplication) {
       this.alertService.activate("This page cann't to process because there is not match with requirement configuration. Please check travel product config in prodcut configuration", "Warning")
     } else {
-      this.requiredForm.detail = this.travelForm.find(x => x.unitCode == "travel_detail_0001")
-      this.requiredForm.traveler = this.travelForm.find(x => x.unitCode == "traveler_0002")
-      this.requiredForm.benefi = this.travelForm.find(x => x.unitCode == "trave_benefi_0003")
-      this.getRiskList()
-      this.callback()
+      if (this.isApplication) {
+
+        this.requiredForm.detail = this.travelForm.find(x => x.unitCode == "travel_detail_0001")
+        this.requiredForm.traveler = this.travelForm.find(x => x.unitCode == "traveler_0002")
+        this.requiredForm.benefi = this.travelForm.find(x => x.unitCode == "trave_benefi_0003")
+        this.getRiskList()
+        this.callback()
+      } else {
+        this.requiredForm.detail = this.travelForm.find(x => x.unitCode == "travel_detail_0001")
+        this.getRiskList()
+        this.callback()
+      }
+
     }
   }
 
@@ -71,6 +83,10 @@ export class TravelComponent implements OnInit {
       this.resourcesId = this.prodService.editData.id
       this.getOldData(this.prodService.editData)
     }
+    // if (this.prodService.editData && this.isFromQuo) {
+    //   this.resourcesId = this.editData.quotationId
+    //   this.getOldData(this.prodService.editData, true)
+    // }
     // else if (this.referenceID) {
     //   this.getOldData({ id: this.referenceID }, true)
     // }
@@ -134,28 +150,58 @@ export class TravelComponent implements OnInit {
   }
 
   getRiskList() {
+    this.totalSiAmt = 0
+
     this.travelRikService.getMany(this.resourcesId).toPromise().then((res: any) => {
       if (res) {
+        if (res.length > 0) {
+          this.isFromQuo = false
+          this.globalFun.tempFormData[TRAVELID] = res
+          this.listData = res || []
+          this.listData.forEach(data => {
+            this.totalSiAmt += parseInt(data.sumInsured)
+            console.log(this.totalSiAmt, data.sumInsured);
+          })
+          this.totalSiAmtView = this.numberPipe.transform(this.totalSiAmt || 0, '1.2-2') + " MMK"
+          console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
 
-        this.globalFun.tempFormData[TRAVELID] = res
-        this.listData = res || []
-        this.listData.forEach(data => {
-          this.totalSiAmt += parseInt(data.sumInsured)
-          console.log(this.totalSiAmt, data.sumInsured);
-        })
-        this.totalSiAmtView = this.numberPipe.transform(this.totalSiAmt || 0, '1.2-2') + " MMK"
-        console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
+          this.cdf.detectChanges()
+        }
+        else {
+          console.log("ELSE", this.editData, this.referenceID);
 
-        this.cdf.detectChanges()
+          let resId = Object.keys(this.editData).length === 0 ? this.referenceID : this.editData.quotationId
+          console.log("resId", resId);
+
+          if (resId) {
+            this.travelRikService.getMany(resId).toPromise().then((res: any) => {
+              if (res) {
+                this.isFromQuo = true
+                this.globalFun.tempFormData[TRAVELID] = res
+                this.listData = res || []
+                this.listData.forEach(data => {
+                  this.totalSiAmt += parseInt(data.sumInsured)
+                  console.log(this.totalSiAmt, data.sumInsured);
+                })
+                this.totalSiAmtView = this.numberPipe.transform(this.totalSiAmt || 0, '1.2-2') + " MMK"
+                console.log("this.totalSiAmtView", this.totalSiAmtView, this.totalSiAmt);
+
+                this.cdf.detectChanges()
+              }
+            })
+          }
+        }
       }
     })
+
+
   }
 
   newData(type, detail?: any) {
-    // console.log("DETAIL", detail);
-    // console.log("this.tempData['benefi']", this.tempData['benefi']);
-    // console.log("this.tempData['travelDetail']", this.tempData['travelDetail']);
-    // console.log("this.tempData['traveler']", this.tempData['traveler']);
+    console.log("DETAIL", detail);
+    console.log("this.tempData['benefi']", this.tempData['benefi']);
+    console.log("this.tempData['travelDetail']", this.tempData['travelDetail']);
+    console.log("this.tempData['traveler']", this.tempData['traveler']);
 
     let modalRef = this.modalService.open(TravelRiskDetailComponent, { size: 'xl', backdrop: false });
     modalRef.componentInstance.type = type
@@ -166,23 +212,41 @@ export class TravelComponent implements OnInit {
     modalRef.componentInstance.editData = this.editData
     modalRef.componentInstance.premiumAmt = this.premiumAmt
     modalRef.componentInstance.prodDetailForm = this.requiredForm.detail
+    modalRef.componentInstance.isApplication = this.prodService.isApplication
     modalRef.componentInstance.travelerForm = this.requiredForm.traveler
     modalRef.componentInstance.benefiForm = this.requiredForm.benefi
     modalRef.componentInstance.tableReform = this.tableReform
     if (detail) {
-      let travel = this.tempData['travelDetail'].find(x => x.risk_id == detail.riskId)
-      let traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
-      let benefi = []
-      if (this.tempData['benefi']) {
-        benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
-        this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
-      }
-      modalRef.componentInstance.tempData = {
-        travelDetail: travel || {},
-        traveler: traveler || {},
-        benefi: benefi || [],
-      }
+      if (this.prodService.isApplication) {
+        let travel = {}
+        let traveler = {}
+        let benefi = []
+        if (!this.isFromQuo) {
+          travel = this.tempData['travelDetail'].find(x => x.risk_id == detail.riskId)
+          traveler = this.tempData['traveler'].find(x => x.risk_id == detail.riskId)
+          benefi = []
+          if (this.tempData['benefi']) {
+            benefi = this.tempData['benefi'].filter(x => x.risk_id == detail.riskId)
+            this.globalFun.tempFormData[this.requiredForm.benefi.tableName + this.requiredForm.benefi.id] = benefi
+          }
+        } else {
+          travel = this.tempData['travelDetail'].find(x => x.risk_id == detail.riskId)
+        }
+        modalRef.componentInstance.tempData = {
+          travelDetail: travel || {},
+          traveler: traveler || {},
+          benefi: benefi || [],
+        }
+      } else {
+        let travel = this.tempData['travelDetail'].find(x => x.risk_id == detail.riskId)
+        console.log(travel);
 
+        modalRef.componentInstance.tempData = {
+          travelDetail: travel || {},
+          traveler: {},
+          benefi: [],
+        }
+      }
     }
 
     modalRef.result.then(() => { }, (res) => {
@@ -221,7 +285,7 @@ export class TravelComponent implements OnInit {
     let index = -1
     if (this.tempData['travelDetail']) {
       index = this.tempData['travelDetail'].findIndex(x => x.risk_id == data.refId)
-      // console.log("INDXEDX", index);
+      console.log("INDXEDX", index);
 
       if (index < 0) {
         this.tempData['travelDetail'].push(data)
@@ -229,6 +293,7 @@ export class TravelComponent implements OnInit {
         this.tempData['travelDetail'][index] = data
       }
     }
+
 
   }
   changeTraveler(data) {
@@ -269,13 +334,21 @@ export class TravelComponent implements OnInit {
   }
 
   nextPage() {
-    console.log("this.tempData['traveler']",this.tempData['traveler']);
-
-    if (this.listData.length > 0 && this.tempData['traveler'] != undefined) {
-      this.globalFun.tempFormData[TRAVELID] = this.listData
-      this.savePremimunFire().toPromise().then(res => {
-        this.actionEvent.emit({ type: StaticActionType.NEXT })
-      })
+    if (this.isApplication) {
+      console.log("this.tempData['traveler']", this.tempData['traveler']);
+      if (this.listData.length > 0 && this.tempData['traveler'] != undefined) {
+        this.globalFun.tempFormData[TRAVELID] = this.listData
+        this.savePremimunFire().toPromise().then(res => {
+          this.actionEvent.emit({ type: StaticActionType.NEXT })
+        })
+      }
+    } else {
+      if (this.listData.length > 0) {
+        this.globalFun.tempFormData[TRAVELID] = this.listData
+        this.savePremimunFire().toPromise().then(res => {
+          this.actionEvent.emit({ type: StaticActionType.NEXT })
+        })
+      }
     }
   }
 
@@ -285,7 +358,7 @@ export class TravelComponent implements OnInit {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,
       "resourceId": this.resourcesId,
-      "type": 'policy',
+      "type": this.prodService.type,
       "sumInsured": (Number(this.totalSiAmtView.split(" ")[0].split(',').join("")) || 0) + "",
       "sumInsuredView": this.totalSiAmtView
     }
@@ -331,7 +404,12 @@ export class TravelComponent implements OnInit {
       if (element.type == PageUIType.DYN) {
 
         let view = element.pageType == 'table'
-        this.pageDataService.getDetail(element.tableName, oldData.id, element.id, view, element.controls, true).toPromise().then(async (res: any) => {
+        console.log("isFromQuo", this.isFromQuo, this.editData);
+        let resId = this.isFromQuo ? (Object.keys(this.editData).length === 0 ? this.referenceID : this.editData.quotationId) : oldData.id
+        console.log("getOldData-resId", resId);
+
+        this.pageDataService.getDetail(element.tableName, resId, element.id, view, element.controls, true).toPromise().then(async (res: any) => {
+          console.log("getOldData", res);
 
           if (res && res.length > 0) {
             let temp = []
@@ -363,6 +441,8 @@ export class TravelComponent implements OnInit {
             if (element.unitCode == "trave_benefi_0003")
               valKey = 'benefi'
             this.tempData[valKey] = temp
+            console.log(this.tempData);
+
             // this.globalFun.tempFormData = this.tempData
             if (element.function && element.pageType == 'form') {
               this.globalFun[element.function]("", this.tempData[element.tableName + element.id])

@@ -305,9 +305,14 @@
                 <!-- To {{ (type == 'policy' ? "application" : type) | titlecase }} List -->
               </button>
             </div>
-            <div class="col-sm-6" *ngIf="type == 'quotation' && resourceDetail.status != 'complete' ">
+            <div class="col-sm-6" *ngIf="type == 'quotation' && resourceDetail.status != 'complete' && isFromLead ">
               <button type="submit" class="btn btn-primary btn-block" (click)="createPolicy()">
                 {{"FORM.create_new_application" | translate}}
+              </button>
+            </div>
+            <div class="col-sm-6" *ngIf="type == 'quotation' && resourceDetail.status != 'complete' && !isFromLead ">
+              <button type="submit" class="btn btn-primary btn-block" (click)="createPolicy()">
+                {{"FORM.create_new_opportunity" | translate}}
               </button>
             </div>
             <div class="col-sm-4" *ngIf="type == 'policy'">

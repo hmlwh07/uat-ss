@@ -3,15 +3,19 @@
   <div class="col-8">
     <!-- <img src="../../../assets/images/customer/custoner_list.svg" alt="quo" /> -->
     <img [src]="itemData.productImage" alt="" />
-    <label> {{ itemData.id }}  <span style="color: rgb(1 95 152);" *ngIf="itemData.applicationId"> - ({{itemData.applicationId}}) </span></label>
+    <label> {{ itemData.id }} <span style="color: rgb(1 95 152);" *ngIf="itemData.applicationId"> -
+        ({{itemData.applicationId}}) </span></label>
   </div>
   <div class="col-4">
     <section class="icon-group">
+      <div class="actions"
+        *ngIf="((itemData.status == 'in_progress' || itemData.status == 'In_progress' ) && itemData.leadId) ">
+        <img src="./assets/images/application_quo.png" (click)="actionBtn(itemData,eventType.GOAPP)" alt="goApp" />
+      </div>
       <div class="actions">
         <img src="./assets/images/view-01.svg" (click)="actionBtn(itemData,eventType.VIEW)" alt="view" />
       </div>
-      <div class="actions"
-        *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' ">
+      <div class="actions" *ngIf="itemData.status == 'in_progress' || itemData.status == 'In_progress' ">
         <img src="./assets/images/edit-01.svg" (click)="actionBtn(itemData,eventType.EDIT)" alt="edit" />
       </div>
     </section>
@@ -22,6 +26,7 @@
   <div class="col-4">
     <label *ngIf="itemData.agentFirstName"> {{ itemData.agentFirstName }} {{ itemData.agentLastName }}</label>
     <label *ngIf="itemData.productName"> {{ itemData.productName }} </label>
+    <label *ngIf="itemData.leadId">{{itemData.leadId}}</label>
   </div>
   <div class="col-4 text-left">
     <label *ngIf="itemData.createdAt">Date : {{ itemData.createdAt | date:'dd/MM/YYYY' }} </label>
@@ -38,13 +43,16 @@
     </label>
     <label *ngIf="itemData.status == 'success' || itemData.status == 'Success' " style="color: #FFD300 !important;">
       Success </label>
+    <label *ngIf="itemData.status == 'complete' || itemData.status == 'Complete' " style="color: #FFD300 !important;">
+      Complete </label>
   </div>
   <div class="col-4 text-left">
     <label> Premium : <span>{{ itemData.premiumView }}</span> </label>
     <label
       *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI
       : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
-    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus  | titlecase }}</label>
+    <label *ngIf="itemData.apiStatus">{{ itemData.apiStatus | titlecase }}</label>
   </div>
+
 </div>
 <!-- </div> -->

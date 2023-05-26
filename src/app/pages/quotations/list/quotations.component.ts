@@ -202,12 +202,16 @@ export class QuotationsComponent implements OnInit, OnDestroy {
   }
 
   actionBtn(event: any) {
+    console.log(event);
 
     if (event.cmd == 'view') {
       this.goViewDetail(event.data)
     } else if (event.cmd == 'edit') {
       this.editLayout(event.data)
-    } else if (event.cmd == 'create') {
+    } else if (event.cmd == 'goApp') {
+      this.goToApp(event.data)
+    }
+    else if (event.cmd == 'create') {
       this.createPolicy(event.data)
     }
   }
@@ -219,6 +223,7 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         this.prodctService.editData = item
         this.prodctService.isApplication = false
         this.prodctService.previewType = 'quotation'
+        this.prodctService.isFromLead = false
         this.router.navigateByUrl("/resourse-detail")
       }
     })
@@ -251,18 +256,36 @@ export class QuotationsComponent implements OnInit, OnDestroy {
         if (prod.type == 'save') {
           // let customerId = this.user.id
           // this.customerService.findOne(customerId).toPromise().then((res) => {
-          //   this.prodctService.creatingCustomer = res
-            this.prodctService.createingProd = prod.data
-            // this.prodctService.creatingLeadId = this.oldId
-            this.prodctService.editData = null
-            this.prodctService.referenceID = null
-            this.prodctService.isApplication = false
-            this.prodctService.viewType = 'quotation'
-            this.prodctService.type = 'quotation'
-            this.router.navigateByUrl("/product-form")
+          this.prodctService.creatingCustomer = null
+          this.prodctService.createingProd = prod.data
+          this.prodctService.creatingLeadId = ""
+          this.prodctService.editData = null
+          this.prodctService.referenceID = null
+          this.prodctService.isApplication = false
+          this.prodctService.isFromLead = false
+          this.prodctService.viewType = 'quotation'
+          this.prodctService.type = 'quotation'
+          this.router.navigateByUrl("/product-form")
           // })
 
         }
+      }
+    })
+  }
+  goToApp(item) {
+    forkJoin([this.prodctService.findOne(item.productId), this.customerService.findOne(item.customerId || 1).pipe(catchError(e => { return of(undefined) }))]).toPromise().then((res) => {
+      if (res) {
+        this.prodctService.createingProdRef = res[0]
+        this.prodctService.creatingCustomer = res[1]
+        this.prodctService.viewType = 'policy'
+        this.prodctService.type = 'policy'
+        this.prodctService.referenceID = item.id
+        this.prodctService.referenceStatus = item.status
+        this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.editData = null
+        this.prodctService.isApplication = true
+            this.prodctService.isFromLead = false
+        this.router.navigateByUrl("/product-form")
       }
     })
   }

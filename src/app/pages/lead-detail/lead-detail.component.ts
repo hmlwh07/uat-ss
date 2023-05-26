@@ -1611,6 +1611,7 @@ export class LeadDetailComponent implements OnInit {
               this.prodctService.editData = null
               this.prodctService.referenceID = null
               this.prodctService.isApplication = false
+              this.prodctService.isFromLead=true
               this.prodctService.viewType = 'quotation'
               this.prodctService.type = 'quotation'
               this.router.navigateByUrl("/product-form")
@@ -1715,6 +1716,7 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.createingProd = res
         this.prodctService.editData = item
         this.prodctService.isApplication = false
+        this.prodctService.isFromLead=true
         this.prodctService.previewType = 'quotation'
         this.router.navigateByUrl("/resourse-detail")
       }
@@ -1731,6 +1733,8 @@ export class LeadDetailComponent implements OnInit {
         this.prodctService.editData = item
         this.prodctService.referenceID = item.id
         this.prodctService.creatingLeadId = item.leadId
+        this.prodctService.isApplication = false
+        this.prodctService.isFromLead=true
         this.router.navigateByUrl("/product-form")
       }
     })
