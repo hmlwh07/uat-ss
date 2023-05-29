@@ -158,34 +158,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                   }))
                   .subscribe(async (user: UserModel) => {
                     if (user) {
-                      // let alert = await this.alertCtrl.create({
-                      //   header: 'Update Required',
-                      //   message: 'A new version is now available. Please update your application.',
-                      //   buttons: [
-                      //     { role: "update", text: "Update Now", cssClass: 'update-alert-button-android' },
-                      //     { role: "download", text: "Direct Download", cssClass: 'download-alert-button' },
-                      //   ],
-                      //   backdropDismiss: false,
-                      //   cssClass: "my-customer-alert1",
-                      // });
-                      // await alert.present();
-                      // alert.onDidDismiss().then((res) => {
-                      //   if (res.role == "update") {
-                      //     console.log("Platform: ", this.platform)
-                      //     if (this.platform == 'ios') {
-                      //       window.open("https://apps.apple.com/app/kbzms/id1641859832");
-                      //     }
-                      //     if (this.platform == 'android') {
-                      //       window.open("https://play.google.com/store/apps/details?id=com.kbzms.sale_pre_prod");
-                      //     }
-                      //   }
-                      //   if (res.role == 'download') {
-                      //     if (this.platform == 'android') {
-                      //       window.open('http://104.248.152.205:8089/api/v1/app/download.htm?appName=KBZ_Customer_Care.apk');
-                      //     }
-                      //   }
-        
-                      // });
+                    
                       this.appComponent.ngOnInit()
                       this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
                     } else {
@@ -200,7 +173,36 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.alertService.activate('Enter any username and password', 'Error Message');
               }
             }
+          }else{
+            if (this.loginForm.controls['email'].valid && this.loginForm.controls['password'].valid) {
+              this.hasError = false;
+              const loginSubscr = this.authService
+                .login(this.f.email.value, this.f.password.value)
+                .pipe(first(), mergeMap((x) => {
+                  return this.menuDataService.getMenusData().pipe(mergeMap((data) => {
+                    // console.log("DATAMENU", data[0].page);
+                    this.firstPage = data[0].page
+                    return of(x)
+                  }))
+                }))
+                .subscribe(async (user: UserModel) => {
+                  if (user) {
+                  
+                    this.appComponent.ngOnInit()
+                    this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
+                  } else {
+                    this.hasError = true;
+                  }
+                });
+
+
+              this.unsubscribe.push(loginSubscr);
+
+            } else {
+              this.alertService.activate('Enter any username and password', 'Error Message');
+            }
           }
+          
         });
       })
     } else {
@@ -217,34 +219,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }))
           .subscribe(async (user: UserModel) => {
             if (user) {
-              // let alert = await this.alertCtrl.create({
-              //   header: 'Update Required',
-              //   message: 'A new version is now available. Please update your application.',
-              //   buttons: [
-              //     { role: "update", text: "Update Now", cssClass: 'update-alert-button-android'  },
-              //     // { role: "download", text: "Direct Download", cssClass: 'download-alert-button' },
-              //   ],
-              //   backdropDismiss: false,
-              //   cssClass: "my-customer-alert1",
-              // });
-              // await alert.present();
-              // alert.onDidDismiss().then((res) => {
-              //   if (res.role == "update") {
-              //     console.log("Platform: ", this.platform)
-              //     if (this.platform == 'ios') {
-              //       window.open("https://apps.apple.com/app/kbzms/id1641859832");
-              //     }
-              //     if (this.platform == 'android') {
-              //       window.open("https://play.google.com/store/apps/details?id=com.kbzms.sale_pre_prod");
-              //     }
-              //   }
-              //   if (res.role == 'download') {
-              //     if (this.platform == 'android') {
-              //       window.open('http://104.248.152.205:8089/api/v1/app/download.htm?appName=KBZ_Customer_Care.apk');
-              //     }
-              //   }
 
-              // });
               this.appComponent.ngOnInit()
               this.router.navigateByUrl(this.firstPage, { replaceUrl: true });
             } else {
