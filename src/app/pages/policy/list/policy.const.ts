@@ -111,7 +111,7 @@ export const ApplicationStatus: any[] = [
   },
   {
     code: "06",
-    value: "DNDORSEMENT/ALTERTION STARTED"
+    value: "ENDORSEMENT/ALTERTION STARTED"
   },
   {
     code: "13",
@@ -135,7 +135,7 @@ export const ApplicationStatus: any[] = [
   },
   {
     code: "07",
-    value: "REFFERED TO UNDERWRITE"
+    value: "REFERRED TO UNDERWRITE"
   },
   {
     code: "12",
