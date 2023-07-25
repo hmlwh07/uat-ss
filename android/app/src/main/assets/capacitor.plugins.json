@@ -1,5 +1,9 @@
 [
 	{
+		"pkg": "@agorapulse/capacitor-mediastore",
+		"classpath": "com.agorapulse.capacitor.mediastore.MediastorePlugin"
+	},
+	{
 		"pkg": "@capacitor/app",
 		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
 	},

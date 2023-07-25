@@ -30,7 +30,8 @@ npm-debug.log*
 /platforms
 /plugins
 /.oldPackagejson
-# /www
+/www
+/ios
 
 # Firebase
 .firebase
