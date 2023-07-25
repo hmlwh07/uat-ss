@@ -83,6 +83,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
       this.sumInsuredAmt = value
     })
     this.unsubscribe.push(unsub)
+    console.log("date in create pdf --- " , this.updateData , this.formatDateDDMMYYY(this.updateData))
   }
 
   getPolicyHolder() {
@@ -159,7 +160,6 @@ export class PersonalAccidentPrintComponent implements OnInit {
 
 
   createPdf() {
-
     //Agent Information Details
     let agentInfoDetailData = [
       [
