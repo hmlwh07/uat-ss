@@ -105,11 +105,9 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   activityStatus = ActivityStatus
   constructor(private cdf: ChangeDetectorRef,private encryption:EncryptService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
-
     this.cdf.detectChanges();
   }
   encryptData(attid){
