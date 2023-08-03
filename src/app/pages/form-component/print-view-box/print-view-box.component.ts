@@ -115,7 +115,7 @@ export class PrintViewBoxComponent implements OnInit {
       console.log("this.productService.editData.updateAt",this.productService.editData);
       
       if (this.productService.editData) {
-        this.updateData=this.productService.editData.updatedAt
+        this.updateData= this.formatDateDDMMYYY(this.productService.editData.submittedAt) ?? moment(this.productService.editData.createdAt)
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
@@ -130,8 +130,7 @@ export class PrintViewBoxComponent implements OnInit {
       this.formatedData = true
     }
     if (this.productService.editData) {
-      this.updateData=this.productService.editData.submittedAt ?? moment(this.productService.editData.createdAt)
-      console.log("update date --- " , this.updateData )
+      this.updateData= this.productService.editData.submittedAt ?? moment(this.productService.editData.createdAt)
       this.branch = this.productService.editData.branch
       this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
       this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
@@ -229,6 +228,15 @@ export class PrintViewBoxComponent implements OnInit {
     pdfMake.createPdf(documentDefinition).download()
   }
 
-
-
+  formatDateDDMMYYY(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    return [day, month, year].join('/');
+  }
 }

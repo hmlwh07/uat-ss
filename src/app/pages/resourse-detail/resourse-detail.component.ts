@@ -431,6 +431,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     }
   }
   getOtherDataID(cols: any[], data: any) {
+    console.log( "cols -----  " , cols ,"data -------- " , data )
     for (let col of cols) {
       if (data[col.name]) {
         if ((data[col.name] + "").length > 0) {
