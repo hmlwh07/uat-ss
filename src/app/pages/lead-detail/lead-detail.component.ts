@@ -669,9 +669,10 @@ export class LeadDetailComponent implements OnInit {
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
           await this.applicationList.forEach((value, index) => {
             value.agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
-            value.date = value.submittedAt? moment(value.submittedAt).format("DD/MM/YYYY") : value.createdAt
+            value.applicationDate = value.submittedAt ? new Date(value.submittedAt).toISOString() : value.createdAt
             this.cdf.detectChanges()
           })
+         
           let appList = this.applicationList.filter(list => list.status == 'submitted')
           if (appList.length > 0) {
             this.isReleasedDisabled = true;
@@ -682,7 +683,6 @@ export class LeadDetailComponent implements OnInit {
             this.isReleasedDisabled = false;
           }
           console.log("APPlication list ------------------   ",this.applicationList)
-
           let quoList = this.quotationList.filter(list => list.status == 'complete')
           if (quoList.length > 0) {
             this.isReleasedDisabled = true;

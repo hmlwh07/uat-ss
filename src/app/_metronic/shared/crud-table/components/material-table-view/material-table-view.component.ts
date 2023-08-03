@@ -103,11 +103,14 @@ export class MaterialTableViewComponent implements OnInit, AfterViewInit {
   }
   selection = new SelectionModel<any>(false, []);
   activityStatus = ActivityStatus
-  constructor(private cdf: ChangeDetectorRef,private encryption:EncryptService) { }
+  constructor(private cdf: ChangeDetectorRef,private encryption:EncryptService) { 
+    
+  }
 
   ngOnInit(): void {}
 
   ngAfterViewInit() {
+    console.log("material page -   " ,this.displayedColumns)
     this.cdf.detectChanges();
   }
   encryptData(attid){

@@ -161,7 +161,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
 
   createPdf() {
     //Agent Information Details
-    
+    this.updateData = this.formatDateDDMMYYY(this.updateData)
    console.log("update date --- " , this.updateData)
     let agentInfoDetailData = [
       [
