@@ -16,6 +16,7 @@ export class ProductDataService extends BizOperationService<Product, number>{
   createingProd: Product
   createingProdRef: Product
   creatingCustomer: Customer
+  isFromLead: boolean = true
   isApplication: boolean = false
   type: string
   viewType: string

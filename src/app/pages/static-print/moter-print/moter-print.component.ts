@@ -292,6 +292,7 @@ export class MoterPrintComponent implements OnInit {
 
   createPdf() {
     console.log("policyHolderInfoDetailData",this.policyHolder)
+    this.updateData = this.formatDateDDMMYYY(this.updateData)
     // Agent Information Details
     let agentInfoDetailData = [
       [
@@ -304,7 +305,7 @@ export class MoterPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.updateData? this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData?? this.updateData, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },

@@ -56,6 +56,18 @@ export class NotificationsDropdownInnerComponent implements OnInit {
         this.emitter.emit(true)
       }
     })
+
+    // this.prodctService.findOne(item.productId).toPromise().then((res) => {
+    //   console.log("ITEM", item);
+
+    //   if (res) {
+    //     this.prodctService.createingProd = res
+    //     this.prodctService.previewType = 'policy'
+    //     this.prodctService.editData = item
+    //     this.prodctService.isApplication = true
+    //     this.router.navigateByUrl("/resourse-detail")
+    //   }
+    // })
   }
 
 }

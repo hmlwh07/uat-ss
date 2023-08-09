@@ -30,7 +30,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
 @Input() sourceOfBusinessCode?:string
   @Input() isPrint: any
   @Input() emailInfo:any
-  @Input() updateData:any=new Date()
+  @Input() updateData:any
   base64Proposal:any
   product: any
   sumInsuredAmt: any
@@ -83,6 +83,7 @@ export class PersonalAccidentPrintComponent implements OnInit {
       this.sumInsuredAmt = value
     })
     this.unsubscribe.push(unsub)
+    console.log("date in create pdf --- " , this.updateData )
   }
 
   getPolicyHolder() {
@@ -159,8 +160,9 @@ export class PersonalAccidentPrintComponent implements OnInit {
 
 
   createPdf() {
-
     //Agent Information Details
+    this.updateData = this.formatDateDDMMYYY(this.updateData)
+   console.log("update date --- " , this.updateData)
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
@@ -172,7 +174,9 @@ export class PersonalAccidentPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.updateData? this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        
+        { content: this.updateData?? this.updateData, styles: { halign: 'left', valign: 'middle' } },
+          // : this.formatDateDDMMYYY(new Date())
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },

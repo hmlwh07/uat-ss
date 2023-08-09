@@ -71,6 +71,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   creatingLeadId: string = ""
   travelFormss: PageUI[] = []
   currencyType = "MMK"
+  isApplication: boolean = true
   constructor(private router: Router, private location: Location, private cdRef: ChangeDetectorRef, private modalService: NgbModal, private prodService: ProductDataService, private globalFun: GlobalFunctionService, private auth: AuthService, private pageDataService: PageDataService, private addonQuo: AddOnQuoService, private coverageQuo: CoverageQuoService, private alert: AlertService, private downloadService: AttachmentDownloadService, private masterServer: MasterDataService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private ngZone: NgZone) { }
 
   async ngOnInit() {
@@ -86,6 +87,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     if (!this.prodService.createingProd) {
       this.location.back()
     } else {
+      console.log("this.prodService", this.prodService);
+
       this.item = this.prodService.createingProd
       this.viewType = this.prodService.viewType
       this.referenceID = this.prodService.referenceID
@@ -93,10 +96,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.creatingLeadId = this.prodService.creatingLeadId
       this.type = this.prodService.type
       this.editData = this.prodService.editData || {}
+      this.isApplication = this.prodService.isApplication
       this.creatingCustomer = this.prodService.creatingCustomer
       this.premiumAmt = this.editData.premiumView || this.editData.premium || "0";
       this.sumInsured = this.editData.sumInsuredView || this.editData.sumInsured || "0";
-
       let unsub = this.globalFun.paPremiumResult.subscribe((res: any) => {
         this.premiumAmt = res || "0"
         this.cdRef.detectChanges()
@@ -474,7 +477,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       tableName: page.tableName,
       resourceId: this.resourceId,
       refId: refId,
-      customerId: this.creatingCustomer.customerId,
+      customerId: this.creatingCustomer ? this.creatingCustomer.customerId || null : null,
       quotationId: this.referenceID,
       agentId: this.auth.currentUserValue.id || 1,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
@@ -607,8 +610,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       agentId: this.auth.currentUserValue.id || 1,
       quotationId: this.referenceID,
       pageId: page.id,
-      customerId: this.creatingCustomer.customerId,
-      leadId: this.creatingLeadId || null,
+      customerId: this.creatingCustomer ? this.creatingCustomer.customerId : null,
+      leadId: this.creatingLeadId ? this.creatingLeadId : null,
       currency: this.currencyType,
       premium: (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       premiumView: this.premiumAmt,
@@ -757,6 +760,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
     }
     let submited = this.dynForm.handleSubmit()
+
     if (!submited) return false
     this.dynForm.reCreateFrom()
   }
@@ -839,6 +843,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
     // if (this.pageOrder.length > this.activePage + 1) {
     let activeForm = this.formData[this.activePage]
+
     if (activeForm.function) {
       let fun = await this.globalFun[activeForm.function]("", this.dynForm.form.getRawValue(), [], true);
       if (!fun) {
@@ -846,6 +851,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       }
     }
     let submited = this.dynForm.handleSubmit()
+
     if (!submited) return false
 
     // } else {
@@ -986,6 +992,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   mapPartyCustomer(page: FromGroupData) {
+
     let temp = {}
     let config = page.controls.find(x => x.name == "customer_id")
 

@@ -17,6 +17,7 @@ export enum ListActionType {
   EDIT = 'edit',
   DELETE = 'delete',
   VIEW = 'view',
-  RESEND='resend',
-  REFRESH='refresh'
+  RESEND = 'resend',
+  REFRESH = 'refresh',
+  GOAPP = 'goApp'
 }

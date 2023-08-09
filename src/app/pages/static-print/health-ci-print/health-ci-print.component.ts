@@ -236,8 +236,8 @@ export class HealthCiPrintComponent implements OnInit {
   }
 
   createPdf() {
-
-    // Agent Information Details
+    this.updateData = this.formatDateDDMMYYY(this.updateData)
+    // Agent Information Details : this.formatDateDDMMYYY(new Date())
     let agentInfoDetailData = [
       [
         { content: 'Sale Channel', styles: { halign: 'left', valign: 'middle' } },
@@ -249,7 +249,7 @@ export class HealthCiPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.updateData? this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData ?? this.updateData, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },

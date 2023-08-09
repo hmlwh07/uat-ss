@@ -450,6 +450,7 @@ export const locale = {
       tcs_status: "TCS Core System ၏ လုပ်ဆောင်မှု အခြေအနေ",
       go_back: "ပြန်သွားသည်",
       create_new_application: "လျှောက်လွှာ အသစ်ပြုလုပ်ရန်",
+      create_new_opportunity:"Opportunity အသစ်ပြုလုပ်ရန်",
       source_place: "ထွက်ခွာမည့် နေရာ",
       destination_place: "ဆိုက်ရောက်မည့်နေရာ",
       create_signature: "လက်မှတ်ထိုးရန်",

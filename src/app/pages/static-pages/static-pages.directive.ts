@@ -43,6 +43,7 @@ export class StaticPageDirective implements StaticField, OnInit {
   @Input() premiumAmt?: string
   @Input() editData: QuotationDTO | PolicyDTO
   @Input() travelForm: PageUI[] = []
+  @Input() isApplication: boolean 
   @Output() eventOut = new EventEmitter<StaticPageAction>();
 
   component: ComponentRef<StaticField>;
@@ -61,6 +62,7 @@ export class StaticPageDirective implements StaticField, OnInit {
     this.component = this.container.createComponent(component);
     this.component.instance.product = this.product
     this.component.instance.editData = this.editData
+    this.component.instance.isApplication = this.isApplication
     this.component.instance.resourcesId = this.resourcesId
     this.component.instance.referenceID = this.referenceID
     this.component.instance.premiumAmt = this.premiumAmt

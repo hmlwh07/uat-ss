@@ -49,7 +49,7 @@ export class PolicyService extends BizOperationService<PolicyDTO, number>{
     return this.httpClient.get(url)
   }
   getTcsStatus(quoId) {
-    return this.httpClient.get(API_TCS_STATUS+'?quotationId='+quoId)
+    return this.httpClient.get(API_TCS_STATUS + '?quotationId=' + quoId)
   }
 
   updateAttachment(resId: string, attId: any, signDate: string) {
