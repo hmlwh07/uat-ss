@@ -115,7 +115,8 @@ export class PrintViewBoxComponent implements OnInit {
       console.log("this.productService.editData.updateAt",this.productService.editData);
       
       if (this.productService.editData) {
-        this.updateData= this.formatDateDDMMYYY(this.productService.editData.submittedAt) ?? moment(this.productService.editData.createdAt)
+        this.updateData= moment(this.productService.editData.submittedAt).format('DD/MM/YYYY') ?? this.formatDateDDMMYYY(new Date())
+        console.log("update Date = " ,  this.updateData )
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
