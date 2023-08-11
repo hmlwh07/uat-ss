@@ -179,12 +179,16 @@ export class AddonPageComponent implements OnInit {
         }
         if (item.premium) {
           if (item.code == "CROSSBRDR" && this.addOnsData[item.id].checked) {
-           
+
           } else {
             this.getGlobalFun(item.premiumStr, 'addOnsData', item.id, 'premium', item)
             item.premiumStrYear = item.premiumStr + "Year"
             this.getGlobalFun(item.premiumStrYear, 'addOnsData', item.id, 'premiumYear', item)
           }
+        }
+
+        if (item.code == "MED EXP" && this.parentData.m_currency == 'MMK') {
+          this.addOnsData[item.id].premium = 0
         }
         // }
       }
@@ -220,7 +224,11 @@ export class AddonPageComponent implements OnInit {
     if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && (subKey == "premium" || subKey == "premiumYear")) {
       if (this.globalFun[funName]) {
         let parentValueObj = addon.code == "PAIDDRIVER" ? this.getParnet('motor_driver') : this.parentData
-        parentValueObj = { ...parentValueObj, productCode: this.product.code }
+
+        if (addon.code !== "PAIDDRIVER") {
+          parentValueObj = { ...parentValueObj, productCode: this.product.code }
+        }
+
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
           this.cdRef.detectChanges();
