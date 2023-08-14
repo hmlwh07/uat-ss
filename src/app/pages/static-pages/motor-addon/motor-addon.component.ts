@@ -228,9 +228,11 @@ export class MotorAddonComponent implements OnInit {
     if (this.planOption == 'basic') {
       this.medPremium = this.calcumotorMedical()
       this.medPremiumForCross = this.calcumotorMedicalForCross()
-    } else {
+      this.calcuCross()
+    } else if (this.planOption == 'special') {
       this.medPremium = this.calcumotorMedical()
       this.medPremiumForCross = this.calcumotorMedicalForCross()
+      this.calcuCross()
     }
 
   }
@@ -238,19 +240,23 @@ export class MotorAddonComponent implements OnInit {
     let term = this.parentData['m_policy_term']
     let percent = this.crossPercent[term] || 1
     let fix = 0
-    if (this.planOption == 'basic') {
-      fix = 20 * percent
-    } else {
-      fix = 30 * percent
+    if (this.parentData.m_currency == 'USD') {
+      if (this.planOption == 'basic') {
+        fix = 20 * percent
+      } else if (this.planOption == 'special') {
+        fix = 30 * percent
+      }
     }
     return fix
   }
   calcumotorMedicalForCross() {
     let fix = 0
-    if (this.planOption == 'basic') {
-      fix = 20
-    } else {
-      fix = 30
+    if (this.parentData.m_currency == 'USD') {
+      if (this.planOption == 'basic') {
+        fix = 20
+      } else if (this.planOption == 'special') {
+        fix = 30
+      }
     }
     return fix
   }

@@ -689,9 +689,6 @@ export class LeadDetailComponent implements OnInit {
           } else if (this.oldData.statusCode == '07') {
             this.QUOTATION_ELEMENT_COL[9].btn.edit = false
           }
-          else {
-            this.isReleasedDisabled = false;
-          }
           this.quotationList.forEach((value, index) => {
             this.quotationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
             this.cdf.detectChanges()
