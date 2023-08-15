@@ -43,13 +43,13 @@ export class PrintViewBoxComponent implements OnInit {
   temConfig: PrintFormat[] = [];
   premimunAmt: string = ""
   sourceOfBusiness: string = ''
-  sourceOfBusinessCode:string=''
+  sourceOfBusinessCode: string = ''
   today = new Date()
   agentName = ""
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
-  updateData:any;
+  updateData: any;
   policyInfo: any = {}
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService, private healthPrintService: HealthPrintService) {
@@ -112,15 +112,15 @@ export class PrintViewBoxComponent implements OnInit {
         }
 
       }
-      console.log("this.productService.editData.updateAt",this.productService.editData);
-      
+      console.log("this.productService.editData.updateAt", this.productService.editData);
+
       if (this.productService.editData) {
-        this.updateData= moment(this.productService.editData.submittedAt).format('DD/MM/YYYY') ?? this.formatDateDDMMYYY(new Date())
-        console.log("update Date = " ,  this.updateData )
+        this.updateData = this.productService.editData.submittedAt ? moment(this.productService.editData.submittedAt).format('DD/MM/YYYY') : moment(new Date())
+        console.log("update Date = ", this.updateData)
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
-        this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
+        this.sourceOfBusinessCode = this.productService.editData.sourceOfBusinessCode
         this.getAgentData()
         if (this.product.code == 'PCHL01') {
           this.getDetail()
@@ -131,10 +131,10 @@ export class PrintViewBoxComponent implements OnInit {
       this.formatedData = true
     }
     if (this.productService.editData) {
-      this.updateData= this.productService.editData.submittedAt ?? moment(this.productService.editData.createdAt)
+      this.updateData = this.productService.editData.submittedAt ? moment(this.productService.editData.submittedAt).format('DD/MM/YYYY') : moment(new Date())
       this.branch = this.productService.editData.branch
       this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
-      this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
+      this.sourceOfBusinessCode = this.productService.editData.sourceOfBusinessCode
       this.premimunAmt = this.productService.editData.premiumView
       this.getAgentData()
       if (this.product.code == 'PCHL01') {

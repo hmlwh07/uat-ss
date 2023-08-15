@@ -58,7 +58,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   sourceOfBusinessOption = []
   selectedBranchCode: string = null;
   selectedSourceOfBusiness: string = null
-  statusCode
+  statusCode:any=''
   emailInfo: any
   quoResult: boolean = true
   isFromLead: boolean
