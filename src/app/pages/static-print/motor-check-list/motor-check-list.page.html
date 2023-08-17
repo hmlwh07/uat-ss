@@ -19,7 +19,8 @@
 
       <div class="row" style=" padding: 5px 10px;">
         <ng-container *ngFor="let page of pageOrder">
-          <div class="product-name mt-5 mb-5">{{page.pageTitle}} </div>
+          <!-- <div class="product-name mt-5 mb-5">{{page.pageTitle}} </div> -->
+       
           <div class="col-md-12 mx-auto">
             <ng-container *ngIf="page.type === 'static';else dynView ">
 

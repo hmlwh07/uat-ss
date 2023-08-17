@@ -32,7 +32,7 @@ export class MoterPrintComponent implements OnInit {
   @Input() emailInfo: any
   @Input() updateData:any=new Date()
   @Input() creatingProd:any
-  @Input() resourceDetail:any
+  resourceDetail:any
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
@@ -99,11 +99,15 @@ export class MoterPrintComponent implements OnInit {
       PRINT.IS_MOBILE = false
     }
     this.isMobile = PRINT.IS_MOBILE
-    this.signId = this.resourceDetail ? this.resourceDetail.attachmentId : ""
+    
+    this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
+      console.log(this.signId);
+      
       this.fileId = this.encryption.encryptData(this.signId)
+      console.log(this.fileId);
     }
-    this.signatureDate = this.resourceDetail ? this.resourceDetail.signatureDate : ""
+    this.signatureDate = this.productService.editData ? this.productService.editData.signatureDate : ""
     this.getPolicyHolder()
     this.getDetail()
     this.getAddonCover()
@@ -288,6 +292,7 @@ export class MoterPrintComponent implements OnInit {
 
   createPdf() {
     console.log("policyHolderInfoDetailData",this.policyHolder)
+    this.updateData = this.formatDateDDMMYYY(this.updateData)
     // Agent Information Details
     let agentInfoDetailData = [
       [
@@ -300,7 +305,7 @@ export class MoterPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.updateData? this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData?? this.updateData, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
@@ -780,7 +785,8 @@ export class MoterPrintComponent implements OnInit {
         this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
       } else {
         let data = doc.output('datauristring')
-        this.base64Proposal = data
+        let test=data.split('base64,')
+        this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }
     } else {

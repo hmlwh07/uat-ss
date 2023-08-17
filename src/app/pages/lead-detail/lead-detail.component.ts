@@ -634,7 +634,7 @@ export class LeadDetailComponent implements OnInit {
   getOld() {
     this.LeadDetailService.findOne(this.oldId)
       .toPromise()
-      .then((res) => {
+      .then(async (res) => {
         if (res) {
           // console.log("getOld => response", res)
           this.oldData = res;
@@ -667,10 +667,12 @@ export class LeadDetailComponent implements OnInit {
           this.activityList = this.oldData.activities != null ? this.oldData.activities : []
           this.quotationList = this.oldData.resourceQuotations != null ? this.oldData.resourceQuotations : []
           this.applicationList = this.oldData.resourcePolicies != null ? this.oldData.resourcePolicies : []
-          this.applicationList.forEach((value, index) => {
-            this.applicationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
+          await this.applicationList.forEach((value, index) => {
+            value.agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
+            value.applicationDate = value.submittedAt ? new Date(value.submittedAt).toISOString() : value.createdAt
             this.cdf.detectChanges()
           })
+         
           let appList = this.applicationList.filter(list => list.status == 'submitted')
           if (appList.length > 0) {
             this.isReleasedDisabled = true;
@@ -680,14 +682,12 @@ export class LeadDetailComponent implements OnInit {
           else {
             this.isReleasedDisabled = false;
           }
+          console.log("APPlication list ------------------   ",this.applicationList)
           let quoList = this.quotationList.filter(list => list.status == 'complete')
           if (quoList.length > 0) {
             this.isReleasedDisabled = true;
           } else if (this.oldData.statusCode == '07') {
             this.QUOTATION_ELEMENT_COL[9].btn.edit = false
-          }
-          else {
-            this.isReleasedDisabled = false;
           }
           this.quotationList.forEach((value, index) => {
             this.quotationList[index].agentFirstName = value.agentFirstName + " " + (value.agentMiddleName != null ? value.agentMiddleName : "") + " " + value.agentLastName
@@ -1035,8 +1035,9 @@ export class LeadDetailComponent implements OnInit {
   }
 
   loadForm(oldData?) {
-    // console.log("LoadForm => OldData? ", oldData)
-    if (oldData != null) {
+    console.log("LoadForm => OldData? ", oldData)
+    if (oldData != null ) {
+      console.log("old data not equal ")
       this.disabledForm = oldData ? oldData.statusCode == '03' ? false : true : false
       this.isExisting = oldData ? oldData.existingCustomerId == 0 ? false : true : false
       this.leadForm = null
@@ -1699,6 +1700,8 @@ export class LeadDetailComponent implements OnInit {
   }
 
   goAppViewDetail(item) {
+    console.log("ITEM",item);
+    
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
       if (res) {
         this.prodctService.createingProd = res

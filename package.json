@@ -13,6 +13,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agorapulse/capacitor-mediastore": "^0.0.3",
     "@angular/animations": "~13.0.0",
     "@angular/cdk": "^13.0.0",
     "@angular/common": "~13.0.0",
@@ -39,6 +40,7 @@
     "@capacitor/filesystem": "^1.1.0",
     "@capacitor/haptics": "1.1.4",
     "@capacitor/keyboard": "1.2.1",
+    "@capacitor/push-notifications": "^5.0.6",
     "@capacitor/status-bar": "1.0.7",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@ionic-native/core": "^5.36.0",

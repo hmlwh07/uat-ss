@@ -636,7 +636,8 @@ export class TravelPrintQuoComponent implements OnInit {
         this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
       } else {
         let data = doc.output('datauristring')
-        this.base64Proposal = data
+        let test=data.split('base64,')
+        this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }
     } else {

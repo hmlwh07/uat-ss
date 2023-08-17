@@ -58,7 +58,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   sourceOfBusinessOption = []
   selectedBranchCode: string = null;
   selectedSourceOfBusiness: string = null
-  statusCode
+  statusCode:any=''
   emailInfo: any
   quoResult: boolean = true
   isFromLead: boolean
@@ -110,6 +110,9 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       }
       if (this.resourceDetail.updateAt) {
         this.resourceDetail.updateAt = this.formatDateDDMMYYY(this.resourceDetail.updateAt)
+      }
+      else if(this.resourceDetail.updatedAt){
+        this.resourceDetail.updateAt=this.formatDateDDMMYYY(this.resourceDetail.updatedAt)
       }
       let pageUI: ProductPages = JSON.parse(this.item.config);
       if (this.productService.previewType == 'quotation') {
@@ -431,6 +434,7 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
     }
   }
   getOtherDataID(cols: any[], data: any) {
+    console.log( "cols -----  " , cols ,"data -------- " , data )
     for (let col of cols) {
       if (data[col.name]) {
         if ((data[col.name] + "").length > 0) {
@@ -625,6 +629,8 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.premiumView = this.resourceDetail.premiumView
       modalRef.componentInstance.branch = this.branch
       modalRef.componentInstance.creatingProd = this.item
+      this.productService.createingProd=this.item
+      this.productService.editData=this.resourceDetail
       //FOR_QUOTATION
       modalRef.componentInstance.isApplication = this.isApplication
       //FOR_AUTO_ATTACHMENT
@@ -660,13 +666,13 @@ export class ResourseDetailComponent implements OnInit, OnDestroy {
   // }
   Test() {
     if (!this.quoResult) {
-      this.alertService.activate("Somethings was wrong in Coverage data", 'Warning Message')
+      this.alertService.activate("Please check the basic coverage value after edit on application and try to submit again.", 'Warning Message')
     }
   }
 
   async submitPolicyWithProposal() {
     if (!this.quoResult) {
-      this.alertService.activate("Somethings was wrong in Coverage data", 'Warning')
+      this.alertService.activate("Please check the basic coverage value after edit on application and try to submit again.", 'Warning')
     }
     else if (!this.selectedBranchCode) {
       this.alertService.activate("Please select Branch and Save first.", 'Warning Message')

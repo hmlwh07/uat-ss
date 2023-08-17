@@ -2,7 +2,9 @@
   <div class="col-8">
     <!-- <img src="../../../assets/images/customer/custoner_list.svg" alt="quo" /> -->
     <img [src]="itemData.productImage" alt="" />
-    <label> {{ itemData.id }}  <span style="color: rgb(1 95 152);" *ngIf="itemData.quotationId"> - ({{itemData.quotationId}}) </span></label>
+    <label> {{ itemData.id }}  
+      <!-- <span style="color: rgb(1 95 152);" *ngIf="itemData.quotationId"> - ({{itemData.quotationId}}) </span> -->
+    </label>
   </div>
   <div class="col-4">
     <section class="icon-group">
@@ -64,8 +66,8 @@
     <label
     *ngIf="itemData.productCode=='PLMO01' || itemData.productCode=='PLMO02' || itemData.productCode=='CLFR01'|| itemData.productCode=='PLPA01'|| itemData.productCode=='PLTR01'">SI
     : <span>{{ itemData.sumInsureView || 0 }}</span> </label>
-    <label *ngIf="itemData.apiStatus=='fail'">{{ itemData.apiStatus | titlecase }} </label>
+    <!-- <label *ngIf="itemData.apiStatus=='fail'">{{ itemData.apiStatus | titlecase }} </label> -->
     <!-- <label *ngIf="itemData.tcsStatus !='fail'"> <span style="color: #005f99;font-weight: bold;" *ngIf="itemData.tcsStatus !='fail'"> Bancs : </span> {{itemData.tcsStatus}}</label> -->
-    <label *ngIf="itemData.apiStatus !='fail'"> <span style="color: #005f99;font-weight: bold;"> Bancs : </span> {{itemData.tcsStatus?itemData.tcsStatus:null}}</label>
+    <label > <span style="color: #005f99;font-weight: bold;"> Bancs : </span> {{itemData.tcsStatus?itemData.tcsStatus:itemData.apiStatus | titlecase}}</label>
   </div>
 </div>

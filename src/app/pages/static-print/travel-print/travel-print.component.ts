@@ -194,7 +194,7 @@ export class TravelPrintComponent implements OnInit {
   }
 
   createPdf() {
-
+    this.updateData = this.formatDateDDMMYYY(this.updateData)
     // Agent Information Details
     let agentInfoDetailData = [
       [
@@ -207,7 +207,7 @@ export class TravelPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + this.agentData.agentCode, styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.updateData? this.formatDateDDMMYYY(this.updateData): this.formatDateDDMMYYY(new Date()), styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData?? this.updateData, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
@@ -602,7 +602,7 @@ export class TravelPrintComponent implements OnInit {
     }
 
     // new page
-    if (this.beneficiaries.length > 0 && this.beneficiaries.length <= 5) {
+    if (this.beneficiaries.length >= 0 && this.beneficiaries.length <= 5) {
       doc.addPage();
       height = 0;
     }
@@ -678,7 +678,8 @@ export class TravelPrintComponent implements OnInit {
         this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
       } else {
         let data = doc.output('datauristring')
-        this.base64Proposal = data
+        let test = data.split('base64,')
+        this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }
     } else {

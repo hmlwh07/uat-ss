@@ -358,9 +358,9 @@ export class TravelComponent implements OnInit {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,
       "resourceId": this.resourcesId,
-      "type": this.prodService.type,
-      "sumInsured": (Number(this.totalSiAmtView.split(" ")[0].split(',').join("")) || 0) + "",
-      "sumInsuredView": this.totalSiAmtView
+      "type": 'policy',
+      "sumInsure": (Number(this.totalSiAmtView.split(" ")[0].split(',').join("")) || 0) + "",
+      "sumInsureView": this.totalSiAmtView
     }
     return this.pageDataService.updatePremimun(postData)
   }

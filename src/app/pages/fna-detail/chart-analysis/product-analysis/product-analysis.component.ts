@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
+import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
 import { environment } from 'src/environments/environment';
 import { CustomerDetailService, CustomerService } from '../../../customer-detail/customer.service';
 import { ProductDataService } from '../../../products/services/products-data.service';
@@ -21,19 +22,19 @@ export class ProductAnalysisComponent implements OnInit {
   @Input() passValue: any = {}
   @Output() changeProduct: EventEmitter<string> = new EventEmitter<string>();
   productSwitch: string = 'product';
-  Default_DOWNLOAD_URL = `${environment.apiUrl}/attachment-downloader`;
+  Default_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
   fnaProducts = [];
   products = [];
   constructor(private fnaService: FANService, private fnaProductService: FANProductService,
     private alertService: AlertService, private prodctService: ProductDataService,
-    private customerService: CustomerDetailService, private router: Router) { }
+    private customerService: CustomerDetailService, private router: Router,private encrypt:EncryptService) { }
 
   ngOnInit(): void {
     if (this.fnaService.fnaProduct) {
       this.fnaProducts = this.fnaService.fnaProduct;
       for (var i = 0; i < this.fnaProducts.length; i++) {
         if (this.fnaProducts[i].icon) {
-          this.fnaProducts[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.fnaProducts[i].icon
+          this.fnaProducts[i].productImage = this.Default_DOWNLOAD_URL + '?id=' + this.encrypt.encryptData(this.fnaProducts[i].icon)
         }
       }
     }

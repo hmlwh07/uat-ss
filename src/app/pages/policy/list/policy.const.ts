@@ -52,7 +52,7 @@ export const PolicyCol: TableCol[] = [
   {
     title: "Date",
     type: COLTYPE.FEILD,
-    field: "createdAt",
+    field: "applicationDate",
     isDate: true
   },
   {
@@ -76,7 +76,7 @@ export const PolicyDisplayCol: string[] = [
   "sumInsureView",
   "status",
   "apiStatus",
-  "createdAt",
+  "applicationDate",
   "actions",
 ]
 
@@ -111,7 +111,7 @@ export const ApplicationStatus: any[] = [
   },
   {
     code: "06",
-    value: "ENDORSEMENT/ALTERTION STARTED"
+    value: "ENDORSEMENT/ALTERATION STARTED"
   },
   {
     code: "13",
