@@ -16,6 +16,7 @@ const htmlToPdfmake = require("html-to-pdfmake");
 import jsPDF from 'jspdf';
 import { environment } from 'src/environments/environment';
 import { HealthPrintService } from '../../products/services/health-print.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-print-view-box',
@@ -48,7 +49,7 @@ export class PrintViewBoxComponent implements OnInit {
   agentData: any = {}
   formatedData: boolean = false
   qrLocation: string
-  updateData:string;
+  updateData:any;
   policyInfo: any = {}
   logo = `${environment.apiUrl}/attach/logo/kbzms-header-logo.png`;
   constructor(private el: ElementRef, private auth: AuthService, private loadingService: LoadingService, private numberPipe: DecimalPipe, private datePipe: DatePipe, private productService: ProductDataService, private healthPrintService: HealthPrintService) {
@@ -114,7 +115,8 @@ export class PrintViewBoxComponent implements OnInit {
       console.log("this.productService.editData.updateAt",this.productService.editData.updatedAt);
       
       if (this.productService.editData) {
-        this.updateData=this.productService.editData.updatedAt
+        this.updateData = this.productService.editData.submittedAt ? moment(this.productService.editData.submittedAt).format('DD/MM/YYYY') : moment(new Date())
+        console.log("update Date = ", this.updateData)
         this.premimunAmt = this.productService.editData.premiumView
         this.branch = this.productService.editData.branch
         this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
@@ -129,7 +131,7 @@ export class PrintViewBoxComponent implements OnInit {
       this.formatedData = true
     }
     if (this.productService.editData) {
-      this.updateData=this.productService.editData.updatedAt
+      this.updateData = this.productService.editData.submittedAt ? moment(this.productService.editData.submittedAt).format('DD/MM/YYYY') : moment(new Date())
       this.branch = this.productService.editData.branch
       this.sourceOfBusiness = this.productService.editData.sourceOfBusiness
       this.sourceOfBusinessCode=this.productService.editData.sourceOfBusinessCode
