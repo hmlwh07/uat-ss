@@ -187,8 +187,15 @@ export class AddonPageComponent implements OnInit {
           }
         }
 
-        if (item.code == "MED EXP" && this.parentData.m_currency == 'MMK') {
-          this.addOnsData[item.id].premium = 0
+        // if (item.code == "MED EXP" && this.parentData.m_currency == 'MMK') {
+        //   this.addOnsData[item.id].premium = 0
+        // }
+        if (item.code == "MED EXP") {
+          if (this.parentData.m_currency == 'MMK') {
+            this.addOnsData[item.id].premium = 0
+          } else if (results.length !== 0) {
+            this.addOnsData[item.id].premium = response.premium
+          }
         }
         // }
       }
@@ -736,7 +743,7 @@ export class AddonPageComponent implements OnInit {
       //   amt = amt - dis
       // }
       // console.log('amt =====> ', amt);
-      let amount=this.globalFun.calculateDecimal(amt)
+      let amount = this.globalFun.calculateDecimal(amt)
       return amount;
       //return this.globalFun.calculateDecimal(amt)
     }
