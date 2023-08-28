@@ -59,7 +59,7 @@ export class GlobalFunctionService {
   fireBurgery(currentValue: string, activeForm?: any, option?: any[], form?: boolean) {
     this.fireBurgeryResult.next(currentValue)
   }
-  quotationRes(currentValue:any){
+  quotationRes(currentValue: any) {
     this.quotationResult.next(currentValue)
   }
   InceptionDate(currentValue: string, activeForm?: any, option?: any[], form?: boolean) {
@@ -915,15 +915,19 @@ export class GlobalFunctionService {
     return of(25)
   }
   // ----------------------------NEW CR ----------------------
-  motorLiability() {
-    return of(25)
+  motorLiability(motorDetail) {
+    let m_term = motorDetail['m_policy_term']
+    let term = this.crossPercent[m_term]
+    return of(25 * term)
   }
   motorPaidDriver(motorDriverDetail) {
     let length = 0
+    let m_term = motorDriverDetail[0]['m_policy_term']
+    let term = this.crossPercent[m_term]
     if (motorDriverDetail) {
       length = motorDriverDetail.length
     }
-    return of(30 * length)
+    return of((30 * length) * term)
   }
   ifMedicalExpense(motorDetail) {
     let currency = ""

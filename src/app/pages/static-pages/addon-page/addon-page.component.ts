@@ -193,7 +193,7 @@ export class AddonPageComponent implements OnInit {
         if (item.code == "MED EXP") {
           if (this.parentData.m_currency == 'MMK') {
             this.addOnsData[item.id].premium = 0
-          } else if (results.length !== 0) {
+          } else if (response && results.length !== 0) {
             this.addOnsData[item.id].premium = response.premium
           }
         }
@@ -234,6 +234,13 @@ export class AddonPageComponent implements OnInit {
 
         if (addon.code !== "PAIDDRIVER") {
           parentValueObj = { ...parentValueObj, productCode: this.product.code }
+        }
+        if (addon.code == "PAIDDRIVER" && parentValueObj.length > 0) {
+          parentValueObj[0] = { ...parentValueObj[0], m_policy_term: this.parentData.m_policy_term }
+          // console.log('this.globalFun[funName](', parentValueObj);
+        }
+        if (addon.code == "PASSRLBTY") {
+          parentValueObj = { m_policy_term: this.parentData.m_policy_term }
         }
 
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {

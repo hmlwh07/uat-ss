@@ -1,12 +1,13 @@
 <div *ngIf="config" [formGroup]="group">
-  <div class="form-group" [ngClass]="{'row': config.inlineStyle}" >
+  <div class="form-group" [ngClass]="{'row': config.inlineStyle}">
     <label class="{{config.inlineStyle ? 'col-'+config.labelSize+' col-form-label' : ''}}">{{config.label |
       dyn_translate: config.labelMM}}</label>
     <div *ngIf="!config.inlineStyle;else InlineForm">
       <div class="row">
         <div class="{{ isNrc ? 'col-12' : 'col-10'}}" (click)="openModal()">
           <input type="text" class="form-control form-control-sm readonly" name="{{config.name}}"
-            placeholder="{{config.placeholder}}"  readonly="true" [formControlName]="config.name" />
+            placeholder="{{config.placeholder}}" class="{{ isNrc ? 'readonly' : 'input-pointer'}}" readonly="true"
+            [formControlName]="config.name" />
         </div>
         <div class="col-2" *ngIf="!isNrc">
           <button type="button" class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled"
@@ -18,14 +19,13 @@
       <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
     </div>
     <ng-template #InlineForm>
-      <div class="col-{{isNrc ? config.inputSize : config.inputSize-2}}" (click)="openModal()" >
+      <div class="col-{{isNrc ? config.inputSize : config.inputSize-2}}" (click)="openModal()">
         <input type="{{config.type}}" class="form-control form-control-sm readonly" name="{{config.name}}"
-          placeholder="{{config.placeholder}}" readonly="true" [formControlName]="config.name" />
+          placeholder="{{config.placeholder}}" class="{{ isNrc ? 'readonly' : 'input-pointer'}}"  readonly="true" [formControlName]="config.name" />
         <app-print-error [control]="group.controls[config.name]" [valid]="config.validation"></app-print-error>
       </div>
       <div class="col-2" *ngIf="!isNrc">
-        <button type="button" class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled"
-          (click)="onCreate()">
+        <button type="button" class="btn btn-primary btn-cus btn-sm" [disabled]="config.disabled" (click)="onCreate()">
           <span class="flaticon2-plus"></span>
         </button>
       </div>
