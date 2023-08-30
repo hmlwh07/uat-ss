@@ -192,14 +192,14 @@ export class MotorAddonComponent implements OnInit {
     if (type == 'medical') {
       if (isOld) {
         this.isMedical = isOld
-        this.caluMotorPremimun()
+        // this.caluMotorPremimun()
       } else {
         this.isMedical = !this.isMedical
-        this.caluMotorPremimun()
+        // this.caluMotorPremimun()
       }
       if (!this.isMedical) {
         this.medPremium = 0
-        this.caluMotorPremimun()
+        // this.caluMotorPremimun()
       }
       this.changePlan()
 
