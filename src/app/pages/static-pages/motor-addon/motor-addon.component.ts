@@ -584,10 +584,10 @@ export class MotorAddonComponent implements OnInit {
       // console.log(excess, excess_discount);
 
       if (excess == "T-NILEX" && currency == "MMK") {
-        if (vehicle == 'T-MCC' && purpose == 'T-PRI' && productCode == 'PLMO01') {
+        if (vehicle == 'T-MCC' && purpose == 'T-PRI' && (productCode == 'PLMO01' || productCode == 'PLMO02')) {
           discount = -(5000 * percent)
           discount2 = -(5000 * percent)
-        } else if (vehicle == 'T-MCC' && purpose == 'T-COM' && productCode == 'PLMO01') {
+        } else if (vehicle == 'T-MCC' && purpose == 'T-COM' && (productCode == 'PLMO01' || productCode == 'PLMO02')) {
           discount = -(10000 * percent)
           discount2 = -(10000 * percent)
         }
