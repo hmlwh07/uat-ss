@@ -96,12 +96,10 @@ export class AddonPageComponent implements OnInit {
   constructor(private addOnQuoService: AddOnQuoService, private globalFun: GlobalFunctionService,
     private cdRef: ChangeDetectorRef, private prodService: ProductDataService, private numberPipe: DecimalPipe,
     private pageDataService: PageDataService, private loadingService: LoadingService) { }
-
   async ngOnInit() {
     let date = new Date();
     this.startD = new Date()
     this.endD = new Date(date.setFullYear(date.getFullYear() + 1))
-
     this.refID = this.prodService.referenceID
     this.optionId = this.optionId ? this.optionId : this.resourcesId
     if (this.product.code == "PLMO02" || this.product.code == "PLMO01") {
@@ -111,8 +109,6 @@ export class AddonPageComponent implements OnInit {
     this.crossAddons = this.product.addOns.filter(x => x.code == "MED EXP" && (this.product.code != "PLMO01") || (x.code == "CROSSBRDR" && this.product.code != "PLMO01")).map(x => x.id)
     // console.log("ADDON", this.addOnList);
     // console.log("PRODUCTLIST", this.product);
-
-
     if (this.addOnList && this.addOnList.length > 0) {
       await this.loadingService.activate()
       this.addOns = {
@@ -128,16 +124,13 @@ export class AddonPageComponent implements OnInit {
       }
       let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
       // console.log("RESULT", results);
-
       if (results.length == 0) {
         postData.quotationNo = this.refID
         postData.optionalKey = this.refID
         results = await this.addOnQuoService.getAllById(postData).toPromise()
         // console.log("RESULT", results);
-
       }
       // console.log("ITEM", this.addOnList);
-
       for (const item of this.addOnList) {
         item['show'] = true
         if (item.validationFun) {
@@ -148,9 +141,7 @@ export class AddonPageComponent implements OnInit {
         //   item["unitStr"] = "0"
         //   item["premiumStr"] = "0"
         // }
-
         let response = results.find(x => x.addonId == item.id)
-
         // if (item['show']) {
         this.addOnsData[item.id] = {
           checked: response && item['show'] ? true : false,
@@ -170,7 +161,6 @@ export class AddonPageComponent implements OnInit {
           // this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
           this.unsubscribe.push(unsub)
         }
-
         if (item.sumInsured) {
           this.getGlobalFun(item.sumInsuredStr, 'addOnsData', item.id, 'sum', item)
         }
@@ -179,17 +169,12 @@ export class AddonPageComponent implements OnInit {
         }
         if (item.premium) {
           if (item.code == "CROSSBRDR" && this.addOnsData[item.id].checked) {
-
           } else {
             this.getGlobalFun(item.premiumStr, 'addOnsData', item.id, 'premium', item)
             item.premiumStrYear = item.premiumStr + "Year"
             this.getGlobalFun(item.premiumStrYear, 'addOnsData', item.id, 'premiumYear', item)
           }
         }
-
-        // if (item.code == "MED EXP" && this.parentData.m_currency == 'MMK') {
-        //   this.addOnsData[item.id].premium = 0
-        // }
         if (item.code == "MED EXP") {
           if (this.parentData.m_currency == 'MMK') {
             this.addOnsData[item.id].premium = 0
@@ -216,22 +201,17 @@ export class AddonPageComponent implements OnInit {
       //   }
       // }
       // console.log(" this.addOnsData", this.addOnsData);
-
       this.isLoading = false
       await this.loadingService.deactivate()
       this.cdRef.detectChanges();
-
     } else {
       this.isLoading = false
     }
   }
-
   getGlobalFun(funName: string, mainObj: string, mainKey, subKey: string, addon: any) {
-
     if ((this.product.code == "PLMO02" || this.product.code == "PLMO01") && (subKey == "premium" || subKey == "premiumYear")) {
       if (this.globalFun[funName]) {
         let parentValueObj = addon.code == "PAIDDRIVER" ? this.getParnet('motor_driver') : this.parentData
-
         if (addon.code !== "PAIDDRIVER") {
           parentValueObj = { ...parentValueObj, productCode: this.product.code }
         }
@@ -242,7 +222,6 @@ export class AddonPageComponent implements OnInit {
         if (addon.code == "PASSRLBTY") {
           parentValueObj = { m_policy_term: this.parentData.m_policy_term }
         }
-
         let unsub = this.globalFun[funName](parentValueObj).subscribe((res) => {
           this[mainObj][mainKey][subKey] = res
           this.cdRef.detectChanges();
@@ -259,7 +238,6 @@ export class AddonPageComponent implements OnInit {
       }
     } else if (this.product.code == "CLFR01" && subKey == "premium") {
       // console.log("addondDa", addon);
-
       this[mainObj][mainKey][subKey] = this.rateByValue(addon)
     }
     else {
@@ -275,7 +253,6 @@ export class AddonPageComponent implements OnInit {
       }
     }
   }
-
   async nextPage() {
     this.prodService.totalPremium = 0;
     const quoService = this.addOnQuoService
@@ -289,7 +266,6 @@ export class AddonPageComponent implements OnInit {
     for (let addon of this.addOnList) {
       if (posDataArray[addon.id].checked) {
         // console.log("posDataArray[addon.id", posDataArray[addon.id]);
-
         let sum = posDataArray[addon.id].sum ? posDataArray[addon.id].sum + "" : ""
         let unit = posDataArray[addon.id].unit ? posDataArray[addon.id].unit + "" : ""
         let premium = posDataArray[addon.id].premium ? posDataArray[addon.id].premium + "" : ""
@@ -298,9 +274,7 @@ export class AddonPageComponent implements OnInit {
         let startDate = posDataArray[addon.id].startDate ? posDataArray[addon.id].startDate + "" : ""
         let endDate = posDataArray[addon.id].endDate ? posDataArray[addon.id].endDate + "" : ""
         // console.log('addon save ', premium);
-
         this.prodService.totalPremium += parseFloat(premium);
-
         try {
           let postData = {
             addonId: addon.id,
@@ -320,14 +294,11 @@ export class AddonPageComponent implements OnInit {
             this.globalFun.tempFormData['addon_1634010770155'].push(postData)
           }
           quoService.save(postData).toPromise().then((res) => {
-
           })
         } catch (error) {
           // console.log(error);
-
         }
       }
-
     }
     if (this.product.code == "PLMO02" || this.product.code == "PLMO01") {
       await this.savePremimun().toPromise()
@@ -336,18 +307,13 @@ export class AddonPageComponent implements OnInit {
       // await this.savePremimunFire().toPromise()
     }
     // console.log("end");
-
     this.actionEvent.emit({ type: StaticActionType.NEXT })
   }
-
   backPage() {
     this.actionEvent.emit({ type: StaticActionType.PREV })
   }
-
   onCheckAddon() {
-
   }
-
   changeOption(addon: AddOn) {
     if (addon.code != "CROSSBRDR" && this.product.code == "PLMO01") {
       let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
@@ -367,10 +333,8 @@ export class AddonPageComponent implements OnInit {
         months += end.getMonth();
         let month = months <= 0 ? 0 : months;
         // console.log("MONTH", month);
-
         var Time = end.getTime() - start.getTime();
         var Days = Math.ceil(Time / (1000 * 3600 * 24));
-
         // console.log("Days", Days);
         // if (month >= 0 && month <= 3) {
         //   this.crossPremiumPercent = 0.35
@@ -384,7 +348,6 @@ export class AddonPageComponent implements OnInit {
         // if (month >= 12) {
         //   this.crossPremiumPercent = 1
         // }
-
         if (Days => 0 && Days <= 90) {
           this.crossPremiumPercent = 0.35
         }
@@ -407,20 +370,15 @@ export class AddonPageComponent implements OnInit {
       this.addOnsData[addon.id]['premium'] = 0
     }
   }
-
   rechangeOption(addOn) {
     // console.log("rechangeOptionADDON");
-
     this.addOnsData[addOn.id].premium = this.rateByValue(addOn)
   }
-
-
   calcuCross() {
     let tempPre = 0
     for (let addon of this.addOnList) {
       if (this.addOnsData[addon.id].checked && addon.code != "CROSSBRDR") {
         // console.log(this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0));
-
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premiumYear || 0)
       }
     }
@@ -433,7 +391,6 @@ export class AddonPageComponent implements OnInit {
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let excessAmt = 0
     let discount = 0
-
     if (this.parentData) {
       let term = this.parentData['m_policy_term']
       let percent = this.crossPercent[term] || 1
@@ -441,7 +398,6 @@ export class AddonPageComponent implements OnInit {
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
       // console.log("EXCESS", excess, "vehicle", vehicle, "purpose", purpose);
-
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
           excessAmt = 5000
@@ -462,22 +418,17 @@ export class AddonPageComponent implements OnInit {
       //   excessAmt = 100
       // }
     }
-
     // * percent
     // console.log("TEMP", tempPre, "excessAmt", excessAmt);
-
     let cross = ((tempPre + excessAmt) * 0.15) * this.crossPremiumPercent
     return (cross || 0)
   }
-
   caluMotorPremimun() {
     let tempPre = 0
     for (let addon of this.addOnList) {
       // console.log(this.addOnsData[addon.id]);
-
       if (this.addOnsData[addon.id].checked) {
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
-
       }
     }
     let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
@@ -488,7 +439,7 @@ export class AddonPageComponent implements OnInit {
     // console.log("tempPre", tempPre);
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
-    let discount2 = 0
+    let discount2 = 0    
     if (this.parentData) {
       let excess = this.parentData['m_excess']
       let excess_discount = this.parentData['m_excess_discount']
@@ -524,7 +475,6 @@ export class AddonPageComponent implements OnInit {
         // }
         else if (excess == "T-ED" && currency == "MMK") {
           if (excess_discount == "T-EXD1") {
-
             discount = 50000
             discount2 = 50000
           } else if (excess_discount == "T-EXD2") {
@@ -557,7 +507,6 @@ export class AddonPageComponent implements OnInit {
         //     discount2 = -100000
         //   }
         // }
-
       }
     }
     // console.log("discount", discount);
@@ -567,24 +516,17 @@ export class AddonPageComponent implements OnInit {
     }
     let stumd = currency == "MMK" ? 100 : 0.05
     // console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
-
     let preAMT = ((tempPre + Number(crossPremium || 0)) - discount)
     let preAMT2 = ((tempPre + Number(crossPremium || 0)) - discount2)
     // console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
-
-
-
     // preAMT = (preAMT * percent) + stumd
     preAMT = (preAMT) + stumd
     preAMT2 = (preAMT2)
     // console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
-
-
     this.premiumAmt = this.numberPipe.transform(preAMT, "1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT
   }
-
   caluFirePremimun() {
     let parentData1 = this.globalFun.tempFormData[FireRiskID]
     let parentData2 = this.globalFun.tempFormData[FirePageID]
@@ -592,7 +534,6 @@ export class AddonPageComponent implements OnInit {
     let premiumTotal = 0
     for (let element of parentData1) {
       premiumTotal += this.globalFun.calculateDecimal(element.premium)
-
     }
     // parentData2.forEach(element => {
     //   premiumTotal += parseFloat(element.premium)
@@ -609,10 +550,8 @@ export class AddonPageComponent implements OnInit {
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return finalPre
   }
-
   savePremimun() {
     let premiumAmt = this.caluMotorPremimun()
-
     let postData = {
       "premium": (Number(this.premiumAmt.split(" ")[0].split(',').join("")) || 0) + "",
       "premiumView": this.premiumAmt,
@@ -621,7 +560,6 @@ export class AddonPageComponent implements OnInit {
     }
     return this.pageDataService.updatePremimun(postData)
   }
-
   savePremimunFire() {
     let premiumAmt = this.caluFirePremimun()
     let postData = {
@@ -632,7 +570,6 @@ export class AddonPageComponent implements OnInit {
     }
     return this.pageDataService.updatePremimun(postData)
   }
-
   getParnet(tableName: string = 'm_detail') {
     if (IsJsonString(this.product.config)) {
       let pageUI: ProductPages = JSON.parse(this.product.config);
@@ -645,34 +582,26 @@ export class AddonPageComponent implements OnInit {
     }
     return null
   }
-
   rateByValue(addon: any) {
     // console.log("ADDON==>", addon);
-
     let rate = 0
     if (addon.code == "BURGLARY" || addon.code == "STHTC") {
       let keyId = addon.code + "-" + this.addOnsData[addon.id].option
       rate = this.fireAddonRate[keyId] || 0
-
       if (addon.code == "BURGLARY") {
         // console.log(' BURGLARY rate', rate = this.fireAddonRate[keyId] || 0);
       }
-
       if (addon.code == "STHTC") {
         // console.log(' STHTC rate', rate = this.fireAddonRate[keyId] || 0);
       }
-
-
     }
     else {
       // console.log("rete_EKSE", this.fireAddonRate[addon.code])
       rate = this.fireAddonRate[addon.code] || 0
     }
     // console.log("RATE", rate);
-
     let parentData = this.globalFun.tempFormData[FireRiskID]
     // console.log("parentData", parentData);
-
     let totalRisk = 0
     if (parentData) {
       // parentData.forEach(element => {
@@ -680,11 +609,8 @@ export class AddonPageComponent implements OnInit {
       // });
       let parent = parentData.find(x => x.id == this.optionId)
       // console.log("parentparent", parent);
-
       totalRisk += parent ? parent.riskSi : 0
-
     }
-
     let parentData2 = this.globalFun.tempFormData[FirePageID];
     let dateRate = 1;
     switch (true) {
@@ -732,12 +658,8 @@ export class AddonPageComponent implements OnInit {
     } else {
       stampDuty = 0.05;
     }
-
-
-
     if (rate > 0 && totalRisk > 0) {
       // console.log("totalRisk", totalRisk);
-
       // console.log("addon.code =====> ", addon.code + ', rate' + rate + 'date rate' + dateRate);
       let amt = totalRisk * (rate / 100) * dateRate;
       if (addon.code == "BURGLARY") {
@@ -756,10 +678,6 @@ export class AddonPageComponent implements OnInit {
     }
     return 0
   }
-
-
-
-
   calculateDaysToMonth(days) {
     let rate: any;
     let divided = days / 31;
@@ -780,5 +698,4 @@ export class AddonPageComponent implements OnInit {
     }
     return rate;
   }
-
 }
