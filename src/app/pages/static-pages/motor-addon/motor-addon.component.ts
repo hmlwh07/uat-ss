@@ -554,7 +554,7 @@ export class MotorAddonComponent implements OnInit {
         });
       }
     }
-    // console.log("tempArray", tempArray);
+    console.log("tempArray", tempArray);
 
     for (let addon of tempArray) {
       tempPre += this.globalFun.calculateDecimal(addon.premium || 0)

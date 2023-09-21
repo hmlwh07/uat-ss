@@ -426,17 +426,19 @@ export class AddonPageComponent implements OnInit {
   caluMotorPremimun() {
     let tempPre = 0
     for (let addon of this.addOnList) {
-      // console.log(this.addOnsData[addon.id]);
+      console.log(this.addOnsData[addon.id]);
       if (this.addOnsData[addon.id].checked) {
         tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
+        console.log("tempPre--ADDON", this.addOnsData[addon.id].premium);
       }
     }
     let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
       tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
+      console.log("tempPre--COV", cov.premium);
     }
-    // console.log("tempPre", tempPre);
+    console.log("tempPre", tempPre);
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
     let discount2 = 0    
@@ -448,7 +450,7 @@ export class AddonPageComponent implements OnInit {
       let term = this.parentData['m_policy_term']
       // console.log("Policy-TERM", term);
       let percent = this.crossPercent[term] || 1
-      // console.log("TERM-Percent", percent);
+      console.log("TERM-Percent", percent);
       // console.log(excess, excess_discount, vehicle, purpose);
       if (this.product.code == 'PLMO02') {
         if (excess == "T-NILEX" && currency == "MMK") {
@@ -509,20 +511,20 @@ export class AddonPageComponent implements OnInit {
         // }
       }
     }
-    // console.log("discount", discount);
+    console.log("discount", discount);
     let crossPremium = 0
     if (cross) {
       crossPremium = this.addOnsData[cross.id]['premium']
     }
     let stumd = currency == "MMK" ? 100 : 0.05
-    // console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
+    console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
     let preAMT = ((tempPre + Number(crossPremium || 0)) - discount)
     let preAMT2 = ((tempPre + Number(crossPremium || 0)) - discount2)
     // console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
     // preAMT = (preAMT * percent) + stumd
     preAMT = (preAMT) + stumd
     preAMT2 = (preAMT2)
-    // console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
+    console.log("TOTAL-Premium-Result/New Amount", preAMT, preAMT2);
     this.premiumAmt = this.numberPipe.transform(preAMT, "1.2-2") + " " + currency.toUpperCase()
     this.globalFun.paPremiumResult.next(this.premiumAmt)
     return preAMT
