@@ -547,8 +547,8 @@ export class MotorAddonComponent implements OnInit {
           discount2 = -(10000 * percent)
         }
         else {
-          discount = -(50000 * percent)
-          discount2 = -(50000 * percent)
+          discount = -(25000 * percent)
+          discount2 = -(25000 * percent)
           // discount = -(50000)
           // discount2 = -(50000)
         }
@@ -564,14 +564,14 @@ export class MotorAddonComponent implements OnInit {
       // }
       else if (excess == "T-ED" && currency == "MMK") {
         if (excess_discount == "T-EXD1") {
-          discount = 50000
-          discount2 = 50000
+          discount = 25000
+          discount2 = 25000
         } else if (excess_discount == "T-EXD2") {
-          discount = 70000
-          discount2 = 70000
+          discount = 35000
+          discount2 = 35000
         } else if (excess_discount == "T-EXD3") {
-          discount = 100000
-          discount2 = 100000
+          discount = 60000
+          discount2 = 60000
         }
       }
     }

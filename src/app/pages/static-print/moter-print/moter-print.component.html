@@ -112,8 +112,8 @@
   </table>
 </div>
 
-
-<div class="addon-print" *ngIf="this.product.code=='PLMO01'">
+<!-- *ngIf="this.product.code=='PLMO01'" -->
+<div class="addon-print" >
   <div class="title-style text-bold mt-5 mb-5">Driver Information Details</div>
   <table class="tbody-align" width="100%">
     <tr>
@@ -165,7 +165,7 @@
 
 <div>
   <div class="title-style text-bold mt-5 mb-5">Additional Cover Information Details</div>
-  <table width="100%" *ngIf="this.product.code=='PLMO02'">
+  <!-- <table width="100%" *ngIf="this.product.code=='PLMO02'">
     <tr>
       <td class="field-header">
         War Risk
@@ -218,12 +218,12 @@
         </tr>
       </ng-container>
     </tbody>
-  </table>
+  </table> -->
 
 
 
   <!-- *ngIf="this.product.code=='PLMO02'" -->
-  <!-- <table class="tbody-align" width="100%" *ngIf="this.product.code=='PLMO02'" >
+  <table class="tbody-align" width="100%" *ngIf="this.product.code=='PLMO02'" >
     <thead>
       <tr>
         <td class="field-header">
@@ -280,18 +280,18 @@
           <td class="field-label" *ngIf="data['MED EXP']  !=0"> Paid Driver</td>
           <td class="field-value-number" *ngIf="data['MED EXP']  !=0">{{data['MED EXP']|| 0 | number : '1.2-2'}}</td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td class="field-pd">Excess</td>
-          <td class="value-col">{{mExcessTypeMO02[motorDetail.mExcessDiscount]}}</td>
-        </tr>
+          <td class="field-value-number">{{mExcessTypeMO02[motorDetail.mExcessDiscount]}}</td>
+        </tr> -->
       
         <tr>
-          <td class="field-col"> Total Additional Cover Premium</td>
-          <td class="value-col">{{data.premium | number : '1.2-2'}}</td>
+          <td class="field-label text-bold"> Total Additional Cover Premium</td>
+          <td class="field-value-number">{{data.premium | number : '1.2-2'}}</td>
         </tr>
       </ng-container>
     </tbody>
-  </table> -->
+  </table>
 
 
   <table *ngIf="this.product.code=='PLMO01'" width="100%">

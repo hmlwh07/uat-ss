@@ -30,9 +30,9 @@ export class MoterPrintComponent implements OnInit {
   @Input() premiumAmt?: any
   @Input() isPrint: any
   @Input() emailInfo: any
-  @Input() updateData:any=new Date()
-  @Input() creatingProd:any
-  resourceDetail:any
+  @Input() updateData: any = new Date()
+  @Input() creatingProd: any
+  resourceDetail: any
   base64Proposal: any
   listData: any[] = []
   motorDetail: any = {}
@@ -91,7 +91,7 @@ export class MoterPrintComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     if (this.platform.is('android') || this.platform.is('ios')) {
       console.log("Android")
       PRINT.IS_MOBILE = true
@@ -99,11 +99,11 @@ export class MoterPrintComponent implements OnInit {
       PRINT.IS_MOBILE = false
     }
     this.isMobile = PRINT.IS_MOBILE
-    
+
     this.signId = this.productService.editData ? this.productService.editData.attachmentId : ""
     if (this.signId) {
       console.log(this.signId);
-      
+
       this.fileId = this.encryption.encryptData(this.signId)
       console.log(this.fileId);
     }
@@ -283,7 +283,7 @@ export class MoterPrintComponent implements OnInit {
   async submitPolicy() {
     this.createPdf()
     let res = true
-    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo,this.sourceOfBusinessCode).toPromise().then((res) => {
+    this.policyService.submitPolicyWithProposal(this.resourcesId, this.branch, this.base64Proposal, this.sourceOfBusiness, this.emailInfo, this.sourceOfBusinessCode).toPromise().then((res) => {
       if (res) {
         this.modal.dismiss({ data: res })
       }
@@ -291,7 +291,7 @@ export class MoterPrintComponent implements OnInit {
   }
 
   createPdf() {
-    console.log("policyHolderInfoDetailData",this.policyHolder)
+    console.log("policyHolderInfoDetailData", this.policyHolder)
     this.updateData = this.formatDateDDMMYYY(this.updateData)
     // Agent Information Details
     let agentInfoDetailData = [
@@ -305,7 +305,7 @@ export class MoterPrintComponent implements OnInit {
         { content: 'Agent Name/ ID', styles: { halign: 'left', valign: 'middle' } },
         { content: this.agentData.employeeName + '/' + (this.agentData.agentCode || " "), styles: { halign: 'left', valign: 'middle' } },
         { content: 'Date', styles: { halign: 'left', valign: 'middle' } },
-        { content: this.updateData?? this.updateData, styles: { halign: 'left', valign: 'middle' } },
+        { content: this.updateData ?? this.updateData, styles: { halign: 'left', valign: 'middle' } },
       ],
       [
         { content: 'Agent Phone No.', styles: { halign: 'left', valign: 'middle' } },
@@ -317,8 +317,8 @@ export class MoterPrintComponent implements OnInit {
 
     // Policy Holder Information Details
     let policyHolderInfoDetailData = [
-      
-      
+
+
       [
         { content: 'Name', styles: { halign: 'left', valign: 'middle' } },
         { content: this.policyHolder.title + " " + this.policyHolder.firstName + " " + this.policyHolder.middleName + " " + this.policyHolder.lastName, styles: { halign: 'left', valign: 'middle' } },
@@ -381,7 +381,7 @@ export class MoterPrintComponent implements OnInit {
     let riskInfoDetailData = [
       [
         { content: this.vehicleDetail.mRegistrationNo, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mMakeValue+"/"+this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mMakeValue + "/" + this.motorDetail.mModelValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.isTonnage ? this.motorDetail.mTonnage : this.motorDetail.mCapacity, styles: { halign: 'center', valign: 'middle' } },
         { content: this.vehicleDetail.mManufactureYearValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.motorDetail.mTypeOfVehicleValue, styles: { halign: 'center', valign: 'middle' } },
@@ -465,39 +465,101 @@ export class MoterPrintComponent implements OnInit {
 
     // Additional Cover Information Details (PLMO02)
     let additionalCoverInfoDetailData02 = [];
+    // let additionalCoverInfoDetailHeader02 = [
+    //   [
+    //     { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Act of God', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Theft', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'No Betterment Endorsement', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Cross Border', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Loss of Luggage', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Medical Expense', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Passenger Liability', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Paid Driver', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Excess', styles: { halign: 'center', valign: 'middle' } },
+    //     { content: 'Total Premium of Additional Cover', styles: { halign: 'center', valign: 'middle' } },
+    //   ]
+
+    // ]
     let additionalCoverInfoDetailHeader02 = [
       [
-        { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Act of God', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Theft', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'No Betterment Endorsement', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Cross Border', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Loss of Luggage', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Medical Expense', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Passenger Liability', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Paid Driver', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Excess', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Total Premium of Additional Cover', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Additional Cover Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: ' Additional Cover Premium', styles: { halign: 'center', valign: 'middle' } },
+
       ]
     ]
+
     if (this.addOnData[0]) {
       let data = this.addOnData[0]
       console.log("PLMO02 Data: ", data)
-      additionalCoverInfoDetailData02 = [
-        [
-          { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.NOBTTRMNT)), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data['CROSSBRDR'])), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.LOSSOFLUGG)), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data['MED EXP'])), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.PASSRLBTY)), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.PAIDDRIVER)), styles: { halign: 'right', valign: 'middle' } },
-          { content: this.mExcessTypeMO02[this.motorDetail.mExcessDiscount] || 0, styles: { halign: 'right', valign: 'middle' } },
-          { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'right', valign: 'middle' } },
-        ]
+      const coverInfo = [
+        { label: 'War Risk', value: data.WR, style: { halign: 'center', valign: 'center' } },
+        { label: 'Act of God', value: data.AOG, style: { halign: 'center', valign: 'center' } },
+        { label: 'Theft', value: data.THEFT, style: { halign: 'center', valign: 'center' } },
+        { label: 'No Betterment Endorsement', value: data.NOBTTRMNT, style: { halign: 'center', valign: 'center' } },
+        { label: 'Cross Border', value: data.CROSSBRDR, style: { halign: 'center', valign: 'center' } },
+        { label: 'Loss of Luggage', value: data.LOSSOFLUGG, style: { halign: 'center', valign: 'center' } },
+        { label: 'Medical Expense', value: data['MED EXP'], style: { halign: 'center', valign: 'center' } },
+        { label: 'Passenger Liability', value: data.PASSRLBTY, style: { halign: 'center', valign: 'center' } },
+        { label: 'Paid Driver', value: data.PAIDDRIVER, style: { halign: 'center', valign: 'center' } },
+        { label: 'Total Premium of Additional Cover', value: data.premium,style: { halign: 'center', valign: 'center', fontStyle: 'bold' }  },
       ];
+      for (const item of coverInfo) {
+        const numericValue = Number(item.value);
+        if (numericValue !== 0) {
+          additionalCoverInfoDetailData02.push([
+            { content: item.label, styles: item.style  },
+            { content: this.currencyFormat(numericValue), styles: item.style },
+          ]);
+        }
+      }
+      // additionalCoverInfoDetailData02 = [
+      //   [
+      //     { content: 'War Risk', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data.WR)), styles: { halign: 'right', valign: 'middle' } }
+      //   ],
+      //   [
+      //     { content: 'Act of God', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data.AOG)), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Theft', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data.THEFT)), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'No Betterment Endorsement', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data.NOBTTRMNT)), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Cross Border', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data['CROSSBRDR'])), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Loss of Luggage', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data.LOSSOFLUGG)), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Medical Expense', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data['MED EXP'])), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Passenger Liability', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data.PASSRLBTY)), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Paid Driver', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.currencyFormat(Number(data.PAIDDRIVER)), styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Excess', styles: { halign: 'center', valign: 'middle' } },
+      //     { content: this.mExcessTypeMO02[this.motorDetail.mExcessDiscount] || 0, styles: { halign: 'right', valign: 'middle' } },
+      //   ],
+      //   [
+      //     { content: 'Total Premium of Additional Cover', styles: { halign: 'center', valign: 'middle',fontStyle: 'bold'} },
+      //     { content: this.currencyFormat(Number(data.premium)), styles: { halign: 'right', valign: 'middle' } },
+      //   ]
+      // ];
+
     }
 
     // Insurance Information Details
@@ -628,33 +690,33 @@ export class MoterPrintComponent implements OnInit {
     });
     height = doc.lastAutoTable.finalY;
 
-    if (this.product.code == 'PLMO01') {
-      // Driver Information Details
-      doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
-      doc.text("Driver Information Details", width / 2, height + 23, { align: 'center' });
-      doc.autoTable({
-        head: driverInfoDetailHeader,
-        body: driverInfoDetailList,
-        theme: 'grid',
-        startY: height + 35,
-        margin: { left: 10, right: 10 },
-        showHead: 'firstPage',
-        styles: {
-          fontSize: 8,
-          font: 'helvetica',
-          lineColor: '#005f99',
-          lineWidth: 0.5,
-          cellWidth: 'auto',
-          cellPadding: 5,
-        },
-        headStyles: {
-          fillColor: '#e9f8fe',
-          textColor: '#000',
-          fontStyle: 'normal',
-        },
-      });
-      height = doc.lastAutoTable.finalY;
-    }
+    // if (this.product.code == 'PLMO01') {
+    // Driver Information Details
+    doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
+    doc.text("Driver Information Details", width / 2, height + 23, { align: 'center' });
+    doc.autoTable({
+      head: driverInfoDetailHeader,
+      body: driverInfoDetailList,
+      theme: 'grid',
+      startY: height + 35,
+      margin: { left: 10, right: 10 },
+      showHead: 'firstPage',
+      styles: {
+        fontSize: 8,
+        font: 'helvetica',
+        lineColor: '#005f99',
+        lineWidth: 0.5,
+        cellWidth: 'auto',
+        cellPadding: 5,
+      },
+      headStyles: {
+        fillColor: '#e9f8fe',
+        textColor: '#000',
+        fontStyle: 'normal',
+      },
+    });
+    height = doc.lastAutoTable.finalY;
+    // }
 
     // Basic Cover Information Details
     doc.setFontSize(10).setFont('helvetica', 'normal', 'normal').setFillColor(217, 234, 250).rect(10, height + 10, width - 20, 20, 'F');
@@ -785,7 +847,7 @@ export class MoterPrintComponent implements OnInit {
         this.attachmentDownloadService.mobileDownload(this.product.name + '(' + this.product.code + ')' + '.pdf', blobFile);
       } else {
         let data = doc.output('datauristring')
-        let test=data.split('base64,')
+        let test = data.split('base64,')
         this.base64Proposal = test[1]
         console.log("this.base64Proposal: ", this.base64Proposal)
       }

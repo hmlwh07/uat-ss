@@ -462,8 +462,8 @@ export class AddonPageComponent implements OnInit {
             discount2 = -(10000 * percent)
           }
           else {
-            discount = -(50000 * percent)
-            discount2 = -(50000 * percent)
+            discount = -(25000 * percent)
+            discount2 = -(25000 * percent)
           }
         } else if (excess == "TU-NILEX" && currency == "USD") {
           discount = -(25 * percent)
@@ -477,14 +477,14 @@ export class AddonPageComponent implements OnInit {
         // }
         else if (excess == "T-ED" && currency == "MMK") {
           if (excess_discount == "T-EXD1") {
-            discount = 50000
-            discount2 = 50000
+            discount = 25000
+            discount2 = 25000
           } else if (excess_discount == "T-EXD2") {
-            discount = 70000
-            discount2 = 70000
+            discount = 35000
+            discount2 = 35000
           } else if (excess_discount == "T-EXD3") {
-            discount = 100000
-            discount2 = 100000
+            discount = 60000
+            discount2 = 60000
           }
         }
       }
@@ -516,7 +516,7 @@ export class AddonPageComponent implements OnInit {
     if (cross) {
       crossPremium = this.addOnsData[cross.id]['premium']
     }
-    let stumd = currency == "MMK" ? 100 : 0.05
+    let stumd = currency == "MMK" ? 100 : 0.050
     console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
     let preAMT = ((tempPre + Number(crossPremium || 0)) - discount)
     let preAMT2 = ((tempPre + Number(crossPremium || 0)) - discount2)
