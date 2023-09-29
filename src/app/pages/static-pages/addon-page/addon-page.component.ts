@@ -428,14 +428,14 @@ export class AddonPageComponent implements OnInit {
     for (let addon of this.addOnList) {
       console.log(this.addOnsData[addon.id]);
       if (this.addOnsData[addon.id].checked) {
-        tempPre += this.globalFun.calculateDecimal(this.addOnsData[addon.id].premium || 0)
+        tempPre += Number(this.addOnsData[addon.id].premium || 0)
         console.log("tempPre--ADDON", this.addOnsData[addon.id].premium);
       }
     }
     let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      tempPre += this.globalFun.calculateDecimal(cov.premium || 0)
+      tempPre +=Number(cov.premium || 0)
       console.log("tempPre--COV", cov.premium);
     }
     console.log("tempPre", tempPre);
@@ -516,6 +516,8 @@ export class AddonPageComponent implements OnInit {
     if (cross) {
       crossPremium = this.addOnsData[cross.id]['premium']
     }
+    console.log("crossPremium",crossPremium);
+    
     let stumd = currency == "MMK" ? 100 : 0.050
     console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
     let preAMT = ((tempPre + Number(crossPremium || 0)) - discount)
