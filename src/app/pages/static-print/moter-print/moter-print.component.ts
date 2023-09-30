@@ -66,6 +66,18 @@ export class MoterPrintComponent implements OnInit {
     'TU-EXD2': 'Excess Discount 2',
     'TU-EXD3': 'Excess Discount 3'
   }
+ 
+  addOnDataLabel = {
+    "WR": 'War Risk',
+    "AOG": 'Act of God',
+    "THEFT": 'Theft',
+    "NOBTTRMNT": 'Betterment',
+    "CROSSBRDR": 'Cross Border',
+    "LOSSOFLUGG": 'Loss of Luggage',
+    "MED EXP": 'Medical Expense',
+    "PASSRLBTY": 'Passenger Liability',
+    "PAIDDRIVER": 'Paid Driver',
+  }
   mExcessTypeMO01 = {
     "T-NILEX": "+5,000.00",
     "TU-NILEX": "+25.00",
@@ -76,12 +88,14 @@ export class MoterPrintComponent implements OnInit {
   product: any
   optionId: any
   addOnData: any = []
+  plmo02AddOnData: any = []
   addon: any
   additionalData: any = []
   coverageData: any = []
   coverage: any
   coverageData2: any = []
   isMobile: boolean = false
+  totalAddOnPremium: number = 0
   DEFAULT_DOWNLOAD_URL = `${environment.apiUrl}/image-downloader`;
 
   constructor(
@@ -234,7 +248,42 @@ export class MoterPrintComponent implements OnInit {
       premium: 0,
       num: 0
     }
-    // console.log("this.product.addOns", this.product.addOns);
+    let index = 1;
+
+    this.totalAddOnPremium = 0
+    // if (this.product.code == 'PLMO02') {
+    for (const item of this.product.addOns) {
+      this.optionId = this.resourcesId;
+
+      try {
+        if (this.resourcesId) {
+          this.additionalData = await this.addonQuo.getOne(item.id, this.resourcesId, this.optionId).toPromise();
+
+          if (this.additionalData) {
+            // Create an object to store the data along with the index
+            const obj = {
+              index: index,
+              data: {
+                code: item.code,
+                premium: this.additionalData.premium || 0,
+                // Add other properties as needed
+              },
+            };
+            if (this.additionalData.premium != 0) {
+              index++;
+            }
+            // Push the object into the addOnData array
+            this.plmo02AddOnData.push(obj);
+            this.totalAddOnPremium += Number(this.additionalData.premium || 0);
+          }
+        }
+      } catch (error) {
+
+      }
+
+    }
+    console.log("ADDONDATA", this.plmo02AddOnData, this.totalAddOnPremium);
+    // } else {
     for (const item of this.product.addOns) {
       this.optionId = this.resourcesId
 
@@ -246,6 +295,7 @@ export class MoterPrintComponent implements OnInit {
           // console.log("response", this.additionalData);
 
           if (this.additionalData) {
+            console.log("INDEX", index);
             obj[item.code] = this.additionalData.premium || 0
             obj.premium += Number(this.additionalData.premium || 0)
           } else {
@@ -258,7 +308,8 @@ export class MoterPrintComponent implements OnInit {
       // console.log("ADDON", obj);
     }
     this.addOnData.push(obj)
-    // console.log("ADDONDATA", this.addOnData);
+    console.log("ADDONDATA", this.addOnData);
+    // }
   }
   async getCoverage() {
     this.product = this.productService.createingProd || this.productService.selectedProd
@@ -496,8 +547,9 @@ export class MoterPrintComponent implements OnInit {
     // ]
     let additionalCoverInfoDetailHeader02 = [
       [
-        { content: 'Additional Cover Name', styles: { halign: 'center', valign: 'middle' } },
-        { content: ' Additional Cover Premium', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'No', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Additional Cover Name', styles: { halign: 'left', valign: 'middle' } },
+        { content: ' Additional Cover Premium', styles: { halign: 'right', valign: 'middle' } },
 
       ]
     ]
@@ -506,24 +558,37 @@ export class MoterPrintComponent implements OnInit {
       let data = this.addOnData[0]
       console.log("PLMO02 Data: ", data)
       const coverInfo = [
-        { label: 'War Risk', value: data.WR, style: { halign: 'center', valign: 'center' } },
-        { label: 'Act of God', value: data.AOG, style: { halign: 'center', valign: 'center' } },
-        { label: 'Theft', value: data.THEFT, style: { halign: 'center', valign: 'center' } },
-        { label: 'No Betterment Endorsement', value: data.NOBTTRMNT, style: { halign: 'center', valign: 'center' } },
-        { label: 'Cross Border', value: data.CROSSBRDR, style: { halign: 'center', valign: 'center' } },
-        { label: 'Loss of Luggage', value: data.LOSSOFLUGG, style: { halign: 'center', valign: 'center' } },
-        { label: 'Medical Expense', value: data['MED EXP'], style: { halign: 'center', valign: 'center' } },
-        { label: 'Passenger Liability', value: data.PASSRLBTY, style: { halign: 'center', valign: 'center' } },
-        { label: 'Paid Driver', value: data.PAIDDRIVER, style: { halign: 'center', valign: 'center' } },
-        { label: 'Total Premium of Additional Cover', value: data.premium, style: { halign: 'center', valign: 'center', fontStyle: 'bold' } },
+        { label: 'War Risk', value: data.WR, },
+        { label: 'Act of God', value: data.AOG, },
+        { label: 'Theft', value: data.THEFT, },
+        { label: 'Betterment', value: data.NOBTTRMNT, },
+        { label: 'Cross Border', value: data.CROSSBRDR, },
+        { label: 'Loss of Luggage', value: data.LOSSOFLUGG, },
+        { label: 'Medical Expense', value: data['MED EXP'], },
+        { label: 'Passenger Liability', value: data.PASSRLBTY, },
+        { label: 'Paid Driver', value: data.PAIDDRIVER, },
+        { label: 'Total Premium of Additional Cover', value: data.premium, colSpan: 2 },
       ];
+      let currentIndex = 1; // Initialize the index variable
       for (const item of coverInfo) {
         const numericValue = Number(item.value);
         if (numericValue !== 0) {
-          additionalCoverInfoDetailData02.push([
-            { content: item.label, styles: item.style },
-            { content: this.currencyFormat(numericValue), styles: item.style },
-          ]);
+          if (item.label !== 'Total Premium of Additional Cover') {
+            additionalCoverInfoDetailData02.push([
+              { content: currentIndex, styles: { halign: 'center', valign: 'middle' } },
+              { content: item.label, colSpan: item.colSpan, styles: { halign: 'left', valign: 'middle' } },
+              { content: this.currencyFormat(numericValue), styles: { halign: 'right', valign: 'middle' } },
+            ]);
+          }
+          else {
+            additionalCoverInfoDetailData02.push([
+              { content: item.label, colSpan: item.colSpan, styles: { halign: 'center', valign: 'middle', fontStyle: 'bold' } },
+              { content: this.currencyFormat(numericValue), styles: { halign: 'right', valign: 'middle' } },
+            ]);
+          }
+          // additionalCoverInfoDetailData02[additionalCoverInfoDetailData02.length - 1].push({ index: currentIndex });
+          currentIndex++;
+
         }
       }
       // additionalCoverInfoDetailData02 = [
