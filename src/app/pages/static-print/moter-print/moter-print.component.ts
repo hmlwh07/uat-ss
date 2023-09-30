@@ -58,6 +58,14 @@ export class MoterPrintComponent implements OnInit {
     "T-EXD2": "-70,000.00",
     "T-EXD3": "-100,000.00"
   }
+  standardExcessValue = {
+    'T-EXD1': 'Excess Discount 1',
+    'T-EXD2': 'Excess Discount 2',
+    'T-EXD3': 'Excess Discount 3',
+    'TU-EXD1': 'Excess Discount 1',
+    'TU-EXD2': 'Excess Discount 2',
+    'TU-EXD3': 'Excess Discount 3'
+  }
   mExcessTypeMO01 = {
     "T-NILEX": "+5,000.00",
     "TU-NILEX": "+25.00",
@@ -173,6 +181,8 @@ export class MoterPrintComponent implements OnInit {
       let currency = ""
       let excess = ""
       if (res.motorDetail) {
+        console.log("res.motorDetail", res.motorDetail);
+
         vehicle = res.motorDetail.mTypeOfVehicle
         purpose = res.motorDetail.mPurposeOfUse
         excess = res.motorDetail.mExcessValue
@@ -192,6 +202,9 @@ export class MoterPrintComponent implements OnInit {
           }
         } else if (excess == "TU-NILEX" && currency == "USD") {
           this.mExcessTypeMO01['TU-NILEX'] = "+ 25"
+        }
+        if (excess == "Excess Discount" || excess == "Excess Discount") {
+          this.motorDetail.mExcessDiscountValue = this.standardExcessValue[res.motorDetail.mExcessDiscount]
         }
       }
       // if (res.mTypeOfVehicle && res.mPurposeOfUse){
@@ -386,7 +399,7 @@ export class MoterPrintComponent implements OnInit {
         { content: this.vehicleDetail.mManufactureYearValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.motorDetail.mTypeOfVehicleValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.motorDetail.mTypeOfCoverageValue, styles: { halign: 'center', valign: 'middle' } },
-        { content: this.motorDetail.mExcessValue, styles: { halign: 'center', valign: 'middle' } },
+        { content: this.motorDetail.mExcessValue != 'Excess Discount' ? this.motorDetail.mExcessValue : this.motorDetail.mExcessDiscountValue, styles: { halign: 'center', valign: 'middle' } },
         { content: this.currencyFormat(Number(this.motorDetail.mWindscreenValue)), styles: { halign: 'right', valign: 'middle' } },
         { content: this.currencyFormat(Number(this.motorDetail.mTotalRiskSi)), styles: { halign: 'right', valign: 'middle' } },
       ]
@@ -502,13 +515,13 @@ export class MoterPrintComponent implements OnInit {
         { label: 'Medical Expense', value: data['MED EXP'], style: { halign: 'center', valign: 'center' } },
         { label: 'Passenger Liability', value: data.PASSRLBTY, style: { halign: 'center', valign: 'center' } },
         { label: 'Paid Driver', value: data.PAIDDRIVER, style: { halign: 'center', valign: 'center' } },
-        { label: 'Total Premium of Additional Cover', value: data.premium,style: { halign: 'center', valign: 'center', fontStyle: 'bold' }  },
+        { label: 'Total Premium of Additional Cover', value: data.premium, style: { halign: 'center', valign: 'center', fontStyle: 'bold' } },
       ];
       for (const item of coverInfo) {
         const numericValue = Number(item.value);
         if (numericValue !== 0) {
           additionalCoverInfoDetailData02.push([
-            { content: item.label, styles: item.style  },
+            { content: item.label, styles: item.style },
             { content: this.currencyFormat(numericValue), styles: item.style },
           ]);
         }

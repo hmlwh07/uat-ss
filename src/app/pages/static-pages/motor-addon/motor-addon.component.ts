@@ -383,87 +383,87 @@ export class MotorAddonComponent implements OnInit {
   async nextPage() {
     if (this.isMedical && !this.planOption) {
     } else {
-    const quoService = this.addOnQuoService
-    let medID = this.product.addOns.find(x => x.code == "MED EXP")
-    let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
-    let postData = {
-      quotationNo: this.resourcesId,
-      addOnIds: [],
-      optionalKey: this.optionId
-    }
-    if (medID) {
-      postData.addOnIds.push(medID.id)
-    }
-    if (crossID) {
-      postData.addOnIds.push(crossID.id)
-    }
-    let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
-    // console.log("RESULT", results);
-    if (medID) {
-      let response = results.find(x => x.addonId == medID.id)
-      if (response) {
-        if (!this.isMedical) {
-          if (medID)
-            quoService.deleteOne(medID.id, this.resourcesId, this.resourcesId).toPromise().then((res) => {
-              this.medPremium = 0
-            })
-        }
-        if (this.isMedical) {
-          this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium
-          if (medID) {
-            let postData = {
-              addonId: medID.id,
-              quotationNo: this.resourcesId,
-              optionalKey: this.resourcesId,
-              premium: this.medPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
-              option: this.planOption,
-              sumInsured: this.parentData.m_total_risk_si || 0,
-            }
-            let res = await quoService.save(postData).toPromise()
-            if (this.globalFun.tempFormData['addon_1634010770155']) {
-              this.globalFun.tempFormData['addon_1634010770155'].push(postData)
-            } else {
-              this.globalFun.tempFormData['addon_1634010770155'] = [postData]
+      const quoService = this.addOnQuoService
+      let medID = this.product.addOns.find(x => x.code == "MED EXP")
+      let crossID = this.product.addOns.find(x => x.code == "CROSSBRDR")
+      let postData = {
+        quotationNo: this.resourcesId,
+        addOnIds: [],
+        optionalKey: this.optionId
+      }
+      if (medID) {
+        postData.addOnIds.push(medID.id)
+      }
+      if (crossID) {
+        postData.addOnIds.push(crossID.id)
+      }
+      let results: any = await this.addOnQuoService.getAllById(postData).toPromise()
+      // console.log("RESULT", results);
+      if (medID) {
+        let response = results.find(x => x.addonId == medID.id)
+        if (response) {
+          if (!this.isMedical) {
+            if (medID)
+              quoService.deleteOne(medID.id, this.resourcesId, this.resourcesId).toPromise().then((res) => {
+                this.medPremium = 0
+              })
+          }
+          if (this.isMedical) {
+            this.medPremium = typeof this.medPremium != "string" ? this.medPremium + "" : this.medPremium
+            if (medID) {
+              let postData = {
+                addonId: medID.id,
+                quotationNo: this.resourcesId,
+                optionalKey: this.resourcesId,
+                premium: this.medPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
+                option: this.planOption,
+                sumInsured: this.parentData.m_total_risk_si || 0,
+              }
+              let res = await quoService.save(postData).toPromise()
+              if (this.globalFun.tempFormData['addon_1634010770155']) {
+                this.globalFun.tempFormData['addon_1634010770155'].push(postData)
+              } else {
+                this.globalFun.tempFormData['addon_1634010770155'] = [postData]
+              }
             }
           }
         }
       }
-    }
-    if (crossID) {
-      let response2 = results.find(x => x.addonId == crossID.id)
-      // console.log("response2", response2);
-      if (response2) {
-        if (!this.isCross) {
-          if (crossID)
-            quoService.deleteOne(crossID.id, this.resourcesId, this.resourcesId).toPromise().then((res) => {
-              this.crossPremium = 0
-            })
-        }
-        if (this.isCross) {
-          this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium
-          if (crossID) {
-            let postData = {
-              addonId: crossID.id,
-              quotationNo: this.resourcesId,
-              optionalKey: this.resourcesId,
-              premium: this.crossPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
-              startDate: this.startDate,
-              endDate: this.endDate,
-              option: this.option1,
-              option2: this.option2,
-              sumInsured: this.parentData.m_total_risk_si || 0,
-            }
-            let res = await quoService.save(postData).toPromise()
-            if (this.globalFun.tempFormData['addon_1634010770155']) {
-              this.globalFun.tempFormData['addon_1634010770155'].push(postData)
-            } else {
-              this.globalFun.tempFormData['addon_1634010770155'] = [postData]
+      if (crossID) {
+        let response2 = results.find(x => x.addonId == crossID.id)
+        // console.log("response2", response2);
+        if (response2) {
+          if (!this.isCross) {
+            if (crossID)
+              quoService.deleteOne(crossID.id, this.resourcesId, this.resourcesId).toPromise().then((res) => {
+                this.crossPremium = 0
+              })
+          }
+          if (this.isCross) {
+            this.crossPremium = typeof this.crossPremium != "string" ? this.crossPremium + "" : this.crossPremium
+            if (crossID) {
+              let postData = {
+                addonId: crossID.id,
+                quotationNo: this.resourcesId,
+                optionalKey: this.resourcesId,
+                premium: this.crossPremium.replace(',', '').replace('MMK', '').replace('USD', ''),
+                startDate: this.startDate,
+                endDate: this.endDate,
+                option: this.option1,
+                option2: this.option2,
+                sumInsured: this.parentData.m_total_risk_si || 0,
+              }
+              let res = await quoService.save(postData).toPromise()
+              if (this.globalFun.tempFormData['addon_1634010770155']) {
+                this.globalFun.tempFormData['addon_1634010770155'].push(postData)
+              } else {
+                this.globalFun.tempFormData['addon_1634010770155'] = [postData]
+              }
             }
           }
         }
       }
-    }
-    await this.savePremimun()
+      await this.savePremimun()
     }
   }
   async savePremimun() {
@@ -562,7 +562,19 @@ export class MotorAddonComponent implements OnInit {
       // else if (excess == 'T-STNDEX' && currency == "MMK") {
       //   discount = -100000
       // }
-      else if (excess == "T-ED" && currency == "MMK") {
+      else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO01') {
+        if (excess_discount == "T-EXD1") {
+          discount = 50000
+          discount2 = 50000
+        } else if (excess_discount == "T-EXD2") {
+          discount = 70000
+          discount2 = 70000
+        } else if (excess_discount == "T-EXD3") {
+          discount = 100000
+          discount2 = 100000
+        }
+      }
+      else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO02') {
         if (excess_discount == "T-EXD1") {
           discount = 25000
           discount2 = 25000

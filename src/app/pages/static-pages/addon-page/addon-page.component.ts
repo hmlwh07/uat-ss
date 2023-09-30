@@ -435,19 +435,20 @@ export class AddonPageComponent implements OnInit {
     let cross = this.addOnList.find(x => x.code == "CROSSBRDR")
     let coverageData = this.globalFun.tempFormData['coverage_1634010995936'] ? this.globalFun.tempFormData['coverage_1634010995936'] : []
     for (let cov of coverageData) {
-      tempPre +=Number(cov.premium || 0)
+      tempPre += Number(cov.premium || 0)
       console.log("tempPre--COV", cov.premium);
     }
     console.log("tempPre", tempPre);
     let currency: string = this.parentData ? this.parentData.m_currency : 'MMK'
     let discount = 0
-    let discount2 = 0    
+    let discount2 = 0
     if (this.parentData) {
       let excess = this.parentData['m_excess']
       let excess_discount = this.parentData['m_excess_discount']
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
       let term = this.parentData['m_policy_term']
+      let productCode = this.parentData['productCode']
       // console.log("Policy-TERM", term);
       let percent = this.crossPercent[term] || 1
       console.log("TERM-Percent", percent);
@@ -475,7 +476,19 @@ export class AddonPageComponent implements OnInit {
         // else if (excess == 'T-STNDEX' && currency == "MMK") {
         //   discount = -100000
         // }
-        else if (excess == "T-ED" && currency == "MMK") {
+        else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO01') {
+          if (excess_discount == "T-EXD1") {
+            discount = 50000
+            discount2 = 50000
+          } else if (excess_discount == "T-EXD2") {
+            discount = 70000
+            discount2 = 70000
+          } else if (excess_discount == "T-EXD3") {
+            discount = 100000
+            discount2 = 100000
+          }
+        }
+        else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO02') {
           if (excess_discount == "T-EXD1") {
             discount = 25000
             discount2 = 25000
@@ -516,8 +529,8 @@ export class AddonPageComponent implements OnInit {
     if (cross) {
       crossPremium = this.addOnsData[cross.id]['premium']
     }
-    console.log("crossPremium",crossPremium);
-    
+    console.log("crossPremium", crossPremium);
+
     let stumd = currency == "MMK" ? 100 : 0.050
     console.log("TOTAL+CROSS", (tempPre + Number(crossPremium || 0)));
     let preAMT = ((tempPre + Number(crossPremium || 0)) - discount)

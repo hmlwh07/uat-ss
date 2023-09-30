@@ -103,7 +103,8 @@
         <td class="field-value">{{vehicleDetail.mManufactureYearValue}}</td>
         <td class="field-value">{{motorDetail.mTypeOfVehicleValue}}</td>
         <td class="field-value">{{motorDetail.mTypeOfCoverageValue}}</td>
-        <td class="field-value">{{motorDetail.mExcessValue}}</td>
+        <td class="field-value" *ngIf="motorDetail.mExcess !='T-ED'">{{motorDetail.mExcessValue}}</td>
+        <td class="field-value" *ngIf="motorDetail.mExcess =='T-ED'">{{motorDetail.mExcessDiscountValue}}</td>
         <td class="field-value-number">{{motorDetail.mWindscreenValue | number : '1.2-2'}}</td>
         <td class="field-value-number">{{motorDetail.mTotalRiskSi | number : '1.2-2'}}</td>
       </tr>
