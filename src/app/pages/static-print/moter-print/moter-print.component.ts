@@ -548,8 +548,8 @@ export class MoterPrintComponent implements OnInit {
     let additionalCoverInfoDetailHeader02 = [
       [
         { content: 'No', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Additional Cover Name', styles: { halign: 'left', valign: 'middle' } },
-        { content: ' Additional Cover Premium', styles: { halign: 'right', valign: 'middle' } },
+        { content: 'Additional Cover Name', styles: { halign: 'center', valign: 'middle' } },
+        { content: ' Additional Cover Premium', styles: { halign: 'center', valign: 'middle' } },
 
       ]
     ]
