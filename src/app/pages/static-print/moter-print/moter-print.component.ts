@@ -233,8 +233,12 @@ export class MoterPrintComponent implements OnInit {
       //   
 
       // }
-      if (res.motorDriver)
+      if (res.motorDriver){
         this.listData = res.motorDriver
+        if (this.listData.length > 5) {
+          this.listData.splice(5); // Keep only the first 5 records, remove the rest
+        }
+      }
       if (res.vehicleDetail)
         this.vehicleDetail = res.vehicleDetail
     })
