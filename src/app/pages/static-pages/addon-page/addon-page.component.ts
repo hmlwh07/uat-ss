@@ -452,7 +452,7 @@ export class AddonPageComponent implements OnInit {
       // console.log("Policy-TERM", term);
       let percent = this.crossPercent[term] || 1
       console.log("TERM-Percent", percent);
-      // console.log(excess, excess_discount, vehicle, purpose);
+      console.log(excess, excess_discount, vehicle, purpose);
       if (this.product.code == 'PLMO02') {
         if (excess == "T-NILEX" && currency == "MMK") {
           if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
@@ -476,19 +476,7 @@ export class AddonPageComponent implements OnInit {
         // else if (excess == 'T-STNDEX' && currency == "MMK") {
         //   discount = -100000
         // }
-        else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO01') {
-          if (excess_discount == "T-EXD1") {
-            discount = 50000
-            discount2 = 50000
-          } else if (excess_discount == "T-EXD2") {
-            discount = 70000
-            discount2 = 70000
-          } else if (excess_discount == "T-EXD3") {
-            discount = 100000
-            discount2 = 100000
-          }
-        }
-        else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO02') {
+        else if (excess == "T-ED" && currency == "MMK") {
           if (excess_discount == "T-EXD1") {
             discount = 25000
             discount2 = 25000
@@ -500,6 +488,7 @@ export class AddonPageComponent implements OnInit {
             discount2 = 60000
           }
         }
+
       }
       else {
         if (excess == "T-NILEX" && currency == "MMK") {
@@ -512,6 +501,19 @@ export class AddonPageComponent implements OnInit {
             discount2 = -(10000 * percent)
           }
         }
+        else if (excess == "T-ED" && currency == "MMK") {
+          if (excess_discount == "T-EXD1") {
+            discount = 50000
+            discount2 = 50000
+          } else if (excess_discount == "T-EXD2") {
+            discount = 70000
+            discount2 = 70000
+          } else if (excess_discount == "T-EXD3") {
+            discount = 100000
+            discount2 = 100000
+          }
+        }
+       
         // if (excess == "T-STNDEX" && currency == "MMK") {
         //   if (purpose == 'T-PRI') {
         //     discount = -50000

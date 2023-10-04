@@ -536,8 +536,8 @@ export class MotorAddonComponent implements OnInit {
       let productCode = this.parentData['productCode']
       // console.log("Policy-TERM", term);
       let percent = this.crossPercent[term] || 1
-      // console.log("TERM-Percent", percent);
-      // console.log(excess, excess_discount);
+      console.log("TERM-Percent", percent);
+      console.log(excess, excess_discount);
       if (excess == "T-NILEX" && currency == "MMK") {
         if (vehicle == 'T-MCC' && purpose == 'T-PRI' && productCode == 'PLMO01') {
           discount = -(5000 * percent)
@@ -587,7 +587,7 @@ export class MotorAddonComponent implements OnInit {
         }
       }
     }
-    // console.log("discount", discount);
+    console.log("discount", discount);
     let stumd = currency == "MMK" ? 100 : 0.05
     // console.log(" Number(this.crossPremium || 0)", Number(this.crossPremium || 0));
     // console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
