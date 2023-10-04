@@ -354,6 +354,7 @@ export class LeadDetailComponent implements OnInit {
     // this.cdf.detectChanges();
   }
 
+
   onChangeDistrict() {
     // this.leadForm.controls["townshipCode"].setValue("");
     // if (this.leadForm.controls["stateCode"].value == "") {
@@ -385,6 +386,16 @@ export class LeadDetailComponent implements OnInit {
       stateCode = state.parentCode
       this.leadForm.controls['stateCode'].setValue(stateCode)
     }
+  }
+  onInputChange(event: any) {
+    const input = event.target as HTMLInputElement;
+    const pattern = /^[0-9]*$/; // Regex pattern to match numeric values
+
+    if (!pattern.test(input.value)) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+    // console.log("vlaue", event)
+
   }
 
   ngOnDestroy() {
@@ -1701,7 +1712,7 @@ export class LeadDetailComponent implements OnInit {
 
   goAppViewDetail(item) {
     console.log("ITEM",item);
-    
+
     this.prodctService.findOne(item.productId).toPromise().then((res) => {
       if (res) {
         this.prodctService.createingProd = res

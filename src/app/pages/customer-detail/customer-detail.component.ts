@@ -186,7 +186,7 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
         this.policyAccess = res['application']
         this.quoAccess = res['quotation']
         this.fnaAccess = res['fna']
-        // this.attachAccess= 
+        // this.attachAccess=
         if (!this.cusAccess.view) {
           this.location.back()
         }
@@ -252,6 +252,17 @@ export class CustomerDetailComponent implements OnInit, AfterViewInit {
       }
     })
   }
+  onInputChange(event: any) {
+    const input = event.target as HTMLInputElement;
+    const pattern = /^[0-9]*$/; // Regex pattern to match numeric values
+
+    if (!pattern.test(input.value)) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+    // console.log("vlaue", event)
+
+  }
+
 
   getTitle() {
     return this.masterDataService.getDataByType("TITLE").pipe(map(x => this.getFormatOpt(x)), catchError(e => {
