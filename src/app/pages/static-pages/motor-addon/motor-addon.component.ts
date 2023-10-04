@@ -533,16 +533,14 @@ export class MotorAddonComponent implements OnInit {
       let vehicle = this.parentData['m_type_of_vehicle']
       let purpose = this.parentData['m_purpose_of_use']
       let term = this.parentData['m_policy_term']
-      let productCode = this.parentData['productCode']
-      // console.log("Policy-TERM", term);
       let percent = this.crossPercent[term] || 1
       console.log("TERM-Percent", percent);
       console.log(excess, excess_discount);
       if (excess == "T-NILEX" && currency == "MMK") {
-        if (vehicle == 'T-MCC' && purpose == 'T-PRI' && productCode == 'PLMO01') {
+        if (vehicle == 'T-MCC' && purpose == 'T-PRI' && this.product.code == 'PLMO01') {
           discount = -(5000 * percent)
           discount2 = -(5000 * percent)
-        } else if (vehicle == 'T-MCC' && purpose == 'T-COM' && productCode == 'PLMO01') {
+        } else if (vehicle == 'T-MCC' && purpose == 'T-COM' && this.product.code == 'PLMO01') {
           discount = -(10000 * percent)
           discount2 = -(10000 * percent)
         }
@@ -562,7 +560,7 @@ export class MotorAddonComponent implements OnInit {
       // else if (excess == 'T-STNDEX' && currency == "MMK") {
       //   discount = -100000
       // }
-      else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO01') {
+      else if (excess == "T-ED" && currency == "MMK" && this.product.code == 'PLMO01') {
         if (excess_discount == "T-EXD1") {
           discount = 50000
           discount2 = 50000
@@ -574,7 +572,7 @@ export class MotorAddonComponent implements OnInit {
           discount2 = 100000
         }
       }
-      else if (excess == "T-ED" && currency == "MMK" && productCode == 'PLMO02') {
+      else if (excess == "T-ED" && currency == "MMK" && this.product.code == 'PLMO02') {
         if (excess_discount == "T-EXD1") {
           discount = 25000
           discount2 = 25000
@@ -593,7 +591,7 @@ export class MotorAddonComponent implements OnInit {
     // console.log("TOTAL+CROSS", (tempPre + Number(this.crossPremium || 0)));
     let preAMT = ((tempPre + Number(this.crossPremium || 0)) - discount)
     let preAMT2 = ((tempPre + Number(this.crossPremium || 0)) - discount2)
-    // console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
+    console.log("Premium-Cross-Discount/New Amount", preAMT, preAMT2);
     // preAMT = (preAMT * percent) + stumd
     preAMT = (preAMT) + stumd
     preAMT2 = (preAMT2)
