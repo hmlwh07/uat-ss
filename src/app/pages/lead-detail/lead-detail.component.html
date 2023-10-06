@@ -1057,7 +1057,7 @@
                                             <input type="tel" class="form-control form-control-sm"  (input)="onInputChange($event)"
                                                 (change)="calculateLeadQuality()" name="phoneNo" autocomplete="off"
                                                 [class.is-invalid]="isControlInvalid('phoneNo')"
-                                                [class.is-valid]="isControlValid('phoneNo')"
+                                                [class.is-valid]="isControlValid('phoneNo')" maxlength="12"
                                                 formControlName="phoneNo" />
                                         </div>
                                     </div>

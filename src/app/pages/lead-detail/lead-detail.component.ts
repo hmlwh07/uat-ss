@@ -1096,7 +1096,7 @@ export class LeadDetailComponent implements OnInit {
         productId: new FormControl(
           { value: oldData ? oldData.productId : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         phoneNo: new FormControl(
-          { value: oldData ? oldData.phoneNo : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+          { value: oldData ? oldData.phoneNo : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }, [ Validators.maxLength(12), Validators.minLength(9)]),
         email: new FormControl(
           { value: oldData ? oldData.email : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         identityType: new FormControl(

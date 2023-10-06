@@ -51,7 +51,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">{{"FORM.mobile" | translate}}</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control form-control-sm " (input)="onInputChange($event)" name="phone" autocomplete="off" [class.is-invalid]="isControlInvalid('phone')" [class.is-valid]="isControlValid('phone')" formControlName="phone" />
+                                    <input type="text" class="form-control form-control-sm " (input)="onInputChange($event)" maxlength="12" name="phone" autocomplete="off" [class.is-invalid]="isControlInvalid('phone')" [class.is-valid]="isControlValid('phone')" formControlName="phone" />
                                 </div>
                             </div>
                         </div>
