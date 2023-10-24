@@ -91,7 +91,7 @@ export const ApplicationStatus: any[] = [
   },
   {
     code: "R",
-    value: "REJECT APPLICATION"
+    value: "REJECTED APPLICATION"
   },
   {
     code: "05",
