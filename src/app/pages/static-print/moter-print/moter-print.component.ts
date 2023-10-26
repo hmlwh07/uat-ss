@@ -66,6 +66,7 @@ export class MoterPrintComponent implements OnInit {
     'TU-EXD2': 'Excess Discount 2',
     'TU-EXD3': 'Excess Discount 3'
   }
+  standardExcessAmountValue = {}
  
   addOnDataLabel = {
     "WR": 'War Risk',
@@ -205,6 +206,7 @@ export class MoterPrintComponent implements OnInit {
         this.motorDetail = res.motorDetail
         if (res.motorDetail.mExcessDiscount == "" || res.motorDetail.mExcessDiscount == null) {
           this.motorDetail.mExcessDiscount = res.motorDetail.mExcess
+          console.log(res.motorDetail.mExcess + ' Excess Value ' + excess);
         }
         if (excess == "T-NILEX" && currency == "MMK") {
           if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
@@ -217,8 +219,29 @@ export class MoterPrintComponent implements OnInit {
         } else if (excess == "TU-NILEX" && currency == "USD") {
           this.mExcessTypeMO01['TU-NILEX'] = "+ 25"
         }
+        if(this.product.code == 'PLMO01') {
+          this.standardExcessAmountValue = {
+            'T-EXD1': ' - 50,000',
+            'T-EXD2': ' - 70,000',
+            'T-EXD3': ' - 100,000'
+          }
+        } else if(this.product.code == 'PLMO02') {
+          this.standardExcessAmountValue = {
+            'T-EXD1': ' - 25,000',
+            'T-EXD2': ' - 35,000',
+            'T-EXD3': ' - 60,000'
+          }
+        }
         if (excess == "Excess Discount" || excess == "Excess Discount") {
-          this.motorDetail.mExcessDiscountValue = this.standardExcessValue[res.motorDetail.mExcessDiscount]
+          this.motorDetail.mExcessDiscountValue = this.standardExcessValue[res.motorDetail.mExcessDiscount] + this.standardExcessAmountValue[res.motorDetail.mExcessDiscount];
+        } else if (excess == "Nil Excess") {
+          if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
+            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " + 5,000"
+          } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " + 10,000"
+          } else {
+            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " + 25,000"
+          }
         }
       }
       // if (res.mTypeOfVehicle && res.mPurposeOfUse){
