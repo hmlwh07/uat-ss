@@ -221,26 +221,26 @@ export class MoterPrintComponent implements OnInit {
         }
         if(this.product.code == 'PLMO01') {
           this.standardExcessAmountValue = {
-            'T-EXD1': ' - 50,000',
-            'T-EXD2': ' - 70,000',
-            'T-EXD3': ' - 100,000'
+            'T-EXD1': ' / - 50,000',
+            'T-EXD2': ' / - 70,000',
+            'T-EXD3': ' / - 100,000'
           }
         } else if(this.product.code == 'PLMO02') {
           this.standardExcessAmountValue = {
-            'T-EXD1': ' - 25,000',
-            'T-EXD2': ' - 35,000',
-            'T-EXD3': ' - 60,000'
+            'T-EXD1': ' / - 25,000',
+            'T-EXD2': ' / - 35,000',
+            'T-EXD3': ' / - 60,000'
           }
         }
         if (excess == "Excess Discount" || excess == "Excess Discount") {
           this.motorDetail.mExcessDiscountValue = this.standardExcessValue[res.motorDetail.mExcessDiscount] + this.standardExcessAmountValue[res.motorDetail.mExcessDiscount];
         } else if (excess == "Nil Excess") {
           if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " + 5,000"
+            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 5,000"
           } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " + 10,000"
+            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 10,000"
           } else {
-            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " + 25,000"
+            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 25,000"
           }
         }
       }
