@@ -184,6 +184,40 @@ export class AddonPageComponent implements OnInit {
         }
         // }
       }
+      this.addOnList.filter(item=> item.code == 'CROSSBRDR').map(item=> {
+        console.log(item);
+        if (this.addOnsData[item.id] && item.code == "CROSSBRDR") {
+          let startDate = this.addOnsData[item.id]['startDate'] != "" ? moment(this.addOnsData[item.id]['startDate']).format('YYYY-MM-DD') : this.startD
+          let endDate = this.addOnsData[item.id]['endDate'] != "" ? moment(this.addOnsData[item.id]['endDate']).format('YYYY-MM-DD') : this.endD
+          let start = new Date(startDate)
+          let end = new Date(endDate)
+          var months;
+          if (start && end) {
+            months = (end.getFullYear() - start.getFullYear()) * 12;
+            months -= start.getMonth();
+            months += end.getMonth();
+            var Time = end.getTime() - start.getTime();
+            var Days = Math.ceil(Time / (1000 * 3600 * 24));
+            
+            if (Days => 0 && Days <= 90) {
+              this.crossPremiumPercent = 0.35
+            }
+            if (Days > 90 && Days <= 180) {
+              this.crossPremiumPercent = 0.60
+            }
+            if (Days > 180 && Days <= 270) {
+              this.crossPremiumPercent = 0.85
+            }
+            if (Days > 270 && Days <= 365) {
+              this.crossPremiumPercent = 1
+            }
+          } else {
+            this.crossPremiumPercent = 1
+          }
+          let tempPre = this.calcuCross()
+          this.addOnsData[item.id]['premium'] = tempPre
+        }
+      })
       // if (callAddon && this.editData && this.refID) {
       //   for (const item of this.addOnList) {
       //     let response: any = null;
@@ -366,9 +400,9 @@ export class AddonPageComponent implements OnInit {
       let tempPre = this.calcuCross()
       this.addOnsData[addon.id]['premium'] = tempPre
     }
-    else if (!this.addOnsData[addon.id].checked && addon.code == "CROSSBRDR") {
-      this.addOnsData[addon.id]['premium'] = 0
-    }
+    // else if (!this.addOnsData[addon.id].checked && addon.code == "CROSSBRDR") {
+    //   this.addOnsData[addon.id]['premium'] = 0
+    // }
   }
   rechangeOption(addOn) {
     // console.log("rechangeOptionADDON");
