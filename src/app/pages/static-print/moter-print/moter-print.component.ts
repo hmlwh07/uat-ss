@@ -235,13 +235,18 @@ export class MoterPrintComponent implements OnInit {
         if (excess == "Excess Discount" || excess == "Excess Discount") {
           this.motorDetail.mExcessDiscountValue = this.standardExcessValue[res.motorDetail.mExcessDiscount] + this.standardExcessAmountValue[res.motorDetail.mExcessDiscount];
         } else if (excess == "Nil Excess") {
-          if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
-            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 5,000"
-          } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
-            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 10,000"
+          if(currency == "MMK") {
+            if (vehicle == 'T-MCC' && purpose == 'T-PRI') {
+              this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 5,000"
+            } else if (vehicle == 'T-MCC' && purpose == 'T-COM') {
+              this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 10,000"
+            } else {
+              this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 25,000"
+            }
           } else {
-            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 25,000"
+            this.motorDetail.mExcessValue = res.motorDetail.mExcessValue + " / + 25"
           }
+          
         }
       }
       // if (res.mTypeOfVehicle && res.mPurposeOfUse){
@@ -464,7 +469,7 @@ export class MoterPrintComponent implements OnInit {
         { content: 'Year of Manufacture', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Type of Vehicle', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Type of Coverage', styles: { halign: 'center', valign: 'middle' } },
-        { content: 'Excess', styles: { halign: 'center', valign: 'middle' } },
+        { content: 'Excess Type', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Windscreen SI', styles: { halign: 'center', valign: 'middle' } },
         { content: 'Total SI', styles: { halign: 'center', valign: 'middle' } }
       ]
