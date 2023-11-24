@@ -98,19 +98,6 @@ import { PrintViewBoxMobileComponent } from './print-view-box-mobile/print-view-
     PrintViewBoxMobileComponent
     // CusMatDatePicker
   ],
-  entryComponents: [
-    EditButtonModalComponent,
-    EditInputModalComponent,
-    PageConfigModalComponent,
-    CustomDialogComponent,
-    CustomInputAlertComponent,
-    ExportConfigModalComponent,
-    ImportConfigModalComponent,
-    // SortConfigModalComponent
-    FormViewModalComponent,
-    // NrcPopupPage,
-    PrintViewBoxComponent
-  ],
   imports: [
     CommonModule,
     MatSelectModule,

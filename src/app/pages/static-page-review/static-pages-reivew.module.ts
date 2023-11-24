@@ -71,7 +71,6 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     MatSlideToggleModule,
     NgApexchartsModule,
     NgSelectModule,
-    NgxCurrencyModule,
     LanguageModule,
   ]
 })

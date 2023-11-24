@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { BizOperationService } from "../../core/biz.operation.service";
-import * as moment from "moment";
+import moment from "moment";
 const API_CURRENCY_URL = `${environment.apiUrl}/currency`;
 const API_CURRENCY_URL2 = `${environment.apiUrl}/currencyWithType`;
 

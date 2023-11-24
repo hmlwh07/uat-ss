@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { MY_FORMATS } from 'src/app/core/is-json';
 import { validateAllFields } from '../../../core/valid-all-feild';
 import { MasterDataService } from '../../../modules/master-data/master-data.service';
-import * as moment from "moment";
+import moment from "moment";
 @Component({
   selector: 'app-currency-add-form',
   templateUrl: './currency-add-form.component.html',

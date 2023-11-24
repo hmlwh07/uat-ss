@@ -1,7 +1,7 @@
 import { DecimalPipe } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { isString } from "@ng-bootstrap/ng-bootstrap/util/util";
-import * as moment from "moment";
+import moment from "moment";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { AlertService } from "../modules/loading-toast/alert-model/alert.service";

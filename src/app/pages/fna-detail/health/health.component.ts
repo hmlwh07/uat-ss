@@ -635,7 +635,7 @@ export class HealthComponent implements OnInit {
     if (type == 'dateOfBirthSpouse') {
       let value = this.formGroup.controls['dateOfBirthSpouse'].value;
       if (value) {
-        let toDate = moment(this.formGroup.controls['dateOfBirthSpouse'].value).add(0, 'years')
+        let toDate = moment.default(this.formGroup.controls['dateOfBirthSpouse'].value).add(0, 'years')
         this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
         this.formGroup.controls['dateOfBirthSpouse'].setValue(toDate.format('YYYY-MM-DD'))
       }
@@ -644,7 +644,7 @@ export class HealthComponent implements OnInit {
     if (type == 'dateOfBirth') {
       let value = this.formGroup.controls['dateOfBirth'].value;
       if (value) {
-        let toDate = moment(this.formGroup.controls['dateOfBirth'].value).add(0, 'years')
+        let toDate = moment.default(this.formGroup.controls['dateOfBirth'].value).add(0, 'years')
         this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
         this.formGroup.controls['dateOfBirth'].setValue(toDate.format('YYYY-MM-DD'))
       }

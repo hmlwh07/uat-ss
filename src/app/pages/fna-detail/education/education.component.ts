@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { validateAllFields } from 'src/app/core/valid-all-feild';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { FNAConstant } from '../fna-constant';

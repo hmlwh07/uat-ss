@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, map, of } from "rxjs";
+import { BehaviorSubject, of } from "rxjs";
 import { environment } from "../../environments/environment";
 import { LanguagesService } from "../modules/languages/languages.service";
 import { BizOperationService } from "./biz.operation.service";
+import { map } from "rxjs/operators";
 const API_MENU_URL = `${environment.apiUrl}/menu`
 const ModuleList = ["leads", "fna", "application", "quotation", "activity", "product_definition", "page_group", "exchange_rate", "customer"]
 export const defaultAccessObj = {

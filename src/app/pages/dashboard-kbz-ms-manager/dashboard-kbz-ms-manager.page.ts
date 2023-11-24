@@ -23,7 +23,6 @@ import {
 
 
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
-import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ActionSheetController, Platform } from '@ionic/angular';
 import { DashboardAttachmentService, DashboardService } from '../dashboard-kbz-ms-senior/dashboard.service';
@@ -31,6 +30,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
+import { map } from 'rxjs/operators';
 
 type ApexXAxis = {
   type?: 'category' | 'datetime' | 'numeric';
@@ -333,7 +333,7 @@ export class DashboardKbzMsManagerPage implements OnInit {
   }
 
   getSaleRoleData(agent: any) {
-    this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
+    this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res:any) => {
       // console.log(res);
       let page = ''
       if (res) {
@@ -368,6 +368,41 @@ export class DashboardKbzMsManagerPage implements OnInit {
       }
     })
   }
+
+  // getSaleRoleData(agent: any) {
+  //   this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
+  //     let page = '';
+
+  //     if (res) {
+  //       res.forEach(data => {
+  //         if (data.title === 'Dashboard' && data.submenu) {
+  //           data.submenu.forEach(submenu => {
+  //             if (submenu.dataAccess.view) {
+  //               page = submenu.page;
+  //             }
+  //           });
+  //         }
+  //       });
+  //     }
+
+  //     if (page) {
+  //       const pg = `/${page}`;
+
+  //       if (pg === this.activeRoute) {
+  //         this.getList(agent.empId);
+  //         this.getLeadList(agent.empId);
+  //         this.getAgentList(agent.empId);
+  //         this.radioW = this.platform.width();
+  //         this.radioH = this.platform.height();
+  //         this.calculateMainContentHeight(this.radioW, this.radioH);
+  //       } else {
+  //         this.router.navigate([page], {
+  //           queryParams: { empId: agent.empId, roleId: agent.roleId }
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 
   setChartOptions(type: string) {
     let key = type == 'lead' ? 'chartOptions' : 'chartOptionsAgent';

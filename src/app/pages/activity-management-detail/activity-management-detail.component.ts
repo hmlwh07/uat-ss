@@ -6,7 +6,7 @@ import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/
 import { CustomAdapter, CustomAdapter2, CustomDateParserFormatter } from '../../_metronic/core';
 import { ActivityManageService, ActivityService } from '../activity-management-list/activity-manage.service';
 import { RelatedModalCompoent } from './pop-up-modal/related-modal.component';
-import * as moment from 'moment'
+import moment from 'moment';
 import { validateAllFields } from '../../core/valid-all-feild';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';

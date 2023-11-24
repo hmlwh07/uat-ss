@@ -6,7 +6,7 @@ import { AlertService } from '../../modules/loading-toast/alert-model/alert.serv
 import { ErrorDetailsComponent } from './error-details/error-details.component';
 import { CRM_COL, CRM_DISPLAYCOL, SALE_COL, SALE_DISPLAY_COL } from './list.const';
 import { ReRunService } from './re-run.service';
-import { map } from "rxjs"
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-re-rerun-job',
   templateUrl: './re-rerun-job.page.html',

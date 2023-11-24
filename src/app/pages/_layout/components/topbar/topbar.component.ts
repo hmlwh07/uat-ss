@@ -14,7 +14,7 @@ import { KTUtil } from '../../../../../assets/js/components/util';
 import { NotificationService } from 'src/app/_metronic/partials/layout/extras/dropdown-inner/notifications-dropdown-inner/notification.service';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { LanguagesService } from 'src/app/modules/languages/languages.service';
-import * as moment from 'moment';
+import moment from 'moment';
 import { MenuDataService } from 'src/app/core/menu-data.service';
 import { MessagingService } from 'src/app/messaging.service';
 

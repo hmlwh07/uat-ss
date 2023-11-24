@@ -20,13 +20,13 @@ import {
 
 
 import { AuthService } from 'src/app/modules/auth/_services/auth.service';
-import { map, Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Platform } from '@ionic/angular';
 import { DashboardAttachmentService, DashboardService } from './dashboard.service';
 import { AttachmentUploadService } from 'src/app/_metronic/core/services/attachment-data.service';
 import { MenuDataRoleService } from 'src/app/core/menu-data-role.service';
 import { EncryptService } from 'src/app/_metronic/core/services/encrypt.service';
+import { map } from 'rxjs/operators';
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
   categories?: any;
@@ -310,7 +310,7 @@ export class DashboardKbzMsSeniorPage implements OnInit {
   }
 
   getSaleRoleData(agent: any) {
-    this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res) => {
+    this.menuDataRoleService.getMenusRoleData(agent.roleId).toPromise().then((res:any) => {
       console.log(res);
       let page = ''
       if (res) {

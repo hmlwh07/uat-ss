@@ -1,7 +1,7 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { CustomerDetailComponent } from '../../customer-detail/customer-detail.component';

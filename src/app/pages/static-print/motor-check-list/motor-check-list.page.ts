@@ -1,10 +1,8 @@
 import { DatePipe, DecimalPipe, Location } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import jsPDF from 'jspdf';
-import { catchError, forkJoin, map, of } from 'rxjs';
 import { LanguagesService } from 'src/app/modules/languages/languages.service';
 import { TranslatePipe } from 'src/app/modules/languages/translate.pipe';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
@@ -25,6 +23,9 @@ import { ProductDataService } from '../../products/services/products-data.servic
 import { SignaturePadComponent } from '../../resourse-detail/signature-pad/signature-pad.component';
 import { PolicyHolderService } from '../../static-pages/fire-simple-page/models&services/fire-policy';
 import { font } from "./font";
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { forkJoin, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-motor-check-list',
   templateUrl: './motor-check-list.page.html',

@@ -26,7 +26,7 @@ import { MasterDataService } from '../../modules/master-data/master-data.service
 import { map, switchMap } from 'rxjs/operators';
 import { GlobalFunctionService } from '../../core/global-fun.service';
 import { Customer } from '../customer-detail/custmer.dto';
-import * as moment from 'moment';
+import moment from 'moment';
 
 
 @Component({

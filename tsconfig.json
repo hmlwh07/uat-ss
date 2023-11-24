@@ -9,20 +9,31 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
+      "~bootstrap/*": ["node_modules/bootstrap/scss/*"],
       "exceljs": [
         "node_modules/exceljs/dist/exceljs.min"
-      ]
-    }
+      ],
+      "@angular/*": ["node_modules/@angular/*"]
+    },
+    "typeRoots": ["node_modules/@types", "node_modules"],
+    "types": ["node"],
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "strictTemplates": true,
+    "enableIvy": false,
+    "fullTemplateTypeCheck": true,
+  },
+  "exclude": [
+    "node_modules/ng-inline-svg"
+  ]
+  
 }

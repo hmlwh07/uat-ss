@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { AuthService, UserModel } from 'src/app/modules/auth';
 import { CustomerService } from 'src/app/pages/customer-detail/customer.service';
 import { PolicyService } from 'src/app/pages/policy/policy.service';
@@ -8,6 +8,7 @@ import { ProductDataService } from 'src/app/pages/products/services/products-dat
 import { ProductsService } from 'src/app/_metronic/core/services/products.service';
 import { LayoutService } from '../../../../../core';
 import { NotificationService } from './notification.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notifications-dropdown-inner',

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { LoadingService } from 'src/app/modules/loading-toast/loading/loading.service';

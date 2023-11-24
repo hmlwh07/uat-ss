@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, map, catchError, of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { AttachmentDownloadService } from '../../_metronic/core/services/attachment-data.service';
@@ -19,6 +19,7 @@ import { PrintPreviewModalComponent } from '../products/print-preview-modal/prin
 import { ProductDataService } from '../products/services/products-data.service';
 import { MotorCheckListPage } from '../static-print/motor-check-list/motor-check-list.page';
 import { SignaturePadComponent } from './signature-pad/signature-pad.component';
+import { catchError, map } from 'rxjs/operators';
 @Component({
   selector: 'app-resourse-detail',
   templateUrl: './resourse-detail.component.html',

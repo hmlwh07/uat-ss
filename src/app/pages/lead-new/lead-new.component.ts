@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from "@angular/common";
-import { forkJoin, map, catchError, of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { defaultAccessObj } from 'src/app/core/menu-data.service';
 import { UserModel, AuthService } from 'src/app/modules/auth';
 import { AlertService } from 'src/app/modules/loading-toast/alert-model/alert.service';
@@ -16,6 +16,7 @@ import { LeadDetailService } from '../lead-detail/lead-detail.service';
 import { ProductDataService } from '../products/services/products-data.service';
 import { validateAllFields } from 'src/app/core/valid-all-feild';
 import * as moment from 'moment';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lead-new',

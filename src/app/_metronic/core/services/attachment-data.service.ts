@@ -8,7 +8,6 @@ import { LoadingService } from "../../../modules/loading-toast/loading/loading.s
 import { KBZToastService } from "../../../modules/loading-toast/toast/kbz-toast.service";
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { Capacitor } from "@capacitor/core";
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import write_blob from "capacitor-blob-writer";
 import { Observable } from "rxjs";
 import { LanguagesService } from "src/app/modules/languages/languages.service";

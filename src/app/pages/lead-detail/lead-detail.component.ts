@@ -43,14 +43,13 @@ import { FANService } from "../fna-detail/fna-manage.service";
 import { AlertService } from "../../../app/modules/loading-toast/alert-model/alert.service";
 import { FNABRAMDiscount } from "../fna-bram/product/product.dto";
 import { forkJoin, of } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError ,  map } from "rxjs/operators";
 import { IncomeDto } from "../fna-detail/income/income-manage.dto";
 import { RetirementDto } from "../fna-detail/retirement/retirement-manage.dto";
 import { HealthDto } from "../fna-detail/health/health-manage.dto";
 import { EducationDto } from "../fna-detail/education/education-manage.dto";
 import { AssectDto } from "../fna-detail/asset/asset-manage.dto";
 import { ProductDto } from "../fna-detail/chart-analysis/product-analysis/product-manage.dto";
-import { map } from 'rxjs/operators';
 import { defaultAccessObj, MenuDataService } from "../../core/menu-data.service";
 import { validateAllFields } from "src/app/core/valid-all-feild";
 import { ProspectCustomerListComponent } from "../prospect-customer-list/prospect-customer-list.component";
@@ -292,7 +291,7 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm.controls.openedDate.setValue(new Date())
       this.leadForm.controls.statusCode.setValue("01")
     }
-    let toDate = moment().subtract(0, `days`)
+    let toDate = moment.default().subtract(0, `days`)
     this.toMinDate = toDate.format('YYYY-MM-DD')
   }
 
@@ -1056,13 +1055,13 @@ export class LeadDetailComponent implements OnInit {
       this.leadForm = new FormGroup({
         leadId: new FormControl({ value: oldData ? oldData.leadId : '', disabled: true }),
         openedDate: new FormControl(
-          { value: oldData ? moment(oldData.openedDate) : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : true }),
+          { value: oldData ? moment.default(oldData.openedDate) : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : true }),
         activationDate: new FormControl(
-          { value: oldData ? moment(oldData.activationDate) : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
+          { value: oldData ? moment.default(oldData.activationDate) : '', disabled: oldData.statusCode == '01' ? false : oldData.statusCode == '02' ? false : oldData.statusCode == '04' ? false : true }),
         closedDate: new FormControl(
-          { value: oldData ? moment(oldData.closedDate) : '', disabled: true }),
+          { value: oldData ? moment.default(oldData.closedDate) : '', disabled: true }),
         expirationDate: new FormControl(
-          { value: oldData ? moment(oldData.expirationDate) : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
+          { value: oldData ? moment.default(oldData.expirationDate) : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         subject: new FormControl(
           { value: oldData ? oldData.subject : '', disabled: oldData.statusCode == '05' ? true : oldData.statusCode == '06' ? true : oldData.statusCode == '07' ? true : false }),
         companyCode: new FormControl(
@@ -1177,7 +1176,7 @@ export class LeadDetailComponent implements OnInit {
       leadId: new FormControl({ value: null, disabled: true }),
       phoneNo: new FormControl(null),
       subject: new FormControl(null),
-      openedDate: new FormControl({ value: new Date() }, Validators.required),
+      openedDate: new FormControl({ value: new Date(), disabled: false }, Validators.required),
       openedDateStr: new FormControl(null),
       companyCode: new FormControl(null, Validators.required),
       PCsms: new FormControl(null),
@@ -1199,7 +1198,7 @@ export class LeadDetailComponent implements OnInit {
       validityPeriod: new FormControl({ value: null, disabled: true }),
       reason: new FormControl({ value: null, disabled: true }),
       townshipCode: new FormControl(null),
-      assignTo: new FormControl({ value: this.user.id }),
+      assignTo: new FormControl({ value: this.user.id, disabled: false }),
       assignToName: new FormControl({ value: null, disabled: true }),
       productId: new FormControl(null),
       email: new FormControl(null, [Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
@@ -1325,10 +1324,10 @@ export class LeadDetailComponent implements OnInit {
   edit(postData) {
     let data = { ...postData, leadId: this.oldId, ownerId: postData.assignTo };
     if (this.isUpdateNew) {
-      postData.activationDate = moment(this.leadForm.controls.activationDate.value)
-      postData.closedDate = moment(this.leadForm.controls.closedDate.value)
-      postData.openedDate = moment(this.leadForm.controls.openedDate.value)
-      postData.expirationDate = moment(this.leadForm.controls.expirationDate.value)
+      postData.activationDate = moment.default(this.leadForm.controls.activationDate.value)
+      postData.closedDate = moment.default(this.leadForm.controls.closedDate.value)
+      postData.openedDate = moment.default(this.leadForm.controls.openedDate.value)
+      postData.expirationDate = moment.default(this.leadForm.controls.expirationDate.value)
     }
     if (postData.statusCode == '04') {
       postData.statusCode = '01'

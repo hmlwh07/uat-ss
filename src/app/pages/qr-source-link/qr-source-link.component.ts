@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { catchError, forkJoin, of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { ProductsService } from 'src/app/_metronic/core/services/products.service';
 import { PolicyService } from '../policy/policy.service';
 import { ProductDataService } from '../products/services/products-data.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-qr-source-link',

@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map } from "rxjs";
 import { environment } from "../../../../../environments/environment";
 import { BizOperationService } from "../../../../core/biz.operation.service";
 import { FireProductDTO } from "./fire-product.dto";
+import { map } from "rxjs/operators";
 
 const API_POLICY_HOLDER_URL = `${environment.apiUrl}/policy/holder`;
 

@@ -59,14 +59,14 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
             dateType = 'years'
           }
           if (iterator.from) {
-            let minDate = moment().subtract(iterator.from, dateType)
+            let minDate = moment.default().subtract(iterator.from, dateType)
             this.fromMinDate = minDate.format('YYYY-MM-DD')
             // this.fromMinDate = { year: parseInt(minDate.format('YYYY')), month: parseInt(minDate.format('M')), day: parseInt(minDate.format('D')) };
           } else {
             this.fromMinDate = null
           }
           if (iterator.to) {
-            let toDate = moment().add(iterator.to, dateType)
+            let toDate = moment.default().add(iterator.to, dateType)
             this.fromMaxDate = toDate.format('YYYY-MM-DD')
             // this.fromMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
           } else {
@@ -74,7 +74,7 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
           }
         }
         else if ((iterator.type == ValidationType.MAX) && iterator.isAge) {
-          let toDate = moment().subtract(iterator.value, `years`)
+          let toDate = moment.default().subtract(iterator.value, `years`)
           this.fromMinDate = toDate.format('YYYY-MM-DD')
           let defVal = this.group.controls[this.config.name].value
           // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
@@ -84,7 +84,7 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
           // }
         }
         else if (iterator.type == ValidationType.MIN && iterator.isAge) {
-          let toDate = moment().subtract(iterator.value, `years`)
+          let toDate = moment.default().subtract(iterator.value, `years`)
           this.fromMaxDate = toDate.format('YYYY-MM-DD')
           let defVal = this.group.controls[this.config.name].value
           // if (moment(defVal) > moment(this.fromMaxDate)) {
@@ -98,14 +98,14 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
       let prod = this.prodService.createingProd
       if (prod) {
         if (prod.isAllowBackDate == 'no') {
-          let toDate = moment();
+          let toDate = moment.default();
           this.fromMinDate = toDate.format('YYYY-MM-DD')
           this.toMinDate = toDate.format('YYYY-MM-DD')
           // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
           // this.toMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
         } else if (prod.isAllowBackDate == 'yes') {
           if (prod.allowDays > 0) {
-            let toDate = moment().subtract(prod.allowDays, `days`)
+            let toDate = moment.default().subtract(prod.allowDays, `days`)
             this.fromMinDate = toDate.format('YYYY-MM-DD')
             // this.fromMinDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
             this.toMinDate = toDate.format('YYYY-MM-DD')
@@ -161,10 +161,10 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
         this.valid.type = dateType;
         let toDate;
         if (this.group.controls[this.config.name].value) {
-          toDate = moment(this.group.controls[this.config.name].value).add(res.validationValue, dateType).subtract(1, 'days')
+          toDate = moment.default(this.group.controls[this.config.name].value).add(res.validationValue, dateType).subtract(1, 'days')
         } else {
-          toDate = moment().add(res.validationValue, dateType).subtract(1, 'days')
-          this.group.controls[this.config.name].setValue(moment())
+          toDate = moment.default().add(res.validationValue, dateType).subtract(1, 'days')
+          this.group.controls[this.config.name].setValue(moment.default())
         }
         this.toMaxDate = toDate.format('YYYY-MM-DD')
         this.group.controls[this.config.endName].setValue(toDate)
@@ -175,7 +175,7 @@ export class DateBoxComponent implements Field, OnInit, OnDestroy {
   doValid() {
     let value = this.group.controls[this.config.name].value
     if (value && this.valid.value) {
-      let toDate = moment(this.group.controls[this.config.name].value).add(this.valid.value, this.valid.type).subtract(1, 'days')
+      let toDate = moment.default(this.group.controls[this.config.name].value).add(this.valid.value, this.valid.type).subtract(1, 'days')
       this.toMaxDate = toDate.format('YYYY-MM-DD')
       this.group.controls[this.config.endName].setValue(toDate)
     }

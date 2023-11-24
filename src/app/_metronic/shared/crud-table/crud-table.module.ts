@@ -24,6 +24,5 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
   declarations: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective,StartEndDateComponent,RemoveHost],
   imports: [CommonModule, FormsModule, InlineSVGModule, DragDropModule,MatTableModule,MatPaginatorModule,MatSortModule,OverlayModule,MatDatepickerModule,ReactiveFormsModule,LanguageModule],
   exports: [PaginatorComponent, NgPagination, SortIconComponent, SortConfigModalComponent, PrintError, ActionButtonComponent,MaterialTableViewComponent,StylePaginatorDirective,StartEndDateComponent,RemoveHost],
-  entryComponents: [SortConfigModalComponent]
 })
 export class CRUDTableModule { }

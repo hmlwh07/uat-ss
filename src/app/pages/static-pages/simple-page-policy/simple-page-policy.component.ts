@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import moment from 'moment';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { AuthService } from '../../../modules/auth';
 import { CustomAdapter, CustomDateParserFormatter } from '../../../_metronic/core';

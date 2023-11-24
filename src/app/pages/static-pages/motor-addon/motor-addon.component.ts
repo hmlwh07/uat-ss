@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from 'angular-calendar';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Subscription } from 'rxjs';
 import { GlobalFunctionService } from 'src/app/core/global-fun.service';
 import { IsJsonString, MY_FORMATS } from 'src/app/core/is-json';

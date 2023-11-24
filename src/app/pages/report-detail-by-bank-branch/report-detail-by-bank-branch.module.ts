@@ -6,7 +6,6 @@ import { CRUDTableModule } from 'src/app/_metronic/shared/crud-table';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ReportCommonSearchComponent } from '../report-common-search/report-common-search.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -20,7 +19,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 
 
 @NgModule({
-  declarations: [ReportDetailByBankBranchComponent, ReportCommonSearchComponent],
+  declarations: [ReportDetailByBankBranchComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -43,7 +43,6 @@ import { ReportByAgentMonthlyComponent } from './report-by-agent-monthly/report-
 import { ReportWeeklySalesAnalysisByBranchComponent } from './report-weekly-sales-analysis-by-branch/report-weekly-sales-analysis-by-branch.component';
 import { ReportDailySalesAnalysisByBranchComponent } from './report-daily-sales-analysis-by-branch/report-daily-sales-analysis-by-branch.component';
 import { ReportKeyDriverComponent } from './report-key-driver/report-key-driver.component';
-import { ReportCommonSearchComponent } from './report-common-search/report-common-search.component';
 import { CalendarModule } from 'angular-calendar';
 import { MycalendarComponent } from './mycalendar/mycalendar.component';
 import { LanguageModule } from '../modules/languages/languages.modules';
@@ -64,7 +63,6 @@ import { LanguagesService } from '../modules/languages/languages.service';
     FnaTypeComponent,
     MycalendarComponent,
     // ResetPasswordComponent,
-    //ReportCommonSearchComponent,
     //ReportDetailByBankBranchComponent,
     //ReportChannelSummaryByBankBranchComponent,
     //ReportByBranchSummaryAiComponent,

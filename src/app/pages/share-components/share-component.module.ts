@@ -48,9 +48,6 @@ import { QuotationItemComponent } from "./quotation-item/quotation-item.componen
     NrcPopupPage,
     PagentationComponent
   ],
-  entryComponents:[ 
-    NrcPopupPage
-  ],
   imports: [
     CommonModule,
     FormsModule,

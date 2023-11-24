@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, Input, NgModule, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, forkJoin, map, of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { MasterDataService } from 'src/app/modules/master-data/master-data.service';
 import { ConfigInput } from '../field.interface';
 import { nrcData } from './nrc-data';
+import { map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nrc-popup',

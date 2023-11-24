@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Plugins } from '@capacitor/core'
 import * as CryptoJS from 'crypto-js';
 import { environment } from 'src/environments/environment';
-import * as shajs from 'sha.js';
 @Injectable({
   providedIn: 'root'
 })

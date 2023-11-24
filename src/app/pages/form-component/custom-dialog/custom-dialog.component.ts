@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import moment from 'moment';
 import { of, Subscription } from 'rxjs';
 import { GlobalFunctionService } from '../../../core/global-fun.service';
 import { AlertService } from '../../../modules/loading-toast/alert-model/alert.service';

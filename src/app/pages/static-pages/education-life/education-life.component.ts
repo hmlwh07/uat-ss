@@ -1,6 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap, retry, switchMap } from 'rxjs/operators';
 import { GlobalFunctionService } from '../../../core/global-fun.service';

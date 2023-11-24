@@ -4,7 +4,7 @@ import { ActivityStatus, TableCol } from './table-dto';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import * as moment from 'moment';
+import moment from 'moment';
 import { SelectionModel } from '@angular/cdk/collections';
 import { StylePaginatorDirective } from './custom-paginator.directive';
 import { PRODUCT_STATUS } from '../../../../../pages/products/models/product.dto';

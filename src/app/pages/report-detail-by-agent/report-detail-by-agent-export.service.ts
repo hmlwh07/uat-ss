@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BizOperationService } from '../../../app/core/biz.operation.service';
 import { environment } from '../../..//environments/environment';
 import { AuthService } from '../../../app/modules/auth';

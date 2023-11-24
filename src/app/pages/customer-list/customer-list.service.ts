@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import * as moment from "moment";
+import moment from "moment";
 import { environment } from "../../../environments/environment";
 
 const API_CUSTOMER_URL = `${environment.apiUrl}/customer`;

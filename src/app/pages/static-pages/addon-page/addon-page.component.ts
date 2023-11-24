@@ -13,7 +13,7 @@ import { IsJsonString } from '../../../core/is-json';
 import { LoadingService } from '../../../modules/loading-toast/loading/loading.service';
 import { FirePageID, FireRiskID } from '../static-pages.data';
 import { MotorAddonComponent } from '../motor-addon/motor-addon.component';
-import * as moment from 'moment';
+import moment from 'moment';
 @Component({
   selector: 'app-addon-page',
   templateUrl: './addon-page.component.html',

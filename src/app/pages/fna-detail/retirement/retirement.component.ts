@@ -225,7 +225,7 @@ export class RetirementComponent implements OnInit {
     if (type == 'dateOfBirth') {
       let value = this.formGroup.controls['dateOfBirth'].value;
       if (value) {
-        let toDate = moment(this.formGroup.controls['dateOfBirth'].value).add(0, 'years')
+        let toDate = moment.default(this.formGroup.controls['dateOfBirth'].value).add(0, 'years')
         this.toMaxDate = { year: parseInt(toDate.format('YYYY')), month: parseInt(toDate.format('M')), day: parseInt(toDate.format('D')) };
         this.formGroup.controls['dateOfBirth'].setValue(toDate.format('YYYY-MM-DD'))
       }

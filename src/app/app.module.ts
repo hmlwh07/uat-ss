@@ -33,9 +33,9 @@ import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { LanguagesService } from './modules/languages/languages.service';
 import { LanguageModule } from './modules/languages/languages.modules';
 import { MenuDataService } from './core/menu-data.service';
-import { map, mergeMap } from 'rxjs';
 import { MenuDataRoleService } from './core/menu-data-role.service';
 import { AllErrorHandler } from './all-error.handler';
+import { map, mergeMap } from 'rxjs/operators';
 
 // #fake-start#
 // #fake-end#
@@ -90,7 +90,8 @@ function appInitializer(authService: AuthService, menuService: MenuDataService, 
       registrationStrategy: 'registerWhenStable:30000'
     }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireMessagingModule
+    AngularFireMessagingModule,
+    IonicModule.forRoot({})
     // provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     // provideMessaging(() => getMessaging())
   ],

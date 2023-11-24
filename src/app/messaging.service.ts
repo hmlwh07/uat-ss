@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
-import { BehaviorSubject, mergeMapTo } from 'rxjs';
-import { tap } from 'rxjs/operators'
+import { BehaviorSubject} from 'rxjs';
+import { mergeMapTo, tap } from 'rxjs/operators'
 import * as localForage from "localforage";
 @Injectable({
   providedIn: 'root'

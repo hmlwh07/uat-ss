@@ -1,7 +1,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { map, of, Subscription, switchMap } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { GlobalFunctionService } from '../../../../core/global-fun.service';
 import { AuthService } from '../../../../modules/auth';
 import { AlertService } from '../../../../modules/loading-toast/alert-model/alert.service';
@@ -15,6 +15,7 @@ import { PageUI, Product } from '../../../products/models/product.dto';
 import { ProductDataService } from '../../../products/services/products-data.service';
 import { TravelRiskDTO } from '../models&services/travel-risk.dto';
 import { TravelRiskService } from '../models&services/travel-risk.service';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-travel-risk-detail',

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { GlobalFunctionService } from '../../core/global-fun.service';
 import { AlertService } from '../../modules/loading-toast/alert-model/alert.service';
 import { ConfigInput, InputBoxType, InputType, ValidationType } from './field.interface';
