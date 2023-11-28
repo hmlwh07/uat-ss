@@ -66,7 +66,7 @@
 
 .login-content {
     width: 100%;
-    max-width: 500px;
+    max-width: 100%;
 }
 
 // Desktop view
@@ -74,16 +74,16 @@
     .login.login-1 {
         .login-aside {
             width    : 100%;
-            max-width: 700px;
+            max-width: 100%;
         }
 
         .login-content {
             width    : 100%;
-            max-width: 500px;
+            max-width: 100%;
 
             .login-form {
                 width    : 100%;
-                max-width: 450px;
+                max-width: 100%;
             }
         }
     }
@@ -94,7 +94,7 @@
     .login.login-1 {
         .login-aside {
             width    : 100%;
-            max-width: 450px;
+            max-width: 100%;
         }
     }
 }
@@ -105,7 +105,7 @@
         .login-content {
             .login-form {
                 width    : 100%;
-                max-width: 400px;
+                max-width: 100%;
             }
         }
     }
@@ -122,7 +122,7 @@
         .login-content {
             .login-form {
                 width    : 100%;
-                max-width: 100%;
+                max-width:100%;
             }
         }
     }

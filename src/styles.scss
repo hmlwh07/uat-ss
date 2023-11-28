@@ -1,29 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
-// @import '~@angular/material/theming';
+// @import '@angular/material/theming';
 // $custom-typography: mat-typography-config(
 //   $font-family: 'Roboto'
 // );
 // @include mat-core($custom-typography);
 // @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700");
 // Global vendors
-// @import "~bootstrap/dist/css/bootstrap.css";
-@import "../node_modules/bootstrap/dist/css/bootstrap.css";
-// @import "~bootstrap/scss/bootstrap";
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
-
-
+@import "./../node_modules/bootstrap/dist/css/bootstrap.css";
 // => Material
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-// @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
-@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
-// @import "~highlight.js/styles/googlecode.css";
-@import "../node_modules/highlight.js/styles/googlecode.css";
-// @import "~perfect-scrollbar/css/perfect-scrollbar.css";
-@import "../node_modules/perfect-scrollbar/css/perfect-scrollbar.css";
+@import "./../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "./../node_modules/highlight.js/styles/googlecode.css";
 // Global fonts
 // @import "~socicon/css/socicon.css";
-// @import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "./../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 @import "./assets/plugins/flaticon/flaticon.css";
 @import "./assets/plugins/flaticon2/flaticon.css";
 @import "./assets/plugins/keenthemes-icons/font/ki.css";
@@ -36,29 +27,15 @@
 @import "./assets/sass/themes/layout/header/menu/light.scss";
 @import "./assets/sass/themes/layout/brand/dark.scss";
 @import "./assets/sass/themes/layout/aside/dark.scss";
-// @import '~@angular/material/theming';
-@import "../node_modules/@angular/material/theming";
+@import "./../node_modules/@angular/material/theming";
 // @import "~@ng-select/ng-select/themes/material.theme.css";
-@import "../node_modules/@ng-select/ng-select/themes/material.theme.css";
-// @import "~@ng-select/ng-select/themes/default.theme.css";
-@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "./../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import "./../node_modules/angular-calendar/css/angular-calendar.css";
+// $custom-typography: mat-typography-config($font-family: "Roboto");
+@import url("https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css");
+// @include mat-core($custom-typography);
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-$custom-typography: mat-typography-config($font-family: "Roboto");
-// @import '~angular-calendar/css/angular-calendar.css';
-@import '../node_modules/angular-calendar/css/angular-calendar.css';
-// $custom-typography: mat-typography-config($font-family: "Calibri");
-@include mat-core($custom-typography);
-// @font-face {
-//     font-family: "Calibri";
-//     src: url("assets/fonts/Calibri.eot?#iefix") format("embedded-opentype");
-//     // src        : url("./fonts/Calibri.ttf");
-//     // src           : url("assets/fonts/Calibri.eot?#iefix") format("embedded-opentype"),
-//     //     url("assets/fonts/Calibri.woff") format("woff"),
-//     //     url("assets/fonts/Calibri.ttf") format("truetype");
-//     font-weight: normal;
-//     font-style: normal;
-// }
 .mat-table,
 .mat-paginator,
 .mat-paginator-page-size .mat-select-trigger,

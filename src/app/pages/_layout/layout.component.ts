@@ -103,6 +103,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.extrasScrollTopDisplay = this.layout.getProp(
       'extras.scrolltop.display'
     );
+    console.log("selfLayout",this.selfLayout)
   }
 
   ngAfterViewInit(): void {

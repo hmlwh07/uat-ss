@@ -15,7 +15,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 0 get($page-padding, tablet-and-mobile);
+		// padding: 0 get($page-padding, tablet-and-mobile);
 		height: get($header-config, tablet-and-mobile, default, height);
 		min-height: get($header-config, tablet-and-mobile, default, height);
 		position: relative;

@@ -55,8 +55,8 @@ $dark-light:          							    $gray-400 !default; // Custom variable
 $dark-inverse:         								$white !default; // Custom variable
 
 // Primary colors
-$primary:       									#3699FF !default; // Bootstrap variable
-$primary-hover:    									#187DE4 !default; // Custom variable
+$primary:       									#e1815e !default; // Bootstrap variable
+$primary-hover:    									#c5613d !default; // Custom variable
 $primary-light:    									#E1F0FF !default; // Custom variable
 $primary-inverse:  									$white !default;  // Custom variable
 
@@ -350,16 +350,16 @@ $enable-shadows:                              		true !default;
 //   xxl: 1900px 
 $grid-breakpoints: (
   xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 1000px,
-  xl: 1200px,
-  xxl: 1400px  
-//   sm: 768px,
-  //   md: 1000px,
-  //   lg: 1500px,
-  //   xl: 1700px,
-  //   xxl: 1900px // custom breakpoint
+//   sm: 576px,
+//   md: 768px,
+//   lg: 1000px,
+//   xl: 1200px,
+//   xxl: 1400px  
+  sm: 768px,
+    md: 1000px,
+    lg: 1500px,
+    xl: 1700px,
+    xxl: 1900px // custom breakpoint
 ) !default;
 
 
@@ -367,8 +367,8 @@ $grid-breakpoints: (
 //
 // Define the maximum width of `.container` for different screen sizes.
 $container-max-widths: (
-  sm: 540px,
-  md: 720px,
+    sm: 768px,
+    md: 1000px,
   lg: 1500px,
   xl: 1700px,
   xxl: 1900px // custom breakpoint
