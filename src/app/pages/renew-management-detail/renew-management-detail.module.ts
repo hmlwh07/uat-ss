@@ -10,7 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { LanguageModule } from 'src/app/modules/languages/languages.modules';
 import { CRUDTableModule } from '../../_metronic/shared/crud-table';
-import { NgxCurrencyModule } from 'ngx-currency';
+import { NgxCurrencyDirective } from 'ngx-currency';
 
 
 @NgModule({
@@ -26,7 +26,7 @@ import { NgxCurrencyModule } from 'ngx-currency';
     MatInputModule,
     NgSelectModule,
     NgbModalModule,
-    NgxCurrencyModule,
+    NgxCurrencyDirective,
     LanguageModule,
     RouterModule.forChild([
       {

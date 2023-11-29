@@ -31,7 +31,7 @@ import { LabelBoxComponent } from './label-box/label-box.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgxCurrencyModule } from "ngx-currency";
+import { NgxCurrencyDirective } from "ngx-currency";
 import { MatNativeDateModule } from '@angular/material/core';
 import { PrintViewBoxComponent } from './print-view-box/print-view-box.component';
 import { StaticPrintModule } from '../static-print/static-print.module';
@@ -113,7 +113,7 @@ import { PrintViewBoxMobileComponent } from './print-view-box-mobile/print-view-
     CRUDTableModule,
     NgbTypeaheadModule,
     NgSelectModule,
-    NgxCurrencyModule,
+    NgxCurrencyDirective,
     MatDatepickerModule,
     MatNativeDateModule,
     StaticPrintModule,

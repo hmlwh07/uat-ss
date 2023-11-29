@@ -63,7 +63,7 @@
     "ng-apexcharts": "^1.8.0",
     "ng-inline-svg": "^13.1.2",
     "ng-inline-svg-2": "^15.0.1",
-    "ngx-currency": "^3.0.0",
+    "ngx-currency": "^4.0.0",
     "ngx-currency-input": "^1.0.2",
     "ngx-filter-pipe": "^2.1.2",
     "ngx-highlightjs": "^8.0.0",

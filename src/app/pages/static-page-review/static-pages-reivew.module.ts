@@ -16,7 +16,7 @@ import { CalculatedBuildingComponent } from './calculated-building/calculated-bu
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FireRiskViewComponent } from './fire-risk-view/fire-risk-view.component';
 import { FirePageViewComponent } from './fire-page-view/fire-page-view.component';
-import { NgxCurrencyModule } from 'ngx-currency';
+import { NgxCurrencyDirective } from 'ngx-currency';
 import { EndoGripViewComponent } from './endo-griph-view/endo-griph-view.component';
 import { EndoViewComponent } from './endo-view/endo-view.component';
 import { MotorAddonComponent } from '../static-pages/motor-addon/motor-addon.component';
@@ -71,6 +71,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     MatSlideToggleModule,
     NgApexchartsModule,
     NgSelectModule,
+    NgxCurrencyDirective,
     LanguageModule,
   ]
 })

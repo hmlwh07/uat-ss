@@ -27,7 +27,7 @@ import { AddCalculatedBuildingComponent } from './calculated-building/add-calcul
 import { FirePageComponent } from './fire-simple-page/fire-simple-page.component';
 import { FireRiskComponent } from './fire-risk/fire-risk.component';
 import { RiskDetailComponent } from './fire-risk/risk-detail/risk-detail.component';
-import { NgxCurrencyModule } from 'ngx-currency';
+import { NgxCurrencyDirective } from 'ngx-currency';
 import { EndoGripComponent } from './endo-griph/endo-griph.component';
 import { EndoComponent } from './endo/endo.component';
 import { MotorAddonComponent } from './motor-addon/motor-addon.component';
@@ -62,7 +62,7 @@ import { LanguageModule } from 'src/app/modules/languages/languages.modules';
     MatNativeDateModule,
     MatInputModule,
     MatFormFieldModule,
-    NgxCurrencyModule,
+    NgxCurrencyDirective,
     FormComponentModule,
     MatMenuModule,
     LanguageModule
